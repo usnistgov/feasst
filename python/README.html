@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Python Interface &mdash; FEASST v0.25.2 documentation</title>
+  <title>Python Interface &mdash; FEASST v0.25.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=e07783d4"></script>
+        <script src="../_static/documentation_options.js?v=440f07cd"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -55,11 +55,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.2
+                v0.25.3
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../README_html.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../OVERVIEW.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../particle/README.html">Particle files and units</a></li>
@@ -149,15 +149,16 @@
 <p>The pybind11 interface is in recent active development.</p>
 <p>Installation proceeds as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span><span class="o">[</span>brew/apt/yum/dnf<span class="o">]</span><span class="w"> </span>install<span class="w"> </span>python3-dev<span class="w"> </span>pybind11
-<span class="c1"># for Rocky, sudo dnf python3.11-devel.x86_64</span>
-<span class="c1"># for Rocky, sudo dnf --enablerepo=devel install python3.11-pybind11</span>
+<span class="c1"># for Rocky, sudo dnf install python3.12-devel.x86_64</span>
+<span class="c1"># for Rocky, sudo dnf --enablerepo=devel install python3.12-pybind11</span>
 <span class="c1"># or similar</span>
+<span class="c1"># replace 3.12 throughout with the relevant version</span>
 
 <span class="c1"># optionally make a virtual environment to juggle multiple versions</span>
 sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>python3-venv
 mkdir<span class="w"> </span>~/.pyenv
 <span class="nb">pushd</span><span class="w"> </span>~/.pyenv
-python3.11<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>feasst
+python3.12<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>feasst
 
 <span class="nb">cd</span><span class="w"> </span>/path/to/feasst/build
 cmake<span class="w"> </span>-DUSE_PYBIND11<span class="o">=</span>ON<span class="w"> </span>..
@@ -165,6 +166,12 @@ make<span class="w"> </span>-j4
 <span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&quot;/path/to/feasst/build/:</span><span class="nv">$LD_LIBRARY_PATH</span><span class="s2">&quot;</span>
 <span class="c1"># On Mac, use DYLD_FALLBACK_LIBRARY_PATH</span>
 pip<span class="w"> </span>install<span class="w"> </span>/path/to/feasst/
+cp<span class="w"> </span>_core*<span class="w"> </span>~/.pyenv/feasst/lib/python3.12/site-packages/feasst/
+<span class="c1"># The last line didn&#39;t use to be necessary.</span>
+<span class="c1"># Look for fix in the following links:</span>
+<span class="c1"># https://github.com/pybind/scikit_build_example/tree/master</span>
+<span class="c1"># https://learn.scientific-python.org/development/</span>
+python<span class="w"> </span>../python/tutorial/test.py
 </pre></div>
 </div>
 <p>Python usage is as follows:</p>

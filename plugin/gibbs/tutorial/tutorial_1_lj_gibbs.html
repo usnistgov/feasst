@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gibbs Ensemble Simulation of Lennard-Jones &mdash; FEASST v0.25.2 documentation</title>
+  <title>Gibbs Ensemble Simulation of Lennard-Jones &mdash; FEASST v0.25.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=e07783d4"></script>
+        <script src="../../../_static/documentation_options.js?v=440f07cd"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -28,7 +28,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Gibbs Ensemble Simulation of TraPPE alkanes" href="tutorial_2_trappe_gibbs.html" />
-    <link rel="prev" title="ComputeGibbsVolumeTransfer" href="../doc/ComputeGibbsVolumeTransfer.html" />
+    <link rel="prev" title="TrialGibbsParticleTransfer" href="../doc/TrialGibbsParticleTransfer.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -55,11 +55,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.2
+                v0.25.3
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../OVERVIEW.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -92,9 +92,9 @@
 <li class="toctree-l3"><a class="reference internal" href="../doc/CheckConstantVolume.html">CheckConstantVolume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/ComputeGibbsParticleTransfer.html">ComputeGibbsParticleTransfer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PressureFromTestVolume.html">PressureFromTestVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/ComputeGibbsVolumeTransfer.html">ComputeGibbsVolumeTransfer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/TrialGibbsVolumeTransfer.html">TrialGibbsVolumeTransfer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/TrialGibbsParticleTransfer.html">TrialGibbsParticleTransfer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/ComputeGibbsVolumeTransfer.html">ComputeGibbsVolumeTransfer</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Gibbs Ensemble Simulation of Lennard-Jones</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_2_trappe_gibbs.html">Gibbs Ensemble Simulation of TraPPE alkanes</a></li>
@@ -257,23 +257,23 @@
 <span class="s2">RandomMT19937 seed </span><span class="si">{seed}</span>
 <span class="s2">Configuration cubic_side_length 12 particle_type0 </span><span class="si">{fstprt}</span>
 <span class="s2">Configuration cubic_side_length 8 particle_type0 </span><span class="si">{fstprt}</span>
-<span class="s2">Potential Model LennardJones configuration_index 0</span>
+<span class="s2">CopyNextLine replace configuration_index with 0</span>
 <span class="s2">Potential Model LennardJones configuration_index 1</span>
-<span class="s2">#Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff configuration_index 0</span>
+<span class="s2">#CopyNextLine replace configuration_index with 0</span>
 <span class="s2">#Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff configuration_index 1</span>
-<span class="s2">Potential VisitModel LongRangeCorrections configuration_index 0</span>
+<span class="s2">CopyNextLine replace configuration_index with 0</span>
 <span class="s2">Potential VisitModel LongRangeCorrections configuration_index 1</span>
-<span class="s2">RefPotential VisitModel DontVisitModel configuration_index 0</span>
+<span class="s2">CopyNextLine replace configuration_index with 0</span>
 <span class="s2">RefPotential VisitModel DontVisitModel configuration_index 1</span>
 <span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential 10</span>
 <span class="s2">Metropolis</span>
-<span class="s2">TrialTranslate tunable_param 2 tunable_target_acceptance 0.2 configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 2.0</span>
 <span class="s2">TrialTranslate tunable_param 0.1 tunable_target_acceptance 0.2 configuration_index 1</span>
 <span class="s2">Checkpoint checkpoint_file </span><span class="si">{prefix}{sim}</span><span class="s2">_checkpoint.fst num_hours </span><span class="si">{hours_checkpoint}</span><span class="s2"> num_hours_terminate </span><span class="si">{hours_terminate}</span>
 
 <span class="s2"># grand canonical ensemble initalization</span>
 <span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_fill.csv</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_fill.xyz configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_fill.xyz</span>
 <span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_fill.xyz configuration_index 1</span>
 <span class="s2">Tune</span>
 <span class="s2">TrialAdd particle_type 0 configuration_index 0</span>
@@ -288,12 +288,12 @@
 
 <span class="s2"># gibbs ensemble equilibration</span>
 <span class="s2">Metropolis num_trials_per_iteration </span><span class="si">{trials_per_iteration}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{equilibration_iterations}</span><span class="s2"> Constraint ConstrainVolumeByCutoff</span>
-<span class="s2">TrialGibbsParticleTransfer weight 0.05 particle_type 0 reference_index 0</span>
-<span class="s2">TrialGibbsVolumeTransfer weight 0.001 tunable_param 0.1 reference_index 0</span>
-<span class="s2">CheckEnergy trials_per_update </span><span class="si">{trials_per_iteration}</span><span class="s2"> tolerance 1e-8</span>
+<span class="s2">TrialGibbsParticleTransfer weight 0.05 particle_type 0 reference_index 0 print_num_accepted true</span>
+<span class="s2">TrialGibbsVolumeTransfer weight 0.001 tunable_param 0.1 reference_index 0 print_num_accepted true</span>
+<span class="s2">CheckEnergy trials_per_update </span><span class="si">{trials_per_iteration}</span><span class="s2"> decimal_places 8</span>
 <span class="s2">CheckConstantVolume trials_per_update </span><span class="si">{trials_per_iteration}</span><span class="s2"> tolerance 1e-4</span>
 <span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_eq.csv</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_eq.xyz configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_eq.xyz</span>
 <span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_eq.xyz configuration_index 1</span>
 <span class="s2">RemoveModify name Tune</span>
 <span class="s2"># decrease trials per due to infrequency of volume transfer attempts</span>
@@ -307,18 +307,19 @@
 <span class="s2"># gibbs ensemble production</span>
 <span class="s2">Metropolis num_trials_per_iteration </span><span class="si">{trials_per_iteration}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{production_iterations}</span><span class="s2"> Constraint ConstrainVolumeByCutoff</span>
 <span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">.csv</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0.xyz configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0.xyz</span>
 <span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1.xyz configuration_index 1</span>
-<span class="s2">Energy trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_en.csv configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_en.csv</span>
 <span class="s2">Energy trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_en.csv configuration_index 1</span>
-<span class="s2">Density trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_dens.csv configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_dens.csv</span>
 <span class="s2">Density trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_dens.csv configuration_index 1</span>
-<span class="s2">Volume trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_vol.csv configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_vol.csv</span>
 <span class="s2">Volume trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_vol.csv configuration_index 1</span>
 <span class="s2">PressureFromTestVolume trials_per_update 1e3 trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_pressure.csv</span>
 <span class="s2"># the pressure in the liquid phase is harder to converge with test volume changes? and faster to compute in the vapor.</span>
 <span class="s2">#PressureFromTestVolume trials_per_update 1e3 trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_pressure.csv configuration_index 1</span>
 <span class="s2">CPUTime trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_cpu.csv</span>
+<span class="s2">ProfileTrials trials_per_update 1e4 trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_profile.csv</span>
 <span class="s2">Run until_criteria_complete true</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
@@ -361,7 +362,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../doc/ComputeGibbsVolumeTransfer.html" class="btn btn-neutral float-left" title="ComputeGibbsVolumeTransfer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../doc/TrialGibbsParticleTransfer.html" class="btn btn-neutral float-left" title="TrialGibbsParticleTransfer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="tutorial_2_trappe_gibbs.html" class="btn btn-neutral float-right" title="Gibbs Ensemble Simulation of TraPPE alkanes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

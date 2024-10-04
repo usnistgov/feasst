@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gibbs Ensemble Simulation of TraPPE alkanes &mdash; FEASST v0.25.2 documentation</title>
+  <title>Gibbs Ensemble Simulation of TraPPE alkanes &mdash; FEASST v0.25.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=e07783d4"></script>
+        <script src="../../../_static/documentation_options.js?v=440f07cd"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -55,11 +55,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.2
+                v0.25.3
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../OVERVIEW.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -92,9 +92,9 @@
 <li class="toctree-l3"><a class="reference internal" href="../doc/CheckConstantVolume.html">CheckConstantVolume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/ComputeGibbsParticleTransfer.html">ComputeGibbsParticleTransfer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/PressureFromTestVolume.html">PressureFromTestVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/ComputeGibbsVolumeTransfer.html">ComputeGibbsVolumeTransfer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/TrialGibbsVolumeTransfer.html">TrialGibbsVolumeTransfer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/TrialGibbsParticleTransfer.html">TrialGibbsParticleTransfer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/ComputeGibbsVolumeTransfer.html">ComputeGibbsVolumeTransfer</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="tutorial_1_lj_gibbs.html">Gibbs Ensemble Simulation of Lennard-Jones</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Gibbs Ensemble Simulation of TraPPE alkanes</a></li>
@@ -224,6 +224,10 @@
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;initial number of particles in the vapor&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--num_particles_liquid&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">451</span><span class="p">,</span>
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;initial number of particles in the liquid&#39;</span><span class="p">)</span>
+<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--xyz_vapor&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;optionally, use an xyz file to initialize vapor&#39;</span><span class="p">)</span>
+<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--xyz_liquid&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;optionally, use an xyz file to initialize liquid&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--trials_per_iteration&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span>
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;like cycles, but not necessary num_particles&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--equilibration_iterations&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e1</span><span class="p">),</span>
@@ -266,6 +270,22 @@
 <span class="k">else</span><span class="p">:</span>
     <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;input new num_sites and molecular_weight into PARAMS&quot;</span>
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;last_site&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="k">if</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;xyz_vapor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+    <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;vapor_config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;cubic_side_length </span><span class="si">{cubic_side_length_vapor}</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">PARAMS</span><span class="p">)</span>
+    <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;init_vapor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;TrialGrowFile grow_file </span><span class="si">{prefix}</span><span class="s2">_c0_grow_add.txt</span>
+<span class="s2">Run until_num_particles </span><span class="si">{num_particles_vapor}</span><span class="s2"> configuration_index 0</span>
+<span class="s2">RemoveTrial name_contains add&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">PARAMS</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;vapor_config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;xyz_file </span><span class="si">{xyz_vapor}</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">PARAMS</span><span class="p">)</span>
+    <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;init_vapor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="k">if</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;xyz_liquid&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+    <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;liquid_config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;cubic_side_length </span><span class="si">{cubic_side_length_liquid}</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">PARAMS</span><span class="p">)</span>
+    <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;init_liquid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;TrialGrowFile grow_file </span><span class="si">{prefix}</span><span class="s2">_c1_grow_add.txt</span>
+<span class="s2">Run until_num_particles </span><span class="si">{num_particles_liquid}</span><span class="s2"> configuration_index 1</span>
+<span class="s2">RemoveTrial name_contains add&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">PARAMS</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;liquid_config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;xyz_file </span><span class="si">{xyz_liquid}</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">PARAMS</span><span class="p">)</span>
+    <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;init_liquid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
 <span class="k">def</span> <span class="nf">write_partial</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">bond</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">dihedral</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -304,7 +324,7 @@
                     <span class="k">if</span> <span class="n">trial_type</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="p">(</span><span class="n">gce</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">gce</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
                         <span class="k">if</span> <span class="n">site</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                             <span class="k">if</span> <span class="n">gce</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;particle_type 0 configuration_index </span><span class="si">{conf}</span><span class="s2"> configuration_index2 </span><span class="si">{conf2}</span><span class="s2"> weight 1 gibbs_transfer true site </span><span class="si">{site0}</span><span class="s2"> num_steps 1 reference_index 0</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
+                                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;particle_type 0 configuration_index </span><span class="si">{conf}</span><span class="s2"> configuration_index2 </span><span class="si">{conf2}</span><span class="s2"> weight 1 gibbs_transfer true site </span><span class="si">{site0}</span><span class="s2"> num_steps 1 reference_index 0 print_num_accepted true</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
                             <span class="k">elif</span> <span class="n">gce</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;particle_type 0 configuration_index </span><span class="si">{conf}</span><span class="s2"> weight 1 add true site </span><span class="si">{site0}</span><span class="s2"> num_steps 1 reference_index 0</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
                         <span class="k">elif</span> <span class="n">site</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -345,9 +365,11 @@
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">write_grow_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;_c0_grow_canonical.txt&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">,</span> <span class="n">gce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">write_grow_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;_c0_grow_add.txt&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">,</span> <span class="n">gce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;xyz_vapor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+    <span class="n">write_grow_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;_c0_grow_add.txt&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">,</span> <span class="n">gce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">write_grow_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;_c1_grow_canonical.txt&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">,</span> <span class="n">gce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">write_grow_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;_c1_grow_add.txt&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">,</span> <span class="n">gce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;xyz_liquid&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+    <span class="n">write_grow_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;_c1_grow_add.txt&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">,</span> <span class="n">gce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">write_grow_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;_grow_gibbs.txt&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">,</span> <span class="n">gce</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">conf2</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
@@ -357,48 +379,45 @@
 <span class="s2"># first, initialize multiple clones into windows</span>
 <span class="s2">MonteCarlo</span>
 <span class="s2">RandomMT19937 seed </span><span class="si">{seed}</span>
-<span class="s2">Configuration cubic_side_length </span><span class="si">{cubic_side_length_vapor}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span><span class="s2"> cutoff </span><span class="si">{cutoff}</span>
-<span class="s2">Configuration cubic_side_length </span><span class="si">{cubic_side_length_liquid}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span><span class="s2"> cutoff </span><span class="si">{cutoff}</span>
-<span class="s2">Potential Model LennardJones configuration_index 0</span>
+<span class="s2">Configuration </span><span class="si">{vapor_config}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span><span class="s2"> cutoff </span><span class="si">{cutoff}</span>
+<span class="s2">Configuration </span><span class="si">{liquid_config}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span><span class="s2"> cutoff </span><span class="si">{cutoff}</span>
+<span class="s2">CopyNextLine replace configuration_index with 0</span>
 <span class="s2">Potential Model LennardJones configuration_index 1</span>
-<span class="s2">Potential Model LennardJones VisitModel VisitModelIntra intra_cut 3 configuration_index 0</span>
+<span class="s2">CopyNextLine replace configuration_index with 0</span>
 <span class="s2">Potential Model LennardJones VisitModel VisitModelIntra intra_cut 3 configuration_index 1</span>
-<span class="s2">Potential VisitModel LongRangeCorrections configuration_index 0</span>
+<span class="s2">CopyNextLine replace configuration_index with 0</span>
 <span class="s2">Potential VisitModel LongRangeCorrections configuration_index 1</span>
-<span class="s2">RefPotential VisitModel DontVisitModel reference_index 0 configuration_index 0</span>
+<span class="s2">CopyNextLine replace configuration_index with 0</span>
 <span class="s2">RefPotential VisitModel DontVisitModel reference_index 0 configuration_index 1</span>
-<span class="s2">#RefPotential Model LennardJones reference_index 0 configuration_index 0</span>
+<span class="s2">#CopyNextLine replace configuration_index with 0</span>
 <span class="s2">#RefPotential Model LennardJones reference_index 0 configuration_index 1</span>
-<span class="s2">#RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 3 reference_index 0 configuration_index 0</span>
+<span class="s2">#CopyNextLine replace configuration_index with 0</span>
 <span class="s2">#RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 3 reference_index 0 configuration_index 1</span>
 <span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential 10</span>
 <span class="s2">Metropolis</span>
-<span class="s2">TrialTranslate weight 0.5 tunable_param 30 configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 30</span>
 <span class="s2">TrialTranslate weight 0.5 tunable_param 1 configuration_index 1</span>
-<span class="s2">TrialParticlePivot weight 0.25 particle_type 0 tunable_param 180 pivot_site 0 configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 180</span>
 <span class="s2">TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.4 pivot_site 0 configuration_index 1</span>
-<span class="s2">TrialParticlePivot weight 0.25 particle_type 0 tunable_param 180 pivot_site </span><span class="si">{last_site}</span><span class="s2"> configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 180</span>
 <span class="s2">TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.4 pivot_site </span><span class="si">{last_site}</span><span class="s2"> configuration_index 1</span>
 <span class="s2">TrialGrowFile grow_file </span><span class="si">{prefix}</span><span class="s2">_c0_grow_canonical.txt</span>
 <span class="s2">TrialGrowFile grow_file </span><span class="si">{prefix}</span><span class="s2">_c1_grow_canonical.txt</span>
-<span class="s2">CheckEnergy trials_per_update </span><span class="si">{trials_per_iteration}</span><span class="s2"> tolerance 1e-4</span>
+<span class="s2">CheckEnergy trials_per_update </span><span class="si">{trials_per_iteration}</span><span class="s2"> decimal_places 4</span>
+<span class="s2">Checkpoint checkpoint_file </span><span class="si">{prefix}{sim}</span><span class="s2">_checkpoint.fst num_hours </span><span class="si">{hours_checkpoint}</span><span class="s2"> num_hours_terminate </span><span class="si">{hours_terminate}</span>
 
 <span class="s2"># gcmc initialization and nvt equilibration</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_fill.xyz configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_fill.xyz</span>
 <span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_fill.xyz configuration_index 1</span>
 <span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_fill.csv include_bonds true</span>
 <span class="s2"># decrease trials per due to infrequency of volume transfer attempts</span>
 <span class="s2">Tune trials_per_tune 10</span>
 
 <span class="s2"># fill the first box</span>
-<span class="s2">TrialGrowFile grow_file </span><span class="si">{prefix}</span><span class="s2">_c0_grow_add.txt</span>
-<span class="s2">Run until_num_particles </span><span class="si">{num_particles_vapor}</span><span class="s2"> configuration_index 0</span>
-<span class="s2">RemoveTrial name_contains add</span>
+<span class="si">{init_vapor}</span>
 
 <span class="s2"># fill the second box</span>
-<span class="s2">TrialGrowFile grow_file </span><span class="si">{prefix}</span><span class="s2">_c1_grow_add.txt</span>
-<span class="s2">Run until_num_particles </span><span class="si">{num_particles_liquid}</span><span class="s2"> configuration_index 1</span>
-<span class="s2">RemoveTrial name_contains add</span>
+<span class="si">{init_liquid}</span>
 
 <span class="s2"># equilibrate both</span>
 <span class="s2">#Metropolis num_trials_per_iteration </span><span class="si">{trials_per_iteration}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{equilibration_iterations}</span>
@@ -410,10 +429,10 @@
 <span class="s2"># gibbs ensemble equilibration</span>
 <span class="s2">Metropolis num_trials_per_iteration </span><span class="si">{trials_per_iteration}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{equilibration_iterations}</span>
 <span class="s2">TrialGrowFile grow_file </span><span class="si">{prefix}</span><span class="s2">_grow_gibbs.txt</span>
-<span class="s2">TrialGibbsVolumeTransfer weight 0.001 tunable_param 3000 reference_index 0</span>
+<span class="s2">TrialGibbsVolumeTransfer weight 0.006 tunable_param 3000 reference_index 0 print_num_accepted true</span>
 <span class="s2">CheckConstantVolume trials_per_update </span><span class="si">{trials_per_iteration}</span><span class="s2"> tolerance 1e-4</span>
 <span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_eq.csv</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_eq.xyz configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_eq.xyz</span>
 <span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_eq.xyz configuration_index 1</span>
 <span class="s2">Run until_criteria_complete true</span>
 <span class="s2">RemoveModify name Tune</span>
@@ -424,14 +443,15 @@
 <span class="s2"># gibbs ensemble production</span>
 <span class="s2">Metropolis num_trials_per_iteration </span><span class="si">{trials_per_iteration}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{production_iterations}</span>
 <span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">.csv</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0.xyz configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0.xyz</span>
 <span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1.xyz configuration_index 1</span>
-<span class="s2">Energy trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_en.csv configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_new.xyz</span>
 <span class="s2">Energy trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_en.csv configuration_index 1</span>
-<span class="s2">Density trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_dens.csv configuration_index 0</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_dens.csv</span>
 <span class="s2">Density trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_dens.csv configuration_index 1</span>
 <span class="s2">PressureFromTestVolume trials_per_update 1e3 trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_pressure.csv</span>
 <span class="s2">CPUTime trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_cpu.csv</span>
+<span class="s2">ProfileTrials trials_per_update 1e4 trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_profile.csv</span>
 <span class="s2">Run until_criteria_complete true</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 

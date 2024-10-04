@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MayerSampling &mdash; FEASST v0.25.2 documentation</title>
+  <title>MayerSampling &mdash; FEASST v0.25.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=e07783d4"></script>
+        <script src="../../../_static/documentation_options.js?v=440f07cd"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -57,11 +57,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.2
+                v0.25.3
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../OVERVIEW.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -197,9 +197,24 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst13MayerSamplingE">
 <span class="target" id="classfeasst_1_1MayerSampling"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MayerSampling</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><a class="headerlink" href="#_CPPv4N6feasst13MayerSamplingE" title="Link to this definition"></a><br /></dt>
-<dd><p>Mayer-sampling Monte Carlo acceptance criteria (see <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.92.220601">https://doi.org/10.1103/PhysRevLett.92.220601</a>).</p>
-<p>Extrapolation in temperature is performed as descirbed in: <a class="reference external" href="https://doi.org/10.1063/1.5016165">https://doi.org/10.1063/1.5016165</a> .</p>
-<p>The coefficients for the Taylor series extrapolation are written to file and include the division by factorial. </p>
+<dd><p><p>Mayer-sampling Monte Carlo acceptance criteria as described in Singh and Kofke<a class="footnote-reference brackets" href="#footcite-singh-mayer-2004" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.
+Extrapolation in temperature is performed as descirbed in Hatch <em>et al.</em><a class="footnote-reference brackets" href="#footcite-hatch-communication-2017" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.
+The coefficients for the Taylor series extrapolation are written to file
+and include the factorial division.</p>
+<p>References:</p>
+<div class="docutils container" id="id3">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-singh-mayer-2004" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Jayant K. Singh and David A. Kofke. Mayer Sampling: Calculation of Cluster Integrals using Free-Energy Perturbation Methods. <em>Physical Review Letters</em>, 92(22):220601, June 2004. <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.92.220601">doi:10.1103/PhysRevLett.92.220601</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-hatch-communication-2017" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Harold W. Hatch, Sally Jiao, Nathan A. Mahynski, Marco A. Blanco, and Vincent K. Shen. Communication: Predicting virial coefficients and alchemical transformations by extrapolating Mayer-sampling Monte Carlo simulations. <em>The Journal of Chemical Physics</em>, 147(23):231102, December 2017. <a class="reference external" href="https://doi.org/10.1063/1.5016165">doi:10.1063/1.5016165</a>.</p>
+</aside>
+</aside>
+</div>
+</p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">

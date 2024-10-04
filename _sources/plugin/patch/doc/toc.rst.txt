@@ -7,6 +7,6 @@
    FileVMDPatch
    MoviePatch
    TwoParticleContactObjective
+   SolidOfRevolutionTable
    VisitModelInnerPatch
    Spherocylinder
-   SolidOfRevolutionTable

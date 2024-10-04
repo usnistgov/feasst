@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CheckEnergy &mdash; FEASST v0.25.2 documentation</title>
+  <title>CheckEnergy &mdash; FEASST v0.25.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,18 +17,20 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=e07783d4"></script>
+        <script src="../../../_static/documentation_options.js?v=440f07cd"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="CheckPhysicality" href="CheckPhysicality.html" />
-    <link rel="prev" title="Check" href="Check.html" />
+    <link rel="next" title="Log" href="Log.html" />
+    <link rel="prev" title="ProfileTrials" href="ProfileTrials.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -55,11 +57,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.2
+                v0.25.3
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../OVERVIEW.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -73,34 +75,34 @@
 <li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Steppers</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Check.html">Check</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">CheckEnergy</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst11CheckEnergyE"><code class="docutils literal notranslate"><span class="pre">CheckEnergy</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="CheckPhysicality.html">CheckPhysicality</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Chirality2D.html">Chirality2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Density.html">Density</a></li>
 <li class="toctree-l3"><a class="reference internal" href="DensityProfile.html">DensityProfile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Energy.html">Energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ExtensiveMoments.html">ExtensiveMoments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html">HeatCapacity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="IncrementPhase.html">IncrementPhase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Movie.html">Movie</a></li>
 <li class="toctree-l3"><a class="reference internal" href="NumParticles.html">NumParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html">ProfileTrials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html">ReadConfigFromFile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Scattering.html">Scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html">AnalyzeData</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SeekModify.html">SeekModify</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tune.html">Tune</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Volume.html">Volume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="WallClockLimit.html">WallClockLimit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="WrapParticles.html">WrapParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a></li>
-<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html">HeatCapacity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html">MeanSquaredDisplacement</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Movie.html">Movie</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Scattering.html">Scattering</a></li>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html">AnalyzeData</a></li>
 <li class="toctree-l3"><a class="reference internal" href="WriteStepper.html">WriteStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html">MeanSquaredDisplacement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html">ProfileTrials</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">CheckEnergy</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst11CheckEnergyE"><code class="docutils literal notranslate"><span class="pre">CheckEnergy</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairDistributionInner.html">PairDistributionInner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
@@ -227,6 +229,11 @@
 <p>The origin of the energy deviation is different rounding at the level of numerical precision due to adding up the energy terms in different orders. For example, when an entire configuration energy is calculated, each pairwise energy term may be added in a different order than the sum of the contribution of each molecule. And each Monte Carlo trial may only calculate the energy change of one randomly chosen molecule.</p>
 <p>The energy check tolerance parameter is extensive, so it may be reasonable if the error happens when you increase the size. Thus, the tolerance parameter may need to be adjusted with system size. It is not very surprising to see a difference in the 6th or 7th decimal place in some cases.</p>
 <p>The size of the deviation can depend not only on the system size but the potential function and the number of trials between each check. For example, if the system undergoes a random walk deviation of size delta, it may deviate by the square root of the number of trials, where the size delta may be related to the number of interaction sites.</p>
+<p>An alternative metric is the number of decimal places. In practice, this is implemented as follows for two energies U1 and U2.</p>
+<p><span class="math notranslate nohighlight">\(\frac{|U_1-U_2|}{\mathrm{max}(|U_1|, |U_2|)} &lt; 10^{-decimal\_places}\)</span></p>
+<p>For this alternative metric, special consideration is made for small or near zero values of energy. In this special case, the check passes as long as</p>
+<p><span class="math notranslate nohighlight">\(\mathrm{max}(|U_1|, |U_2|) &lt; 10^{-decimal\_places}\)</span></p>
+<p>Otherwise, the differences about zero to numerical precision would almost always fail the test.</p>
 <p>This class effectively functions as an <a class="reference internal" href="../../monte_carlo/doc/Analyze_arguments.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> because it does not change the <a class="reference internal" href="../../system/doc/System_arguments.html#classfeasst_1_1System"><span class="std std-ref">System</span></a> within the specified tolerance. However, the energy is recomputed and therefore the <a class="reference internal" href="../../system/doc/System_arguments.html#classfeasst_1_1System"><span class="std std-ref">System</span></a> is technically modified. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
@@ -240,7 +247,8 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
 <p><ul class="simple">
-<li><p>tolerance: relative absolute difference between running energy and recomputed energy (default: 1e-10).</p></li>
+<li><p>tolerance: absolute difference between running energy and recomputed energy (default: 1e-10).</p></li>
+<li><p>decimal_places: If decimal places &gt; 0 (default: 0), ignore the tolerance parameter and instead check if the difference between the two energies exceeds is within a the given number of decimal places.</p></li>
 <li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
 </ul>
 </p>
@@ -253,8 +261,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Check.html" class="btn btn-neutral float-left" title="Check" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="CheckPhysicality.html" class="btn btn-neutral float-right" title="CheckPhysicality" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="ProfileTrials.html" class="btn btn-neutral float-left" title="ProfileTrials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Log.html" class="btn btn-neutral float-right" title="Log" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

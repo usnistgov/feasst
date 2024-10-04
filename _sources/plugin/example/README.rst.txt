@@ -18,7 +18,7 @@ Specifically, these are the steps required to copy and rename an existing class 
     sed "s/model_example\.h/new_name.h/g" src/model_example.cpp > src/new_name.cpp
     sed -i "s/ModelExample/NewName/g" include/new_name.h src/new_name.cpp
 
-2. Reinstall FEASST, starting with the cmake command.
+2. Reinstall FEASST with the "cmake -DEV=ON .." option (clearing build directory recommended for fresh rebuild).
 
 3. (optional) Add C++ tests by performing steps 1 and 2 for /path/to/feasst/plugin/example/test/model_example.cpp . Add tutorials in /path/to/feasst/plugin/example/tutorial .
 
@@ -39,11 +39,11 @@ In addition, use the example plugin as a template to create new plugins with the
 
 2. Remove the classes (.h and .cpp files) that you do not need and make sure the ones you need are renamed to something unique, as described in the previous steps 1-3 for making a new class detailed above.
 
-3. Find "set(FEASST_PLUGINS ...)" in /path/to/feasst/CMakeLists.txt and add "new_plugin" to the semicolon-separated list.
+3. Add one class present in the new_plugin near the bottom of /path/to/feasst/dev/tools/depend.py. For example, if there is a class NewName in new_plugin, add the following line near all of the similar lines near the end of depend.py: "if 'new_plugin' in include_plugin: select_classes.append("NewName")
 
-4. Add one class present in the new_plugin near the bottom of /path/to/feasst/dev/tools/depend.py. For example, if there is a class NewName in new_plugin, add the following line near all of the similar lines near the end of depend.py: "if 'new_plugin' in include_plugin: select_classes.append("NewName")
+4. Find "set(FEASST_PLUGINS ...)" in /path/to/feasst/CMakeLists.txt and add "new_plugin" to the semicolon-separated list, or use [cmake -DFEASST_PLUGINS="threads;utils;...;new_plugin" ..]
 
-5. Reinstall FEASST, starting with the cmake command.
+5. Reinstall FEASST with the "cmake -DEV=ON .." option (clearing build directory recommended for fresh rebuild).
 
 .. toctree::
    :glob:

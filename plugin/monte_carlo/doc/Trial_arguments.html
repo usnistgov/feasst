@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trial &mdash; FEASST v0.25.2 documentation</title>
+  <title>Trial &mdash; FEASST v0.25.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=e07783d4"></script>
+        <script src="../../../_static/documentation_options.js?v=440f07cd"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -53,11 +53,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.2
+                v0.25.3
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../OVERVIEW.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -157,7 +157,8 @@
 <dd><p>args:<ul class="simple">
 <li><p>weight: unnormalized relative probability of selection of this trial with respect to all trials (default: 1).</p></li>
 <li><p>weight_per_number_fraction: if &gt; 0, the weight is continuously updated to (weight_per_number_fraction * number of <a class="reference internal" href="TrialSelect.html#classfeasst_1_1TrialSelect_1ae738bcbc5a78daf1c309472090a41462"><span class="std std-ref">TrialSelect::particle_type</span></a> in first <a class="reference internal" href="TrialStage_arguments.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a> / total number of particles). If &lt;= 0, the given weight above is fixed to that value (default: -1). For a multicomponent simulation, weight_per_number_fraction with a separate trial for each mobile particle_type ensures equal probability of selecting any particles of those types type regardless of the number of particles of each type, while still allowing for different tunable parameters for each particle_type.</p></li>
-<li><p>number_fraction_exclude_type: if &gt;= 0 (default: -1), exclude this particle type from the total number of fractions in weight_per_number_fraction. If there is a rigid particle type in the grand canonical ensemble, avoid changing the relative weight of translation vs insert/delete and breaking detailed balance. </p></li>
+<li><p>number_fraction_exclude_type: if &gt;= 0 (default: -1), exclude this particle type from the total number of fractions in weight_per_number_fraction. If there is a rigid particle type in the grand canonical ensemble, avoid changing the relative weight of translation vs insert/delete and breaking detailed balance.</p></li>
+<li><p>print_num_accepted: if true (default: false), print the number of accepted trials. </p></li>
 </ul>
 </p>
 </dd></dl>

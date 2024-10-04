@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>utils/include/utils &mdash; FEASST v0.25.2 documentation</title>
+  <title>utils/include/utils &mdash; FEASST v0.25.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=e07783d4"></script>
+        <script src="../../../_static/documentation_options.js?v=440f07cd"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -27,8 +27,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Math" href="../../math/README.html" />
-    <link rel="prev" title="utils/include/serialize_extra" href="serialize_extra.html" />
+    <link rel="next" title="ArgumentParse" href="ArgumentParse.html" />
+    <link rel="prev" title="Checkpoint" href="Checkpoint.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -55,35 +55,35 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.2
+                v0.25.3
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../OVERVIEW.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="ArgumentParse.html">ArgumentParse</a></li>
-<li class="toctree-l3"><a class="reference internal" href="file.html">utils/include/file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Timer.html">Timer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="arguments.html">utils/include/arguments</a></li>
-<li class="toctree-l3"><a class="reference internal" href="arguments_extra.html">utils/include/arguments_extra</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debug.html">utils/include/debug</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file.html">utils/include/file</a></li>
 <li class="toctree-l3"><a class="reference internal" href="max_precision.html">utils/include/max_precision</a></li>
 <li class="toctree-l3"><a class="reference internal" href="io.html">utils/include/io</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ProgressReport.html">ProgressReport</a></li>
-<li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
-<li class="toctree-l3"><a class="reference internal" href="serialize_extra.html">utils/include/serialize_extra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">utils/include/utils</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv46feasst"><code class="docutils literal notranslate"><span class="pre">feasst</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="ArgumentParse.html">ArgumentParse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arguments_extra.html">utils/include/arguments_extra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="serialize_extra.html">utils/include/serialize_extra</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -330,8 +330,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="serialize_extra.html" class="btn btn-neutral float-left" title="utils/include/serialize_extra" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../math/README.html" class="btn btn-neutral float-right" title="Math" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Checkpoint.html" class="btn btn-neutral float-left" title="Checkpoint" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ArgumentParse.html" class="btn btn-neutral float-right" title="ArgumentParse" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

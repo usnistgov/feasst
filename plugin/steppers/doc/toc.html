@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; FEASST v0.25.2 documentation</title>
+  <title>&lt;no title&gt; &mdash; FEASST v0.25.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=e07783d4"></script>
+        <script src="../../../_static/documentation_options.js?v=440f07cd"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -57,11 +57,11 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.2
+                v0.25.3
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../OVERVIEW.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -159,13 +159,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CheckEnergy.html">CheckEnergy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="CheckEnergy.html#_CPPv4N6feasst11CheckEnergyE"><code class="docutils literal notranslate"><span class="pre">CheckEnergy</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="CheckEnergy.html#_CPPv4N6feasst11CheckEnergy6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="CheckPhysicality.html">CheckPhysicality</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="CheckPhysicality.html#_CPPv4N6feasst16CheckPhysicalityE"><code class="docutils literal notranslate"><span class="pre">CheckPhysicality</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="CheckPhysicality.html#_CPPv4N6feasst16CheckPhysicality6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
@@ -188,6 +181,13 @@
 <li class="toctree-l3"><a class="reference internal" href="Chirality2D.html#_CPPv4N6feasst11Chirality2D6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Chirality2D.html#_CPPv4N6feasst11Chirality2D5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Chirality2D.html#_CPPv4NK6feasst11Chirality2D12num_positiveEv"><code class="docutils literal notranslate"><span class="pre">num_positive()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CriteriaUpdater.html#_CPPv4N6feasst15CriteriaUpdaterE"><code class="docutils literal notranslate"><span class="pre">CriteriaUpdater</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html#_CPPv4N6feasst15CriteriaUpdater6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -242,9 +242,27 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="HeatCapacity.html">HeatCapacity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacityE"><code class="docutils literal notranslate"><span class="pre">HeatCapacity</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4NK6feasst12HeatCapacity6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacity10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacity6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacity5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="IncrementPhase.html">IncrementPhase</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="IncrementPhase.html#_CPPv4N6feasst14IncrementPhaseE"><code class="docutils literal notranslate"><span class="pre">IncrementPhase</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="IncrementPhase.html#_CPPv4N6feasst14IncrementPhase6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Movie.html">Movie</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Movie.html#_CPPv4N6feasst5MovieE"><code class="docutils literal notranslate"><span class="pre">Movie</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Movie.html#_CPPv4N6feasst5Movie10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Movie.html#_CPPv4N6feasst5Movie5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -259,20 +277,33 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ProfileTrials.html">ProfileTrials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrialsE"><code class="docutils literal notranslate"><span class="pre">ProfileTrials</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4NK6feasst13ProfileTrials6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrials10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrials6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrials5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="ReadConfigFromFile.html">ReadConfigFromFile</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFileE"><code class="docutils literal notranslate"><span class="pre">ReadConfigFromFile</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFile10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFile6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Scattering.html">Scattering</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Scattering.html#_CPPv4N6feasst10ScatteringE"><code class="docutils literal notranslate"><span class="pre">Scattering</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Scattering.html#_CPPv4N6feasst10Scattering10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Scattering.html#_CPPv4N6feasst10Scattering6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Scattering.html#_CPPv4N6feasst10Scattering5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="AnalyzeData.html">AnalyzeData</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE"><code class="docutils literal notranslate"><span class="pre">AnalyzeData</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst18AccumulatorAverageE"><code class="docutils literal notranslate"><span class="pre">AccumulatorAverage</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst14AccumulatorSumE"><code class="docutils literal notranslate"><span class="pre">AccumulatorSum</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst23AccumulatorSumOfSquaredE"><code class="docutils literal notranslate"><span class="pre">AccumulatorSumOfSquared</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst17AccumulatorMomentE"><code class="docutils literal notranslate"><span class="pre">AccumulatorMoment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst11SeekAnalyzeE"><code class="docutils literal notranslate"><span class="pre">SeekAnalyze</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html#_CPPv4NK6feasst11SeekAnalyze5indexEKNSt6stringERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html#_CPPv4NK6feasst11SeekAnalyze9referenceEKNSt6stringERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">reference()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html#_CPPv4NK6feasst11SeekAnalyze15multistate_dataEKNSt6stringERK10MonteCarloRK11AnalyzeData"><code class="docutils literal notranslate"><span class="pre">multistate_data()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -318,21 +349,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="CriteriaUpdater.html#_CPPv4N6feasst15CriteriaUpdaterE"><code class="docutils literal notranslate"><span class="pre">CriteriaUpdater</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html#_CPPv4N6feasst15CriteriaUpdater6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="HeatCapacity.html">HeatCapacity</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacityE"><code class="docutils literal notranslate"><span class="pre">HeatCapacity</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4NK6feasst12HeatCapacity6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacity10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacity6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html#_CPPv4N6feasst12HeatCapacity5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="WriteStepper.html">WriteStepper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="WriteStepper.html#_CPPv4N6feasst12WriteStepperE"><code class="docutils literal notranslate"><span class="pre">WriteStepper</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="MeanSquaredDisplacement.html">MeanSquaredDisplacement</a><ul>
@@ -344,39 +362,21 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Movie.html">Movie</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Movie.html#_CPPv4N6feasst5MovieE"><code class="docutils literal notranslate"><span class="pre">Movie</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Movie.html#_CPPv4N6feasst5Movie10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Movie.html#_CPPv4N6feasst5Movie5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ProfileTrials.html">ProfileTrials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrialsE"><code class="docutils literal notranslate"><span class="pre">ProfileTrials</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4NK6feasst13ProfileTrials6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrials10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrials6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html#_CPPv4N6feasst13ProfileTrials5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Scattering.html">Scattering</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Scattering.html#_CPPv4N6feasst10ScatteringE"><code class="docutils literal notranslate"><span class="pre">Scattering</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Scattering.html#_CPPv4N6feasst10Scattering10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Scattering.html#_CPPv4N6feasst10Scattering6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Scattering.html#_CPPv4N6feasst10Scattering5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="CheckEnergy.html">CheckEnergy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CheckEnergy.html#_CPPv4N6feasst11CheckEnergyE"><code class="docutils literal notranslate"><span class="pre">CheckEnergy</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CheckEnergy.html#_CPPv4N6feasst11CheckEnergy6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="AnalyzeData.html">AnalyzeData</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE"><code class="docutils literal notranslate"><span class="pre">AnalyzeData</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst18AccumulatorAverageE"><code class="docutils literal notranslate"><span class="pre">AccumulatorAverage</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst14AccumulatorSumE"><code class="docutils literal notranslate"><span class="pre">AccumulatorSum</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst23AccumulatorSumOfSquaredE"><code class="docutils literal notranslate"><span class="pre">AccumulatorSumOfSquared</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst17AccumulatorMomentE"><code class="docutils literal notranslate"><span class="pre">AccumulatorMoment</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="AnalyzeData.html#_CPPv4N6feasst11SeekAnalyzeE"><code class="docutils literal notranslate"><span class="pre">SeekAnalyze</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html#_CPPv4NK6feasst11SeekAnalyze5indexEKNSt6stringERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">index()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html#_CPPv4NK6feasst11SeekAnalyze9referenceEKNSt6stringERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">reference()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html#_CPPv4NK6feasst11SeekAnalyze15multistate_dataEKNSt6stringERK10MonteCarloRK11AnalyzeData"><code class="docutils literal notranslate"><span class="pre">multistate_data()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="WriteStepper.html">WriteStepper</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="WriteStepper.html#_CPPv4N6feasst12WriteStepperE"><code class="docutils literal notranslate"><span class="pre">WriteStepper</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Log.html">Log</a><ul>
