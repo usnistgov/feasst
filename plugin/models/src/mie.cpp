@@ -13,14 +13,7 @@ Mie::Mie(argtype args) : Mie(&args) {
   feasst_check_all_used(args);
 }
 
-class MapMie {
- public:
-  MapMie() {
-    Mie().deserialize_map()["Mie"] = MakeMie();
-  }
-};
-
-static MapMie map_mie_ = MapMie();
+FEASST_MAPPER(Mie,);
 
 void Mie::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapTrialRotateCluster {
- public:
-  MapTrialRotateCluster() {
-    auto obj = MakeTrialRotateCluster();
-    obj->deserialize_map()["TrialRotateCluster"] = obj;
-  }
-};
-
-static MapTrialRotateCluster mapper_ = MapTrialRotateCluster();
+FEASST_MAPPER(TrialRotateCluster,);
 
 TrialRotateCluster::TrialRotateCluster(argtype * args) : Trial(args) {
   class_name_ = "TrialRotateCluster";

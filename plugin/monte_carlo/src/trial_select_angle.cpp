@@ -19,15 +19,8 @@ TrialSelectAngle::TrialSelectAngle(argtype * args) : TrialSelectBond(args) {
     " cannot be the same as the second anchor_site: " << anchor_site2_);
 }
 
-class MapTrialSelectAngle {
- public:
-  MapTrialSelectAngle() {
-    auto obj = MakeTrialSelectAngle({{"mobile_site", "2"}, {"anchor_site", "1"}, {"anchor_site2", "0"}});
-    obj->deserialize_map()["TrialSelectAngle"] = obj;
-  }
-};
-
-static MapTrialSelectAngle mapper_ = MapTrialSelectAngle();
+FEASST_MAPPER(TrialSelectAngle,
+  argtype({{"mobile_site", "2"}, {"anchor_site", "1"}, {"anchor_site2", "0"}}));
 
 void TrialSelectAngle::precompute(System * system) {
   TrialSelectBond::precompute(system);

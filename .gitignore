@@ -28,9 +28,6 @@ pyfeasst/docs/build
 *phase0
 *phase1
 
-# automatically generated files from py/depende.py
-python/deprecated_pyswig/feasst.i
-plugin/feasst/include/feasst.h
-
 # interface files
 dev/v0*
+

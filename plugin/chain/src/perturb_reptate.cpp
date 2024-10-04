@@ -15,15 +15,7 @@ PerturbReptate::PerturbReptate(argtype * args) : PerturbDistance(args) {
   class_name_ = "PerturbReptate";
 }
 
-class MapPerturbReptate {
- public:
-  MapPerturbReptate() {
-    auto obj = MakePerturbReptate();
-    obj->deserialize_map()["PerturbReptate"] = obj;
-  }
-};
-
-static MapPerturbReptate mapper_ = MapPerturbReptate();
+FEASST_MAPPER(PerturbReptate,);
 
 std::shared_ptr<Perturb> PerturbReptate::create(std::istream& istr) const {
   return std::make_shared<PerturbReptate>(istr);

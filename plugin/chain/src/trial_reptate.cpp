@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapTrialReptate {
- public:
-  MapTrialReptate() {
-    auto obj = MakeTrialReptate({{"max_length", "1"}});
-    obj->deserialize_map()["TrialReptate"] = obj;
-  }
-};
-
-static MapTrialReptate mapper_ = MapTrialReptate();
+FEASST_MAPPER(TrialReptate, argtype({{"max_length", "1"}}));
 
 TrialReptate::TrialReptate(argtype * args) :
   TrialMove(std::make_shared<SelectReptate>(args),

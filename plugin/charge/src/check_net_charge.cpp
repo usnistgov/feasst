@@ -22,15 +22,7 @@ void CheckNetCharge::update(const Criteria& criteria,
     " and < " << maximum_);
 }
 
-class MapCheckNetCharge {
- public:
-  MapCheckNetCharge() {
-    CheckNetCharge().deserialize_map()["CheckNetCharge"] =
-      MakeCheckNetCharge();
-  }
-};
-
-static MapCheckNetCharge mapper_ = MapCheckNetCharge();
+FEASST_MAPPER(CheckNetCharge,);
 
 void CheckNetCharge::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);

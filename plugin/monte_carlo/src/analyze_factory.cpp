@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapAnalyzeFactory {
- public:
-  MapAnalyzeFactory() {
-    AnalyzeFactory().deserialize_map()["AnalyzeFactory"] =
-      std::make_shared<AnalyzeFactory>();
-  }
-};
-
-static MapAnalyzeFactory mapper_ = MapAnalyzeFactory();
+FEASST_MAPPER(AnalyzeFactory,);
 
 void AnalyzeFactory::initialize(Criteria * criteria,
     System * system,

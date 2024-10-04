@@ -13,6 +13,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(VisitModelCell,);
+
 VisitModelCell::VisitModelCell(argtype * args) : VisitModel(args) {
   class_name_ = "VisitModelCell";
   cells_ = std::make_shared<Cells>();
@@ -411,16 +413,6 @@ void VisitModelCell::check(const Configuration& config) const {
 }
 
 const Cells& VisitModelCell::cells() const { return *cells_; }
-
-class MapVisitModelCell {
- public:
-  MapVisitModelCell() {
-    auto obj = std::make_shared<VisitModelCell>();
-    obj->deserialize_map()["VisitModelCell"] = obj;
-  }
-};
-
-static MapVisitModelCell mapper_ = MapVisitModelCell();
 
 VisitModelCell::VisitModelCell(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);

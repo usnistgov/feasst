@@ -10,14 +10,7 @@
 
 namespace feasst {
 
-class MapMPIPlaceHolder {
- public:
-  MapMPIPlaceHolder() {
-    MPIPlaceHolder().deserialize_map()["MPIPlaceHolder"] = MakeMPIPlaceHolder();
-  }
-};
-
-static MapMPIPlaceHolder mapper_ = MapMPIPlaceHolder();
+FEASST_MAPPER(MPIPlaceHolder,);
 
 MPIPlaceHolder::MPIPlaceHolder(argtype * args) {
   class_name_ = "MPIPlaceHolder";

@@ -9,15 +9,8 @@
 
 namespace feasst {
 
-class MapSlab {
- public:
-  MapSlab() {
-    auto obj = MakeSlab({{"dimension", "0"}, {"bound0", "0"}, {"bound1", "1"}});
-    obj->deserialize_map()["Slab"] = obj;
-  }
-};
-
-static MapSlab mapper_ = MapSlab();
+FEASST_MAPPER(Slab, argtype({{"dimension", "0"}, {"bound0", "0"},
+                             {"bound1", "1"}}));
 
 Slab::Slab(argtype * args) : ShapeIntersect() {
   class_name_ = "Slab";

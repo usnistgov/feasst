@@ -21,16 +21,7 @@ MacrostateModel::MacrostateModel(argtype args) :
 MacrostateModel::MacrostateModel(argtype * args) :
     MacrostateModel(Histogram(args), args) {}
 
-class MapMacrostateModel {
- public:
-  MapMacrostateModel() {
-    auto hist = MakeHistogram({{"width", "1"}, {"max", "1"}});
-    MacrostateModel(*hist).deserialize_map()["MacrostateModel"] =
-      MakeMacrostateModel(*hist);
-  }
-};
-
-static MapMacrostateModel mapper_ = MapMacrostateModel();
+FEASST_MAPPER(MacrostateModel, argtype({{"width", "1"}, {"max", "1"}}));
 
 std::shared_ptr<Macrostate> MacrostateModel::create(std::istream& istr) const {
   return std::make_shared<MacrostateModel>(istr);

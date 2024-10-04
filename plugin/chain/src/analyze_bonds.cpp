@@ -12,15 +12,7 @@
 
 namespace feasst {
 
-class MapAnalyzeBonds {
- public:
-  MapAnalyzeBonds() {
-    AnalyzeBonds().deserialize_map()["AnalyzeBonds"] =
-      MakeAnalyzeBonds();
-  }
-};
-
-static MapAnalyzeBonds mapper_ = MapAnalyzeBonds();
+FEASST_MAPPER(AnalyzeBonds,);
 
 AnalyzeBonds::AnalyzeBonds(argtype * args) : Analyze(args) {
   Histogram bhist, ahist, dhist;

@@ -90,15 +90,7 @@ void VisitModelOptLJ::compute(
   set_energy(energy);
 }
 
-class MapVisitModelOptLJ {
- public:
-  MapVisitModelOptLJ() {
-    VisitModelOptLJ().deserialize_map()["VisitModelOptLJ"] =
-      std::make_shared<VisitModelOptLJ>();
-  }
-};
-
-static MapVisitModelOptLJ mapper_ = MapVisitModelOptLJ();
+FEASST_MAPPER(VisitModelOptLJ,);
 
 std::shared_ptr<VisitModel> VisitModelOptLJ::create(std::istream& istr) const {
   return std::make_shared<VisitModelOptLJ>(istr);

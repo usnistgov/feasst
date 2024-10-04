@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapCuboid {
- public:
-  MapCuboid() {
-    auto obj = MakeCuboid({{"side_length", "s"}});
-    obj->deserialize_map()["Cuboid"] = obj;
-  }
-};
-
-static MapCuboid mapper_ = MapCuboid();
+FEASST_MAPPER(Cuboid, argtype({{"side_length", "s"}}));
 
 Cuboid::Cuboid(argtype * args) : Shape() {
   class_name_ = "Cuboid";

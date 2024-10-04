@@ -197,9 +197,8 @@ def run_single(sim, params, args, sim_node_dependent_params, write_feasst_script
         params['sim'] = sim
         syscode = seed_param_write_run(sim, params, args, sim_node_dependent_params, write_feasst_script)
     else: # if queue_task < 1, restart from checkpoint
-        syscode = subprocess.call(
-            args.feasst_install+'bin/rst --checkpoint_file '+params['prefix']+str(sim)+'_checkpoint.fst',
-            shell=True, executable='/bin/bash')
+        syscode = subprocess.call('echo "Restart '+params['prefix']+str(sim)+'_checkpoint.fst" | ' +
+            args.feasst_install+'bin/fst', shell=True, executable='/bin/bash')
     if syscode == 0: # if simulation finishes with no errors, write to sim id file
         with open(params['sim_id_file'], 'a', encoding='utf-8') as file1:
             file1.write(str(sim)+'\n')

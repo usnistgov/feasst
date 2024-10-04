@@ -6,15 +6,7 @@
 
 namespace feasst {
 
-class MapMovieSpherocylinder {
- public:
-  MapMovieSpherocylinder() {
-    auto obj = MakeMovieSpherocylinder({{"output_file", "place_holder"}});
-    obj->deserialize_map()["MovieSpherocylinder"] = obj;
-  }
-};
-
-static MapMovieSpherocylinder mapper_ = MapMovieSpherocylinder();
+FEASST_MAPPER(MovieSpherocylinder, argtype({{"output_file", "place_holder"}}));
 
 MovieSpherocylinder::MovieSpherocylinder(argtype * args) : AnalyzeWriteOnly(args) {
   set_append();

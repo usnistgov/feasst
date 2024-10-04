@@ -4,16 +4,7 @@
 
 namespace feasst {
 
-// this example shows how to handle a required argument.
-class MapWallClockLimit {
- public:
-  MapWallClockLimit() {
-    auto obj = MakeWallClockLimit({{"max_hours", "0"}});
-    obj->deserialize_map()["WallClockLimit"] = obj;
-  }
-};
-
-static MapWallClockLimit mapper_ = MapWallClockLimit();
+FEASST_MAPPER(WallClockLimit, argtype({{"max_hours", "0"}}));
 
 WallClockLimit::WallClockLimit(argtype * args) : AnalyzeUpdateOnly(args) {
   max_hours_ = dble("max_hours", args);

@@ -10,15 +10,7 @@
 
 namespace feasst {
 
-class MapPerturbLibrary {
- public:
-  MapPerturbLibrary() {
-    auto obj = MakePerturbLibrary({{"library_xyz", "empty"}});
-    obj->deserialize_map()["PerturbLibrary"] = obj;
-  }
-};
-
-static MapPerturbLibrary mapper_ = MapPerturbLibrary();
+FEASST_MAPPER(PerturbLibrary, argtype({{"library_xyz", "empty"}}));
 
 PerturbLibrary::PerturbLibrary(argtype args) : PerturbLibrary(&args) {
   feasst_check_all_used(args);

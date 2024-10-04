@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapRigidDihedral {
- public:
-  MapRigidDihedral() {
-    auto obj = MakeRigidDihedral();
-    obj->deserialize_map()["RigidDihedral"] = obj;
-  }
-};
-
-static MapRigidDihedral mapper_ = MapRigidDihedral();
+FEASST_MAPPER(RigidDihedral,);
 
 std::shared_ptr<BondFourBody> RigidDihedral::create(std::istream& istr) const {
   return std::make_shared<RigidDihedral>(istr);

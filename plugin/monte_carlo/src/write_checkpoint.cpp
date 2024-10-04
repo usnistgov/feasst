@@ -15,15 +15,7 @@ WriteCheckpoint::WriteCheckpoint(argtype args) : WriteCheckpoint(&args) {
   feasst_check_all_used(args);
 }
 
-class MapWriteCheckpoint {
- public:
-  MapWriteCheckpoint() {
-    auto obj = MakeWriteCheckpoint();
-    obj->deserialize_map()["WriteCheckpoint"] = obj;
-  }
-};
-
-static MapWriteCheckpoint mapper_WriteCheckpoint = MapWriteCheckpoint();
+FEASST_MAPPER(WriteCheckpoint,);
 
 WriteCheckpoint::WriteCheckpoint(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

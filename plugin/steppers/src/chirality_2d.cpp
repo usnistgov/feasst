@@ -11,14 +11,7 @@
 
 namespace feasst {
 
-class MapChirality2D {
- public:
-  MapChirality2D() {
-    Chirality2D().deserialize_map()["Chirality2D"] = MakeChirality2D();
-  }
-};
-
-static MapChirality2D mapper_energy_check_ = MapChirality2D();
+FEASST_MAPPER(Chirality2D,);
 
 Chirality2D::Chirality2D(argtype * args) : Analyze(args) {
   group_ = integer("group", args, 0);

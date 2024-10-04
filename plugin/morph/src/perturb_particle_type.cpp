@@ -23,15 +23,7 @@ PerturbParticleType::PerturbParticleType(argtype * args) : Perturb(args) {
   new_particle_type_ = integer("type", args);
 }
 
-class MapPerturbParticleType {
- public:
-  MapPerturbParticleType() {
-    auto obj = MakePerturbParticleType({{"type", "0"}});
-    obj->deserialize_map()["PerturbParticleType"] = obj;
-  }
-};
-
-static MapPerturbParticleType mapper_ = MapPerturbParticleType();
+FEASST_MAPPER(PerturbParticleType, argtype({{"type", "0"}}));
 
 std::shared_ptr<Perturb> PerturbParticleType::create(std::istream& istr) const {
   return std::make_shared<PerturbParticleType>(istr);

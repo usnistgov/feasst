@@ -14,15 +14,7 @@ PerturbRemove::PerturbRemove(std::shared_ptr<Perturb> perturb) {
 }
 PerturbRemove::PerturbRemove() : PerturbRemove(MakePerturbAnywhere()) {}
 
-class MapPerturbRemove {
- public:
-  MapPerturbRemove() {
-    auto obj = MakePerturbRemove();
-    obj->deserialize_map()["PerturbRemove"] = obj;
-  }
-};
-
-static MapPerturbRemove mapper_ = MapPerturbRemove();
+FEASST_MAPPER(PerturbRemove,);
 
 void PerturbRemove::perturb(
     System * system,

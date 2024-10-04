@@ -15,15 +15,7 @@ TrialComputeMove::TrialComputeMove(argtype * args) : TrialCompute(args) {
   class_name_ = "TrialComputeMove";
 }
 
-class MapTrialComputeMove {
- public:
-  MapTrialComputeMove() {
-    auto obj = MakeTrialComputeMove();
-    obj->deserialize_map()["TrialComputeMove"] = obj;
-  }
-};
-
-static MapTrialComputeMove mapper_ = MapTrialComputeMove();
+FEASST_MAPPER(TrialComputeMove,);
 
 void TrialComputeMove::perturb_and_acceptance(
     Criteria * criteria,

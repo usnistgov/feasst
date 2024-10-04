@@ -14,15 +14,7 @@ ComputeRemoveAVB::ComputeRemoveAVB() {
   class_name_ = "ComputeRemoveAVB";
 }
 
-class MapComputeRemoveAVB {
- public:
-  MapComputeRemoveAVB() {
-    auto obj = MakeComputeRemoveAVB();
-    obj->deserialize_map()["ComputeRemoveAVB"] = obj;
-  }
-};
-
-static MapComputeRemoveAVB mapper_ = MapComputeRemoveAVB();
+FEASST_MAPPER(ComputeRemoveAVB,);
 
 void ComputeRemoveAVB::perturb_and_acceptance(
     Criteria * criteria,

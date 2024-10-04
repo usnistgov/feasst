@@ -92,15 +92,7 @@ void WangLandau::set_ln_prob(
   ln_prob_ = std::make_unique<LnProbability>(ln_prob);
 }
 
-class MapWangLandau {
- public:
-  MapWangLandau() {
-    auto obj = MakeWangLandau({{"min_flatness", "0"}});
-    obj->deserialize_map()["WangLandau"] = obj;
-  }
-};
-
-static MapWangLandau mapper_ = MapWangLandau();
+FEASST_MAPPER(WangLandau, argtype({{"min_flatness", "0"}}));
 
 WangLandau::WangLandau(std::istream& istr) : Bias(istr) {
   const int version = feasst_deserialize_version(istr);

@@ -9,14 +9,7 @@
 
 namespace feasst {
 
-class MapModelServer {
- public:
-  MapModelServer() {
-    ModelServer().deserialize_map()["ModelServer"] = MakeModelServer();
-  }
-};
-
-static MapModelServer mapper_ = MapModelServer();
+FEASST_MAPPER(ModelServer,);
 
 ModelServer::ModelServer(argtype * args) {
   class_name_ = "ModelServer";

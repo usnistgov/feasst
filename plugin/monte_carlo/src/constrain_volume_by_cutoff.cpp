@@ -11,6 +11,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(ConstrainVolumeByCutoff,);
+
 ConstrainVolumeByCutoff::ConstrainVolumeByCutoff(argtype * args) : Constraint() {
   class_name_ = "ConstrainVolumeByCutoff";
 }
@@ -35,16 +37,6 @@ bool ConstrainVolumeByCutoff::is_allowed(const System& system,
   DEBUG("allowed: " << allowed);
   return allowed;
 }
-
-class MapConstrainVolumeByCutoff {
- public:
-  MapConstrainVolumeByCutoff() {
-    auto obj = MakeConstrainVolumeByCutoff();
-    obj->deserialize_map()["ConstrainVolumeByCutoff"] = obj;
-  }
-};
-
-static MapConstrainVolumeByCutoff mapper_ = MapConstrainVolumeByCutoff();
 
 ConstrainVolumeByCutoff::ConstrainVolumeByCutoff(std::istream& istr)
   : Constraint(istr) {

@@ -4,14 +4,7 @@
 
 namespace feasst {
 
-class MapShapeIntersect {
- public:
-  MapShapeIntersect() {
-    ShapeIntersect().deserialize_map()["ShapeIntersect"] = std::make_shared<ShapeIntersect>();
-  }
-};
-
-static MapShapeIntersect mapper_ = MapShapeIntersect();
+FEASST_MAPPER(ShapeIntersect,);
 
 ShapeIntersect::ShapeIntersect(
     std::shared_ptr<Shape> shape1,

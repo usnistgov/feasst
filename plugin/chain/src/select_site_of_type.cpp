@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapSelectSiteOfType {
- public:
-  MapSelectSiteOfType() {
-    auto obj = MakeSelectSiteOfType({{"site_type", "0"}});
-    obj->deserialize_map()["SelectSiteOfType"] = obj;
-  }
-};
-
-static MapSelectSiteOfType mapper_ = MapSelectSiteOfType();
+FEASST_MAPPER(SelectSiteOfType, argtype({{"site_type", "0"}}));
 
 std::shared_ptr<TrialSelect> SelectSiteOfType::create(std::istream& istr) const {
   return std::make_shared<SelectSiteOfType>(istr);

@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapHeatCapacity {
- public:
-  MapHeatCapacity() {
-    auto obj = MakeHeatCapacity();
-    obj->deserialize_map()["HeatCapacity"] = obj;
-  }
-};
-
-static MapHeatCapacity mapper_ = MapHeatCapacity();
+FEASST_MAPPER(HeatCapacity,);
 
 HeatCapacity::HeatCapacity(argtype * args) : Analyze(args) {
   energy_ = *MakeAccumulator({{"num_moments", "3"}});

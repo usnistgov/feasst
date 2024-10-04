@@ -70,7 +70,7 @@ To create a pull request:
 * when your feature is ready and well tested and you're ready to submit a pull request, first you can check if any more changes were made to develop (git checkout develop; git pull usnistgov develop; git checkout user/feature; git merge develop)
 * squash your commits into a new branch "testmerge" off develop (git checkout develop; git checkout -b testmerge; git merge --squash user/feature)
 * submit the "testmerge" branch in the pull request.
-* You can keep your "user/feature" branch with more fine-grain commits for your own purposes or later testing if an issue is discovered. I often rename these "complete_feature" after merging to develop.
+* You can keep your "user/feature" branch with more fine-grain commits for your own purposes or later testing if an issue is discovered. I often rename these "complete_feature_[commit]" after merging to develop where the commit is 6-10 of the first characters of the squash merge commit (for later record).
 
 Try to copy the style of existing commits in the main branch. This means reducing the number of commits in a pull request (e.g., consider a git merge), and to keep the commit descriptions in a similar style as existing commits. For example, the description should be a single sentence that is general and not redundant information from what you see when you click on the details of the commit. Basically, the commit description should be a single line and very succinct (e.g., the classes or plugins changed).
 

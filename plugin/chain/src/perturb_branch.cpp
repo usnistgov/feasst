@@ -27,15 +27,7 @@ PerturbBranch::PerturbBranch(argtype args) : PerturbBranch(&args) {
   feasst_check_all_used(args);
 }
 
-class MapPerturbBranch {
- public:
-  MapPerturbBranch() {
-    auto obj = MakePerturbBranch();
-    obj->deserialize_map()["PerturbBranch"] = obj;
-  }
-};
-
-static MapPerturbBranch mapper_ = MapPerturbBranch();
+FEASST_MAPPER(PerturbBranch,);
 
 std::shared_ptr<Perturb> PerturbBranch::create(std::istream& istr) const {
   return std::make_shared<PerturbBranch>(istr);

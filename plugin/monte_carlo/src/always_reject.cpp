@@ -4,6 +4,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(AlwaysReject,);
+
 AlwaysReject::AlwaysReject() : Criteria() {
   class_name_ = "AlwaysReject";
 }
@@ -12,15 +14,6 @@ AlwaysReject::AlwaysReject(std::shared_ptr<Constraint> constraint)
   : AlwaysReject() {
   add(constraint);
 }
-
-class MapAlwaysReject {
- public:
-  MapAlwaysReject() {
-    AlwaysReject().deserialize_map()["AlwaysReject"] = MakeAlwaysReject();
-  }
-};
-
-static MapAlwaysReject mapper_ = MapAlwaysReject();
 
 AlwaysReject::AlwaysReject(std::istream& istr) : Criteria(istr) {
   const int version = feasst_deserialize_version(istr);

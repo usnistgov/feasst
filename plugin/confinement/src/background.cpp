@@ -21,15 +21,7 @@ void Background::compute(
   zero_energy();
 }
 
-class MapBackground {
- public:
-  MapBackground() {
-    auto obj = MakeBackground({{"constant", "0"}});
-    obj->deserialize_map()["Background"] = obj;
-  }
-};
-
-static MapBackground mapper_ = MapBackground();
+FEASST_MAPPER(Background, argtype({{"constant", "0"}}));
 
 std::shared_ptr<VisitModel> Background::create(std::istream& istr) const {
   return std::make_shared<Background>(istr);

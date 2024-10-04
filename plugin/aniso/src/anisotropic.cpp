@@ -3,15 +3,7 @@
 
 namespace feasst {
 
-class MapAnisotropic {
- public:
-  MapAnisotropic() {
-    auto obj = std::make_shared<Anisotropic>();
-    obj->deserialize_map()["anisotropic"] = obj;
-  }
-};
-
-static MapAnisotropic mapper_anisotropic_ = MapAnisotropic();
+FEASST_MAPPER_RENAME(Anisotropic, anisotropic,);
 
 void Anisotropic::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

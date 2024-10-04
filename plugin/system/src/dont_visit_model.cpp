@@ -3,15 +3,7 @@
 
 namespace feasst {
 
-class MapDontVisitModel {
- public:
-  MapDontVisitModel() {
-    DontVisitModel().deserialize_map()["DontVisitModel"] =
-      std::make_shared<DontVisitModel>();
-  }
-};
-
-static MapDontVisitModel mapper_ = MapDontVisitModel();
+FEASST_MAPPER(DontVisitModel,);
 
 std::shared_ptr<VisitModel> DontVisitModel::create(std::istream& istr) const {
   return std::make_shared<DontVisitModel>(istr);

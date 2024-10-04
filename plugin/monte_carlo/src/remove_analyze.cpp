@@ -20,15 +20,7 @@ RemoveAnalyze::RemoveAnalyze(argtype args) : RemoveAnalyze(&args) {
   feasst_check_all_used(args);
 }
 
-class MapRemoveAnalyze {
- public:
-  MapRemoveAnalyze() {
-    auto obj = MakeRemoveAnalyze();
-    obj->deserialize_map()["RemoveAnalyze"] = obj;
-  }
-};
-
-static MapRemoveAnalyze mapper_RemoveAnalyze = MapRemoveAnalyze();
+FEASST_MAPPER(RemoveAnalyze,);
 
 RemoveAnalyze::RemoveAnalyze(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

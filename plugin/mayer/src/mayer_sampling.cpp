@@ -132,14 +132,7 @@ bool MayerSampling::is_accepted(
   return was_accepted_;
 }
 
-class MapMayerSampling {
- public:
-  MapMayerSampling() {
-    MayerSampling().deserialize_map()["MayerSampling"] = MakeMayerSampling();
-  }
-};
-
-static MapMayerSampling mapper_ = MapMayerSampling();
+FEASST_MAPPER(MayerSampling,);
 
 void MayerSampling::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

@@ -7,6 +7,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(Metropolis,);
+
 Metropolis::Metropolis(argtype * args) : Criteria(args) {
   class_name_ = "Metropolis";
   // HWH deprecate
@@ -51,15 +53,6 @@ bool Metropolis::is_accepted(
   acceptance->set_endpoint(false);
   return was_accepted_;
 }
-
-class MapMetropolis {
- public:
-  MapMetropolis() {
-    Metropolis().deserialize_map()["Metropolis"] = MakeMetropolis();
-  }
-};
-
-static MapMetropolis mapper_ = MapMetropolis();
 
 Metropolis::Metropolis(std::istream& istr) : Criteria(istr) {
   const int version = feasst_deserialize_version(istr);

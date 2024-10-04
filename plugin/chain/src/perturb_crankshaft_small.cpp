@@ -15,15 +15,7 @@ PerturbCrankshaftSmall::PerturbCrankshaftSmall(argtype * args) : PerturbRotate(a
   class_name_ = "PerturbCrankshaftSmall";
 }
 
-class MapPerturbCrankshaftSmall {
- public:
-  MapPerturbCrankshaftSmall() {
-    auto obj = MakePerturbCrankshaftSmall();
-    obj->deserialize_map()["PerturbCrankshaftSmall"] = obj;
-  }
-};
-
-static MapPerturbCrankshaftSmall mapper_ = MapPerturbCrankshaftSmall();
+FEASST_MAPPER(PerturbCrankshaftSmall,);
 
 std::shared_ptr<Perturb> PerturbCrankshaftSmall::create(std::istream& istr) const {
   return std::make_shared<PerturbCrankshaftSmall>(istr);

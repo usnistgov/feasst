@@ -18,15 +18,7 @@ PerturbAddAVB::PerturbAddAVB(argtype * args) : Perturb(args) {
   move_ = std::make_shared<PerturbMoveAVB>(args);
 }
 
-class MapPerturbAddAVB {
- public:
-  MapPerturbAddAVB() {
-    auto obj = MakePerturbAddAVB();
-    obj->deserialize_map()["PerturbAddAVB"] = obj;
-  }
-};
-
-static MapPerturbAddAVB mapper_ = MapPerturbAddAVB();
+FEASST_MAPPER(PerturbAddAVB,);
 
 std::shared_ptr<Perturb> PerturbAddAVB::create(std::istream& istr) const {
   return std::make_shared<PerturbAddAVB>(istr);

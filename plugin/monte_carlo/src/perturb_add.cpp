@@ -8,6 +8,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(PerturbAdd,);
+
 PerturbAdd::PerturbAdd(argtype args) : PerturbAdd(&args) {
   feasst_check_all_used(args);
 }
@@ -16,16 +18,6 @@ PerturbAdd::PerturbAdd(argtype * args) : Perturb(args) {
   delay_add_ = boolean("delay_add", args, true);
   disable_tunable_();
 }
-
-class MapPerturbAdd {
- public:
-  MapPerturbAdd() {
-    auto obj = MakePerturbAdd();
-    obj->deserialize_map()["PerturbAdd"] = obj;
-  }
-};
-
-static MapPerturbAdd mapper_ = MapPerturbAdd();
 
 std::shared_ptr<Perturb> PerturbAdd::create(std::istream& istr) const {
   return std::make_shared<PerturbAdd>(istr);

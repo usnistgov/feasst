@@ -15,15 +15,7 @@ TrialSelectAll::TrialSelectAll(argtype args) : TrialSelectAll(&args) {
   feasst_check_all_used(args);
 }
 
-class MapTrialSelectAll {
- public:
-  MapTrialSelectAll() {
-    auto obj = MakeTrialSelectAll();
-    obj->deserialize_map()["TrialSelectAll"] = obj;
-  }
-};
-
-static MapTrialSelectAll mapper_ = MapTrialSelectAll();
+FEASST_MAPPER(TrialSelectAll,);
 
 bool TrialSelectAll::select(const Select& perturbed,
                                  System* system,

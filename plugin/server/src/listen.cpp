@@ -26,16 +26,7 @@ Listen::Listen(argtype args) : Listen(&args) {
 }
 Listen::~Listen() {}
 
-class MapListen {
- public:
-  MapListen() {
-    auto obj = MakeListen();
-    obj->deserialize_map()["Listen"] = std::move(obj);
-    //obj->deserialize_map()["Listen"] = obj;
-  }
-};
-
-static MapListen mapper_Listen = MapListen();
+FEASST_MAPPER(Listen,);
 
 Listen::Listen(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

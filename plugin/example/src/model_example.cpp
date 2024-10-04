@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapModelExample {
- public:
-  MapModelExample() {
-    auto obj = MakeModelExample({{"num_discretized_steps", "1"}});
-    obj->deserialize_map()["ModelExample"] = obj;
-  }
-};
-
-static MapModelExample mapper_ = MapModelExample();
+FEASST_MAPPER(ModelExample, argtype({{"num_discretized_steps", "1"}}));
 
 /*
   In this constructor, input file arguments are parsed and stored as private

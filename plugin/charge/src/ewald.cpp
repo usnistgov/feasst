@@ -13,6 +13,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(Ewald,);
+
 Ewald::Ewald(argtype args) : Ewald(&args) { feasst_check_all_used(args); }
 Ewald::Ewald(argtype * args) {
   class_name_ = "Ewald";
@@ -391,15 +393,6 @@ void Ewald::update_struct_fact_eik(const Select& selection,
     }
   }
 }
-
-class MapEwald {
- public:
-  MapEwald() {
-    Ewald().deserialize_map()["Ewald"] = std::make_shared<Ewald>();
-  }
-};
-
-static MapEwald mapper_ = MapEwald();
 
 void Ewald::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

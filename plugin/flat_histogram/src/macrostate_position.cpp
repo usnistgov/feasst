@@ -36,16 +36,7 @@ double MacrostatePosition::value(const System& system,
   return system.configuration().particle(particle_index_).site(site_index_).position().coord(dimension_);
 }
 
-class MapMacrostatePosition {
- public:
-  MapMacrostatePosition() {
-    auto hist = MakeHistogram({{"width", "1"}, {"max", "1"}});
-    MacrostatePosition(*hist).deserialize_map()["MacrostatePosition"] =
-      MakeMacrostatePosition(*hist);
-  }
-};
-
-static MapMacrostatePosition mapper_ = MapMacrostatePosition();
+FEASST_MAPPER(MacrostatePosition, argtype({{"width", "1"}, {"max", "1"}}));
 
 std::shared_ptr<Macrostate> MacrostatePosition::create(std::istream& istr) const {
   return std::make_shared<MacrostatePosition>(istr);

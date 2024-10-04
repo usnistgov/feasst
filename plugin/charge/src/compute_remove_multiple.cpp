@@ -22,15 +22,7 @@ ComputeRemoveMultiple::ComputeRemoveMultiple(argtype * args)
   shift_ = integer("shift", args, -1);
 }
 
-class MapComputeRemoveMultiple {
- public:
-  MapComputeRemoveMultiple() {
-    auto obj = MakeComputeRemoveMultiple();
-    obj->deserialize_map()["ComputeRemoveMultiple"] = obj;
-  }
-};
-
-static MapComputeRemoveMultiple mapper_ = MapComputeRemoveMultiple();
+FEASST_MAPPER(ComputeRemoveMultiple,);
 
 void ComputeRemoveMultiple::perturb_and_acceptance(
     Criteria * criteria,

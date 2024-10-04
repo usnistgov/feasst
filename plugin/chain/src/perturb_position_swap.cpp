@@ -20,15 +20,7 @@ PerturbPositionSwap::PerturbPositionSwap(argtype * args) : PerturbMove(args) {
   disable_tunable_();
 }
 
-class MapPerturbPositionSwap {
- public:
-  MapPerturbPositionSwap() {
-    auto obj = MakePerturbPositionSwap();
-    obj->deserialize_map()["PerturbPositionSwap"] = obj;
-  }
-};
-
-static MapPerturbPositionSwap mapper_ = MapPerturbPositionSwap();
+FEASST_MAPPER(PerturbPositionSwap,);
 
 std::shared_ptr<Perturb> PerturbPositionSwap::create(std::istream& istr) const {
   return std::make_shared<PerturbPositionSwap>(istr);

@@ -12,15 +12,7 @@ SelectNothing::SelectNothing(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectNothing";
 }
 
-class MapSelectNothing {
- public:
-  MapSelectNothing() {
-    auto obj = MakeSelectNothing();
-    obj->deserialize_map()["SelectNothing"] = obj;
-  }
-};
-
-static MapSelectNothing mapper_ = MapSelectNothing();
+FEASST_MAPPER(SelectNothing,);
 
 std::shared_ptr<TrialSelect> SelectNothing::create(std::istream& istr) const {
   return std::make_shared<SelectNothing>(istr);

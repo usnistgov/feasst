@@ -10,15 +10,7 @@ ComputeAVB4::ComputeAVB4() : TrialComputeMove() {
   class_name_ = "ComputeAVB4";
 }
 
-class MapComputeAVB4 {
- public:
-  MapComputeAVB4() {
-    auto obj = MakeComputeAVB4();
-    obj->deserialize_map()["ComputeAVB4"] = obj;
-  }
-};
-
-static MapComputeAVB4 mapper_ = MapComputeAVB4();
+FEASST_MAPPER(ComputeAVB4,);
 
 void ComputeAVB4::perturb_and_acceptance(
     Criteria * criteria,

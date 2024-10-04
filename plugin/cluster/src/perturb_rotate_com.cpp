@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapPerturbRotateCOM {
- public:
-  MapPerturbRotateCOM() {
-    auto obj = MakePerturbRotateCOM();
-    obj->deserialize_map()["PerturbRotateCOM"] = obj;
-  }
-};
-
-static MapPerturbRotateCOM mapper_ = MapPerturbRotateCOM();
+FEASST_MAPPER(PerturbRotateCOM,);
 
 PerturbRotateCOM::PerturbRotateCOM(argtype args) : PerturbRotateCOM(&args) {
   feasst_check_all_used(args);

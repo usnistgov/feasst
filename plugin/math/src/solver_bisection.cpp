@@ -8,20 +8,12 @@
 
 namespace feasst {
 
+FEASST_MAPPER(SolverBisection,
+              argtype({{"lower", "0"}, {"upper", "0"}, {"tolerance", "0"}}));
+
 SolverBisection::SolverBisection(argtype args) : Solver(args) {
   class_name_ = "SolverBisection";
 }
-
-class MapSolverBisection {
- public:
-  MapSolverBisection() {
-    auto solver = MakeSolverBisection(
-      {{"lower", "0"}, {"upper", "0"}, {"tolerance", "0"}});
-    solver->deserialize_map()["SolverBisection"] = solver;
-  }
-};
-
-static MapSolverBisection mapper_ = MapSolverBisection();
 
 std::shared_ptr<Solver> SolverBisection::create(std::istream& istr) const {
   return std::make_shared<SolverBisection>(istr);

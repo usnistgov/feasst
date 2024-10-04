@@ -24,15 +24,7 @@ void gen_avb2_args_(const bool out_to_in, argtype * args,
   }
 }
 
-class MapTrialAVB2Half {
- public:
-  MapTrialAVB2Half() {
-    auto obj = MakeTrialAVB2Half({{"out_to_in", "true"}});
-    obj->deserialize_map()["TrialAVB2Half"] = obj;
-  }
-};
-
-static MapTrialAVB2Half mapper_ = MapTrialAVB2Half();
+FEASST_MAPPER(TrialAVB2Half, argtype({{"out_to_in", "true"}}));
 
 TrialAVB2Half::TrialAVB2Half(argtype * args) : Trial(args) {
   class_name_ = "TrialAVB2Half";
@@ -77,15 +69,7 @@ void TrialAVB2Half::serialize(std::ostream& ostr) const {
   feasst_serialize_version(1634, ostr);
 }
 
-class MapTrialAVB2 {
- public:
-  MapTrialAVB2() {
-    auto obj = MakeTrialAVB2();
-    obj->deserialize_map()["TrialAVB2"] = obj;
-  }
-};
-
-static MapTrialAVB2 mapper_trial_avb2__ = MapTrialAVB2();
+FEASST_MAPPER(TrialAVB2,);
 
 TrialAVB2::TrialAVB2(argtype * args) : TrialFactoryNamed() {
   class_name_ = "TrialAVB2";

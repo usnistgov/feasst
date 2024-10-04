@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapTrialParticlePivot {
- public:
-  MapTrialParticlePivot() {
-    auto obj = MakeTrialParticlePivot();
-    obj->deserialize_map()["TrialParticlePivot"] = obj;
-  }
-};
-
-static MapTrialParticlePivot mapper_ = MapTrialParticlePivot();
+FEASST_MAPPER(TrialParticlePivot,);
 
 TrialParticlePivot::TrialParticlePivot(argtype * args) :
   TrialMove(std::make_shared<SelectParticlePivot>(args),

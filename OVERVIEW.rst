@@ -1,22 +1,30 @@
 *************************
-README
+Overview
 *************************
 
-The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
-open-source, public domain software to conduct molecular- and particle-based
-simulations with Monte Carlo methods.
+.. include:: README.rst
 
-.. note::
+.. include:: build/build.rst
 
-   Manuscript: https://doi.org/10.6028/jres.123.004
+Text input file example
+===============================================
 
-   Website: https://pages.nist.gov/feasst/
+.. literalinclude:: tutorial/example.txt
 
-   Website DOI: https://doi.org/10.18434/M3S095
+This text input file is explained in detail in the first :doc:`tutorial <tutorial/tutorial>`.
 
-   Code repository: https://github.com/usnistgov/feasst
 
-   Discussion list: https://groups.google.com/a/list.nist.gov/d/forum/feasst
+How to get started
+===============================================
+
+* Review the :doc:`first <tutorial/tutorial>` and :doc:`second tutorial<tutorial/launch>`.
+
+  * Copy/paste or use the URL to find the code (e.g., https://pages.nist.gov/feasst/tutorial/launch.html is ``$HOME/feasst/tutorial/launch.py``).
+  * See ``python launch.py --help`` (e.g., adjust ``--feasst_install`` or ``--hours_terminate``).
+* Find :doc:`tutorial/README` that are closest to what you would like to accomplish.
+* Reproduce the expected result of those :doc:`tutorial/README`.
+* To modify the tutorial to accomplish your goals, refer to the :doc:`../plugin/text_interface` documentation.
+* Compare the energy of a :doc:`reference configuration<plugin/monte_carlo/tutorial/tutorial_0_ref_configs>` with a trusted source.
 
 Features
 ================================================================================
@@ -70,44 +78,6 @@ Modern software
 * Server interface to C++ or Python clients
 * OpenMP parallelization and prefetching
 * Checkpoint files to save, restart and analyze simulations
-
-How to compile
-===============================================
-
-.. code-block:: bash
-
-    #[apt/yum/dnf/brew] install g++ cmake git python3
-    cd $HOME # replace this with your preference throughout
-    git clone https://github.com/usnistgov/feasst.git
-    mkdir feasst/build; cd $_
-    cmake ..
-    make install -j$(nproc)
-    # optional python packages for feasst tutorials
-    pip install jupyter matplotlib pandas scipy ../pyfeasst
-
-FEASST requires a C++14 compiler, CMake and Python3, while git is optional.
-The executables ``fst`` and ``rst`` should appear in ``$HOME/feasst/build/bin/``.
-Text input files are run using ``fst < input.txt`` and simulations are restarted using ``rst checkpoint.txt``.
-For pyfeasst, provide pip a path to the specific pyfeasst directory in feasst to ensure the versions match (e.g., do not leave out the "../").
-
-Basic simulation example
-===============================================
-
-The following text input file is explained in detail in the first :doc:`tutorial <tutorial/tutorial>`.
-
-.. literalinclude:: tutorial/example.txt
-
-How to get started
-===============================================
-
-* Complete the :doc:`first <tutorial/tutorial>` and :doc:`second tutorial<tutorial/launch>`.
-
-  * Copy/paste or use the URL to find the code (e.g., https://pages.nist.gov/feasst/tutorial/launch.html is ``$HOME/feasst/tutorial/launch.py``).
-  * See ``python launch.py --help`` (e.g., adjust ``--feasst_install`` or ``--hours_terminate``).
-* Find :doc:`tutorial/README` that are closest to what you would like to accomplish.
-* Reproduce the expected result of those :doc:`tutorial/README`.
-* To modify the tutorial to accomplish your goals, refer to the :doc:`../plugin/text_interface` documentation.
-* Compare the energy of a :doc:`reference configuration<plugin/monte_carlo/tutorial/tutorial_0_ref_configs>` with a trusted source.
 
 Troubleshooting install
 ------------------------

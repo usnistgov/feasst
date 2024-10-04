@@ -5,15 +5,7 @@
 
 namespace feasst {
 
-class MapModifyFactory {
- public:
-  MapModifyFactory() {
-    ModifyFactory().deserialize_map()["ModifyFactory"] =
-      std::make_shared<ModifyFactory>();
-  }
-};
-
-static MapModifyFactory mapper_ = MapModifyFactory();
+FEASST_MAPPER(ModifyFactory,);
 
 void ModifyFactory::initialize(Criteria * criteria,
     System * system,

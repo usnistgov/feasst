@@ -6,15 +6,7 @@
 
 namespace feasst {
 
-class MapModelTwoBodyFactory {
- public:
-  MapModelTwoBodyFactory() {
-    ModelTwoBodyFactory().deserialize_map()["ModelTwoBodyFactory"] =
-      MakeModelTwoBodyFactory();
-  }
-};
-
-static MapModelTwoBodyFactory mapper_ = MapModelTwoBodyFactory();
+FEASST_MAPPER(ModelTwoBodyFactory,);
 
 ModelTwoBodyFactory::ModelTwoBodyFactory(argtype * args) {
   class_name_ = "ModelTwoBodyFactory";

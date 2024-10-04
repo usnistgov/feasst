@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapTrialBeta {
- public:
-  MapTrialBeta() {
-    auto obj = MakeTrialBeta({{"fixed_beta_change", "1"}});
-    obj->deserialize_map()["TrialBeta"] = obj;
-  }
-};
-
-static MapTrialBeta mapper_ = MapTrialBeta();
+FEASST_MAPPER(TrialBeta, argtype({{"fixed_beta_change", "1"}}));
 
 TrialBeta::TrialBeta(argtype * args) : Trial(args) {
   class_name_ = "TrialBeta";

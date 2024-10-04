@@ -3,14 +3,7 @@
 
 namespace feasst {
 
-class MapTwoBodyTable {
- public:
-  MapTwoBodyTable() {
-    TwoBodyTable().deserialize_map()["TwoBodyTable"] = MakeTwoBodyTable();
-  }
-};
-
-static MapTwoBodyTable mapper_ = MapTwoBodyTable();
+FEASST_MAPPER(TwoBodyTable,);
 
 void TwoBodyTable::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

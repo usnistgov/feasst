@@ -8,14 +8,7 @@
 
 namespace feasst {
 
-class MapLog {
- public:
-  MapLog() {
-    Log().deserialize_map()["Log"] = MakeLog();
-  }
-};
-
-static MapLog mapper_ = MapLog();
+FEASST_MAPPER(Log,);
 
 Log::Log(argtype args) : Log(&args) { feasst_check_all_used(args); }
 Log::Log(argtype * args) : AnalyzeWriteOnly(args) {

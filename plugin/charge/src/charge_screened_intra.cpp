@@ -7,14 +7,7 @@
 
 namespace feasst {
 
-class MapChargeScreenedIntra {
- public:
-  MapChargeScreenedIntra() {
-    ChargeScreenedIntra().deserialize_map()["ChargeScreenedIntra"] = MakeChargeScreenedIntra();
-  }
-};
-
-static MapChargeScreenedIntra map_charge_screened_intra_ = MapChargeScreenedIntra();
+FEASST_MAPPER(ChargeScreenedIntra,);
 
 void ChargeScreenedIntra::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

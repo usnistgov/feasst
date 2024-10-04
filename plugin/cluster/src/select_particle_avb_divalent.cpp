@@ -36,16 +36,8 @@ SelectParticleAVBDivalent::SelectParticleAVBDivalent(argtype args)
   feasst_check_all_used(args);
 }
 
-class MapSelectParticleAVBDivalent {
- public:
-  MapSelectParticleAVBDivalent() {
-    auto obj = MakeSelectParticleAVBDivalent(
-      {{"ghost", "true"}, {"particle_type", "0"}});
-    obj->deserialize_map()["SelectParticleAVBDivalent"] = obj;
-  }
-};
-
-static MapSelectParticleAVBDivalent mapper_ = MapSelectParticleAVBDivalent();
+FEASST_MAPPER(SelectParticleAVBDivalent,
+  argtype({{"ghost", "true"}, {"particle_type", "0"}}));
 
 bool SelectParticleAVBDivalent::select(const Select& perturbed,
                                System * system,

@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapTrialAddAVB {
- public:
-  MapTrialAddAVB() {
-    auto obj = MakeTrialAddAVB();
-    obj->deserialize_map()["TrialAddAVB"] = obj;
-  }
-};
-
-static MapTrialAddAVB mapper_ = MapTrialAddAVB();
+FEASST_MAPPER(TrialAddAVB,);
 
 // Note that changes here should also be incorported into TrialGrow
 TrialAddAVB::TrialAddAVB(argtype * args) : Trial(args) {

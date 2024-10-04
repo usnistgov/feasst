@@ -4,14 +4,7 @@
 
 namespace feasst {
 
-class MapShapeUnion {
- public:
-  MapShapeUnion() {
-    ShapeUnion().deserialize_map()["ShapeUnion"] = std::make_shared<ShapeUnion>();
-  }
-};
-
-static MapShapeUnion mapper_shape_union_ = MapShapeUnion();
+FEASST_MAPPER(ShapeUnion,);
 
 ShapeUnion::ShapeUnion(
     std::shared_ptr<Shape> shape1,

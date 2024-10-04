@@ -4,19 +4,11 @@
 
 namespace feasst {
 
-class MapHalfSpace {
- public:
-  MapHalfSpace() {
-    auto obj = MakeHalfSpace({
+FEASST_MAPPER(HalfSpace, argtype({
       {"dimension", "1"},
       {"intersection", "1"},
       {"direction", "1"},
-    });
-    obj->deserialize_map()["HalfSpace"] = obj;
-  }
-};
-
-static MapHalfSpace mapper_ = MapHalfSpace();
+    }));
 
 HalfSpace::HalfSpace(argtype args) : HalfSpace(&args) {
   feasst_check_all_used(args);

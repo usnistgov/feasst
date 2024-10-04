@@ -128,7 +128,7 @@ void prefetch(System system, const int sync = 0) {
   EXPECT_EQ(1, mc2->trials_per_check());
 }
 
-TEST(Prefetch, MUVT) {
+TEST(Prefetch, MUVT_LONG) {
   System sys;
   sys.add(MakeConfiguration({{"cubic_side_length", "8"},
                              {"particle_type0", "../particle/lj.fstprt"}}));
@@ -137,7 +137,7 @@ TEST(Prefetch, MUVT) {
   prefetch(sys);
 }
 
-TEST(Prefetch, MUVT_spce) {
+TEST(Prefetch, MUVT_spce_LONG) {
   prefetch(spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"erfc_table_size", str(2e4)}}), 1);
 }
 

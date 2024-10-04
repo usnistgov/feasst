@@ -23,15 +23,7 @@ SelectCluster::SelectCluster(argtype * args) : TrialSelect(args) {
   printable_["cluster_size"] = MakeAccumulator();
 }
 
-class MapSelectCluster {
- public:
-  MapSelectCluster() {
-    auto obj = MakeSelectCluster();
-    obj->deserialize_map()["SelectCluster"] = obj;
-  }
-};
-
-static MapSelectCluster mapper_ = MapSelectCluster();
+FEASST_MAPPER(SelectCluster,);
 
 void SelectCluster::precompute(System * system) {
   TrialSelect::precompute(system);

@@ -25,15 +25,7 @@ PerturbVolume::PerturbVolume(argtype args) : PerturbVolume(&args) {
   feasst_check_all_used(args);
 }
 
-class MapPerturbVolume {
- public:
-  MapPerturbVolume() {
-    auto obj = MakePerturbVolume();
-    obj->deserialize_map()["PerturbVolume"] = obj;
-  }
-};
-
-static MapPerturbVolume mapper_ = MapPerturbVolume();
+FEASST_MAPPER(PerturbVolume,);
 
 std::shared_ptr<Perturb> PerturbVolume::create(std::istream& istr) const {
   return std::make_shared<PerturbVolume>(istr);

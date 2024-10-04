@@ -7,14 +7,7 @@
 
 namespace feasst {
 
-class MapCoulomb {
- public:
-  MapCoulomb() {
-    Coulomb().deserialize_map()["Coulomb"] = MakeCoulomb();
-  }
-};
-
-static MapCoulomb map_charge_screened_ = MapCoulomb();
+FEASST_MAPPER(Coulomb,);
 
 void Coulomb::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

@@ -182,15 +182,7 @@ void TransitionMatrix::set_ln_prob(
   ln_prob_ = std::make_unique<LnProbability>(ln_prob);
 }
 
-class MapTransitionMatrix {
- public:
-  MapTransitionMatrix() {
-    auto obj = MakeTransitionMatrix({{"min_sweeps", "0"}});
-    obj->deserialize_map()["TransitionMatrix"] = obj;
-  }
-};
-
-static MapTransitionMatrix mapper_ = MapTransitionMatrix();
+FEASST_MAPPER(TransitionMatrix, argtype({{"min_sweeps", "0"}}));
 
 std::shared_ptr<Bias> TransitionMatrix::create(std::istream& istr) const {
   return std::make_shared<TransitionMatrix>(istr);

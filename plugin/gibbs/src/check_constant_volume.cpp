@@ -6,14 +6,7 @@
 
 namespace feasst {
 
-class MapCheckConstantVolume {
- public:
-  MapCheckConstantVolume() {
-    CheckConstantVolume().deserialize_map()["CheckConstantVolume"] = MakeCheckConstantVolume();
-  }
-};
-
-static MapCheckConstantVolume mapper_energy_check_ = MapCheckConstantVolume();
+FEASST_MAPPER(CheckConstantVolume,);
 
 CheckConstantVolume::CheckConstantVolume(argtype * args) : ModifyUpdateOnly(args) {
   tolerance_ = dble("tolerance", args, 1e-4);

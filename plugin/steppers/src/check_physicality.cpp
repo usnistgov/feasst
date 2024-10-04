@@ -6,15 +6,7 @@
 
 namespace feasst {
 
-class MapCheckPhysicality {
- public:
-  MapCheckPhysicality() {
-    CheckPhysicality().deserialize_map()["CheckPhysicality"] =
-      MakeCheckPhysicality();
-  }
-};
-
-static MapCheckPhysicality mapper_ = MapCheckPhysicality();
+FEASST_MAPPER(CheckPhysicality,);
 
 CheckPhysicality::CheckPhysicality(argtype * args) : AnalyzeUpdateOnly(args) {}
 CheckPhysicality::CheckPhysicality(argtype args) : CheckPhysicality(&args) {

@@ -12,15 +12,7 @@
 
 namespace feasst {
 
-class MapDensityProfile {
- public:
-  MapDensityProfile() {
-    auto obj = MakeDensityProfile();
-    obj->deserialize_map()["DensityProfile"] = obj;
-  }
-};
-
-static MapDensityProfile mapper_ = MapDensityProfile();
+FEASST_MAPPER(DensityProfile,);
 
 DensityProfile::DensityProfile(argtype * args) : Analyze(args) {
   dimension_ = integer("dimension", args, 0);

@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapDebyeHuckel {
- public:
-  MapDebyeHuckel() {
-    auto obj = MakeDebyeHuckel({{"kappa", "1"}, {"dielectric", "1"}});
-    obj->deserialize_map()["DebyeHuckel"] = obj;
-  }
-};
-
-static MapDebyeHuckel map_charge_screened_ = MapDebyeHuckel();
+FEASST_MAPPER(DebyeHuckel, argtype({{"kappa", "1"}, {"dielectric", "1"}}));
 
 DebyeHuckel::DebyeHuckel(argtype * args) {
   class_name_ = "DebyeHuckel";

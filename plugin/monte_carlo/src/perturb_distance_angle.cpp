@@ -23,15 +23,7 @@ PerturbDistanceAngle::PerturbDistanceAngle(argtype * args)
   class_name_ = "PerturbDistanceAngle";
 }
 
-class MapPerturbDistanceAngle {
- public:
-  MapPerturbDistanceAngle() {
-    auto obj = MakePerturbDistanceAngle();
-    obj->deserialize_map()["PerturbDistanceAngle"] = obj;
-  }
-};
-
-static MapPerturbDistanceAngle mapper_ = MapPerturbDistanceAngle();
+FEASST_MAPPER(PerturbDistanceAngle,);
 
 std::shared_ptr<Perturb> PerturbDistanceAngle::create(std::istream& istr) const {
   return std::make_shared<PerturbDistanceAngle>(istr);

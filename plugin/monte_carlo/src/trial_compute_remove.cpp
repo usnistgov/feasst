@@ -22,15 +22,7 @@ TrialComputeRemove::TrialComputeRemove(argtype * args) : TrialCompute(args) {
   class_name_ = "TrialComputeRemove";
 }
 
-class MapTrialComputeRemove {
- public:
-  MapTrialComputeRemove() {
-    auto obj = MakeTrialComputeRemove();
-    obj->deserialize_map()["TrialComputeRemove"] = obj;
-  }
-};
-
-static MapTrialComputeRemove mapper_ = MapTrialComputeRemove();
+FEASST_MAPPER(TrialComputeRemove,);
 
 void TrialComputeRemove::perturb_and_acceptance(
     Criteria * criteria,

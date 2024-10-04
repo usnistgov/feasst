@@ -18,15 +18,7 @@ ComputeAVB2::ComputeAVB2(argtype * args) : TrialComputeMove(args) {
   out_to_in_ = boolean("out_to_in", args);
 }
 
-class MapComputeAVB2 {
- public:
-  MapComputeAVB2() {
-    auto obj = MakeComputeAVB2({{"out_to_in", "true"}});
-    obj->deserialize_map()["ComputeAVB2"] = obj;
-  }
-};
-
-static MapComputeAVB2 mapper_ = MapComputeAVB2();
+FEASST_MAPPER(ComputeAVB2, argtype({{"out_to_in", "true"}}));
 
 void ComputeAVB2::perturb_and_acceptance(
     Criteria * criteria,

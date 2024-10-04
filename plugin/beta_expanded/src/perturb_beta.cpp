@@ -17,15 +17,7 @@ PerturbBeta::PerturbBeta(argtype * args) : Perturb(args) {
   disable_tunable_();
 }
 
-class MapPerturbBeta {
- public:
-  MapPerturbBeta() {
-    auto obj = MakePerturbBeta({{"fixed_beta_change", "1"}});
-    obj->deserialize_map()["PerturbBeta"] = obj;
-  }
-};
-
-static MapPerturbBeta mapper_ = MapPerturbBeta();
+FEASST_MAPPER(PerturbBeta, argtype({{"fixed_beta_change", "1"}}));
 
 std::shared_ptr<Perturb> PerturbBeta::create(std::istream& istr) const {
   return std::make_shared<PerturbBeta>(istr);

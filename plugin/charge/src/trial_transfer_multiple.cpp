@@ -6,15 +6,7 @@
 
 namespace feasst {
 
-class MapTrialTransferMultiple {
- public:
-  MapTrialTransferMultiple() {
-    auto obj = MakeTrialTransferMultiple();
-    obj->deserialize_map()["TrialTransferMultiple"] = obj;
-  }
-};
-
-static MapTrialTransferMultiple mapper_ = MapTrialTransferMultiple();
+FEASST_MAPPER(TrialTransferMultiple,);
 
 TrialTransferMultiple::TrialTransferMultiple(argtype * args) : TrialFactoryNamed() {
   class_name_ = "TrialTransferMultiple";

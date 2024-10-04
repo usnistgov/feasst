@@ -5,15 +5,7 @@
 
 namespace feasst {
 
-class MapPatchAngle {
- public:
-  MapPatchAngle() {
-    auto obj = std::make_shared<PatchAngle>();
-    obj->deserialize_map()["patch_angle"] = obj;
-  }
-};
-
-static MapPatchAngle mapper_patch_angle_ = MapPatchAngle();
+FEASST_MAPPER_RENAME(PatchAngle, patch_angle,);
 
 void PatchAngle::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
@@ -26,15 +18,7 @@ PatchAngle::PatchAngle(std::istream& istr) : ModelParam(istr) {
   ASSERT(version == 2957, "mismatch version: " << version);
 }
 
-class MapDirector {
- public:
-  MapDirector() {
-    auto obj = std::make_shared<Director>();
-    obj->deserialize_map()["director"] = obj;
-  }
-};
-
-static MapDirector mapper_director_ = MapDirector();
+FEASST_MAPPER_RENAME(Director, director,);
 
 void Director::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
@@ -51,15 +35,7 @@ double Director::compute(const int type, const ModelParams& model_params) {
   return model_params.select("director").value(type);
 }
 
-class MapCosPatchAngle {
- public:
-  MapCosPatchAngle() {
-    auto obj = std::make_shared<CosPatchAngle>();
-    obj->deserialize_map()["cos_patch_angle"] = obj;
-  }
-};
-
-static MapCosPatchAngle mapper_cos_patch_angle_ = MapCosPatchAngle();
+FEASST_MAPPER_RENAME(CosPatchAngle, cos_patch_angle,);
 
 void CosPatchAngle::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
@@ -77,15 +53,7 @@ double CosPatchAngle::compute(const int type, const ModelParams& model_params) {
   return std::cos(degrees_to_radians(angle));
 }
 
-class MapSpherocylinderLength {
- public:
-  MapSpherocylinderLength() {
-    auto obj = std::make_shared<SpherocylinderLength>();
-    obj->deserialize_map()["spherocylinder_length"] = obj;
-  }
-};
-
-static MapSpherocylinderLength mapper_length_ = MapSpherocylinderLength();
+FEASST_MAPPER_RENAME(SpherocylinderLength, spherocylinder_length,);
 
 void SpherocylinderLength::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

@@ -6,15 +6,7 @@
 
 namespace feasst {
 
-class MapRigidBond {
- public:
-  MapRigidBond() {
-    auto obj = MakeRigidBond();
-    obj->deserialize_map()["RigidBond"] = obj;
-  }
-};
-
-static MapRigidBond mapper_ = MapRigidBond();
+FEASST_MAPPER(RigidBond,);
 
 std::shared_ptr<BondTwoBody> RigidBond::create(std::istream& istr) const {
   return std::make_shared<RigidBond>(istr);

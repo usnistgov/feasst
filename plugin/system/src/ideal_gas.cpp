@@ -3,14 +3,7 @@
 
 namespace feasst {
 
-class MapIdealGas {
- public:
-  MapIdealGas() {
-    IdealGas().deserialize_map()["IdealGas"] = MakeIdealGas();
-  }
-};
-
-static MapIdealGas mapper_ = MapIdealGas();
+FEASST_MAPPER(IdealGas,);
 
 void IdealGas::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

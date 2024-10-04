@@ -8,15 +8,7 @@ ComputeGCA::ComputeGCA() {
   class_name_ = "ComputeGCA";
 }
 
-class MapComputeGCA {
- public:
-  MapComputeGCA() {
-    auto obj = MakeComputeGCA();
-    obj->deserialize_map()["ComputeGCA"] = obj;
-  }
-};
-
-static MapComputeGCA mapper_ = MapComputeGCA();
+FEASST_MAPPER(ComputeGCA,);
 
 void ComputeGCA::perturb_and_acceptance(
     Criteria * criteria,

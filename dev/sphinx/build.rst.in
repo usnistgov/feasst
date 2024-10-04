@@ -1,0 +1,28 @@
+How to compile
+===============================================
+
+FEASST requires C++14 and CMake, and is compiled with the following BASH commands:
+
+.. code-block:: bash
+
+    #[apt/yum/dnf/brew] install g++ cmake
+    cd $HOME # replace this with your preference throughout
+    wget https://github.com/usnistgov/feasst/archive/refs/tags/@FEASST_VERSION@.tar.gz
+    tar -xf @FEASST_VERSION@.tar.gz --transform s/-/-v/
+    mkdir feasst-@FEASST_VERSION@/build; cd $_
+    cmake ..
+    make install -j$(nproc)
+    # optional Python packages for feasst tutorials
+    pip install jupyter matplotlib pandas scipy ../pyfeasst # ../ ensures pyfeasst matches feasst
+
+To run a text input file:
+
+.. code-block:: bash
+
+    $HOME/feasst-@FEASST_VERSION@/build/bin/fst < $HOME/feasst-@FEASST_VERSION@/tutorial/example.txt
+
+To restart a simulation from a :cpp:class:`Checkpoint <feasst::Checkpoint>` file, checkpoint.fst:
+
+.. code-block:: bash
+
+    echo "Restart checkpoint.fst" | $HOME/feasst-@FEASST_VERSION@/build/bin/fst

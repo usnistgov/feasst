@@ -20,15 +20,7 @@ ComputeRemoveAVBDivalent::ComputeRemoveAVBDivalent(argtype args) {
   feasst_check_all_used(args);
 }
 
-class MapComputeRemoveAVBDivalent {
- public:
-  MapComputeRemoveAVBDivalent() {
-    auto obj = MakeComputeRemoveAVBDivalent();
-    obj->deserialize_map()["ComputeRemoveAVBDivalent"] = obj;
-  }
-};
-
-static MapComputeRemoveAVBDivalent mapper_ = MapComputeRemoveAVBDivalent();
+FEASST_MAPPER(ComputeRemoveAVBDivalent,);
 
 void ComputeRemoveAVBDivalent::perturb_and_acceptance(
     Criteria * criteria,

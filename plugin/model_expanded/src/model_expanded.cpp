@@ -4,15 +4,7 @@
 
 namespace feasst {
 
-class MapModelExpanded {
- public:
-  MapModelExpanded() {
-    ModelExpanded().deserialize_map()["ModelExpanded"] =
-      MakeModelExpanded();
-  }
-};
-
-static MapModelExpanded mapper_ = MapModelExpanded();
+FEASST_MAPPER(ModelExpanded,);
 
 ModelExpanded::ModelExpanded(argtype * args) : ModelTwoBodyFactory(args) {
   class_name_ = "ModelExpanded";

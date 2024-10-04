@@ -223,15 +223,7 @@ void VisitModelOptRPM::compute(
   set_energy(energy);
 }
 
-class MapVisitModelOptRPM {
- public:
-  MapVisitModelOptRPM() {
-    VisitModelOptRPM().deserialize_map()["VisitModelOptRPM"] =
-      std::make_shared<VisitModelOptRPM>();
-  }
-};
-
-static MapVisitModelOptRPM mapper_ = MapVisitModelOptRPM();
+FEASST_MAPPER(VisitModelOptRPM,);
 
 std::shared_ptr<VisitModel> VisitModelOptRPM::create(std::istream& istr) const {
   return std::make_shared<VisitModelOptRPM>(istr);

@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapVolume {
- public:
-  MapVolume() {
-    auto obj = MakeVolume();
-    obj->deserialize_map()["Volume"] = obj;
-  }
-};
-
-static MapVolume mapper_ = MapVolume();
+FEASST_MAPPER(Volume,);
 
 Volume::Volume(argtype * args) : Analyze(args) {}
 Volume::Volume(argtype args) : Volume(&args) {

@@ -20,15 +20,7 @@ ComputeAddAVBDivalent::ComputeAddAVBDivalent(argtype args) {
   feasst_check_all_used(args);
 }
 
-class MapComputeAddAVBDivalent {
- public:
-  MapComputeAddAVBDivalent() {
-    auto obj = MakeComputeAddAVBDivalent();
-    obj->deserialize_map()["ComputeAddAVBDivalent"] = obj;
-  }
-};
-
-static MapComputeAddAVBDivalent mapper_ = MapComputeAddAVBDivalent();
+FEASST_MAPPER(ComputeAddAVBDivalent,);
 
 void ComputeAddAVBDivalent::perturb_and_acceptance(
     Criteria * criteria,

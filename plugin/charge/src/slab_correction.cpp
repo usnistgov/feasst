@@ -14,15 +14,7 @@
 
 namespace feasst {
 
-class MapSlabCorrection {
- public:
-  MapSlabCorrection() {
-    auto slab = MakeSlabCorrection({{"dimension", "0"}});
-    slab->deserialize_map()["SlabCorrection"] = slab;
-  }
-};
-
-static MapSlabCorrection map_charge_screened_ = MapSlabCorrection();
+FEASST_MAPPER(SlabCorrection, argtype({{"dimension", "0"}}));
 
 SlabCorrection::SlabCorrection(argtype * args) {
   class_name_ = "SlabCorrection";

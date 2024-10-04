@@ -6,15 +6,7 @@
 
 namespace feasst {
 
-class MapEnergy {
- public:
-  MapEnergy() {
-    auto obj = MakeEnergy();
-    obj->deserialize_map()["Energy"] = obj;
-  }
-};
-
-static MapEnergy mapper_ = MapEnergy();
+FEASST_MAPPER(Energy,);
 
 Energy::Energy(argtype * args) : Analyze(args) {}
 Energy::Energy(argtype args) : Energy(&args) {

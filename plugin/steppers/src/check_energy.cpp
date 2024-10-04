@@ -10,14 +10,7 @@
 
 namespace feasst {
 
-class MapCheckEnergy {
- public:
-  MapCheckEnergy() {
-    CheckEnergy().deserialize_map()["CheckEnergy"] = MakeCheckEnergy();
-  }
-};
-
-static MapCheckEnergy mapper_energy_check_ = MapCheckEnergy();
+FEASST_MAPPER(CheckEnergy,);
 
 CheckEnergy::CheckEnergy(argtype * args) : ModifyUpdateOnly(args) {
   tolerance_ = dble("tolerance", args, 1e-10);

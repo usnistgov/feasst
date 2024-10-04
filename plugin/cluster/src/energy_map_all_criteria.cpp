@@ -5,15 +5,7 @@
 
 namespace feasst {
 
-class MapEnergyMapAllCriteria {
- public:
-  MapEnergyMapAllCriteria() {
-    auto obj = MakeEnergyMapAllCriteria();
-    obj->deserialize_map()["EnergyMapAllCriteria"] = obj;
-  }
-};
-
-static MapEnergyMapAllCriteria mapper_ = MapEnergyMapAllCriteria();
+FEASST_MAPPER(EnergyMapAllCriteria,);
 
 EnergyMapAllCriteria::EnergyMapAllCriteria(argtype * args) : EnergyMapAll(args) {
   class_name_ = "EnergyMapAllCriteria";

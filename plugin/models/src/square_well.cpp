@@ -5,14 +5,7 @@
 
 namespace feasst {
 
-class MapSquareWell {
- public:
-  MapSquareWell() {
-    SquareWell().deserialize_map()["SquareWell"] = MakeSquareWell();
-  }
-};
-
-static MapSquareWell mapper_ = MapSquareWell();
+FEASST_MAPPER(SquareWell,);
 
 void SquareWell::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

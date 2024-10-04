@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapTrialCrankshaft {
- public:
-  MapTrialCrankshaft() {
-    auto obj = MakeTrialCrankshaft();
-    obj->deserialize_map()["TrialCrankshaft"] = obj;
-  }
-};
-
-static MapTrialCrankshaft mapper_ = MapTrialCrankshaft();
+FEASST_MAPPER(TrialCrankshaft,);
 
 TrialCrankshaft::TrialCrankshaft(argtype * args) :
   TrialMove(std::make_shared<SelectSegment>(args),

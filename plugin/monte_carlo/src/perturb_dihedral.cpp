@@ -14,6 +14,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(PerturbDihedral,);
+
 PerturbDihedral::PerturbDihedral(argtype args)
   : PerturbDihedral(&args) {
   feasst_check_all_used(args);
@@ -22,16 +24,6 @@ PerturbDihedral::PerturbDihedral(argtype * args)
   : PerturbDistanceAngle(args) {
   class_name_ = "PerturbDihedral";
 }
-
-class MapPerturbDihedral {
- public:
-  MapPerturbDihedral() {
-    auto obj = MakePerturbDihedral();
-    obj->deserialize_map()["PerturbDihedral"] = obj;
-  }
-};
-
-static MapPerturbDihedral mapper_ = MapPerturbDihedral();
 
 std::shared_ptr<Perturb> PerturbDihedral::create(std::istream& istr) const {
   return std::make_shared<PerturbDihedral>(istr);

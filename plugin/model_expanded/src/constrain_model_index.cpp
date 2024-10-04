@@ -42,15 +42,7 @@ bool ConstrainModelIndex::is_allowed(const System& system,
   return allowed;
 }
 
-class MapConstrainModelIndex {
- public:
-  MapConstrainModelIndex() {
-    auto obj = MakeConstrainModelIndex();
-    obj->deserialize_map()["ConstrainModelIndex"] = obj;
-  }
-};
-
-static MapConstrainModelIndex mapper_ = MapConstrainModelIndex();
+FEASST_MAPPER(ConstrainModelIndex,);
 
 ConstrainModelIndex::ConstrainModelIndex(std::istream& istr)
   : Constraint(istr) {

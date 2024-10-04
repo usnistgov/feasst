@@ -5,14 +5,7 @@
 
 namespace feasst {
 
-class MapCheck {
- public:
-  MapCheck() {
-    Check().deserialize_map()["Check"] = MakeCheck();
-  }
-};
-
-static MapCheck mapper_ = MapCheck();
+FEASST_MAPPER(Check,);
 
 void Check::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);

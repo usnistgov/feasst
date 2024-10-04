@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapModelSquareWellShape {
- public:
-  MapModelSquareWellShape() {
-    ModelSquareWellShape().deserialize_map()["ModelSquareWellShape"] =
-      std::make_shared<ModelSquareWellShape>();
-  }
-};
-
-static MapModelSquareWellShape map_model_hard_shape_ = MapModelSquareWellShape();
+FEASST_MAPPER(ModelSquareWellShape,);
 
 ModelSquareWellShape::ModelSquareWellShape(std::shared_ptr<Shape> shape,
   const argtype& args) : ModelOneBody(), ShapedEntity(shape) {

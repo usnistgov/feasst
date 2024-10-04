@@ -11,15 +11,7 @@
 
 namespace feasst {
 
-class MapModelLJShape {
- public:
-  MapModelLJShape() {
-    ModelLJShape().deserialize_map()["ModelLJShape"] =
-      std::make_shared<ModelLJShape>();
-  }
-};
-
-static MapModelLJShape map_model_hard_shape_ = MapModelLJShape();
+FEASST_MAPPER(ModelLJShape,);
 
 void ModelLJShape::parse_args_(argtype * args) {
   class_name_ = "ModelLJShape";

@@ -7,15 +7,7 @@ namespace feasst {
 
 ComputeModel::ComputeModel() { class_name_ = "ComputeModel"; }
 
-class MapComputeModel {
- public:
-  MapComputeModel() {
-    auto obj = MakeComputeModel();
-    obj->deserialize_map()["ComputeModel"] = obj;
-  }
-};
-
-static MapComputeModel mapper_ = MapComputeModel();
+FEASST_MAPPER(ComputeModel,);
 
 void ComputeModel::perturb_and_acceptance(
     Criteria * criteria,

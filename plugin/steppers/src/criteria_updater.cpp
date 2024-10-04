@@ -10,14 +10,7 @@ CriteriaUpdater::CriteriaUpdater(argtype args) : CriteriaUpdater(&args) {
   feasst_check_all_used(args);
 }
 
-class MapCriteriaUpdater {
- public:
-  MapCriteriaUpdater() {
-    CriteriaUpdater().deserialize_map()["CriteriaUpdater"] = MakeCriteriaUpdater();
-  }
-};
-
-static MapCriteriaUpdater mapper_ = MapCriteriaUpdater();
+FEASST_MAPPER(CriteriaUpdater,);
 
 void CriteriaUpdater::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);

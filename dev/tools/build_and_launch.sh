@@ -15,6 +15,7 @@ echo "" > summary_long.log
 #tail -1 tutorial_failures.txt >> summary.log
 echo "********** launch py **********" >> summary.log
 python ../dev/tools/lnch_tutorials.py >> summary_long.log 2>&1
-grep Error summary_long.log >> summary.log
+grep "Error" summary_long.log >> summary.log
+grep "Segmentation" summary_long.log >> summary.log
 cat launch_failures.txt >> summary.log
 

@@ -16,15 +16,7 @@ PerturbParticlePivot::PerturbParticlePivot(argtype * args) : PerturbRotate(args)
   class_name_ = "PerturbParticlePivot";
 }
 
-class MapPerturbParticlePivot {
- public:
-  MapPerturbParticlePivot() {
-    auto obj = MakePerturbParticlePivot();
-    obj->deserialize_map()["PerturbParticlePivot"] = obj;
-  }
-};
-
-static MapPerturbParticlePivot mapper_ = MapPerturbParticlePivot();
+FEASST_MAPPER(PerturbParticlePivot,);
 
 std::shared_ptr<Perturb> PerturbParticlePivot::create(std::istream& istr) const {
   return std::make_shared<PerturbParticlePivot>(istr);

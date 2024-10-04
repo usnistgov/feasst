@@ -18,15 +18,7 @@ PerturbModel::PerturbModel(argtype * args) : Perturb(args) {
   disable_tunable_();
 }
 
-class MapPerturbModel {
- public:
-  MapPerturbModel() {
-    auto obj = MakePerturbModel();
-    obj->deserialize_map()["PerturbModel"] = obj;
-  }
-};
-
-static MapPerturbModel mapper_ = MapPerturbModel();
+FEASST_MAPPER(PerturbModel,);
 
 std::shared_ptr<Perturb> PerturbModel::create(std::istream& istr) const {
   return std::make_shared<PerturbModel>(istr);

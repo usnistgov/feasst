@@ -28,15 +28,7 @@ WriteModelParams::WriteModelParams(argtype args) : WriteModelParams(&args) {
   feasst_check_all_used(args);
 }
 
-class MapWriteModelParams {
- public:
-  MapWriteModelParams() {
-    auto obj = MakeWriteModelParams({{"output_file", "place_holder"}});
-    obj->deserialize_map()["WriteModelParams"] = obj;
-  }
-};
-
-static MapWriteModelParams mapper_WriteModelParams = MapWriteModelParams();
+FEASST_MAPPER(WriteModelParams, argtype({{"output_file", "place_holder"}}));
 
 WriteModelParams::WriteModelParams(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

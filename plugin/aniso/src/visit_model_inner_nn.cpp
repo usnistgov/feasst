@@ -31,15 +31,7 @@ double VisitModelInnerNN::compute_aniso(const int type1, const int type2,
   return en;
 }
 
-class MapVisitModelInnerNN {
- public:
-  MapVisitModelInnerNN() {
-    auto obj = MakeVisitModelInnerNN();
-    obj->deserialize_map()["VisitModelInnerNN"] = obj;
-  }
-};
-
-static MapVisitModelInnerNN mapper_ = MapVisitModelInnerNN();
+FEASST_MAPPER(VisitModelInnerNN,);
 
 VisitModelInnerNN::VisitModelInnerNN(std::istream& istr) : VisitModelInnerTable(istr) {
   const int version = feasst_deserialize_version(istr);

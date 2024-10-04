@@ -9,6 +9,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(PerturbAnywhere,);
+
 PerturbAnywhere::PerturbAnywhere() {
   class_name_ = "PerturbAnywhere";
   rotate_.set_tunable_min_and_max(-1 - NEAR_ZERO, -1 + NEAR_ZERO);
@@ -17,16 +19,6 @@ PerturbAnywhere::PerturbAnywhere() {
   translate_.disable_tunable_();
   disable_tunable_();
 }
-
-class MapPerturbAnywhere {
- public:
-  MapPerturbAnywhere() {
-    auto obj = MakePerturbAnywhere();
-    obj->deserialize_map()["PerturbAnywhere"] = obj;
-  }
-};
-
-static MapPerturbAnywhere mapper_ = MapPerturbAnywhere();
 
 void PerturbAnywhere::set_position(const Position& center,
                                    System * system,

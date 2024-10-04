@@ -8,16 +8,8 @@
 
 namespace feasst {
 
-class MapTrialSwapSites {
- public:
-  MapTrialSwapSites() {
-    auto obj = MakeTrialSwapSites({{"particle_type", "0"},
-      {"site_type1", "0"}, {"site_type2", "1"}});
-    obj->deserialize_map()["TrialSwapSites"] = obj;
-  }
-};
-
-static MapTrialSwapSites mapper_ = MapTrialSwapSites();
+FEASST_MAPPER(TrialSwapSites, argtype({{"particle_type", "0"},
+  {"site_type1", "0"}, {"site_type2", "1"}}));
 
 TrialSwapSites::TrialSwapSites(argtype * args) : Trial(args) {
   class_name_ = "TrialSwapSites";

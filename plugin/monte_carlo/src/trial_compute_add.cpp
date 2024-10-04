@@ -23,15 +23,7 @@ TrialComputeAdd::TrialComputeAdd(argtype * args) : TrialCompute(args) {
   class_name_ = "TrialComputeAdd";
 }
 
-class MapTrialComputeAdd {
- public:
-  MapTrialComputeAdd() {
-    auto obj = MakeTrialComputeAdd();
-    obj->deserialize_map()["TrialComputeAdd"] = obj;
-  }
-};
-
-static MapTrialComputeAdd mapper_ = MapTrialComputeAdd();
+FEASST_MAPPER(TrialComputeAdd,);
 
 void TrialComputeAdd::perturb_and_acceptance(
     Criteria * criteria,

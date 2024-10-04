@@ -11,6 +11,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(VisitModelIntraMap,);
+
 VisitModelIntraMap::VisitModelIntraMap(argtype * args) : VisitModel() {
   class_name_ = "VisitModelIntraMap";
   exclude_bonds_ = boolean("exclude_bonds", args, false);
@@ -138,16 +140,6 @@ void VisitModelIntraMap::compute(
   }
   set_energy(inner().energy());
 }
-
-class MapVisitModelIntraMap {
- public:
-  MapVisitModelIntraMap() {
-    auto obj = MakeVisitModelIntraMap();
-    obj->deserialize_map()["VisitModelIntraMap"] = obj;
-  }
-};
-
-static MapVisitModelIntraMap mapper_ = MapVisitModelIntraMap();
 
 VisitModelIntraMap::VisitModelIntraMap(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);

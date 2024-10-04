@@ -1,21 +1,13 @@
 #include "utils/include/arguments.h"
+#include "utils/include/serialize.h"
 #include "cluster/include/trial_transfer_avb_divalent.h"
 #include "cluster/include/trial_add_avb_divalent.h"
 #include "cluster/include/trial_remove_avb_divalent.h"
 
 namespace feasst {
 
-class MapTrialTransferAVBDivalent {
- public:
-  MapTrialTransferAVBDivalent() {
-    auto obj = MakeTrialTransferAVBDivalent({{"particle_type", "0"},
-                                             {"particle_type_a", "1"},
-                                             {"particle_type_b", "1"}});
-    obj->deserialize_map()["TrialTransferAVBDivalent"] = obj;
-  }
-};
-
-static MapTrialTransferAVBDivalent mapper_trial_transfer_avb_divalent__ = MapTrialTransferAVBDivalent();
+FEASST_MAPPER(TrialTransferAVBDivalent, argtype({{"particle_type", "0"},
+  {"particle_type_a", "1"}, {"particle_type_b", "1"}}));
 
 TrialTransferAVBDivalent::TrialTransferAVBDivalent(argtype * args) : TrialFactoryNamed() {
   class_name_ = "TrialTransferAVBDivalent";

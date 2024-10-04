@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapBondSquareWell {
- public:
-  MapBondSquareWell() {
-    auto obj = MakeBondSquareWell();
-    obj->deserialize_map()["BondSquareWell"] = obj;
-  }
-};
-
-static MapBondSquareWell mapper_ = MapBondSquareWell();
+FEASST_MAPPER(BondSquareWell,);
 
 std::shared_ptr<BondTwoBody> BondSquareWell::create(std::istream& istr) const {
   return std::make_shared<BondSquareWell>(istr);

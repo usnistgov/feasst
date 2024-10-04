@@ -14,15 +14,7 @@
 
 namespace feasst {
 
-class MapModelParam {
- public:
-  MapModelParam() {
-    auto obj = std::make_shared<ModelParam>();
-    obj->deserialize_map()["ModelParam"] = obj;
-  }
-};
-
-static MapModelParam mapper_ = MapModelParam();
+FEASST_MAPPER(ModelParam,);
 
 void ModelParam::serialize_model_param_(std::ostream& ostr) const {
   feasst_serialize_version(4795, ostr);
@@ -462,15 +454,7 @@ std::shared_ptr<ModelParam> ModelParam::factory(const std::string name,
   return template_factory(deserialize_map(), name, args);
 }
 
-class MapEpsilon {
- public:
-  MapEpsilon() {
-    auto obj = std::make_shared<Epsilon>();
-    obj->deserialize_map()["epsilon"] = obj;
-  }
-};
-
-static MapEpsilon mapper_epsilon_ = MapEpsilon();
+FEASST_MAPPER_RENAME(Epsilon, epsilon,);
 
 void Epsilon::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
@@ -483,15 +467,7 @@ Epsilon::Epsilon(std::istream& istr) : ModelParam(istr) {
   ASSERT(version == 2048, "mismatch version: " << version);
 }
 
-class MapSigma {
- public:
-  MapSigma() {
-    auto obj = std::make_shared<Sigma>();
-    obj->deserialize_map()["sigma"] = obj;
-  }
-};
-
-static MapSigma mapper_sigma_ = MapSigma();
+FEASST_MAPPER_RENAME(Sigma, sigma,);
 
 void Sigma::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
@@ -504,15 +480,7 @@ Sigma::Sigma(std::istream& istr) : ModelParam(istr) {
   ASSERT(version == 6095, "mismatch version: " << version);
 }
 
-class MapCutOff {
- public:
-  MapCutOff() {
-    auto obj = std::make_shared<CutOff>();
-    obj->deserialize_map()["cutoff"] = obj;
-  }
-};
-
-static MapCutOff mapper_cutoff_ = MapCutOff();
+FEASST_MAPPER_RENAME(CutOff, cutoff,);
 
 void CutOff::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
@@ -525,15 +493,7 @@ CutOff::CutOff(std::istream& istr) : ModelParam(istr) {
   ASSERT(version == 2948, "mismatch version: " << version);
 }
 
-class MapCharge {
- public:
-  MapCharge() {
-    auto obj = std::make_shared<Charge>();
-    obj->deserialize_map()["charge"] = obj;
-  }
-};
-
-static MapCharge mapper_charge_ = MapCharge();
+FEASST_MAPPER_RENAME(Charge, charge,);
 
 void Charge::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

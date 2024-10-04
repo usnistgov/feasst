@@ -9,20 +9,11 @@
 
 namespace feasst {
 
+FEASST_MAPPER(SolverNewtonRaphson, argtype({{"guess", "0"}, {"tolerance", "0"}}));
+
 SolverNewtonRaphson::SolverNewtonRaphson(argtype args) : Solver(args) {
   class_name_ = "SolverNewtonRaphson";
 }
-
-class MapSolverNewtonRaphson {
- public:
-  MapSolverNewtonRaphson() {
-    auto solver = MakeSolverNewtonRaphson(
-      {{"guess", "0"}, {"tolerance", "0"}});
-    solver->deserialize_map()["SolverNewtonRaphson"] = solver;
-  }
-};
-
-static MapSolverNewtonRaphson mapper_ = MapSolverNewtonRaphson();
 
 std::shared_ptr<Solver> SolverNewtonRaphson::create(std::istream& istr) const {
   return std::make_shared<SolverNewtonRaphson>(istr);

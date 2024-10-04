@@ -20,15 +20,7 @@ RemoveModify::RemoveModify(argtype args) : RemoveModify(&args) {
   feasst_check_all_used(args);
 }
 
-class MapRemoveModify {
- public:
-  MapRemoveModify() {
-    auto obj = MakeRemoveModify();
-    obj->deserialize_map()["RemoveModify"] = obj;
-  }
-};
-
-static MapRemoveModify mapper_RemoveModify = MapRemoveModify();
+FEASST_MAPPER(RemoveModify,);
 
 RemoveModify::RemoveModify(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

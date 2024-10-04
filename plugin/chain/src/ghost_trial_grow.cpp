@@ -13,16 +13,7 @@
 
 namespace feasst {
 
-class MapGhostTrialGrow {
- public:
-  MapGhostTrialGrow() {
-    auto obj = std::make_shared<GhostTrialGrow>();
-    //auto obj = MakeGhostTrialGrow({{"trial_grow_file", install_dir()+"/plugin/chain/test/data/dimer_grow_file.txt"}});
-    obj->deserialize_map()["GhostTrialGrow"] = obj;
-  }
-};
-
-static MapGhostTrialGrow mapper_inner_ = MapGhostTrialGrow();
+FEASST_MAPPER(GhostTrialGrow,);
 
 void GhostTrialGrow::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);

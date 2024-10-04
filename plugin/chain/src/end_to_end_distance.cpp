@@ -9,15 +9,7 @@
 
 namespace feasst {
 
-class MapEndToEndDistance {
- public:
-  MapEndToEndDistance() {
-    auto obj = MakeEndToEndDistance();
-    obj->deserialize_map()["EndToEndDistance"] = obj;
-  }
-};
-
-static MapEndToEndDistance mapper_ = MapEndToEndDistance();
+FEASST_MAPPER(EndToEndDistance,);
 
 EndToEndDistance::EndToEndDistance(argtype * args) : Analyze(args) {
   group_index_ = integer("group_index", args, 0);

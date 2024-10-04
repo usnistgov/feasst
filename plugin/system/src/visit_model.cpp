@@ -320,15 +320,7 @@ void VisitModel::check_energy(
     en_group - en_select << " with tolerance: " << num*num*1e-15);
 }
 
-class MapVisitModel {
- public:
-  MapVisitModel() {
-    VisitModel().deserialize_map()["VisitModel"] =
-      std::make_shared<VisitModel>();
-  }
-};
-
-static MapVisitModel mapper_visit_model_ = MapVisitModel();
+FEASST_MAPPER(VisitModel,);
 
 std::map<std::string, std::shared_ptr<VisitModel> >&
     VisitModel::deserialize_map() {

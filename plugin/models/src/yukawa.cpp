@@ -6,14 +6,7 @@
 
 namespace feasst {
 
-class MapYukawa {
- public:
-  MapYukawa() {
-    Yukawa().deserialize_map()["Yukawa"] = MakeYukawa();
-  }
-};
-
-static MapYukawa map_model_lj_alpha_ = MapYukawa();
+FEASST_MAPPER(Yukawa,);
 
 Yukawa::Yukawa(argtype * args) {
   class_name_ = "Yukawa";

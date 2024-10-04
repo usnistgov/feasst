@@ -135,6 +135,50 @@ void parse_server(std::string line) {
   }
 }
 
+std::unique_ptr<MonteCarlo> restart(const std::string& filename) {
+  std::unique_ptr<MonteCarlo> mc;
+  CollectionMatrixSplice cms;
+  bool is_mc = false;
+  try {
+    MakeCheckpoint({{"checkpoint_file", filename}})->read(&cms);
+  } catch (const CustomException& e) {
+    MakeCheckpoint({{"checkpoint_file", filename}})->read_unique(mc);
+    is_mc = true;
+  }
+  if (is_mc) {
+    mc->resume();
+  } else {
+    cms.run_until_all_are_complete();
+  }
+  return mc;
+}
+
+void parse_restart(std::string line) {
+  std::stringstream ss(line);
+  std::string checkpoint_file;
+  ss >> checkpoint_file; // reads "Restart"
+  ss >> checkpoint_file;
+  std::cout << "# Restarting from file: " << checkpoint_file << std::endl;
+  std::unique_ptr<MonteCarlo> mc = restart(checkpoint_file);
+  // after restart is complete, check for more text input
+  for (arglist argl : parse_mcs(std::cin)) {
+    mc->add_args(argl);
+  }
+  mc->resume();
+ // arglist list;
+ // argtype variables;
+//  while (std::getline(std::cin, line)) {
+//    if (!line.empty() && line[0] != '#') {
+//      bool assign_to_list = true;
+//      std::pair<std::string, argtype> line_pair = parse_line(line, &variables, &assign_to_list);
+//      if (assign_to_list) {
+//        list.push_back(line_pair);
+//      }
+//    }
+//  }
+//  mc->begin(list);
+}
+
 /**
   Usage: ./fst < file.txt
 
@@ -172,6 +216,8 @@ int main() {
     parse_cm(line);
   } else if (line.substr(0, 6) == "Server") {
     parse_server(line);
+  } else if (line.substr(0, 7) == "Restart") {
+    parse_restart(line);
   } else {
     FATAL("As currently implemented, all FEASST input text files must begin "
       << "with \"MonteCarlo,\" \"CollectionMatrixSplice,\" \"Prefetch\" "

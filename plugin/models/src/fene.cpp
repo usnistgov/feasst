@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapFENE {
- public:
-  MapFENE() {
-    auto obj = MakeFENE();
-    obj->deserialize_map()["FENE"] = obj;
-  }
-};
-
-static MapFENE mapper_ = MapFENE();
+FEASST_MAPPER(FENE,);
 
 std::shared_ptr<BondTwoBody> FENE::create(std::istream& istr) const {
   return std::make_shared<FENE>(istr);

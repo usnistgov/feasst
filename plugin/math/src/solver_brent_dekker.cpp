@@ -10,20 +10,12 @@
 
 namespace feasst {
 
+FEASST_MAPPER(SolverBrentDekker,
+              argtype({{"lower", "0"}, {"upper", "0"}, {"tolerance", "0"}}));
+
 SolverBrentDekker::SolverBrentDekker(argtype args) : Solver(args) {
   class_name_ = "SolverBrentDekker";
 }
-
-class MapSolverBrentDekker {
- public:
-  MapSolverBrentDekker() {
-    auto solver = MakeSolverBrentDekker(
-      {{"lower", "0"}, {"upper", "0"}, {"tolerance", "0"}});
-    solver->deserialize_map()["SolverBrentDekker"] = solver;
-  }
-};
-
-static MapSolverBrentDekker mapper_ = MapSolverBrentDekker();
 
 std::shared_ptr<Solver> SolverBrentDekker::create(std::istream& istr) const {
   return std::make_shared<SolverBrentDekker>(istr);

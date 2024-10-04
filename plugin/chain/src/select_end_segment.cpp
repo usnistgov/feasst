@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapSelectEndSegment {
- public:
-  MapSelectEndSegment() {
-    auto obj = MakeSelectEndSegment();
-    obj->deserialize_map()["SelectEndSegment"] = obj;
-  }
-};
-
-static MapSelectEndSegment mapper_ = MapSelectEndSegment();
+FEASST_MAPPER(SelectEndSegment,);
 
 SelectEndSegment::SelectEndSegment(argtype * args) : SelectSegment(args) {
   class_name_ = "SelectEndSegment";

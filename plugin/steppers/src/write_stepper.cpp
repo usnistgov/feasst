@@ -20,15 +20,7 @@ WriteStepper::WriteStepper(argtype args) : WriteStepper(&args) {
   feasst_check_all_used(args);
 }
 
-class MapWriteStepper {
- public:
-  MapWriteStepper() {
-    auto obj = MakeWriteStepper();
-    obj->deserialize_map()["WriteStepper"] = obj;
-  }
-};
-
-static MapWriteStepper mapper_WriteStepper = MapWriteStepper();
+FEASST_MAPPER(WriteStepper,);
 
 WriteStepper::WriteStepper(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

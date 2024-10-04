@@ -33,15 +33,7 @@ bool AHalfB::is_allowed(const System& system,
   return allowed;
 }
 
-class MapAHalfB {
- public:
-  MapAHalfB() {
-    auto obj = MakeAHalfB();
-    obj->deserialize_map()["AHalfB"] = obj;
-  }
-};
-
-static MapAHalfB mapper_ = MapAHalfB();
+FEASST_MAPPER(AHalfB,);
 
 AHalfB::AHalfB(std::istream& istr)
   : Constraint(istr) {

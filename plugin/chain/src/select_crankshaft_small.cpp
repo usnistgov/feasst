@@ -8,17 +8,8 @@
 
 namespace feasst {
 
-class MapSelectCrankshaftSmall {
- public:
-  MapSelectCrankshaftSmall() {
-    auto obj = MakeSelectCrankshaftSmall({{"site", "0"},
-                                          {"anchor_site0", "1"},
-                                          {"anchor_site1", "2"}});
-    obj->deserialize_map()["SelectCrankshaftSmall"] = obj;
-  }
-};
-
-static MapSelectCrankshaftSmall mapper_ = MapSelectCrankshaftSmall();
+FEASST_MAPPER(SelectCrankshaftSmall,
+  argtype({{"site", "0"}, {"anchor_site0", "1"}, {"anchor_site1", "2"}}));
 
 std::shared_ptr<TrialSelect> SelectCrankshaftSmall::create(std::istream& istr) const {
   return std::make_shared<SelectCrankshaftSmall>(istr);

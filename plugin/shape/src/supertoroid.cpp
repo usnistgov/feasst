@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapSupertoroid {
- public:
-  MapSupertoroid() {
-    auto obj = MakeSupertoroid();
-    obj->deserialize_map()["Supertoroid"] = obj;
-  }
-};
-
-static MapSupertoroid mapper_ = MapSupertoroid();
+FEASST_MAPPER(Supertoroid,);
 
 Supertoroid::Supertoroid(argtype * args) : Shape() {
   class_name_ = "Supertoroid";

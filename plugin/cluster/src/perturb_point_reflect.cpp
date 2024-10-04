@@ -18,15 +18,7 @@ PerturbPointReflect::PerturbPointReflect(argtype args) : PerturbMove(&args) {
   feasst_check_all_used(args);
 }
 
-class MapPerturbPointReflect {
- public:
-  MapPerturbPointReflect() {
-    auto obj = MakePerturbPointReflect();
-    obj->deserialize_map()["PerturbPointReflect"] = obj;
-  }
-};
-
-static MapPerturbPointReflect mapper_ = MapPerturbPointReflect();
+FEASST_MAPPER(PerturbPointReflect,);
 
 void PerturbPointReflect::precompute(TrialSelect * select, System * system) {
   set_tunable_min_and_max(2*NEAR_ZERO,

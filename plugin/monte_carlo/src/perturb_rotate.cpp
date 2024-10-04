@@ -21,15 +21,7 @@ PerturbRotate::PerturbRotate(argtype * args) : PerturbMove(args) {
 //  pivot_site_ = integer("pivot_site", args, 0);
 }
 
-class MapPerturbRotate {
- public:
-  MapPerturbRotate() {
-    auto obj = MakePerturbRotate();
-    obj->deserialize_map()["PerturbRotate"] = obj;
-  }
-};
-
-static MapPerturbRotate mapper_ = MapPerturbRotate();
+FEASST_MAPPER(PerturbRotate,);
 
 std::shared_ptr<Perturb> PerturbRotate::create(std::istream& istr) const {
   return std::make_shared<PerturbRotate>(istr);

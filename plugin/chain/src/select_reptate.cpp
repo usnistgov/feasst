@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapSelectReptate {
- public:
-  MapSelectReptate() {
-    auto obj = MakeSelectReptate({{"max_length", "1"}});
-    obj->deserialize_map()["SelectReptate"] = obj;
-  }
-};
-
-static MapSelectReptate mapper_ = MapSelectReptate();
+FEASST_MAPPER(SelectReptate, argtype({{"max_length", "1"}}));
 
 std::shared_ptr<TrialSelect> SelectReptate::create(std::istream& istr) const {
   return std::make_shared<SelectReptate>(istr);

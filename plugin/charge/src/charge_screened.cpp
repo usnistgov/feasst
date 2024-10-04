@@ -10,14 +10,7 @@
 
 namespace feasst {
 
-class MapChargeScreened {
- public:
-  MapChargeScreened() {
-    ChargeScreened().deserialize_map()["ChargeScreened"] = MakeChargeScreened();
-  }
-};
-
-static MapChargeScreened map_charge_screened_ = MapChargeScreened();
+FEASST_MAPPER(ChargeScreened,);
 
 ChargeScreened::ChargeScreened(argtype * args) {
   class_name_ = "ChargeScreened";

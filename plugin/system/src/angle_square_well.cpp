@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapAngleSquareWell {
- public:
-  MapAngleSquareWell() {
-    auto obj = MakeAngleSquareWell();
-    obj->deserialize_map()["AngleSquareWell"] = obj;
-  }
-};
-
-static MapAngleSquareWell mapper_ = MapAngleSquareWell();
+FEASST_MAPPER(AngleSquareWell,);
 
 std::shared_ptr<BondThreeBody> AngleSquareWell::create(std::istream& istr) const {
   return std::make_shared<AngleSquareWell>(istr);

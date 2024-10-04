@@ -9,15 +9,8 @@
 
 namespace feasst {
 
-class MapTrialGibbsParticleTransferOneWay {
- public:
-  MapTrialGibbsParticleTransferOneWay() {
-    auto obj = MakeTrialGibbsParticleTransferOneWay({{"to_configuration_index", "1"}});
-    obj->deserialize_map()["TrialGibbsParticleTransferOneWay"] = obj;
-  }
-};
-
-static MapTrialGibbsParticleTransferOneWay mapper_trial_remove_avb_ = MapTrialGibbsParticleTransferOneWay();
+FEASST_MAPPER(TrialGibbsParticleTransferOneWay,
+  argtype({{"to_configuration_index", "1"}}));
 
 TrialGibbsParticleTransferOneWay::TrialGibbsParticleTransferOneWay(argtype * args) : Trial(args) {
   class_name_ = "TrialGibbsParticleTransferOneWay";
@@ -53,15 +46,7 @@ void TrialGibbsParticleTransferOneWay::serialize(std::ostream& ostr) const {
   feasst_serialize_version(2409, ostr);
 }
 
-class MapTrialGibbsParticleTransfer {
- public:
-  MapTrialGibbsParticleTransfer() {
-    auto obj = MakeTrialGibbsParticleTransfer();
-    obj->deserialize_map()["TrialGibbsParticleTransfer"] = obj;
-  }
-};
-
-static MapTrialGibbsParticleTransfer mapper_trial_transfer_avb__ = MapTrialGibbsParticleTransfer();
+FEASST_MAPPER(TrialGibbsParticleTransfer,);
 
 TrialGibbsParticleTransfer::TrialGibbsParticleTransfer(argtype * args) : TrialFactoryNamed() {
   class_name_ = "TrialGibbsParticleTransfer";

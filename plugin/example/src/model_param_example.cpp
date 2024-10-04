@@ -4,15 +4,7 @@
 
 namespace feasst {
 
-class MapGamma {
- public:
-  MapGamma() {
-    auto obj = std::make_shared<Gamma>();
-    obj->deserialize_map()["gamma"] = obj;
-  }
-};
-
-static MapGamma mapper_gamma_ = MapGamma();
+FEASST_MAPPER_RENAME(Gamma, gamma,);
 
 double Gamma::mix_(const double value1, const double value2) {
   return std::sqrt(value1*value2);

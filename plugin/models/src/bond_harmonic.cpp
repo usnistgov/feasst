@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapBondHarmonic {
- public:
-  MapBondHarmonic() {
-    auto obj = MakeBondHarmonic();
-    obj->deserialize_map()["BondHarmonic"] = obj;
-  }
-};
-
-static MapBondHarmonic mapper_ = MapBondHarmonic();
+FEASST_MAPPER(BondHarmonic,);
 
 std::shared_ptr<BondTwoBody> BondHarmonic::create(std::istream& istr) const {
   return std::make_shared<BondHarmonic>(istr);

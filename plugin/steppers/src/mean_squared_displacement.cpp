@@ -10,14 +10,7 @@
 
 namespace feasst {
 
-class MapMeanSquaredDisplacement {
- public:
-  MapMeanSquaredDisplacement() {
-    MeanSquaredDisplacement().deserialize_map()["MeanSquaredDisplacement"] = MakeMeanSquaredDisplacement();
-  }
-};
-
-static MapMeanSquaredDisplacement mapper_energy_check_ = MapMeanSquaredDisplacement();
+FEASST_MAPPER(MeanSquaredDisplacement,);
 
 MeanSquaredDisplacement::MeanSquaredDisplacement(argtype * args)
   : Analyze(args) {

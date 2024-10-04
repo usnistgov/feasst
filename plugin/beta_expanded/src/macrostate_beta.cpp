@@ -22,16 +22,7 @@ MacrostateBeta::MacrostateBeta(argtype args) :
 MacrostateBeta::MacrostateBeta(argtype * args) :
   MacrostateBeta(Histogram(args), args) {}
 
-class MapMacrostateBeta {
- public:
-  MapMacrostateBeta() {
-    auto hist = MakeHistogram({{"width", "1"}, {"max", "1"}});
-    MacrostateBeta(*hist).deserialize_map()["MacrostateBeta"] =
-      MakeMacrostateBeta(*hist);
-  }
-};
-
-static MapMacrostateBeta mapper_ = MapMacrostateBeta();
+FEASST_MAPPER(MacrostateBeta,);
 
 std::shared_ptr<Macrostate> MacrostateBeta::create(std::istream& istr) const {
   return std::make_shared<MacrostateBeta>(istr);

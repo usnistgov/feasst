@@ -14,15 +14,7 @@
 
 namespace feasst {
 
-class MapVisitModelInner {
- public:
-  MapVisitModelInner() {
-    VisitModelInner().deserialize_map()["VisitModelInner"] =
-      std::make_shared<VisitModelInner>();
-  }
-};
-
-static MapVisitModelInner mapper_visit_model_inner_ = MapVisitModelInner();
+FEASST_MAPPER(VisitModelInner,);
 
 std::map<std::string, std::shared_ptr<VisitModelInner> >&
     VisitModelInner::deserialize_map() {

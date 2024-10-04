@@ -7,6 +7,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(RandomModulo,);
+
 double RandomModulo::gen_uniform_() {
   TRACE(std::numeric_limits<int>::max());
   TRACE("M " << M_);
@@ -22,15 +24,6 @@ void RandomModulo::reseed_(const int seed) {
   TRACE("seed " << seed << " address " << this);
   X_ = seed;
 }
-
-class MapRandomModulo {
- public:
-  MapRandomModulo() {
-    RandomModulo().deserialize_map()["RandomModulo"] = MakeRandomModulo();
-  }
-};
-
-static MapRandomModulo mapper_ = MapRandomModulo();
 
 RandomModulo::RandomModulo(argtype * args) : Random(args) {
   class_name_ = "RandomModulo";

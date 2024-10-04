@@ -9,15 +9,7 @@
 
 namespace feasst {
 
-class MapLongRangeCorrections {
- public:
-  MapLongRangeCorrections() {
-    LongRangeCorrections().deserialize_map()["LongRangeCorrections"] =
-      MakeLongRangeCorrections();
-  }
-};
-
-static MapLongRangeCorrections mapper_ = MapLongRangeCorrections();
+FEASST_MAPPER(LongRangeCorrections,);
 
 void LongRangeCorrections::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

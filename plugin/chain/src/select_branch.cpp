@@ -13,16 +13,9 @@ SelectBranch::SelectBranch(argtype * args) : TrialSelectAngle(args) {
   mobile_site2_ = integer("mobile_site2", args);
 }
 
-class MapSelectBranch {
- public:
-  MapSelectBranch() {
-    auto obj = MakeSelectBranch({{"mobile_site", "2"}, {"mobile_site2", "3"},
-                                 {"anchor_site", "1"}, {"anchor_site2", "0"}});
-    obj->deserialize_map()["SelectBranch"] = obj;
-  }
-};
-
-static MapSelectBranch mapper_ = MapSelectBranch();
+FEASST_MAPPER(SelectBranch,
+  argtype({{"mobile_site", "2"}, {"mobile_site2", "3"},
+                                 {"anchor_site", "1"}, {"anchor_site2", "0"}}));
 
 void SelectBranch::precompute(System * system) {
   TrialSelectAngle::precompute(system);

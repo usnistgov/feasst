@@ -12,15 +12,7 @@
 
 namespace feasst {
 
-class MapBackmap {
- public:
-  MapBackmap() {
-    auto obj = MakeBackmap({{"output_file", "place_holder"}});
-    obj->deserialize_map()["Backmap"] = obj;
-  }
-};
-
-static MapBackmap mapper_ = MapBackmap();
+FEASST_MAPPER(Backmap, argtype({{"output_file", "place_holder"}}));
 
 Backmap::Backmap(argtype * args) : AnalyzeWriteOnly(args) {
   set_append();

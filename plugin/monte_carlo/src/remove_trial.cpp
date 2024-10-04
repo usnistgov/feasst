@@ -21,15 +21,7 @@ RemoveTrial::RemoveTrial(argtype args) : RemoveTrial(&args) {
   feasst_check_all_used(args);
 }
 
-class MapRemoveTrial {
- public:
-  MapRemoveTrial() {
-    auto obj = MakeRemoveTrial();
-    obj->deserialize_map()["RemoveTrial"] = obj;
-  }
-};
-
-static MapRemoveTrial mapper_RemoveTrial = MapRemoveTrial();
+FEASST_MAPPER(RemoveTrial,);
 
 RemoveTrial::RemoveTrial(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

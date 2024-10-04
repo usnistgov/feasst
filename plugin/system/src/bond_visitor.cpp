@@ -14,15 +14,7 @@
 
 namespace feasst {
 
-class MapBondVisitor {
- public:
-  MapBondVisitor() {
-    auto obj = MakeBondVisitor();
-    obj->deserialize_map()["BondVisitor"] = obj;
-  }
-};
-
-static MapBondVisitor mapper_ = MapBondVisitor();
+FEASST_MAPPER(BondVisitor,);
 
 std::map<std::string, std::shared_ptr<BondVisitor> >& BondVisitor::deserialize_map() {
   static std::map<std::string, std::shared_ptr<BondVisitor> >* ans =

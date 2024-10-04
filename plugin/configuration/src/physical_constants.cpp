@@ -27,62 +27,29 @@ void PhysicalConstants::compute_derived_() {
   (4*PI*permitivity_vacuum()*1e3/1e10/avogadro_constant());
 }
 
-class MapCODATA2018 {
- public:
-  MapCODATA2018() {
-    auto obj = MakeCODATA2018();
-    obj->deserialize_map()["CODATA2018"] = obj;
-  }
-};
-
-static MapCODATA2018 mapper_codata2018_ = MapCODATA2018();
+FEASST_MAPPER(CODATA2018,);
 
 CODATA2018::CODATA2018(std::istream& istr) : PhysicalConstants(istr) {
   compute_derived_();
 }
 
-class MapCODATA2014 {
- public:
-  MapCODATA2014() {
-    auto obj = MakeCODATA2014();
-    obj->deserialize_map()["CODATA2014"] = obj;
-  }
-};
-
-static MapCODATA2014 mapper_codata2014_ = MapCODATA2014();
+FEASST_MAPPER(CODATA2014,);
 
 CODATA2014::CODATA2014(std::istream& istr) : PhysicalConstants(istr) {
   compute_derived_();
 }
 
-class MapCODATA2010 {
- public:
-  MapCODATA2010() {
-    auto obj = MakeCODATA2010();
-    obj->deserialize_map()["CODATA2010"] = obj;
-  }
-};
+FEASST_MAPPER(CODATA2010,);
 
 CODATA2010::CODATA2010(std::istream& istr) : PhysicalConstants(istr) {
   compute_derived_();
 }
 
-static MapCODATA2010 mapper_codata2010_ = MapCODATA2010();
-
-class MapPhysicalConstantsCustom {
- public:
-  MapPhysicalConstantsCustom() {
-    auto obj = MakePhysicalConstantsCustom({
-      {"boltzmann_constant", "0"},
-      {"avogadro_constant", "0"},
-      {"permitivity_vacuum", "0"},
-      {"elementary_charge", "0"}});
-    obj->deserialize_map()["PhysicalConstantsCustom"] = obj;
-  }
-};
-
-static MapPhysicalConstantsCustom mapper_physical_constants_custom_ =
-  MapPhysicalConstantsCustom();
+FEASST_MAPPER(PhysicalConstantsCustom, argtype(
+  {{"boltzmann_constant", "0"},
+   {"avogadro_constant", "0"},
+   {"permitivity_vacuum", "0"},
+   {"elementary_charge", "0"}}));
 
 PhysicalConstantsCustom::PhysicalConstantsCustom(argtype args)
   : PhysicalConstants() {

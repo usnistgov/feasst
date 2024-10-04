@@ -6,14 +6,7 @@
 
 namespace feasst {
 
-class MapCPUTime {
- public:
-  MapCPUTime() {
-    CPUTime().deserialize_map()["CPUTime"] = MakeCPUTime();
-  }
-};
-
-static MapCPUTime mapper_ = MapCPUTime();
+FEASST_MAPPER(CPUTime,);
 
 CPUTime::CPUTime(argtype * args) : AnalyzeWriteOnly(args) {}
 CPUTime::CPUTime(argtype args) : CPUTime(&args) {

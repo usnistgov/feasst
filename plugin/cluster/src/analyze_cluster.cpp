@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapAnalyzeCluster {
- public:
-  MapAnalyzeCluster() {
-    auto obj = MakeAnalyzeCluster();
-    obj->deserialize_map()["AnalyzeCluster"] = obj;
-  }
-};
-
-static MapAnalyzeCluster mapper_ = MapAnalyzeCluster();
+FEASST_MAPPER(AnalyzeCluster,);
 
 AnalyzeCluster::AnalyzeCluster(argtype * args) : Analyze(args) {}
 AnalyzeCluster::AnalyzeCluster(argtype args) : AnalyzeCluster(&args) {

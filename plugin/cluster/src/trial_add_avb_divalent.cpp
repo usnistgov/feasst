@@ -8,17 +8,8 @@
 
 namespace feasst {
 
-class MapTrialAddAVBDivalent {
- public:
-  MapTrialAddAVBDivalent() {
-    auto obj = MakeTrialAddAVBDivalent({{"particle_type", "0"},
-                                        {"particle_type_a", "1"},
-                                        {"particle_type_b", "1"}});
-    obj->deserialize_map()["TrialAddAVBDivalent"] = obj;
-  }
-};
-
-static MapTrialAddAVBDivalent mapper_ = MapTrialAddAVBDivalent();
+FEASST_MAPPER(TrialAddAVBDivalent, argtype({{"particle_type", "0"},
+  {"particle_type_a", "1"}, {"particle_type_b", "1"}}));
 
 TrialAddAVBDivalent::TrialAddAVBDivalent(argtype * args) : Trial(args) {
   class_name_ = "TrialAddAVBDivalent";

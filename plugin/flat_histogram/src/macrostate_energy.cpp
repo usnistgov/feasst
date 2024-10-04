@@ -38,16 +38,7 @@ double MacrostateEnergy::value(const System& system,
                                    - acceptance.energy_old();
 }
 
-class MapMacrostateEnergy {
- public:
-  MapMacrostateEnergy() {
-    auto hist = MakeHistogram({{"width", "1"}, {"max", "1"}});
-    MacrostateEnergy(*hist).deserialize_map()["MacrostateEnergy"] =
-      MakeMacrostateEnergy(*hist);
-  }
-};
-
-static MapMacrostateEnergy mapper_ = MapMacrostateEnergy();
+FEASST_MAPPER(MacrostateEnergy, argtype({{"width", "1"}, {"max", "1"}}));
 
 std::shared_ptr<Macrostate> MacrostateEnergy::create(std::istream& istr) const {
   return std::make_shared<MacrostateEnergy>(istr);

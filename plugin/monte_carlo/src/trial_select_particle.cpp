@@ -32,15 +32,7 @@ TrialSelectParticle::TrialSelectParticle(argtype * args) : TrialSelect(args) {
   exclude_perturbed_ = boolean("exclude_perturbed", args, false);
 }
 
-class MapTrialSelectParticle {
- public:
-  MapTrialSelectParticle() {
-    auto obj = MakeTrialSelectParticle();
-    obj->deserialize_map()["TrialSelectParticle"] = obj;
-  }
-};
-
-static MapTrialSelectParticle mapper_ = MapTrialSelectParticle();
+FEASST_MAPPER(TrialSelectParticle,);
 
 int TrialSelectParticle::num_excluded_(const Configuration& config,
     const Select * exclude) {

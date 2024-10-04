@@ -9,15 +9,7 @@
 
 namespace feasst {
 
-class MapSelectSegment {
- public:
-  MapSelectSegment() {
-    auto obj = MakeSelectSegment();
-    obj->deserialize_map()["SelectSegment"] = obj;
-  }
-};
-
-static MapSelectSegment mapper_ = MapSelectSegment();
+FEASST_MAPPER(SelectSegment,);
 
 std::shared_ptr<TrialSelect> SelectSegment::create(std::istream& istr) const {
   return std::make_shared<SelectSegment>(istr);

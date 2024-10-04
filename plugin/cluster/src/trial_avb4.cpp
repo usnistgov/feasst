@@ -13,15 +13,7 @@ void gen_avb4_args_(argtype * args) {
   args->insert({"inside", "true"});
 }
 
-class MapTrialAVB4 {
- public:
-  MapTrialAVB4() {
-    auto obj = MakeTrialAVB4();
-    obj->deserialize_map()["TrialAVB4"] = obj;
-  }
-};
-
-static MapTrialAVB4 mapper_ = MapTrialAVB4();
+FEASST_MAPPER(TrialAVB4,);
 
 TrialAVB4::TrialAVB4(argtype * args) : Trial(args) {
   class_name_ = "TrialAVB4";

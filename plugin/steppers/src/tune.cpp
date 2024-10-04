@@ -10,14 +10,7 @@
 
 namespace feasst {
 
-class MapTune {
- public:
-  MapTune() {
-    Tune().deserialize_map()["Tune"] = MakeTune();
-  }
-};
-
-static MapTune mapper_ = MapTune();
+FEASST_MAPPER(Tune,);
 
 Tune::Tune(argtype * args) : Modify(args) {
   trials_per_tune_ = integer("trials_per_tune", args, 1e3);

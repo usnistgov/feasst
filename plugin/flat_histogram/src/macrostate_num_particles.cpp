@@ -34,16 +34,7 @@ double MacrostateNumParticles::value(const System& system,
   return num_.num_particles(system, acceptance);
 }
 
-class MapMacrostateNumParticles {
- public:
-  MapMacrostateNumParticles() {
-    auto hist = MakeHistogram({{"width", "1"}, {"max", "1"}});
-    MacrostateNumParticles(*hist).deserialize_map()["MacrostateNumParticles"] =
-      MakeMacrostateNumParticles(*hist);
-  }
-};
-
-static MapMacrostateNumParticles mapper_ = MapMacrostateNumParticles();
+FEASST_MAPPER(MacrostateNumParticles, argtype({{"width", "1"}, {"max", "1"}}));
 
 std::shared_ptr<Macrostate> MacrostateNumParticles::create(std::istream& istr) const {
   return std::make_shared<MacrostateNumParticles>(istr);

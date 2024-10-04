@@ -12,15 +12,7 @@
 
 namespace feasst {
 
-class MapCalculateCluster {
- public:
-  MapCalculateCluster() {
-    auto obj = MakeCalculateCluster();
-    obj->deserialize_map()["CalculateCluster"] = obj;
-  }
-};
-
-static MapCalculateCluster mapper_ = MapCalculateCluster();
+FEASST_MAPPER(CalculateCluster,);
 
 CalculateCluster::CalculateCluster(argtype * args) : Modify(args) {}
 CalculateCluster::CalculateCluster(argtype args) : CalculateCluster(&args) {

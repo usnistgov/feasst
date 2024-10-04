@@ -3,15 +3,7 @@
 
 namespace feasst {
 
-class MapModelEmpty {
- public:
-  MapModelEmpty() {
-    auto obj = MakeModelEmpty();
-    obj->deserialize_map()["ModelEmpty"] = obj;
-  }
-};
-
-static MapModelEmpty mapper_ = MapModelEmpty();
+FEASST_MAPPER(ModelEmpty,);
 
 void ModelEmpty::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

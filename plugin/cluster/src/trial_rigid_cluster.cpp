@@ -1,21 +1,14 @@
 #include "utils/include/debug.h"
 #include "utils/include/io.h"
 #include "utils/include/arguments.h"
+#include "utils/include/serialize.h"
 #include "cluster/include/trial_translate_cluster.h"
 #include "cluster/include/trial_rotate_cluster.h"
 #include "cluster/include/trial_rigid_cluster.h"
 
 namespace feasst {
 
-class MapTrialRigidCluster {
- public:
-  MapTrialRigidCluster() {
-    auto obj = MakeTrialRigidCluster();
-    obj->deserialize_map()["TrialRigidCluster"] = obj;
-  }
-};
-
-static MapTrialRigidCluster mapper_trial_avb2__ = MapTrialRigidCluster();
+FEASST_MAPPER(TrialRigidCluster,);
 
 TrialRigidCluster::TrialRigidCluster(argtype * args) : TrialFactoryNamed() {
   class_name_ = "TrialRigidCluster";

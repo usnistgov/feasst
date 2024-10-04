@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapDihedralTraPPE {
- public:
-  MapDihedralTraPPE() {
-    auto obj = MakeDihedralTraPPE();
-    obj->deserialize_map()["DihedralTraPPE"] = obj;
-  }
-};
-
-static MapDihedralTraPPE mapper_ = MapDihedralTraPPE();
+FEASST_MAPPER(DihedralTraPPE,);
 
 std::shared_ptr<BondFourBody> DihedralTraPPE::create(std::istream& istr) const {
   return std::make_shared<DihedralTraPPE>(istr);

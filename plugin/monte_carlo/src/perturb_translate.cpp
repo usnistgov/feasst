@@ -24,15 +24,7 @@ PerturbTranslate::PerturbTranslate(argtype args) : PerturbTranslate(&args) {
   feasst_check_all_used(args);
 }
 
-class MapPerturbTranslate {
- public:
-  MapPerturbTranslate() {
-    auto obj = MakePerturbTranslate();
-    obj->deserialize_map()["PerturbTranslate"] = obj;
-  }
-};
-
-static MapPerturbTranslate mapper_ = MapPerturbTranslate();
+FEASST_MAPPER(PerturbTranslate,);
 
 void PerturbTranslate::precompute(TrialSelect * select, System * system) {
   const Configuration& config = select->configuration(*system);

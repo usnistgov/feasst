@@ -5,15 +5,7 @@
 
 namespace feasst {
 
-class MapSelectPerturbed {
- public:
-  MapSelectPerturbed() {
-    auto obj = MakeSelectPerturbed();
-    obj->deserialize_map()["SelectPerturbed"] = obj;
-  }
-};
-
-static MapSelectPerturbed mapper_ = MapSelectPerturbed();
+FEASST_MAPPER(SelectPerturbed,);
 
 SelectPerturbed::SelectPerturbed(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectPerturbed";

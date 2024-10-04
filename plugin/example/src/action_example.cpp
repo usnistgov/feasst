@@ -12,24 +12,17 @@
 
 namespace feasst {
 
+FEASST_MAPPER(ActionExample,);
+
 ActionExample::ActionExample(argtype * args) {
   class_name_ = "ActionExample";
   analyze_name_ = str("analyze_name", args, "");
   modify_name_ = str("modify_name", args, "");
 }
+
 ActionExample::ActionExample(argtype args) : ActionExample(&args) {
   feasst_check_all_used(args);
 }
-
-class MapActionExample {
- public:
-  MapActionExample() {
-    auto obj = MakeActionExample();
-    obj->deserialize_map()["ActionExample"] = obj;
-  }
-};
-
-static MapActionExample mapper_ActionExample = MapActionExample();
 
 ActionExample::ActionExample(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

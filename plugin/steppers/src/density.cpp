@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapDensity {
- public:
-  MapDensity() {
-    auto obj = MakeDensity();
-    obj->deserialize_map()["Density"] = obj;
-  }
-};
-
-static MapDensity mapper_ = MapDensity();
+FEASST_MAPPER(Density,);
 
 Density::Density(argtype * args) : Analyze(args) {}
 Density::Density(argtype args) : Density(&args) {

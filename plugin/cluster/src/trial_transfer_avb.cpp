@@ -1,19 +1,12 @@
 #include "utils/include/arguments.h"
+#include "utils/include/serialize.h"
 #include "cluster/include/trial_transfer_avb.h"
 #include "cluster/include/trial_add_avb.h"
 #include "cluster/include/trial_remove_avb.h"
 
 namespace feasst {
 
-class MapTrialTransferAVB {
- public:
-  MapTrialTransferAVB() {
-    auto obj = MakeTrialTransferAVB();
-    obj->deserialize_map()["TrialTransferAVB"] = obj;
-  }
-};
-
-static MapTrialTransferAVB mapper_trial_transfer_avb__ = MapTrialTransferAVB();
+FEASST_MAPPER(TrialTransferAVB,);
 
 TrialTransferAVB::TrialTransferAVB(argtype * args) : TrialFactoryNamed() {
   class_name_ = "TrialTransferAVB";

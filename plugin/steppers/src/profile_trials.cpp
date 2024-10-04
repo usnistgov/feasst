@@ -6,15 +6,7 @@
 
 namespace feasst {
 
-class MapProfileTrials {
- public:
-  MapProfileTrials() {
-    auto obj = MakeProfileTrials({{"trials_per_update", "1e3"}});
-    obj->deserialize_map()["ProfileTrials"] = obj;
-  }
-};
-
-static MapProfileTrials mapper_ = MapProfileTrials();
+FEASST_MAPPER(ProfileTrials, argtype({{"trials_per_update", "1e3"}}));
 
 ProfileTrials::ProfileTrials(argtype * args) : Analyze(args) {
   if (trials_per_update() < 1e3) {

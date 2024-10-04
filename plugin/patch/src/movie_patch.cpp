@@ -6,15 +6,7 @@
 
 namespace feasst {
 
-class MapMoviePatch {
- public:
-  MapMoviePatch() {
-    auto obj = MakeMoviePatch({{"output_file", "place_holder"}});
-    obj->deserialize_map()["MoviePatch"] = obj;
-  }
-};
-
-static MapMoviePatch mapper_ = MapMoviePatch();
+FEASST_MAPPER(MoviePatch, argtype({{"output_file", "place_holder"}}));
 
 MoviePatch::MoviePatch(argtype * args) : AnalyzeWriteOnly(args) {
   set_append();

@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapDihedralRyckaertBellemans {
- public:
-  MapDihedralRyckaertBellemans() {
-    auto obj = MakeDihedralRyckaertBellemans();
-    obj->deserialize_map()["DihedralRyckaertBellemans"] = obj;
-  }
-};
-
-static MapDihedralRyckaertBellemans mapper_ = MapDihedralRyckaertBellemans();
+FEASST_MAPPER(DihedralRyckaertBellemans,);
 
 std::shared_ptr<BondFourBody> DihedralRyckaertBellemans::create(std::istream& istr) const {
   return std::make_shared<DihedralRyckaertBellemans>(istr);

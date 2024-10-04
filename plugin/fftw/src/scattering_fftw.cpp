@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapScatteringFFTW {
- public:
-  MapScatteringFFTW() {
-    auto obj = MakeScatteringFFTW();
-    obj->deserialize_map()["ScatteringFFTW"] = obj;
-  }
-};
-
-static MapScatteringFFTW mapper_energy_check_ = MapScatteringFFTW();
+FEASST_MAPPER(ScatteringFFTW,);
 
 ScatteringFFTW::ScatteringFFTW(argtype * args) : Analyze(args) {
   bin_spacing_ = dble("bin_spacing", args, 0.1);

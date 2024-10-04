@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapRigidAngle {
- public:
-  MapRigidAngle() {
-    auto obj = MakeRigidAngle();
-    obj->deserialize_map()["RigidAngle"] = obj;
-  }
-};
-
-static MapRigidAngle mapper_ = MapRigidAngle();
+FEASST_MAPPER(RigidAngle,);
 
 std::shared_ptr<BondThreeBody> RigidAngle::create(std::istream& istr) const {
   return std::make_shared<RigidAngle>(istr);

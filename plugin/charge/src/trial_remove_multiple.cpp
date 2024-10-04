@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapTrialRemoveMultiple {
- public:
-  MapTrialRemoveMultiple() {
-    auto obj = MakeTrialRemoveMultiple();
-    obj->deserialize_map()["TrialRemoveMultiple"] = obj;
-  }
-};
-
-static MapTrialRemoveMultiple mapper_ = MapTrialRemoveMultiple();
+FEASST_MAPPER(TrialRemoveMultiple,);
 
 TrialRemoveMultiple::TrialRemoveMultiple(argtype * args) : Trial(args) {
   class_name_ = "TrialRemoveMultiple";

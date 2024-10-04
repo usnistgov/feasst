@@ -8,14 +8,7 @@
 
 namespace feasst {
 
-class MapCheckProperties {
- public:
-  MapCheckProperties() {
-    CheckProperties().deserialize_map()["CheckProperties"] = MakeCheckProperties();
-  }
-};
-
-static MapCheckProperties mapper_check_properties_ = MapCheckProperties();
+FEASST_MAPPER(CheckProperties,);
 
 CheckProperties::CheckProperties(argtype * args) : ModifyUpdateOnly(args) {
   tolerance_ = dble("tolerance", args, 1e-15);

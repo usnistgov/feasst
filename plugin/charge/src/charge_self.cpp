@@ -8,14 +8,7 @@
 
 namespace feasst {
 
-class MapChargeSelf {
- public:
-  MapChargeSelf() {
-    ChargeSelf().deserialize_map()["ChargeSelf"] = MakeChargeSelf();
-  }
-};
-
-static MapChargeSelf map_charge_self_ = MapChargeSelf();
+FEASST_MAPPER(ChargeSelf,);
 
 void ChargeSelf::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

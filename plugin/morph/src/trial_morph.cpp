@@ -7,15 +7,8 @@
 
 namespace feasst {
 
-class MapTrialMorph {
- public:
-  MapTrialMorph() {
-    auto obj = MakeTrialMorph({{"particle_type0", "0"}, {"particle_type_morph0", "1"}});
-    obj->deserialize_map()["TrialMorph"] = obj;
-  }
-};
-
-static MapTrialMorph mapper_ = MapTrialMorph();
+FEASST_MAPPER(TrialMorph, argtype({{"particle_type0", "0"},
+                                   {"particle_type_morph0", "1"}}));
 
 TrialMorph::TrialMorph(argtype * args) : Trial(args) {
   class_name_ = "TrialMorph";

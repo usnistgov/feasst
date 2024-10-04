@@ -14,15 +14,7 @@
 
 namespace feasst {
 
-class MapTrialGrowLinear {
- public:
-  MapTrialGrowLinear() {
-    auto obj = MakeTrialGrowLinear(MakeTrialComputeMove());
-    obj->deserialize_map()["TrialGrowLinear"] = obj;
-  }
-};
-
-static MapTrialGrowLinear mapper_ = MapTrialGrowLinear();
+FEASST_MAPPER(TrialGrowLinear, MakeTrialComputeMove());
 
 std::shared_ptr<Trial> TrialGrowLinear::create(std::istream& istr) const {
   return std::make_shared<TrialGrowLinear>(istr);

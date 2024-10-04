@@ -43,15 +43,7 @@ TabulateTwoRigidBody3D::TabulateTwoRigidBody3D(argtype args) : TabulateTwoRigidB
   feasst_check_all_used(args);
 }
 
-class MapTabulateTwoRigidBody3D {
- public:
-  MapTabulateTwoRigidBody3D() {
-    auto obj = MakeTabulateTwoRigidBody3D({{"num_orientations_per_pi", "1"}});
-    obj->deserialize_map()["TabulateTwoRigidBody3D"] = obj;
-  }
-};
-
-static MapTabulateTwoRigidBody3D mapper_TabulateTwoRigidBody3D = MapTabulateTwoRigidBody3D();
+FEASST_MAPPER(TabulateTwoRigidBody3D, argtype({{"num_orientations_per_pi", "1"}}));
 
 TabulateTwoRigidBody3D::TabulateTwoRigidBody3D(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

@@ -192,15 +192,7 @@ void VisitModelInnerServer::compute(
              site2_index, type2, squared_distance, pbc, is_old_config, *config);
 }
 
-class MapVisitModelInnerServer {
- public:
-  MapVisitModelInnerServer() {
-    auto obj = MakeVisitModelInnerServer();
-    obj->deserialize_map()["VisitModelInnerServer"] = obj;
-  }
-};
-
-static MapVisitModelInnerServer mapper_ = MapVisitModelInnerServer();
+FEASST_MAPPER(VisitModelInnerServer,);
 
 VisitModelInnerServer::VisitModelInnerServer(std::istream& istr) : VisitModelInner(istr) {
   const int version = feasst_deserialize_version(istr);

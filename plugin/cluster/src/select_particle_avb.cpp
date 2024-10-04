@@ -47,15 +47,7 @@ SelectParticleAVB::SelectParticleAVB(argtype * args) : TrialSelect(args) {
   ASSERT(!used("group_index", *args), "group not implemented with AVB");
 }
 
-class MapSelectParticleAVB {
- public:
-  MapSelectParticleAVB() {
-    auto obj = MakeSelectParticleAVB({{"grand_canonical", "true"}});
-    obj->deserialize_map()["SelectParticleAVB"] = obj;
-  }
-};
-
-static MapSelectParticleAVB mapper_ = MapSelectParticleAVB();
+FEASST_MAPPER(SelectParticleAVB, argtype({{"grand_canonical", "true"}}));
 
 void SelectParticleAVB::precompute(System * system) {
   TrialSelect::precompute(system);

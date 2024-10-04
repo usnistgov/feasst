@@ -6,14 +6,7 @@
 
 namespace feasst {
 
-class MapIncrementPhase {
- public:
-  MapIncrementPhase() {
-    IncrementPhase().deserialize_map()["IncrementPhase"] = MakeIncrementPhase();
-  }
-};
-
-static MapIncrementPhase mapper_energy_check_ = MapIncrementPhase();
+FEASST_MAPPER(IncrementPhase,);
 
 IncrementPhase::IncrementPhase(argtype * args) : ModifyUpdateOnly(args) {
   num_trials_ = integer("num_trials", args, -1);

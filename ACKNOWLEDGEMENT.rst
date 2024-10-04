@@ -3,7 +3,15 @@ Acknowledgement
 
 While all criticism may be directed to the project lead, :doc:`Harold W. Hatch<CONTACT>`, acknowledgements belong to the following people listed in alphabetical order of last name.
 
-For help in testing and discussion:
+For `contributing <https://github.com/usnistgov/feasst/graphs/contributors>`_, testing and discussion:
+
+* `Dr. Daniel W. Siderius <https://www.nist.gov/people/daniel-w-siderius>`_
+
+  * :cpp:class:`HenryCoefficient <feasst::HenryCoefficient>`
+  * Jacobian-Gaussian
+  * :cpp:class:`TransitionMatrix <feasst::TransitionMatrix>`::reset_sweeps
+
+For testing and discussion:
 
 * Dr. Marco A. Blanco
 * Dr. Alexandros Chremos
@@ -16,18 +24,19 @@ For help in testing and discussion:
 * Bartosz Mazur
 * Gordon W. McCann
 * Dr. Christopher Rzepa
-* Dr. Daniel W. Siderius
+* Samiha Sharlin
 * Dr. Yingnan Wang
 * Jilong Xu
 * Chieh-Chih (George) Yeh
 * Prof. Hasan Zerze
 
-For help in discussion:
+For discussion:
 
 * Prof. Henry S. Ashbaugh
 * Dr. Debra Audus
 * Dr. Christina Bergonzo
 * Dr. Cesar O Calero-Rubio
+* Prof. Bin Chen
 * Dr. Joseph Curtis
 * Prof. Pablo Debenedetti
 * Dr. Steven Howell
@@ -40,7 +49,6 @@ For help in discussion:
 * Prof. Sapna Sarupria
 * Dr. David A. Sheen
 * Dr. Vincent K. Shen
-* Dr. Daniel W. Siderius
 * Prof. Thomas M. Truskett
 * Prof. Norman J. Wagner
 

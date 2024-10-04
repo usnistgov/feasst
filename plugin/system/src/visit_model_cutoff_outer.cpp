@@ -10,6 +10,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(VisitModelCutoffOuter,);
+
 VisitModelCutoffOuter::VisitModelCutoffOuter(argtype * args) : VisitModel() {
 //VisitModelCutoffOuter::VisitModelCutoffOuter(argtype * args) : VisitModel(args) {
   // HWH: Strange error if using VisitModel constructor.
@@ -186,17 +188,6 @@ void VisitModelCutoffOuter::compute_between_selection(
     }
   }
 }
-
-
-class MapVisitModelCutoffOuter {
- public:
-  MapVisitModelCutoffOuter() {
-    auto obj = MakeVisitModelCutoffOuter();
-    obj->deserialize_map()["VisitModelCutoffOuter"] = obj;
-  }
-};
-
-static MapVisitModelCutoffOuter mapper_ = MapVisitModelCutoffOuter();
 
 VisitModelCutoffOuter::VisitModelCutoffOuter(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);

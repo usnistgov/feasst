@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapTrialAdd {
- public:
-  MapTrialAdd() {
-    auto obj = MakeTrialAdd();
-    obj->deserialize_map()["TrialAdd"] = obj;
-  }
-};
-
-static MapTrialAdd mapper_ = MapTrialAdd();
+FEASST_MAPPER(TrialAdd,);
 
 TrialAdd::TrialAdd(argtype * args) : Trial(args) {
   class_name_ = "TrialAdd";

@@ -11,15 +11,7 @@
 
 namespace feasst {
 
-class MapTrialRemoveAVB {
- public:
-  MapTrialRemoveAVB() {
-    auto obj = MakeTrialRemoveAVB();
-    obj->deserialize_map()["TrialRemoveAVB"] = obj;
-  }
-};
-
-static MapTrialRemoveAVB mapper_trial_remove_avb_ = MapTrialRemoveAVB();
+FEASST_MAPPER(TrialRemoveAVB,);
 
 TrialRemoveAVB::TrialRemoveAVB(argtype * args) : Trial(args) {
   class_name_ = "TrialRemoveAVB";

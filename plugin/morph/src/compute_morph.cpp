@@ -15,15 +15,7 @@ ComputeMorph::ComputeMorph() {
   class_name_ = "ComputeMorph";
 }
 
-class MapComputeMorph {
- public:
-  MapComputeMorph() {
-    auto obj = MakeComputeMorph();
-    obj->deserialize_map()["ComputeMorph"] = obj;
-  }
-};
-
-static MapComputeMorph mapper_ = MapComputeMorph();
+FEASST_MAPPER(ComputeMorph,);
 
 void ComputeMorph::perturb_and_acceptance(
     Criteria * criteria,

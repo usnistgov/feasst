@@ -438,6 +438,21 @@ void feasst_serialize_endcap(const std::string name, std::ostream& ostr);
 /// Read end notification to aid debugging.
 void feasst_deserialize_endcap(const std::string name, std::istream& istr);
 
+/// Create a static mapper for serialization of derived classes
+# define FEASST_MAPPER_RENAME(class_name, serialize_name, args) \
+ \
+class Map##class_name { \
+ public: \
+  Map##class_name() { \
+    auto obj = std::make_shared<class_name>(args); \
+    obj->deserialize_map()[STRINGIFY(serialize_name)] = obj; \
+  } \
+}; \
+ \
+static Map##class_name mapper_##class_name = Map##class_name()
+# define STRINGIFY(class_name) #class_name
+# define FEASST_MAPPER(class_name, args) FEASST_MAPPER_RENAME(class_name, class_name, args)
+
 }  // namespace feasst
 
 #endif  // FEASST_UTILS_SERIALIZE_H_

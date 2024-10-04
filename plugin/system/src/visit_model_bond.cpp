@@ -10,6 +10,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(VisitModelBond,);
+
 VisitModelBond::VisitModelBond(argtype * args) : VisitModel() {
   class_name_ = "VisitModelBond";
 }
@@ -68,16 +70,6 @@ void VisitModelBond::compute(
   }
   set_energy(inner().energy());
 }
-
-class MapVisitModelBond {
- public:
-  MapVisitModelBond() {
-    VisitModelBond().deserialize_map()["VisitModelBond"] =
-      std::make_shared<VisitModelBond>();
-  }
-};
-
-static MapVisitModelBond mapper_ = MapVisitModelBond();
 
 VisitModelBond::VisitModelBond(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);

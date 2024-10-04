@@ -22,15 +22,7 @@ SelectTwoSites::SelectTwoSites(argtype * args) : TrialSelect(args) {
   }
 }
 
-class MapSelectTwoSites {
- public:
-  MapSelectTwoSites() {
-    auto obj = MakeSelectTwoSites({{"mobile_site", "1"}, {"mobile_site2", "0"}});
-    obj->deserialize_map()["SelectTwoSites"] = obj;
-  }
-};
-
-static MapSelectTwoSites mapper_ = MapSelectTwoSites();
+FEASST_MAPPER(SelectTwoSites, argtype({{"mobile_site", "1"}, {"mobile_site2", "0"}}));
 
 void SelectTwoSites::precompute(System * system) {
   TrialSelect::precompute(system);

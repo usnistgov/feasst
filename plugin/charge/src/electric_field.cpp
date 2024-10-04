@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapElectricField {
- public:
-  MapElectricField() {
-    auto obj = MakeElectricField({{"field_strength", "1"}});
-    obj->deserialize_map()["ElectricField"] = obj;
-  }
-};
-
-static MapElectricField map_model_hard_shape_ = MapElectricField();
+FEASST_MAPPER(ElectricField, argtype({{"field_strength", "1"}}));
 
 ElectricField::ElectricField(argtype args) {
   class_name_ = "ElectricField";

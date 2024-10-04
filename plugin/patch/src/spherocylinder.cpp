@@ -146,15 +146,7 @@ void Spherocylinder::compute(
   }
 }
 
-class MapSpherocylinder {
- public:
-  MapSpherocylinder() {
-    Spherocylinder().deserialize_map()["Spherocylinder"] =
-      std::make_shared<Spherocylinder>();
-  }
-};
-
-static MapSpherocylinder mapper_ = MapSpherocylinder();
+FEASST_MAPPER(Spherocylinder,);
 
 Spherocylinder::Spherocylinder(std::istream& istr) : VisitModelInner(istr) {
   const int version = feasst_deserialize_version(istr);

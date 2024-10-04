@@ -5,26 +5,7 @@
 
 namespace feasst {
 
-int RandomMT19937::gen_uniform_(const int min, const int max) {
-  auto dis_int = std::uniform_int_distribution<int>(min, max);
-  return dis_int(generator_);
-}
-
-void RandomMT19937::reseed_(const int seed) {
-//  const int seed = rand();
-  TRACE("seed " << seed << " address " << this);
-  generator_ = std::mt19937(seed);
-  dis_double_ = std::uniform_real_distribution<double>(0.0, 1.0);
-}
-
-class MapRandomMT19937 {
- public:
-  MapRandomMT19937() {
-    RandomMT19937().deserialize_map()["RandomMT19937"] = MakeRandomMT19937();
-  }
-};
-
-static MapRandomMT19937 mapper_ = MapRandomMT19937();
+FEASST_MAPPER(RandomMT19937, argtype());
 
 RandomMT19937::RandomMT19937(argtype * args) : Random(args) {
   class_name_ = "RandomMT19937";
@@ -51,6 +32,18 @@ RandomMT19937::RandomMT19937(std::istream& istr)
   ASSERT(verison == 101, "version");
   istr >> generator_;
   feasst_deserialize_endcap("RandomMT19937", istr);
+}
+
+int RandomMT19937::gen_uniform_(const int min, const int max) {
+  auto dis_int = std::uniform_int_distribution<int>(min, max);
+  return dis_int(generator_);
+}
+
+void RandomMT19937::reseed_(const int seed) {
+//  const int seed = rand();
+  TRACE("seed " << seed << " address " << this);
+  generator_ = std::mt19937(seed);
+  dis_double_ = std::uniform_real_distribution<double>(0.0, 1.0);
 }
 
 }  // namespace feasst

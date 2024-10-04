@@ -23,15 +23,7 @@ ComputeAddMultiple::ComputeAddMultiple(argtype * args)
   shift_ = integer("shift", args, 1);
 }
 
-class MapComputeAddMultiple {
- public:
-  MapComputeAddMultiple() {
-    auto obj = MakeComputeAddMultiple();
-    obj->deserialize_map()["ComputeAddMultiple"] = obj;
-  }
-};
-
-static MapComputeAddMultiple mapper_ = MapComputeAddMultiple();
+FEASST_MAPPER(ComputeAddMultiple,);
 
 void ComputeAddMultiple::perturb_and_acceptance(
     Criteria * criteria,

@@ -9,22 +9,16 @@
 
 namespace feasst {
 
-class MapAnalyzeExample {
- public:
-  MapAnalyzeExample() {
-    auto obj = MakeAnalyzeExample();
-    obj->deserialize_map()["AnalyzeExample"] = obj;
-  }
-};
-
-static MapAnalyzeExample mapper_ = MapAnalyzeExample();
+FEASST_MAPPER(AnalyzeExample,);
 
 AnalyzeExample::AnalyzeExample(argtype * args) : Analyze(args) {
   group_index_ = integer("group_index", args, 0);
 }
+
 AnalyzeExample::AnalyzeExample(argtype args) : AnalyzeExample(&args) {
   feasst_check_all_used(args);
 }
+
 AnalyzeExample::~AnalyzeExample() {}
 
 std::string AnalyzeExample::header(const Criteria& criteria,

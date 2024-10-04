@@ -9,15 +9,8 @@
 
 namespace feasst {
 
-class MapSlabSine {
- public:
-  MapSlabSine() {
-    auto obj = MakeSlabSine({{"dimension", "0"}, {"wave_dimension", "0"}, {"average_bound0", "-1"}, {"average_bound1", "1"}});
-    obj->deserialize_map()["SlabSine"] = obj;
-  }
-};
-
-static MapSlabSine mapper_ = MapSlabSine();
+FEASST_MAPPER(SlabSine, argtype({{"dimension", "0"}, {"wave_dimension", "0"},
+  {"average_bound0", "-1"}, {"average_bound1", "1"}}));
 
 SlabSine::SlabSine(argtype * args) : ShapeIntersect() {
   class_name_ = "SlabSine";

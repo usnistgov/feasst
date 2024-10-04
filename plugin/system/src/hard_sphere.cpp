@@ -5,14 +5,7 @@
 
 namespace feasst {
 
-class MapHardSphere {
- public:
-  MapHardSphere() {
-    HardSphere().deserialize_map()["HardSphere"] = std::make_shared<HardSphere>();
-  }
-};
-
-static MapHardSphere mapper_ = MapHardSphere();
+FEASST_MAPPER(HardSphere,);
 
 void HardSphere::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

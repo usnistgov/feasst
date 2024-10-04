@@ -167,15 +167,7 @@ double TablePotential:: energy(
   }
 }
 
-class MapTablePotential {
- public:
-  MapTablePotential() {
-    auto obj = MakeTablePotential();
-    obj->deserialize_map()["TablePotential"] = obj;
-  }
-};
-
-static MapTablePotential mapper_ = MapTablePotential();
+FEASST_MAPPER(TablePotential,);
 
 TablePotential::TablePotential(std::istream& istr) : ModelTwoBody(istr) {
   const int version = feasst_deserialize_version(istr);

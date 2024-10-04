@@ -23,15 +23,7 @@ Run::Run(argtype args) : Run(&args) {
   feasst_check_all_used(args);
 }
 
-class MapRun {
- public:
-  MapRun() {
-    auto obj = MakeRun();
-    obj->deserialize_map()["Run"] = obj;
-  }
-};
-
-static MapRun mapper_Run = MapRun();
+FEASST_MAPPER(Run,);
 
 Run::Run(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

@@ -6,14 +6,7 @@
 
 namespace feasst {
 
-class MapLennardJonesForceShift {
- public:
-  MapLennardJonesForceShift() {
-    LennardJonesForceShift().deserialize_map()["LennardJonesForceShift"] = MakeLennardJonesForceShift();
-  }
-};
-
-static MapLennardJonesForceShift map_lennard_jones_force_shift_ = MapLennardJonesForceShift();
+FEASST_MAPPER(LennardJonesForceShift,);
 
 LennardJonesForceShift::LennardJonesForceShift(argtype * args)
   : LennardJonesAlpha(args) {

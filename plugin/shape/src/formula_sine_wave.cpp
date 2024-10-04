@@ -20,15 +20,7 @@ FormulaSineWave::FormulaSineWave(argtype args) : FormulaSineWave(&args) {
   feasst_check_all_used(args);
 }
 
-class MapFormulaSineWave {
- public:
-  MapFormulaSineWave() {
-    FormulaSineWave().deserialize_map()["FormulaSineWave"] =
-      std::make_shared<FormulaSineWave>();
-  }
-};
-
-static MapFormulaSineWave mapper_ = MapFormulaSineWave();
+FEASST_MAPPER(FormulaSineWave,);
 
 FormulaSineWave::FormulaSineWave(std::istream& istr)
   : Formula(istr) {

@@ -16,14 +16,7 @@ LennardJonesAlpha::LennardJonesAlpha(argtype * args) : LennardJones(args) {
   two_raised_inv_alpha_ = std::pow(2, 1./alpha_);
 }
 
-class MapLennardJonesAlpha {
- public:
-  MapLennardJonesAlpha() {
-    LennardJonesAlpha().deserialize_map()["LennardJonesAlpha"] = MakeLennardJonesAlpha();
-  }
-};
-
-static MapLennardJonesAlpha map_lennard_jones_alpha_ = MapLennardJonesAlpha();
+FEASST_MAPPER(LennardJonesAlpha,);
 
 void LennardJonesAlpha::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
@@ -153,15 +146,7 @@ double Lambda::mix_(const double value1, const double value2) {
   return std::sqrt(value1*value2);
 }
 
-class MapDeltaSigma {
- public:
-  MapDeltaSigma() {
-    auto obj = std::make_shared<DeltaSigma>();
-    obj->deserialize_map()["delta_sigma"] = obj;
-  }
-};
-
-static MapDeltaSigma mapper_delta_sigma_ = MapDeltaSigma();
+FEASST_MAPPER_RENAME(DeltaSigma, delta_sigma,);
 
 void DeltaSigma::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
@@ -174,15 +159,7 @@ DeltaSigma::DeltaSigma(std::istream& istr) : ModelParam(istr) {
   ASSERT(version == 8573, "mismatch version: " << version);
 }
 
-class MapLambda {
- public:
-  MapLambda() {
-    auto obj = std::make_shared<Lambda>();
-    obj->deserialize_map()["lambda"] = obj;
-  }
-};
-
-static MapLambda mapper_lambda_ = MapLambda();
+FEASST_MAPPER_RENAME(Lambda, lambda,);
 
 void Lambda::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

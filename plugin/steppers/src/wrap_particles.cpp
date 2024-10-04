@@ -7,14 +7,7 @@
 
 namespace feasst {
 
-class MapWrapParticles {
- public:
-  MapWrapParticles() {
-    WrapParticles().deserialize_map()["WrapParticles"] = MakeWrapParticles();
-  }
-};
-
-static MapWrapParticles mapper_energy_check_ = MapWrapParticles();
+FEASST_MAPPER(WrapParticles,);
 
 WrapParticles::WrapParticles(argtype * args) : ModifyUpdateOnly(args) {
 }

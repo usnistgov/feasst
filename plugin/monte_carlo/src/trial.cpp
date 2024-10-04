@@ -18,15 +18,7 @@
 
 namespace feasst {
 
-class MapTrial {
- public:
-  MapTrial() {
-    auto obj = MakeTrial();
-    obj->deserialize_map()["Trial"] = obj;
-  }
-};
-
-static MapTrial mapper_ = MapTrial();
+FEASST_MAPPER(Trial,);
 
 Trial::Trial(argtype * args) {
   set_finalize_delayed();

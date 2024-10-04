@@ -9,15 +9,7 @@
 
 namespace feasst {
 
-class MapPairDistributionInner {
- public:
-  MapPairDistributionInner() {
-    PairDistributionInner().deserialize_map()["PairDistributionInner"] =
-      std::make_shared<PairDistributionInner>();
-  }
-};
-
-static MapPairDistributionInner mapper_inner_ = MapPairDistributionInner();
+FEASST_MAPPER(PairDistributionInner,);
 
 PairDistributionInner::PairDistributionInner() {
   class_name_ = "PairDistributionInner";
@@ -52,15 +44,7 @@ double PairDistributionInner::energy(
   return 0.;
 }
 
-class MapPairDistribution {
- public:
-  MapPairDistribution() {
-    auto obj = MakePairDistribution();
-    obj->deserialize_map()["PairDistribution"] = obj;
-  }
-};
-
-static MapPairDistribution mapper_ = MapPairDistribution();
+FEASST_MAPPER(PairDistribution,);
 
 PairDistribution::PairDistribution(argtype * args) : Modify(args) {
   //DEBUG("class " << class_name());

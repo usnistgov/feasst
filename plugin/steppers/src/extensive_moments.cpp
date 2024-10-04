@@ -9,15 +9,7 @@
 
 namespace feasst {
 
-class MapExtensiveMoments {
- public:
-  MapExtensiveMoments() {
-    auto obj = MakeExtensiveMoments();
-    obj->deserialize_map()["ExtensiveMoments"] = obj;
-  }
-};
-
-static MapExtensiveMoments mapper_ = MapExtensiveMoments();
+FEASST_MAPPER(ExtensiveMoments,);
 
 ExtensiveMoments::ExtensiveMoments(argtype * args) : Analyze(args) {
   max_order_ = integer("max_order", args, 3);

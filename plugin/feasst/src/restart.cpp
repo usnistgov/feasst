@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include "utils/include/debug.h"
 #include "feasst/include/feasst.h"
 
 static feasst::ArgumentParse args("Restart from checkpoint file.", {
@@ -18,6 +19,8 @@ int main(int argc, char ** argv) {
             << args.parse(argc, argv) << std::endl;
   //std::cout << "# FEASST version: " << feasst::version() << std::endl;
   //ASSERT(argc == 2, "unrecognized number of arguments: " << argc);
+  std::cout << "#DEPRECATION WARNING\n#Use: echo " <<
+    "\"Restart [checkpoint_file]\" | /feasst/build/bin/fst" << std::endl;
 
   ASSERT(args.option_given("--checkpoint_file"),
     "--checkpoint_file is a required argument for this executable. " <<

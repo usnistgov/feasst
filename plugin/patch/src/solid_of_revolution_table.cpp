@@ -438,15 +438,7 @@ void SolidOfRevolutionTable::compute(
   }
 }
 
-class MapSolidOfRevolutionTable {
- public:
-  MapSolidOfRevolutionTable() {
-    auto obj = MakeSolidOfRevolutionTable();
-    obj->deserialize_map()["SolidOfRevolutionTable"] = obj;
-  }
-};
-
-static MapSolidOfRevolutionTable mapper_ = MapSolidOfRevolutionTable();
+FEASST_MAPPER(SolidOfRevolutionTable,);
 
 SolidOfRevolutionTable::SolidOfRevolutionTable(std::istream& istr) : VisitModelInner(istr) {
   const int version = feasst_deserialize_version(istr);

@@ -9,20 +9,12 @@
 
 namespace feasst {
 
+FEASST_MAPPER(GoldenSearch,
+              argtype({{"lower", "0"}, {"upper", "0"}, {"tolerance", "0"}}));
+
 GoldenSearch::GoldenSearch(argtype args) : Minimize(args) {
   class_name_ = "GoldenSearch";
 }
-
-class MapGoldenSearch {
- public:
-  MapGoldenSearch() {
-    auto solver = MakeGoldenSearch(
-      {{"lower", "0"}, {"upper", "0"}, {"tolerance", "0"}});
-    solver->deserialize_map()["GoldenSearch"] = solver;
-  }
-};
-
-static MapGoldenSearch mapper_ = MapGoldenSearch();
 
 std::shared_ptr<Minimize> GoldenSearch::create(std::istream& istr) const {
   return std::make_shared<GoldenSearch>(istr);

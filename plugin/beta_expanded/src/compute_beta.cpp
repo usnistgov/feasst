@@ -10,15 +10,7 @@ namespace feasst {
 
 ComputeBeta::ComputeBeta() { class_name_ = "ComputeBeta"; }
 
-class MapComputeBeta {
- public:
-  MapComputeBeta() {
-    auto obj = MakeComputeBeta();
-    obj->deserialize_map()["ComputeBeta"] = obj;
-  }
-};
-
-static MapComputeBeta mapper_ = MapComputeBeta();
+FEASST_MAPPER(ComputeBeta,);
 
 void ComputeBeta::perturb_and_acceptance(
     Criteria * criteria,

@@ -427,15 +427,7 @@ void VisitModelInnerTable::compute(
   }
 }
 
-class MapVisitModelInnerTable {
- public:
-  MapVisitModelInnerTable() {
-    auto obj = MakeVisitModelInnerTable();
-    obj->deserialize_map()["VisitModelInnerTable"] = obj;
-  }
-};
-
-static MapVisitModelInnerTable mapper_ = MapVisitModelInnerTable();
+FEASST_MAPPER(VisitModelInnerTable,);
 
 VisitModelInnerTable::VisitModelInnerTable(std::istream& istr) : VisitModelInner(istr) {
   const int version = feasst_deserialize_version(istr);

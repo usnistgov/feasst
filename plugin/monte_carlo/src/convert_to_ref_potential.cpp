@@ -10,6 +10,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(ConvertToRefPotential,);
+
 ConvertToRefPotential::ConvertToRefPotential(argtype * args) {
   class_name_ = "ConvertToRefPotential";
   potential_index_ = integer("potential_index", args, 0);
@@ -19,16 +21,6 @@ ConvertToRefPotential::ConvertToRefPotential(argtype * args) {
 ConvertToRefPotential::ConvertToRefPotential(argtype args) : ConvertToRefPotential(&args) {
   feasst_check_all_used(args);
 }
-
-class MapConvertToRefPotential {
- public:
-  MapConvertToRefPotential() {
-    auto obj = MakeConvertToRefPotential();
-    obj->deserialize_map()["ConvertToRefPotential"] = obj;
-  }
-};
-
-static MapConvertToRefPotential mapper_ConvertToRefPotential = MapConvertToRefPotential();
 
 ConvertToRefPotential::ConvertToRefPotential(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

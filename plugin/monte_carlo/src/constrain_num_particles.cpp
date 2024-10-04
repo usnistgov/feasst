@@ -10,6 +10,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(ConstrainNumParticles,);
+
 ConstrainNumParticles::ConstrainNumParticles(argtype * args) : Constraint() {
   class_name_ = "ConstrainNumParticles";
   maximum_ = integer("maximum", args, -1);
@@ -53,16 +55,6 @@ bool ConstrainNumParticles::is_allowed(const System& system,
     " min " << minimum_);
   return allowed;
 }
-
-class MapConstrainNumParticles {
- public:
-  MapConstrainNumParticles() {
-    auto obj = MakeConstrainNumParticles();
-    obj->deserialize_map()["ConstrainNumParticles"] = obj;
-  }
-};
-
-static MapConstrainNumParticles mapper_ = MapConstrainNumParticles();
 
 ConstrainNumParticles::ConstrainNumParticles(std::istream& istr)
   : Constraint(istr) {

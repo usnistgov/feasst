@@ -12,15 +12,7 @@
 
 namespace feasst {
 
-class MapHenryCoefficient {
- public:
-  MapHenryCoefficient() {
-    auto obj = MakeHenryCoefficient();
-    obj->deserialize_map()["HenryCoefficient"] = obj;
-  }
-};
-
-static MapHenryCoefficient mapper_ = MapHenryCoefficient();
+FEASST_MAPPER(HenryCoefficient,);
 
 HenryCoefficient::HenryCoefficient(argtype * args) : Analyze(args) {
   ASSERT(trials_per_update() == 1, "should update every step");

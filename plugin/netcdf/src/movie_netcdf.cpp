@@ -5,15 +5,7 @@
 
 namespace feasst {
 
-class MapMovieNETCDF {
- public:
-  MapMovieNETCDF() {
-    auto obj = MakeMovieNETCDF();
-    //auto obj = MakeMovieNETCDF({{"file_name", feasst::install_dir() + "/plugin/netcdf/test/data/first.netCDF.nc"}});
-    //auto obj = MakeMovieNETCDF({{"file_name", "place_holder"}});
-    obj->deserialize_map()["MovieNETCDF"] = obj;
-  }
-};
+FEASST_MAPPER(MovieNETCDF,);
 
 static MapMovieNETCDF mapper_ = MapMovieNETCDF();
 

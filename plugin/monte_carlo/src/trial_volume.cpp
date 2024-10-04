@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapTrialVolume {
- public:
-  MapTrialVolume() {
-    auto obj = MakeTrialVolume();
-    obj->deserialize_map()["TrialVolume"] = obj;
-  }
-};
-
-static MapTrialVolume mapper_ = MapTrialVolume();
+FEASST_MAPPER(TrialVolume,);
 
 TrialVolume::TrialVolume(argtype * args) : Trial(args) {
   class_name_ = "TrialVolume";

@@ -10,6 +10,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(ModelTwoBodyTable,);
+
 ModelTwoBodyTable::ModelTwoBodyTable(argtype args) : ModelTwoBodyTable(&args) {
   feasst_check_all_used(args);
 }
@@ -21,16 +23,6 @@ ModelTwoBodyTable::ModelTwoBodyTable(argtype * args) {
   cutoff_inv_sq_ = std::make_unique<CutOff>();
 }
 ModelTwoBodyTable::~ModelTwoBodyTable() {}
-
-class MapModelTwoBodyTable {
- public:
-  MapModelTwoBodyTable() {
-    ModelTwoBodyTable().deserialize_map()["ModelTwoBodyTable"] =
-      MakeModelTwoBodyTable();
-  }
-};
-
-static MapModelTwoBodyTable map_model_two_body_table_ = MapModelTwoBodyTable();
 
 void ModelTwoBodyTable::resize(const int num_site_types) {
   feasst::resize(num_site_types, num_site_types, &table_);

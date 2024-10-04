@@ -171,15 +171,7 @@ void FlatHistogram::imitate_trial_rejection_(const double ln_prob,
   bias_->update(state_old, state_new, ln_prob, false, endpoint, *macrostate_);
 }
 
-class MapFlatHistogram {
- public:
-  MapFlatHistogram() {
-    auto obj = std::make_shared<FlatHistogram>();
-    obj->deserialize_map()["FlatHistogram"] = obj;
-  }
-};
-
-static MapFlatHistogram mapper_ = MapFlatHistogram();
+FEASST_MAPPER(FlatHistogram,);
 
 FlatHistogram::FlatHistogram(std::istream& istr)
   : Criteria(istr) {

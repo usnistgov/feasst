@@ -27,15 +27,7 @@
 
 namespace feasst {
 
-class MapModelTableCart1DHard {
- public:
-  MapModelTableCart1DHard() {
-    auto model = MakeModelTableCart1DHard(MakeTable1D());
-    model->deserialize_map()["ModelTableCart1DHard"] = model;
-  }
-};
-
-static MapModelTableCart1DHard map_model_table_cart1d_ = MapModelTableCart1DHard();
+FEASST_MAPPER(ModelTableCart1DHard, MakeTable1D());
 
 ModelTableCart1DHard::ModelTableCart1DHard(std::shared_ptr<Table1D> table) {
   class_name_ = "ModelTableCart1DHard";

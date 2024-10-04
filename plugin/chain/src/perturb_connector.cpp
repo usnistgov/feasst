@@ -18,15 +18,7 @@ PerturbConnector::PerturbConnector(argtype * args) : PerturbMove(args) {
   class_name_ = "PerturbConnector";
 }
 
-class MapPerturbConnector {
- public:
-  MapPerturbConnector() {
-    auto obj = MakePerturbConnector();
-    obj->deserialize_map()["PerturbConnector"] = obj;
-  }
-};
-
-static MapPerturbConnector mapper_ = MapPerturbConnector();
+FEASST_MAPPER(PerturbConnector,);
 
 std::shared_ptr<Perturb> PerturbConnector::create(std::istream& istr) const {
   return std::make_shared<PerturbConnector>(istr);

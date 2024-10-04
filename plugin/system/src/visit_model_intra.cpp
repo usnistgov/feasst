@@ -12,6 +12,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(VisitModelIntra,);
+
 VisitModelIntra::VisitModelIntra(argtype * args) : VisitModel(args) {
   class_name_ = "VisitModelIntra";
   set_intra_cut(integer("intra_cut", args, -1));
@@ -98,16 +100,6 @@ void VisitModelIntra::compute(
   }
   set_energy(inner().energy());
 }
-
-class MapVisitModelIntra {
- public:
-  MapVisitModelIntra() {
-    VisitModelIntra().deserialize_map()["VisitModelIntra"] =
-      std::make_shared<VisitModelIntra>();
-  }
-};
-
-static MapVisitModelIntra mapper_ = MapVisitModelIntra();
 
 VisitModelIntra::VisitModelIntra(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);

@@ -104,15 +104,7 @@ void VisitModelInnerPatch::compute(
   }
 }
 
-class MapVisitModelInnerPatch {
- public:
-  MapVisitModelInnerPatch() {
-    VisitModelInnerPatch().deserialize_map()["VisitModelInnerPatch"] =
-      std::make_shared<VisitModelInnerPatch>();
-  }
-};
-
-static MapVisitModelInnerPatch mapper_ = MapVisitModelInnerPatch();
+FEASST_MAPPER(VisitModelInnerPatch,);
 
 VisitModelInnerPatch::VisitModelInnerPatch(std::istream& istr) : VisitModelInner(istr) {
   const int version = feasst_deserialize_version(istr);

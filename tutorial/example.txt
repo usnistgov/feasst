@@ -1,6 +1,5 @@
-# This is a text input file located at $HOME/feasst/tutorial/example.txt.
 # Comments begin with the # symbol.
-# Usage: $HOME/feasst/build/bin/fst < $HOME/feasst/tutorial/example.txt
+# Usage: ./fst < example.txt
 MonteCarlo
 RandomMT19937 seed 1572362164
 Configuration cubic_side_length 55.0321208149104 particle_type0 /feasst/particle/lj.fstprt

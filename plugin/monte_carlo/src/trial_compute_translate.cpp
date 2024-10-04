@@ -20,15 +20,7 @@ TrialComputeTranslate::TrialComputeTranslate(argtype * args) : TrialCompute(args
   new_ = std::make_shared<Select>();
 }
 
-class MapTrialComputeTranslate {
- public:
-  MapTrialComputeTranslate() {
-    auto obj = MakeTrialComputeTranslate();
-    obj->deserialize_map()["TrialComputeTranslate"] = obj;
-  }
-};
-
-static MapTrialComputeTranslate mapper_ = MapTrialComputeTranslate();
+FEASST_MAPPER(TrialComputeTranslate,);
 
 void TrialComputeTranslate::perturb_and_acceptance(
     Criteria * criteria,

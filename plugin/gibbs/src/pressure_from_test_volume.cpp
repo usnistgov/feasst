@@ -15,15 +15,7 @@
 
 namespace feasst {
 
-class MapPressureFromTestVolume {
- public:
-  MapPressureFromTestVolume() {
-    auto obj = MakePressureFromTestVolume();
-    obj->deserialize_map()["PressureFromTestVolume"] = obj;
-  }
-};
-
-static MapPressureFromTestVolume mapper_inner_ = MapPressureFromTestVolume();
+FEASST_MAPPER(PressureFromTestVolume,);
 
 PressureFromTestVolume::~PressureFromTestVolume() {}
 

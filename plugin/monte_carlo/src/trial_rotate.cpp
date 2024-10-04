@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapTrialRotate {
- public:
-  MapTrialRotate() {
-    auto obj = MakeTrialRotate();
-    obj->deserialize_map()["TrialRotate"] = obj;
-  }
-};
-
-static MapTrialRotate mapper_ = MapTrialRotate();
+FEASST_MAPPER(TrialRotate,);
 
 TrialRotate::TrialRotate(argtype * args) :
   TrialMove(std::make_shared<TrialSelectParticle>(args),

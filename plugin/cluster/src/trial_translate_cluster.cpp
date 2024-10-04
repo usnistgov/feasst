@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapTrialTranslateCluster {
- public:
-  MapTrialTranslateCluster() {
-    auto obj = MakeTrialTranslateCluster();
-    obj->deserialize_map()["TrialTranslateCluster"] = obj;
-  }
-};
-
-static MapTrialTranslateCluster mapper_trial_translate_cluster_ = MapTrialTranslateCluster();
+FEASST_MAPPER(TrialTranslateCluster,);
 
 TrialTranslateCluster::TrialTranslateCluster(argtype * args) : Trial(args) {
   class_name_ = "TrialTranslateCluster";

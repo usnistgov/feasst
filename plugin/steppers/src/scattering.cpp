@@ -13,15 +13,7 @@
 
 namespace feasst {
 
-class MapScattering {
- public:
-  MapScattering() {
-    auto obj = MakeScattering();
-    obj->deserialize_map()["Scattering"] = obj;
-  }
-};
-
-static MapScattering mapper_energy_check_ = MapScattering();
+FEASST_MAPPER(Scattering,);
 
 Scattering::Scattering(argtype * args) : Analyze(args) {
   num_frequency_ = integer("num_frequency", args, 100);

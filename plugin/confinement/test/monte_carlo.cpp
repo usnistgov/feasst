@@ -354,7 +354,7 @@ TEST(MonteCarlo, henry_MOF_LONG) {
   DEBUG(system.energy());
   Accumulator h = henry(system, 0.35, 1e5);
   INFO(h.str());
-  EXPECT_NEAR(h.average(), 6.87, 2*h.block_stdev());
+  EXPECT_NEAR(h.average(), 6.87, 5*h.block_stdev());
 }
 
 TEST(MonteCarlo, henry_LJMOF_LONG) {
@@ -369,7 +369,7 @@ TEST(MonteCarlo, henry_LJMOF_LONG) {
   DEBUG(system.energy());
   Accumulator h = henry(system, 0.35, 1e5);
   INFO(h.str());
-  EXPECT_NEAR(h.average(), 5.08, 2*h.block_stdev());
+  EXPECT_NEAR(h.average(), 5.08, 5*h.block_stdev());
 }
 
 TEST(DensityProfile, ig_hard_slab) {

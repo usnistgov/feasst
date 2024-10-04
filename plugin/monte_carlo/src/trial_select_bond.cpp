@@ -20,15 +20,8 @@ TrialSelectBond::TrialSelectBond(argtype * args) : TrialSelect(args) {
   ignore_bond_ = boolean("ignore_bond", args, false);
 }
 
-class MapTrialSelectBond {
- public:
-  MapTrialSelectBond() {
-    auto obj = MakeTrialSelectBond({{"mobile_site", "1"}, {"anchor_site", "0"}});
-    obj->deserialize_map()["TrialSelectBond"] = obj;
-  }
-};
-
-static MapTrialSelectBond mapper_ = MapTrialSelectBond();
+FEASST_MAPPER(TrialSelectBond,
+  argtype({{"mobile_site", "1"}, {"anchor_site", "0"}}));
 
 void TrialSelectBond::precompute(System * system) {
   TrialSelect::precompute(system);

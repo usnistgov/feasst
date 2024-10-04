@@ -20,15 +20,7 @@ PerturbToAnchor::PerturbToAnchor(argtype * args) : PerturbMove(args) {
   disable_tunable_();
 }
 
-class MapPerturbToAnchor {
- public:
-  MapPerturbToAnchor() {
-    auto obj = MakePerturbToAnchor();
-    obj->deserialize_map()["PerturbToAnchor"] = obj;
-  }
-};
-
-static MapPerturbToAnchor mapper_ = MapPerturbToAnchor();
+FEASST_MAPPER(PerturbToAnchor,);
 
 std::shared_ptr<Perturb> PerturbToAnchor::create(std::istream& istr) const {
   return std::make_shared<PerturbToAnchor>(istr);

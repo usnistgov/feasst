@@ -10,14 +10,7 @@ CriteriaWriter::CriteriaWriter(argtype args) : CriteriaWriter(&args) {
   feasst_check_all_used(args);
 }
 
-class MapCriteriaWriter {
- public:
-  MapCriteriaWriter() {
-    CriteriaWriter().deserialize_map()["CriteriaWriter"] = MakeCriteriaWriter();
-  }
-};
-
-static MapCriteriaWriter mapper_ = MapCriteriaWriter();
+FEASST_MAPPER(CriteriaWriter,);
 
 std::string CriteriaWriter::write(const Criteria& criteria,
     const System& system,

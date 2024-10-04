@@ -10,15 +10,7 @@
 
 namespace feasst {
 
-class MapEnergyMapNeighbor {
- public:
-  MapEnergyMapNeighbor() {
-    EnergyMapNeighbor().deserialize_map()["EnergyMapNeighbor"] =
-      MakeEnergyMapNeighbor();
-  }
-};
-
-static MapEnergyMapNeighbor mapper_ = MapEnergyMapNeighbor();
+FEASST_MAPPER(EnergyMapNeighbor,);
 
 EnergyMapNeighbor::EnergyMapNeighbor(argtype * args) : EnergyMap(args) {
   class_name_ = "EnergyMapNeighbor";

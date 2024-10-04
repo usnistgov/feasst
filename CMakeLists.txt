@@ -2,37 +2,12 @@ cmake_minimum_required (VERSION 3.5)
 project (FEASST)
 set (CMAKE_CXX_STANDARD 14)
 cmake_policy(SET CMP0042 NEW) # removes warning about macosx_rpath
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -pthread")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1 -Wall -pedantic -g -pthread")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -pthread -fanalyzer")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pg -g") #profile
-
-# manually list the plugins
-# Note: for developement and testing, reducing plugins decreases compile time
-#set(FEASST_PLUGINS "threads")
-#set(FEASST_PLUGINS "threads;utils")
-#set(FEASST_PLUGINS "threads;utils;math")
-#set(FEASST_PLUGINS "threads;utils;math;configuration")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;models;monte_carlo")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;aniso")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;cluster")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;prefetch;charge;flat_histogram;cluster")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;prefetch;charge;flat_histogram;cluster;beta_expanded")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;prefetch;charge;flat_histogram;cluster;beta_expanded;chain")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;prefetch;charge;flat_histogram;cluster;beta_expanded;chain;morph")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;flat_histogram;charge;cluster;prefetch;egce;aniso")
-set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;gibbs;model_expanded;server")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;gibbs;model_expanded;server;mpi")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;gibbs;model_expanded;server;mpi;fftw")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;netcdf")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;fftw")
-#set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;xtc")
+set(FEASST_VERSION v0.25.3)
 
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
 
+option(EV "Enable developer tools (feasst/dev/tools/depend.py and compiler debug)" OFF)
 option(USE_GTEST "Use gtest" OFF)
 option(USE_CCACHE "Use ccache to speed up builds" ON)
 option(USE_OPENMP "Use OpenMP" ON)
@@ -50,17 +25,38 @@ if (NOT DEFINED FEASST_VERBOSE_LEVEL)
   set (FEASST_VERBOSE_LEVEL "3")
 endif()
 
-# MPI
-if (USE_MPI)
-  set(FEASST_PLUGINS "${FEASST_PLUGINS};mpi")
-endif (USE_MPI)
-
 # If you would like to use the python interface, you may need to specify the
 # python library and include path variables below. If not specified then
 # CMake attempts to find the libraries on its own.
 option(SET_PYTHON_PATH "Manually define PYTHON_INCLUDE_DIR and PYTHON_LIBRARY" OFF)
 
-# Users typically would not edit below this comment
+# List the plugins to compile.
+if (NOT FEASST_PLUGINS)
+  #set(FEASST_PLUGINS "threads")
+  #set(FEASST_PLUGINS "threads;utils")
+  #set(FEASST_PLUGINS "threads;utils;math")
+  #set(FEASST_PLUGINS "threads;utils;math;configuration")
+  #set(FEASST_PLUGINS "threads;utils;math;configuration;system")
+  #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;models;monte_carlo")
+  set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;gibbs;model_expanded;server")
+else()
+  # Note: "cmake -DEV=ON" must be enabled if FEASST_PLUGINS are changed in order to update feasst.h
+  set(EV ON)
+endif()
+
+if (EV)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
+  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -pthread -fanalyzer")
+  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pg -g") #profile
+  message("Enabling FEASST Developer Tools.")
+else (EV)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -pthread")
+endif (EV)
+
+# MPI
+if (USE_MPI)
+  set(FEASST_PLUGINS "${FEASST_PLUGINS};mpi")
+endif (USE_MPI)
 
 # print plugins
 string (REPLACE ";" " " FEASST_PLUGINS_STR "${FEASST_PLUGINS}")
@@ -144,32 +140,10 @@ string(REGEX REPLACE "^ " "" EXTRA_LIBS "${EXTRA_LIBS}")
 
 set(EXECUTABLE_OUTPUT_PATH "bin")
 
-# Get the current working branch
-execute_process(
-  COMMAND git rev-parse --abbrev-ref HEAD
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  OUTPUT_VARIABLE GIT_BRANCH
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-# Get the latest abbreviated commit hash of the working branch
-execute_process(
-  COMMAND git describe --abbrev=10 --dirty --always --tags
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  OUTPUT_VARIABLE GIT_COMMIT_HASH
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-execute_process(
-  COMMAND git describe --abbrev=0
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  OUTPUT_VARIABLE GIT_COMMIT_HASH_SHORT
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
 #message("FEASST_VERBOSE_LEVEL ${FEASST_VERBOSE_LEVEL}")
 add_definitions("-DFEASST_VERBOSE_LEVEL_=${FEASST_VERBOSE_LEVEL}")
 #unset(FEASST_VERBOSE_LEVEL CACHE)
-add_definitions("-DFEASST_VERSION_=\"${GIT_COMMIT_HASH}-${GIT_BRANCH}\"")
+add_definitions("-DFEASST_VERSION_=\"${FEASST_VERSION}\"")
 add_definitions("-DFEASST_DIR_=\"${CMAKE_SOURCE_DIR}\"")
 
 # OMP
@@ -190,19 +164,21 @@ if (USE_OPENMP)
   endif()
 endif()
 
-# prep feasst.(i/h) (as well as documentation)
-execute_process(
-  COMMAND python3 ${CMAKE_SOURCE_DIR}/dev/tools/depend.py -s ${CMAKE_SOURCE_DIR} --update_doc 0 --check_headers ${USE_HEADER_CHECK}
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-  RESULT_VARIABLE EXIT_CODE
-)
+if (EV)
+  # prep feasst.h (and documentation)
+  execute_process(
+    COMMAND python3 ${CMAKE_SOURCE_DIR}/dev/tools/depend.py -s ${CMAKE_SOURCE_DIR} --update_doc 0 --check_headers ${USE_HEADER_CHECK}
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    RESULT_VARIABLE EXIT_CODE
+  )
 
-if (NOT ${EXIT_CODE} EQUAL 0)
-    message(
-            FATAL_ERROR
-            "There was a problem generating feasst.h using the following command: \"python3 ../dev/tools/depend.py -s ../\" Ensure that python3 is available, and try to run this command manually to report any issues to the developers."
-    )
-endif()
+  if (NOT ${EXIT_CODE} EQUAL 0)
+      message(
+              FATAL_ERROR
+              "There was a problem generating feasst.h using the following command: \"python3 ../dev/tools/depend.py -s ../\" Ensure that python3 is available, and try to run this command manually to report any issues to the developers."
+      )
+  endif()
+endif (EV)
 
 # FEASST plugins
 set (FEASST_PLUGIN_DIR "${CMAKE_SOURCE_DIR}/plugin")
@@ -435,12 +411,14 @@ if (USE_SPHINX)
   # LATEX output directory
   set(SPHINX_LATEX_DIR "${CMAKE_CURRENT_BINARY_DIR}/latex")
 
-  # FEASST version
-  set(FEASST_VERSION ${GIT_COMMIT_HASH})
-
   configure_file(
     "${CMAKE_SOURCE_DIR}/dev/sphinx/conf.py.in"
     "${BINARY_BUILD_DIR}/conf.py"
+    @ONLY)
+
+  configure_file(
+    "${CMAKE_SOURCE_DIR}/dev/sphinx/build.rst.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/build.rst"
     @ONLY)
 
   # copy favicon, leave notice and extended layout
@@ -605,78 +583,6 @@ if (${_index} GREATER -1)
   add_executable (rst ${CMAKE_SOURCE_DIR}/plugin/feasst/src/restart.cpp)
   target_link_libraries (rst LINK_PUBLIC feasstlib)
 endif()
-
-## SWIG # deprecated after v0.25.1
-#if (USE_SWIG)
-#  if(POLICY CMP0078)
-#    cmake_policy(SET CMP0078 NEW)
-#  endif()
-#  if(POLICY CMP0086)
-#    cmake_policy(SET CMP0086 NEW)
-#  endif()
-#  if (SET_PYTHON_PATH)
-#  else (SET_PYTHON_PATH)
-#    FIND_PACKAGE(PythonLibs 3)
-#    if (PythonLibs_FOUND)
-#    else (PythonLibs_FOUND)
-#      # Try default anaconda home install.
-#      set(PYTHON_INCLUDE_DIR "$ENV{HOME}/anaconda3/include/python3.7m/")
-#      set(PYTHON_LIBRARY "$ENV{HOME}/anaconda3/lib/libpython3.7m.so")
-#    endif (PythonLibs_FOUND)
-#  endif (SET_PYTHON_PATH)
-#  message("PYTHON_INCLUDE_DIR: ${PYTHON_INCLUDE_DIR}")
-#  message("PYTHON_LIBRARY: ${PYTHON_LIBRARY}")
-#
-#  FIND_PACKAGE(SWIG)
-#  if (SWIG_FOUND)
-#    INCLUDE(${SWIG_USE_FILE})
-#    INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIR})
-#    #INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
-#    get_filename_component(barename "${CMAKE_CURRENT_BINARY_DIR}" NAME)
-#    add_custom_target(build-time-make-directory ALL
-#      COMMAND ${CMAKE_COMMAND} -E make_directory ${barename})
-#    SET(CMAKE_SWIG_FLAGS "")
-#
-#    SET_SOURCE_FILES_PROPERTIES("${CMAKE_SOURCE_DIR}/python/deprecated_pyswig/feasst.i" PROPERTIES CPLUSPLUS ON)
-#    #SET_SOURCE_FILES_PROPERTIES("${CMAKE_CURRENT_BINARY_DIR}/feasst.i" PROPERTIES SWIG_FLAGS "-includeall")
-#    if (${CMAKE_VERSION} VERSION_LESS "3.10.0")
-#      SWIG_ADD_MODULE(feasst python "${CMAKE_SOURCE_DIR}/python/deprecated_pyswig/feasst.i")
-#    else ()
-#      SWIG_ADD_LIBRARY(feasst LANGUAGE python SOURCES "${CMAKE_SOURCE_DIR}/python/deprecated_pyswig/feasst.i")
-#    endif ()
-#    SWIG_LINK_LIBRARIES(feasst ${EXTRA_LIBS})
-#    SWIG_LINK_LIBRARIES(feasst feasstlib)
-#    if (APPLE)
-#      if (${CMAKE_VERSION} VERSION_LESS "3.15.0")
-#        set_target_properties(_feasst PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-#      else ()
-#        set_target_properties(feasst PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-#      endif ()
-#    endif (APPLE)
-#    if (${CMAKE_VERSION} VERSION_LESS "3.15.0")
-#      add_dependencies(_feasst build-time-make-directory)
-#    else ()
-#      add_dependencies(feasst build-time-make-directory)
-#    endif ()
-#
-#    # install using setup.py
-#    set(OUTPUT    "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")
-#    set(SETUP_PY  "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
-#    configure_file("${CMAKE_SOURCE_DIR}/dev/tools/setup.py.in" ${SETUP_PY})
-##    add_custom_command(OUTPUT ${OUTPUT}
-##                       COMMAND python3 setup.py build
-##                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT})
-##    add_custom_target(target ALL DEPENDS ${OUTPUT})
-#    install(CODE "execute_process(COMMAND pip install .)")
-#    #install(CODE "execute_process(COMMAND python3 ${SETUP_PY} install)")
-#
-#    add_test(NAME pytest COMMAND python3 ${CMAKE_SOURCE_DIR}/py/test.py)
-#    add_test(NAME pytutorial COMMAND python3 ../dev/tools/run_tutorials.py)
-#  else (SWIG_FOUND)
-#    message("SWIG NOT FOUND")
-#  endif (SWIG_FOUND)
-#endif(USE_SWIG)
-
 
 # PYBIND11
 if (USE_PYBIND11)

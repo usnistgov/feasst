@@ -28,7 +28,7 @@ class VisitModelCutoffOuter : public VisitModel {
     args:
     - energy_cutoff: as described in VisitModel.
    */
-  explicit VisitModelCutoffOuter(argtype args);
+  explicit VisitModelCutoffOuter(argtype args = argtype());
   explicit VisitModelCutoffOuter(argtype * args);
 
   /// Same as above, but with an inner.

@@ -9,15 +9,7 @@
 
 namespace feasst {
 
-class MapAngleHarmonic {
- public:
-  MapAngleHarmonic() {
-    auto obj = MakeAngleHarmonic();
-    obj->deserialize_map()["AngleHarmonic"] = obj;
-  }
-};
-
-static MapAngleHarmonic mapper_ = MapAngleHarmonic();
+FEASST_MAPPER(AngleHarmonic,);
 
 std::shared_ptr<BondThreeBody> AngleHarmonic::create(std::istream& istr) const {
   return std::make_shared<AngleHarmonic>(istr);

@@ -5,15 +5,7 @@
 
 namespace feasst {
 
-class MapCutoffOuter {
- public:
-  MapCutoffOuter() {
-    auto obj = std::make_shared<CutoffOuter>();
-    obj->deserialize_map()["cutoff_outer"] = obj;
-  }
-};
-
-static MapCutoffOuter mapper_cutoff_outer_ = MapCutoffOuter();
+FEASST_MAPPER(CutoffOuter,);
 
 void CutoffOuter::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

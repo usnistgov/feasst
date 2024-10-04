@@ -3,8 +3,6 @@ Citation
 
 Hatch HW, Siderius DW, Shen VK (2024) Monte Carlo molecular simulations with FEASST version 0.25.1 *J. Chem. Phys.* 161:092501. https://doi.org/10.1063/5.0224283
 
-Hatch HW, Mahynksi NA, Shen VK (2018) FEASST: Free Energy and Advanced Sampling Simulation Toolkit *J Res Natl Inst Stan* 123:123004. https://doi.org/10.6028/jres.123.004.
-
 Please also site the original papers of the specific methods used.
 To aid in this process, a Python tool is in development to recommend citations based on the methods used in the FEASST input text file.
 This tool is provided for convenience but does not currently recommend all appropriate citations, and thus the output should not be relied on as complete.

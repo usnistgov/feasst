@@ -15,15 +15,7 @@ ReadConfigFromFile::ReadConfigFromFile(argtype args) : ReadConfigFromFile(&args)
   feasst_check_all_used(args);
 }
 
-class MapReadConfigFromFile {
- public:
-  MapReadConfigFromFile() {
-    auto obj = MakeReadConfigFromFile({{"input_file", "placeholder"}});
-    obj->deserialize_map()["ReadConfigFromFile"] = obj;
-  }
-};
-
-static MapReadConfigFromFile mapper_ = MapReadConfigFromFile();
+FEASST_MAPPER(ReadConfigFromFile, argtype({{"input_file", "placeholder"}}));
 
 void ReadConfigFromFile::load_(Criteria * criteria, System * system) {
   if (set_complete_next_update_) {

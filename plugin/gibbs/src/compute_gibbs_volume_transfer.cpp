@@ -13,15 +13,7 @@ ComputeGibbsVolumeTransfer::ComputeGibbsVolumeTransfer() {
   class_name_ = "ComputeGibbsVolumeTransfer";
 }
 
-class MapComputeGibbsVolumeTransfer {
- public:
-  MapComputeGibbsVolumeTransfer() {
-    auto obj = MakeComputeGibbsVolumeTransfer();
-    obj->deserialize_map()["ComputeGibbsVolumeTransfer"] = obj;
-  }
-};
-
-static MapComputeGibbsVolumeTransfer mapper_ = MapComputeGibbsVolumeTransfer();
+FEASST_MAPPER(ComputeGibbsVolumeTransfer,);
 
 void ComputeGibbsVolumeTransfer::perturb_and_acceptance(
     Criteria * criteria,

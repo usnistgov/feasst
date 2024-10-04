@@ -21,15 +21,7 @@ RefPotential::RefPotential(argtype args) : RefPotential(&args) {
   feasst_check_all_used(args);
 }
 
-class MapRefPotential {
- public:
-  MapRefPotential() {
-    auto obj = MakeRefPotential();
-    obj->deserialize_map()["RefPotential"] = obj;
-  }
-};
-
-static MapRefPotential mapper_RefPotential = MapRefPotential();
+FEASST_MAPPER(RefPotential,);
 
 RefPotential::RefPotential(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

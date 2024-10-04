@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapDihedralHarmonic {
- public:
-  MapDihedralHarmonic() {
-    auto obj = MakeDihedralHarmonic();
-    obj->deserialize_map()["DihedralHarmonic"] = obj;
-  }
-};
-
-static MapDihedralHarmonic mapper_ = MapDihedralHarmonic();
+FEASST_MAPPER(DihedralHarmonic,);
 
 std::shared_ptr<BondFourBody> DihedralHarmonic::create(std::istream& istr) const {
   return std::make_shared<DihedralHarmonic>(istr);

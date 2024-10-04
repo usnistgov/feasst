@@ -28,15 +28,7 @@ std::vector<int> ptypes(argtype * args) {
   return ptypes;
 }
 
-class MapTrialAddMultiple {
- public:
-  MapTrialAddMultiple() {
-    auto obj = MakeTrialAddMultiple();
-    obj->deserialize_map()["TrialAddMultiple"] = obj;
-  }
-};
-
-static MapTrialAddMultiple mapper_ = MapTrialAddMultiple();
+FEASST_MAPPER(TrialAddMultiple,);
 
 TrialAddMultiple::TrialAddMultiple(argtype * args) : Trial(args) {
   class_name_ = "TrialAddMultiple";

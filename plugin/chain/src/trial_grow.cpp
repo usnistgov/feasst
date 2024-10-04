@@ -46,15 +46,8 @@
 
 namespace feasst {
 
-class MapTrialGrow {
- public:
-  MapTrialGrow() {
-    auto obj = MakeTrialGrow({{{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}}});
-    obj->deserialize_map()["TrialGrow"] = obj;
-  }
-};
-
-static MapTrialGrow mapper_ = MapTrialGrow();
+const std::vector<argtype> args_ = {{{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}}};
+FEASST_MAPPER(TrialGrow, args_);
 
 void TrialGrow::build_(std::vector<argtype> * args) {
   const int num_args = static_cast<int>(args->size());
@@ -421,15 +414,7 @@ TrialGrow::TrialGrow(std::vector<argtype> args) : TrialFactoryNamed() {
   build_(&args);
 }
 
-class MapTrialGrowFile {
- public:
-  MapTrialGrowFile() {
-    auto obj = std::make_shared<TrialGrowFile>();
-    obj->deserialize_map()["TrialGrowFile"] = obj;
-  }
-};
-
-static MapTrialGrowFile mapper_trial_grow_file_ = MapTrialGrowFile();
+FEASST_MAPPER(TrialGrowFile,);
 
 void TrialGrowFile::add_(const argtype add_args, std::vector<argtype> * args) {
   argtype * arg0 = &(*args)[0];

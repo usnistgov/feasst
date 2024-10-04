@@ -14,15 +14,7 @@ ComputeAddAVB::ComputeAddAVB() {
   class_name_ = "ComputeAddAVB";
 }
 
-class MapComputeAddAVB {
- public:
-  MapComputeAddAVB() {
-    auto obj = MakeComputeAddAVB();
-    obj->deserialize_map()["ComputeAddAVB"] = obj;
-  }
-};
-
-static MapComputeAddAVB mapper_ = MapComputeAddAVB();
+FEASST_MAPPER(ComputeAddAVB,);
 
 void ComputeAddAVB::perturb_and_acceptance(
     Criteria * criteria,

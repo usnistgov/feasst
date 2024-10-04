@@ -20,15 +20,7 @@ ComputeGibbsParticleTransfer::ComputeGibbsParticleTransfer() {
   class_name_ = "ComputeGibbsParticleTransfer";
 }
 
-class MapComputeGibbsParticleTransfer {
- public:
-  MapComputeGibbsParticleTransfer() {
-    auto obj = MakeComputeGibbsParticleTransfer();
-    obj->deserialize_map()["ComputeGibbsParticleTransfer"] = obj;
-  }
-};
-
-static MapComputeGibbsParticleTransfer mapper_ = MapComputeGibbsParticleTransfer();
+FEASST_MAPPER(ComputeGibbsParticleTransfer,);
 
 void ComputeGibbsParticleTransfer::perturb_and_acceptance(
     Criteria * criteria,

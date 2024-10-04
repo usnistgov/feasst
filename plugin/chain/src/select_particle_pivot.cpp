@@ -19,15 +19,7 @@ SelectParticlePivot::SelectParticlePivot(argtype * args) : TrialSelect(args) {
   pivot_site_ = integer("pivot_site", args, 0);
 }
 
-class MapSelectParticlePivot {
- public:
-  MapSelectParticlePivot() {
-    auto obj = MakeSelectParticlePivot();
-    obj->deserialize_map()["SelectParticlePivot"] = obj;
-  }
-};
-
-static MapSelectParticlePivot mapper_ = MapSelectParticlePivot();
+FEASST_MAPPER(SelectParticlePivot,);
 
 void SelectParticlePivot::precompute(System * system) {
   TrialSelect::precompute(system);

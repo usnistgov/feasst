@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapFormulaExponential {
- public:
-  MapFormulaExponential() {
-    FormulaExponential().deserialize_map()["FormulaExponential"] =
-      std::make_shared<FormulaExponential>();
-  }
-};
-
-static MapFormulaExponential mapper_ = MapFormulaExponential();
+FEASST_MAPPER(FormulaExponential,);
 
 std::shared_ptr<Formula> FormulaExponential::create(std::istream& istr) const {
   return std::make_shared<FormulaExponential>(istr);

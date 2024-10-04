@@ -33,15 +33,7 @@ TwoBodyAlpha::TwoBodyAlpha(argtype args) : TwoBodyAlpha(&args) {
   feasst_check_all_used(args);
 }
 
-class MapTwoBodyAlpha {
- public:
-  MapTwoBodyAlpha() {
-    auto obj = MakeTwoBodyAlpha({{"alpha0", "1"}, {"s0", "1"}});
-    obj->deserialize_map()["TwoBodyAlpha"] = obj;
-  }
-};
-
-static MapTwoBodyAlpha map_two_body_alpha_ = MapTwoBodyAlpha();
+FEASST_MAPPER(TwoBodyAlpha, argtype({{"alpha0", "1"}, {"s0", "1"}}));
 
 void TwoBodyAlpha::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

@@ -15,16 +15,9 @@ TrialSelectDihedral::TrialSelectDihedral(argtype * args) : TrialSelectAngle(args
   anchor_site3_ = integer("anchor_site3", args);
 }
 
-class MapTrialSelectDihedral {
- public:
-  MapTrialSelectDihedral() {
-    auto obj = MakeTrialSelectDihedral({{"mobile_site", "0"},
-      {"anchor_site", "1"}, {"anchor_site2", "2"}, {"anchor_site3", "3"}});
-    obj->deserialize_map()["TrialSelectDihedral"] = obj;
-  }
-};
-
-static MapTrialSelectDihedral mapper_ = MapTrialSelectDihedral();
+FEASST_MAPPER(TrialSelectDihedral,
+  argtype({{"mobile_site", "0"},
+      {"anchor_site", "1"}, {"anchor_site2", "2"}, {"anchor_site3", "3"}}));
 
 void TrialSelectDihedral::precompute(System * system) {
   TrialSelectAngle::precompute(system);

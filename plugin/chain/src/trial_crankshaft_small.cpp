@@ -8,17 +8,8 @@
 
 namespace feasst {
 
-class MapTrialCrankshaftSmall {
- public:
-  MapTrialCrankshaftSmall() {
-    auto obj = MakeTrialCrankshaftSmall({{"site", "0"},
-                                         {"anchor_site0", "1"},
-                                         {"anchor_site1", "2"}});
-    obj->deserialize_map()["TrialCrankshaftSmall"] = obj;
-  }
-};
-
-static MapTrialCrankshaftSmall mapper_ = MapTrialCrankshaftSmall();
+FEASST_MAPPER(TrialCrankshaftSmall,
+  argtype({{"site", "0"}, {"anchor_site0", "1"}, {"anchor_site1", "2"}}));
 
 TrialCrankshaftSmall::TrialCrankshaftSmall(argtype * args) :
   TrialMove(std::make_shared<SelectCrankshaftSmall>(args),

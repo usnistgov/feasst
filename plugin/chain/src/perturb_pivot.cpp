@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapPerturbPivot {
- public:
-  MapPerturbPivot() {
-    auto obj = MakePerturbPivot();
-    obj->deserialize_map()["PerturbPivot"] = obj;
-  }
-};
-
-static MapPerturbPivot mapper_ = MapPerturbPivot();
+FEASST_MAPPER(PerturbPivot,);
 
 PerturbPivot::PerturbPivot(argtype args) : PerturbPivot(&args) {
   feasst_check_all_used(args);

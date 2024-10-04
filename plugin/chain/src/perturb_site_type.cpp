@@ -18,15 +18,7 @@ PerturbSiteType::PerturbSiteType(argtype * args) : Perturb(args) {
   new_site_type_ = integer("type", args);
 }
 
-class MapPerturbSiteType {
- public:
-  MapPerturbSiteType() {
-    auto obj = MakePerturbSiteType({{"type", "0"}});
-    obj->deserialize_map()["PerturbSiteType"] = obj;
-  }
-};
-
-static MapPerturbSiteType mapper_ = MapPerturbSiteType();
+FEASST_MAPPER(PerturbSiteType, argtype({{"type", "0"}}));
 
 std::shared_ptr<Perturb> PerturbSiteType::create(std::istream& istr) const {
   return std::make_shared<PerturbSiteType>(istr);

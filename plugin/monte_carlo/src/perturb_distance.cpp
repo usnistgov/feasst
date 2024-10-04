@@ -29,15 +29,7 @@ PerturbDistance::PerturbDistance(argtype * args) : PerturbMove(args) {
   potential_acceptance_ = integer("potential_acceptance", args, -1);
 }
 
-class MapPerturbDistance {
- public:
-  MapPerturbDistance() {
-    auto obj = MakePerturbDistance();
-    obj->deserialize_map()["PerturbDistance"] = obj;
-  }
-};
-
-static MapPerturbDistance mapper_ = MapPerturbDistance();
+FEASST_MAPPER(PerturbDistance,);
 
 std::shared_ptr<Perturb> PerturbDistance::create(std::istream& istr) const {
   return std::make_shared<PerturbDistance>(istr);

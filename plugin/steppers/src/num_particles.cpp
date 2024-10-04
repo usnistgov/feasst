@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapNumParticles {
- public:
-  MapNumParticles() {
-    auto obj = MakeNumParticles();
-    obj->deserialize_map()["NumParticles"] = obj;
-  }
-};
-
-static MapNumParticles mapper_ = MapNumParticles();
+FEASST_MAPPER(NumParticles,);
 
 NumParticles::NumParticles(argtype * args) : Analyze(args) {
   particle_type_ = integer("particle_type", args, -1);

@@ -5,15 +5,7 @@
 
 namespace feasst {
 
-class MapEnergyMapNeighborCriteria {
- public:
-  MapEnergyMapNeighborCriteria() {
-    auto obj = MakeEnergyMapNeighborCriteria();
-    obj->deserialize_map()["EnergyMapNeighborCriteria"] = obj;
-  }
-};
-
-static MapEnergyMapNeighborCriteria mapper_ = MapEnergyMapNeighborCriteria();
+FEASST_MAPPER(EnergyMapNeighborCriteria,);
 
 EnergyMapNeighborCriteria::EnergyMapNeighborCriteria(argtype * args)
   : EnergyMapNeighbor(args) {

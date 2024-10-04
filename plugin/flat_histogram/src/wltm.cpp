@@ -112,17 +112,9 @@ void WLTM::set_ln_prob(
   FATAL("not implemented. Try WangLandau or TransitionMatrix for reweighting.");
 }
 
-class MapWLTM {
- public:
-  MapWLTM() {
-    auto obj = MakeWLTM({{"collect_flatness", "1"},
-                         {"min_flatness", "2"},
-                         {"min_sweeps", "3"}});
-    obj->deserialize_map()["WLTM"] = obj;
-  }
-};
-
-static MapWLTM mapper_ = MapWLTM();
+FEASST_MAPPER(WLTM, argtype({{"collect_flatness", "1"},
+                             {"min_flatness", "2"},
+                             {"min_sweeps", "3"}}));
 
 std::shared_ptr<Bias> WLTM::create(std::istream& istr) const {
   return std::make_shared<WLTM>(istr);

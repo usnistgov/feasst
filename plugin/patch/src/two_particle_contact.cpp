@@ -22,15 +22,7 @@ TwoParticleContact::TwoParticleContact(argtype args) : TwoParticleContact(&args)
   feasst_check_all_used(args);
 }
 
-class MapTwoParticleContact {
- public:
-  MapTwoParticleContact() {
-    auto obj = MakeTwoParticleContact();
-    obj->deserialize_map()["TwoParticleContact"] = obj;
-  }
-};
-
-static MapTwoParticleContact mapper_TwoParticleContact = MapTwoParticleContact();
+FEASST_MAPPER(TwoParticleContact,);
 
 TwoParticleContact::TwoParticleContact(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

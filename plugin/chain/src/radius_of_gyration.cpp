@@ -12,15 +12,7 @@
 
 namespace feasst {
 
-class MapRadiusOfGyration {
- public:
-  MapRadiusOfGyration() {
-    auto obj = MakeRadiusOfGyration();
-    obj->deserialize_map()["RadiusOfGyration"] = obj;
-  }
-};
-
-static MapRadiusOfGyration mapper_ = MapRadiusOfGyration();
+FEASST_MAPPER(RadiusOfGyration,);
 
 RadiusOfGyration::RadiusOfGyration(argtype * args) : Analyze(args) {
   group_index_ = integer("group_index", args, 0);

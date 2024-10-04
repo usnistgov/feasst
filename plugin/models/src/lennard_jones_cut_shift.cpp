@@ -6,16 +6,7 @@
 
 namespace feasst {
 
-class MapLennardJonesCutShift {
- public:
-  MapLennardJonesCutShift() {
-    LennardJonesCutShift().deserialize_map()["LennardJonesCutShift"] =
-      MakeLennardJonesCutShift();
-  }
-};
-
-static MapLennardJonesCutShift map_lennard_jones_cut_shift_ =
-  MapLennardJonesCutShift();
+FEASST_MAPPER(LennardJonesCutShift,);
 
 LennardJonesCutShift::LennardJonesCutShift(argtype * args)
   : LennardJonesAlpha(args) {

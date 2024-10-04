@@ -9,15 +9,7 @@ double MieLambdaR::mix_(const double value1, const double value2) {
   return std::sqrt((value1 - 3.)*(value2 - 3.)) + 3.;
 }
 
-class MapMieLambdaR {
- public:
-  MapMieLambdaR() {
-    auto obj = std::make_shared<MieLambdaR>();
-    obj->deserialize_map()["mie_lambda_r"] = obj;
-  }
-};
-
-static MapMieLambdaR mapper_mie_lambda_r_ = MapMieLambdaR();
+FEASST_MAPPER_RENAME(MieLambdaR, mie_lambda_r,);
 
 void MieLambdaR::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
@@ -35,15 +27,7 @@ double MieLambdaA::mix_(const double value1, const double value2) {
   return mix;
 }
 
-class MapMieLambdaA {
- public:
-  MapMieLambdaA() {
-    auto obj = std::make_shared<MieLambdaA>();
-    obj->deserialize_map()["mie_lambda_a"] = obj;
-  }
-};
-
-static MapMieLambdaA mapper_mie_lambda_a_ = MapMieLambdaA();
+FEASST_MAPPER_RENAME(MieLambdaA, mie_lambda_a,);
 
 void MieLambdaA::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
@@ -56,15 +40,7 @@ MieLambdaA::MieLambdaA(std::istream& istr) : ModelParam(istr) {
   ASSERT(version == 2670, "mismatch version: " << version);
 }
 
-class MapMiePrefactor {
- public:
-  MapMiePrefactor() {
-    auto obj = std::make_shared<MiePrefactor>();
-    obj->deserialize_map()["cos_patch_angle"] = obj;
-  }
-};
-
-static MapMiePrefactor mapper_cos_patch_angle_ = MapMiePrefactor();
+FEASST_MAPPER_RENAME(MiePrefactor, mie_prefactor,);
 
 void MiePrefactor::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
@@ -88,15 +64,7 @@ double MiePrefactor::compute(const int type1, const int type2, const ModelParams
 //  return 0.;
 //}
 //
-//class MapMieIdealDeviation {
-// public:
-//  MapMieIdealDeviation() {
-//    auto obj = std::make_shared<MieIdealDeviation>();
-//    obj->deserialize_map()["mie_ideal_deviation"] = obj;
-//  }
-//};
-//
-//static MapMieIdealDeviation mapper_mie_ideal_deviation_ = MapMieIdealDeviation();
+//FEASST_MAPPER_RENAME(MieIdealDeviation, mie_ideal_deviation,);
 //
 //void MieIdealDeviation::serialize(std::ostream& ostr) const {
 //  ostr << class_name_ << " ";

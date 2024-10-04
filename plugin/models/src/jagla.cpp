@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapJagla {
- public:
-  MapJagla() {
-    auto obj = MakeJagla({{"num_discretized_steps", "0"}});
-    obj->deserialize_map()["Jagla"] = obj;
-  }
-};
-
-static MapJagla mapper_ = MapJagla();
+FEASST_MAPPER(Jagla, argtype({{"num_discretized_steps", "0"}}));
 
 Jagla::Jagla(argtype * args) {
   class_name_ = "Jagla";

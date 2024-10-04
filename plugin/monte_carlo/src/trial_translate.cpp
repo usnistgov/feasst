@@ -8,15 +8,7 @@
 
 namespace feasst {
 
-class MapTrialTranslate {
- public:
-  MapTrialTranslate() {
-    auto obj = MakeTrialTranslate();
-    obj->deserialize_map()["TrialTranslate"] = obj;
-  }
-};
-
-static MapTrialTranslate mapperTranslate_ = MapTrialTranslate();
+FEASST_MAPPER(TrialTranslate,);
 
 TrialTranslate::TrialTranslate(argtype * args) :
   TrialMove(std::make_shared<TrialSelectParticle>(args),

@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapSphere {
- public:
-  MapSphere() {
-    auto obj = MakeSphere();
-    obj->deserialize_map()["Sphere"] = obj;
-  }
-};
-
-static MapSphere mapper_ = MapSphere();
+FEASST_MAPPER(Sphere,);
 
 Sphere::Sphere(argtype * args) : Shape() {
   class_name_ = "Sphere";

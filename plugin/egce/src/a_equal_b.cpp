@@ -31,15 +31,7 @@ bool AEqualB::is_allowed(const System& system,
   return allowed;
 }
 
-class MapAEqualB {
- public:
-  MapAEqualB() {
-    auto obj = MakeAEqualB();
-    obj->deserialize_map()["AEqualB"] = obj;
-  }
-};
-
-static MapAEqualB mapper_ = MapAEqualB();
+FEASST_MAPPER(AEqualB,);
 
 AEqualB::AEqualB(std::istream& istr)
   : Constraint(istr) {

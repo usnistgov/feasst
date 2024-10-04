@@ -12,15 +12,7 @@ ComputeMoveCluster::ComputeMoveCluster() {
   class_name_ = "ComputeMoveCluster";
 }
 
-class MapComputeMoveCluster {
- public:
-  MapComputeMoveCluster() {
-    auto obj = MakeComputeMoveCluster();
-    obj->deserialize_map()["ComputeMoveCluster"] = obj;
-  }
-};
-
-static MapComputeMoveCluster mapper_ = MapComputeMoveCluster();
+FEASST_MAPPER(ComputeMoveCluster,);
 
 void ComputeMoveCluster::perturb_and_acceptance(
     Criteria * criteria,

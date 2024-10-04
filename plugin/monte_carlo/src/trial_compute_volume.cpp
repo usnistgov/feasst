@@ -18,15 +18,7 @@ TrialComputeVolume::TrialComputeVolume(argtype args) : TrialCompute(&args) {
   feasst_check_all_used(args);
 }
 
-class MapTrialComputeVolume {
- public:
-  MapTrialComputeVolume() {
-    auto obj = MakeTrialComputeVolume();
-    obj->deserialize_map()["TrialComputeVolume"] = obj;
-  }
-};
-
-static MapTrialComputeVolume mapper_ = MapTrialComputeVolume();
+FEASST_MAPPER(TrialComputeVolume,);
 
 void TrialComputeVolume::perturb_and_acceptance(
     Criteria * criteria,

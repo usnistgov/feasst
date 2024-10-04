@@ -11,15 +11,7 @@
 
 namespace feasst {
 
-class MapEnergyMapAll {
- public:
-  MapEnergyMapAll() {
-    EnergyMapAll().deserialize_map()["EnergyMapAll"] =
-      MakeEnergyMapAll();
-  }
-};
-
-static MapEnergyMapAll mapper_ = MapEnergyMapAll();
+FEASST_MAPPER(EnergyMapAll,);
 
 EnergyMapAll::EnergyMapAll(argtype * args) : EnergyMap(args) {
   class_name_ = "EnergyMapAll";

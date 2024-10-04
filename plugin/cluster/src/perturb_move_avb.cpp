@@ -24,15 +24,7 @@ PerturbMoveAVB::PerturbMoveAVB(argtype * args) : PerturbMove(args) {
   inside_ = boolean("inside", args, true);
 }
 
-class MapPerturbMoveAVB {
- public:
-  MapPerturbMoveAVB() {
-    auto obj = MakePerturbMoveAVB();
-    obj->deserialize_map()["PerturbMoveAVB"] = obj;
-  }
-};
-
-static MapPerturbMoveAVB mapper_ = MapPerturbMoveAVB();
+FEASST_MAPPER(PerturbMoveAVB,);
 
 std::shared_ptr<Perturb> PerturbMoveAVB::create(std::istream& istr) const {
   return std::make_shared<PerturbMoveAVB>(istr);

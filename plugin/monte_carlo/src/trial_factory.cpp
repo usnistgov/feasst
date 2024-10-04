@@ -19,15 +19,7 @@ TrialFactory::TrialFactory(argtype args) : TrialFactory(&args) {
   feasst_check_all_used(args);
 }
 
-class MapTrialFactory {
- public:
-  MapTrialFactory() {
-    auto obj = MakeTrialFactory();
-    obj->deserialize_map()["TrialFactory"] = obj;
-  }
-};
-
-static MapTrialFactory mapper_ = MapTrialFactory();
+FEASST_MAPPER(TrialFactory,);
 
 void TrialFactory::add(std::shared_ptr<Trial> trial) {
   trials_.push_back(trial);

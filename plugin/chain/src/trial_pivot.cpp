@@ -7,15 +7,7 @@
 
 namespace feasst {
 
-class MapTrialPivot {
- public:
-  MapTrialPivot() {
-    auto obj = MakeTrialPivot();
-    obj->deserialize_map()["TrialPivot"] = obj;
-  }
-};
-
-static MapTrialPivot mapper_ = MapTrialPivot();
+FEASST_MAPPER(TrialPivot,);
 
 TrialPivot::TrialPivot(argtype * args) :
   TrialMove(std::make_shared<SelectEndSegment>(args),

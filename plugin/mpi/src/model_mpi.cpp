@@ -10,14 +10,7 @@
 
 namespace feasst {
 
-class MapModelMPI {
- public:
-  MapModelMPI() {
-    ModelMPI().deserialize_map()["ModelMPI"] = MakeModelMPI();
-  }
-};
-
-static MapModelMPI mapper_ = MapModelMPI();
+FEASST_MAPPER(ModelMPI,);
 
 ModelMPI::ModelMPI(argtype * args) {
   class_name_ = "ModelMPI";

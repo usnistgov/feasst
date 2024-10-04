@@ -7,21 +7,13 @@
 
 namespace feasst {
 
+FEASST_MAPPER(FormulaPolynomial,);
+
 FormulaPolynomial::FormulaPolynomial(argtype args) : FormulaPolynomial(&args) {
   feasst_check_all_used(args); }
 FormulaPolynomial::FormulaPolynomial(argtype * args) : Formula(args) {
   class_name_ = "FormulaPolynomial";
 }
-
-class MapFormulaPolynomial {
- public:
-  MapFormulaPolynomial() {
-    FormulaPolynomial().deserialize_map()["FormulaPolynomial"] =
-      std::make_shared<FormulaPolynomial>();
-  }
-};
-
-static MapFormulaPolynomial mapper_ = MapFormulaPolynomial();
 
 std::shared_ptr<Formula> FormulaPolynomial::create(std::istream& istr) const {
   return std::make_shared<FormulaPolynomial>(istr);

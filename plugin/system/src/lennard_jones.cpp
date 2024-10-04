@@ -7,14 +7,7 @@
 
 namespace feasst {
 
-class MapLennardJones {
- public:
-  MapLennardJones() {
-    LennardJones().deserialize_map()["LennardJones"] = MakeLennardJones();
-  }
-};
-
-static MapLennardJones mapper_ = MapLennardJones();
+FEASST_MAPPER(LennardJones,);
 
 LennardJones::LennardJones(argtype * args) {
   class_name_ = "LennardJones";
