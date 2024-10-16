@@ -20,6 +20,13 @@ typedef std::map<std::string, std::string> argtype;
   checkpoint file can be later read to restart the simulation.
   Note that for OMP or parallel simulations, the number of hours is multiplied
   by the number of threads.
+
+  To restart a simulation from a checkpoint file, checkpoint.fst, use the
+  following BASH command:
+
+  echo "Restart checkpoint.fst" | $HOME/feasst(-version)/build/bin/fst
+
+  Note that more commands may be added afted the line "Restart checkpoint.fst"
  */
 class Checkpoint {
  public:

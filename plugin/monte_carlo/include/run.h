@@ -24,7 +24,7 @@ class Run : public Action {
     - for_hours: run for this many CPU hours (default: -1 e.g., None).
     - until_criteria_complete: run until Criteria is complete (default: false).
       Afterward, write all Analyze and Modify.
-    - until_file_exists: run until input file name exists.
+    - until_file_exists: run until the given file name exists.
       Afterward, write all Analyze and Modify.
       If empty, skip (default: empty).
 

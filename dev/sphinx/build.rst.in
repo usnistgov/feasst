@@ -20,9 +20,3 @@ To run a text input file:
 .. code-block:: bash
 
     $HOME/feasst-@FEASST_VERSION@/build/bin/fst < $HOME/feasst-@FEASST_VERSION@/tutorial/example.txt
-
-To restart a simulation from a :cpp:class:`Checkpoint <feasst::Checkpoint>` file, checkpoint.fst:
-
-.. code-block:: bash
-
-    echo "Restart checkpoint.fst" | $HOME/feasst-@FEASST_VERSION@/build/bin/fst

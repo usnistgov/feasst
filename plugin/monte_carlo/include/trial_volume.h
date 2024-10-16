@@ -37,7 +37,7 @@ class TrialVolume : public Trial {
     return std::make_shared<TrialVolume>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit TrialVolume(std::istream& istr);
-  virtual ~TrialVolume() {}
+  virtual ~TrialVolume();
   //@}
 };
 

@@ -589,6 +589,7 @@ void Configuration::revive(const Select& selection) {
     DEBUG("reviving particle_index: " << particle_index);
     const Particle& part = select_particle(particle_index);
     const int type = part.type();
+    DEBUG("ghosts " << feasst_str(ghosts_[type]->particle_indices()));
     ASSERT(find_in_list(particle_index, ghosts_[type]->particle_indices()),
       "attempting to revive a particle that isn't a ghost");
     ++num_particles_of_type_[type];

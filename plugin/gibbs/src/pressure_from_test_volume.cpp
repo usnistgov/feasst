@@ -62,8 +62,8 @@ void PressureFromTestVolume::update(Criteria * criteria,
   const double num_particles = configuration(*system).num_particles();
   const double beta = system->thermo_params().beta();
   term_->accumulate(
-    std::pow((volume + delta_volume_)/volume, num_particles)*
-    std::exp(-beta*(en_new - en_old))
+    std::log(std::pow((volume + delta_volume_)/volume, num_particles))
+    -beta*(en_new - en_old)
   );
 }
 
@@ -71,7 +71,7 @@ std::string PressureFromTestVolume::header(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) const {
   std::stringstream ss;
-  ss << "pressure_average,pressure_block_stdev" << std::endl;
+  ss << "average,block_stdev" << std::endl;
   return ss.str();
 }
 
@@ -81,8 +81,8 @@ std::string PressureFromTestVolume::write(Criteria * criteria,
   std::stringstream ss;
   ss << header(*criteria, *system, *trial_factory);
   const double beta = system->thermo_params().beta();
-  ss << std::log(term_->average())/beta/delta_volume_ << ","
-     << term_->block_stdev()/std::abs(term_->average()*beta*delta_volume_);
+  ss << term_->average()/beta/delta_volume_ << ","
+     << term_->block_stdev()/beta/delta_volume_;
   return ss.str();
 }
 

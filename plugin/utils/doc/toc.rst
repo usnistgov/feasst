@@ -1,7 +1,9 @@
 
 .. toctree::
 
+   ArgumentParse
    arguments
+   arguments_extra
    Cache
    CustomException
    debug
@@ -9,10 +11,8 @@
    max_precision
    io
    ProgressReport
-   Timer
-   Checkpoint
-   utils
-   ArgumentParse
-   arguments_extra
    serialize
    serialize_extra
+   Timer
+   utils
+   Checkpoint

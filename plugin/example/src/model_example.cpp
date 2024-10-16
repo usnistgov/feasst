@@ -7,6 +7,12 @@
 
 namespace feasst {
 
+/*
+ The FEASST_MAPPER macro constructs a static object that can be used to
+ retart a simulation.
+ The provided arguments will not affect the stat of the serialized object,
+ but if arguments are required then they should be provided here.
+ */
 FEASST_MAPPER(ModelExample, argtype({{"num_discretized_steps", "1"}}));
 
 /*

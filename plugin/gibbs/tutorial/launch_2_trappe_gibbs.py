@@ -66,6 +66,8 @@ PARAMS['num_sims'] = PARAMS['num_nodes']
 PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
 PARAMS['beta'] = 1./(PARAMS['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
 PARAMS['mu_init']=10
+PARAMS['equil'] = PARAMS['equilibration_iterations']*PARAMS['trials_per_iteration']
+PARAMS['double_equil'] = 2*PARAMS['equil']
 if 'n-butane' in PARAMS['fstprt']:
     PARAMS['num_sites'] = 4
     PARAMS['molecular_weight'] = 58.12
@@ -213,7 +215,7 @@ CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {pr
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_fill.csv include_bonds true
 # decrease trials per due to infrequency of volume transfer attempts
-Tune trials_per_tune 10
+Tune
 
 # fill the first box
 {init_vapor}
@@ -221,29 +223,36 @@ Tune trials_per_tune 10
 # fill the second box
 {init_liquid}
 
-# equilibrate both
-#Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
-#Run until_criteria_complete true
-RemoveAnalyze name Log
-RemoveAnalyze name Movie
-RemoveAnalyze name Movie
-
-# gibbs ensemble equilibration
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
-TrialGrowFile grow_file {prefix}_grow_gibbs.txt
-TrialGibbsVolumeTransfer weight 0.006 tunable_param 3000 reference_index 0 print_num_accepted true
-CheckConstantVolume trials_per_update {trials_per_iteration} tolerance 1e-4
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
-Run until_criteria_complete true
 RemoveModify name Tune
 RemoveAnalyze name Log
 RemoveAnalyze name Movie
 RemoveAnalyze name Movie
 
+# gibbs equilibration cycles: equilibrate, estimate density, adjust, repeat
+# start a very long run GibbsInitialize completes once targets are reached
+Metropolis num_trials_per_iteration 1e9 num_iterations_to_complete 1e9
+GibbsInitialize updates_density_equil {equil} updates_per_adjust {double_equil}
+TrialGrowFile grow_file {prefix}_grow_gibbs.txt
+TrialGibbsVolumeTransfer weight 0.006 tunable_param 3000 reference_index 0 print_num_accepted true
+# a new tune is required when new Trials are introduced
+Tune trials_per_tune 20
+CheckEnergy trials_per_update {trials_per_iteration} decimal_places 8
+Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
+CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
+Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
+ProfileTrials trials_per_update 1e4 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq_profile.csv
+# decrease trials per due to infrequency of volume transfer attempts
+Run until_criteria_complete true
+RemoveModify name GibbsInitialize
+RemoveModify name Tune
+RemoveAnalyze name Log
+RemoveAnalyze name Movie
+RemoveAnalyze name Movie
+RemoveAnalyze name ProfileTrials
+
 # gibbs ensemble production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
+CheckConstantVolume trials_per_update {trials_per_iteration} tolerance 1e-4
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0.xyz
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1.xyz configuration_index 1
@@ -268,7 +277,8 @@ def post_process(params):
     vapor_density['tol'] = np.sqrt(vapor_density['block_stdev']**2+(2**2))
     print(vapor_density)
     diverged = vapor_density[vapor_density['diff'] > z_factor*vapor_density['tol']]
-    print(diverged)
+    if len(diverged) > 0:
+        print(diverged)
     assert len(diverged) == 0
     liquid_density = pd.read_csv(params['prefix']+"0_c1_dens.csv")
     liquid_density['average'] *= dens_conv
@@ -277,9 +287,16 @@ def post_process(params):
     liquid_density['tol'] = np.sqrt(liquid_density['block_stdev']**2+(2**2))
     print(liquid_density)
     diverged = liquid_density[liquid_density['diff'] > z_factor*liquid_density['tol']]
-    print(diverged)
+    if len(diverged) > 0:
+        print(diverged)
     assert len(diverged) == 0
-
+    pres_conv = 1e33/na # convert from kJ/mol/A^3 to Pa (J/m^3)
+    pressure = pd.read_csv(params['prefix']+"0_pressure.csv")
+    pressure['average'] *= pres_conv
+    pressure['block_stdev'] *= pres_conv
+    pressure['diff'] = np.abs(pressure['average']-1.1976E+06)
+    pressure['tol'] = np.sqrt(pressure['block_stdev']**2+(3.6212E+02)**2)
+    print(pressure)
 
 if __name__ == '__main__':
     fstio.run_simulations(params=PARAMS,

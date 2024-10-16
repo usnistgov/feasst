@@ -1,11 +1,17 @@
 
 .. toctree::
 
+   Accumulator
    constants
    Euler
    Formula
+   FormulaExponential
    FormulaPolynomial
+   Histogram
    Matrix
+   Minimize
+   GoldenSearch
+   Position
    quadratic_equation
    Random
    RandomModulo
@@ -15,10 +21,4 @@
    SolverBrentDekker
    SolverNewtonRaphson
    Table
-   FormulaExponential
-   Histogram
-   Minimize
-   GoldenSearch
-   Position
-   Accumulator
    utils_math

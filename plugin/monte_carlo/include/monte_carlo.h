@@ -91,6 +91,9 @@ class MonteCarlo {
   /// Resume processing the above arguments after Checkpointing.
   void resume();
 
+  /// Clear arguments;
+  void clear_arguments() { action_ = NULL; args_.clear(); }
+
   /// Set the random number generator.
   void set(std::shared_ptr<Random> random) { random_ = random; }
 

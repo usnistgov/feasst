@@ -4,6 +4,11 @@
 # https://doi.org/10.1021/jp964020s
 # While Table 1 includes A and B, the energy function does not have B,
 # and the units are confused.
+#
+# H
+#  \
+#   O -- H
+#
 
 3 sites
 2 bonds

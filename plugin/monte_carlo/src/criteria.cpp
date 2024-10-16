@@ -287,4 +287,15 @@ int Criteria::num_iterations(const int state) const {
   return const_num_iterations_();
 }
 
+void Criteria::initialize(System * system) {
+  for (int iconf = 0; iconf < system->num_configurations(); ++iconf) {
+    const double en = system->initialize(iconf);
+    // HWH set up a Criteria::precompute for this instead.
+    set_current_energy(en, iconf);
+    set_current_energy_profile(system->stored_energy_profile(iconf), iconf);
+  }
+  precompute(system);
+  update_state(*system, Acceptance());
+}
+
 }  // namespace feasst

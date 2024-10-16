@@ -190,6 +190,9 @@ class Criteria {
   // HWH hackish interface for setting the state in post processing.
   virtual void update_state(const System& system, const Acceptance& accept) {}
 
+  /// Initialize criteria
+  void initialize(System * system);
+
   // serialize
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;

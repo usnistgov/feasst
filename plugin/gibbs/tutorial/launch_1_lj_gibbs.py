@@ -14,12 +14,12 @@ PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
 PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
                     help='FEASST particle definition')
-PARSER.add_argument('--beta', type=float, default=1./0.8, help='inverse temperature')
+PARSER.add_argument('--beta', type=float, default=1., help='inverse temperature')
 PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
                     help='like cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
+PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e2),
                     help='number of iterations for equilibraiton')
-PARSER.add_argument('--production_iterations', type=int, default=int(5e2),
+PARSER.add_argument('--production_iterations', type=int, default=int(3e2),
                     help='number of iterations for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
@@ -48,6 +48,9 @@ PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on que
 PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate before queue
 PARAMS['procs_per_sim'] = 1
 PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
+PARAMS['equil'] = PARAMS['equilibration_iterations']*PARAMS['trials_per_iteration']
+PARAMS['double_equil'] = 2*PARAMS['equil']
+
 def sim_node_dependent_params(params):
     """ Set parameters that depent upon the sim or node here. """
 
@@ -57,7 +60,8 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length 12 particle_type0 {fstprt}
+# purposefully start with a bad volume guess to see if equilibration adjusts volume
+Configuration cubic_side_length 16 particle_type0 {fstprt}
 Configuration cubic_side_length 8 particle_type0 {fstprt}
 CopyNextLine replace configuration_index with 0
 Potential Model LennardJones configuration_index 1
@@ -67,47 +71,53 @@ CopyNextLine replace configuration_index with 0
 Potential VisitModel LongRangeCorrections configuration_index 1
 CopyNextLine replace configuration_index with 0
 RefPotential VisitModel DontVisitModel configuration_index 1
-ThermoParams beta {beta} chemical_potential 10
+ThermoParams beta {beta} chemical_potential 5
 Metropolis
 CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 2.0
 TrialTranslate tunable_param 0.1 tunable_target_acceptance 0.2 configuration_index 1
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
-# grand canonical ensemble initalization
+# fill both boxes with particles
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_fill.csv
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_fill.xyz
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
 Tune
 TrialAdd particle_type 0 configuration_index 0
-Run until_num_particles 32 configuration_index 0
+Run until_num_particles 112 configuration_index 0
 RemoveTrial name TrialAdd
 TrialAdd particle_type 0 configuration_index 1
-Run until_num_particles 480 configuration_index 1
+Run until_num_particles 400 configuration_index 1
+RemoveModify name Tune
 RemoveTrial name TrialAdd
 RemoveAnalyze name Log
 RemoveAnalyze name Movie
 RemoveAnalyze name Movie
 
-# gibbs ensemble equilibration
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations} Constraint ConstrainVolumeByCutoff
-TrialGibbsParticleTransfer weight 0.05 particle_type 0 reference_index 0 print_num_accepted true
-TrialGibbsVolumeTransfer weight 0.001 tunable_param 0.1 reference_index 0 print_num_accepted true
+# gibbs equilibration cycles: equilibrate, estimate density, adjust, repeat
+# start a very long run GibbsInitialize completes once targets are reached
+Metropolis num_trials_per_iteration 1e9 num_iterations_to_complete 1e9
+GibbsInitialize updates_density_equil {equil} updates_per_adjust {double_equil}
+TrialGibbsParticleTransfer weight 0.5 particle_type 0 reference_index 0 print_num_accepted true
+TrialGibbsVolumeTransfer weight 0.01 tunable_param 10. tunable_target_acceptance 0.5 reference_index 0 print_num_accepted true
 CheckEnergy trials_per_update {trials_per_iteration} decimal_places 8
-CheckConstantVolume trials_per_update {trials_per_iteration} tolerance 1e-4
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
-RemoveModify name Tune
+ProfileTrials trials_per_update 1e4 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq_profile.csv
+# a new tune is required when new Trials are introduced
 # decrease trials per due to infrequency of volume transfer attempts
-Tune trials_per_tune 10
+Tune trials_per_tune 20
 Run until_criteria_complete true
+RemoveModify name GibbsInitialize
 RemoveModify name Tune
 RemoveAnalyze name Log
 RemoveAnalyze name Movie
 RemoveAnalyze name Movie
+RemoveAnalyze name ProfileTrials
 
 # gibbs ensemble production
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations} Constraint ConstrainVolumeByCutoff
+Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
+CheckConstantVolume trials_per_update {trials_per_iteration} tolerance 1e-4
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0.xyz
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1.xyz configuration_index 1
@@ -125,29 +135,45 @@ ProfileTrials trials_per_update 1e4 trials_per_write {trials_per_iteration} outp
 Run until_criteria_complete true
 """.format(**params))
 
+def compare(label, average, stdev, params, z_factor=3):
+    df = pd.read_csv(params['prefix']+"0_"+label+".csv")
+    df['diff'] = np.abs(df['average']-average)
+    df['tol'] = np.sqrt(df['block_stdev']**2+stdev**2)
+    print(label, df)
+    diverged = df[df['diff'] > z_factor*df['tol']]
+    if len(diverged) > 0:
+        print(diverged)
+    assert len(diverged) == 0
+
 def post_process(params):
     z_factor = 3
-    vapor_density = pd.read_csv(params['prefix']+"0_c0_dens.csv")
-    vapor_density['diff'] = np.abs(vapor_density['average']-6.1007E-03)
-    vapor_density['tol'] = np.sqrt(vapor_density['block_stdev']**2+5.63E-07**2)
-    #print(vapor_density)
-    diverged = vapor_density[vapor_density['diff'] > z_factor*vapor_density['tol']]
-    print(diverged)
-    #assert len(diverged) == 0
-    liquid_density = pd.read_csv(params['prefix']+"0_c1_dens.csv")
-    liquid_density['diff'] = np.abs(liquid_density['average']-0.79981)
-    liquid_density['tol'] = np.sqrt(liquid_density['block_stdev']**2+0.000013**2)
-    #print(liquid_density)
-    diverged = liquid_density[liquid_density['diff'] > z_factor*liquid_density['tol']]
-    print(diverged)
-    #assert len(diverged) == 0
-    pressure = pd.read_csv(params['prefix']+"0_pressure.csv")
-    pressure['diff'] = np.abs(pressure['pressure_average']-0.0046465)
-    pressure['tol'] = np.sqrt(pressure['pressure_block_stdev']**2+(3.74e-7)**2)
-    #print(pressure)
-    diverged = pressure[pressure['diff'] > z_factor*pressure['tol']]
-    print(diverged)
-    #assert len(diverged) == 0
+    #fh rhov_rhol_p = [[0.1003, 0.56329, 0.07721], [9.41E-06, 4.51E-05, 5.7E-06]] # T=1.2 srsw fh
+    rhov_rhol_p = [[2.9556E-02, 7.0094E-01, 2.4950E-02], [3.45E-06, 6.31E-05, 1.67E-06]] # T=1 srsw fh
+    #fh rhov_rhol_p = [[6.1007E-03, 0.79981, 0.0046465], [5.63E-07, 0.000013, 3.74e-7]] #T=0.8 srsw fh
+    compare("c0_dens", rhov_rhol_p[0][0], rhov_rhol_p[1][0], params)
+    compare("c1_dens", rhov_rhol_p[0][1], rhov_rhol_p[1][1], params)
+    compare("pressure", rhov_rhol_p[0][2], rhov_rhol_p[1][2], params)
+    #if True: # set to true to plot
+    if False: # set to true to plot
+        df = pd.read_csv('lj0_eq.csv')
+        print(df)
+        #plt.plot(df['volume_config0'])
+        label='num_particles_of_type0'
+        #label='volume'
+        #label='energy'
+        if label != 'num_particles_of_type0':
+            for config in ['0', '1']:
+                plt.plot(df[label+'_config'+config], label=config)
+            plt.ylabel(label, fontsize=16)
+        else:
+            frac_vapor = df[label+'_config0']/(df[label+'_config0']+df[label+'_config1'])
+            plt.plot(frac_vapor)
+            plt.ylabel('number fraction in vapor', fontsize=16)
+            plt.axhline(0.15)
+            plt.axhline(0.1, linestyle='dashed')
+            plt.axhline(0.2, linestyle='dashed')
+        plt.xlabel('trials / 1e5', fontsize=16)
+        plt.savefig('plot.png', bbox_inches='tight')
 
 if __name__ == '__main__':
     fstio.run_simulations(params=PARAMS,

@@ -20,13 +20,34 @@ namespace feasst {
 
 FEASST_MAPPER(Trial,);
 
+std::vector<int> parse_number_fraction_exclude_type_(argtype * args) {
+  std::vector<int> types;
+  std::string start;
+  start.assign("number_fraction_exclude_type");
+  if (used(start, *args)) {
+    types = {integer(start, args)};
+  } else {
+    int index = 0;
+    std::stringstream key;
+    key << start << index;
+    while (used(key.str(), *args)) {
+      types.push_back(integer(key.str(), args));
+      ++index;
+      ASSERT(index < 1e8, "index(" << index << ") is very high. Infinite loop?");
+      key.str("");
+      key << start << index;
+    }
+  }
+  return types;
+}
+
 Trial::Trial(argtype * args) {
   set_finalize_delayed();
   data_.get_dble_1D()->resize(1);
   data_.get_int64_1D()->resize(3);
   *get_weight_() = dble("weight", args, 1);
   weight_per_number_fraction_ = dble("weight_per_number_fraction", args, -1);
-  number_fraction_exclude_type_ = integer("number_fraction_exclude_type", args, -1);
+  number_fraction_exclude_type_ = parse_number_fraction_exclude_type_(args);
   reset_stats();
   acceptance_ = std::make_shared<Acceptance>();
   print_num_accepted_ = boolean("print_num_accepted", args, false);
@@ -162,7 +183,7 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
     //DEBUG("existing: " << config.group_select(0).str());
     DEBUG("num of type 0: " << config.num_particles_of_type(0));
     DEBUG("current_energy: " << criteria->current_energy(iconf));
-    //DEBUG("all: " << system->configuration(iconf).selection_of_all().str());
+    //INFO("all: " << system->configuration(iconf).selection_of_all().str());
   }
   increment_num_attempts();
   if (!acceptance_) {
@@ -266,10 +287,13 @@ bool Trial::is_equal(const Trial& trial) const {
           trial.weight_per_number_fraction_);
     return false;
   }
-  if (number_fraction_exclude_type_ != trial.number_fraction_exclude_type_) {
-    DEBUG("unequal number_fraction_exclude_type:" << number_fraction_exclude_type_ << " " <<
-          trial.number_fraction_exclude_type_);
-    return false;
+  for (int index = 0; index < static_cast<int>(number_fraction_exclude_type_.size()); ++index) {
+    if (number_fraction_exclude_type_[index] != trial.number_fraction_exclude_type_[index]) {
+      DEBUG("unequal number_fraction_exclude_type["<<index<<"]:" <<
+        number_fraction_exclude_type_[index] << " " <<
+        trial.number_fraction_exclude_type_[index]);
+      return false;
+    }
   }
   if (num_stages() > 0) {
     if (!stages_[0]->perturb().tunable().is_equal(

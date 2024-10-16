@@ -4,6 +4,8 @@
    FormulaSineWave
    Shape
    HalfSpaceTilted
+   HalfSpace
+   HalfSpaceSine
    Cylinder
    Cuboid
    ShapeFile
@@ -14,5 +16,3 @@
    SlabSine
    Sphere
    Supertoroid
-   HalfSpace
-   HalfSpaceSine

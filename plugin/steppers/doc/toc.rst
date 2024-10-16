@@ -2,6 +2,7 @@
 .. toctree::
 
    Check
+   CheckEnergy
    CheckPhysicality
    CheckProperties
    Chirality2D
@@ -15,7 +16,7 @@
    IncrementPhase
    Movie
    NumParticles
-   ReadConfigFromFile
+   ProfileTrials
    Scattering
    AnalyzeData
    SeekModify
@@ -24,9 +25,8 @@
    WallClockLimit
    WrapParticles
    WriteStepper
+   CPUTime
    MeanSquaredDisplacement
-   ProfileTrials
-   CheckEnergy
+   ReadConfigFromFile
    Log
    PairDistributionInner
-   CPUTime

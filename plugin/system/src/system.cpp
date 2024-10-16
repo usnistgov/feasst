@@ -440,4 +440,14 @@ void System::finalize(const int config) {
   finalize(configurations_[config]->selection_of_all(), config);
 }
 
+double System::initialize(const int config) {
+  precompute();
+  const double en = unoptimized_energy(config);
+  energy(config);
+  for (int ref = 0; ref < num_references(config); ++ref) {
+    reference_energy(ref, config);
+  }
+  return en;
+}
+
 }  // namespace feasst

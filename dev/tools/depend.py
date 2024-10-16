@@ -109,7 +109,9 @@ def read_class(file_name):
         lines = fle.readlines()
         for line in lines:
             if re.search(r'^class ', line) and not re.search(';$', line):
-                cls.append(line.split(' ')[1])
+                cl = line.split(' ')[1]
+                if cl != 'Map##class_name':
+                    cls.append(cl)
     return cls
 
 def write_cpp(plugin_dir, deps, include_plugin):

@@ -1,7 +1,7 @@
 Acknowledgement
 ###############################################################
 
-While all criticism may be directed to the project lead, :doc:`Harold W. Hatch<CONTACT>`, acknowledgements belong to the following people listed in alphabetical order of last name.
+While all criticism may be directed to the project lead, `Harold W. Hatch <../../CONTACT.html>`_, acknowledgements belong to the following people listed in alphabetical order of last name.
 
 For `contributing <https://github.com/usnistgov/feasst/graphs/contributors>`_, testing and discussion:
 

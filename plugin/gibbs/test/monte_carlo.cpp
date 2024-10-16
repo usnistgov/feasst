@@ -39,47 +39,80 @@ namespace feasst {
 TEST(MonteCarlo, gibbs_ensemble) {
   auto trial = MakeTrialGibbsParticleTransfer();
   auto mc = MakeMonteCarlo({{
-    //{"RandomMT19937", {{"seed", "1234"}}},
-    //{"RandomMT19937", {{"seed", "1693947707"}}},
+    //{"RandomMT19937", {{"seed", "12345"}}},
     {"CopyNextLine", {{}}},
     {"Configuration", {{"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
-      {"particle_type0", "../particle/lj.fstprt"}, {"group0", "first"}, {"first_particle_index", "0"}}},
+      {"particle_type0", "../particle/lj.fstprt"}, {"group0", "first"}, {"first_particle_index", "0"}, {"cutoff", "2"}}},
     {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
     {"Potential", {{"Model", "LennardJones"}, {"configuration_index", "1"}}},
     {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
     {"Potential", {{"VisitModel", "LongRangeCorrections"}, {"configuration_index", "1"}}},
     {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
     {"RefPotential", {{"VisitModel", "DontVisitModel"}, {"configuration_index", "1"}}},
-    {"ThermoParams", {{"beta", str(1/0.8)}, {"chemical_potential", "1."}}},
+    {"ThermoParams", {{"beta", str(1/0.8)}, {"chemical_potential", "1."}, {"pressure", "1"}}},
     {"Metropolis", {{}}},
     {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
     {"TrialTranslate", {{"configuration_index", "1"}}},
     {"TrialGrowFile", {{"grow_file", "../plugin/gibbs/test/data/grow.txt"}}},
-    //{"TrialGibbsParticleTransfer", {{"particle_type", "0"}}},
     {"TrialGibbsParticleTransfer", {{"particle_type", "0"}, {"reference_index", "0"}}},
-    //{"TrialGibbsVolumeTransfer", {{"tunable_param", "0.1"}}},
     {"TrialGibbsVolumeTransfer", {{"tunable_param", "0.1"}, {"reference_index", "0"}}},
-    //{"TrialGibbsParticleTransfer", {{"configuration_index0", "0"}, {"configuration_index1", "1"}}},
-    {"Tune", {{"trials_per_tune", str(4)}}},
-    {"Log", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/lj.txt"}}},
+    {"Tune", {{"trials_per_tune", "4"}}},
+    {"Log", {{"trials_per_write", "1e0"}, {"output_file", "tmp/lj.txt"}}},
     {"CopyNextLine", {{"replace0", "configuration_index"}, {"with0", "0"},
                       {"replace1", "output_file"}, {"with1", "tmp/lj1.xyz"}}},
-    {"Movie", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/lj0.xyz"}, {"configuration_index", "1"}}},
-    {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
-    {"CheckConstantVolume", {{"trials_per_update", str(1e0)}}},
+    {"Movie", {{"trials_per_write", "1e0"}, {"output_file", "tmp/lj0.xyz"}, {"configuration_index", "1"}}},
+    {"CheckEnergy", {{"trials_per_update", "1e0"}, {"tolerance", str(1e-9)}}},
+    {"CheckConstantVolume", {{"trials_per_update", "1e0"}}},
     {"PressureFromTestVolume", {{"trials_per_update", str(1e0)}, {"trials_per_write", "1"}, {"output_file", "tmp/lj_p.csv"}}},
-    {"Run", {{"num_trials", "1e2"}}},
+    //{"Run", {{"num_trials", "1e2"}}},
     //{"Run", {{"num_trials", "1e6"}}},
   }});
-  EXPECT_EQ(2, mc->system().num_configurations());
-  EXPECT_NE(mc->system().potential(0, 0).stored_energy(),
-            mc->system().potential(0, 1).stored_energy());
-  EXPECT_EQ(mc->system().configuration(0).num_particles() +
-            mc->system().configuration(1).num_particles(), 60);
-  EXPECT_NEAR(mc->system().configuration(0).domain().volume() +
-              mc->system().configuration(1).domain().volume(),
+  auto mc2 = test_serialize_unique(*mc);
+  mc2->run_num_trials(1e2);
+  EXPECT_EQ(2, mc2->system().num_configurations());
+  EXPECT_NE(mc2->system().potential(0, 0).stored_energy(),
+            mc2->system().potential(0, 1).stored_energy());
+  EXPECT_EQ(mc2->system().configuration(0).num_particles() +
+            mc2->system().configuration(1).num_particles(), 60);
+  EXPECT_NEAR(mc2->system().configuration(0).domain().volume() +
+              mc2->system().configuration(1).domain().volume(),
               2*std::pow(8,3),
               1e-8);
+}
+
+TEST(MonteCarlo, gibbs_adjust) {
+  auto mc = MakeMonteCarlo({{
+    //{"RandomMT19937", {{"seed", "1728330862"}}},
+    //{"CopyNextLine", {{}}},
+    {"Configuration", {{"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
+      {"particle_type0", "../particle/lj.fstprt"}, {"cutoff", "2"}}},
+    {"Configuration", {{"cubic_box_length", "20"}, {"particle_type0", "../particle/lj.fstprt"}, {"add_particles_of_type0", "1"}}},
+    {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
+    {"Potential", {{"Model", "LennardJones"}, {"configuration_index", "1"}}},
+    {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
+    {"Potential", {{"VisitModel", "LongRangeCorrections"}, {"configuration_index", "1"}}},
+    {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
+    {"RefPotential", {{"VisitModel", "DontVisitModel"}, {"configuration_index", "1"}}},
+    {"ThermoParams", {{"beta", str(1/0.8)}, {"chemical_potential", "1."}, {"pressure", "1"}}},
+    {"Metropolis", {{}}},
+    {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
+    {"TrialTranslate", {{"configuration_index", "1"}}},
+    {"TrialGrowFile", {{"grow_file", "../plugin/gibbs/test/data/grow.txt"}}},
+    {"TrialGibbsParticleTransfer", {{"particle_type", "0"}, {"reference_index", "0"}}},
+    {"TrialGibbsVolumeTransfer", {{"tunable_param", "0.1"}, {"reference_index", "0"}}},
+    {"Tune", {{"trials_per_tune", "4"}}},
+    {"Log", {{"trials_per_write", "1e0"}, {"output_file", "tmp/lj.txt"}}},
+    {"CopyNextLine", {{"replace0", "configuration_index"}, {"with0", "0"},
+                      {"replace1", "output_file"}, {"with1", "tmp/lj1.xyz"}}},
+    {"Movie", {{"trials_per_write", "1e0"}, {"output_file", "tmp/lj0.xyz"}, {"configuration_index", "1"}}},
+    {"CopyNextLine", {{"replace0", "configuration_index"}, {"with0", "0"}, {"replace1", "output_file"}, {"with1", "tmp/lj1d.xyz"}}},
+    {"Density", {{"trials_per_write", "1e0"}, {"output_file", "tmp/lj0d.xyz"}, {"configuration_index", "1"}}},
+    {"CheckEnergy", {{"trials_per_update", "1e0"}, {"tolerance", str(1e-9)}}},
+    {"GibbsInitialize", {{"trials_per_update", "1e0"}}},
+    {"Run", {{"num_trials", "1e2"}}},
+  }});
+  auto mc2 = test_serialize_unique(*mc);
+  EXPECT_EQ(2, mc2->system().num_configurations());
 }
 
 }  // namespace feasst

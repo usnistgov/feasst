@@ -654,28 +654,12 @@ void MonteCarlo::imitate_trial_rejection_(const int trial_index,
 }
 
 double MonteCarlo::initialize_system(const int config) {
-  system_->precompute();
-  const double en = system_->unoptimized_energy(config);
-  system_->energy(config);
-  for (int ref = 0; ref < system_->num_references(config); ++ref) {
-    system_->reference_energy(ref, config);
-  }
-  return en;
+  return system_->initialize(config);
 }
 
 void MonteCarlo::initialize_criteria() {
-  for (int iconf = 0; iconf < system_->num_configurations(); ++iconf) {
-    const double en = initialize_system(iconf);
-    // HWH set up a Criteria::precompute for this instead.
-    if (criteria_) {
-      criteria_->set_current_energy(en, iconf);
-      criteria_->set_current_energy_profile(system_->stored_energy_profile(iconf), iconf);
-    }
-  }
-  if (criteria_) {
-    criteria_->precompute(system_.get());
-  }
-  criteria_->update_state(*system_, Acceptance());
+  ASSERT(criteria_, "err");
+  criteria_->initialize(system_.get());
 }
 
 void MonteCarlo::initialize_trials() {

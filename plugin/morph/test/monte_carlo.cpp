@@ -61,7 +61,7 @@ TEST(MonteCarlo, TrialMorph) {
   System system;
   system.add(MakeConfiguration({{"cubic_side_length", "8"},
     {"particle_type0", "../particle/lj.fstprt"},
-    {"particle_type1", "../plugin/morph/particle/lj2.fstprt"}}));
+    {"particle_type1", "../particle/lj.fstprt"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.add(MakePotential(MakeLongRangeCorrections()));
   test_morph(system);
@@ -184,10 +184,10 @@ TEST(MonteCarlo, TrialMorph_RPM) {
 std::unique_ptr<MonteCarlo> test_morph_expanded(const std::string trials_per) {
   auto mc = std::make_unique<MonteCarlo>();
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../plugin/morph/particle/lj0.fstprt"},
-                            {"particle_type1", "../plugin/morph/particle/lj1.fstprt"},
-                            {"particle_type2", "../plugin/morph/particle/lj2.fstprt"},
-                            {"particle_type3", "../plugin/morph/particle/lj3.fstprt"},
+                            {"particle_type0", "../particle/lj.fstprt"},
+                            {"particle_type1", "../particle/lj.fstprt"},
+                            {"particle_type2", "../particle/lj.fstprt"},
+                            {"particle_type3", "../particle/lj.fstprt"},
                             {"add_particles_of_type0", "1"}}));
   mc->add(MakePotential(MakeLennardJones()));
   const std::vector<std::vector<int> > grow_sequence = {{1}, {2}, {3}, {0}};
@@ -255,10 +255,10 @@ TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "1234"}}));
   mc.add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../plugin/morph/particle/lj0.fstprt"},
-                            {"particle_type1", "../plugin/morph/particle/lj0b.fstprt"},
-                            {"particle_type2", "../plugin/morph/particle/lj2.fstprt"},
-                            {"particle_type3", "../plugin/morph/particle/lj2b.fstprt"}}));
+                            {"particle_type0", "../particle/lj.fstprt"},
+                            {"particle_type1", "../particle/lj.fstprt"},
+                            {"particle_type2", "../particle/lj.fstprt"},
+                            {"particle_type3", "../particle/lj.fstprt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};
@@ -293,6 +293,56 @@ TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
     ASSERT(2*mc.configuration().num_particles_of_type(2) ==
              mc.configuration().num_particles_of_type(3), "er");
   }
+}
+
+TEST(MonteCarlo, morphrxn) {
+  const int tpi = 1e2;
+  const int trials = tpi*1e3;
+  const std::string tpis = str(tpi);
+  auto mc = MakeMonteCarlo({{
+    {"RandomMT19937", {{"seed", "123"}}},
+    {"Configuration", {{"cubic_side_length", "8"},
+                       {"particle_type0", "../plugin/morph/particle/trimer_to_tetramer.fstprt"}, // h2o
+                       {"particle_type1", "../particle/tetramer.fstprt"},                        // h30
+                       {"particle_type2", "../plugin/morph/particle/dimer_to_monomer.fstprt"},    // dimer should go to monomer
+                       {"particle_type3", "../plugin/morph/particle/monomer.fstprt"},
+                       //{"particle_type0", "../particle/lj.fstprt"},
+                       //{"particle_type1", "../particle/lj.fstprt"},
+                       //{"particle_type2", "../particle/lj.fstprt"},
+                       //{"particle_type3", "../particle/lj.fstprt"},
+                       {"add_particles_of_type2", "1"}}},
+    {"Potential", {{"Model", "LennardJones"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1."}, {"chemical_potential1", "1."},
+                                     {"chemical_potential2", "1."}, {"chemical_potential3", "1."}}},
+    {"Metropolis", {{}}},
+    {"TrialTranslate", {{"weight_per_number_fraction", str(1./8.)}, {"particle_type", "0"}}},
+    {"TrialTranslate", {{"weight_per_number_fraction", str(1./8.)}, {"particle_type", "1"}}},
+    {"TrialTranslate", {{"weight_per_number_fraction", str(1./8.)}, {"particle_type", "2"}}},
+    {"TrialTranslate", {{"weight_per_number_fraction", str(1./8.)}, {"particle_type", "3"}}},
+    //{"TrialTranslate", {{"weight_per_number_fraction", "1."}, {"particle_type", "1"}, {"number_fraction_exclude_type0", "2"}, {"number_fraction_exclude_type1", "3"}}},
+    {"TrialParticlePivot", {{"weight_per_number_fraction", str(1./8.)}, {"particle_type", "0"}}},
+    {"TrialParticlePivot", {{"weight_per_number_fraction", str(1./8.)}, {"particle_type", "1"}}},
+    {"TrialParticlePivot", {{"weight_per_number_fraction", str(1./8.)}, {"particle_type", "2"}}},
+    {"TrialParticlePivot", {{"weight_per_number_fraction", str(1./8.)}, {"particle_type", "3"}}},
+    {"TrialAdd", {{"particle_type", "0"}}},
+    {"Run", {{"until_num_particles", "100"}, {"particle_type", "0"}}},
+    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"TrialMorph", {{"weight", "0.1"},
+                    {"particle_type0", "0"}, {"particle_type_morph0", "1"},
+                    {"particle_type1", "2"}, {"particle_type_morph1", "3"}}},
+    {"TrialMorph", {{"weight", "0.1"},
+                    {"particle_type0", "1"}, {"particle_type_morph0", "0"},
+                    {"particle_type1", "3"}, {"particle_type_morph1", "2"}}},
+    {"TrialMorph", {{"weight", "0.1"},
+                    {"particle_type0", "0"}, {"particle_type_morph0", "1"},
+                    {"particle_type1", "1"}, {"particle_type_morph1", "0"}}},
+    {"CheckEnergy", {{"trials_per_update", tpis}, {"decimal_places", "8"}}},
+    {"Log", {{"trials_per_write", tpis}, {"output_file", "tmp/lj.csv"}}},
+    {"Movie", {{"trials_per_write", tpis}, {"output_file", "tmp/lj.xyz"}}},
+    {"NumParticles", {{"trials_per_write", tpis}, {"output_file", "tmp/ljn.csv"}, {"particle_type", "2"}}},
+    {"ProfileTrials", {{"trials_per_write", tpis}, {"output_file", "tmp/ljp.csv"}, {"trials_per_update", "1e3"}}},
+    {"Run", {{"num_trials", str(trials)}}},
+  }});
 }
 
 }  // namespace feasst

@@ -79,6 +79,9 @@ void PerturbAdd::finalize(System * system) {
 //    DEBUG("finalizing mobile " << finalize_select()->mobile().str());
 //    system->finalize(finalize_select()->mobile());
     if (delay_add_) {
+      DEBUG("delay adding");
+      DEBUG(finalize_select()->mobile().str());
+      DEBUG("conf " << finalize_select()->configuration_index());
       finalize_select()->get_configuration(system)->revive(finalize_select()->mobile());
     }
   }

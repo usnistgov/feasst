@@ -26,6 +26,7 @@ TrialVolume::TrialVolume(argtype * args) : Trial(args) {
 TrialVolume::TrialVolume(argtype args) : TrialVolume(&args) {
   feasst_check_all_used(args);
 }
+TrialVolume::~TrialVolume() {}
 
 TrialVolume::TrialVolume(std::istream& istr) : Trial(istr) {
   const int version = feasst_deserialize_version(istr);

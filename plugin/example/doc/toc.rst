@@ -2,6 +2,6 @@
 .. toctree::
 
    ActionExample
-   Gamma
    AnalyzeExample
+   Gamma
    ModelExample

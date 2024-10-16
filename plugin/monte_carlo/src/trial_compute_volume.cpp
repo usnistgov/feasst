@@ -27,21 +27,27 @@ void TrialComputeVolume::perturb_and_acceptance(
     std::vector<TrialStage*> * stages,
     Random * random) {
   DEBUG("TrialComputeVolume");
-  const Configuration& config = system->configuration();
+  const int iconf = (*stages)[0]->select().configuration_index();
+  DEBUG("iconf " << iconf);
+  const Configuration& config = system->configuration(iconf);
   const double volume_old = config.domain().volume();
+  DEBUG("volume_old " << volume_old);
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
-  acceptance->set_energy_new(acceptance->energy_new());
-  acceptance->set_energy_profile_new(acceptance->energy_profile_new());
-//  DEBUG("acceptance en prof " << feasst_str(acceptance->energy_profile_new()));
+  acceptance->set_energy_new(acceptance->energy_new(iconf), iconf);
+  DEBUG("energy new " << acceptance->energy_new(iconf));
+  acceptance->set_energy_profile_new(acceptance->energy_profile_new(iconf), iconf);
+  DEBUG("acceptance en prof " << feasst_str(acceptance->energy_profile_new(iconf)));
   const double volume_new = config.domain().volume();
+  DEBUG("volume_new " << volume_new);
   if (volume_old == volume_new) acceptance->set_reject(true);
   const ThermoParams& thermo = system->thermo_params();
+  DEBUG("dv " << volume_new - volume_old);
   acceptance->add_to_ln_metropolis_prob(
     - thermo.beta()*thermo.pressure()*(volume_new - volume_old)
     + config.num_particles()*std::log(volume_new/volume_old)
     // manually add the energy of the old configuration
     // this is an optimization to avoid recomputing the old energy
-    + thermo.beta()*criteria->current_energy()
+    + thermo.beta()*criteria->current_energy(iconf)
   );
 }
 

@@ -22,7 +22,7 @@ void parse_cm(std::string line) {
   argtype variables;
   bool assign_to_list;
   std::pair<std::string, argtype> line_pair = parse_line(line, &variables, &assign_to_list);
-  //INFO("cm args: " << str(line_pair.second));
+  //DEBUG("cm args: " << str(line_pair.second));
   CollectionMatrixSplice cm(line_pair.second);
 
   // read next line for Window
@@ -135,7 +135,7 @@ void parse_server(std::string line) {
   }
 }
 
-std::unique_ptr<MonteCarlo> restart(const std::string& filename) {
+std::unique_ptr<MonteCarlo> restart(const std::string& filename, bool resume = true) {
   std::unique_ptr<MonteCarlo> mc;
   CollectionMatrixSplice cms;
   bool is_mc = false;
@@ -146,7 +146,11 @@ std::unique_ptr<MonteCarlo> restart(const std::string& filename) {
     is_mc = true;
   }
   if (is_mc) {
-    mc->resume();
+    if (resume) {
+      mc->resume();
+    } else {
+      mc->clear_arguments();
+    }
   } else {
     cms.run_until_all_are_complete();
   }
@@ -158,8 +162,16 @@ void parse_restart(std::string line) {
   std::string checkpoint_file;
   ss >> checkpoint_file; // reads "Restart"
   ss >> checkpoint_file;
+  std::string extra;
+  ss >> extra;
+  DEBUG("extra " << extra);
+  bool resume = true;
+  if (extra == "clear_previous_arguments") {
+    resume = false;
+  }
+  DEBUG("resume " << resume);
   std::cout << "# Restarting from file: " << checkpoint_file << std::endl;
-  std::unique_ptr<MonteCarlo> mc = restart(checkpoint_file);
+  std::unique_ptr<MonteCarlo> mc = restart(checkpoint_file, resume);
   // after restart is complete, check for more text input
   for (arglist argl : parse_mcs(std::cin)) {
     mc->add_args(argl);

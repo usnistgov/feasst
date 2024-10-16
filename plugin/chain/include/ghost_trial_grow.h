@@ -14,6 +14,9 @@ namespace feasst {
 /**
   Compute the Metropolis acceptance for a TrialGrow that is never accepted.
 
+  This trial may not be currently usable to obtain Widom insertions of flexible
+  molecules due to the exclusion of bonded energy terms.
+
   This class effectively functions as an Analyze, because it does not change the
   System.
   The Trial is always rejected; however, because the Trial interface is used

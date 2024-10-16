@@ -5,5 +5,5 @@
    MacrostateModel
    PerturbModel
    ModelExpanded
-   ComputeModel
    TrialModel
+   ComputeModel

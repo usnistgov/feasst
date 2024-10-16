@@ -186,6 +186,9 @@ class System {
     const int ref = 0,
     const int config = 0);
 
+  /// Initialize and return total energy.
+  double initialize(const int config = 0);
+
   //@}
   /** @name ThermoParams
     Store and retreive the thermodynamic parameters such as temperature, pressure, etc.
@@ -200,6 +203,9 @@ class System {
 
   // Same as above, but as a constant pointer.
   const ThermoParams * thermo_params_ptr_() const;
+
+  // Same as above, but as a pointer.
+  ThermoParams * get_thermo_params() { return thermo_params_.get(); }
 
   /// Set the inverse temperature, \f$\beta\f$.
   void set_beta(const double beta);
