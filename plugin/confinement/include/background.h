@@ -19,6 +19,8 @@ class Background : public VisitModel {
     - constant: return this energy.
    */
   explicit Background(argtype args = argtype());
+  explicit Background(argtype * args);
+
   //@}
   /** @name Public Functions
    */
@@ -35,9 +37,10 @@ class Background : public VisitModel {
       Configuration * config,
       const int group_index) override;
   std::shared_ptr<VisitModel> create(std::istream& istr) const override;
+  std::shared_ptr<VisitModel> create(argtype * args) const override;
   void serialize(std::ostream& ostr) const override;
   explicit Background(std::istream& istr);
-  ~Background() {}
+  virtual ~Background();
 
   //@}
  private:

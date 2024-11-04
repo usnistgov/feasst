@@ -6,7 +6,7 @@ Overview
 
 .. include:: build/build.rst
 
-Text input file example
+Example input text file
 ===============================================
 
 .. literalinclude:: tutorial/example.txt
@@ -14,7 +14,7 @@ Text input file example
 This text input file is explained in detail in the first :doc:`tutorial <tutorial/tutorial>`.
 
 
-How to get started
+How to learn more
 ===============================================
 
 * Review the :doc:`first <tutorial/tutorial>` and :doc:`second tutorial<tutorial/launch>`.
@@ -23,8 +23,8 @@ How to get started
   * See ``python launch.py --help`` (e.g., adjust ``--feasst_install`` or ``--hours_terminate``).
 * Find :doc:`tutorial/README` that are closest to what you would like to accomplish.
 * Reproduce the expected result of those :doc:`tutorial/README`.
-* To modify the tutorial to accomplish your goals, refer to the :doc:`../plugin/text_interface` documentation.
-* Compare the energy of a :doc:`reference configuration<plugin/monte_carlo/tutorial/tutorial_0_ref_configs>` with a trusted source.
+* To modify :doc:`tutorial/README` to accomplish your goals, refer to the :doc:`../plugin/text_interface` documentation.
+* Compare the energy of a :doc:`reference configuration<plugin/monte_carlo/tutorial/tutorial_0_ref_configs>` with a trusted source to ensure the model, :doc:`/particle/README` return an expected result.
 
 Features
 ================================================================================

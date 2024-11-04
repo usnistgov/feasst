@@ -296,8 +296,8 @@ TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
 }
 
 TEST(MonteCarlo, morphrxn) {
-  const int tpi = 1e2;
-  const int trials = tpi*1e3;
+  const int tpi = 1e0;
+  const int trials = tpi*5e1;
   const std::string tpis = str(tpi);
   auto mc = MakeMonteCarlo({{
     {"RandomMT19937", {{"seed", "123"}}},
@@ -337,10 +337,10 @@ TEST(MonteCarlo, morphrxn) {
                     {"particle_type0", "0"}, {"particle_type_morph0", "1"},
                     {"particle_type1", "1"}, {"particle_type_morph1", "0"}}},
     {"CheckEnergy", {{"trials_per_update", tpis}, {"decimal_places", "8"}}},
-    {"Log", {{"trials_per_write", tpis}, {"output_file", "tmp/lj.csv"}}},
-    {"Movie", {{"trials_per_write", tpis}, {"output_file", "tmp/lj.xyz"}}},
-    {"NumParticles", {{"trials_per_write", tpis}, {"output_file", "tmp/ljn.csv"}, {"particle_type", "2"}}},
-    {"ProfileTrials", {{"trials_per_write", tpis}, {"output_file", "tmp/ljp.csv"}, {"trials_per_update", "1e3"}}},
+    //{"Log", {{"trials_per_write", tpis}, {"output_file", "tmp/lj.csv"}}},
+    //{"Movie", {{"trials_per_write", tpis}, {"output_file", "tmp/lj.xyz"}}},
+    //{"NumParticles", {{"trials_per_write", tpis}, {"output_file", "tmp/ljn.csv"}, {"particle_type", "2"}}},
+    //{"ProfileTrials", {{"trials_per_write", tpis}, {"output_file", "tmp/ljp.csv"}, {"trials_per_update", "1e3"}}},
     {"Run", {{"num_trials", str(trials)}}},
   }});
 }

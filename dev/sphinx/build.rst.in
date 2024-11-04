@@ -15,7 +15,10 @@ FEASST requires C++14 and CMake, and is compiled with the following BASH command
     # optional Python packages for feasst tutorials
     pip install jupyter matplotlib pandas scipy ../pyfeasst # ../ ensures pyfeasst matches feasst
 
-To run a text input file:
+How to run a simulation
+===============================================
+
+Input a text file to the compiled executable.
 
 .. code-block:: bash
 

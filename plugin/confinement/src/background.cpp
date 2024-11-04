@@ -6,11 +6,14 @@
 
 namespace feasst {
 
-Background::Background(argtype args) {
+Background::Background(argtype * args) : VisitModel(args) {
   class_name_ = "Background";
-  constant_ = dble("constant", &args);
+  constant_ = dble("constant", args);
+}
+Background::Background(argtype args) : Background(&args) {
   feasst_check_all_used(args);
 }
+Background::~Background() {}
 
 void Background::compute(
     ModelOneBody * model,
@@ -25,6 +28,10 @@ FEASST_MAPPER(Background, argtype({{"constant", "0"}}));
 
 std::shared_ptr<VisitModel> Background::create(std::istream& istr) const {
   return std::make_shared<Background>(istr);
+}
+
+std::shared_ptr<VisitModel> Background::create(argtype * args) const {
+  return std::make_shared<Background>(args);
 }
 
 Background::Background(std::istream& istr) : VisitModel(istr) {
