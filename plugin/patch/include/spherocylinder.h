@@ -72,11 +72,6 @@ class Spherocylinder : public VisitModelInner {
     const double rw2, const double w1w2, const double lh1, const double lh2);
 };
 
-inline std::shared_ptr<Spherocylinder> MakeSpherocylinder(
-    argtype args = argtype()) {
-  return std::make_shared<Spherocylinder>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_PATCH_SPHEROCYLINDER_H_

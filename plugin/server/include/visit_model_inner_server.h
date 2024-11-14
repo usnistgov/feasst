@@ -79,11 +79,6 @@ class VisitModelInnerServer : public VisitModelInner {
   Euler euler_;
 };
 
-inline std::shared_ptr<VisitModelInnerServer> MakeVisitModelInnerServer(
-    argtype args = argtype()) {
-  return std::make_shared<VisitModelInnerServer>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_SERVER_VISIT_MODEL_INNER_SERVER_H_

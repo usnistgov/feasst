@@ -52,10 +52,6 @@ class MovieSpherocylinder : public AnalyzeWriteOnly {
   FileVMDSpherocylinder vmd_;
 };
 
-inline std::shared_ptr<MovieSpherocylinder> MakeMovieSpherocylinder(argtype args = argtype()) {
-  return std::make_shared<MovieSpherocylinder>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_SPHEROCYLINDER_MOVIE_SPHEROCYLINDER_H_

@@ -313,6 +313,11 @@ class MonteCarlo {
   const std::pair<std::string, argtype>& next_arg() const {
     return next_arg_; }
 
+  /// Return profiling ticks
+  const uint64_t trial_ticks() const { return trial_ticks_; }
+  const uint64_t analyze_ticks() const { return analyze_ticks_; }
+  const uint64_t modify_ticks() const { return modify_ticks_; }
+
   virtual void serialize(std::ostream& ostr) const;
   explicit MonteCarlo(std::istream& istr);
 
@@ -364,6 +369,7 @@ class MonteCarlo {
 
   // temporary and not serialized
   std::pair<std::string, argtype> next_arg_;
+  uint64_t trial_ticks_ = 0, analyze_ticks_ = 0, modify_ticks_ = 0;
 
   void record_next_arg_(arglist * args);
   bool duplicate_stepper_output_file_(const std::string output_file);

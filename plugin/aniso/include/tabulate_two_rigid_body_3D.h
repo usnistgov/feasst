@@ -117,10 +117,6 @@ class TabulateTwoRigidBody3D : public Action {
   void ouput_orientations_();
 };
 
-inline std::shared_ptr<TabulateTwoRigidBody3D> MakeTabulateTwoRigidBody3D(argtype args = argtype()) {
-  return std::make_shared<TabulateTwoRigidBody3D>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_ANISO_TABULATE_TWO_RIGID_BODY_3D_H_

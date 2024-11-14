@@ -59,6 +59,7 @@
 namespace feasst {
 
 TEST(MonteCarlo, chain) {
+  const int trials_per = 1e0;
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "1610724059"}}));
   mc.set(chain_system());
@@ -96,7 +97,6 @@ TEST(MonteCarlo, chain) {
       {"num_steps", "3"},
       {"reference_index", "0"},
     }));
-  const int trials_per = 1e0;
   mc.add(MakeLog({
     {"trials_per_write", str(trials_per)},
     {"output_file", "tmp/chainlog.txt"}}));

@@ -18,6 +18,8 @@
 
 namespace feasst {
 
+class Formula;
+
 typedef std::map<std::string, std::string> argtype;
 
 /**
@@ -89,6 +91,16 @@ class Accumulator {
 
   /// Return the blocks.
   const std::vector<std::vector<double> >& blocks() const { return blocks_; }
+
+  /// Return the blocks of the largest size with three or more
+  const std::vector<double> largest_blocks(const int min = 3) const;
+
+  /// Return the block operation with the largest blocks that have three or more.
+  int largest_block_operation(const int min = 3) const;
+
+  /// Compute the standard deviation of the block average of a quantity that
+  /// is a function of the accumulator.
+  double block_stdev(const Formula& formula, const int min = 3) const;
 
   /// Return number of values accumulated.
   long double num_values() const { return val_moment_[0]; }

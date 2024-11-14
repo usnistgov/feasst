@@ -62,10 +62,6 @@ class PerturbBeta : public Perturb {
   double previous_beta_;
 };
 
-inline std::shared_ptr<PerturbBeta> MakePerturbBeta(argtype args = argtype()) {
-  return std::make_shared<PerturbBeta>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_BETA_EXPANDED_PERTURB_BETA_H_

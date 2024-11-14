@@ -38,10 +38,6 @@ class ComputeGibbsVolumeTransfer : public TrialCompute {
   void serialize_compute_gibbs_volume_transfer_(std::ostream& ostr) const;
 };
 
-inline std::shared_ptr<ComputeGibbsVolumeTransfer> MakeComputeGibbsVolumeTransfer() {
-  return std::make_shared<ComputeGibbsVolumeTransfer>();
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_GIBBS_COMPUTE_GIBBS_VOLUME_TRANSFER_H_

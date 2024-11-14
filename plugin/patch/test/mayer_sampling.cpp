@@ -33,7 +33,7 @@ TEST(MayerSampling, patch_LONG) {
       mc.add(config);
     }
     EXPECT_EQ(2, mc.configuration().num_particles());
-    auto patch = MakeVisitModelInnerPatch();
+    auto patch = std::make_shared<VisitModelInnerPatch>();
     mc.add(MakePotential(MakeHardSphere(), {{"group_index", "1"}}));
     mc.add(MakePotential(MakeSquareWell(),
                          MakeVisitModel(patch),

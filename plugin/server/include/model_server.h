@@ -65,11 +65,6 @@ class ModelServer : public ModelTwoBody {
   std::unique_ptr<Server> server_;
 };
 
-inline std::unique_ptr<ModelServer> MakeModelServer(
-    argtype args = argtype()) {
-  return std::make_unique<ModelServer>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_SERVER_MODEL_SERVER_H_

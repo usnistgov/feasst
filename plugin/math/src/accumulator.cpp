@@ -4,6 +4,7 @@
 #include "utils/include/serialize.h"
 #include "utils/include/io.h"
 #include "math/include/constants.h"
+#include "math/include/formula.h"
 #include "math/include/accumulator.h"
 
 namespace feasst {
@@ -277,6 +278,27 @@ bool Accumulator::is_equal(const Accumulator& acc,
   }
   if (!feasst::is_equal(blocks_, acc.blocks_, tolerance)) return false;
   return true;
+}
+
+int Accumulator::largest_block_operation(const int min) const {
+  for (int op = static_cast<int>(blocks_.size()) - 1; op >= 0; --op) {
+    if (static_cast<int>(blocks_[op].size()) >= min) {
+      return op;
+    }
+  }
+  return 0;
+}
+
+const std::vector<double> Accumulator::largest_blocks(const int min) const {
+  return blocks_[largest_block_operation(min)];
+}
+
+double Accumulator::block_stdev(const Formula& formula, const int min) const {
+  Accumulator avs;
+  for (double val : largest_blocks(min)) {
+    avs.accumulate(formula.evaluate(val));
+  }
+  return avs.stdev_of_av();
 }
 
 }  // namespace feasst

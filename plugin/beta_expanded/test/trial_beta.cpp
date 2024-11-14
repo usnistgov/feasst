@@ -4,7 +4,7 @@
 namespace feasst {
 
 TEST(TrialBeta, serialize) {
-  auto trial = MakeTrialBeta({{"fixed_beta_change", "1"}});
+  auto trial = std::make_shared<TrialBeta>(argtype({{"fixed_beta_change", "1"}}));
   Trial trial2 = test_serialize(*trial);
 }
 

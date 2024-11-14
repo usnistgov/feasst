@@ -31,7 +31,7 @@ CopyNextLine::CopyNextLine(argtype args) : CopyNextLine(&args) {
 class MapCopyNextLine {
  public:
   MapCopyNextLine() {
-    auto obj = MakeCopyNextLine();
+    auto obj = std::make_shared<CopyNextLine>();
     obj->deserialize_map()["CopyNextLine"] = obj;
   }
 };

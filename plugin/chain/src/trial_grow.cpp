@@ -184,7 +184,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           compute = MakeTrialComputeRemove();
         } else if (trial_type == "gibbs_transfer") {
           perturb = MakePerturbAdd();
-          compute = MakeComputeGibbsParticleTransfer();
+          compute = std::make_shared<ComputeGibbsParticleTransfer>();
         } else if (trial_type == "regrow") {
           perturb = MakePerturbAnywhere();
           compute = MakeTrialComputeMove();

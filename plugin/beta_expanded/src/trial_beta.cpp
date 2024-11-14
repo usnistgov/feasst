@@ -16,7 +16,7 @@ TrialBeta::TrialBeta(argtype * args) : Trial(args) {
     std::make_shared<SelectNothing>(args),
     std::make_shared<PerturbBeta>(args),
     args);
-  set(MakeComputeBeta());
+  set(std::make_shared<ComputeBeta>());
 }
 TrialBeta::TrialBeta(argtype args) : TrialBeta(&args) {
   feasst_check_all_used(args);

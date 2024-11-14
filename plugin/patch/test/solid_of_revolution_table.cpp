@@ -24,7 +24,7 @@ TEST(SolidOfRevolutionTable, test_two) {
     {"group0", "centers"}, {"centers_site_type0", "0"}}));
 
   system.add(MakePotential(MakeSquareWell(),
-                       MakeVisitModel(MakeSolidOfRevolutionTable({{"table_file", "../plugin/patch/test/data/tablek5l2.0d1.txt"}})),
+                       MakeVisitModel(std::make_shared<SolidOfRevolutionTable>(argtype({{"table_file", "../plugin/patch/test/data/tablek5l2.0d1.txt"}}))),
                        //MakeVisitModel(MakeSolidOfRevolutionTable({{"table_file", "../plugin/patch/test/data/tablek5l2.0d1.txt"}})),
                        {{"group", "centers"}}));  // optimization: loop centers
   system.precompute();

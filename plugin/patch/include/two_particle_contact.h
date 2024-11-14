@@ -73,10 +73,6 @@ class TwoParticleContact : public Action {
   Position com1_;
 };
 
-inline std::shared_ptr<TwoParticleContact> MakeTwoParticleContact(argtype args = argtype()) {
-  return std::make_shared<TwoParticleContact>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_PATCH_TWO_PARTICLE_CONTACT_H_

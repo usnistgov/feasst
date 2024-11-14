@@ -28,7 +28,7 @@ TEST(VisitModelInnerPatch, patch_one) {
   SquareWell model;
   model.precompute(config.model_params());
   VisitModel visit;
-  auto patch = MakeVisitModelInnerPatch();
+  auto patch = std::make_shared<VisitModelInnerPatch>();
   visit.set_inner(patch);
   visit.precompute(&config);
   //patch->set_patch_angle(1, 90.);
@@ -52,7 +52,7 @@ TEST(VisitModelInnerPatch, patch_one_2body) {
   }
 
   system.add(MakePotential(MakeSquareWell(),
-                       MakeVisitModel(MakeVisitModelInnerPatch()),
+                       MakeVisitModel(std::make_shared<VisitModelInnerPatch>()),
                        {{"group_index", "1"}}));  // optimization: loop centers
   system.precompute();
 

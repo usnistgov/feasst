@@ -11,7 +11,7 @@ TEST(MonteCarlo, VisitModelInnerTable) {
   //const std::string table_file = "../plugin/aniso/test/data/dat_3rel_2z.txt";
   const std::string table_file = "../plugin/aniso/test/data/dat_sqw_3rel_2z.txt";
   //const std::string table_file = "../plugin/aniso/test/data/dat_sqw_6rel_2z.txt";
-  auto vis = MakeVisitModelInnerTable({{"table_file", table_file}});
+  auto vis = std::make_shared<VisitModelInnerTable>(argtype({{"table_file", table_file}}));
 //  EXPECT_NEAR(vis->outer()[0][0].minimum(), 1.5, NEAR_ZERO);
 //  EXPECT_NEAR(vis->outer()[0][0].maximum(), 1.5, NEAR_ZERO);
   auto config = MakeConfiguration({{"particle_type0", "../particle/atom.fstprt"}});

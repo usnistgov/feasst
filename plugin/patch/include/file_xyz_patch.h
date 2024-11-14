@@ -96,10 +96,6 @@ class FileXYZPatch {
   bool append_;
 };
 
-inline std::shared_ptr<FileXYZPatch> MakeFileXYZPatch(argtype args = argtype()) {
-  return std::make_shared<FileXYZPatch>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_PATCH_FILE_XYZ_PATCH_H_

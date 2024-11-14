@@ -385,6 +385,6 @@ To Do List
 * When trials start, check to see if there is a trial that uses weight_per_number_fraction but there are fixed particles (or, see if there are weight_per_number for all types unless excluded?)
 * Add a FAQ for sim questions, such as, an overview of various table potential options, etc.
 * Optimize BondVisitor that uses deserialize_map and strings in inner loop
-* Compress README features list (table?)
 * Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).
 * Remove ConvertToRefPotential in v0.26
+* Add profiler output, percentage of time spent in each trial, modify and analyze, and aggregates, plus "other"

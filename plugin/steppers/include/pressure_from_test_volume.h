@@ -1,6 +1,6 @@
 
-#ifndef FEASST_GIBBS_PRESSURE_FROM_TEST_VOLUME_H_
-#define FEASST_GIBBS_PRESSURE_FROM_TEST_VOLUME_H_
+#ifndef FEASST_STEPPERS_PRESSURE_FROM_TEST_VOLUME_H_
+#define FEASST_STEPPERS_PRESSURE_FROM_TEST_VOLUME_H_
 
 #include <vector>
 #include <memory>
@@ -21,13 +21,12 @@ typedef std::map<std::string, std::string> argtype;
 
   \f$p = \frac{1}{\beta \Delta V}\ln \left\langle \left(\frac{V'}{V}\right)^N e^{-\beta\Delta U}\right\rangle \f$
 
-  The output block standard deviation used the error propagation formula:
+  The outputed standard deviation of the mean uses the largest possible block averages.
 
-  \f$ f = \ln(g) \f$
-
-  \f$ \sigma_f = \sigma_g/|g| \f$
-
-  where \f$\sigma_g\f$ is a block average from the term above in the ensemble average.
+  To improve numerical stability, a slight modification is made to the ensemble average.
+  For small volume changes, the ensemble average is very close to unity.
+  Thus, the implemented ensemble average is subtracted from unity, but then
+  later added back when computing the pressure.
  */
 class PressureFromTestVolume : public Modify {
  public:
@@ -73,14 +72,8 @@ class PressureFromTestVolume : public Modify {
   //@}
  private:
   double delta_volume_;
-  std::unique_ptr<Accumulator> term_;
 };
-
-inline std::shared_ptr<PressureFromTestVolume> MakePressureFromTestVolume(
-    argtype args = argtype()) {
-  return std::make_shared<PressureFromTestVolume>(args);
-}
 
 }  // namespace feasst
 
-#endif  // FEASST_GIBBS_PRESSURE_FROM_TEST_VOLUME_H_
+#endif  // FEASST_STEPPERS_PRESSURE_FROM_TEST_VOLUME_H_

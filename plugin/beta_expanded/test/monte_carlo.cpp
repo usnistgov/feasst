@@ -30,40 +30,40 @@
 namespace feasst {
 
 TEST(MonteCarlo, beta_expanded) {
-  MonteCarlo mc;
-  mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"}}));
-  mc.add(MakePotential(MakeLennardJones()));
-  mc.add(MakePotential(MakeLongRangeCorrections()));
-  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   const double beta_min = 0.8;
   const double beta_max = 1.2;
   const int beta_num = 5;
   const std::string delta_beta = str((beta_max - beta_min)/(beta_num-1));
-  mc.set(MakeMetropolis());
-  mc.add(MakeTrialTranslate({{"weight", "1."},{"tunable_param", "1."}}));
-  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
-  mc.run(MakeRun({{"until_num_particles", "10"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
-  mc.set(MakeFlatHistogram({{"Macrostate", "MacrostateBeta"}, {"width", delta_beta}, {"max", str(beta_max)}, {"min", str(beta_min)},
-    {"Bias", "WLTM"}, {"collect_flatness", "18"}, {"min_flatness", "22"}, {"min_sweeps", "10"}}));
-  mc.add(MakeTrialBeta({{"fixed_beta_change", delta_beta}}));
   const std::string trials_per(str(1e4));
-//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/lj_beta"}}));
-  mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
-  mc.add(MakeTune());
-  mc.add(MakeCriteriaUpdater({{"trials_per_update", trials_per}}));
-  mc.add(MakeCriteriaWriter({
-    {"trials_per_write", trials_per},
-    {"output_file", "tmp/lj_beta_crit.txt"},
-    {"output_file_append_phase", "true"}}));
-  mc.add(MakeEnergy({
-    {"output_file", "tmp/lj_beta_energy"},
-    {"output_file_append_phase", "true"},
-    {"trials_per_update", "1"},
-    {"trials_per_write", trials_per},
-    {"multistate", "true"}}));
-  mc.attempt(5e4);
+  auto mc = MakeMonteCarlo({{
+    {"RandomMT19937", {{"seed", "123"}}},
+    {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"}}},
+    {"Potential", {{"Model", "LennardJones"}}},
+    {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
+    {"ThermoParams", {{"beta", "1.2"}, {"chemical_potential", "1."}}},
+    {"Metropolis", {{}}},
+    {"TrialTranslate", {{"weight", "1."},{"tunable_param", "1."}}},
+    {"TrialAdd", {{"particle_type", "0"}}},
+    {"Run", {{"until_num_particles", "10"}}},
+    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"FlatHistogram", {{"Macrostate", "MacrostateBeta"}, {"width", delta_beta}, {"max", str(beta_max)}, {"min", str(beta_min)},
+      {"Bias", "WLTM"}, {"collect_flatness", "18"}, {"min_flatness", "22"}, {"min_sweeps", "10"}}},
+    {"TrialBeta", {{"fixed_beta_change", delta_beta}}},
+//    {"LogAndMovie", {{"trials_per_write", trials_per}, {"output_file", "tmp/lj_beta"}}},
+    {"CheckEnergy", {{"trials_per_update", trials_per}}},
+    {"Tune", {{}}},
+    {"CriteriaUpdater", {{"trials_per_update", trials_per}}},
+    {"CriteriaWriter", {{"trials_per_write", trials_per},
+      {"output_file", "tmp/lj_beta_crit.txt"},
+      {"output_file_append_phase", "true"}}},
+    {"Energy", {
+      {"output_file", "tmp/lj_beta_energy"},
+      {"output_file_append_phase", "true"},
+      {"trials_per_update", "1"},
+      {"trials_per_write", trials_per},
+      {"multistate", "true"}}}
+  }});
+  mc->attempt(5e4);
 }
 
 //MonteCarlo sweeptest(const int min_sweeps, const int beta_num) {

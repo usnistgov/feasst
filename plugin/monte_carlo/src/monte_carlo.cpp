@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <x86intrin.h>
 #include "utils/include/serialize_extra.h"
 #include "utils/include/arguments.h"
 #include "utils/include/file.h"
@@ -630,11 +631,19 @@ void MonteCarlo::attempt_(int num_trials,
     WARN("No Trials to attempt.");
   }
   before_attempts_();
+  uint64_t clock_after_trial, clock_after_analyze, clock_after_modify;
+  clock_after_modify = __rdtsc();
   for (int trial = 0; trial < num_trials; ++trial) {
     DEBUG("mc trial: " << trial);
     trial_factory->attempt(criteria_.get(), system_.get(), random);
+    clock_after_trial = __rdtsc();
+    trial_ticks_ += clock_after_trial - clock_after_modify;
     after_trial_analyze_();
+    clock_after_analyze = __rdtsc();
+    analyze_ticks_ += clock_after_analyze - clock_after_trial;
     after_trial_modify_();
+    clock_after_modify = __rdtsc();
+    modify_ticks_ += clock_after_modify - clock_after_analyze;
   }
 }
 
@@ -760,6 +769,14 @@ void MonteCarlo::run_num_trials(int num_trials) {
     --num_trials;
     DEBUG("num_trials " << num_trials);
   }
+//  uint64_t total = trial_ticks_ + analyze_ticks_ + modify_ticks_;
+//  INFO("trial:" << trial_ticks_ <<
+//      " analyze:" << analyze_ticks_ <<
+//      " modify:" << modify_ticks_ <<
+//      " total:" << total);
+//  INFO("trial:" << static_cast<double>(trial_ticks_)/total <<
+//      " analyze:" << static_cast<double>(analyze_ticks_)/total <<
+//      " modify:" << static_cast<double>(modify_ticks_)/total);
 }
 
 void MonteCarlo::run_until_num_particles(const int until_num_particles,
@@ -785,6 +802,7 @@ void MonteCarlo::run_for_hours(const double hours) {
 Criteria * MonteCarlo::get_criteria() { return criteria_.get(); }
 
 const Criteria& MonteCarlo::criteria() const {
+  ASSERT(criteria_, "Criteria not set.");
   return const_cast<Criteria&>(*criteria_);
 }
 

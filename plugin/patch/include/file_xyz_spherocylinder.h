@@ -97,10 +97,6 @@ class FileXYZSpherocylinder {
   bool append_;
 };
 
-inline std::shared_ptr<FileXYZSpherocylinder> MakeFileXYZSpherocylinder(argtype args = argtype()) {
-  return std::make_shared<FileXYZSpherocylinder>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_SPHEROCYLINDER_FILE_XYZ_SPHEROCYLINDER_H_

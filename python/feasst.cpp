@@ -41,7 +41,7 @@ PYBIND11_MODULE(_core, m) {
         .def("max_block_operations", &feasst::Accumulator::max_block_operations)
         .def("str", &feasst::Accumulator::str)
         .def("average", &feasst::Accumulator::average)
-        .def("block_stdev", &feasst::Accumulator::block_stdev);
+        .def("block_stdev", py::overload_cast<int, int>(&feasst::Accumulator::block_stdev, py::const_));
 
     py::class_<feasst::MonteCarlo>(m, "MonteCarlo")
         .def(py::init<>())

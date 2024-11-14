@@ -51,11 +51,6 @@ class CheckConstantVolume : public ModifyUpdateOnly {
   double last_total_volume_ = -1.;
 };
 
-inline std::shared_ptr<CheckConstantVolume> MakeCheckConstantVolume(
-    argtype args = argtype()) {
-  return std::make_shared<CheckConstantVolume>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_GIBBS_CHECK_CONSTANT_VOLUME_H_

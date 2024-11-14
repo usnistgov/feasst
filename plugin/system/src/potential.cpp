@@ -61,6 +61,7 @@ Potential::Potential(argtype * args) {
     }
   }
 }
+Potential::~Potential() {}
 
 Potential::Potential(std::shared_ptr<Model> model,
                      argtype args) : Potential(&args) {

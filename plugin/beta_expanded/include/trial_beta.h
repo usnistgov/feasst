@@ -72,9 +72,6 @@ class TrialBeta : public Trial {
   //@}
 };
 
-inline std::shared_ptr<TrialBeta> MakeTrialBeta(argtype args = argtype()) {
-  return std::make_shared<TrialBeta>(args); }
-
 }  // namespace feasst
 
 #endif  // FEASST_BETA_EXPANDED_TRIAL_BETA_H_

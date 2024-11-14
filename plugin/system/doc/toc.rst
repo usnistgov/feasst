@@ -19,7 +19,6 @@
    HardSphere
    ModelTwoBodyFactory
    ModelTwoBodyTable
-   Potential
    PotentialFactory
    RigidAngle
    RigidBond
@@ -32,8 +31,9 @@
    DontVisitModel
    VisitModelBond
    VisitModelCell
-   VisitModelCutoffOuter
    VisitModelInner
    VisitModelIntra
    VisitModelIntraMap
    System
+   VisitModelCutoffOuter
+   Potential

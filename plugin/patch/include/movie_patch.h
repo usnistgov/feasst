@@ -52,10 +52,6 @@ class MoviePatch : public AnalyzeWriteOnly {
   FileVMDPatch vmd_;
 };
 
-inline std::shared_ptr<MoviePatch> MakeMoviePatch(argtype args = argtype()) {
-  return std::make_shared<MoviePatch>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_PATCH_MOVIE_PATCH_H_

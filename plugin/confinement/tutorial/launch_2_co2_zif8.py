@@ -84,6 +84,7 @@ Potential VisitModel Ewald alpha {alpha} kmax_squared 27
 Potential Model ModelTwoBodyFactory model0 LennardJonesForceShift model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter
 Potential Model ChargeScreenedIntra VisitModel VisitModelBond
 Potential Model ChargeSelf
+ZeroBackground
 ThermoParams beta {beta_init} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 30 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25

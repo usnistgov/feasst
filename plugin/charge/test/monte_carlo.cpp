@@ -205,8 +205,6 @@ TEST(MonteCarlo, spcearglist) {
     {"TrialTranslate", {{"tunable_param", "0.2"},
                         {"tunable_target_acceptance", "0.2"}}},
     {"TrialAdd", {{"particle_type", "0"}}},
-    //{"TrialAddMultiple", {{"particle_type0", "0"}, {"particle_type1", "1"}}},
-//    {"TrialAddMultiple", {{"particle_type0", "0"}, {"particle_type1", "1"}, {"reference_index", "0"}}},
     {"Log", {{"trials_per_write", str(1e2)}, {"output_file", "tmp/lj.txt"}}},
     {"Movie", {{"trials_per_write", str(1e2)}, {"output_file", "tmp/lj.xyz"}}},
     {"CheckEnergy", {{"trials_per_update", str(1e2)}, {"tolerance", "1e-8"}}},

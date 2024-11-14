@@ -40,10 +40,6 @@ class ComputeGibbsParticleTransfer : public TrialCompute {
   void serialize_compute_gibbs_particle_transfer_(std::ostream& ostr) const;
 };
 
-inline std::shared_ptr<ComputeGibbsParticleTransfer> MakeComputeGibbsParticleTransfer() {
-  return std::make_shared<ComputeGibbsParticleTransfer>();
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_GIBBS_COMPUTE_GIBBS_PARTICLE_TRANSFER_H_

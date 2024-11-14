@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "math/include/formula.h"
 #include "math/include/accumulator.h"
 #include "math/include/constants.h"
 
@@ -62,6 +63,36 @@ TEST(Accumulator, is_equivalent) {
   for (const double v : bvals) b->accumulate(v);
   EXPECT_FALSE(a->is_equivalent(*b, 2, 1));
   EXPECT_TRUE(a->is_equivalent(*b, 10, 1));
+}
+
+class Square : public Formula {
+ public:
+  double evaluate(const double y) const override { return y*y; }
+};
+
+TEST(Accumulator, largest_block) {
+  auto a = MakeAccumulator();
+  std::vector<double> avals = {5, 6, 4, 5.5, 4, 6, 5.1};
+  for (const double v : avals) a->accumulate(v);
+  EXPECT_EQ(a->blocks()[0].size(), 7);
+  EXPECT_EQ(a->blocks()[1].size(), 3);
+  EXPECT_EQ(a->blocks()[2].size(), 1);
+  EXPECT_EQ(a->blocks()[3].size(), 0);
+  EXPECT_EQ(a->blocks()[0][0], 5);
+  EXPECT_EQ(a->blocks()[0][1], 6);
+  EXPECT_EQ(a->blocks()[0][2], 4);
+  EXPECT_EQ(a->blocks()[0][3], 5.5);
+  EXPECT_EQ(a->blocks()[1][0], 5.5);
+  EXPECT_EQ(a->blocks()[1][1], 4.75);
+  EXPECT_EQ(a->blocks()[1][2], 5);
+  EXPECT_EQ(a->blocks()[2][0], 5.125);
+  EXPECT_EQ(a->largest_block_operation(), 1);
+  EXPECT_EQ(a->largest_blocks()[0], 5.5);
+  EXPECT_EQ(a->largest_blocks()[1], 4.75);
+  EXPECT_EQ(a->largest_blocks()[2], 5);
+  EXPECT_EQ(a->largest_blocks().size(), 3);
+  Square sq;
+  INFO(a->block_stdev(sq));
 }
 
 TEST(Accumulator, serialize_with_inf) {

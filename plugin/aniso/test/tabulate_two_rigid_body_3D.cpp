@@ -24,12 +24,12 @@ inline void run_hs(const int num_orientations_per_pi, const int proc, const int 
   }});
 
 //  INFO("fraction unique " << table_ior->rotator().fraction_unique());
-  auto table_hs = MakeTabulateTwoRigidBody3D({
+  auto table_hs = std::make_shared<TabulateTwoRigidBody3D>(argtype({
     {"proc", str(proc)}, {"num_proc", str(num_proc)},
     {"input_orientation_file", "tmp/unique_ior.txt"},
     {"num_z", "-1"},
     {"output_table_file", "tmp/contact_table"+str(proc)+".txt"},
-  });
+  }));
   EXPECT_NEAR(207.84639874816824, table_hs->max_cubic_side_length(0, mc_hs->configuration()), NEAR_ZERO);
   table_hs->run(mc_hs.get());
   EXPECT_NEAR(1./9., table_hs->rotator().fraction_unique(), NEAR_ZERO);
@@ -93,7 +93,7 @@ inline void run(const int num_orientations_per_pi, const int proc, const int num
       {"model2", "DebyeHuckel"}, {"kappa", str(kappa)}, {"dielectric", str(dielectric_water)}, {"smoothing_distance", str(smoothing_distance)},
       {"VisitModel", "VisitModelCell"}, {"min_length", "max_cutoff"}, {"energy_cutoff", "1e100"}}},
   }});
-  auto table = MakeTabulateTwoRigidBody3D({
+  auto table = std::make_shared<TabulateTwoRigidBody3D>(argtype({
     {"proc", str(proc)}, {"num_proc", str(num_proc)},
     {"input_orientation_file", "tmp/unique_ior.txt"},
 //    {"num_orientations_per_pi", str(num_orientations_per_pi)},
@@ -101,7 +101,7 @@ inline void run(const int num_orientations_per_pi, const int proc, const int num
     {"smoothing_distance" , str(smoothing_distance)},
     {"input_table_file", "tmp/contact_table.txt"},
     {"output_table_file", "tmp/table"+str(proc)+".txt"},
-  });
+  }));
   table->run(mc.get());
   int ior = 0;
   for (int iorall = 0; iorall < 3; ++iorall) {
@@ -149,9 +149,9 @@ TEST(MonteCarlo, tabulate_rigid_bodies_LONG) {
     }},
     {"Potential", {{"Model", "HardSphere"}}}
   }});
-  auto table_ior = MakeTabulateTwoRigidBody3D({
+  auto table_ior = std::make_shared<TabulateTwoRigidBody3D>(argtype({
     {"num_orientations_per_pi", str(num_orientations_per_pi)},
-    {"output_orientation_file", "tmp/unique_ior.txt"}});
+    {"output_orientation_file", "tmp/unique_ior.txt"}}));
   table_ior->run(mc.get());
   //run(num_orientations_per_pi, 0, 1);
   for (int proc = 0; proc < num_proc; ++proc) {

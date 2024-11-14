@@ -39,7 +39,7 @@ class CPUTime : public AnalyzeWriteOnly {
     return std::make_shared<CPUTime>(istr); }
   std::shared_ptr<Analyze> create(argtype * args) const override {
     return std::make_shared<CPUTime>(args); }
-  CPUTime(std::istream& istr);
+  explicit CPUTime(std::istream& istr);
 
   //@}
  private:

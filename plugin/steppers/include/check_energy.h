@@ -45,10 +45,8 @@ namespace feasst {
   Otherwise, the differences about zero to numerical precision would almost
   always fail the test.
 
-  This class effectively functions as an Analyze because it does not change the
-  System within the specified tolerance.
-  However, the energy is recomputed and therefore the System is technically
-  modified.
+  Although this class does not change the System beyond the specified tolerance,
+  the energy is recomputed and therefore the class is a Modify, not an Analyze.
  */
 class CheckEnergy : public ModifyUpdateOnly {
  public:

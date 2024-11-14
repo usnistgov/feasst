@@ -11,7 +11,7 @@
 namespace feasst {
 
 TEST(MoviePatch, serialize) {
-  auto patch = MakeMoviePatch({{"output_file", "hi"}});
+  auto patch = std::make_shared<MoviePatch>(argtype({{"output_file", "hi"}}));
   MoviePatch patch2 = test_serialize(*patch);
 }
 

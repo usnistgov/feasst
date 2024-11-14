@@ -1,7 +1,7 @@
-TrialGibbsVolumeTransfer
+ZeroBackground
 =====================================================
 
-.. doxygenclass:: feasst::TrialGibbsVolumeTransfer
+.. doxygenclass:: feasst::ZeroBackground
    :project: FEASST
    :members:
    

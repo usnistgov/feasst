@@ -36,47 +36,34 @@ namespace feasst {
 std::unique_ptr<MonteCarlo> patchmc(const int min, const int max) {
   const double chi = 0.7;
   const double patch_angle_degrees = 2*std::asin(std::sqrt(chi/2))*180/PI;
-  //DEBUG("patch_angle_degrees " << patch_angle_degrees);
-  MonteCarlo mc;
-  mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  { auto config = MakeConfiguration({{"cubic_side_length", "8"},
-      {"patch_angle1", str(patch_angle_degrees)},
-      {"particle_type0", install_dir() + "/plugin/patch/particle/two_patch_linear.fstprt"}});
-      //{"particle_type0", install_dir() + "/plugin/patch/particle/janus.fstprt"}});
-    config->add(MakeGroup({{"site_type0", "0"}}));
-    mc.add(config);
-  }
-  mc.add(MakePotential(MakeHardSphere(),
-                       MakeVisitModelCell({{"min_length", "1"}, {"cell_group_index", "1"}}),
-                       {{"group_index", "1"}}));
-  mc.add(MakePotential(
-    MakeSquareWell(),
-    MakeVisitModelCell(MakeVisitModelInnerPatch(),
-        {{"min_length", "1.5"}, {"cell_group_index", "1"}}),
-    {{"group_index", "1"}}));
-  DEBUG(mc.configuration().model_params().select("patch_angle").str());
-  DEBUG(mc.configuration().model_params().select("cos_patch_angle").str());
-  DEBUG(mc.configuration().model_params().select("director").str());
-  mc.set(MakeThermoParams({{"beta", str(1/0.7)}, {"chemical_potential", "-1.5"}}));
-  //mc.set(MakeMetropolis());
-  mc.set(MakeFlatHistogram(MakeMacrostateNumParticles({{"width", "1"}, {"max", feasst::str(max)}, {"min", feasst::str(min)}}),
-    //MakeWangLandau({{"min_flatness", "100"}})));
-    MakeTransitionMatrix({{"min_sweeps", "100"}})));
-  mc.add(MakeTrialTranslate({{"tunable_param", "1"}}));
-  mc.add(MakeTrialRotate({{"tunable_param", "40"}}));
-  mc.add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
-//  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
-//  mc.run(MakeRun({{"until_num_particles", "10"}}));
-//  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
   const std::string trials_per = "1e5";
-  mc.add(MakeLog({{"trials_per_write", trials_per}, {"output_file", "tmp/patch_nvt.txt"}}));
-  mc.add(MakeMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/patch_nvt.xyz"}}));
-  mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
-  mc.add(MakeMoviePatch({{"trials_per_write", trials_per}, {"output_file", "tmp/patch_nvt_vis.xyz"}}));
-  mc.add(MakeCriteriaUpdater({{"trials_per_update", trials_per}}));
-  mc.add(MakeCriteriaWriter({{"trials_per_write", trials_per}, {"output_file", "tmp/patch_fh.txt"}}));
-  auto mc2 = test_serialize_unique(mc);
-  //mc2.run_until_complete();
+  auto mc = MakeMonteCarlo({{
+    {"RandomMT19937", {{"seed", "time"}}},
+    {"Configuration", {{"cubic_side_length", "8"},
+      {"patch_angle1", str(patch_angle_degrees)},
+      {"particle_type0", install_dir() + "/plugin/patch/particle/two_patch_linear.fstprt"},
+      {"group0", "centers"}, {"centers_site_type0", "0"}}},
+    {"Potential", {{"Model", "HardSphere"},
+                   {"VisitModel", "VisitModelCell"}, {"min_length", "1"}, {"cell_group_index", "1"},
+                   {"group_index", "1"}}},
+    {"Potential", {{"Model", "SquareWell"}, {"VisitModel", "VisitModelCell"},
+                   {"VisitModelInner", "VisitModelInnerPatch"},
+                   {"min_length", "1.5"}, {"cell_group_index", "1"},
+                   {"group_index", "1"}}},
+    {"ThermoParams", {{"beta", str(1/0.7)}, {"chemical_potential", "-1.5"}}},
+    {"FlatHistogram", {{"Macrostate", "MacrostateNumParticles"}, {"width", "1"}, {"max", feasst::str(max)}, {"min", feasst::str(min)},
+                      {"Bias", "TransitionMatrix"}, {"min_sweeps", "100"}}},
+    {"TrialTranslate", {{"tunable_param", "1"}}},
+    {"TrialRotate", {{"tunable_param", "40"}}},
+    {"TrialTransfer", {{"particle_type", "0"}, {"weight", "4"}}},
+    {"Log", {{"trials_per_write", trials_per}, {"output_file", "tmp/patch_nvt.txt"}}},
+    {"Movie", {{"trials_per_write", trials_per}, {"output_file", "tmp/patch_nvt.xyz"}}},
+    {"CheckEnergy", {{"trials_per_update", trials_per}}},
+    {"MoviePatch", {{"trials_per_write", trials_per}, {"output_file", "tmp/patch_nvt_vis.xyz"}}},
+    {"CriteriaUpdater", {{"trials_per_update", trials_per}}},
+    {"CriteriaWriter", {{"trials_per_write", trials_per}, {"output_file", "tmp/patch_fh.txt"}}},
+  }});
+  auto mc2 = test_serialize_unique(*mc);
   return mc2;
 }
 
@@ -91,56 +78,6 @@ TEST(MonteCarlo, patch_LONG) {
   mc2->attempt(1e6);
   FileXYZPatch().write_for_vmd("tmp/test.xyz", mc2->configuration());
 }
-
-//TEST(MonteCarlo, patch_clones_LONG) {
-//  Clones clones;
-//  clones.add(std::make_shared<MonteCarlo>(patchmc(0, 10)));
-//  clones.add(std::make_shared<MonteCarlo>(patchmc(10, 20)));
-//  DEBUG(clones.clone(0).configuration().model_params().select("patch_angle").value(1));
-//  DEBUG(clones.clone(0).configuration().model_params().select("director").value(1));
-//  DEBUG(clones.clone(0).configuration().model_params().select("cos_patch_angle").value(1));
-//  clones.initialize(1);
-////#  clones.get_clone(0)->initialize_criteria();
-//}
-
-//TEST(MonteCarlo, patch_clones2_LONG) {
-//  std::vector<std::vector<int> > bounds = WindowExponential({
-//    //{"maximum", "40"},
-//    {"maximum", "20"},
-//    //{"maximum", "370"},
-//    {"minimum", "0"},
-//    {"num", "2"},
-//    //{"num", "4"},
-//    {"extra_overlap", "0"},
-//    {"alpha", "2"}}).boundaries();
-//  Clones clones;
-//  for (const std::vector<int> b : bounds) {
-//    clones.add(std::make_shared<MonteCarlo>(patchmc(b[0], b[1])));
-//  //clones.add(std::make_shared<MonteCarlo>(patchmc(10, 20)));
-//  //clones.add(std::make_shared<MonteCarlo>(patchmc(10, 20)));
-//  //clones.add(std::make_shared<MonteCarlo>(patchmc(10, 20)));
-//  }
-//  clones.initialize(1);
-//  DEBUG("num " << clones.clone(0).configuration().num_particles());
-//  DEBUG("num " << clones.clone(1).configuration().num_particles());
-////  std::cout << "current 0 " << clones.clone(0).criteria().current_energy() << std::endl;
-////  std::cout << "current 1 " << clones.clone(1).criteria().current_energy() << std::endl;
-//  FileXYZPatch().write_for_vmd("tmp/test0.xyz", clones.clone(0).configuration());
-//  FileXYZPatch().write_for_vmd("tmp/test1.xyz", clones.clone(1).configuration());
-//  DEBUG("initialize 0");
-//  //clones.get_clone(0)->initialize_criteria();
-//  DEBUG("initialize 1");
-//  //clones.get_clone(1)->initialize_criteria();
-////  std::cout << "current 1 " << clones.clone(1).criteria().current_energy() << std::endl;
-//  EXPECT_EQ(clones.clone(1).system().potential(1).group_index(), 1);
-//  DEBUG(clones.clone(1).system().potential(1).model().class_name());
-//  DEBUG(clones.clone(1).system().potential(1).visit_model().class_name());
-////  std::cout << "current 0 " << clones.clone(0).criteria().current_energy() << std::endl;
-////  std::cout << "current 1 " << clones.clone(1).criteria().current_energy() << std::endl;
-//  //clones.initialize_and_run_until_complete();
-//  clones.get_clone(0)->initialize_criteria();
-////  FATAL("cosacut is changing for some reason, from the correct value of 0.3 to 0.866");
-//}
 
 TEST(MonteCarlo, patch_arglist) {
   auto mc = MakeMonteCarlo({{

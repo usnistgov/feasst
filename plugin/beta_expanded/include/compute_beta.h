@@ -36,9 +36,6 @@ class ComputeBeta : public TrialCompute {
   void serialize_trial_compute_add_(std::ostream& ostr) const;
 };
 
-inline std::shared_ptr<ComputeBeta> MakeComputeBeta() {
-  return std::make_shared<ComputeBeta>();
-}
 }  // namespace feasst
 
 #endif  // FEASST_BETA_EXPANDED_COMPUTE_BETA_H_

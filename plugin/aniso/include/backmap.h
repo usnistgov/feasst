@@ -62,10 +62,6 @@ class Backmap : public AnalyzeWriteOnly {
   void add_backmap_particles_();
 };
 
-inline std::shared_ptr<Backmap> MakeBackmap(argtype args = argtype()) {
-  return std::make_shared<Backmap>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_ANISO_BACKMAP_H_

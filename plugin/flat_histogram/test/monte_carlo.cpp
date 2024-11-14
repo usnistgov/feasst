@@ -54,29 +54,12 @@ double energy_av(const int macro, const MonteCarlo& mc) {
   return mc.analyzers().back()->analyzers()[macro]->accumulator().average();
 }
 
-//TEST(FlatHistogram, order) {
-//  auto criteria = MakeFlatHistogram({
-//    {"beta", str(1./1.5)},
-//    {"chemical_potential", "-2.352321"}
-//  });
-////  TRY(
-////    auto criteria2 = criteria;
-////    criteria2->set(MakeWangLandau({{"min_flatness", "20"}}));
-////    CATCH_PHRASE("set macrostate before bias");
-////  );
-//}
 TEST(MonteCarlo, ideal_gas_fh_eos_LONG) {
   MonteCarlo monte_carlo;
   monte_carlo.add(MakeConfiguration({{"cubic_side_length", "8"},
     {"particle_type", install_dir() + "/particle/atom.fstprt"}}));
   monte_carlo.add(MakePotential(MakeDontVisitModel()));
   monte_carlo.set(MakeThermoParams({{"beta", str(1./1.2)}, {"chemical_potential", "-3"}}));
-//  auto criteria = MakeFlatHistogram(
-//      MakeMacrostateNumParticles(Histogram({{"width", "1"}, {"min", "0"}, {"max", "50"}})),
-//      MakeTransitionMatrix({{"min_sweeps", "100"}}));
-//  auto criteria = MakeFlatHistogram(
-//      MakeMacrostateNumParticles({{"width", "1"}, {"min", "0"}, {"max", "50"}}),
-//      MakeTransitionMatrix({{"min_sweeps", "100"}}));
   auto criteria = MakeFlatHistogram({
     {"Macrostate", "MacrostateNumParticles"}, {"width", "1"}, {"min", "0"}, {"max", "50"},
     {"Bias", "TransitionMatrix"}, {"min_sweeps", "100"}});
@@ -100,11 +83,7 @@ TEST(MonteCarlo, hard_sphere_LONG) {
   mc.add(MakeConfiguration({{"cubic_side_length", "8"},
     {"particle_type", "../particle/hard_sphere.fstprt"}}));
   mc.add(MakePotential(MakeHardSphere()));
-//  mc.add_to_optimized(MakePotential(MakeHardSphere(), MakeVisitModelCell({{"min_length", "1"}})));
   mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "-2.352321"}}));
-  //auto bias = MakeWLTM({{"collect_flatness", "18"},
-  //              {"min_flatness", "22"},
-  //              {"min_sweeps", "100"}});
   auto bias = MakeTransitionMatrix({{"min_sweeps", "100"}});
   mc.set(MakeFlatHistogram(
       MakeMacrostateNumParticles(
@@ -116,9 +95,6 @@ TEST(MonteCarlo, hard_sphere_LONG) {
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}, {"tolerance", "0.0001"}}));
   mc.add(MakeCheckPhysicality({{"trials_per_update", "1"}}));
   mc.add(MakeTune({{"stop_after_phase", "0"}}));
-//  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per},
-//                          {"output_file", "hs_fh"},
-//                          {"output_file_append_phase", "True"}}));
   mc.add(MakeCriteriaUpdater({{"trials_per_update", trials_per}}));
   mc.add(MakeCriteriaWriter({{"trials_per_write", trials_per},
                              {"output_file", "tmp/crit.txt"},
@@ -126,7 +102,6 @@ TEST(MonteCarlo, hard_sphere_LONG) {
   mc.run_until_complete();
   INFO(feasst_str(bias->ln_prob().values()));
   EXPECT_NEAR(bias->ln_prob().value(0), -41.16903361558974, 0.25);
-  //EXPECT_NEAR(bias->ln_prob().value(0), -41.3327752, 0.05);
 }
 
 std::unique_ptr<MonteCarlo> test_lj_fh(const int num_steps,
@@ -181,7 +156,6 @@ std::unique_ptr<MonteCarlo> test_lj_fh(const int num_steps,
   std::shared_ptr<Bias> bias;
   if (bias_name == "TM") {
     bias = MakeTransitionMatrix({{"min_sweeps", str(sweeps)}});
-    //bias = MakeTransitionMatrix({{"min_sweeps", str(1e5)}, {"new_sweep", "1"}});
   } else if (bias_name == "WL") {
     if (sweeps == 10) sweeps = 20;
     bias = MakeWangLandau({{"min_flatness", str(sweeps)}});
@@ -195,8 +169,6 @@ std::unique_ptr<MonteCarlo> test_lj_fh(const int num_steps,
   if (test_multi) width = "2";
   mc->set(MakeThermoParams({{"beta", str(1./1.5)},
       {"chemical_potential", "-2.352321"}}));
-//      {{"soft_max", "5"}, {"soft_min", "1"}}));
-//      {{"particle_type", "0"}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", width}, {"max", str(max)}, {"min", str(min)}})),
@@ -204,7 +176,6 @@ std::unique_ptr<MonteCarlo> test_lj_fh(const int num_steps,
   INFO(criteria->bias().class_name());
   mc->set(criteria);
   const std::string trials_per(str(1e3));
-  // const std::string trials_per(str(1e4));
 //  mc->add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/lj_fh"}}));
   mc->add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}}));
   //mc->add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
@@ -242,16 +213,10 @@ TEST(MonteCarlo, lj_fh_01) {
   Accumulator acc;
   for (const auto& ln_prob : ln_probs) {
     acc.accumulate(ln_prob.value(1) - ln_prob.value(0));
-//    INFO(ln_prob.value(1) - ln_prob.value(0));
-    //INFO(feasst_str(ln_prob.values()));
   }
-//  INFO(acc.stdev_of_av());
-//  INFO(fh->write());
 }
 
 TEST(MonteCarlo, lj_fh_10sweep_LONG) {
-  //for (int num_steps : {1}) {
-  //for (int num_steps : {2}) {
   for (int num_steps : {1, 2}) {
     //for (const std::string bias_name : {"TM"}) {
     for (const std::string bias_name : {"TM", "WL", "WLTM"}) {
@@ -313,7 +278,6 @@ TEST(MonteCarlo, lj_fh_with0) {
         //mc.attempt(1e4);
         //mc.attempt(1e5); // note more than 1e4 steps required for TM
         mc->run_until_complete();
-        // INFO(mc->criteria().write());
 
         // compare with known values of lnpi
         //const LnProbability * lnpi = &criteria->bias().ln_prob();
@@ -359,20 +323,6 @@ TEST(MonteCarlo, lj_fh_LONG) {
   EXPECT_NEAR(lnpi3.value(1), -6.41488235897456, 0.025);
   EXPECT_NEAR(lnpi3.value(2), -0.00163919230786818, 0.005);
 }
-
-// HWH Test for fixing dccb translate issue
-//TEST(MonteCarlo, lj_fh_transition_VERY_LONG) {
-//  for (int num_steps : {1, 4}) {
-//    MonteCarlo mc = test_serialize(test_lj_fh(num_steps, "TM", 10000, false, 150, 151));
-//    mc.set(MakeThermoParams({{"beta", str(1./0.75)}, {"chemical_potential", "-4.05045075"}}));
-//    mc.run_until_complete();
-//    const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
-//    INFO("num_steps: " << num_steps << " " << feasst_str(lnpi.values()));
-//    EXPECT_NEAR(lnpi.value(1) - lnpi.value(0), -241.79257 - -241.79008, 0.005);
-//    //EXPECT_NEAR(energy_av(0, mc), 0, 0.5);
-//    //EXPECT_NEAR(energy_av(1, mc), 0, 0.5);
-//  }
-//}
 
 TEST(MonteCarlo, lj_fh_liquid_LONG) {
   auto mc = test_serialize_unique(*test_lj_fh(4, "TM", 1000, false, 100, 105));
@@ -488,11 +438,9 @@ std::unique_ptr<MonteCarlo> test_spce_fh(std::shared_ptr<Bias> bias,
   for (int macro = 0; macro < lnpi.size(); ++macro) {
     EXPECT_NEAR(lnpi.value(macro), lnpi_srsw[macro][0],
       15*lnpi_srsw[macro][1]);
-//      if (bias->class_name() == "TransitionMatrix") {
-      const double en_std = std::sqrt(std::pow(en_srsw[macro][1], 2) +
-        std::pow(energy->energy().block_stdev(), 2));
-      EXPECT_NEAR(energy_av(macro, *mc2), en_srsw[macro][0], 15.*en_std);
-//      }
+    const double en_std = std::sqrt(std::pow(en_srsw[macro][1], 2) +
+      std::pow(energy->energy().block_stdev(), 2));
+    EXPECT_NEAR(energy_av(macro, *mc2), en_srsw[macro][0], 15.*en_std);
   }
 
   return mc2;
@@ -538,11 +486,7 @@ TEST(MonteCarlo, spce_fh_VERY_LONG) {
 
 // This one shows difference with num_steps. Update lnpi and en checks
 TEST(MonteCarlo, spce_fh_liquid_VERY_LONG) {
-  //for (int num_steps : {1}) {
-  //for (int num_steps : {2}) {
   for (int num_steps : {4}) {
-  //for (int num_steps : {16}) {
-  //for (int num_steps : {1, 4}) {
     auto mc = test_spce_fh(
       MakeTransitionMatrix({{"min_sweeps", "100"}}),
       num_steps,
@@ -671,9 +615,6 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
     {"kmax_squared", "25"},
     {"alpha", str(5./15)}}));
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
-//  mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
-//                                               MakeChargeScreened()}),
-//                      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   mc.set(MakeThermoParams({{"beta", str(1/temperature)},
      {"chemical_potential0", str(beta_mu*temperature)},
      {"chemical_potential1", str(beta_mu*temperature)}}));
@@ -681,7 +622,6 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", "5"}, {"min", "0"}}),
       {{"particle_type", "0"}}),
-    // MakeWangLandau({{"min_flatness", "100"}}),
     MakeTransitionMatrix({{"min_sweeps", "1000"}}));
   mc.set(criteria);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
@@ -691,14 +631,6 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
     {"particle_type1", "1"},
     {"particle_type2", "1"},
     {"reference_index", "0"}}));
-//  auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "1.5"},
-//                                                 {"minimum_distance", "1"},
-//                                                 {"site_type0", "0"},
-//                                                 {"site_type1", "1"},
-//                                                 {"potential_index", "1"}});
-//  add_rigid_cluster_trials(&mc,
-//    neighbor_criteria,
-//    {{"tunable_param", "50"}});
   const int trials_per = 1e3;
   mc.add(MakeCriteriaUpdater({{"trials_per_update", str(trials_per)}}));
   mc.add(MakeCriteriaWriter({

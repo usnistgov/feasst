@@ -162,7 +162,7 @@ class Potential {
 
   /// Deserialize.
   explicit Potential(std::istream& istr);
-  virtual ~Potential() {}
+  virtual ~Potential();
 
   //@}
  private:

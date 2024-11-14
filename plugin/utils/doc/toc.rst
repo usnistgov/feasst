@@ -11,8 +11,8 @@
    max_precision
    io
    ProgressReport
-   serialize
-   serialize_extra
    Timer
    utils
    Checkpoint
+   serialize
+   serialize_extra

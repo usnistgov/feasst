@@ -44,16 +44,6 @@ class MacrostateBeta : public Macrostate {
   //@}
 };
 
-inline std::shared_ptr<MacrostateBeta> MakeMacrostateBeta(
-    const Histogram& histogram, argtype args = argtype()) {
-  return std::make_shared<MacrostateBeta>(histogram, args);
-}
-
-inline std::shared_ptr<MacrostateBeta> MakeMacrostateBeta(
-    argtype args = argtype()) {
-  return std::make_shared<MacrostateBeta>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_BETA_EXPANDED_MACROSTATE_BETA_H_

@@ -45,10 +45,6 @@ class CopyNextLine : public Action {
   std::vector<std::vector<std::string> > replace_;
 };
 
-inline std::shared_ptr<CopyNextLine> MakeCopyNextLine(argtype args = argtype()) {
-  return std::make_shared<CopyNextLine>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_GIBBS_COPY_PREVIOUS_LINE_H_

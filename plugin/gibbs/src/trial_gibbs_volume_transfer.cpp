@@ -8,14 +8,16 @@
 
 namespace feasst {
 
-FEASST_MAPPER(TrialGibbsVolumeTransferOneWay,
-  argtype({{"to_configuration_index", "1"}}));
+FEASST_MAPPER(TrialGibbsVolumeTransfer,);
 
-TrialGibbsVolumeTransferOneWay::TrialGibbsVolumeTransferOneWay(argtype * args) : Trial(args) {
-  class_name_ = "TrialGibbsVolumeTransferOneWay";
-  set_description("TrialGibbsVolumeTransferOneWay");
-  const int to_configuration_index = integer("to_configuration_index", args);
-  const int configuration_index = integer("configuration_index", args, 0);
+TrialGibbsVolumeTransfer::TrialGibbsVolumeTransfer(argtype * args) : Trial(args) {
+  class_name_ = "TrialGibbsVolumeTransfer";
+  set_description("TrialGibbsVolumeTransfer");
+  const int to_configuration_index = integer("configuration_index0", args, 0);
+  const int configuration_index = integer("configuration_index1", args, 1);
+  ASSERT(configuration_index != to_configuration_index, "configuration_index0:"
+    << configuration_index << " cannot equal configuration_index1:" <<
+    to_configuration_index);
   const bool uniform_volume = boolean("uniform_volume", args, true);
   ASSERT(uniform_volume,
     "Gibbs volume transfers must be chosen uniformly in V.");
@@ -33,46 +35,21 @@ TrialGibbsVolumeTransferOneWay::TrialGibbsVolumeTransferOneWay(argtype * args) :
     std::make_shared<TrialSelectAll>(args),
     std::make_shared<PerturbVolume>(args),
     args);
-  set(MakeComputeGibbsVolumeTransfer());
+  set(std::make_shared<ComputeGibbsVolumeTransfer>());
 }
-TrialGibbsVolumeTransferOneWay::TrialGibbsVolumeTransferOneWay(argtype args) : TrialGibbsVolumeTransferOneWay(&args) {
+TrialGibbsVolumeTransfer::TrialGibbsVolumeTransfer(argtype args) : TrialGibbsVolumeTransfer(&args) {
   feasst_check_all_used(args);
 }
 
-TrialGibbsVolumeTransferOneWay::TrialGibbsVolumeTransferOneWay(std::istream& istr) : Trial(istr) {
+TrialGibbsVolumeTransfer::TrialGibbsVolumeTransfer(std::istream& istr) : Trial(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 9234, "mismatch version: " << version);
 }
 
-void TrialGibbsVolumeTransferOneWay::serialize(std::ostream& ostr) const {
+void TrialGibbsVolumeTransfer::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_trial_(ostr);
   feasst_serialize_version(9234, ostr);
-}
-
-FEASST_MAPPER(TrialGibbsVolumeTransfer,);
-
-TrialGibbsVolumeTransfer::TrialGibbsVolumeTransfer(argtype * args) : TrialFactoryNamed() {
-  class_name_ = "TrialGibbsVolumeTransfer";
-  const int config0 = integer("configuration_index0", args, 0);
-  const int config1 = integer("configuration_index1", args, 1);
-  //INFO("args " << str(*args));
-  //ASSERT(!used("configuration_index", *args),
-  //  "Do not use argument:configuration_index. Use configuration_index0 or 1.");
-  argtype args1 = *args;
-  args1.insert({"configuration_index", str(config0)});
-  args1.insert({"to_configuration_index", str(config1)});
-  args->insert({"configuration_index", str(config1)});
-  args->insert({"to_configuration_index", str(config0)});
-  auto trial1 = MakeTrialGibbsVolumeTransferOneWay(args1);
-  trial1->set_weight(trial1->weight()/2.);
-  add(trial1);
-  auto trial2 = std::make_shared<TrialGibbsVolumeTransferOneWay>(args);
-  trial2->set_weight(trial2->weight()/2.);
-  add(trial2);
-}
-TrialGibbsVolumeTransfer::TrialGibbsVolumeTransfer(argtype args) : TrialGibbsVolumeTransfer(&args) {
-  feasst_check_all_used(args);
 }
 
 }  // namespace feasst

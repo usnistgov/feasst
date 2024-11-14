@@ -180,11 +180,6 @@ class VisitModelInnerTable : public VisitModelInner {
   Euler euler_;
 };
 
-inline std::shared_ptr<VisitModelInnerTable> MakeVisitModelInnerTable(
-    argtype args = argtype()) {
-  return std::make_shared<VisitModelInnerTable>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_ANISO_VISIT_MODEL_INNER_TABLE_H_

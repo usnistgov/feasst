@@ -23,8 +23,8 @@ def parse():
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./0.9, help='inverse temperature')
     parser.add_argument('--num_particles', type=int, default=500, help='number of particles')
-    parser.add_argument('--density_lower', type=float, default=0.8, help='lowest number density')
-    parser.add_argument('--density_upper', type=float, default=0.8, help='highest number density')
+    parser.add_argument('--density_lower', type=float, default=0.001, help='lowest number density')
+    parser.add_argument('--density_upper', type=float, default=0.009, help='highest number density')
     parser.add_argument('--trials_per_iteration', type=int, default=int(1e4),
                         help='like cycles, but not necessary num_particles')
     parser.add_argument('--equilibration_iterations', type=int, default=int(1e1),
@@ -34,7 +34,7 @@ def parse():
     parser.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
     parser.add_argument('--hours_terminate', type=float, default=0.1,
                         help='hours until termination')
-    parser.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
+    parser.add_argument('--procs_per_node', type=int, default=5, help='number of processors')
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')
     parser.add_argument('--seed', type=int, default=-1,
@@ -106,31 +106,46 @@ Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz
 Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_en.csv
 CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.txt
+PressureFromTestVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pres.csv
 Run until_criteria_complete true
 """.format(**params))
 
 def post_process(params):
     """ Plot energy and compare with https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm """
     ens = np.zeros(shape=(params['num_sims'], 2))
+    pres = np.zeros(shape=(params['num_sims'], 2))
     for sim in range(params['num_sims']):
         log = pd.read_csv(params['prefix']+str(sim)+'.csv')
         assert int(log['num_particles_of_type0'][0]) == params['num_particles']
         energy = pd.read_csv(params['prefix']+str(sim)+'_en.csv')
         ens[sim] = np.array([energy['average'][0],
                              energy['block_stdev'][0]])/params['num_particles']
+        pressure = pd.read_csv(params['prefix']+str(sim)+'_pres.csv')
+        pres[sim] = np.array([pressure['average'][0], pressure['block_stdev'][0]])
     # data from https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm
     rhos_srsw = [0.001, 0.003, 0.005, 0.007, 0.009]
-    ens_srsw = [-9.9165E-03, -2.9787E-02, -4.9771E-02, -6.9805E-02, -8.9936E-02]
-    en_stds_srsw = [1.89E-05, 3.21E-05, 3.80E-05, 7.66E-05, 2.44E-05]
-    plt.errorbar(rhos_srsw, ens_srsw, en_stds_srsw, fmt='+', label='SRSW')
-    plt.errorbar(params['densities'], ens[:, 0], ens[:, 1], fmt='x', label='FEASST')
-    plt.xlabel(r'$\rho$', fontsize=16)
-    plt.ylabel(r'$U/N$', fontsize=16)
-    plt.legend(fontsize=16)
-    #plt.savefig(params['prefix']+'_energy.png', bbox_inches='tight', transparent='True')
     if len(rhos_srsw) == params['num_sims']: # compare with srsw exactly
+        en_srsw = [-9.9165E-03, -2.9787E-02, -4.9771E-02, -6.9805E-02, -8.9936E-02]
+        en_stds_srsw = [1.89E-05, 3.21E-05, 3.80E-05, 7.66E-05, 2.44E-05]
+        p_srsw = [8.9429E-04, 2.6485E-03, 4.3569E-03, 6.0193E-03, 7.6363E-03]
+        p_stds_srsw = [2.48E-08, 2.54E-07, 2.19E-07, 1.02E-06, 1.44E-06]
+        plt.errorbar(rhos_srsw, en_srsw, en_stds_srsw, fmt='+', label='SRSW')
+        plt.errorbar(params['densities'], ens[:, 0], ens[:, 1], fmt='x', label='FEASST')
+        plt.xlabel(r'$\rho$', fontsize=16)
+        plt.ylabel(r'$U/(N\epsilon)$', fontsize=16)
+        plt.legend(fontsize=16)
+        plt.show()
+        #plt.savefig(params['prefix']+'_energy.png', bbox_inches='tight', transparent='True')
+        plt.clf()
+        plt.errorbar(rhos_srsw, p_srsw, p_stds_srsw, fmt='+', label='SRSW')
+        plt.errorbar(params['densities'], pres[:, 0], pres[:, 1], fmt='x', label='FEASST')
+        plt.xlabel(r'$\rho$', fontsize=16)
+        plt.ylabel(r'$P\sigma^3/\epsilon$', fontsize=16)
+        plt.legend(fontsize=16)
+        plt.show()
+        #plt.savefig(params['prefix']+'_pressure.png', bbox_inches='tight', transparent='True')
         for sim in range(params['num_sims']):
-            diff = ens[sim][0] - ens_srsw[sim]
+            diff = ens[sim][0] - en_srsw[sim]
             assert np.abs(diff) < 10*np.sqrt(ens[sim][1]**2 + en_stds_srsw[sim]**2)
 
 if __name__ == '__main__':

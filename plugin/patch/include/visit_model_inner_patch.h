@@ -72,11 +72,6 @@ class VisitModelInnerPatch : public VisitModelInner {
   Position dir1_pos_, dir2_pos_;
 };
 
-inline std::shared_ptr<VisitModelInnerPatch> MakeVisitModelInnerPatch(
-    argtype args = argtype()) {
-  return std::make_shared<VisitModelInnerPatch>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_PATCH_VISIT_MODEL_INNER_PATCH_H_

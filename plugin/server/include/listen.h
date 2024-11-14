@@ -49,10 +49,6 @@ class Listen : public Action {
   std::unique_ptr<Server> server_;
 };
 
-inline std::unique_ptr<Listen> MakeListen(argtype args = argtype()) {
-  return std::make_unique<Listen>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_SERVER_LISTEN_H_

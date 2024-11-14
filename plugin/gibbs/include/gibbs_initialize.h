@@ -121,11 +121,6 @@ class GibbsInitialize : public Modify {
     const System& system) const;
 };
 
-inline std::shared_ptr<GibbsInitialize> MakeGibbsInitialize(
-    argtype args = argtype()) {
-  return std::make_shared<GibbsInitialize>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_GIBBS_GIBBS_INITIALIZE_H_

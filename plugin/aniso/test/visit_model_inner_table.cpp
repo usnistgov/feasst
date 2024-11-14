@@ -12,7 +12,7 @@ TEST(VisitModelInnerTable, b2) {
   //const std::string table_file = "../plugin/aniso/tutorial/table3.txt";
   const std::string table_file = "../plugin/aniso/test/data/dat_sqw_3rel_2z.txt";
   //const std::string table_file = "../plugin/aniso/test/data/dat_sqw_6rel_2z.txt";
-  auto vis = MakeVisitModelInnerTable({{"table_file", table_file}});
+  auto vis = std::make_shared<VisitModelInnerTable>(argtype({{"table_file", table_file}}));
   auto config = MakeConfiguration({{"particle_type0", "../particle/atom.fstprt"}});
   vis->precompute(config.get());
   //EXPECT_NEAR((2*PI/3)*(1-(std::pow(1.5, 3)-1)*(std::exp(1)-1)), vis->second_virial_coefficient(), NEAR_ZERO);
@@ -26,7 +26,7 @@ TEST(VisitModelInnerTable, b2) {
 
 TEST(VisitModelInnerTable, mab) {
   const std::string table_file = "../plugin/aniso/test/data/mab_p1z2.txt";
-  auto vis = MakeVisitModelInnerTable({{"table_file", table_file}});
+  auto vis = std::make_shared<VisitModelInnerTable>(argtype({{"table_file", table_file}}));
   auto config = MakeConfiguration({{"particle_type0", "../particle/atom.fstprt"}});
   vis->precompute(config.get());
   EXPECT_NEAR(74.09830, config->table5d()[0][0]->data()[0][0][0][0][0], 1e-5);

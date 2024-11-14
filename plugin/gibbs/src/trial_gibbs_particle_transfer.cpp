@@ -29,7 +29,7 @@ TrialGibbsParticleTransferOneWay::TrialGibbsParticleTransferOneWay(argtype * arg
     std::make_shared<TrialSelectParticle>(args),
     std::make_shared<PerturbRemove>(),
     args);
-  set(MakeComputeGibbsParticleTransfer());
+  set(std::make_shared<ComputeGibbsParticleTransfer>());
 }
 TrialGibbsParticleTransferOneWay::TrialGibbsParticleTransferOneWay(argtype args) : TrialGibbsParticleTransferOneWay(&args) {
   feasst_check_all_used(args);

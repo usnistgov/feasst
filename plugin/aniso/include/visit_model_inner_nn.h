@@ -48,11 +48,6 @@ class VisitModelInnerNN : public VisitModelInnerTable {
   // HWH declare NN objects here.
 };
 
-inline std::shared_ptr<VisitModelInnerNN> MakeVisitModelInnerNN(
-    argtype args = argtype()) {
-  return std::make_shared<VisitModelInnerNN>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_ANISO_VISIT_MODEL_INNER_NN_H_

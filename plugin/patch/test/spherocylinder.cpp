@@ -26,7 +26,7 @@ TEST(Spherocylinder, patch_one) {
   SquareWell model;
   model.precompute(config.model_params());
   VisitModel visit;
-  auto patch = MakeSpherocylinder();
+  auto patch = std::make_shared<Spherocylinder>();
   visit.set_inner(patch);
   visit.precompute(&config);
   //patch->set_patch_angle(1, 90.);
@@ -47,7 +47,7 @@ TEST(Spherocylinder, patch_one_2body) {
     {"group0", "centers"}, {"centers_site_type0", "0"}}));
 
   system.add(MakePotential(MakeSquareWell(),
-                       MakeVisitModel(MakeSpherocylinder()),
+                       MakeVisitModel(std::make_shared<Spherocylinder>()),
                        {{"group", "centers"}}));  // optimization: loop centers
   system.precompute();
 

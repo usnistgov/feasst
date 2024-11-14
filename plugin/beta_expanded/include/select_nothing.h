@@ -28,11 +28,6 @@ class SelectNothing : public TrialSelect {
   virtual ~SelectNothing() {}
 };
 
-inline std::shared_ptr<SelectNothing> MakeSelectNothing(
-    const argtype &args = argtype()) {
-  return std::make_shared<SelectNothing>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_BETA_EXPANDED_SELECT_NOTHING_H_

@@ -4,7 +4,7 @@
 namespace feasst {
 
 TEST(ModelServer, serialize) {
-  auto obj = MakeModelServer();
+  auto obj = std::make_unique<ModelServer>();
   auto obj2 = test_serialize(obj);
 }
 

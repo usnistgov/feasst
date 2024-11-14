@@ -14,7 +14,7 @@
 namespace feasst {
 
 TEST(FileXYZPatch, serialize) {
-  auto patch = MakeFileXYZPatch({{"append", "true"}});
+  auto patch = std::make_shared<FileXYZPatch>(argtype({{"append", "true"}}));
   FileXYZPatch patch2 = test_serialize(*patch);
   EXPECT_TRUE(patch2.append());
 }
@@ -32,7 +32,7 @@ TEST(FileXYZPatch, patch) {
   }
   EXPECT_EQ(2, mc.configuration().num_particles());
   mc.add(MakePotential(MakeSquareWell(),
-                       MakeVisitModel(MakeVisitModelInnerPatch()),
+                       MakeVisitModel(std::make_shared<VisitModelInnerPatch>()),
                        {{"group_index", "1"}}));
   FileXYZPatch().write_for_vmd("tmp/test.xyz", mc.configuration());
 }

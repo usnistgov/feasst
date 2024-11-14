@@ -1,16 +1,16 @@
 
 .. toctree::
 
-   AnalyzeCluster
-   CalculateCluster
    ComputeMoveCluster
-   PerturbMoveAVB
-   PerturbAddAVB
-   PerturbPointReflect
-   PerturbRotateCOM
    SelectCluster
+   PerturbPointReflect
    SelectParticleAVBDivalent
    SelectParticleAVB
+   PerturbRotateCOM
+   PerturbMoveAVB
+   PerturbAddAVB
+   CalculateCluster
+   AnalyzeCluster
    TrialAVB4
    TrialTranslateCluster
    TrialTransferAVBDivalent

@@ -179,11 +179,6 @@ class SolidOfRevolutionTable : public VisitModelInner {
   void read_table_(const std::string table_file, const bool ignore_energy, Configuration * config);
 };
 
-inline std::shared_ptr<SolidOfRevolutionTable> MakeSolidOfRevolutionTable(
-    argtype args = argtype()) {
-  return std::make_shared<SolidOfRevolutionTable>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_PATCH_SOLID_OF_REVOLUTION_TABLE_H_
