@@ -7,6 +7,7 @@
 #include "configuration/include/select.h"
 #include "configuration/include/particle_factory.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/chirality_2d.h"
 
 namespace feasst {
@@ -23,27 +24,21 @@ Chirality2D::Chirality2D(argtype args) : Chirality2D(&args) {
   feasst_check_all_used(args);
 }
 
-std::string Chirality2D::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string Chirality2D::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   ss << accumulator_->status_header() << std::endl;
   return ss.str();
 }
 
-void Chirality2D::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+void Chirality2D::initialize(MonteCarlo * mc) {
+  System * system = mc->get_system();
   ASSERT(system->configuration().dimension() == 2,
     "dim: " << system->configuration().dimension() << " != 2");
-  printer(header(*criteria, *system, *trial_factory),
-    output_file(*criteria));
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-void Chirality2D::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
-    const Configuration& config = system.configuration();
+void Chirality2D::update(const MonteCarlo& mc) {
+  const Configuration& config = mc.system().configuration();
   int num_positive = 0;
   for (int part_index : config.group_select(0).particle_indices()) {
     const Particle& part = config.select_particle(part_index);
@@ -66,9 +61,7 @@ void Chirality2D::update(const Criteria& criteria,
   accumulator_->accumulate(num_positive);
 }
 
-std::string Chirality2D::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string Chirality2D::write(const MonteCarlo& mc) {
   std::stringstream ss;
   ss << accumulator_->status() << std::endl;
   return ss.str();

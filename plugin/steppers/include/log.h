@@ -28,7 +28,7 @@ class Log : public AnalyzeWriteOnly {
   //@{
   /** @name Arguments
     - max_precision: use maximum precision if true (default: false).
-    - include_bonds: if true, print bond energies (default:false).
+    - include_bonds: if true, print bond energies (default: true).
     - Stepper arguments.
    */
   explicit Log(argtype args = argtype());
@@ -39,17 +39,9 @@ class Log : public AnalyzeWriteOnly {
    */
   //@{
 
-  std::string header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trials) const override;
-
-  void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
-
-  std::string write(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  std::string header(const MonteCarlo& mc) const override;
+  void initialize(MonteCarlo * mc) override;
+  std::string write(const MonteCarlo& mc) override;
 
   // serialize
   std::string class_name() const override { return std::string("Log"); }

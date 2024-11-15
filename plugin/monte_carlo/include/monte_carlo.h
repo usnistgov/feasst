@@ -7,7 +7,6 @@
 #include <string>
 #include <memory>
 #include <map>
-// #include "utils/include/timer.h"
 
 namespace feasst {
 
@@ -24,6 +23,7 @@ class Potential;
 class Random;
 class Select;
 class System;
+class TimerRDTSC;
 class ThermoParams;
 class Trial;
 class TrialFactory;
@@ -148,6 +148,15 @@ class MonteCarlo {
   /// Reinitialize the system. Return total energy.
   double initialize_system(const int config);
 
+  /// Return the trials
+  const TrialFactory& trial_factory() const { return *trial_factory_; }
+
+  /// Return the analyzers
+  const AnalyzeFactory& analyze_factory() const { return *analyze_factory_; }
+
+  /// Return the modifiers
+  const ModifyFactory& modify_factory() const { return *modify_factory_; }
+
   // HWH depreciate: only in rare cases should the system be modified directly.
   System * get_system();
   Criteria * get_criteria();
@@ -228,6 +237,9 @@ class MonteCarlo {
   /// Remove a modify by index.
   void remove_modify(const int index);
 
+  /// Return all modifiers.
+  const std::vector<std::shared_ptr<Modify> >& modifiers() const;
+
   /// Return an Modify by index.
   const Modify& modify(const int index) const;
 
@@ -278,6 +290,7 @@ class MonteCarlo {
   void delay_finalize_();
   void after_trial_analyze_();
   void after_trial_modify_();
+  void after_trial_checkpoint_();
   // Mimic a rejection by a trial.
   void imitate_trial_rejection_(const int trial_index,
     const double ln_prob,
@@ -313,10 +326,11 @@ class MonteCarlo {
   const std::pair<std::string, argtype>& next_arg() const {
     return next_arg_; }
 
-  /// Return profiling ticks
-  const uint64_t trial_ticks() const { return trial_ticks_; }
-  const uint64_t analyze_ticks() const { return analyze_ticks_; }
-  const uint64_t modify_ticks() const { return modify_ticks_; }
+  /// Set the timer
+  void set_timer();
+
+  /// Return timer
+  const TimerRDTSC * const timer() const { return timer_.get(); }
 
   virtual void serialize(std::ostream& ostr) const;
   explicit MonteCarlo(std::istream& istr);
@@ -326,18 +340,6 @@ class MonteCarlo {
 //  MonteCarlo deserialize(const std::string str);
 
   virtual ~MonteCarlo();
-
-//  const Timer& timer() const { return timer_; }
-//  std::string timer_str() const {
-//    std::stringstream ss;
-//    const double trial_missing =
-//      timer_.missing_percent("trial", trial_factory_.timer());
-//    ss << timer_.str()
-//       << "*** TrialFactory Profile ***" << std::endl
-//       << trial_factory_.timer().str()
-//       << "missing CPU hours percentage: " << trial_missing;
-//    return ss.str();
-//  }
 
  protected:
   virtual void attempt_(int num_trials,
@@ -357,19 +359,16 @@ class MonteCarlo {
   std::shared_ptr<Action> action_;
   arglist args_;
 
-//  Timer timer_;
-//  int timer_other_, timer_trial_, timer_analyze_, timer_modify_;
-//  int timer_checkpoint_;
-
   bool config_set_ = false;
   bool potential_set_ = false;
   bool thermo_params_set_ = false;
   bool system_set_ = false;
   bool criteria_set_ = false;
 
+  std::unique_ptr<TimerRDTSC> timer_;
+
   // temporary and not serialized
   std::pair<std::string, argtype> next_arg_;
-  uint64_t trial_ticks_ = 0, analyze_ticks_ = 0, modify_ticks_ = 0;
 
   void record_next_arg_(arglist * args);
   bool duplicate_stepper_output_file_(const std::string output_file);

@@ -27,8 +27,8 @@ def parse():
                         help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
     parser.add_argument('--cubic_side_length', type=float, default=28,
                         help='cubic periodic boundary length')
-    parser.add_argument('--trials_per_iteration', type=int, default=int(1e5),
-                        help='like cycles, but not necessary num_particles')
+    parser.add_argument('--tpi', type=int, default=int(1e5),
+                        help='trials per iteration, similar to MC cycles, but not necessary num_particles')
     parser.add_argument('--equilibration_iterations', type=int, default=0,
                         help='number of iterations for equilibration')
     parser.add_argument('--hours_checkpoint', type=float, default=0.2, help='hours per checkpoint')
@@ -109,17 +109,17 @@ Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialGrowFile grow_file {prefix}_grow_canonical.txt
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {tpi} tolerance 1e-4
 
 # gcmc initialization and nvt equilibration
 TrialGrowFile grow_file {prefix}_grow_grand_canonical.txt
-Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.txt include_bonds true
+Log trials_per_write {tpi} output_file {prefix}n{node}s[sim_index]_eq.txt include_bonds true
 Tune
 Run until_num_particles [soft_macro_min]
 RemoveTrial name_contains add
 RemoveTrial name_contains remove
 ThermoParams beta {beta} chemical_potential {mu}
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+Metropolis num_trials_per_iteration {tpi} num_iterations_to_complete {equilibration_iterations}
 Run until_criteria_complete true
 RemoveModify name Tune
 RemoveAnalyze name Log
@@ -128,16 +128,15 @@ RemoveAnalyze name Log
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
 Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
 TrialGrowFile grow_file {prefix}_grow_grand_canonical.txt
-Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index].txt include_bonds true
-Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1
-Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index].xyz start_after_iteration 1
-Tune trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1
-Energy trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_iteration 1
-#AnalyzeBonds trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_bonds.txt start_after_iteration 1 angle_bin_center {angle_center} angle_bin_width {angle_width} bond_bin_center 1.149 bond_bin_width 0.00001
-#PairDistribution trials_per_update 1000 trials_per_write {trials_per_iteration} start_after_iteration 1 \
-  dr 0.025 output_file {prefix}n{node}s[sim_index]_gr.txt multistate true multistate_aggregate false
+Log            trials_per_write {tpi} output_file {prefix}n{node}s[sim_index].txt include_bonds true
+Movie          trials_per_write {tpi} output_file {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1
+Movie          trials_per_write {tpi} output_file {prefix}n{node}s[sim_index].xyz start_after_iteration 1
+Tune           trials_per_write {tpi} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1
+Energy         trials_per_write {tpi} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_iteration 1
+CriteriaWriter trials_per_write {tpi} output_file {prefix}n{node}s[sim_index]_crit.txt
 CriteriaUpdater trials_per_update 1e5
-CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_crit.txt
+#AnalyzeBonds trials_per_write {tpi} output_file {prefix}n{node}s[sim_index]_bonds.txt start_after_iteration 1 angle_bin_center {angle_center} angle_bin_width {angle_width} bond_bin_center 1.149 bond_bin_width 0.00001
+#PairDistribution trials_per_update 1000 trials_per_write {tpi} start_after_iteration 1 dr 0.025 output_file {prefix}n{node}s[sim_index]_gr.txt multistate true multistate_aggregate false
 """.format(**params))
 
 def post_process(params):

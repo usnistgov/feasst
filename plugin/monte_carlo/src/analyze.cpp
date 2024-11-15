@@ -7,6 +7,7 @@
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/trial_factory.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/analyze.h"
 
 namespace feasst {
@@ -38,46 +39,37 @@ std::shared_ptr<Analyze> Analyze::factory(const std::string name, argtype * args
   return template_factory(deserialize_map(), name, args);
 }
 
-void Analyze::check_update_(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void Analyze::check_update_(const MonteCarlo& mc) {
   if (is_time(trials_per_update(), &trials_since_update_)) {
-    update(criteria, system, trial_factory);
+    update(mc);
   }
 }
 
-void Analyze::trial(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void Analyze::trial(const MonteCarlo& mc) {
+  const Criteria& criteria = mc.criteria();
   if ((stop_after_phase() == -1 || criteria.phase() <= stop_after_phase()) &&
       (stop_after_iteration() == -1 || criteria.num_iterations() <= stop_after_iteration())) {
     if ((criteria.phase() > start_after_phase()) &&
         (criteria.num_iterations() > start_after_iteration())) {
-      check_update_(criteria, system, trial_factory);
+      check_update_(mc);
       if (is_time(trials_per_write(), &trials_since_write_)) {
-        write_to_file(criteria, system, trial_factory);
+        write_to_file(mc);
       }
     }
   }
 }
 
-void Analyze::write_to_file(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void Analyze::write_to_file(const MonteCarlo& mc) {
   if (trials_per_write() != -1) {
-    printer(write(criteria, system, trial_factory), output_file(criteria));
+    printer(write(mc), output_file(mc.criteria()));
   }
 }
 
-void Analyze::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void Analyze::update(const MonteCarlo& mc) {
   FATAL("not implemented");
 }
 
-std::string Analyze::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string Analyze::write(const MonteCarlo& mc) {
   FATAL("not implemented");
   return std::string("");
 }

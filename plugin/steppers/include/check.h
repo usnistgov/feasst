@@ -21,9 +21,7 @@ class Check : public AnalyzeUpdateOnly {
   /** @name Public Functions
    */
   //@{
-  void update(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  void update(const MonteCarlo& mc) override;
   std::string class_name() const override { return std::string("Check"); }
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Analyze> create(std::istream& istr) const override {

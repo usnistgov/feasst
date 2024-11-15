@@ -15,8 +15,8 @@ Run until_num_particles 500
 RemoveTrial name TrialAdd
 Run num_trials 1e5
 RemoveModify name Tune
-Log trials_per_write 1e4 output_file lj.csv
+Log    trials_per_write 1e4 output_file lj.csv
 Energy trials_per_write 1e4 output_file lj_en.csv
-Movie trials_per_write 1e4 output_file lj.xyz
+Movie  trials_per_write 1e4 output_file lj.xyz
 Metropolis num_trials_per_iteration 1e4 num_iterations_to_complete 1e2
 Run until_criteria_complete true

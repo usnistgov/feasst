@@ -18,10 +18,7 @@ class CheckProperties : public ModifyUpdateOnly {
   explicit CheckProperties(argtype args = argtype());
   explicit CheckProperties(argtype * args);
 
-  void update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) override;
+  void update(MonteCarlo * mc) override;
 
   // serialize
   std::string class_name() const override {

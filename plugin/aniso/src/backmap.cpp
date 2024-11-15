@@ -8,6 +8,7 @@
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/perturb_rotate.h"
 #include "monte_carlo/include/perturb_translate.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "aniso/include/backmap.h"
 
 namespace feasst {
@@ -53,13 +54,11 @@ void Backmap::add_backmap_particles_() {
   all_atom_ = MakeConfiguration(config_args);
 }
 
-void Backmap::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  const std::string name = output_file(*criteria);
+void Backmap::initialize(MonteCarlo * mc) {
+  const std::string name = output_file(mc->criteria());
   ASSERT(!name.empty(), "file name required. Did you forget to " <<
     "Analyze::set_output_file()?");
-  const Configuration& config = configuration(*system);
+  const Configuration& config = configuration(mc->system());
   for (const int site_type : site_types_) {
     const int part_type = config.site_type_to_particle_type(site_type);
     ASSERT(config.unique_type(part_type).site(site_type).is_anisotropic(),
@@ -74,10 +73,8 @@ void Backmap::initialize(Criteria * criteria,
   vmd_.write(ss.str(), *all_atom_, name);
 }
 
-std::string Backmap::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
-  const Configuration& orig_config = configuration(system);
+std::string Backmap::write(const MonteCarlo& mc) {
+  const Configuration& orig_config = configuration(mc.system());
   add_backmap_particles_();
   all_atom_->set(std::make_shared<Domain>(orig_config.domain()));
   const Select& all = orig_config.selection_of_all();
@@ -123,7 +120,7 @@ std::string Backmap::write(const Criteria& criteria,
       }
     }
   }
-  xyz_.write(output_file(criteria), *new_config);
+  xyz_.write(output_file(mc.criteria()), *new_config);
   return std::string("");
 }
 

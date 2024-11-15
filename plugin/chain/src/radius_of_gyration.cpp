@@ -8,6 +8,7 @@
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "chain/include/radius_of_gyration.h"
 
 namespace feasst {
@@ -24,24 +25,18 @@ RadiusOfGyration::RadiusOfGyration(argtype args) : RadiusOfGyration(&args) {
   feasst_check_all_used(args);
 }
 
-void RadiusOfGyration::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  printer(header(*criteria, *system, *trial_factory),
-          output_file(*criteria));
+void RadiusOfGyration::initialize(MonteCarlo * mc) {
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-std::string RadiusOfGyration::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string RadiusOfGyration::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   ss << accumulator().status_header() << ",rgu,rguu" << std::endl;
   return ss.str();
 }
 
-void RadiusOfGyration::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void RadiusOfGyration::update(const MonteCarlo& mc) {
+  const System& system = mc.system();
   const Select& selection = system.configuration().group_select(group_index_);
   for (int select_index = 0;
        select_index < selection.num_particles();
@@ -64,18 +59,16 @@ void RadiusOfGyration::update(const Criteria& criteria,
     if (hist_) {
       hist_->add(rgn);
     }
-    const double en = criteria.current_energy();
+    const double en = mc.criteria().current_energy();
     rg_e_.accumulate(rgn*en);
     rg_e2_.accumulate(rgn*en*en);
   }
 }
 
-std::string RadiusOfGyration::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string RadiusOfGyration::write(const MonteCarlo& mc) {
   std::stringstream ss;
   if (rewrite_header()) {
-    ss << header(criteria, system, trial_factory);
+    ss << header(mc);
   }
   ss << accumulator().status() << "," << rg_e_.average();
   ss << "," << rg_e2_.average();

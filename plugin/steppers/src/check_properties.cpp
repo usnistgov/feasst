@@ -4,6 +4,7 @@
 #include "configuration/include/select.h"
 #include "configuration/include/particle_factory.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/check_properties.h"
 
 namespace feasst {
@@ -17,10 +18,8 @@ CheckProperties::CheckProperties(argtype args) : CheckProperties(&args) {
   feasst_check_all_used(args);
 }
 
-void CheckProperties::update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) {
+void CheckProperties::update(MonteCarlo * mc) {
+  System * system = mc->get_system();
   for (int iconf = 0; iconf < system->num_configurations(); ++iconf) {
     // store a copy of the system/config
     Configuration config = deep_copy(system->configuration(iconf));

@@ -36,12 +36,8 @@ class AnalyzeBonds : public Analyze {
    */
   //@{
 
-  void update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) override;
-  void initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) override;
+  void update(const MonteCarlo& mc) override;
+  void initialize(MonteCarlo * mc) override;
 
   /// Return the average bond length.
   const Accumulator& bond(const int type) const { return bond_[type]; }
@@ -63,9 +59,7 @@ class AnalyzeBonds : public Analyze {
   const Histogram& dihedral_hist(const int type) const {
     return dihedral_hist_[type]; }
 
-  std::string write(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  std::string write(const MonteCarlo& mc) override;
 
   std::string class_name() const override { return std::string("AnalyzeBonds"); }
   std::shared_ptr<Analyze> create(std::istream& istr) const override {

@@ -4,6 +4,7 @@
 #include "system/include/thermo_params.h"
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/heat_capacity.h"
 
 namespace feasst {
@@ -17,36 +18,28 @@ HeatCapacity::HeatCapacity(argtype args) : HeatCapacity(&args) {
   feasst_check_all_used(args);
 }
 
-void HeatCapacity::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  printer(header(*criteria, *system, *trial_factory),
-          output_file(*criteria));
+void HeatCapacity::initialize(MonteCarlo * mc) {
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-std::string HeatCapacity::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string HeatCapacity::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   ss << "heat_capacity_per_kB" << std::endl;
   return ss.str();
 }
 
-void HeatCapacity::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
-  const double en = criteria.current_energy(configuration_index());
+void HeatCapacity::update(const MonteCarlo& mc) {
+  const double en = mc.criteria().current_energy(configuration_index());
   DEBUG("en: " << en);
   DEBUG("state: " << state());
   energy_.accumulate(en);
 }
 
-std::string HeatCapacity::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string HeatCapacity::write(const MonteCarlo& mc) {
+  const System& system = mc.system();
   std::stringstream ss;
   if (rewrite_header()) {
-    ss << header(criteria, system, trial_factory);
+    ss << header(mc);
   }
   const double beta = system.thermo_params().beta();
   const double u_sq_av = energy_.moment(2)/energy_.moment(0);

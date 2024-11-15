@@ -8,6 +8,7 @@
 #include "configuration/include/visit_configuration.h"
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/density_profile.h"
 
 namespace feasst {
@@ -23,13 +24,12 @@ DensityProfile::DensityProfile(argtype args) : DensityProfile(&args) {
   feasst_check_all_used(args);
 }
 
-void DensityProfile::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+void DensityProfile::initialize(MonteCarlo * mc) {
+  const System& system = mc->system();
   DEBUG("init");
-  const int num_site_types = system->configuration().num_site_types();
+  const int num_site_types = system.configuration().num_site_types();
   data_.resize(num_site_types);
-  const double max_side = system->configuration().domain().max_side_length();
+  const double max_side = system.configuration().domain().max_side_length();
   for (int type = 0; type < num_site_types; ++type) {
     Histogram hist;
     hist.set_width_center(dr_, center_);
@@ -39,12 +39,10 @@ void DensityProfile::initialize(Criteria * criteria,
   }
 }
 
-std::string DensityProfile::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trials) const {
+std::string DensityProfile::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   ss << "r,";
-  for (int type = 0; type < system.configuration().num_site_types(); ++type) {
+  for (int type = 0; type < configuration(mc.system()).num_site_types(); ++type) {
     ss << type << ",";
   }
   ss << std::endl;
@@ -65,12 +63,10 @@ class ComputeProfile : public LoopConfigOneBody {
   std::vector<Histogram> * hist_;
 };
 
-void DensityProfile::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void DensityProfile::update(const MonteCarlo& mc) {
   DEBUG("updating");
   ComputeProfile comp(dimension_, &data_);
-  VisitConfiguration().loop(system.configuration(), &comp);
+  VisitConfiguration().loop(mc.system().configuration(), &comp);
 }
 
 std::vector<std::vector<std::vector<double> > > DensityProfile::profile() const {
@@ -90,11 +86,9 @@ std::vector<std::vector<std::vector<double> > > DensityProfile::profile() const 
   return prof;
 }
 
-std::string DensityProfile::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string DensityProfile::write(const MonteCarlo& mc) {
   std::stringstream ss;
-  ss << header(criteria, system, trial_factory);
+  ss << header(mc);
   const std::vector<std::vector<std::vector<double> > > prof = profile();
   for (const std::vector<std::vector<double> >& profbin : prof) {
     for (int type = 0; type < static_cast<int>(profbin.size()); ++type) {

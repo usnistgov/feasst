@@ -2,6 +2,7 @@
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "gibbs/include/check_constant_volume.h"
 
 namespace feasst {
@@ -15,11 +16,8 @@ CheckConstantVolume::CheckConstantVolume(argtype args) : CheckConstantVolume(&ar
   feasst_check_all_used(args);
 }
 
-void CheckConstantVolume::update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) {
-  const double total_volume = system->total_volume();
+void CheckConstantVolume::update(MonteCarlo * mc) {
+  const double total_volume = mc->system().total_volume();
   if (last_total_volume_ < 0) {
     last_total_volume_ = total_volume;
     return;

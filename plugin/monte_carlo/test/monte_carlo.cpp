@@ -52,12 +52,14 @@ TEST(MonteCarlo, serialize) {
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},
     {"Checkpoint", {{"num_hours", "0.0001"}, {"checkpoint_file", "tmp/ljrst"}}},
-    {"Log", {{"trials_per_write", str(1e4)}, {"output_file", "tmp/lj.txt"}}},
-    {"Movie", {{"trials_per_write", str(1e4)}, {"output_file", "tmp/lj.xyz"}}},
-    {"CheckEnergy", {{"trials_per_update", str(1e4)}, {"tolerance", str(1e-9)}}},
+    {"Log", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/lj.txt"}}},
+    {"Movie", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/lj.xyz"}}},
+    {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
+    {"ProfileCPU", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/lj_prof.csv"}}},
     {"Tune", {{}}},
   }});
   auto mc2 = test_serialize_unique(*mc);
+  mc2->run_num_trials(10);
   EXPECT_EQ(mc2->analyze(0).class_name(), "Log");
   EXPECT_EQ(mc2->analyze(1).class_name(), "Movie");
   EXPECT_EQ(mc2->modify(0).class_name(), "CheckEnergy");
@@ -208,8 +210,7 @@ TEST(MonteCarlo, GCMC) {
     {"Log", {{"trials_per_write", str(1e4)}, {"output_file", "tmp/lj.txt"}}},
     {"Movie", {{"trials_per_write", str(1e4)}, {"output_file", "tmp/lj.xyz"}}},
     {"CheckEnergy", {{"trials_per_update", str(1e4)}, {"tolerance", str(1e-9)}}},
-    {"ProfileTrials", {{"trials_per_update", str(1e3)},
-      {"trials_per_write", str(1e3)},
+    {"ProfileCPU", {{"trials_per_write", str(1e3)},
       {"append", "true"},
       {"output_file", "tmp/lj_profile.txt"}}},
   }});
@@ -450,6 +451,7 @@ TEST(MonteCarlo, arglist) {
     {"Log", {{"trials_per_write", str(1e2)}, {"output_file", "tmp/lj.txt"}}},
     {"Movie", {{"trials_per_write", str(1e2)}, {"output_file", "tmp/lj.xyz"}}},
     {"CheckEnergy", {{"trials_per_update", str(1e2)}, {"tolerance", "1e-8"}}},
+    {"ProfileCPU", {{"trials_per_write", str(1e2)}, {"output_file", "tmp/lj_prof.csv"}}},
     {"Tune", {{}}},
     {"Run", {{"until_num_particles", "50"}}},
     {"ThermoParams", {{"beta", "1.2"}}},

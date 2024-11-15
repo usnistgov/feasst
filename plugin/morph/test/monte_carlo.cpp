@@ -340,7 +340,7 @@ TEST(MonteCarlo, morphrxn) {
     //{"Log", {{"trials_per_write", tpis}, {"output_file", "tmp/lj.csv"}}},
     //{"Movie", {{"trials_per_write", tpis}, {"output_file", "tmp/lj.xyz"}}},
     //{"NumParticles", {{"trials_per_write", tpis}, {"output_file", "tmp/ljn.csv"}, {"particle_type", "2"}}},
-    //{"ProfileTrials", {{"trials_per_write", tpis}, {"output_file", "tmp/ljp.csv"}, {"trials_per_update", "1e3"}}},
+    //{"ProfileCPU", {{"trials_per_write", tpis}, {"output_file", "tmp/ljp.csv"}, {"trials_per_update", "1e3"}}},
     {"Run", {{"num_trials", str(trials)}}},
   }});
 }

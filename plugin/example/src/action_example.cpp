@@ -44,19 +44,13 @@ void ActionExample::run(MonteCarlo * mc) {
     const std::vector<int> index = SeekAnalyze().index(analyze_name_, *mc);
     ASSERT(index[0] != -1, "analyze_name:" << analyze_name_ <<
       " was not found. Is it a modify?");
-    mc->get_analyze_factory()->get_analyze(index[0])->write_to_file(
-      mc->criteria(),
-      mc->system(),
-      mc->trials());
+    mc->get_analyze_factory()->get_analyze(index[0])->write_to_file(*mc);
   }
   if (!modify_name_.empty()) {
     const std::vector<int> index = SeekModify().index(modify_name_, *mc);
     ASSERT(index[0] != -1, "modify_name:" << modify_name_ <<
       " was not found. Is it an analyze?");
-    mc->get_modify_factory()->get_modify(index[0])->write_to_file(
-      mc->get_criteria(),
-      mc->get_system(),
-      mc->get_trial_factory());
+    mc->get_modify_factory()->get_modify(index[0])->write_to_file(mc);
   }
 }
 

@@ -1,5 +1,6 @@
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/wall_clock_limit.h"
 
 namespace feasst {
@@ -14,9 +15,7 @@ WallClockLimit::WallClockLimit(argtype args) : WallClockLimit(&args) {
   feasst_check_all_used(args);
 }
 
-void WallClockLimit::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void WallClockLimit::update(const MonteCarlo& mc) {
   const double hours = double(clock())/double(CLOCKS_PER_SEC)/60./60.;
   ASSERT(hours < max_hours_, "wall clock hours(" << hours << ") exceed " <<
     "the maximum(" << max_hours_ << ")");

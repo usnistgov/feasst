@@ -101,13 +101,13 @@ RemoveAnalyze name Log
 
 # production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}.csv
-Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_eq.xyz
-Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}.xyz
-Tune trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_tune.csv
-Energy trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_en.csv
+Log          trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}.csv
+Movie        trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_eq.xyz
+Movie        trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}.xyz
+Tune         trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_tune.csv
+Energy       trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_en.csv
 NumParticles trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_n.csv particle_type 2
-ProfileTrials trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_profile.csv trials_per_update 5e3
+ProfileCPU   trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_profile.csv trials_per_update 5e3
 Run until_criteria_complete true
 """.format(**params))
 

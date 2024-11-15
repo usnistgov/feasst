@@ -13,9 +13,7 @@ class CheckPhysicality : public AnalyzeUpdateOnly {
  public:
   explicit CheckPhysicality(argtype args = argtype());
   explicit CheckPhysicality(argtype * args);
-  void update(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  void update(const MonteCarlo& mc) override;
   std::string class_name() const override {
     return std::string("CheckPhysicality"); }
   void serialize(std::ostream& ostr) const override;

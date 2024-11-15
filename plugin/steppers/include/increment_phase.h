@@ -24,10 +24,7 @@ class IncrementPhase : public ModifyUpdateOnly {
    */
   //@{
 
-  void update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) override;
+  void update(MonteCarlo * mc) override;
 
   std::string class_name() const override { return std::string("IncrementPhase"); }
 

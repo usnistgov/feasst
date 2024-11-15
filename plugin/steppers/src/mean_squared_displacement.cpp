@@ -6,6 +6,7 @@
 #include "configuration/include/particle.h"
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/mean_squared_displacement.h"
 
 namespace feasst {
@@ -22,20 +23,16 @@ MeanSquaredDisplacement::MeanSquaredDisplacement(argtype args)
   feasst_check_all_used(args);
 }
 
-void MeanSquaredDisplacement::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+void MeanSquaredDisplacement::initialize(MonteCarlo * mc) {
   updates_since_origin_ = updates_per_origin_;
-  system->get_configuration()->init_wrap(false);
+  mc->get_system()->get_configuration(configuration_index())->init_wrap(false);
 }
 
-void MeanSquaredDisplacement::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
-
+void MeanSquaredDisplacement::update(const MonteCarlo& mc) {
+  const System& system = mc.system();
   // check for new origins
   if (updates_since_origin_ >= updates_per_origin_) {
-    const Select& new_origin = system.configuration().group_select(group_index_);
+    const Select& new_origin = configuration(system).group_select(group_index_);
     DEBUG("num particles: " << new_origin.num_particles());
     DEBUG("num sites: " << new_origin.num_sites());
     if (origins_.size() != 0) {
@@ -67,9 +64,7 @@ void MeanSquaredDisplacement::update(const Criteria& criteria,
   DEBUG("frames_ " << num_frames_() << " origins " << origins_.size());
 }
 
-std::string MeanSquaredDisplacement::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string MeanSquaredDisplacement::write(const MonteCarlo& mc) {
   std::stringstream ss;
   for (int frame = 0; frame < num_frames_(); ++frame) {
     ss << frame << " "

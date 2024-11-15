@@ -5,6 +5,7 @@
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/pair_distribution.h"
 
 namespace feasst {
@@ -59,12 +60,11 @@ PairDistribution::PairDistribution(argtype args) : PairDistribution(&args) {
   feasst_check_all_used(args);
 }
 
-void PairDistribution::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+void PairDistribution::initialize(MonteCarlo * mc) {
+  Configuration * config = mc->get_system()->get_configuration(configuration_index());
   DEBUG("init");
   num_updates_ = 0;
-  const int num_site_types = system->configuration().num_site_types();
+  const int num_site_types = config->num_site_types();
   DEBUG("num_site_types " << num_site_types);
   inter_.radial_.clear();
   intra_.radial_.clear();
@@ -80,8 +80,8 @@ void PairDistribution::initialize(Criteria * criteria,
   }
 
   // set cutoff to half the minimum box length
-  params_ = deep_copy(system->configuration().model_params());
-  const double min_side = system->configuration().domain().inscribed_sphere_diameter();
+  params_ = deep_copy(config->model_params());
+  const double min_side = config->domain().inscribed_sphere_diameter();
   DEBUG("min_side " << min_side);
   for (int itype = 0; itype < num_site_types; ++itype) {
     params_.set("cutoff", itype, 0.5*min_side);
@@ -89,14 +89,12 @@ void PairDistribution::initialize(Criteria * criteria,
       params_.set("cutoff", itype, jtype, 0.5*min_side);
     }
   }
-  inter_visit_.precompute(system->get_configuration());
-  intra_visit_.precompute(system->get_configuration());
+  inter_visit_.precompute(config);
+  intra_visit_.precompute(config);
 }
 
-std::string PairDistribution::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
-  const int num_site_types = system.configuration().num_site_types();
+std::string PairDistribution::header(const MonteCarlo& mc) const {
+  const int num_site_types = configuration(mc.system()).num_site_types();
   std::stringstream ss;
   ss << "#\"num_site_types\":" << num_site_types << "," << std::endl;
   ss << "r,";
@@ -114,24 +112,21 @@ std::string PairDistribution::header(const Criteria& criteria,
   return ss.str();
 }
 
-void PairDistribution::update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) {
+void PairDistribution::update(MonteCarlo * mc) {
+  Configuration * config = mc->get_system()->get_configuration(configuration_index());
   DEBUG("updating");
   ++num_updates_;
   //DEBUG(params_.cutoff().size());
   //DEBUG(params_.cutoff().mixed_value(0, 0));
-  inter_visit_.compute(&inter_, params_, system->get_configuration(), 0);
-  intra_visit_.compute(&intra_, params_, system->get_configuration(), 0);
+  inter_visit_.compute(&inter_, params_, config, 0);
+  intra_visit_.compute(&intra_, params_, config, 0);
 }
 
-std::string PairDistribution::write(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+std::string PairDistribution::write(MonteCarlo * mc) {
   std::stringstream ss;
-  ss << header(*criteria, *system, *trial_factory);
-  const grtype& rad = radial(system->configuration());
+  ss << header(*mc);
+  const Configuration& config = configuration(mc->system());
+  const grtype& rad = radial(config);
   const std::vector<std::vector<Histogram> >& hr = intra_.radial_;
   //ASSERT(static_cast<int>(rad.size()) == hr[0][0].size(), "err");
   //for (const grbintype& gr : rad) {
@@ -147,7 +142,7 @@ std::string PairDistribution::write(Criteria * criteria,
           if (bin < hrij.size()) {
             h = hrij.histogram()[bin]
               /static_cast<double>(num_updates_)
-              /static_cast<double>(system->configuration().num_particles());
+              /static_cast<double>(config.num_particles());
           }
           ss << h << ",";
         }

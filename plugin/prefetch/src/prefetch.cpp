@@ -424,6 +424,7 @@ void Prefetch::attempt_(
            ++im) {
         // DEBUG("im " << im << " first " << first_thread_accepted);
         mc->after_trial_modify_();
+        mc->after_trial_checkpoint_();
       }
       }
 

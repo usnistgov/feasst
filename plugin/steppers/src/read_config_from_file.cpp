@@ -3,6 +3,7 @@
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/read_config_from_file.h"
 
 namespace feasst {
@@ -34,20 +35,15 @@ void ReadConfigFromFile::load_(Criteria * criteria, System * system) {
   }
 }
 
-void ReadConfigFromFile::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+void ReadConfigFromFile::initialize(MonteCarlo * mc) {
   file_.open(input_file_);
   ASSERT(file_.good(), "cannot open " << input_file_);
-  load_(criteria, system);
+  load_(mc->get_criteria(), mc->get_system());
 }
 
-void ReadConfigFromFile::update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) {
+void ReadConfigFromFile::update(MonteCarlo * mc) {
   DEBUG("ReadConfigFromFile::update");
-  load_(criteria, system);
+  load_(mc->get_criteria(), mc->get_system());
 }
 
 void ReadConfigFromFile::serialize(std::ostream& ostr) const {

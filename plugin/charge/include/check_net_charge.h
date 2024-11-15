@@ -25,9 +25,7 @@ class CheckNetCharge : public AnalyzeUpdateOnly {
    */
   //@{
 
-  void update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) override;
+  void update(const MonteCarlo& mc) override;
   std::string class_name() const override {
     return std::string("CheckNetCharge"); }
   void serialize(std::ostream& ostr) const override;

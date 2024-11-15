@@ -2,6 +2,7 @@
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "charge/include/check_net_charge.h"
 
 namespace feasst {
@@ -12,10 +13,8 @@ CheckNetCharge::CheckNetCharge(argtype args) : AnalyzeUpdateOnly(&args) {
   feasst_check_all_used(args);
 }
 
-void CheckNetCharge::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
-  const double net_charge = ewald_.net_charge(system.configuration());
+void CheckNetCharge::update(const MonteCarlo& mc) {
+  const double net_charge = ewald_.net_charge(configuration(mc.system()));
   ASSERT(net_charge > minimum_ - 100.*NEAR_ZERO &&
          net_charge < maximum_ + 100.*NEAR_ZERO,
     "The net charge: " << net_charge << " should be > " << minimum_ <<

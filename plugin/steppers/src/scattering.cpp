@@ -9,6 +9,7 @@
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/scattering.h"
 
 namespace feasst {
@@ -22,10 +23,8 @@ Scattering::Scattering(argtype args) : Scattering(&args) {
   feasst_check_all_used(args);
 }
 
-void Scattering::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  const Configuration& config = system->configuration();
+void Scattering::initialize(MonteCarlo * mc) {
+  const Configuration& config = configuration(mc->system());
   ASSERT(config.dimension() == 3, "only implemented for 3d.");
   ASSERT(!config.domain().is_tilted(), "not implemented for tilted domains.");
   Position kvec;
@@ -55,11 +54,9 @@ void Scattering::initialize(Criteria * criteria,
   iq_.resize(num_vectors());
 }
 
-void Scattering::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void Scattering::update(const MonteCarlo& mc) {
   std::vector<double> fq(2*num_vectors());
-  const Configuration& config = system.configuration();
+  const Configuration& config = configuration(mc.system());
   const Select& selection = config.group_select(0);
   for (int select_index = 0;
        select_index < selection.num_particles();
@@ -96,11 +93,10 @@ void Scattering::update(const Criteria& criteria,
 //  return iq;
 //}
 
-std::string Scattering::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string Scattering::write(const MonteCarlo& mc) {
+  const Configuration& config = configuration(mc.system());
   //std::vector<double> iq = iq_();
-  const int num_site_types = system.configuration().num_site_types();
+  const int num_site_types = config.num_site_types();
   std::stringstream ss;
   ss << "#\"num_site_types\":" << num_site_types << "," << std::endl;
   ss << "q,i,";

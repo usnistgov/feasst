@@ -11,8 +11,8 @@
    TrialRemoveMultiple
    TrialAddMultiple
    TrialTransferMultiple
+   SlabCorrection
    Ewald
    CheckNetCharge
-   SlabCorrection
    ComputeRemoveMultiple
    ComputeAddMultiple

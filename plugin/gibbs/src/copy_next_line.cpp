@@ -5,6 +5,8 @@
 
 namespace feasst {
 
+FEASST_MAPPER(CopyNextLine,);
+
 CopyNextLine::CopyNextLine(argtype * args) {
   class_name_ = "CopyNextLine";
   std::string start;
@@ -27,16 +29,6 @@ CopyNextLine::CopyNextLine(argtype * args) {
 CopyNextLine::CopyNextLine(argtype args) : CopyNextLine(&args) {
   feasst_check_all_used(args);
 }
-
-class MapCopyNextLine {
- public:
-  MapCopyNextLine() {
-    auto obj = std::make_shared<CopyNextLine>();
-    obj->deserialize_map()["CopyNextLine"] = obj;
-  }
-};
-
-static MapCopyNextLine mapper_CopyNextLine = MapCopyNextLine();
 
 CopyNextLine::CopyNextLine(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);

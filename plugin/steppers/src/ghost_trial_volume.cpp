@@ -12,45 +12,42 @@
 #include "system/include/system.h"
 #include "system/include/thermo_params.h"
 #include "monte_carlo/include/criteria.h"
-#include "steppers/include/pressure_from_test_volume.h"
+#include "monte_carlo/include/monte_carlo.h"
+#include "steppers/include/ghost_trial_volume.h"
 
 namespace feasst {
 
-FEASST_MAPPER(PressureFromTestVolume,);
+FEASST_MAPPER(GhostTrialVolume,);
 
-PressureFromTestVolume::~PressureFromTestVolume() {}
+GhostTrialVolume::~GhostTrialVolume() {}
 
-void PressureFromTestVolume::serialize(std::ostream& ostr) const {
+void GhostTrialVolume::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(8947, ostr);
   feasst_serialize(delta_volume_, ostr);
 }
 
-PressureFromTestVolume::PressureFromTestVolume(std::istream& istr) : Modify(istr) {
+GhostTrialVolume::GhostTrialVolume(std::istream& istr) : Modify(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(8947 == version, version);
   feasst_deserialize(&delta_volume_, istr);
 }
 
-PressureFromTestVolume::PressureFromTestVolume(argtype * args) : Modify(args) {
+GhostTrialVolume::GhostTrialVolume(argtype * args) : Modify(args) {
   delta_volume_ = dble("delta_volume", args, 1e-4);
 }
-PressureFromTestVolume::PressureFromTestVolume(argtype args) : PressureFromTestVolume(&args) {
+GhostTrialVolume::GhostTrialVolume(argtype args) : GhostTrialVolume(&args) {
   feasst_check_all_used(args);
 }
 
-void PressureFromTestVolume::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+void GhostTrialVolume::initialize(MonteCarlo * mc) {
 }
 
-void PressureFromTestVolume::update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) {
+void GhostTrialVolume::update(MonteCarlo * mc) {
+  System * system = mc->get_system();
   DEBUG("updating");
   const int config_id = configuration_index();
-  const double en_old = criteria->current_energy(config_id);
+  const double en_old = mc->criteria().current_energy(config_id);
   argtype args;
   args.insert({"configuration", str(config_id)});
   system->change_volume(delta_volume_, args);
@@ -64,9 +61,7 @@ void PressureFromTestVolume::update(Criteria * criteria,
   get_accumulator()->accumulate(ens_av);
 }
 
-std::string PressureFromTestVolume::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string GhostTrialVolume::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   ss << "average,block_stdev,";
   for (int index = 0;
@@ -84,12 +79,10 @@ class LogEnsAv : public Formula {
 };
 
 
-std::string PressureFromTestVolume::write(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+std::string GhostTrialVolume::write(MonteCarlo * mc) {
   std::stringstream ss;
-  ss << header(*criteria, *system, *trial_factory);
-  const double beta = system->thermo_params().beta();
+  ss << header(*mc);
+  const double beta = mc->system().thermo_params().beta();
   LogEnsAv les;
   ss << std::log(accumulator().average()+1.)/beta/delta_volume_ << ","
      << accumulator().block_stdev(les)/beta/delta_volume_ << ",";

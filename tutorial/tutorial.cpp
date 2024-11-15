@@ -57,8 +57,8 @@ int main(int argc, char ** argv) {
 
   // nvt production
   mc->begin({{
-    {"Log", {{"trials_per_write", "1e5"}, {"output_file", "lj.csv"}}},
-    {"Movie", {{"trials_per_write", "1e5"}, {"output_file", "lj.xyz"}}},
+    {"Log",    {{"trials_per_write", "1e5"}, {"output_file", "lj.csv"}}},
+    {"Movie",  {{"trials_per_write", "1e5"}, {"output_file", "lj.xyz"}}},
     {"Energy", {{"trials_per_write", "1e5"}, {"output_file", "lj_en.csv"}}},
     {"Run", {{"num_trials", args.get("--trials")}}}
   }});

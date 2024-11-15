@@ -2,6 +2,7 @@
 #include "utils/include/serialize.h"
 #include "math/include/accumulator.h"
 #include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/energy.h"
 
 namespace feasst {
@@ -13,36 +14,27 @@ Energy::Energy(argtype args) : Energy(&args) {
   feasst_check_all_used(args);
 }
 
-void Energy::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  printer(header(*criteria, *system, *trial_factory),
-          output_file(*criteria));
+void Energy::initialize(MonteCarlo * mc) {
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-std::string Energy::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string Energy::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   ss << accumulator_->status_header() << std::endl;
   return ss.str();
 }
 
-void Energy::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
-  const double en = criteria.current_energy(configuration_index());
+void Energy::update(const MonteCarlo& mc) {
+  const double en = mc.criteria().current_energy(configuration_index());
   DEBUG("en: " << en);
   DEBUG("state: " << state());
   accumulator_->accumulate(en);
 }
 
-std::string Energy::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string Energy::write(const MonteCarlo& mc) {
   std::stringstream ss;
   if (rewrite_header()) {
-    ss << header(criteria, system, trial_factory);
+    ss << header(mc);
   }
   ss << accumulator_->status() << std::endl;
   DEBUG(ss.str());

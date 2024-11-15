@@ -8,6 +8,7 @@
 #include "system/include/potential.h"
 #include "system/include/visit_model_inner.h"
 #include "system/include/energy_map.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "cluster/include/calculate_cluster.h"
 
 namespace feasst {
@@ -19,25 +20,18 @@ CalculateCluster::CalculateCluster(argtype args) : CalculateCluster(&args) {
   feasst_check_all_used(args);
 }
 
-void CalculateCluster::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  printer(header(*criteria, *system, *trial_factory),
-          output_file(*criteria));
+void CalculateCluster::initialize(MonteCarlo * mc) {
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-std::string CalculateCluster::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string CalculateCluster::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   ss << accumulator().status_header() << std::endl;
   return ss.str();
 }
 
-void CalculateCluster::update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) {
+void CalculateCluster::update(MonteCarlo * mc) {
+  System * system = mc->get_system();
   const Configuration& config = system->configuration();
   if (config.num_particles() > 0) {
     INFO(config.selection_of_all().particle_index(0));
@@ -74,12 +68,10 @@ void CalculateCluster::update(Criteria * criteria,
     sel_all.num_particles() << " != " << config.num_particles());
 }
 
-std::string CalculateCluster::write(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+std::string CalculateCluster::write(MonteCarlo * mc) {
   std::stringstream ss;
   if (rewrite_header()) {
-    ss << header(*criteria, *system, *trial_factory);
+    ss << header(*mc);
   }
   ss << accumulator().status() << std::endl;
   DEBUG(ss.str());

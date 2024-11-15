@@ -63,7 +63,7 @@ TEST(MonteCarlo, gibbs_ensemble) {
     {"Movie", {{"trials_per_write", "1e0"}, {"output_file", "tmp/lj0.xyz"}, {"configuration_index", "1"}}},
     {"CheckEnergy", {{"trials_per_update", "1e0"}, {"tolerance", str(1e-9)}}},
     {"CheckConstantVolume", {{"trials_per_update", "1e0"}}},
-    {"PressureFromTestVolume", {{"trials_per_update", str(1e0)}, {"trials_per_write", "1"}, {"output_file", "tmp/lj_p.csv"}}},
+    {"GhostTrialVolume", {{"trials_per_update", str(1e0)}, {"trials_per_write", "1"}, {"output_file", "tmp/lj_p.csv"}}},
     //{"Run", {{"num_trials", "1e2"}}},
     //{"Run", {{"num_trials", "1e6"}}},
   }});

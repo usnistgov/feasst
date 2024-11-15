@@ -9,22 +9,22 @@
 
 namespace feasst {
 
+class TimerRDTSC;
+
 /**
   Contains multiple Analyze objects.
  */
 class AnalyzeFactory : public Analyze {
  public:
-  explicit AnalyzeFactory(argtype args = argtype()) : Analyze(&args) {}
+  explicit AnalyzeFactory(argtype args = argtype());
 
-  void initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) override;
+  void initialize(MonteCarlo * mc) override;
 
   /// Add an Analyze object.
-  void add(std::shared_ptr<Analyze> analyze) { analyzers_.push_back(analyze); }
+  void add(std::shared_ptr<Analyze> analyze);
 
   /// Remove an Analyze object.
-  void remove(const int index) { analyzers_.erase(analyzers_.begin() + index); }
+  void remove(const int index);
 
   /// Return the number.
   int num() const { return static_cast<int>(analyzers_.size()); }
@@ -38,20 +38,22 @@ class AnalyzeFactory : public Analyze {
     return const_cast<Analyze&>(*analyzers_[index]); }
 
   /// Write all Analyze immediately.
-  void write_to_file(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) override;
+  void write_to_file(const MonteCarlo& mc) override;
 
   /// For use with CollectionMatrixSplice, transfer multistate between threads.
   void adjust_bounds(const bool adjusted_up, const std::vector<int>& states,
     AnalyzeFactory * analyze_factory);
 
-  void trial(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) override;
+  void trial(const MonteCarlo& mc) override;
 
   Analyze * get_analyze(const int index) override {
     return analyzers_[index].get(); }
+
+  /// Set the timer
+  void set_timer();
+
+  /// Return timer
+  const TimerRDTSC * const timer() const { return timer_.get(); }
 
   // serialize
   std::string class_name() const override {
@@ -60,15 +62,13 @@ class AnalyzeFactory : public Analyze {
     return std::make_shared<AnalyzeFactory>(istr); }
   void serialize(std::ostream& ostr) const override;
   explicit AnalyzeFactory(std::istream& istr);
-  virtual ~AnalyzeFactory() {}
+  virtual ~AnalyzeFactory();
 
  private:
   std::vector<std::shared_ptr<Analyze> > analyzers_;
+  std::unique_ptr<TimerRDTSC> timer_;
 
-  void trial_(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory,
-    const int index);
+  void trial_(const MonteCarlo& mc, const int index);
 
   int min_block_(const Criteria& criteria) const;
   std::string write_blocks_(const int min_block, const Accumulator& acc) const;

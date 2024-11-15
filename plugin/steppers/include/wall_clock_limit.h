@@ -26,9 +26,7 @@ class WallClockLimit : public AnalyzeUpdateOnly {
    */
   //@{
 
-  void update(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  void update(const MonteCarlo& mc) override;
 
   // serialize
   std::string class_name() const override { return std::string("WallClockLimit"); }

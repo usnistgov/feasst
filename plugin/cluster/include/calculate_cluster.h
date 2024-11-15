@@ -16,22 +16,10 @@ class CalculateCluster : public Modify {
   explicit CalculateCluster(argtype args = argtype());
   explicit CalculateCluster(argtype * args);
 
-  std::string header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trials) const override;
-
-  void initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) override;
-
-  void update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) override;
-
-  std::string write(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) override;
+  std::string header(const MonteCarlo& mc) const override;
+  void initialize(MonteCarlo * mc) override;
+  void update(MonteCarlo * mc) override;
+  std::string write(MonteCarlo * mc) override;
 
   /// Return the cluster size.
   const Accumulator& cluster_size() const { return accumulator(); }

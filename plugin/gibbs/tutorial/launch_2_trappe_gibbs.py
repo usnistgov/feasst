@@ -240,7 +240,7 @@ CheckEnergy trials_per_update {trials_per_iteration} decimal_places 8
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
-ProfileTrials trials_per_update 1e4 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq_profile.csv
+ProfileCPU trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq_profile.csv
 # decrease trials per due to infrequency of volume transfer attempts
 Run until_criteria_complete true
 RemoveModify name GibbsInitialize
@@ -248,7 +248,7 @@ RemoveModify name Tune
 RemoveAnalyze name Log
 RemoveAnalyze name Movie
 RemoveAnalyze name Movie
-RemoveAnalyze name ProfileTrials
+RemoveAnalyze name ProfileCPU
 
 # gibbs ensemble production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
@@ -260,9 +260,9 @@ CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {pr
 Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_en.csv configuration_index 1
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_dens.csv
 Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_dens.csv configuration_index 1
-PressureFromTestVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pressure.csv
+GhostTrialVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pressure.csv
 CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.csv
-ProfileTrials trials_per_update 1e4 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_profile.csv
+ProfileCPU trials_per_write {trials_per_iteration} output_file {prefix}{sim}_profile.csv
 Run until_criteria_complete true
 """.format(**params))
 

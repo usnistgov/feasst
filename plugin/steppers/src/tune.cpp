@@ -6,6 +6,7 @@
 #include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/perturb.h"
 #include "monte_carlo/include/acceptance.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/tune.h"
 
 namespace feasst {
@@ -15,6 +16,9 @@ FEASST_MAPPER(Tune,);
 Tune::Tune(argtype * args) : Modify(args) {
   trials_per_tune_ = integer("trials_per_tune", args, 1e3);
   ASSERT(trials_per_update() == 1, "requires 1 trial per update");
+  if (trials_per_write() == 1) {
+    set_trials_per_write(-1);
+  }
 }
 Tune::Tune(argtype args) : Tune(&args) { feasst_check_all_used(args); }
 
@@ -36,43 +40,39 @@ Tune::Tune(std::istream& istr) : Modify(istr) {
   feasst_deserialize(&num_accepted_, istr);
 }
 
-void Tune::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  const int num_trials = trial_factory->num();
+void Tune::initialize(MonteCarlo * mc) {
+  const TrialFactory& tfac = mc->trial_factory();
+  const int num_trials = tfac.num();
   values_.resize(num_trials);
   num_attempts_.resize(num_trials, 0);
   num_accepted_.resize(num_trials, 0);
   for (int trial = 0; trial < num_trials; ++trial) {
-    if (trial_factory->trial(trial).num_stages() > 0) {
-      values_[trial] = trial_factory->trial(trial).stage(0).perturb().tunable().value();
+    if (tfac.trial(trial).num_stages() > 0) {
+      values_[trial] = tfac.trial(trial).stage(0).perturb().tunable().value();
     }
   }
-  printer(header(*criteria, *system, *trial_factory),
-          output_file(*criteria));
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-void Tune::update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) {
-  const int trial = trial_factory->last_index();
+void Tune::update(MonteCarlo * mc) {
+  TrialFactory * tfac = mc->get_trial_factory();
+  const int trial = tfac->last_index();
   DEBUG("last trial attempted: " << trial);
-  if (trial < min_num(*trial_factory)) {
-    if (!trial_factory->trial(trial).accept().reject()) {
+  if (trial < min_num(*tfac)) {
+    if (!tfac->trial(trial).accept().reject()) {
       // update acceptance statistics
       int * num_attempts = &num_attempts_[trial];
       *num_attempts += 1;
       DEBUG("num_attempts: " << *num_attempts);
       int * num_accepted = &num_accepted_[trial];
-      if (criteria->was_accepted()) {
+      if (mc->criteria().was_accepted()) {
         *num_accepted += 1;
       }
 
       // check for tuning
-      if (trial_factory->trial(trial).num_stages() > 0) {
+      if (tfac->trial(trial).num_stages() > 0) {
         const Tunable& tunable =
-          trial_factory->trial(trial).stage(0).perturb().tunable();
+          tfac->trial(trial).stage(0).perturb().tunable();
         if (tunable.is_enabled()) {
           double * value = &values_[trial];
           DEBUG("num_accepted: " << *num_accepted);
@@ -90,32 +90,29 @@ void Tune::update(Criteria * criteria,
             *num_accepted = 0;
             *num_attempts = 0;
           }
-          trial_factory->set_tunable(trial, *value);
+          tfac->set_tunable(trial, *value);
         }
       }
     }
   }
 }
 
-std::string Tune::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string Tune::header(const MonteCarlo& mc) const {
+  const TrialFactory& tfac = mc.trial_factory();
   std::stringstream ss;
-  for (int trial = 0; trial < min_num(trial_factory); ++trial) {
-    ss << trial_factory.trial(trial).class_name() << ",acceptance,";
+  for (int trial = 0; trial < min_num(tfac); ++trial) {
+    ss << tfac.trial(trial).class_name() << ",acceptance,";
   }
   ss << std::endl;
   return ss.str();
 }
 
-std::string Tune::write(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+std::string Tune::write(MonteCarlo * mc) {
   std::stringstream ss;
   if (rewrite_header()) {
-    ss << header(*criteria, *system, *trial_factory);
+    ss << header(*mc);
   }
-  for (int trial = 0; trial < min_num(*trial_factory); ++trial) {
+  for (int trial = 0; trial < min_num(mc->trial_factory()); ++trial) {
     DEBUG("trial " << trial);
     DEBUG("valsz " << values_.size());
     DEBUG("attsz " << num_attempts_.size());

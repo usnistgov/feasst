@@ -5,7 +5,7 @@ namespace feasst {
 
 TEST(GhostTrialGrow, serialize) {
   GhostTrialGrow reject;
-  GhostTrialGrow reject2 = test_serialize(reject);
+  auto reject2 = test_serialize_unique(reject);
 }
 
 }  // namespace feasst

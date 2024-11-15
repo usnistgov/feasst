@@ -1,6 +1,7 @@
 #include "utils/include/serialize.h"
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/check.h"
 
 namespace feasst {
@@ -17,9 +18,8 @@ Check::Check(std::istream& istr) : AnalyzeUpdateOnly(istr) {
   ASSERT(version == 890, "unrecognized version: " << version);
 }
 
-void Check::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void Check::update(const MonteCarlo& mc) {
+  const System& system = mc.system();
   system.configuration().check();
   system.check();
 }

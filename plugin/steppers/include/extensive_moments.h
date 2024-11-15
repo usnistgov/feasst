@@ -31,23 +31,13 @@ class ExtensiveMoments : public Analyze {
    */
   //@{
 
-  std::string header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trials) const override;
-
-  void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
-
-  void update(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  std::string header(const MonteCarlo& mc) const override;
+  void initialize(MonteCarlo * mc) override;
+  void update(const MonteCarlo& mc) override;
 
   /// Write the moments by serialization of a 5d accumulator.
   /// If checkpoints do not work, this file can be read using feasst_deserialize
-  std::string write(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  std::string write(const MonteCarlo& mc) override;
 
   //const Accumulator& energy() const { return accumulator(); }
   /// Return the extensive moments

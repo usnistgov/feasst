@@ -5,6 +5,7 @@
 #include "configuration/include/particle.h"
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "chain/include/end_to_end_distance.h"
 
 namespace feasst {
@@ -18,30 +19,24 @@ EndToEndDistance::EndToEndDistance(argtype args) : EndToEndDistance(&args) {
   feasst_check_all_used(args);
 }
 
-void EndToEndDistance::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  printer(header(*criteria, *system, *trial_factory),
-          output_file(*criteria));
+void EndToEndDistance::initialize(MonteCarlo * mc) {
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-std::string EndToEndDistance::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string EndToEndDistance::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   ss << accumulator().status_header() << std::endl;
   return ss.str();
 }
 
-void EndToEndDistance::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
-  const Select& selection = system.configuration().group_select(group_index_);
+void EndToEndDistance::update(const MonteCarlo& mc) {
+  const Configuration& config = configuration(mc.system());
+  const Select& selection = config.group_select(group_index_);
   for (int select_index = 0;
        select_index < selection.num_particles();
        ++select_index) {
     const int part_index = selection.particle_index(select_index);
-    const Particle& part = system.configuration().select_particle(part_index);
+    const Particle& part = config.select_particle(part_index);
     const Position& site0pos = part.site(0).position();
     const Position& sitenpos = part.site(part.num_sites() - 1).position();
     const double distance = site0pos.distance(sitenpos);
@@ -49,12 +44,10 @@ void EndToEndDistance::update(const Criteria& criteria,
   }
 }
 
-std::string EndToEndDistance::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string EndToEndDistance::write(const MonteCarlo& mc) {
   std::stringstream ss;
   if (rewrite_header()) {
-    ss << header(criteria, system, trial_factory);
+    ss << header(mc);
   }
   ss << accumulator().status() << std::endl;
   DEBUG(ss.str());

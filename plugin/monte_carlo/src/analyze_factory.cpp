@@ -1,33 +1,43 @@
 #include "utils/include/serialize.h"
+#include "utils/include/timer_rdtsc.h"
 #include "math/include/accumulator.h"
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/trial_factory.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/analyze_factory.h"
 
 namespace feasst {
 
 FEASST_MAPPER(AnalyzeFactory,);
 
-void AnalyzeFactory::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+AnalyzeFactory::AnalyzeFactory(argtype args) : Analyze(&args) {}
+AnalyzeFactory::~AnalyzeFactory() {}
+
+void AnalyzeFactory::initialize(MonteCarlo * mc) {
   for (std::shared_ptr<Analyze> analyze : analyzers_) {
-    analyze->initialize(criteria, system, trial_factory);
+    analyze->initialize(mc);
   }
 }
 
-void AnalyzeFactory::trial_(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory,
-    const int index) {
-  // timer_.start(index + 1);
+void AnalyzeFactory::add(std::shared_ptr<Analyze> analyze) {
+  analyzers_.push_back(analyze);
+  if (timer_) timer_->add();
+}
+
+void AnalyzeFactory::remove(const int index) {
+  analyzers_.erase(analyzers_.begin() + index);
+  if (timer_) timer_->erase(index);
+}
+
+void AnalyzeFactory::trial_(const MonteCarlo& mc, const int index) {
   DEBUG("index " << index << " sz " << analyzers_.size());
   ASSERT(index < static_cast<int>(analyzers_.size()),
     "index: " << index << " too large when there are " << analyzers_.size());
   DEBUG(analyzers_[index]->class_name());
-  analyzers_[index]->trial(criteria, system, trial_factory);
-  // timer_.end();
+  if (timer_) timer_->start(index);
+  analyzers_[index]->trial(mc);
+  if (timer_) timer_->start(-1);
 }
 
 int AnalyzeFactory::min_block_(const Criteria& criteria) const {
@@ -60,10 +70,9 @@ std::string AnalyzeFactory::write_blocks_(const int min_block,
   return ss.str();
 }
 
-void AnalyzeFactory::trial(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void AnalyzeFactory::trial(const MonteCarlo& mc) {
   DEBUG(" class? " << class_name());
+  const Criteria& criteria = mc.criteria();
   int stt = -1;
   if (is_multistate()) {
     stt = criteria.state();
@@ -88,7 +97,7 @@ void AnalyzeFactory::trial(const Criteria& criteria,
         analyzers_.size() << ". Was a flat histogram simulation reinitialized"
         << " after a multistate Analyzer?");
       ASSERT(criteria.state() >= 0, "No state");
-      analyzers_[criteria.state()]->check_update_(criteria, system, trial_factory);
+      analyzers_[criteria.state()]->check_update_(mc);
       if (is_time(trials_per_write(), &trials_since_write_)) {
         const int min_block = min_block_(criteria);
         std::stringstream ss;
@@ -97,7 +106,7 @@ void AnalyzeFactory::trial(const Criteria& criteria,
           const bool acc_used = acc.num_values() != 0;
           if (state == 0) {
             ss << "state,";
-            ss << analyzers_[state]->header(criteria, system, trial_factory);
+            ss << analyzers_[state]->header(mc);
             if (acc_used) {
               ss.seekp(-1, ss.cur); // remove endl
               for (int block = 0; block < min_block; ++block) {
@@ -110,7 +119,7 @@ void AnalyzeFactory::trial(const Criteria& criteria,
           DEBUG("crit " << criteria.state());
           DEBUG("crit " << criteria.num_states());
           ss << state << ",";
-          ss << analyzers_[state]->write(criteria, system, trial_factory);
+          ss << analyzers_[state]->write(mc);
           if (acc_used) {
             ss.seekp(-1, ss.cur); // remove endl
             ss << write_blocks_(min_block, analyzers_[state]->accumulator());
@@ -120,21 +129,20 @@ void AnalyzeFactory::trial(const Criteria& criteria,
         printer(ss.str(), output_file(criteria));
       }
     } else {
-      trial_(criteria, system, trial_factory, criteria.state());
+      trial_(mc, criteria.state());
     }
   } else {
     DEBUG("not multistate");
     for (int index = 0; index < num(); ++index) {
 //    for (const std::shared_ptr<Analyze> analyze : analyzers_) {
       DEBUG("index " << index);
-      trial_(criteria, system, trial_factory, index);
+      trial_(mc, index);
     }
   }
 }
 
-void AnalyzeFactory::write_to_file(const Criteria& criteria,
-  const System& system,
-  const TrialFactory& trial_factory) {
+void AnalyzeFactory::write_to_file(const MonteCarlo& mc) {
+  const Criteria& criteria = mc.criteria();
   if (is_multistate()) {
     if (is_multistate_aggregate()) {
       const int min_block = min_block_(criteria);
@@ -142,7 +150,7 @@ void AnalyzeFactory::write_to_file(const Criteria& criteria,
       for (int state = 0; state < num(); ++state) {
         if (state == 0) {
           ss << "state,";
-          ss << analyzers_[state]->header(criteria, system, trial_factory);
+          ss << analyzers_[state]->header(mc);
           ss.seekp(-1, ss.cur); // remove endl
           for (int block = 0; block < min_block; ++block) {
             ss << "block" << block << ",";
@@ -150,18 +158,18 @@ void AnalyzeFactory::write_to_file(const Criteria& criteria,
           ss << std::endl;
         }
         ss << state << ",";
-        ss << analyzers_[state]->write(criteria, system, trial_factory);
+        ss << analyzers_[state]->write(mc);
         ss.seekp(-1, ss.cur); // remove endl
         ss << write_blocks_(min_block, analyzers_[state]->accumulator());
         ss << std::endl;
       }
       printer(ss.str(), output_file(criteria));
     } else {
-      analyzers_[criteria.state()]->write_to_file(criteria, system, trial_factory);
+      analyzers_[criteria.state()]->write_to_file(mc);
     }
   } else {
     for (int index = 0; index < num(); ++index) {
-      analyzers_[index]->write_to_file(criteria, system, trial_factory);
+      analyzers_[index]->write_to_file(mc);
     }
   }
 }
@@ -183,6 +191,10 @@ void AnalyzeFactory::adjust_bounds(const bool adjusted_up,
   }
 }
 
+void AnalyzeFactory::set_timer() {
+  timer_ = std::make_unique<TimerRDTSC>(num());
+}
+
 AnalyzeFactory::AnalyzeFactory(std::istream& istr) : Analyze(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 1640, "unrecognized verison: " << version);
@@ -198,12 +210,14 @@ AnalyzeFactory::AnalyzeFactory(std::istream& istr) : Analyze(istr) {
       analyzers_[index] = analyzers_[index]->deserialize(istr);
     }
   }
+  feasst_deserialize(timer_, istr);
 }
 
 void AnalyzeFactory::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(1640, ostr);
   feasst_serialize_fstdr(analyzers_, ostr);
+  feasst_serialize(timer_, ostr);
 }
 
 }  // namespace feasst

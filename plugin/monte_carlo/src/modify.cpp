@@ -3,6 +3,7 @@
 #include "utils/include/serialize_extra.h"
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/trial_factory.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/modify.h"
 
 namespace feasst {
@@ -34,50 +35,38 @@ std::shared_ptr<Modify> Modify::factory(const std::string name, argtype * args) 
   return template_factory(deserialize_map(), name, args);
 }
 
-void Modify::check_update_(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) {
+void Modify::check_update_(MonteCarlo * mc) {
   DEBUG("check update " << trials_per_update() << " " << trials_since_update());
   if (is_time(trials_per_update(), &trials_since_update_)) {
-    update(criteria, system, random, trial_factory);
+    update(mc);
   }
 }
 
-void Modify::trial(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) {
-  if ((stop_after_phase() == -1 || criteria->phase() <= stop_after_phase()) &&
-      (stop_after_iteration() == -1 || criteria->num_iterations() <= stop_after_iteration())) {
-    if ((criteria->phase() > start_after_phase()) &&
-        (criteria->num_iterations() > start_after_iteration())) {
-      check_update_(criteria, system, random, trial_factory);
+void Modify::trial(MonteCarlo * mc) {
+  const Criteria& criteria = mc->criteria();
+  if ((stop_after_phase() == -1 || criteria.phase() <= stop_after_phase()) &&
+      (stop_after_iteration() == -1 || criteria.num_iterations() <= stop_after_iteration())) {
+    if ((criteria.phase() > start_after_phase()) &&
+        (criteria.num_iterations() > start_after_iteration())) {
+      check_update_(mc);
       if (is_time(trials_per_write(), &trials_since_write_)) {
-        write_to_file(criteria, system, trial_factory);
+        write_to_file(mc);
       }
     }
   }
 }
 
-void Modify::write_to_file(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+void Modify::write_to_file(MonteCarlo * mc) {
   if (trials_per_write() != -1) {
-    printer(write(criteria, system, trial_factory), output_file(*criteria));
+    printer(write(mc), output_file(mc->criteria()));
   }
 }
 
-void Modify::update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) {
+void Modify::update(MonteCarlo * mc) {
   FATAL("not implemented");
 }
 
-std::string Modify::write(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+std::string Modify::write(MonteCarlo * mc) {
   DEBUG(trials_per_write());
   FATAL(class_name() << " not implemented");
   return std::string("");

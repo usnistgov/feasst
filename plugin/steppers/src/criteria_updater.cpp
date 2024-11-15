@@ -1,6 +1,7 @@
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/criteria_updater.h"
 
 namespace feasst {
@@ -22,9 +23,8 @@ CriteriaUpdater::CriteriaUpdater(std::istream& istr) : ModifyUpdateOnly(istr) {
   ASSERT(version == 743, "version mismatch:" << version);
 }
 
-void CriteriaUpdater::update(Criteria * criteria,
-  System * system,
-  Random * random,
-  TrialFactory * trial_factory) { criteria->update(); }
+void CriteriaUpdater::update(MonteCarlo * mc) {
+  mc->get_criteria()->update();
+}
 
 }  // namespace feasst

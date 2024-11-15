@@ -9,18 +9,20 @@
 
 namespace feasst {
 
+class TimerRDTSC;
+
 /**
   Contains multiple Modify objects.
  */
 class ModifyFactory : public Modify {
  public:
-  explicit ModifyFactory(argtype args = argtype()) : Modify(&args) {}
+  explicit ModifyFactory(argtype args = argtype());
 
   /// Add a Modify object.
-  void add(std::shared_ptr<Modify> modify) { modifiers_.push_back(modify); }
+  void add(std::shared_ptr<Modify> modify);
 
   /// Remove a Modify
-  void remove(const int index) { modifiers_.erase(modifiers_.begin() + index); }
+  void remove(const int index);
 
   /// Return the number.
   int num() const { return static_cast<int>(modifiers_.size()); }
@@ -33,26 +35,25 @@ class ModifyFactory : public Modify {
   const Modify& modify(const int index) const override {
     return const_cast<Modify&>(*modifiers_[index]); }
 
-  void initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) override;
+  void initialize(MonteCarlo * mc) override;
 
   /// Write all Modify immediately.
-  void write_to_file(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) override;
+  void write_to_file(MonteCarlo * mc) override;
 
   /// For use with CollectionMatrixSplice, transfer multistate between threads.
   void adjust_bounds(const bool adjusted_up, const std::vector<int>& states,
     ModifyFactory * analyze_factory);
 
-  void trial(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) override;
+  void trial(MonteCarlo * mc) override;
 
   Modify * get_modify(const int index) override {
     return modifiers_[index].get(); }
+
+  /// Set the timer
+  void set_timer();
+
+  /// Return timer
+  const TimerRDTSC * const timer() const { return timer_.get(); }
 
   std::string class_name() const override {
     return std::string("ModifyFactory"); }
@@ -60,16 +61,13 @@ class ModifyFactory : public Modify {
     return std::make_shared<ModifyFactory>(istr); }
   void serialize(std::ostream& ostr) const override;
   explicit ModifyFactory(std::istream& istr);
-  virtual ~ModifyFactory() {}
+  virtual ~ModifyFactory();
 
  private:
   std::vector<std::shared_ptr<Modify> > modifiers_;
+  std::unique_ptr<TimerRDTSC> timer_;
 
-  void trial_(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory,
-    const int index);
+  void trial_(MonteCarlo * mc, const int index);
 };
 
 inline std::shared_ptr<ModifyFactory> MakeModifyFactory(

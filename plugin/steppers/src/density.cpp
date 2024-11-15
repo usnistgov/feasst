@@ -3,6 +3,7 @@
 #include "math/include/accumulator.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/density.h"
 
 namespace feasst {
@@ -14,24 +15,18 @@ Density::Density(argtype args) : Density(&args) {
   feasst_check_all_used(args);
 }
 
-void Density::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  printer(header(*criteria, *system, *trial_factory),
-          output_file(*criteria));
+void Density::initialize(MonteCarlo * mc) {
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-std::string Density::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string Density::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   ss << accumulator_->status_header() << std::endl;
   return ss.str();
 }
 
-void Density::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void Density::update(const MonteCarlo& mc) {
+  const System& system = mc.system();
   const double volume = configuration(system).domain().volume();
   DEBUG("volume: " << volume);
   const int num_particles = configuration(system).num_particles();
@@ -40,12 +35,10 @@ void Density::update(const Criteria& criteria,
   accumulator_->accumulate(static_cast<double>(num_particles)/volume);
 }
 
-std::string Density::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string Density::write(const MonteCarlo& mc) {
   std::stringstream ss;
   if (rewrite_header()) {
-    ss << header(criteria, system, trial_factory);
+    ss << header(mc);
   }
   ss << accumulator_->status() << std::endl;
   DEBUG(ss.str());

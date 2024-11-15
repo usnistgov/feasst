@@ -76,22 +76,10 @@ class GibbsInitialize : public Modify {
    */
   //@{
 
-  std::string header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trials) const override;
-
-  void initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) override;
-
-  void update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) override;
-
-  std::string write(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) override;
+  std::string header(const MonteCarlo& mc) const override;
+  void initialize(MonteCarlo * mc) override;
+  void update(MonteCarlo * mc) override;
+  std::string write(MonteCarlo * mc) override;
 
   // serialize
   std::string class_name() const override { return std::string("GibbsInitialize"); }

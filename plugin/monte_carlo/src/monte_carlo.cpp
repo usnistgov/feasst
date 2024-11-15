@@ -5,6 +5,7 @@
 #include "utils/include/arguments.h"
 #include "utils/include/file.h"
 #include "utils/include/checkpoint.h"
+#include "utils/include/timer_rdtsc.h"
 #include "configuration/include/neighbor_criteria.h"
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
@@ -45,13 +46,13 @@ std::shared_ptr<T> parse(T * obj, arglist * args) {
   return new_obj;
 }
 
+void MonteCarlo::set_timer() {
+  timer_ = std::make_unique<TimerRDTSC>(5);
+  timer_->start(4);
+}
+
 MonteCarlo::MonteCarlo(std::shared_ptr<Random> random) {
   set(random);
-//    timer_other_ = timer_.add("other");
-//    timer_trial_ = timer_.add("trial");
-//    timer_analyze_ = timer_.add("analyze");
-//    timer_modify_ = timer_.add("modify");
-//    timer_checkpoint_ = timer_.add("checkpoint");
   system_ = std::make_unique<System>();
   trial_factory_ = std::make_unique<TrialFactory>();
   analyze_factory_ = std::make_unique<AnalyzeFactory>();
@@ -69,6 +70,13 @@ void MonteCarlo:: record_next_arg_(arglist *args) {
 
 void MonteCarlo::parse_args(arglist * args, const bool silent) {
   DEBUG("first " << args->begin()->first);
+
+  // Check for deprecated names
+  if (args->begin()->first == "PressureFromTestVolume") {
+    WARN("PressureFromTestVolume was renamed to GhostTrialVolume");
+    args->begin()->first = "GhostTrialVolume";
+  }
+
   if (!silent) {
     std::cout << args->begin()->first << " "
               << str(args->begin()->second) << " " << std::endl;
@@ -416,7 +424,7 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
     if (analyze->is_multistate_aggregate()) {
       trials_per_write = analyze->trials_per_write();
       output_file = analyze->output_file();
-      analyze->initialize(criteria_.get(), system_.get(), trial_factory_.get());
+      analyze->initialize(this);
     }
     auto multi = MakeAnalyzeFactory({
       {"multistate", "true"},
@@ -447,7 +455,7 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
     }
     analyze = multi;
   }
-  analyze->initialize(criteria_.get(), system_.get(), trial_factory_.get());
+  analyze->initialize(this);
   DEBUG("mults " << analyze->is_multistate() << " class name? " << analyze->class_name());
   analyze_factory_->add(analyze);
 }
@@ -467,7 +475,7 @@ void MonteCarlo::add(std::shared_ptr<Modify> modify) {
     if (modify->is_multistate_aggregate()) {
       trials_per_write = modify->trials_per_write();
       output_file = modify->output_file();
-      modify->initialize(criteria_.get(), system_.get(), trial_factory_.get());
+      modify->initialize(this);
     }
     auto multi = MakeModifyFactory({
       {"multistate", "true"},
@@ -497,7 +505,7 @@ void MonteCarlo::add(std::shared_ptr<Modify> modify) {
     }
     modify = multi;
   }
-  modify->initialize(criteria_.get(), system_.get(), trial_factory_.get());
+  modify->initialize(this);
   DEBUG("mults " << modify->is_multistate() << " class name? " << modify->class_name());
 
   // Check that modifiers aren't added after ReadConfigFromFile.
@@ -520,7 +528,11 @@ void MonteCarlo::set(const std::shared_ptr<Checkpoint> checkpoint) {
 }
 
 void MonteCarlo::after_trial_modify_() {
-  modify_factory_->trial(criteria_.get(), system_.get(), random_.get(), trial_factory_.get());
+  //INFO("num " << modify_factory_->num());
+  modify_factory_->trial(this);
+}
+
+void MonteCarlo::after_trial_checkpoint_() {
   if (checkpoint_) {
     checkpoint_->check(*this);
   }
@@ -543,6 +555,7 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
   feasst_serialize(thermo_params_set_, ostr);
   feasst_serialize(system_set_, ostr);
   feasst_serialize(criteria_set_, ostr);
+  feasst_serialize(timer_, ostr);
   feasst_serialize_endcap("MonteCarlo", ostr);
   DEBUG("size: " << ostr.tellp());
 }
@@ -595,6 +608,7 @@ MonteCarlo::MonteCarlo(std::istream& istr) {
   feasst_deserialize(&thermo_params_set_, istr);
   feasst_deserialize(&system_set_, istr);
   feasst_deserialize(&criteria_set_, istr);
+  feasst_deserialize(timer_, istr);
   feasst_deserialize_endcap("MonteCarlo", istr);
 }
 
@@ -626,25 +640,24 @@ void MonteCarlo::revert_(const int trial_index,
 void MonteCarlo::attempt_(int num_trials,
     TrialFactory * trial_factory,
     Random * random) {
-  //ASSERT(trial_factory->num() > 0, "no Trials to attempt.");
   if (trial_factory->num() == 0 && trial_factory->num_attempts() == 0) {
     WARN("No Trials to attempt.");
   }
   before_attempts_();
   uint64_t clock_after_trial, clock_after_analyze, clock_after_modify;
-  clock_after_modify = __rdtsc();
+  uint64_t clock_after_checkpoint = __rdtsc();
   for (int trial = 0; trial < num_trials; ++trial) {
+    if (timer_) timer_->start(0);
     DEBUG("mc trial: " << trial);
     trial_factory->attempt(criteria_.get(), system_.get(), random);
-    clock_after_trial = __rdtsc();
-    trial_ticks_ += clock_after_trial - clock_after_modify;
+    if (timer_) timer_->start(1);
     after_trial_analyze_();
-    clock_after_analyze = __rdtsc();
-    analyze_ticks_ += clock_after_analyze - clock_after_trial;
+    if (timer_) timer_->start(2);
     after_trial_modify_();
-    clock_after_modify = __rdtsc();
-    modify_ticks_ += clock_after_modify - clock_after_analyze;
+    if (timer_) timer_->start(3);
+    after_trial_checkpoint_();
   }
+  if (timer_) timer_->start(4);
 }
 
 bool MonteCarlo::attempt_trial(const int index) {
@@ -679,8 +692,7 @@ void MonteCarlo::initialize_trials() {
 
 void MonteCarlo::initialize_analyzers() {
   for (int an = 0; an < analyze_factory_->num(); ++an) {
-    analyze_factory_->get_analyze(an)->initialize(
-      criteria_.get(), system_.get(), trial_factory_.get());
+    analyze_factory_->get_analyze(an)->initialize(this);
   }
 }
 
@@ -759,8 +771,8 @@ void MonteCarlo::ghost_trial_(
 }
 
 void MonteCarlo::write_to_file() {
-  analyze_factory_->write_to_file(*criteria_, *system_, *trial_factory_);
-  modify_factory_->write_to_file(criteria_.get(), system_.get(), trial_factory_.get());
+  analyze_factory_->write_to_file(*this);
+  modify_factory_->write_to_file(this);
 }
 
 void MonteCarlo::run_num_trials(int num_trials) {
@@ -769,14 +781,6 @@ void MonteCarlo::run_num_trials(int num_trials) {
     --num_trials;
     DEBUG("num_trials " << num_trials);
   }
-//  uint64_t total = trial_ticks_ + analyze_ticks_ + modify_ticks_;
-//  INFO("trial:" << trial_ticks_ <<
-//      " analyze:" << analyze_ticks_ <<
-//      " modify:" << modify_ticks_ <<
-//      " total:" << total);
-//  INFO("trial:" << static_cast<double>(trial_ticks_)/total <<
-//      " analyze:" << static_cast<double>(analyze_ticks_)/total <<
-//      " modify:" << static_cast<double>(modify_ticks_)/total);
 }
 
 void MonteCarlo::run_until_num_particles(const int until_num_particles,
@@ -807,7 +811,7 @@ const Criteria& MonteCarlo::criteria() const {
 }
 
 void MonteCarlo::after_trial_analyze_() {
-  analyze_factory_->trial(*criteria_, *system_, *trial_factory_);
+  analyze_factory_->trial(*this);
 }
 
 void MonteCarlo::finalize_(const int trial_index) {
@@ -864,6 +868,8 @@ const Analyze& MonteCarlo::analyze(const int index) const {
   return analyze_factory_->analyze(index); }
 int MonteCarlo::num_analyzers() const {
   return static_cast<int>(analyze_factory_->analyzers().size()); }
+const std::vector<std::shared_ptr<Modify> >& MonteCarlo::modifiers() const {
+  return modify_factory_->modifiers(); }
 
 void MonteCarlo::set_num_iterations_to_complete(const int num) {
   criteria_->set_num_iterations_to_complete(num);

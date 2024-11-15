@@ -2,12 +2,13 @@
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/position.h"
+#include "math/include/utils_math.h"
 #include "configuration/include/bond.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
-#include "math/include/utils_math.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "chain/include/analyze_bonds.h"
 
 namespace feasst {
@@ -52,10 +53,8 @@ AnalyzeBonds::AnalyzeBonds(std::istream& istr) : Analyze(istr) {
   feasst_deserialize_fstobj(&dihedral_hist_, istr);
 }
 
-void AnalyzeBonds::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  const Configuration& config = system->configuration();
+void AnalyzeBonds::initialize(MonteCarlo * mc) {
+  const Configuration& config = mc->system().configuration();
   for (int btype = 0; btype < config.num_bond_types(); ++btype) {
     bond_.push_back(Accumulator());
     if (btype != 0) bond_hist_.push_back(bond_hist_[0]);
@@ -70,10 +69,8 @@ void AnalyzeBonds::initialize(Criteria * criteria,
   }
 }
 
-void AnalyzeBonds::update(const Criteria& criteria,
-  const System& system,
-  const TrialFactory& trial_factory) {
-  const Configuration& config = system.configuration();
+void AnalyzeBonds::update(const MonteCarlo& mc) {
+  const Configuration& config = mc.system().configuration();
   const Select& all = config.selection_of_all();
   for (int index = 0; index < all.num_particles(); ++index) {
     const int part_index = all.particle_index(index);
@@ -106,9 +103,7 @@ void AnalyzeBonds::update(const Criteria& criteria,
   }
 }
 
-std::string AnalyzeBonds::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string AnalyzeBonds::write(const MonteCarlo& mc) {
   std::stringstream ss;
   for (int type = 0; type < static_cast<int>(bond_.size()); ++type) {
     ss << "# bond: " << type << ": "  << bond_[type].str() << std::endl;

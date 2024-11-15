@@ -23,9 +23,7 @@ class CriteriaWriter : public AnalyzeWriteOnly {
    */
   //@{
 
-  std::string write(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  std::string write(const MonteCarlo& mc) override;
 
   // serialize
   std::string class_name() const override {

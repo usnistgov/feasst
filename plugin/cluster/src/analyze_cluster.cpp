@@ -4,6 +4,7 @@
 #include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/trial_stage.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "cluster/include/analyze_cluster.h"
 
 namespace feasst {
@@ -15,24 +16,18 @@ AnalyzeCluster::AnalyzeCluster(argtype args) : AnalyzeCluster(&args) {
   feasst_check_all_used(args);
 }
 
-void AnalyzeCluster::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  printer(header(*criteria, *system, *trial_factory),
-          output_file(*criteria));
+void AnalyzeCluster::initialize(MonteCarlo * mc) {
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-std::string AnalyzeCluster::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string AnalyzeCluster::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   ss << accumulator().status_header() << std::endl;
   return ss.str();
 }
 
-void AnalyzeCluster::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void AnalyzeCluster::update(const MonteCarlo& mc) {
+  const TrialFactory& trial_factory = mc.trial_factory();
   const int trial = trial_factory.last_index();
   ASSERT(trial != -1, "no trials to harvest cluster information from.");
   const TrialSelect& sel = trial_factory.trial(trial).stage(0).trial_select();
@@ -44,12 +39,10 @@ void AnalyzeCluster::update(const Criteria& criteria,
   }
 }
 
-std::string AnalyzeCluster::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string AnalyzeCluster::write(const MonteCarlo& mc) {
   std::stringstream ss;
   if (rewrite_header()) {
-    ss << header(criteria, system, trial_factory);
+    ss << header(mc);
   }
   ss << accumulator().status() << std::endl;
   DEBUG(ss.str());

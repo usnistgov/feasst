@@ -4,6 +4,7 @@
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/trial_factory.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/log.h"
 
 namespace feasst {
@@ -18,26 +19,22 @@ Log::Log(argtype * args) : AnalyzeWriteOnly(args) {
     ERROR("append is required");
   }
   max_precision_ = boolean("max_precision", args, false);
-  include_bonds_ = boolean("include_bonds", args, false);
+  include_bonds_ = boolean("include_bonds", args, true);
 }
 
-void Log::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  printer(header(*criteria, *system, *trial_factory),
-          output_file(*criteria));
+void Log::initialize(MonteCarlo * mc) {
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-std::string Log::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string Log::header(const MonteCarlo& mc) const {
+  const System& system = mc.system();
   std::stringstream ss;
   ss << system.status_header();
-  ss << criteria.status_header(system);
+  ss << mc.criteria().status_header(system);
   if (include_bonds_) {
     std::string append = "";
     for (int iconf = 0; iconf < system.num_configurations(); ++iconf) {
-      if (system.num_configurations()) {
+      if (system.num_configurations() > 1) {
         append = "_config" + str(iconf);
       }
       ss << ",BondTwoBody" << append <<
@@ -48,18 +45,18 @@ std::string Log::header(const Criteria& criteria,
   // print number of trials here instead of TrialFactory header because
   // multiple factories makes it redundant.
   ss << ",trial"
-     << trial_factory.status_header()
+     << mc.trial_factory().status_header()
      << std::endl;
   return ss.str();
 }
 
-std::string Log::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string Log::write(const MonteCarlo& mc) {
+  const System& system = mc.system();
+  const TrialFactory& trial_factory = mc.trial_factory();
   // ensure the following order matches the header from initialization.
   std::stringstream ss;
   ss << system.status();
-  ss << criteria.status(max_precision_);
+  ss << mc.criteria().status(max_precision_);
   if (include_bonds_) {
     for (int iconf = 0; iconf < system.num_configurations(); ++iconf) {
       bond_visitor_.compute_all(system.configuration());

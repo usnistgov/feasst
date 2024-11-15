@@ -1,6 +1,7 @@
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/criteria_writer.h"
 
 namespace feasst {
@@ -12,12 +13,10 @@ CriteriaWriter::CriteriaWriter(argtype args) : CriteriaWriter(&args) {
 
 FEASST_MAPPER(CriteriaWriter,);
 
-std::string CriteriaWriter::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string CriteriaWriter::write(const MonteCarlo& mc) {
   // ensure the following order matches the header from initialization.
   std::stringstream ss;
-  ss << criteria.write() << std::endl;
+  ss << mc.criteria().write() << std::endl;
   return ss.str();
 }
 

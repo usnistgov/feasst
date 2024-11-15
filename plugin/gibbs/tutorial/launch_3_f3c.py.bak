@@ -169,7 +169,7 @@ Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_en.c
 Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_en.csv configuration_index 1
 Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_dens.csv configuration_index 0
 Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_dens.csv configuration_index 1
-PressureFromTestVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pressure.csv
+GhostTrialVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pressure.csv
 CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.csv
 Run until_criteria_complete true
 """.format(**params))

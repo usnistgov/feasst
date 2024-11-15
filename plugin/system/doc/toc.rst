@@ -34,6 +34,6 @@
    VisitModelInner
    VisitModelIntra
    VisitModelIntraMap
+   Potential
    System
    VisitModelCutoffOuter
-   Potential

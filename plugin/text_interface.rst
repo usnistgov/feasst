@@ -259,6 +259,7 @@ Analyze
    steppers/doc/Movie_arguments
    steppers/doc/NumParticles_arguments
    steppers/doc/ProfileTrials_arguments
+   steppers/doc/ProfileCPU_arguments
    steppers/doc/Scattering_arguments
    steppers/doc/Volume_arguments
    steppers/doc/WallClockLimit_arguments

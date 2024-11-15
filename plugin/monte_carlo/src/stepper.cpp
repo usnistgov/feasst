@@ -84,7 +84,7 @@ std::string Stepper::output_file(const Criteria& criteria) const {
 }
 
 void Stepper::printer(const std::string output, const std::string& output_file) {
-  DEBUG("filename? " << output_file);
+  DEBUG("output_file " << output_file);
   if (output_file.empty() && !is_multistate_aggregate()) {
     std::cout << output;
   } else {

@@ -7,11 +7,11 @@
 #include <string>
 #include <vector>
 #include "monte_carlo/include/trial.h"
-// #include "utils/include/timer.h"
 
 namespace feasst {
 
 class Random;
+class TimerRDTSC;
 
 typedef std::map<std::string, std::string> argtype;
 
@@ -88,7 +88,11 @@ class TrialFactory : public Trial {
   void tune() override;
   void precompute(Criteria * criteria, System * system) override;
 
-//  const Timer& timer() const { return timer_; }
+  /// Set the timer
+  void set_timer();
+
+  /// Return timer
+  const TimerRDTSC * const timer() const { return timer_.get(); }
 
   bool is_equal(const TrialFactory& factory) const;
   void synchronize_(const Trial& trial) override;
@@ -100,7 +104,7 @@ class TrialFactory : public Trial {
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit TrialFactory(std::istream& istr);
-  virtual ~TrialFactory() {}
+  virtual ~TrialFactory();
 
  protected:
   void serialize_trial_factory_(std::ostream& ostr) const;
@@ -111,10 +115,10 @@ class TrialFactory : public Trial {
     return &((*data_.get_dble_2D())[0]); }
   // std::vector<double> cumulative_probability_;
   bool adjustable_weights_ = false;
+  std::unique_ptr<TimerRDTSC> timer_;
 
   // not to be serialized
   int last_index_ = -1;
-//  Timer timer_;
 
   void update_cumul_prob_();
 };

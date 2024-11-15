@@ -2,6 +2,7 @@
 #include "utils/include/arguments.h"
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "patch/include/movie_spherocylinder.h"
 
 namespace feasst {
@@ -16,29 +17,26 @@ MovieSpherocylinder::MovieSpherocylinder(argtype * args) : AnalyzeWriteOnly(args
 }
 MovieSpherocylinder::MovieSpherocylinder(argtype args) : MovieSpherocylinder(&args) { feasst_check_all_used(args); }
 
-void MovieSpherocylinder::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  const std::string name = output_file(*criteria);
+void MovieSpherocylinder::initialize(MonteCarlo * mc) {
+  const Criteria& criteria = mc->criteria();
+  const std::string name = output_file(criteria);
   ASSERT(!name.empty(), "file name required. Did you forget to " <<
     "Analyze::set_output_file()?");
 
   // write xyz
-  if (state() == criteria->state()) {
-    xyz_.write(name, system->configuration());
+  if (state() == criteria.state()) {
+    xyz_.write(name, configuration(mc->system()));
   }
 
   // write vmd
   std::stringstream ss;
   ss << name << ".vmd";
-  vmd_.write(ss.str(), system->configuration(), name);
+  vmd_.write(ss.str(), configuration(mc->system()), name);
 }
 
-std::string MovieSpherocylinder::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string MovieSpherocylinder::write(const MonteCarlo& mc) {
   // ensure the following order matches the header from initialization.
-  xyz_.write(output_file(criteria), system.configuration());
+  xyz_.write(output_file(mc.criteria()), configuration(mc.system()));
   return std::string("");
 }
 

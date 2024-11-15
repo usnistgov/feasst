@@ -70,21 +70,10 @@ class HenryCoefficient : public Analyze {
   /// Return the number of beta derivatives, starting with 1.
   int num_beta_taylor() const { return static_cast<int>(beta_taylor_.size()); }
 
-  std::string header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trials) const override;
-
-  void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
-
-  void update(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
-
-  std::string write(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  std::string header(const MonteCarlo& mc) const override;
+  void initialize(MonteCarlo * mc) override;
+  void update(const MonteCarlo& mc) override;
+  std::string write(const MonteCarlo& mc) override;
 
   const Accumulator& coefficient() const { return accumulator(); }
 

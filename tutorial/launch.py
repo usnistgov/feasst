@@ -25,8 +25,8 @@ def parse():
     parser.add_argument('--num_particles', type=int, default=500, help='number of particles')
     parser.add_argument('--density_lower', type=float, default=0.001, help='lowest number density')
     parser.add_argument('--density_upper', type=float, default=0.009, help='highest number density')
-    parser.add_argument('--trials_per_iteration', type=int, default=int(1e4),
-                        help='like cycles, but not necessary num_particles')
+    parser.add_argument('--tpi', type=int, default=int(1e4),
+                        help='trials per iteration, similar to MC cycles, but not necessary num_particles')
     parser.add_argument('--equilibration_iterations', type=int, default=int(1e1),
                         help='number of iterations for equilibraiton')
     parser.add_argument('--production_iterations', type=int, default=int(1e1),
@@ -92,21 +92,22 @@ Run until_num_particles {num_particles}
 RemoveTrial name TrialAdd
 
 # canonical ensemble equilibration
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+Metropolis num_trials_per_iteration {tpi} num_iterations_to_complete {equilibration_iterations}
 Tune
-CheckEnergy trials_per_update {trials_per_iteration} decimal_places 8
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
+CheckEnergy trials_per_update {tpi} decimal_places 8
+Log trials_per_write {tpi} output_file {prefix}{sim}_eq.csv
 Run until_criteria_complete true
 RemoveModify name Tune
 RemoveAnalyze name Log
 
 # canonical ensemble production
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz
-Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_en.csv
-CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.txt
-PressureFromTestVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pres.csv
+Metropolis num_trials_per_iteration {tpi} num_iterations_to_complete {production_iterations}
+Log              trials_per_write {tpi} output_file {prefix}{sim}.csv
+Movie            trials_per_write {tpi} output_file {prefix}{sim}.xyz
+Energy           trials_per_write {tpi} output_file {prefix}{sim}_en.csv
+CPUTime          trials_per_write {tpi} output_file {prefix}{sim}_cpu.txt
+GhostTrialVolume trials_per_write {tpi} output_file {prefix}{sim}_pressure.csv trials_per_update {tpi}
+ProfileCPU       trials_per_write {tpi} output_file {prefix}{sim}_profile.csv
 Run until_criteria_complete true
 """.format(**params))
 
@@ -120,7 +121,7 @@ def post_process(params):
         energy = pd.read_csv(params['prefix']+str(sim)+'_en.csv')
         ens[sim] = np.array([energy['average'][0],
                              energy['block_stdev'][0]])/params['num_particles']
-        pressure = pd.read_csv(params['prefix']+str(sim)+'_pres.csv')
+        pressure = pd.read_csv(params['prefix']+str(sim)+'_pressure.csv')
         pres[sim] = np.array([pressure['average'][0], pressure['block_stdev'][0]])
     # data from https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm
     rhos_srsw = [0.001, 0.003, 0.005, 0.007, 0.009]
@@ -134,7 +135,7 @@ def post_process(params):
         plt.xlabel(r'$\rho$', fontsize=16)
         plt.ylabel(r'$U/(N\epsilon)$', fontsize=16)
         plt.legend(fontsize=16)
-        plt.show()
+        #plt.show()
         #plt.savefig(params['prefix']+'_energy.png', bbox_inches='tight', transparent='True')
         plt.clf()
         plt.errorbar(rhos_srsw, p_srsw, p_stds_srsw, fmt='+', label='SRSW')
@@ -142,7 +143,7 @@ def post_process(params):
         plt.xlabel(r'$\rho$', fontsize=16)
         plt.ylabel(r'$P\sigma^3/\epsilon$', fontsize=16)
         plt.legend(fontsize=16)
-        plt.show()
+        #plt.show()
         #plt.savefig(params['prefix']+'_pressure.png', bbox_inches='tight', transparent='True')
         for sim in range(params['num_sims']):
             diff = ens[sim][0] - en_srsw[sim]

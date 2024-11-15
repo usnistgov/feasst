@@ -2,6 +2,7 @@
 #include "utils/include/arguments.h"
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/trial_factory.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/increment_phase.h"
 
 namespace feasst {
@@ -15,13 +16,10 @@ IncrementPhase::IncrementPhase(argtype args) : IncrementPhase(&args) {
   feasst_check_all_used(args);
 }
 
-void IncrementPhase::update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) {
+void IncrementPhase::update(MonteCarlo * mc) {
   if (num_trials_ != -1) {
-    if (trial_factory->num_attempts() > num_trials_) {
-      criteria->increment_phase();
+    if (mc->trial_factory().num_attempts() > num_trials_) {
+      mc->get_criteria()->increment_phase();
       num_trials_ = -1;  // disable further increments
     }
   }

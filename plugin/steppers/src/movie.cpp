@@ -3,6 +3,7 @@
 #include "configuration/include/file_vmd.h"
 #include "configuration/include/file_xyz.h"
 #include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/movie.h"
 
 namespace feasst {
@@ -19,29 +20,26 @@ Movie::Movie(argtype * args) : AnalyzeWriteOnly(args) {
 Movie::Movie(argtype args) : Movie(&args) { feasst_check_all_used(args); }
 Movie::~Movie() {}
 
-void Movie::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  const std::string name = output_file(*criteria);
+void Movie::initialize(MonteCarlo * mc) {
+  const System& system = mc->system();
+  const std::string name = output_file(mc->criteria());
   ASSERT(!name.empty(), "file name required. Did you forget to " <<
     "Analyze::set_output_file()?");
 
   // write xyz
-  if (state() == criteria->state()) {
-    xyz_->write(name, configuration(*system));
+  if (state() == mc->criteria().state()) {
+    xyz_->write(name, configuration(system));
   }
 
   // write vmd
   std::stringstream ss;
   ss << name << ".vmd";
-  vmd_->write(ss.str(), configuration(*system), name);
+  vmd_->write(ss.str(), configuration(system), name);
 }
 
-std::string Movie::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string Movie::write(const MonteCarlo& mc) {
   // ensure the following order matches the header from initialization.
-  xyz_->write(output_file(criteria), configuration(system));
+  xyz_->write(output_file(mc.criteria()), configuration(mc.system()));
   return std::string("");
 }
 

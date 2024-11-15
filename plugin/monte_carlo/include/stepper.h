@@ -11,6 +11,7 @@ namespace feasst {
 class Accumulator;
 class Configuration;
 class Criteria;
+class MonteCarlo;
 class System;
 class TrialFactory;
 
@@ -133,6 +134,7 @@ class Stepper {
   bool is_multistate_aggregate() const { return is_multistate_aggregate_; }
 
   /// Return the header for writing.
+  virtual std::string header(const MonteCarlo& mc) const { return std::string(""); }
   virtual std::string header(const Criteria& criteria,
     const System& system,
     const TrialFactory& trials) const { return std::string(""); }

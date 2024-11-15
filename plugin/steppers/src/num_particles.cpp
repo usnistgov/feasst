@@ -3,6 +3,7 @@
 #include "math/include/accumulator.h"
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/num_particles.h"
 
 namespace feasst {
@@ -17,28 +18,21 @@ NumParticles::NumParticles(argtype args) : NumParticles(&args) {
   feasst_check_all_used(args);
 }
 
-std::string NumParticles::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string NumParticles::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   ss << num_particles().status_header() << std::endl;
   return ss.str();
 }
 
-void NumParticles::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  printer(header(*criteria, *system, *trial_factory),
-          output_file(*criteria));
+void NumParticles::initialize(MonteCarlo * mc) {
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-void NumParticles::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void NumParticles::update(const MonteCarlo& mc) {
   ASSERT(particle_type_ == -1 || group_ == -1,
     "both particle type(" << particle_type_ << ") and group(" << group_ <<
     ") cannot be specified at the same time.");
-  const Configuration& config = system.configuration();
+  const Configuration& config = configuration(mc.system());
   DEBUG(particle_type_);
   DEBUG(group_);
   if (particle_type_ == -1) {
@@ -52,12 +46,10 @@ void NumParticles::update(const Criteria& criteria,
   }
 }
 
-std::string NumParticles::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string NumParticles::write(const MonteCarlo& mc) {
   std::stringstream ss;
   if (rewrite_header()) {
-    ss << header(criteria, system, trial_factory);
+    ss << header(mc);
   }
   ss << num_particles().status() << std::endl;
   DEBUG(ss.str());

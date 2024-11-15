@@ -103,7 +103,7 @@ CheckEnergy trials_per_update {trials_per_iteration} decimal_places 8
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
-ProfileTrials trials_per_update 1e4 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq_profile.csv
+ProfileCPU trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq_profile.csv
 # a new tune is required when new Trials are introduced
 # decrease trials per due to infrequency of volume transfer attempts
 Tune trials_per_tune 20
@@ -113,7 +113,7 @@ RemoveModify name Tune
 RemoveAnalyze name Log
 RemoveAnalyze name Movie
 RemoveAnalyze name Movie
-RemoveAnalyze name ProfileTrials
+RemoveAnalyze name ProfileCPU
 
 # gibbs ensemble production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
@@ -127,11 +127,9 @@ CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {pr
 Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_dens.csv configuration_index 1
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_vol.csv
 Volume trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_vol.csv configuration_index 1
-PressureFromTestVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pressure.csv
-# the pressure in the liquid phase is harder to converge with test volume changes? and faster to compute in the vapor.
-#PressureFromTestVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_pressure.csv configuration_index 1
+GhostTrialVolume trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pressure.csv trials_per_update 1e3
 CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.csv
-ProfileTrials trials_per_update 1e4 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_profile.csv
+ProfileCPU trials_per_write {trials_per_iteration} output_file {prefix}{sim}_profile.csv
 Run until_criteria_complete true
 """.format(**params))
 

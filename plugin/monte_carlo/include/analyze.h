@@ -11,6 +11,7 @@
 namespace feasst {
 
 class Configuration;
+class MonteCarlo;
 class TrialFactory;
 
 /**
@@ -22,27 +23,17 @@ class Analyze : public Stepper {
   explicit Analyze(argtype * args) : Stepper(args) {}
 
   /// Initialize and precompute before trials.
-  virtual void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) {}
+  virtual void initialize(MonteCarlo * mc) {}
 
   /// Check every trial if action is to be performed.
-  virtual void trial(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory);
+  virtual void trial(const MonteCarlo& mc);
 
   /// Perform update action.
-  virtual void update(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory);
+  virtual void update(const MonteCarlo& mc);
 
   /// Perform write action.
-  virtual std::string write(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory);
-  virtual void write_to_file(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory);
+  virtual std::string write(const MonteCarlo& mc);
+  virtual void write_to_file(const MonteCarlo& mc);
 
   // Access to factory of Analyze objects.
   virtual const std::vector<std::shared_ptr<Analyze> >& analyzers() const;
@@ -61,9 +52,7 @@ class Analyze : public Stepper {
   std::string class_name() const override { return std::string("Analyze"); }
 
   // HWH only used by AnalyzeFactory
-  void check_update_(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory);
+  void check_update_(const MonteCarlo& mc);
 };
 
 /**

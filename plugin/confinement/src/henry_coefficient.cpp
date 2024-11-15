@@ -8,6 +8,7 @@
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/trial_stage.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "confinement/include/henry_coefficient.h"
 
 namespace feasst {
@@ -33,41 +34,36 @@ HenryCoefficient::HenryCoefficient(argtype args) : HenryCoefficient(&args) {
   feasst_check_all_used(args);
 }
 
-void HenryCoefficient::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  ASSERT(criteria->class_name() == "AlwaysReject",
+void HenryCoefficient::initialize(MonteCarlo * mc) {
+  const Criteria& criteria = mc->criteria();
+  const TrialFactory& tfac = mc->trial_factory();
+  ASSERT(criteria.class_name() == "AlwaysReject",
     "HenryCoefficient requires AlwaysReject");
-  ASSERT(trial_factory->num() == 1,
+  ASSERT(tfac.num() == 1,
     "HenryCoefficient requires only one Trial");
-  ASSERT(trial_factory->trial(0).description() == "TrialAdd",
+  ASSERT(tfac.trial(0).description() == "TrialAdd",
     "HenryCoefficient requires TrialAdd. " <<
-    "Found: " << trial_factory->trial(0).description());
-  ASSERT(trial_factory->trial(0).stage(0).is_new_only(),
+    "Found: " << tfac.trial(0).description());
+  ASSERT(tfac.trial(0).stage(0).is_new_only(),
     "HenryCoefficient requires new_only.");
-  printer(header(*criteria, *system, *trial_factory),
-          output_file(*criteria));
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-std::string HenryCoefficient::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string HenryCoefficient::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   ss << accumulator().status_header() << std::endl;
   return ss.str();
 }
 
-void HenryCoefficient::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
-  const Acceptance& accept = trial_factory.trial(0).accept();
+void HenryCoefficient::update(const MonteCarlo& mc) {
+  const Acceptance& accept = mc.trial_factory().trial(0).accept();
   double en_new = accept.energy_new();
   DEBUG("en new: " << en_new);
-  double en_cur = criteria.current_energy();
+  double en_cur = mc.criteria().current_energy();
   DEBUG("en cur: " << en_cur);
   const double delta_en = en_new - en_cur;
   DEBUG("delta_en " << delta_en);
-  const double beta = system.thermo_params().beta();
+  const double beta = mc.system().thermo_params().beta();
   DEBUG("beta " << beta);
   get_accumulator()->accumulate(std::exp(-beta*delta_en));
   DEBUG("acc " << accumulator().str());
@@ -88,16 +84,13 @@ void HenryCoefficient::update(const Criteria& criteria,
     DEBUG("2*ibd+1 " << 2*ibd+1 << " unebu2 " << unebu2);
     beta_taylor2_[2*ibd+1].accumulate(unebu2/factorial(2*ibd+2)/factorial(2*ibd+2));
   }
-
 }
 
-std::string HenryCoefficient::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string HenryCoefficient::write(const MonteCarlo& mc) {
   std::stringstream ss;
   if (num_beta_taylor() > 0) {
     ss << "#{";
-    ss << "\"beta\":" << std::setprecision(write_precision_) << system.thermo_params().beta() << ",";
+    ss << "\"beta\":" << std::setprecision(write_precision_) << mc.system().thermo_params().beta() << ",";
     ss << "\"num_trials\":" << accumulator().moment(0) << ",";
     ss << "\"beta_taylor\": [";
     ss << std::setprecision(write_precision_) << accumulator().average() << ",";
@@ -117,7 +110,7 @@ std::string HenryCoefficient::write(const Criteria& criteria,
   }
   ss << std::endl;
   if (rewrite_header()) {
-    ss << header(criteria, system, trial_factory);
+    ss << header(mc);
   }
   ss << accumulator().status();
   DEBUG(ss.str());

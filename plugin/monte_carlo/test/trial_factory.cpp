@@ -19,9 +19,9 @@ TEST(TrialFactory, serialize) {
 //  TrialFactory factory3(ss);
 //  factory3.serialize(ss);
 //  INFO(ss.str());
-  TrialFactory factory2 = test_serialize(factory);
+  auto factory2 = test_serialize_unique(factory);
   TRY(
-    factory2.remove(100);
+    factory2->remove(100);
     CATCH_PHRASE("Trial index:100 >= number of trials:4");
   );
 }

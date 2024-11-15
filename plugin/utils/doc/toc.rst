@@ -16,3 +16,4 @@
    Checkpoint
    serialize
    serialize_extra
+   TimerRDTSC

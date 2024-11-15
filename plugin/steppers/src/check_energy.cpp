@@ -6,6 +6,7 @@
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/check_energy.h"
 
 namespace feasst {
@@ -49,11 +50,10 @@ std::string CheckEnergy::err_msg_() const {
   return ss.str();
 }
 
-void CheckEnergy::update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) {
-  check_->update(*criteria, *system, *trial_factory);
+void CheckEnergy::update(MonteCarlo * mc) {
+  Criteria * criteria = mc->get_criteria();
+  System * system = mc->get_system();
+  check_->update(*mc);
   DEBUG("computing unoptimized energy for check");
 
   for (int config = 0; config < system->num_configurations(); ++config) {

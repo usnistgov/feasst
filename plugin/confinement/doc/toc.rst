@@ -1,8 +1,8 @@
 
 .. toctree::
 
-   ZeroBackground
    HenryCoefficient
+   ZeroBackground
    ModelTableCart1DHard
    ModelSquareWellShape
    ModelLJShape

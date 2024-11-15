@@ -29,21 +29,10 @@ class Chirality2D : public Analyze {
    */
   //@{
 
-  std::string header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trials) const override;
-
-  void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
-
-  void update(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
-
-  std::string write(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  std::string header(const MonteCarlo& mc) const override;
+  void initialize(MonteCarlo * mc) override;
+  void update(const MonteCarlo& mc) override;
+  std::string write(const MonteCarlo& mc) override;
 
   /// Return the average number of chiral positive particles.
   const Accumulator& num_positive() const { return accumulator(); }

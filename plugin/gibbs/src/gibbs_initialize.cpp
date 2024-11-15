@@ -11,6 +11,7 @@
 #include "monte_carlo/include/trial_volume.h"
 #include "monte_carlo/include/trial_remove.h"
 #include "monte_carlo/include/trial_add.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "gibbs/include/gibbs_initialize.h"
 
 namespace feasst {
@@ -82,24 +83,22 @@ int GibbsInitialize::dens_config_index_(const bool high,
   return index;
 }
 
-void GibbsInitialize::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+void GibbsInitialize::initialize(MonteCarlo * mc) {
+  const System& system = mc->system();
   DEBUG("initializing");
-  ASSERT(system->num_configurations() == 2, "Assumes 2 domains, but there are: "
-    << system->num_configurations());
-  high_dens_config_ = dens_config_index_(true, *system);
-  low_dens_config_ = dens_config_index_(false, *system);
+  ASSERT(system.num_configurations() == 2, "Assumes 2 domains, but there are: "
+    << system.num_configurations());
+  high_dens_config_ = dens_config_index_(true, system);
+  low_dens_config_ = dens_config_index_(false, system);
   low_dens_ = std::make_unique<Accumulator>();
   high_dens_ = std::make_unique<Accumulator>();
   DEBUG("done initializing");
 }
 
-void GibbsInitialize::update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) {
+void GibbsInitialize::update(MonteCarlo * mc) {
   DEBUG("updating");
+  System * system = mc->get_system();
+  Criteria * criteria = mc->get_criteria();
   ++updates_since_adjust_;
   DEBUG("serialize and input these arguments");
   const Configuration& lowd_conf = system->configuration(low_dens_config_);
@@ -144,16 +143,12 @@ void GibbsInitialize::update(Criteria * criteria,
   }
 }
 
-std::string GibbsInitialize::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string GibbsInitialize::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   return ss.str();
 }
 
-std::string GibbsInitialize::write(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+std::string GibbsInitialize::write(MonteCarlo * mc) {
   std::stringstream ss;
   return ss.str();
 }

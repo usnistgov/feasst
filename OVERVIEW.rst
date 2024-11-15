@@ -25,6 +25,7 @@ How to learn more
 * Reproduce the expected result of those :doc:`tutorial/README`.
 * To modify :doc:`tutorial/README` to accomplish your goals, refer to the :doc:`../plugin/text_interface` documentation.
 * Compare the energy of a :doc:`reference configuration<plugin/monte_carlo/tutorial/tutorial_0_ref_configs>` with a trusted source to ensure the model, :doc:`/particle/README` return an expected result.
+* :doc:`/CONTACT` us.
 
 Features
 ================================================================================

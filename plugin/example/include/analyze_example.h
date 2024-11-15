@@ -11,6 +11,7 @@
 namespace feasst {
 
 class Accumulator;
+class MonteCarlo;
 
 typedef std::map<std::string, std::string> argtype;
 
@@ -52,24 +53,16 @@ class AnalyzeExample : public Analyze {
   const std::vector<std::unique_ptr<Accumulator> >& geometric_center() const;
 
   /// Write the header for the file.
-  std::string header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trials) const override;
+  std::string header(const MonteCarlo& mc) const override;
 
   /// Size and zero the geometric center accumulator for each dimension.
-  void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+  void initialize(MonteCarlo * mc) override;
 
   /// Compute the geometric center and update the accumulator.
-  void update(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  void update(const MonteCarlo& mc) override;
 
   /// Write the geometric center to file.
-  std::string write(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  std::string write(const MonteCarlo& mc) override;
 
   // serialize
   std::string class_name() const override {

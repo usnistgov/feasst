@@ -135,6 +135,9 @@ class Trial {
   /// (e.g., acceptance, etc).
   virtual std::string status_header() const;
 
+  /// Return the class name (or description if name is "Trial")
+  std::string name_or_description() const;
+
   /// Return the status of the trial (e.g., acceptance, etc).
   virtual std::string status() const;
 

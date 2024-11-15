@@ -5,6 +5,7 @@
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/extensive_moments.h"
 
 namespace feasst {
@@ -18,10 +19,8 @@ ExtensiveMoments::ExtensiveMoments(argtype args) : ExtensiveMoments(&args) {
   feasst_check_all_used(args);
 }
 
-void ExtensiveMoments::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  const int num_ptypes = system->configuration().num_particle_types();
+void ExtensiveMoments::initialize(MonteCarlo * mc) {
+  const int num_ptypes = configuration(mc->system()).num_particle_types();
   resize(max_order_ + 1,
          max_order_ + 1,
          num_ptypes,
@@ -30,21 +29,18 @@ void ExtensiveMoments::initialize(Criteria * criteria,
          &moments_);
   u_p_.resize(max_order_ + 1);
   resize(num_ptypes, max_order_ + 1, &n_i_j_);
-  printer(header(*criteria, *system, *trial_factory),
-          output_file(*criteria));
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-std::string ExtensiveMoments::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string ExtensiveMoments::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   //ss << "max_order," << max_order_ << std::endl;
   return ss.str();
 }
 
-void ExtensiveMoments::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void ExtensiveMoments::update(const MonteCarlo& mc) {
+  const System& system = mc.system();
+  const Criteria& criteria = mc.criteria();
   const int num_ptypes = system.configuration().num_particle_types();
 
   // precompute powers
@@ -71,9 +67,7 @@ void ExtensiveMoments::update(const Criteria& criteria,
   }}}}}
 }
 
-std::string ExtensiveMoments::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string ExtensiveMoments::write(const MonteCarlo& mc) {
   std::stringstream ss;
   feasst_serialize_fstobj(moments_, ss);
   return ss.str();

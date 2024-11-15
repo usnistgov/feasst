@@ -84,14 +84,16 @@ void Trial::reset_stats() {
   *num_auto_reject_() = 0;
 }
 
+std::string Trial::name_or_description() const {
+  if (class_name_ != "Trial") {
+    return class_name_;
+  }
+  return description();
+}
+
 std::string Trial::status_header() const {
   std::stringstream ss;
-  ss << ",";
-  if (class_name_ != "Trial") {
-    ss << class_name_;
-  } else {
-    ss << description();
-  }
+  ss << "," << name_or_description();
   for (const TrialStage * stage : stages_ptr_) {
     ss << stage->status_header();
   }

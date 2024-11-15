@@ -5,6 +5,7 @@
 #include "configuration/include/configuration.h"
 #include "configuration/include/visit_configuration.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "example/include/analyze_example.h"
 
 namespace feasst {
@@ -21,18 +22,14 @@ AnalyzeExample::AnalyzeExample(argtype args) : AnalyzeExample(&args) {
 
 AnalyzeExample::~AnalyzeExample() {}
 
-std::string AnalyzeExample::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string AnalyzeExample::header(const MonteCarlo& mc) const {
   std::stringstream ss;
   ss << "dim," << center_[0]->status_header() << std::endl;
   return ss.str();
 }
 
-void AnalyzeExample::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  center_.resize(system->configuration().dimension());
+void AnalyzeExample::initialize(MonteCarlo * mc) {
+  center_.resize(configuration(mc->system()).dimension());
   for (std::unique_ptr<Accumulator>& acc : center_) {
     acc = std::make_unique<Accumulator>();
   }
@@ -52,23 +49,20 @@ class AveragePosition : public LoopConfigOneBody {
   Position * average_;
 };
 
-void AnalyzeExample::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
-  Position average(system.configuration().dimension());
+void AnalyzeExample::update(const MonteCarlo& mc) {
+  const Configuration& config = configuration(mc.system());
+  Position average(config.dimension());
   AveragePosition loop(&average);
-  VisitConfiguration().loop(system.configuration(), &loop, group_index_);
-  for (int dim = 0; dim < system.configuration().dimension(); ++dim) {
+  VisitConfiguration().loop(config, &loop, group_index_);
+  for (int dim = 0; dim < config.dimension(); ++dim) {
     center_[dim]->accumulate(average.coord(dim));
   }
 }
 
-std::string AnalyzeExample::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string AnalyzeExample::write(const MonteCarlo& mc) {
   std::stringstream ss;
-  ss << header(criteria, system, trial_factory);
-  for (int dim = 0; dim < system.configuration().dimension(); ++dim) {
+  ss << header(mc);
+  for (int dim = 0; dim < configuration(mc.system()).dimension(); ++dim) {
     ss << dim << "," << center_[dim]->status() << std::endl;
   }
   return ss.str();

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# For prepare for a new release:
+# For preparing a new release:
 # Check /feasst/dev/analyze_public_interface.py
 # CMakeLists.txt:
 # - version

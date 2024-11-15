@@ -2,6 +2,7 @@
 #include "utils/include/arguments.h"
 //#include "utils/include/timer.h"
 #include "monte_carlo/include/trial_factory.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/profile_trials.h"
 
 namespace feasst {
@@ -9,6 +10,7 @@ namespace feasst {
 FEASST_MAPPER(ProfileTrials, argtype({{"trials_per_update", "1e3"}}));
 
 ProfileTrials::ProfileTrials(argtype * args) : Analyze(args) {
+  WARN("ProfileTrials is deprecated. Use ProfileCPU instead.");
   if (trials_per_update() < 1e3) {
     WARN("trials_per_update(" << trials_per_update() << ") should be " <<
       ">= 1e3 to ensure profiling does not slow the simulation.");
@@ -18,20 +20,15 @@ ProfileTrials::ProfileTrials(argtype args) : ProfileTrials(&args) {
   feasst_check_all_used(args);
 }
 
-void ProfileTrials::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+void ProfileTrials::initialize(MonteCarlo * mc) {
   profile_.clear();
-  profile_.resize(trial_factory->num());
-  printer(header(*criteria, *system, *trial_factory),
-          output_file(*criteria));
+  profile_.resize(mc->trial_factory().num());
+  printer(header(*mc), output_file(mc->criteria()));
 }
 
-std::string ProfileTrials::header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) const {
+std::string ProfileTrials::header(const MonteCarlo& mc) const {
   std::stringstream ss;
-  for (const std::shared_ptr<Trial>& trial : trial_factory.trials()) {
+  for (const std::shared_ptr<Trial>& trial : mc.trial_factory().trials()) {
     std::string name = trial->class_name();
     if (name == "Trial") {
       name = trial->description();
@@ -44,16 +41,14 @@ std::string ProfileTrials::header(const Criteria& criteria,
 
 /// Store previous cpu time, then trigger update on the next step to compute
 /// elapsed time.
-void ProfileTrials::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void ProfileTrials::update(const MonteCarlo& mc) {
   DEBUG("is_previous " << is_previous_);
   if (is_previous_) {
     is_previous_ = false;
     const clock_t elapsed = clock() - previous_clock_;
     //const double elapsed = static_cast<double>(clock() - previous_clock_);
     DEBUG("elapsed " << elapsed);
-    profile_[trial_factory.last_index()].accumulate(elapsed);
+    profile_[mc.trial_factory().last_index()].accumulate(elapsed);
   } else {
     is_previous_ = true;
     previous_clock_ = clock();
@@ -61,12 +56,10 @@ void ProfileTrials::update(const Criteria& criteria,
   }
 }
 
-std::string ProfileTrials::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string ProfileTrials::write(const MonteCarlo& mc) {
   std::stringstream ss;
   if (rewrite_header()) {
-    ss << header(criteria, system, trial_factory);
+    ss << header(mc);
   }
   double total = 0.;
   for (const Accumulator& prof : profile_) {

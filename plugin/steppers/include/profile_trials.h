@@ -9,9 +9,11 @@
 namespace feasst {
 
 /**
+  This class is deprecated. Use ProfileCPU instead.
+
   Output the percentage of CPU time spent on each Trial.
   Consider using trials_per_update != 1,
-  because profiling may be time consuming. 
+  because profiling may be time consuming.
  */
 class ProfileTrials : public Analyze {
  public:
@@ -27,21 +29,10 @@ class ProfileTrials : public Analyze {
    */
   //@{
 
-  std::string header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trials) const override;
-
-  void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
-
-  void update(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
-
-  std::string write(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  std::string header(const MonteCarlo& mc) const override;
+  void initialize(MonteCarlo * mc) override;
+  void update(const MonteCarlo& mc) override;
+  std::string write(const MonteCarlo& mc) override;
 
   const std::vector<Accumulator>& profile() const { return profile_; }
 

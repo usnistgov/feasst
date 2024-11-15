@@ -28,14 +28,10 @@ class MovieSpherocylinder : public AnalyzeWriteOnly {
   //@{
 
   /// Write the sample VMD files and the initial configuration.
-  void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+  void initialize(MonteCarlo * mc) override;
 
   /// Write the configuration.
-  std::string write(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  std::string write(const MonteCarlo& mc) override;
 
   // serialize
   std::string class_name() const override { return std::string("MovieSpherocylinder"); }

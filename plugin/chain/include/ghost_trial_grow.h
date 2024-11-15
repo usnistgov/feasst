@@ -6,10 +6,11 @@
 #include "math/include/histogram.h"
 #include "monte_carlo/include/modify.h"
 #include "monte_carlo/include/trial.h"
-#include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/always_reject.h"
 
 namespace feasst {
+
+class TrialFactory;
 
 /**
   Compute the Metropolis acceptance for a TrialGrow that is never accepted.
@@ -24,7 +25,7 @@ namespace feasst {
  */
 class GhostTrialGrow : public Modify {
  public:
-  GhostTrialGrow() : Modify() {} // only use for deserialize_map.
+  GhostTrialGrow(); // only use for deserialize_map.
 
   //@{
   /** @name Arguments
@@ -39,22 +40,10 @@ class GhostTrialGrow : public Modify {
    */
   //@{
 
-  std::string header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trials) const override;
-
-  void initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) override;
-
-  void update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) override;
-
-  std::string write(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) override;
+  std::string header(const MonteCarlo& mc) const override;
+  void initialize(MonteCarlo * mc) override;
+  void update(MonteCarlo * mc) override;
+  std::string write(MonteCarlo * mc) override;
 
   // serialize
   std::string class_name() const override { return std::string("GhostTrialGrow"); }
@@ -64,10 +53,11 @@ class GhostTrialGrow : public Modify {
     return std::make_shared<GhostTrialGrow>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit GhostTrialGrow(std::istream& istr);
+  ~GhostTrialGrow();
 
   //@}
  private:
-  TrialFactory grow_;
+  std::unique_ptr<TrialFactory> grow_;
   AlwaysReject criteria_;
   Accumulator metropolis_prob_;
 };

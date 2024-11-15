@@ -1,6 +1,7 @@
 #include "utils/include/custom_exception.h"
 #include "utils/include/serialize_extra.h"
 #include "utils/include/arguments.h"
+#include "utils/include/timer_rdtsc.h"
 #include "math/include/utils_math.h"
 #include "math/include/random.h"
 #include "configuration/include/configuration.h"
@@ -18,12 +19,18 @@ TrialFactory::TrialFactory(argtype * args) : Trial(args) {
 TrialFactory::TrialFactory(argtype args) : TrialFactory(&args) {
   feasst_check_all_used(args);
 }
+TrialFactory::~TrialFactory() {}
 
 FEASST_MAPPER(TrialFactory,);
+
+void TrialFactory::set_timer() {
+  timer_ = std::make_unique<TimerRDTSC>(num());
+}
 
 void TrialFactory::add(std::shared_ptr<Trial> trial) {
   trials_.push_back(trial);
   update_cumul_prob_();
+  if (timer_) timer_->add();
 }
 
 void TrialFactory::update_cumul_prob_() {
@@ -41,7 +48,6 @@ void TrialFactory::update_cumul_prob_() {
   }
   //std::stringstream ss;
   //ss << trials_.back()->class_name()"trial" << num() - 1;
-  // timer_.add(trials_.back()->class_name());
 }
 
 void TrialFactory::remove(const int index) {
@@ -49,6 +55,7 @@ void TrialFactory::remove(const int index) {
     "Trial index:" << index << " >= number of trials:" << num());
   trials_.erase(trials_.begin() + index);
   update_cumul_prob_();
+  if (timer_) timer_->erase(index);
 }
 
 int TrialFactory::random_index(Random * random) {
@@ -62,17 +69,16 @@ bool TrialFactory::attempt(
     int trial_index,
     Random * random) {
   increment_num_attempts();
-  // timer_.start(0);
   if (num() == 0) return false;
   if (trial_index == -1) {
     trial_index = random_index(random);
   }
   last_index_ = trial_index;
-  //timer_.start(index + 1);  // +1 for "other"
   DEBUG("trial_index " << trial_index);
   DEBUG("num trials " << num());
+  if (timer_) timer_->start(trial_index);
   const bool accepted = trials_[trial_index]->attempt(criteria, system, random);
-  //timer_.end();
+  if (timer_) timer_->start(-1);
   if (accepted) {
     increment_num_success_();
     // update trial probabilities only if adjustment occurs.
@@ -226,6 +232,7 @@ TrialFactory::TrialFactory(std::istream& istr) : Trial(istr) {
   if (version >= 190) {
     feasst_deserialize(&adjustable_weights_, istr);
   }
+  feasst_deserialize(timer_, istr);
 }
 
 void TrialFactory::serialize_trial_factory_(std::ostream& ostr) const {
@@ -234,6 +241,7 @@ void TrialFactory::serialize_trial_factory_(std::ostream& ostr) const {
   feasst_serialize(trials_, ostr);
   //feasst_serialize(cumulative_probability_, ostr);
   feasst_serialize(adjustable_weights_, ostr);
+  feasst_serialize(timer_, ostr);
 }
 
 void TrialFactory::serialize(std::ostream& ostr) const {

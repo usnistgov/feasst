@@ -11,6 +11,7 @@
 namespace feasst {
 
 class Random;
+class MonteCarlo;
 class TrialFactory;
 
 /**
@@ -23,29 +24,17 @@ class Modify : public Stepper {
   explicit Modify(argtype * args) : Stepper(args) {}
 
   /// Initialize and precompute before trials.
-  virtual void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) {}
+  virtual void initialize(MonteCarlo * mc) {}
 
   /// Check every trial if action is to be performed.
-  virtual void trial(Criteria * criteria,
-      System * system,
-      Random * random,
-      TrialFactory * trial_factory);
+  virtual void trial(MonteCarlo * mc);
 
   /// Perform update.
-  virtual void update(Criteria * criteria,
-      System * system,
-      Random * random,
-      TrialFactory * trial_factory);
+  virtual void update(MonteCarlo * mc);
 
   /// Perform write.
-  virtual std::string write(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory);
-  virtual void write_to_file(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory);
+  virtual std::string write(MonteCarlo * mc);
+  virtual void write_to_file(MonteCarlo * mc);
 
   // Access to factory of Modify objects.
   virtual const std::vector<std::shared_ptr<Modify> >& modifiers() const;
@@ -64,10 +53,7 @@ class Modify : public Stepper {
   virtual ~Modify() {}
 
   // HWH only used by ModifyFactory
-  void check_update_(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory);
+  void check_update_(MonteCarlo * mc);
 };
 
 /**

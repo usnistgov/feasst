@@ -13,16 +13,12 @@ CPUTime::CPUTime(argtype args) : CPUTime(&args) {
   feasst_check_all_used(args);
 }
 
-void CPUTime::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
+void CPUTime::initialize(MonteCarlo * mc) {
   num_writes_ = 0;
   initialize_time_ = cpu_hours();
 }
 
-std::string CPUTime::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+std::string CPUTime::write(const MonteCarlo& mc) {
   std::stringstream ss;
   ++num_writes_;
   const double elapsed_hours = cpu_hours() - initialize_time_;

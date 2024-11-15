@@ -1,7 +1,7 @@
-SeekNumParticles
+GhostTrialVolume
 =====================================================
 
-.. doxygenclass:: feasst::SeekNumParticles
+.. doxygenclass:: feasst::GhostTrialVolume
    :project: FEASST
    :members:
-   :membergroups: Arguments
+   

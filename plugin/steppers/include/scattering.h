@@ -43,17 +43,9 @@ class Scattering : public Analyze {
    */
   //@{
 
-  void initialize(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
-
-  void update(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
-
-  std::string write(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  void initialize(MonteCarlo * mc) override;
+  void update(const MonteCarlo& mc) override;
+  std::string write(const MonteCarlo& mc) override;
 
   int num_vectors() const { return static_cast<int>(kvecs_.size()); }
 

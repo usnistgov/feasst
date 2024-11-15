@@ -62,12 +62,12 @@ Bias TransitionMatrix min_sweeps {min_sweeps} new_sweep 1
 #Bias WLTM min_sweeps {min_sweeps} new_sweep 1 min_flatness 25 collect_flatness 20 min_collect_sweeps 20
 TrialTransfer weight 2 particle_type 0
 #TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 4
-Movie trials_per_write {trials_per} output_file ljn{min_particles}s{sim}_[sim_index].xyz
-Tune trials_per_write {trials_per} output_file lj_tunen{min_particles}s{sim}_[sim_index].txt multistate true
-Energy trials_per_write {trials_per} output_file lj_enn{min_particles}s{sim}_[sim_index].txt multistate true append true
-CPUTime trials_per_write {trials_per} output_file lj_cpun{min_particles}s{sim}_[sim_index].txt append true
-CriteriaUpdater trials_per_update {trials_per}
+Movie          trials_per_write {trials_per} output_file ljn{min_particles}s{sim}_[sim_index].xyz
+Tune           trials_per_write {trials_per} output_file lj_tunen{min_particles}s{sim}_[sim_index].txt multistate true
+Energy         trials_per_write {trials_per} output_file lj_enn{min_particles}s{sim}_[sim_index].txt multistate true append true
+CPUTime        trials_per_write {trials_per} output_file lj_cpun{min_particles}s{sim}_[sim_index].txt append true
 CriteriaWriter trials_per_write {trials_per} output_file lj_critn{min_particles}s{sim}_[sim_index].txt
+CriteriaUpdater trials_per_update {trials_per}
 #Run until_criteria_complete true
 """.format(**params))
 

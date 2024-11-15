@@ -1,7 +1,7 @@
-PressureFromTestVolume
+ProfileCPU
 =====================================================
 
-.. doxygenclass:: feasst::PressureFromTestVolume
+.. doxygenclass:: feasst::ProfileCPU
    :project: FEASST
    :members:
    :membergroups: Arguments

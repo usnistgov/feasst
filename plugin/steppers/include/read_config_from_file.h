@@ -26,17 +26,13 @@ class ReadConfigFromFile : public ModifyUpdateOnly {
    */
   explicit ReadConfigFromFile(argtype args = argtype());
   explicit ReadConfigFromFile(argtype * args);
+
   //@}
   /** @name Public Functions
    */
   //@{
-  void initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) override;
-  void update(Criteria * criteria,
-    System * system,
-    Random * random,
-    TrialFactory * trial_factory) override;
+  void initialize(MonteCarlo * mc) override;
+  void update(MonteCarlo * mc) override;
 
   // serialize
   std::string class_name() const override {

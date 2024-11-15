@@ -30,8 +30,8 @@ def parse():
                         help='cubic periodic boundary length')
     parser.add_argument('--dccb_cut', type=float, default=1,
                         help='dual-cut configurational bias cutoff')
-    parser.add_argument('--trials_per_iteration', type=int, default=int(1e6),
-                        help='like cycles, but not necessary num_particles')
+    parser.add_argument('--tpi', type=int, default=int(1e6),
+                        help='trials per iteration, similar to MC cycles, but not necessary num_particles')
     parser.add_argument('--equilibration_iterations', type=int, default=0,
                         help='number of iterations for equilibration')
     parser.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
@@ -107,16 +107,16 @@ ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
 {avb_trials}
-CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
+CheckEnergy trials_per_update {tpi} decimal_places 4
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
-Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.txt
+Log trials_per_write {tpi} output_file {prefix}n{node}s[sim_index]_eq.txt
 Tune
 Run until_num_particles [soft_macro_min]
 RemoveTrial name TrialAdd
 ThermoParams beta {beta} chemical_potential {mu}
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+Metropolis num_trials_per_iteration {tpi} num_iterations_to_complete {equilibration_iterations}
 Run until_criteria_complete true
 RemoveModify name Tune
 RemoveAnalyze name Log
@@ -125,13 +125,13 @@ RemoveAnalyze name Log
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
 Bias WLTM min_sweeps {min_sweeps} min_flatness 22 collect_flatness 18 min_collect_sweeps 1
 {gce_trial}
-Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index].txt
-Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1
-Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index].xyz start_after_iteration 1
-Tune trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1
-Energy trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_iteration 1
+Log            trials_per_write {tpi} output_file {prefix}n{node}s[sim_index].txt
+Movie          trials_per_write {tpi} output_file {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1
+Movie          trials_per_write {tpi} output_file {prefix}n{node}s[sim_index].xyz start_after_iteration 1
+Tune           trials_per_write {tpi} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1
+Energy         trials_per_write {tpi} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_iteration 1
+CriteriaWriter trials_per_write {tpi} output_file {prefix}n{node}s[sim_index]_crit.txt
 CriteriaUpdater trials_per_update 1e5
-CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_crit.txt
 """.format(**params))
 
 def post_process(params):
