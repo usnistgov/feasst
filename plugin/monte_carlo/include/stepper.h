@@ -35,7 +35,6 @@ class Stepper {
     - trials_per_update: Set the number of trials per update (default: 1).
       Disabled if negative value is provided.
     - output_file: Set the file name to write output (default: empty).
-      If empty, write to screen.
     - append: append file output if set to true.
       Do not append if false (default: "false").
     - clear_file: set true to clear contents of output_file, if exists.
@@ -74,7 +73,7 @@ class Stepper {
   int trials_per_write() const { return trials_per_write_; }
 
   /// Return the file name.
-  const std::string output_file() const { return output_file_; }
+  const std::string& output_file() const { return output_file_; }
 
   /// Return the file name with optionally appended phase.
   std::string output_file(const Criteria& criteria) const;
@@ -135,9 +134,6 @@ class Stepper {
 
   /// Return the header for writing.
   virtual std::string header(const MonteCarlo& mc) const { return std::string(""); }
-  virtual std::string header(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trials) const { return std::string(""); }
 
   /// Write to standard output if file name is not set. Otherwise, output file.
   void printer(const std::string output, const std::string& output_file);

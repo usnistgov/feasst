@@ -173,13 +173,13 @@ std::unique_ptr<MonteCarlo> test_lj_fh(const int num_steps,
     MakeMacrostateNumParticles(
       Histogram({{"width", width}, {"max", str(max)}, {"min", str(min)}})),
     bias);
-  INFO(criteria->bias().class_name());
+  //INFO(criteria->bias().class_name());
   mc->set(criteria);
   const std::string trials_per(str(1e3));
 //  mc->add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/lj_fh"}}));
   mc->add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}}));
-  //mc->add(MakeCheckEnergyAndTune({{"trials_per", str(trials_per)}}));
   mc->add(MakeTune({{"multistate", "true"}, {"trials_per_write", str(trials_per)}, {"output_file", "tmp/tune.txt"}}));
+  //mc->add(MakeTune({{"multistate", "true"}, {"trials_per_write", str(trials_per)}, {"output_file", "tmp/tune.txt"}}));
   mc->add(MakeCriteriaUpdater({{"trials_per_update", str(1)}}));
   mc->add(MakeCriteriaWriter({
     {"trials_per_write", trials_per},
@@ -208,7 +208,7 @@ TEST(MonteCarlo, lj_fh_01) {
   std::stringstream ss;
   fh->bias().serialize(ss);
   TransitionMatrix tm(ss);
-  INFO(tm.cm().min_blocks());
+  DEBUG(tm.cm().min_blocks());
   std::vector<LnProbability> ln_probs = tm.cm().ln_prob_blocks();
   Accumulator acc;
   for (const auto& ln_prob : ln_probs) {
@@ -263,7 +263,7 @@ TEST(MonteCarlo, soft_min_macro) {
     {"FlatHistogram", {{"Macrostate", "MacrostateNumParticles"}, {"width", "1"},
       {"max", "5"}, {"min", "0"}, {"soft_macro_min", "1"}, {"soft_macro_max", "4"},
       {"Bias", "TransitionMatrix"}, {"min_sweeps", "10"}}},
-  }});
+  }}, true);
   std::unique_ptr<FlatHistogram> fh = FlatHistogram().flat_histogram(mc->criteria());
   EXPECT_NEAR(1, fh->macrostate().value(0), NEAR_ZERO);
 }

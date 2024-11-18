@@ -44,7 +44,7 @@ TEST(Random, alpha_numeric) {
     random->seed_by_time();
     const int size = 10;
     std::string unique = random->alpha_numeric(size);
-    INFO("unique alpha numeric: " << unique);
+    // INFO("unique alpha numeric: " << unique);
     EXPECT_EQ(unique.size(), size);
     EXPECT_NE(unique, random->alpha_numeric(size));
   }
@@ -305,8 +305,8 @@ TEST(Random, harmonic_bond_brute) {
     }
     length.accumulate(old_dist);
   }
-  INFO("acceptance " << static_cast<double>(accepted)/num_attempts);
-  INFO(length.str());
+  DEBUG("acceptance " << static_cast<double>(accepted)/num_attempts);
+  DEBUG(length.str());
 //  for (int op = 0; op < length.max_block_operations(); ++op) {
 //    if (length.block_averages()[op]) {
 //      INFO(length.block_size()[op] << " numb " << length.block_averages()[op]->num_values() << " " << length.block_averages()[op]->average() << " " << length.block_stdev(op) << " " << length.block_std_of_std(op));
@@ -348,8 +348,8 @@ TEST(Random, harmonic_angle_brute) {
     }
     angle.accumulate(old_theta);
   }
-  INFO("acceptance " << static_cast<double>(accepted)/num_attempts);
-  INFO(angle.str() << " PI/2 " << PI/2);
+  DEBUG("acceptance " << static_cast<double>(accepted)/num_attempts);
+  DEBUG(angle.str() << " PI/2 " << PI/2);
   EXPECT_NEAR(PI/2, angle.average(), 20*angle.block_stdev());
 }
 
@@ -400,7 +400,7 @@ TEST(Random, henry_dimer_slit) {
       DEBUG("outside " << site0.str() << " " << site1.str());
     }
   }
-  INFO(H.str());
+  DEBUG(H.str());
   EXPECT_NEAR((W-3*sigma)/L+(2*sigma/L)*(3./4.), H.average(), 10*H.block_stdev());
 }
 
@@ -413,7 +413,7 @@ TEST(Accumulator, block_average_LONG) {
   auto av_position = MakeAccumulator({{"num_moments", "5"}, {"max_block_operations", "20"}});
   auto av_position2 = MakeAccumulator({{"num_moments", "5"}, {"max_block_operations", "6"}});
   auto av_pos_sq = MakeAccumulator({{"num_moments", "5"}, {"max_block_operations", "20"}});
-  INFO(feasst_str(av_position->block_size()));
+  DEBUG(feasst_str(av_position->block_size()));
   EXPECT_EQ(av_position->num_moments(), 5);
   //auto rng = MakeRandomMT19937({{"seed", "123"}});
   auto rng = MakeRandomMT19937();

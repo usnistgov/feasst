@@ -258,7 +258,6 @@ Analyze
    steppers/doc/MeanSquaredDisplacement_arguments
    steppers/doc/Movie_arguments
    steppers/doc/NumParticles_arguments
-   steppers/doc/ProfileTrials_arguments
    steppers/doc/ProfileCPU_arguments
    steppers/doc/Scattering_arguments
    steppers/doc/Volume_arguments
@@ -335,7 +334,7 @@ Simulate multiple :cpp:class:`Configuration <feasst::Configuration>` s and trans
 
    gibbs/doc/TrialGibbsVolumeTransfer_arguments
    gibbs/doc/TrialGibbsParticleTransfer_arguments
-   gibbs/doc/PressureFromTestVolume_arguments
+   steppers/doc/GhostTrialVolume_arguments
    gibbs/doc/CheckConstantVolume_arguments
 
 Change Log
@@ -343,6 +342,11 @@ Change Log
 
 Below is a list of all notable changes made to the text interface which will likely lead to the errors if older text interface scripts use the newer version.
 Renamed arguments are shown as Class::old_argument->new_argument.
+
+v0.25.3 to v0.25.4
+-----------------------
+
+* PressureFromTestVolume->GhostTrialVolume
 
 v0.24.6 to v0.25.0
 ----------------------

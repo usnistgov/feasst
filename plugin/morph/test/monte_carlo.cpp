@@ -342,7 +342,7 @@ TEST(MonteCarlo, morphrxn) {
     //{"NumParticles", {{"trials_per_write", tpis}, {"output_file", "tmp/ljn.csv"}, {"particle_type", "2"}}},
     //{"ProfileCPU", {{"trials_per_write", tpis}, {"output_file", "tmp/ljp.csv"}, {"trials_per_update", "1e3"}}},
     {"Run", {{"num_trials", str(trials)}}},
-  }});
+  }}, true);
 }
 
 }  // namespace feasst

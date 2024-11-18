@@ -39,7 +39,7 @@ TEST(Serialize, zero) {
 
   const double z = 0;
   feasst_serialize(z, ss);
-  INFO(ss.str());
+  //INFO(ss.str());
 }
 
 TEST(Serialize, argtype) {

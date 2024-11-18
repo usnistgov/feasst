@@ -39,7 +39,7 @@ TEST(MonteCarlo, VisitModelInnerTable) {
     {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
     {"Tune", {{}}},
     {"Run", {{"num_trials", "1e2"}}},
-  }});
+  }}, true);
   EXPECT_EQ(2, mc->configuration().num_particles());
   // EXPECT_NEAR(-1, mc->criteria().current_energy(), NEAR_ZERO);
   EXPECT_TRUE(mc->configuration().unique_type(0).site(0).is_anisotropic());
@@ -70,7 +70,7 @@ TEST(MonteCarlo, rigid_body_connector) {
     {"Log", {{"trials_per_write", "1"}, {"output_file", "tmp/connector.txt"}}},
     {"Movie", {{"trials_per_write", "1"}, {"output_file", "tmp/connector.xyz"}}},
     {"CheckEnergy", {{"trials_per_update", str(1e2)}, {"tolerance", "1e-8"}}},
-  }});
+  }}, true);
   mc->attempt(1e3);
   test_serialize_unique(*mc);
 }
@@ -85,7 +85,7 @@ TEST(MonteCarlo, 4lyt_smoothing) {
     {"Metropolis", {{}}},
 //    {"Log", {{"trials_per_write", "1"}, {"output_file", "tmp/4lyt.txt"}}},
 //    {"Run", {{"num_trials", "4"}}},
-  }});
+  }}, true);
 //  mc->attempt(1);
   // HWH add serialization test here as well
 //  MonteCarlo mc2 = test_serialize(*mc);
@@ -115,7 +115,7 @@ TEST(MonteCarlo, 4lyt_smoothing) {
 //    {"Metropolis", {{}}},
 ////    {"Log", {{"trials_per_write", "1"}, {"output_file", "tmp/4lyt.txt"}}},
 ////    {"Run", {{"num_trials", "4"}}},
-//  }});
+//  }}, true);
 //  Select sel;
 //  sel.add_particle(mc->configuration().particle(1), 1);
 //  Position disp;

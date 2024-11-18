@@ -185,18 +185,12 @@ MonteCarlo
 RandomMT19937 seed {seed}
 Configuration {vapor_config} particle_type0 {fstprt} cutoff {cutoff}
 Configuration {liquid_config} particle_type0 {fstprt} cutoff {cutoff}
-CopyNextLine replace configuration_index with 0
-Potential Model LennardJones configuration_index 1
-CopyNextLine replace configuration_index with 0
-Potential Model LennardJones VisitModel VisitModelIntra intra_cut 3 configuration_index 1
-CopyNextLine replace configuration_index with 0
-Potential VisitModel LongRangeCorrections configuration_index 1
-CopyNextLine replace configuration_index with 0
-RefPotential VisitModel DontVisitModel reference_index 0 configuration_index 1
-#CopyNextLine replace configuration_index with 0
-#RefPotential Model LennardJones reference_index 0 configuration_index 1
-#CopyNextLine replace configuration_index with 0
-#RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 3 reference_index 0 configuration_index 1
+CopyFollowingLines for_num_configurations 2
+    Potential Model LennardJones
+    Potential Model LennardJones VisitModel VisitModelIntra intra_cut 3
+    Potential VisitModel LongRangeCorrections
+    RefPotential VisitModel DontVisitModel reference_index 0
+EndCopy
 ThermoParams beta {beta} chemical_potential 10
 Metropolis
 CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 30
@@ -254,12 +248,11 @@ RemoveAnalyze name ProfileCPU
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
 CheckConstantVolume trials_per_update {trials_per_iteration} tolerance 1e-4
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0.xyz
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1.xyz configuration_index 1
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_new.xyz
-Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_en.csv configuration_index 1
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_dens.csv
-Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_dens.csv configuration_index 1
+CopyFollowingLines for_num_configurations 2 replace c0 with c1
+    Movie   trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0.xyz
+    Energy  trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_en.csv
+    Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_dens.csv
+EndCopy
 GhostTrialVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pressure.csv
 CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.csv
 ProfileCPU trials_per_write {trials_per_iteration} output_file {prefix}{sim}_profile.csv

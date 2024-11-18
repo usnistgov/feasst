@@ -33,15 +33,15 @@
    Tunable
    WriteCheckpoint
    WriteModelParams
-   MonteCarlo
-   PerturbVolume
-   ConvertToRefPotential
-   Run
    Stepper
    Analyze
+   PerturbVolume
    AnalyzeFactory
    Modify
    ModifyFactory
+   MonteCarlo
+   ConvertToRefPotential
+   Run
    Rosenbluth
    PerturbDistance
    PerturbDistanceAngle
@@ -52,9 +52,9 @@
    Trial
    TrialFactory
    TrialTransfer
-   TrialVolume
    TrialRemove
    TrialMove
    TrialTranslate
    TrialRotate
    TrialAdd
+   TrialVolume

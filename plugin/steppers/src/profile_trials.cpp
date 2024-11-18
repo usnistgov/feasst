@@ -10,7 +10,6 @@ namespace feasst {
 FEASST_MAPPER(ProfileTrials, argtype({{"trials_per_update", "1e3"}}));
 
 ProfileTrials::ProfileTrials(argtype * args) : Analyze(args) {
-  WARN("ProfileTrials is deprecated. Use ProfileCPU instead.");
   if (trials_per_update() < 1e3) {
     WARN("trials_per_update(" << trials_per_update() << ") should be " <<
       ">= 1e3 to ensure profiling does not slow the simulation.");

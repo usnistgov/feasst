@@ -62,7 +62,7 @@ std::unique_ptr<MonteCarlo> patchmc(const int min, const int max) {
     {"MoviePatch", {{"trials_per_write", trials_per}, {"output_file", "tmp/patch_nvt_vis.xyz"}}},
     {"CriteriaUpdater", {{"trials_per_update", trials_per}}},
     {"CriteriaWriter", {{"trials_per_write", trials_per}, {"output_file", "tmp/patch_fh.txt"}}},
-  }});
+  }}, true);
   auto mc2 = test_serialize_unique(*mc);
   return mc2;
 }
@@ -88,7 +88,7 @@ TEST(MonteCarlo, patch_arglist) {
     {"Potential", {{"Model", "SquareWell"}, {"VisitModelInner", "VisitModelInnerPatch"}, {"group", "centers"}}},
     {"ThermoParams", {{"beta", "1"}}},
     {"Metropolis", {{}}}
-  }});
+  }}, true);
 
   EXPECT_NEAR(-3., mc->criteria().current_energy(), NEAR_ZERO);
 }
@@ -112,7 +112,7 @@ TEST(MonteCarlo, spherocylinder) {
     {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
     {"Tune", {{}}},
     {"Run", {{"num_trials", "1e2"}}},
-  }});
+  }}, true);
 }
 
 TEST(MonteCarlo, SolidOfRevolution) {
@@ -134,7 +134,7 @@ TEST(MonteCarlo, SolidOfRevolution) {
     {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
     {"Tune", {{}}},
     {"Run", {{"num_trials", "1e2"}}},
-  }});
+  }}, true);
 }
 
 }  // namespace feasst

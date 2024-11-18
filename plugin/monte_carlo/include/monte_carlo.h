@@ -77,10 +77,10 @@ class MonteCarlo {
     ]]));
 
    */
-  explicit MonteCarlo(arglist args);
+  explicit MonteCarlo(arglist args, const bool silent = false);
 
   /// Begin processing the arguments.
-  void begin(arglist args);
+  void begin(arglist args, const bool silent = false);
 
   /// Process arguments.
   void parse_args(arglist * args, const bool silent = false);
@@ -89,7 +89,7 @@ class MonteCarlo {
   void add_args(arglist args);
 
   /// Resume processing the above arguments after Checkpointing.
-  void resume();
+  void resume(const bool silent = false);
 
   /// Clear arguments;
   void clear_arguments() { action_ = NULL; args_.clear(); }
@@ -326,6 +326,13 @@ class MonteCarlo {
   const std::pair<std::string, argtype>& next_arg() const {
     return next_arg_; }
 
+  /// Set the number of configurations to parse simultaneously
+  void set_parse_for_num_configs(const int num);
+
+  /// Set the parse replacements
+  void set_parse_replace(
+    const std::vector<std::vector<std::string> >& replace = {});
+
   /// Set the timer
   void set_timer();
 
@@ -364,6 +371,8 @@ class MonteCarlo {
   bool thermo_params_set_ = false;
   bool system_set_ = false;
   bool criteria_set_ = false;
+  int parse_for_num_configs_ = 1;
+  std::vector<std::vector<std::string> > parse_replace_;
 
   std::unique_ptr<TimerRDTSC> timer_;
 
@@ -378,8 +387,9 @@ inline std::shared_ptr<MonteCarlo> MakeMonteCarlo() {
   return std::make_shared<MonteCarlo>();
 }
 
-inline std::shared_ptr<MonteCarlo> MakeMonteCarlo(arglist args) {
-  return std::make_shared<MonteCarlo>(args); }
+inline std::shared_ptr<MonteCarlo> MakeMonteCarlo(arglist args,
+    const bool silent = false) {
+  return std::make_shared<MonteCarlo>(args, silent); }
 
 /// Construct MonteCarlo from file.
 std::shared_ptr<MonteCarlo> MakeMonteCarlo(const std::string file_name);

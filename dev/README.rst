@@ -387,6 +387,5 @@ To Do List
 * Optimize BondVisitor that uses deserialize_map and strings in inner loop
 * Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).
 * Remove ConvertToRefPotential and ProfileTrials in v0.26
-* When no file to output, steppers still generate output. If writing every step, this can slow sim. Stepper::printer should not generate output if it will not write.
 * Have the tests override hours checkpoint , etc so that users don't have bad values
 * CopyNextLine -> CopyFollowingLines , ... then end, indent

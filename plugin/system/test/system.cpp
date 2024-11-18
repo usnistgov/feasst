@@ -42,7 +42,7 @@ TEST(System, triclinic) {
   system.energy();
   EXPECT_DOUBLE_EQ(system.potential(0).stored_energy(), -505.78567945268367);
   EXPECT_DOUBLE_EQ(system.potential(1).stored_energy(), -29.37186430697248);
-  INFO(system.stored_energy());
+  DEBUG(system.stored_energy());
 }
 
 }  // namespace feasst

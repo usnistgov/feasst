@@ -89,7 +89,7 @@ MayerSampling ljb2(const int trials, const int num_beta_taylor = 0) {
 TEST(MonteCarlo, ljb2) {
   MayerSampling mayer = ljb2(1e4);
   const double b2 = 2./3.*PI*mayer.second_virial_ratio();
-  INFO("b2 " << b2);
+  DEBUG("b2 " << b2);
   EXPECT_NEAR(-5.3, b2, 20);
   EXPECT_GT(std::abs(2.0944 - b2), 0.0001); // HS value
 }
@@ -97,7 +97,7 @@ TEST(MonteCarlo, ljb2) {
 TEST(MonteCarlo, ljb2_LONG) {
   MayerSampling mayer = ljb2(1e7);
   const double b2 = 2./3.*PI*mayer.second_virial_ratio();
-  INFO("b2 " << b2);
+  DEBUG("b2 " << b2);
   EXPECT_NEAR(-5.3, b2, 0.3);
   EXPECT_GT(std::abs(2.0944 - b2), 0.0001); // HS value
 }
@@ -105,15 +105,15 @@ TEST(MonteCarlo, ljb2_LONG) {
 TEST(MonteCarlo, ljb2_beta_deriv_LONG) {
   MayerSampling mayer = ljb2(1e7, 3);
   const double b2 = 2./3.*PI*mayer.second_virial_ratio();
-  INFO("b2 " << b2);
+  DEBUG("b2 " << b2);
   EXPECT_NEAR(-5.3, b2, 0.3);
   EXPECT_GT(std::abs(2.0944 - b2), 0.0001); // HS value
   const double reffac = 2.*PI/3./mayer.mayer_ref().average();
   int index = 0;
-  INFO(index << "," << reffac*mayer.mayer().average());
+  DEBUG(index << "," << reffac*mayer.mayer().average());
   for (const Accumulator& acc : mayer.beta_taylor()) {
     ++index;
-    INFO(index << "," << reffac*acc.average());///factorial(index));
+    DEBUG(index << "," << reffac*acc.average());///factorial(index));
   }
   // from https://github.com/usnistgov/mayer-extrapolation
   EXPECT_NEAR(-5.322731267117734, 2.*PI/3.*mayer.beta_taylor(0), 0.2);
@@ -301,10 +301,10 @@ TEST(MayerSampling, trimer_LONG) {
 //  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/trib"}}));
   mc.attempt(1e6);
   double b2hs = 2./3.*PI*std::pow(mc.configuration().model_params().select("sigma").value(0), 3); // A^3
-  INFO(mayer->second_virial_ratio());
-  INFO(b2hs*mayer->second_virial_ratio());
-  INFO("mayer: " << mayer->mayer().str());
-  INFO("mayer_ref: " << mayer->mayer_ref().str());
+  DEBUG(mayer->second_virial_ratio());
+  DEBUG(b2hs*mayer->second_virial_ratio());
+  DEBUG("mayer: " << mayer->mayer().str());
+  DEBUG("mayer_ref: " << mayer->mayer_ref().str());
   EXPECT_NEAR(0, mayer->mayer().average(), 4*mayer->mayer().block_stdev());
 }
 

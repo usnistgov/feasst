@@ -92,7 +92,7 @@ TEST(Accumulator, largest_block) {
   EXPECT_EQ(a->largest_blocks()[2], 5);
   EXPECT_EQ(a->largest_blocks().size(), 3);
   Square sq;
-  INFO(a->block_stdev(sq));
+  DEBUG(a->block_stdev(sq));
 }
 
 TEST(Accumulator, serialize_with_inf) {

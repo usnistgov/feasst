@@ -20,7 +20,7 @@ TEST(RadiusOfGyration, test) {
     {"ReadConfigFromFile", {{"input_file", "../plugin/steppers/test/data/nvt0.xyze"}, {"euler", "true"}}},
     {"Run", {{"until_criteria_complete", "true"}}},
     {"WriteStepper", {{"analyze_name", "RadiusOfGyration"}}},
-  }});
+  }}, true);
   EXPECT_NEAR(27.336812419903538, mc->analyze(0).accumulator().average(), 1e-8);
 }
 

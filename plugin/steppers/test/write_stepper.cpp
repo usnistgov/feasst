@@ -26,7 +26,7 @@ TEST(WriteStepper, fh) {
     {"WriteStepper", {{"analyze_name", "CriteriaWriter"}}},
     {"WriteStepper", {{"analyze_name", "Energy"}}},
     {"WriteStepper", {{"modify_name", "PairDistribution"}}},
-  }});
+  }}, true);
 }
 
 }  // namespace feasst

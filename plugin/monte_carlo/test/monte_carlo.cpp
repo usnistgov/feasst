@@ -57,7 +57,7 @@ TEST(MonteCarlo, serialize) {
     {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
     {"ProfileCPU", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/lj_prof.csv"}}},
     {"Tune", {{}}},
-  }});
+  }}, true);
   auto mc2 = test_serialize_unique(*mc);
   mc2->run_num_trials(10);
   EXPECT_EQ(mc2->analyze(0).class_name(), "Log");
@@ -77,7 +77,7 @@ TEST(MonteCarlo, serialize) {
     {"Movie", {{"trials_per_write", str(1e4)}, {"output_file", "tmp/lj.xyz"}}},
     {"CheckEnergy", {{"trials_per_update", str(1e4)}, {"tolerance", str(1e-9)}}},
     {"Tune", {{}}},
-  }});
+  }}, true);
 
   auto mc4 = test_serialize_unique(*mc3);
   EXPECT_EQ(mc4->trial(0).class_name(), "TrialTranslate");
@@ -109,7 +109,7 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
       {"ThermoParams", {{"beta", "1.2"}, {"chemical_potential", "1."}}},
       {"Metropolis", {{}}},
       {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},
-  }});
+  }}, true);
   mc->attempt(1e6);
   //mc.attempt(1e6);  // 2.5s with 50 i9 13900K 7/:1/2024
   //mc.attempt(1e6);  // 4.5s with 50 (see opt_lj for 3s)
@@ -137,7 +137,7 @@ TEST(MonteCarlo, NVT_cells_BENCHMARK_LONG) {
     {"ThermoParams", {{"beta", "1.2"}}},
     {"CheckEnergy", {{"trials_per_update", str(1e4)}, {"tolerance", str(1e-9)}}},
     {"Tune", {{}}},
-  }});
+  }}, true);
   mc->attempt(1e5);
 }
 
@@ -161,7 +161,7 @@ TEST(MonteCarlo, NVT_cells2_BENCHMARK_LONG) {
     {"CheckEnergy", {{"trials_per_update", str(1e4)}, {"tolerance", str(1e-9)}}},
     {"Tune", {{}}},
     {"OptimizedPotential", {{"Model", "LennardJones"}, {"VisitModel", "VisitModelCell"}, {"min_length", "3"}}}
-  }});
+  }}, true);
   mc->initialize_system(0);
   mc->attempt(1e5);
 }
@@ -184,7 +184,7 @@ TEST(MonteCarlo, NVT_SRSW) {
     {"Movie", {{"trials_per_write", "1e3"}, {"output_file", "tmp/lj.xyz"}}},
     {"CheckEnergy", {{"trials_per_update", "1e3"}, {"decimal_places", "9"}}},
     {"Tune", {{}}},
-  }});
+  }}, true);
   Accumulator pe;
   const int num_trials = 1e3;
   for (int trial = 0; trial < num_trials; ++trial) {
@@ -213,7 +213,7 @@ TEST(MonteCarlo, GCMC) {
     {"ProfileCPU", {{"trials_per_write", str(1e3)},
       {"append", "true"},
       {"output_file", "tmp/lj_profile.txt"}}},
-  }});
+  }}, true);
   const int trials = 1e4;
   //const int trials = 1e6;
   EXPECT_NEAR(mc->trial(0).weight(), 1, NEAR_ZERO);
@@ -241,7 +241,7 @@ TEST(MonteCarlo, GCMC_cell) {
     {"TrialTransfer", {{"particle_type", "0"}, {"num_steps", "4"}, {"reference_index", "0"}}},
     {"NumParticles", {{"trials_per_write", "1e5"},
                       {"output_file", "tmp/ljnum.txt"}}},
-  }});
+  }}, true);
   EXPECT_EQ(mc->system().num_references(), 1);
   //mc->attempt(1e4);
   for (int i = 0; i < 1e4; ++i) {
@@ -266,10 +266,10 @@ TEST(MonteCarlo, ConstrainNumParticles) {
       {"Metropolis", {{"Constraint", "ConstrainNumParticles"},
         {"minimum", str(minimum)}, {"maximum", str(minimum+1)}}},
       {"TrialTransfer", {{"particle_type", "0"}}},
-      {"NumParticles", {{"trials_per_write", "10000"}}},
-    }});
+      {"NumParticles", {{"trials_per_write", "10000"}, {"output_file", "tmp/lj.csv"}}},
+    }}, true);
     const int index = mc->num_analyzers() - 1;
-    INFO("index " << index);
+    DEBUG("index " << index);
     mc->attempt(14);
     if (minimum == 0) {
       EXPECT_LE(mc->analyze(index).accumulator().average(), 1);
@@ -295,7 +295,7 @@ TEST(MonteCarlo, ideal_gas_pressure_LONG) {
     {"Tune", {{}}},
     {"Volume", {{"trials_per_write", "1e2"},
                 {"output_file", "tmp/ideal_gas_volume"}}},
-  }});
+  }}, true);
   mc->attempt(1e6);
   const Accumulator& vol = mc->analyzers()[mc->num_analyzers()-1]->accumulator();
   INFO("volume: " << vol.average() << " +/- " << vol.block_stdev());
@@ -321,7 +321,7 @@ TEST(MonteCarlo, lj_npt) {
     {"Log", {{"output_file", "tmp/lj.csv"}}},
     {"Volume", {{"trials_per_write", trials_per},
                      {"output_file", "tmp/lj_npt_vol"}}},
-  }});
+  }}, true);
   mc->attempt(1e2);
   const Accumulator& vol = mc->analyzers()[mc->num_analyzers()-1]->accumulator();
   DEBUG("volume: " << vol.average() << " +/- " << vol.block_stdev());
@@ -329,30 +329,30 @@ TEST(MonteCarlo, lj_npt) {
 
 TEST(MonteCarlo, arglist_unrecognized) {
   TRY(
-    MakeMonteCarlo({{{"Banana", {{}}}}});
+    MakeMonteCarlo({{{"Banana", {{}}}}}, true);
     CATCH_PHRASE("Unrecognized argument: Banana");
   );
   TRY(
-    MakeMonteCarlo({{{"Metropolis", {{}}}}});
+    MakeMonteCarlo({{{"Metropolis", {{}}}}}, true);
     CATCH_PHRASE("set System before Criteria");
   );
   TRY(
-    MakeMonteCarlo({{{"RandomMT19937", {{"this_is_not", "an_expected_argument"}}}}});
+    MakeMonteCarlo({{{"RandomMT19937", {{"this_is_not", "an_expected_argument"}}}}}, true);
     CATCH_PHRASE("unused argument");
   );
   TRY(
-    MakeMonteCarlo({{{"Checkpoint", {{"this_is_not", "an_expected_argument"}}}}});
+    MakeMonteCarlo({{{"Checkpoint", {{"this_is_not", "an_expected_argument"}}}}}, true);
     CATCH_PHRASE("unused argument");
   );
   TRY(
-    MakeMonteCarlo({{{"Configuration", {{"particle_type0", "../particle/lj.fstprt"}, {"this_is_not", "an_expected_argument"}}}}});
+    MakeMonteCarlo({{{"Configuration", {{"particle_type0", "../particle/lj.fstprt"}, {"this_is_not", "an_expected_argument"}}}}}, true);
     CATCH_PHRASE("unused argument");
   );
   TRY(
     MakeMonteCarlo({{
       {"Configuration", {{"particle_type0", "../particle/lj.fstprt"}}},
       {"Potential", {{"this_is_not", "an_expected_argument"}}}
-    }});
+    }}, true);
     CATCH_PHRASE("unused argument");
   );
   TRY(
@@ -360,7 +360,7 @@ TEST(MonteCarlo, arglist_unrecognized) {
       {"Configuration", {{"cubic_side_length", "8"}, {"particle_type", "../particle/lj.fstprt"}}},
       {"Potential", {{"Model", "LennardJones"}}},
       {"ThermoParams", {{"this_is_not", "an_expected_argument"}}},
-    }});
+    }}, true);
     CATCH_PHRASE("unused argument");
   );
   TRY(
@@ -369,7 +369,7 @@ TEST(MonteCarlo, arglist_unrecognized) {
       {"Potential", {{"Model", "LennardJones"}}},
       {"ThermoParams", {{"beta", "1"}}},
       {"Metropolis", {{"this_is_not", "an_expected_argument"}}},
-    }});
+    }}, true);
     CATCH_PHRASE("unused argument");
   );
   TRY(
@@ -379,7 +379,7 @@ TEST(MonteCarlo, arglist_unrecognized) {
       {"ThermoParams", {{"beta", "1"}}},
       {"Metropolis", {{}}},
       {"TrialTranslate", {{"this_is_not", "an_expected_argument"}}},
-    }});
+    }}, true);
     CATCH_PHRASE("unused argument");
   );
   TRY(
@@ -390,7 +390,7 @@ TEST(MonteCarlo, arglist_unrecognized) {
       {"Metropolis", {{}}},
       {"TrialTranslate", {{}}},
       {"Energy", {{"this_is_not", "an_expected_argument"}}},
-    }});
+    }}, true);
     CATCH_PHRASE("unused argument");
   );
   TRY(
@@ -400,9 +400,9 @@ TEST(MonteCarlo, arglist_unrecognized) {
       {"ThermoParams", {{"beta", "1"}}},
       {"Metropolis", {{}}},
       {"TrialTranslate", {{}}},
-      {"Energy", {{}}},
+      {"Energy", {{"output_file", "tmp/lj_en.csv"}}},
       {"Tune", {{"this_is_not", "an_expected_argument"}}},
-    }});
+    }}, true);
     CATCH_PHRASE("unused argument");
   );
   TRY(
@@ -412,10 +412,10 @@ TEST(MonteCarlo, arglist_unrecognized) {
       {"ThermoParams", {{"beta", "1"}}},
       {"Metropolis", {{}}},
       {"TrialTranslate", {{}}},
-      {"Energy", {{}}},
+      {"Energy", {{"output_file", "lj_en.csv"}}},
       {"Tune", {{}}},
       {"Run", {{"this_is_not", "an_expected_argument"}}},
-    }});
+    }}, true);
     CATCH_PHRASE("unused argument");
   );
 }
@@ -429,7 +429,7 @@ TEST(MonteCarlo, argslist_order) {
     {"Potential", {{"Model", "LennardJones"}}},
     {"ThermoParams", {{"beta", "0.1"}}},
     {"ThermoParams", {{"beta", "1.2"}}},
-  }});
+  }}, true);
   EXPECT_EQ(1.2, mc->thermo_params().beta());
 }
 
@@ -460,7 +460,7 @@ TEST(MonteCarlo, arglist) {
     {"RemoveModify", {{"name", "Tune"}}},
     {"Run", {{"num_trials", str(1e3)}}},
     {"WriteCheckpoint", {{}}},
-  }});
+  }}, true);
   EXPECT_EQ(mc->random().class_name(), "RandomModulo");
   EXPECT_EQ(2, mc->configuration().num_particle_types());
   EXPECT_EQ(1, mc->system().unoptimized().num());
@@ -489,7 +489,7 @@ TEST(MonteCarlo, gen_5_spce_in_triclinic) {
     {"Metropolis", {{}}},
     {"TrialAdd", {{"particle_type", "0"}}},
     {"Run", {{"until_num_particles", "5"}}},
-  }});
+  }}, true);
   FileXYZ().write_for_vmd("tmp/spce_triclinic.xyz", mc->configuration());
 }
 
@@ -507,7 +507,7 @@ TEST(MonteCarlo, group_in_arglist) {
     {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
     {"Tune", {{}}},
     {"Run", {{"num_trials", "1e2"}}},
-  }});
+  }}, true);
   EXPECT_EQ(2, mc->configuration().num_groups());
   EXPECT_NEAR(-2.060346185437E+00, mc->configuration().particle(2).site(0).position().coord(0), NEAR_ZERO);
   EXPECT_TRUE(std::abs(mc->configuration().particle(0).site(0).position().coord(0)-1.077169909511E+00)>1e-8);
@@ -535,7 +535,7 @@ TEST(MonteCarlo, two_configs) {
     {"Run", {{"num_trials", "1e2"}}},
     {"ThermoParams", {{"beta", "100.2"}, {"chemical_potential", "-10."}}},
     {"Run", {{"num_trials", "1e2"}}},
-  }});
+  }}, true);
   EXPECT_EQ(2, mc->system().num_configurations());
   EXPECT_NE(mc->system().potential(0, 0).stored_energy(),
             mc->system().potential(0, 1).stored_energy());
@@ -561,7 +561,7 @@ TEST(MonteCarlo, weight_per_number_fraction_no_particle_type) {
       {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
       {"Tune", {{}}},
       {"Run", {{"num_trials", "1e2"}}},
-    }});
+    }}, true);
     CATCH_PHRASE("Trial::weight_per_number_fraction requires Trial::particle_type");
   );
 }
@@ -583,7 +583,7 @@ TEST(MonteCarlo, weight_per_number_fraction_on_add) {
       {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
       {"Tune", {{}}},
       {"Run", {{"num_trials", "1e2"}}},
-    }});
+    }}, true);
     CATCH_PHRASE("weight_per_number_fraction is not implemented for PerturbAdd");
   );
 }
@@ -606,9 +606,9 @@ TEST(MonteCarlo, weight_per_number_fraction) {
     {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
     {"Tune", {{}}},
     {"Run", {{"num_trials", "1e2"}}},
-  }});
+  }}, true);
   //INFO(feasst_str(mc->next_arg()));
-  EXPECT_EQ(mc->next_arg().first, "Run");
+  //EXPECT_EQ(mc->next_arg().first, "Run");
   for (int i = 0; i < 1e2; ++i) {
     mc->attempt();
     const int num0 = mc->configuration().num_particles_of_type(0);

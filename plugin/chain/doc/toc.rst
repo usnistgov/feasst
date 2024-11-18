@@ -18,8 +18,8 @@
    SelectEndSegment
    SelectSiteOfType
    SelectTwoSites
-   RadiusOfGyration
    EndToEndDistance
+   RadiusOfGyration
    SelectReptate
    PerturbReptate
    PerturbDistanceAngleConnector

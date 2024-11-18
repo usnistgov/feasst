@@ -18,7 +18,7 @@ TEST(ReadConfigFromFile, test) {
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1"}}},
     {"Metropolis", {{}}},
     {"ReadConfigFromFile", {{"input_file", "../plugin/steppers/test/data/nvt0.xyze"}, {"euler", "true"}}},
-  }});
+  }}, true);
   const Configuration& config = mc->configuration();
   EXPECT_NEAR(-101.14905, config.particle(0).site(0).position().coord(0), NEAR_ZERO);
   EXPECT_NEAR(0.96721814, config.particle(0).site(0).euler().phi(), NEAR_ZERO);

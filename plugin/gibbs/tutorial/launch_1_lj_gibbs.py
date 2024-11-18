@@ -15,7 +15,7 @@ PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
 PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--beta', type=float, default=1., help='inverse temperature')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
+PARSER.add_argument('--tpi', type=int, default=int(1e5),
                     help='like cycles, but not necessary num_particles')
 PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e2),
                     help='number of iterations for equilibraiton')
@@ -48,7 +48,7 @@ PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on que
 PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate before queue
 PARAMS['procs_per_sim'] = 1
 PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
-PARAMS['equil'] = PARAMS['equilibration_iterations']*PARAMS['trials_per_iteration']
+PARAMS['equil'] = PARAMS['equilibration_iterations']*PARAMS['tpi']
 PARAMS['double_equil'] = 2*PARAMS['equil']
 
 def sim_node_dependent_params(params):
@@ -63,14 +63,11 @@ RandomMT19937 seed {seed}
 # purposefully start with a bad volume guess to see if equilibration adjusts volume
 Configuration cubic_side_length 16 particle_type0 {fstprt}
 Configuration cubic_side_length 8 particle_type0 {fstprt}
-CopyNextLine replace configuration_index with 0
-Potential Model LennardJones configuration_index 1
-#CopyNextLine replace configuration_index with 0
-#Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff configuration_index 1
-CopyNextLine replace configuration_index with 0
-Potential VisitModel LongRangeCorrections configuration_index 1
-CopyNextLine replace configuration_index with 0
-RefPotential VisitModel DontVisitModel configuration_index 1
+CopyFollowingLines for_num_configurations 2
+    Potential Model LennardJones
+    Potential VisitModel LongRangeCorrections
+    RefPotential VisitModel DontVisitModel
+EndCopy
 ThermoParams beta {beta} chemical_potential 5
 Metropolis
 CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 2.0
@@ -78,9 +75,9 @@ TrialTranslate tunable_param 0.1 tunable_target_acceptance 0.2 configuration_ind
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # fill both boxes with particles
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_fill.csv
+Log trials_per_write {tpi} output_file {prefix}{sim}_fill.csv
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_fill.xyz
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
+Movie trials_per_write {tpi} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
 Tune
 TrialAdd particle_type 0 configuration_index 0
 Run until_num_particles 112 configuration_index 0
@@ -99,11 +96,11 @@ Metropolis num_trials_per_iteration 1e9 num_iterations_to_complete 1e9
 GibbsInitialize updates_density_equil {equil} updates_per_adjust {double_equil}
 TrialGibbsParticleTransfer weight 0.5 particle_type 0 reference_index 0 print_num_accepted true
 TrialGibbsVolumeTransfer weight 0.01 tunable_param 10. tunable_target_acceptance 0.5 reference_index 0 print_num_accepted true
-CheckEnergy trials_per_update {trials_per_iteration} decimal_places 8
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
+CheckEnergy trials_per_update {tpi} decimal_places 8
+Log trials_per_write {tpi} output_file {prefix}{sim}_eq.csv
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
-ProfileCPU trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq_profile.csv
+Movie trials_per_write {tpi} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
+ProfileCPU trials_per_write {tpi} output_file {prefix}{sim}_eq_profile.csv
 # a new tune is required when new Trials are introduced
 # decrease trials per due to infrequency of volume transfer attempts
 Tune trials_per_tune 20
@@ -116,20 +113,18 @@ RemoveAnalyze name Movie
 RemoveAnalyze name ProfileCPU
 
 # gibbs ensemble production
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-CheckConstantVolume trials_per_update {trials_per_iteration} tolerance 1e-4
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0.xyz
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1.xyz configuration_index 1
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_en.csv
-Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_en.csv configuration_index 1
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_dens.csv
-Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_dens.csv configuration_index 1
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_vol.csv
-Volume trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_vol.csv configuration_index 1
-GhostTrialVolume trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pressure.csv trials_per_update 1e3
-CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.csv
-ProfileCPU trials_per_write {trials_per_iteration} output_file {prefix}{sim}_profile.csv
+Metropolis num_trials_per_iteration {tpi} num_iterations_to_complete {production_iterations}
+CheckConstantVolume trials_per_update {tpi} tolerance 1e-4
+Log trials_per_write {tpi} output_file {prefix}{sim}.csv
+CopyFollowingLines for_num_configurations 2 replace c0 with c1
+    Movie   trials_per_write {tpi} output_file {prefix}{sim}_c0.xyz
+    Energy  trials_per_write {tpi} output_file {prefix}{sim}_c0_en.csv
+    Density trials_per_write {tpi} output_file {prefix}{sim}_c0_dens.csv
+    Volume  trials_per_write {tpi} output_file {prefix}{sim}_c0_vol.csv
+EndCopy
+GhostTrialVolume trials_per_write {tpi} output_file {prefix}{sim}_pressure.csv trials_per_update 1e3
+CPUTime trials_per_write {tpi} output_file {prefix}{sim}_cpu.csv
+ProfileCPU trials_per_write {tpi} output_file {prefix}{sim}_profile.csv
 Run until_criteria_complete true
 """.format(**params))
 

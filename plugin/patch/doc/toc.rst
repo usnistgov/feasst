@@ -3,10 +3,10 @@
 
    PatchAngle
    FileVMDPatch
-   FileVMDSpherocylinder
    MoviePatch
+   FileVMDSpherocylinder
    MovieSpherocylinder
+   SolidOfRevolutionTable
    VisitModelInnerPatch
    Spherocylinder
-   SolidOfRevolutionTable
    TwoParticleContactObjective

@@ -90,7 +90,7 @@ Clones make_clones(const int max, const int min = 0, const int overlap = 4) {
     {"alpha", "2"}}).boundaries();
   for (int index = 0; index < static_cast<int>(bounds.size()); ++index) {
     const std::vector<int> bound = bounds[index];
-    INFO(bound[0] << " " << bound[1]);
+    DEBUG(bound[0] << " " << bound[1]);
     std::unique_ptr<MonteCarlo> mcu = monte_carlo(index, bound[0], bound[1]);
     std::shared_ptr<MonteCarlo> mcs = std::move(mcu);
 //    clone->set(MakeRandomMT19937({{"seed", "123"}}));
@@ -122,9 +122,9 @@ TEST(Clones, lj_fh) {
   EXPECT_EQ(macrostates.center_of_bin(12), 12);
   energy0 = SeekAnalyze().multistate_data("Energy", clones3.clone(0));
   energy1 = SeekAnalyze().multistate_data("Energy", clones3.clone(1));
-  INFO(feasst_str(energy));
-  INFO(feasst_str(energy0));
-  INFO(feasst_str(energy1));
+  DEBUG(feasst_str(energy));
+  DEBUG(feasst_str(energy0));
+  DEBUG(feasst_str(energy1));
   for (int i = 0; i < 5; ++i) EXPECT_EQ(energy[i], energy0[i]);
   EXPECT_EQ(energy[5], 0.5*(energy0[5] + energy1[0]));
   EXPECT_EQ(energy[6], 0.5*(energy0[6] + energy1[1]));

@@ -26,7 +26,7 @@ TEST(ActionExample, fh) {
     {"ActionExample", {{"analyze_name", "CriteriaWriter"}}},
     {"ActionExample", {{"analyze_name", "Energy"}}},
     {"ActionExample", {{"modify_name", "PairDistribution"}}},
-  }});
+  }}, true);
 }
 
 }  // namespace feasst

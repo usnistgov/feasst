@@ -216,7 +216,7 @@ TEST(MonteCarlo, spcearglist) {
     {"RemoveModify", {{"name", "Tune"}}},
     {"Run", {{"num_trials", str(1e3)}}},
     {"WriteCheckpoint", {{}}},
-  }});
+  }}, true);
   EXPECT_EQ("ModelTwoBodyFactory", mc->system().potential(1).model().class_name());
 }
 
@@ -249,7 +249,7 @@ TEST(MonteCarlo, spce_npt) {
     {"RemoveModify", {{"name", "Tune"}}},
     {"Run", {{"num_trials", str(1e3)}}},
     {"WriteCheckpoint", {{}}},
-  }});
+  }}, true);
   //EXPECT_EQ("ModelTwoBodyTable", mc->system().potential(1).model().class_name());
 }
 

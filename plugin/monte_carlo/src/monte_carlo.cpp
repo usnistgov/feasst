@@ -4,6 +4,7 @@
 #include "utils/include/serialize_extra.h"
 #include "utils/include/arguments.h"
 #include "utils/include/file.h"
+#include "utils/include/io.h"
 #include "utils/include/checkpoint.h"
 #include "utils/include/timer_rdtsc.h"
 #include "configuration/include/neighbor_criteria.h"
@@ -40,7 +41,6 @@ std::shared_ptr<T> parse(T * obj, arglist * args) {
     new_obj = obj->factory(args->begin()->first, &args->begin()->second);
     // INFO(new_obj->class_name());
     feasst_check_all_used(args->begin()->second);
-    args->erase(args->begin());
     return new_obj;
   }
   return new_obj;
@@ -75,154 +75,244 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
   if (args->begin()->first == "PressureFromTestVolume") {
     WARN("PressureFromTestVolume was renamed to GhostTrialVolume");
     args->begin()->first = "GhostTrialVolume";
+  } else if (args->begin()->first == "ProfileTrials") {
+    WARN("ProfileTrials is deprecated. Use ProfileCPU instead.");
   }
 
-  if (!silent) {
+  if (!silent &&
+      args->begin()->first != "CopyFollowingLines" &&
+      args->begin()->first != "EndCopy") {
     std::cout << args->begin()->first << " "
               << str(args->begin()->second) << " " << std::endl;
   }
 
-  // parse all derived classes of Random
-  std::shared_ptr<Random> ran =
-    parse(dynamic_cast<Random*>(MakeRandomMT19937().get()), args);
-  if (ran) {
-    DEBUG("parsing Random");
-    record_next_arg_(args);
-    set(ran);
-    return;
-  }
+  // repeat for each config
+  DEBUG("parse_for_num_configs " << parse_for_num_configs_);
+  ASSERT(parse_for_num_configs_ == 1 || parse_for_num_configs_ == 2,
+    "hard corded for 1 or two configs");
+  for (int config = 0; config <= parse_for_num_configs_; ++config) {
+    DEBUG("config " << config);
+    if (parse_for_num_configs_ > 1) {
+      if (config == 0 && args->begin()->first != "EndCopy") {
+        args->begin()->second.insert({"configuration_index", str(config)});
+        args->insert(args->begin() + 1, *args->begin());
+      } else if (config == 1 && args->begin()->first != "EndCopy") {
+        args->begin()->second.insert({"configuration_index", str(config)});
+        auto pair = args->begin()->second.find("configuration_index");
+        ASSERT(pair != args->begin()->second.end(), "err");
+        pair->second = str(config);
+        //for (argtype::iterator it = args->begin()->second.begin();
+        //     it != args->begin()->second.end(); ++it ) {
+        for (auto &p : args->begin()->second) {
+          for (const std::vector<std::string>& vals : parse_replace_) {
+            feasst::replace(vals[0], vals[1], &p.second);
+          }
+        }
+        if (!silent &&
+            args->begin()->first != "CopyFollowingLines" &&
+            args->begin()->first != "EndCopy") {
+          std::cout << args->begin()->first << " "
+                    << str(args->begin()->second) << " " << std::endl;
+        }
+      }
+      //for (std::map<std::string, std::string>& mp : args->begin->second) {
+        //INFO(mp->second);
+      //}
+    }
 
-  // parse Checkpoint
-  if (args->begin()->first == "Checkpoint") {
-    DEBUG("parsing Checkpoint");
-    record_next_arg_(args);
-    set(MakeCheckpoint(args->begin()->second));
-    args->erase(args->begin());
-    return;
-  }
+    // parse all derived classes of Random
+    std::shared_ptr<Random> ran =
+      parse(dynamic_cast<Random*>(MakeRandomMT19937().get()), args);
+    if (ran) {
+      DEBUG("parsing Random");
+      set(ran);
+      args->erase(args->begin());
+      if (config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
 
-  // parse Configuration
-  if (args->begin()->first == "Configuration") {
-    DEBUG("parsing Configuration");
-    record_next_arg_(args);
-    add(MakeConfiguration(args->begin()->second));
-    args->erase(args->begin());
-    return;
-  }
+    // parse Checkpoint
+    if (args->begin()->first == "Checkpoint") {
+      DEBUG("parsing Checkpoint");
+      set(MakeCheckpoint(args->begin()->second));
+      args->erase(args->begin());
+      if (config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
 
-  // parse NeighborCriteria
-  if (args->begin()->first == "NeighborCriteria") {
-    DEBUG("parsing NeighborCriteria");
-    record_next_arg_(args);
-    add(MakeNeighborCriteria(args->begin()->second));
-    args->erase(args->begin());
-    return;
-  }
+    // parse Configuration
+    if (args->begin()->first == "Configuration") {
+      DEBUG("parsing Configuration");
+      add(MakeConfiguration(args->begin()->second));
+      args->erase(args->begin());
+      if (config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
 
-  // parse Potential
-  if (args->begin()->first == "Potential") {
-    DEBUG("parsing Potential");
-    record_next_arg_(args);
-    const int config = integer("configuration_index", &(args->begin()->second), 0);
-    add(MakePotential(args->begin()->second), config);
-    args->erase(args->begin());
-    return;
-  }
+    // parse NeighborCriteria
+    if (args->begin()->first == "NeighborCriteria") {
+      DEBUG("parsing NeighborCriteria");
+      add(MakeNeighborCriteria(args->begin()->second));
+      args->erase(args->begin());
+      if (config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
 
-  // parse reference Potential
-  if (args->begin()->first == "ReferencePotential") {
-    DEBUG("parsing ReferencePotential");
-    record_next_arg_(args);
-    add_to_reference(MakePotential(args->begin()->second));
-    args->erase(args->begin());
-    return;
-  }
+    // parse Potential
+    if (args->begin()->first == "Potential") {
+      DEBUG("parsing Potential");
+      const int pconfig = integer("configuration_index", &(args->begin()->second), 0);
+      add(MakePotential(args->begin()->second), pconfig);
+      args->erase(args->begin());
+      if (config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
 
-  // parse optimized Potential
-  if (args->begin()->first == "OptimizedPotential") {
-    DEBUG("parsing OptimizedPotential");
-    record_next_arg_(args);
-    add_to_optimized(MakePotential(args->begin()->second));
-    args->erase(args->begin());
-    return;
-  }
+    // parse reference Potential
+    if (args->begin()->first == "ReferencePotential") {
+      DEBUG("parsing ReferencePotential");
+      add_to_reference(MakePotential(args->begin()->second));
+      args->erase(args->begin());
+      if (config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
 
-  // parse ThermoParams
-  if (args->begin()->first == "ThermoParams") {
-    DEBUG("parsing ThermoParams");
-    record_next_arg_(args);
-    set(MakeThermoParams(args->begin()->second));
-    args->erase(args->begin());
-    return;
-  }
+    // parse optimized Potential
+    if (args->begin()->first == "OptimizedPotential") {
+      DEBUG("parsing OptimizedPotential");
+      add_to_optimized(MakePotential(args->begin()->second));
+      args->erase(args->begin());
+      if (config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
 
-  // parse all derived classes of Criteria
-  std::shared_ptr<Criteria> crit =
-    parse(dynamic_cast<Criteria*>(MakeMetropolis().get()), args);
-  if (crit) {
-    DEBUG("parsing Criteria");
-    record_next_arg_(args);
-    set(crit);
-    return;
-  }
+    // parse ThermoParams
+    if (args->begin()->first == "ThermoParams") {
+      DEBUG("parsing ThermoParams");
+      set(MakeThermoParams(args->begin()->second));
+      args->erase(args->begin());
+      if (config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
 
-  // parse all derived classes of Trial
-  std::shared_ptr<Trial> trial =
-    parse(dynamic_cast<Trial*>(MakeTrial().get()), args);
-  if (trial) {
-    DEBUG("parsing Trial");
-    record_next_arg_(args);
-    add(trial);
-    return;
-  }
+    // parse all derived classes of Criteria
+    std::shared_ptr<Criteria> crit =
+      parse(dynamic_cast<Criteria*>(MakeMetropolis().get()), args);
+    if (crit) {
+      DEBUG("parsing Criteria");
+      set(crit);
+      args->erase(args->begin());
+      if (config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
 
-  // parse all derived classes of TrialFactoryNamed
-  std::shared_ptr<TrialFactoryNamed> trials =
-    parse(dynamic_cast<TrialFactoryNamed*>(std::make_shared<TrialFactoryNamed>().get()), args);
-  if (trials) {
-    DEBUG("parsing TrialFactoryNamed");
-    record_next_arg_(args);
-    add(trials);
-    return;
-  }
+    // parse all derived classes of Trial
+    std::shared_ptr<Trial> trial =
+      parse(dynamic_cast<Trial*>(MakeTrial().get()), args);
+    if (trial) {
+      DEBUG("parsing Trial");
+      add(trial);
+      args->erase(args->begin());
+      if (config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
 
-  // parse all derived classes of Analyze
-  std::shared_ptr<Analyze> an =
-    parse(dynamic_cast<Analyze*>(std::make_shared<Analyze>().get()), args);
-  if (an) {
-    DEBUG("parsing Analyze");
-    record_next_arg_(args);
-    add(an);
-    return;
-  }
+    // parse all derived classes of TrialFactoryNamed
+    std::shared_ptr<TrialFactoryNamed> trials =
+      parse(dynamic_cast<TrialFactoryNamed*>(std::make_shared<TrialFactoryNamed>().get()), args);
+    if (trials) {
+      DEBUG("parsing TrialFactoryNamed");
+      add(trials);
+      args->erase(args->begin());
+      if (config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
 
-  // parse all derived classes of Modify
-  std::shared_ptr<Modify> mod =
-    parse(dynamic_cast<Modify*>(std::make_shared<Modify>().get()), args);
-  if (mod) {
-    DEBUG("parsing Modify");
-    record_next_arg_(args);
-    add(mod);
-    return;
-  }
+    // parse all derived classes of Analyze
+    std::shared_ptr<Analyze> an =
+      parse(dynamic_cast<Analyze*>(std::make_shared<Analyze>().get()), args);
+    if (an) {
+      DEBUG("parsing Analyze");
+      add(an);
+      args->erase(args->begin());
+      if (config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
 
-  // parse all derived classes of Action
-  std::shared_ptr<Action> act =
-    parse(dynamic_cast<Action*>(std::make_shared<Action>().get()), args);
-  if (act) {
-    DEBUG("parsing Action");
-    record_next_arg_(args);
-    run(act);
-    return;
+    // parse all derived classes of Modify
+    std::shared_ptr<Modify> mod =
+      parse(dynamic_cast<Modify*>(std::make_shared<Modify>().get()), args);
+    if (mod) {
+      DEBUG("parsing Modify");
+      add(mod);
+      args->erase(args->begin());
+      if (config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
+
+    // parse all derived classes of Action
+    std::shared_ptr<Action> act =
+      parse(dynamic_cast<Action*>(std::make_shared<Action>().get()), args);
+    if (act) {
+      DEBUG("parsing Action");
+      std::string aname = args->begin()->first;
+      args->erase(args->begin());
+      record_next_arg_(args);
+      run(act);
+      if (aname == "CopyFollowingLines" || aname == "EndCopy" || config + 1 == parse_for_num_configs_) {
+        return;
+      } else {
+        continue;
+      }
+    }
   }
 }
 
-void MonteCarlo::begin(arglist args) {
+void MonteCarlo::begin(arglist args, const bool silent) {
   args_ = args;
-  resume();
+  resume(silent);
 }
 
-void MonteCarlo::resume() {
+void MonteCarlo::resume(const bool silent) {
   if (action_) {
     run(action_);
   }
@@ -232,15 +322,15 @@ void MonteCarlo::resume() {
   while (size > 0) {
     previous_size = size;
     DEBUG("size " << size);
-    parse_args(&args_);
+    parse_args(&args_, silent);
     size = static_cast<int>(args_.size());
     ASSERT(previous_size - 1 == size,
       "Unrecognized argument: " << args_.begin()->first);
   }
 }
 
-MonteCarlo::MonteCarlo(arglist args) : MonteCarlo() {
-  begin(args);
+MonteCarlo::MonteCarlo(arglist args, const bool silent) : MonteCarlo() {
+  begin(args, silent);
 }
 
 void MonteCarlo::add_args(arglist args) {
@@ -528,7 +618,6 @@ void MonteCarlo::set(const std::shared_ptr<Checkpoint> checkpoint) {
 }
 
 void MonteCarlo::after_trial_modify_() {
-  //INFO("num " << modify_factory_->num());
   modify_factory_->trial(this);
 }
 
@@ -539,7 +628,7 @@ void MonteCarlo::after_trial_checkpoint_() {
 }
 
 void MonteCarlo::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(529, ostr);
+  feasst_serialize_version(530, ostr);
   feasst_serialize(system_, ostr);
   feasst_serialize_fstdr(criteria_, ostr);
   feasst_serialize(trial_factory_, ostr);
@@ -555,6 +644,8 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
   feasst_serialize(thermo_params_set_, ostr);
   feasst_serialize(system_set_, ostr);
   feasst_serialize(criteria_set_, ostr);
+  feasst_serialize(parse_for_num_configs_, ostr);
+  feasst_serialize(parse_replace_, ostr);
   feasst_serialize(timer_, ostr);
   feasst_serialize_endcap("MonteCarlo", ostr);
   DEBUG("size: " << ostr.tellp());
@@ -562,7 +653,7 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
 
 MonteCarlo::MonteCarlo(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 529 && version <= 529, "version: " << version);
+  ASSERT(version >= 529 && version <= 530, "version: " << version);
   feasst_deserialize(system_, istr);
   // feasst_deserialize_fstdr(criteria_, istr);
   { // HWH for unknown reasons the above template function does not work
@@ -608,6 +699,10 @@ MonteCarlo::MonteCarlo(std::istream& istr) {
   feasst_deserialize(&thermo_params_set_, istr);
   feasst_deserialize(&system_set_, istr);
   feasst_deserialize(&criteria_set_, istr);
+  if (version >= 530) {
+    feasst_deserialize(&parse_for_num_configs_, istr);
+    feasst_deserialize(&parse_replace_, istr);
+  }
   feasst_deserialize(timer_, istr);
   feasst_deserialize_endcap("MonteCarlo", istr);
 }
@@ -644,8 +739,6 @@ void MonteCarlo::attempt_(int num_trials,
     WARN("No Trials to attempt.");
   }
   before_attempts_();
-  uint64_t clock_after_trial, clock_after_analyze, clock_after_modify;
-  uint64_t clock_after_checkpoint = __rdtsc();
   for (int trial = 0; trial < num_trials; ++trial) {
     if (timer_) timer_->start(0);
     DEBUG("mc trial: " << trial);
@@ -873,6 +966,16 @@ const std::vector<std::shared_ptr<Modify> >& MonteCarlo::modifiers() const {
 
 void MonteCarlo::set_num_iterations_to_complete(const int num) {
   criteria_->set_num_iterations_to_complete(num);
+}
+
+void MonteCarlo::set_parse_for_num_configs(const int num) {
+  DEBUG("num " << num);
+  parse_for_num_configs_ = num;
+  DEBUG("parse_for_num_configs_ " << parse_for_num_configs_);
+}
+void MonteCarlo::set_parse_replace(
+    const std::vector<std::vector<std::string> >& replace) {
+  parse_replace_ = replace;
 }
 
 }  // namespace feasst

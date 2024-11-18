@@ -54,7 +54,7 @@ TEST(ModelParams, max) {
   // serialize
   ModelParams params2 = test_serialize(params);
   EXPECT_EQ(params.select("charge").mixed_values(), params2.select("charge").mixed_values());
-  INFO(params2.str());
+  DEBUG(params2.str());
 }
 
 }  // namespace feasst

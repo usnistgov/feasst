@@ -25,7 +25,7 @@ TEST(AnalyzeExample, ideal_gas_fluid_geometric_center_LONG) {
                         {"output_file", "tmp/ig_center.csv"},
                         {"start_after_iteration", "1"}}},
     {"Run", {{"num_trials", "1e5"}}},
-  }});
+  }}, true);
   std::stringstream ss;
   mc->analyze(0).serialize(ss);
   AnalyzeExample analyze_example(ss);

@@ -37,7 +37,7 @@ TEST(MonteCarlo, tip4p) {
 //    {"CheckEnergy", {{"trials_per_update", str(1e0)}, {"tolerance", str(1e-9)}}},
 //    {"Tune", {{}}},
     {"Run", {{"num_trials", "1e3"}}},
-  }});
+  }}, true);
 }
 
 }  // namespace feasst

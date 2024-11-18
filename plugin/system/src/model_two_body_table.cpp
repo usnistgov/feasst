@@ -64,9 +64,9 @@ void ModelTwoBodyTable::set(const ModelParams& model_params,
     const int num_types,
     Model * model) {
   resize(num_types);
-  INFO("finding sigma");
+  DEBUG("finding sigma");
   const ModelParam& sig = model_params.select("sigma");
-  INFO("num_types " << num_types);
+  DEBUG("num_types " << num_types);
   for (int type1 = 0; type1 < num_types; ++type1) {
     DEBUG("type1 " << type1);
     //for (int type2 = 0; type2 < num_types; ++type2) {

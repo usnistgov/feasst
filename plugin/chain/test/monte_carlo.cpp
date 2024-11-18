@@ -258,7 +258,7 @@ TEST(System, Angles2D) {
   mc.add(MakePotential(MakeLennardJones()));
   mc.set(MakeThermoParams({{"beta", "1"}}));
   mc.set(MakeMetropolis());
-  INFO(mc.criteria().current_energy());
+  DEBUG(mc.criteria().current_energy());
 }
 
 std::unique_ptr<MonteCarlo> test_avb(const bool avb2, const bool avb4 = true) {
@@ -767,12 +767,12 @@ TEST(MonteCarlo, single_butane) {
   const std::string trials_per = "1e3";
 //  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/butane"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
-  auto en = MakeEnergy({{"trials_per_write", trials_per}});
+  auto en = MakeEnergy({{"trials_per_write", trials_per}, {"output_file", "tmp/but.csv"}});
   mc.add(en);
   const int bins = 20;
   auto bonds = MakeAnalyzeBonds({
       {"bond_bin_width", "0.05"}, {"angle_bin_width", "0.05"},
-      {"dihedral_bin_width", str(PI/bins)}, {"dihedral_bin_center", str(PI/bins/2)}});
+      {"dihedral_bin_width", str(PI/bins)}, {"dihedral_bin_center", str(PI/bins/2)}, {"output_file", "tmp/butbond.csv"}});
   // auto bonds = MakeAnalyzeBonds({{"bond_bin_width", "0.05"}, {"trials_per", "1e3"}});
   mc.add(bonds);
   mc.attempt(1e3);
@@ -900,7 +900,7 @@ TEST(MonteCarlo, chainarglist) {
 //    {"RemoveModify", {{"name", "Tune"}}},
 //    {"Run", {{"num_trials", str(1e3)}}},
 //    {"WriteCheckpoint", {{}}},
-  }});
+  }}, true);
 }
 
 TEST(MonteCarlo, angle_square_well) {

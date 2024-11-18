@@ -62,7 +62,7 @@ TEST(MonteCarlo, beta_expanded) {
       {"trials_per_update", "1"},
       {"trials_per_write", trials_per},
       {"multistate", "true"}}}
-  }});
+  }}, true);
   mc->attempt(5e4);
 }
 

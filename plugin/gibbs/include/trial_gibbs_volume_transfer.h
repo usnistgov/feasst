@@ -16,14 +16,20 @@ typedef std::map<std::string, std::string> argtype;
  */
 class TrialGibbsVolumeTransfer : public Trial {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - configuration_index0: index of one of the configurations (default: 0).
     - configuration_index1: index of the other configuration (default: 1).
     - Tunable arguments.
    */
   explicit TrialGibbsVolumeTransfer(argtype args = argtype());
   explicit TrialGibbsVolumeTransfer(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialGibbsVolumeTransfer>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {
@@ -31,6 +37,7 @@ class TrialGibbsVolumeTransfer : public Trial {
   void serialize(std::ostream& ostr) const override;
   explicit TrialGibbsVolumeTransfer(std::istream& istr);
   virtual ~TrialGibbsVolumeTransfer() {}
+  //@}
 };
 
 }  // namespace feasst

@@ -51,7 +51,9 @@ void Tune::initialize(MonteCarlo * mc) {
       values_[trial] = tfac.trial(trial).stage(0).perturb().tunable().value();
     }
   }
-  printer(header(*mc), output_file(mc->criteria()));
+  if (trials_per_write() != -1 && !output_file().empty()) {
+    printer(header(*mc), output_file(mc->criteria()));
+  }
 }
 
 void Tune::update(MonteCarlo * mc) {

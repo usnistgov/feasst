@@ -26,7 +26,7 @@ TEST(MonteCarlo, TrialModel) {
     {"CheckEnergy", {{"trials_per_update", "1"}, {"tolerance", "1e-9"}}},
     {"Tune", {{}}},
     //{"Run", {{"num_trials", "1e2"}}},
-  }});
+  }}, true);
   auto mc2 = test_serialize_unique(*mc);
   mc2->run_num_trials(1e2);
 }

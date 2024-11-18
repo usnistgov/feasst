@@ -43,12 +43,11 @@ TEST(MonteCarlo, gibbs_ensemble) {
     {"CopyNextLine", {{}}},
     {"Configuration", {{"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
       {"particle_type0", "../particle/lj.fstprt"}, {"group0", "first"}, {"first_particle_index", "0"}, {"cutoff", "2"}}},
-    {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
-    {"Potential", {{"Model", "LennardJones"}, {"configuration_index", "1"}}},
-    {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
-    {"Potential", {{"VisitModel", "LongRangeCorrections"}, {"configuration_index", "1"}}},
-    {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
-    {"RefPotential", {{"VisitModel", "DontVisitModel"}, {"configuration_index", "1"}}},
+    {"CopyFollowingLines", {{"for_num_configurations", "2"}}},
+    {"Potential", {{"Model", "LennardJones"}}},
+    {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
+    {"RefPotential", {{"VisitModel", "DontVisitModel"}}},
+    {"EndCopy", {{}}},
     {"ThermoParams", {{"beta", str(1/0.8)}, {"chemical_potential", "1."}, {"pressure", "1"}}},
     {"Metropolis", {{}}},
     {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
@@ -66,7 +65,7 @@ TEST(MonteCarlo, gibbs_ensemble) {
     {"GhostTrialVolume", {{"trials_per_update", str(1e0)}, {"trials_per_write", "1"}, {"output_file", "tmp/lj_p.csv"}}},
     //{"Run", {{"num_trials", "1e2"}}},
     //{"Run", {{"num_trials", "1e6"}}},
-  }});
+  }}, true);
   auto mc2 = test_serialize_unique(*mc);
   mc2->run_num_trials(1e2);
   EXPECT_EQ(2, mc2->system().num_configurations());
@@ -86,13 +85,12 @@ TEST(MonteCarlo, gibbs_adjust) {
     //{"CopyNextLine", {{}}},
     {"Configuration", {{"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
       {"particle_type0", "../particle/lj.fstprt"}, {"cutoff", "2"}}},
-    {"Configuration", {{"cubic_box_length", "20"}, {"particle_type0", "../particle/lj.fstprt"}, {"add_particles_of_type0", "1"}}},
-    {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
-    {"Potential", {{"Model", "LennardJones"}, {"configuration_index", "1"}}},
-    {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
-    {"Potential", {{"VisitModel", "LongRangeCorrections"}, {"configuration_index", "1"}}},
-    {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
-    {"RefPotential", {{"VisitModel", "DontVisitModel"}, {"configuration_index", "1"}}},
+    {"Configuration", {{"cubic_side_length", "20"}, {"particle_type0", "../particle/lj.fstprt"}, {"add_particles_of_type0", "1"}}},
+    {"CopyFollowingLines", {{"for_num_configurations", "2"}}},
+    {"Potential", {{"Model", "LennardJones"}}},
+    {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
+    {"RefPotential", {{"VisitModel", "DontVisitModel"}}},
+    {"EndCopy", {{}}},
     {"ThermoParams", {{"beta", str(1/0.8)}, {"chemical_potential", "1."}, {"pressure", "1"}}},
     {"Metropolis", {{}}},
     {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
@@ -102,15 +100,15 @@ TEST(MonteCarlo, gibbs_adjust) {
     {"TrialGibbsVolumeTransfer", {{"tunable_param", "0.1"}, {"reference_index", "0"}}},
     {"Tune", {{"trials_per_tune", "4"}}},
     {"Log", {{"trials_per_write", "1e0"}, {"output_file", "tmp/lj.txt"}}},
-    {"CopyNextLine", {{"replace0", "configuration_index"}, {"with0", "0"},
-                      {"replace1", "output_file"}, {"with1", "tmp/lj1.xyz"}}},
-    {"Movie", {{"trials_per_write", "1e0"}, {"output_file", "tmp/lj0.xyz"}, {"configuration_index", "1"}}},
-    {"CopyNextLine", {{"replace0", "configuration_index"}, {"with0", "0"}, {"replace1", "output_file"}, {"with1", "tmp/lj1d.xyz"}}},
-    {"Density", {{"trials_per_write", "1e0"}, {"output_file", "tmp/lj0d.xyz"}, {"configuration_index", "1"}}},
+    {"CopyFollowingLines", {{"for_num_configurations", "2"}, {"replace", "c0"}, {"with", "c1"}}},
+    {"Movie", {{"trials_per_write", "1e0"}, {"output_file", "tmp/ljc0.xyz"}}},
+    {"Density", {{"trials_per_write", "1e0"}, {"output_file", "tmp/ljc0dens.xyz"}}},
+    {"EndCopy", {{}}},
     {"CheckEnergy", {{"trials_per_update", "1e0"}, {"tolerance", str(1e-9)}}},
     {"GibbsInitialize", {{"trials_per_update", "1e0"}}},
     {"Run", {{"num_trials", "1e2"}}},
   }});
+  //}}, true);
   auto mc2 = test_serialize_unique(*mc);
   EXPECT_EQ(2, mc2->system().num_configurations());
 }

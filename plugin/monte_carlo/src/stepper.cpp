@@ -77,17 +77,15 @@ bool Stepper::is_time(const int trials_per, int * trials_since) {
 }
 
 std::string Stepper::output_file(const Criteria& criteria) const {
-  if (output_file_.empty() || !output_file_append_phase_) {
-    return output_file_;
+  if (output_file().empty() || !output_file_append_phase_) {
+    return output_file();
   }
-  return output_file_ + "_phase" + str(criteria.phase());
+  return output_file() + "_phase" + str(criteria.phase());
 }
 
 void Stepper::printer(const std::string output, const std::string& output_file) {
   DEBUG("output_file " << output_file);
-  if (output_file.empty() && !is_multistate_aggregate()) {
-    std::cout << output;
-  } else {
+  if (!output_file.empty()) {
     std::ofstream file;
     if (append_) {
       file.open(output_file, std::ofstream::out | std::ofstream::app);
