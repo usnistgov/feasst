@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grand Canonical Flat Histogram Simulation of Lennard-Jones &mdash; FEASST v0.25.3 documentation</title>
+  <title>Grand Canonical Flat Histogram Simulation of Lennard-Jones &mdash; FEASST v0.25.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=440f07cd"></script>
+        <script src="../../../_static/documentation_options.js?v=8f869700"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -55,7 +55,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.3
+                v0.25.4
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -127,9 +127,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CITATION.html">Citation</a></li>
 </ul>
 
         </div>
@@ -243,8 +243,8 @@
                         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--cubic_side_length&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;cubic periodic boundary length&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--trials_per_iteration&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">),</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;like cycles, but not necessary num_particles&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--tpi&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">),</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;trials per iteration, similar to MC cycles, but not necessary num_particles&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--equilibration_iterations&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of iterations for equilibration&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--hours_checkpoint&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;hours per checkpoint&#39;</span><span class="p">)</span>
@@ -293,16 +293,16 @@
 <span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential </span><span class="si">{mu_init}</span>
 <span class="s2">Metropolis</span>
 <span class="s2">TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25</span>
-<span class="s2">CheckEnergy trials_per_update </span><span class="si">{trials_per_iteration}</span><span class="s2"> decimal_places 4</span>
+<span class="s2">CheckEnergy trials_per_update </span><span class="si">{tpi}</span><span class="s2"> decimal_places 4</span>
 
 <span class="s2"># gcmc initialization and nvt equilibration</span>
 <span class="s2">TrialAdd particle_type 0</span>
-<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_eq.txt</span>
+<span class="s2">Log trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_eq.txt</span>
 <span class="s2">Tune</span>
 <span class="s2">Run until_num_particles [soft_macro_min]</span>
 <span class="s2">RemoveTrial name TrialAdd</span>
 <span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential </span><span class="si">{mu}</span>
-<span class="s2">Metropolis num_trials_per_iteration </span><span class="si">{trials_per_iteration}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{equilibration_iterations}</span>
+<span class="s2">Metropolis num_trials_per_iteration </span><span class="si">{tpi}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{equilibration_iterations}</span>
 <span class="s2">Run until_criteria_complete true</span>
 <span class="s2">RemoveModify name Tune</span>
 <span class="s2">RemoveAnalyze name Log</span>
@@ -311,16 +311,16 @@
 <span class="s2">FlatHistogram Macrostate MacrostateNumParticles width 1 max </span><span class="si">{max_particles}</span><span class="s2"> min </span><span class="si">{min_particles}</span><span class="s2"> soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] </span><span class="se">\</span>
 <span class="s2">Bias WLTM min_sweeps </span><span class="si">{min_sweeps}</span><span class="s2"> min_flatness 25 collect_flatness 20 min_collect_sweeps 1</span>
 <span class="s2">TrialTransfer weight 2 particle_type 0</span>
-<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index].txt</span>
 <span class="s2">#To print trajectories for each macrostate in separate files, add the following arguments to the &quot;Movie&quot; lines below: multistate true multistate_aggregate false</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_eq.xyz stop_after_iteration 1</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index].xyz start_after_iteration 1</span>
-<span class="s2">Tune trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_tune.txt multistate true stop_after_iteration 1</span>
-<span class="s2">Energy trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_en.txt multistate true start_after_iteration 1</span>
-<span class="s2">HeatCapacity trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_cv.txt multistate true start_after_iteration 1</span>
+<span class="s2">Movie           trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_eq.xyz stop_after_iteration 1</span>
+<span class="s2">Movie           trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index].xyz start_after_iteration 1</span>
+<span class="s2">Log             trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index].txt</span>
+<span class="s2">Tune            trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_tune.txt multistate true stop_after_iteration 1</span>
+<span class="s2">Energy          trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_en.txt multistate true start_after_iteration 1</span>
+<span class="s2">HeatCapacity    trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_cv.txt multistate true start_after_iteration 1</span>
+<span class="s2">CriteriaWriter  trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_crit.txt</span>
+<span class="s2">ProfileCPU      trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_profile.csv</span>
 <span class="s2">CriteriaUpdater trials_per_update 1e5</span>
-<span class="s2">CriteriaWriter trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_crit.txt</span>
-<span class="s2">ProfileTrials trials_per_update 1e4 trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_profile.csv</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>

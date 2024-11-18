@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HeatCapacity &mdash; FEASST v0.25.3 documentation</title>
+  <title>HeatCapacity &mdash; FEASST v0.25.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=440f07cd"></script>
+        <script src="../../../_static/documentation_options.js?v=8f869700"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -30,7 +30,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="IncrementPhase" href="IncrementPhase.html" />
-    <link rel="prev" title="ExtensiveMoments" href="ExtensiveMoments.html" />
+    <link rel="prev" title="GhostTrialVolume" href="GhostTrialVolume.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -57,7 +57,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.3
+                v0.25.4
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -74,7 +74,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Steppers</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html">AnalyzeData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeekModify.html">SeekModify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="WriteStepper.html">WriteStepper</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Check.html">Check</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CheckEnergy.html">CheckEnergy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckPhysicality.html">CheckPhysicality</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Chirality2D.html">Chirality2D</a></li>
@@ -84,28 +88,26 @@
 <li class="toctree-l3"><a class="reference internal" href="DensityProfile.html">DensityProfile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Energy.html">Energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ExtensiveMoments.html">ExtensiveMoments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GhostTrialVolume.html">GhostTrialVolume</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">HeatCapacity</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst12HeatCapacityE"><code class="docutils literal notranslate"><span class="pre">HeatCapacity</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="IncrementPhase.html">IncrementPhase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Movie.html">Movie</a></li>
-<li class="toctree-l3"><a class="reference internal" href="NumParticles.html">NumParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html">ReadConfigFromFile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html">ProfileTrials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Scattering.html">Scattering</a></li>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html">AnalyzeData</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SeekModify.html">SeekModify</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tune.html">Tune</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Volume.html">Volume</a></li>
-<li class="toctree-l3"><a class="reference internal" href="WallClockLimit.html">WallClockLimit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="WrapParticles.html">WrapParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="WriteStepper.html">WriteStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NumParticles.html">NumParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ProfileCPU.html">ProfileCPU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="WallClockLimit.html">WallClockLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html">MeanSquaredDisplacement</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html">ProfileTrials</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CheckEnergy.html">CheckEnergy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html">ReadConfigFromFile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairDistributionInner.html">PairDistributionInner</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -138,9 +140,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CITATION.html">Citation</a></li>
 </ul>
 
         </div>
@@ -231,26 +233,26 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12HeatCapacity6headerERK8CriteriaRK6SystemRK12TrialFactory">
-<span class="target" id="classfeasst_1_1HeatCapacity_1ab1c2f1f44f61e3d8782c7592886e5ba6"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">header</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">criteria</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">system</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">trials</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12HeatCapacity6headerERK8CriteriaRK6SystemRK12TrialFactory" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst12HeatCapacity6headerERK10MonteCarlo">
+<span class="target" id="classfeasst_1_1HeatCapacity_1ac21af46654a88cef2ac67371c9abd8b3"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">header</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mc</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst12HeatCapacity6headerERK10MonteCarlo" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the header for writing. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst12HeatCapacity10initializeEP8CriteriaP6SystemP12TrialFactory">
-<span class="target" id="classfeasst_1_1HeatCapacity_1ac29c1707c9e88deeaba54bc3e48eb307"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initialize</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">criteria</span></span>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span>, <a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">trial_factory</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12HeatCapacity10initializeEP8CriteriaP6SystemP12TrialFactory" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12HeatCapacity10initializeEP10MonteCarlo">
+<span class="target" id="classfeasst_1_1HeatCapacity_1a656a21d885340dc933914d0900099f14"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initialize</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">mc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12HeatCapacity10initializeEP10MonteCarlo" title="Link to this definition"></a><br /></dt>
 <dd><p>Initialize and precompute before trials. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst12HeatCapacity6updateERK8CriteriaRK6SystemRK12TrialFactory">
-<span class="target" id="classfeasst_1_1HeatCapacity_1a7ed8585e185f0caa7b7c5a404b2277f2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">criteria</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">system</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">trial_factory</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12HeatCapacity6updateERK8CriteriaRK6SystemRK12TrialFactory" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12HeatCapacity6updateERK10MonteCarlo">
+<span class="target" id="classfeasst_1_1HeatCapacity_1a86ba5bf180443cc4296b8867fe6c5627"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12HeatCapacity6updateERK10MonteCarlo" title="Link to this definition"></a><br /></dt>
 <dd><p>Perform update action. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst12HeatCapacity5writeERK8CriteriaRK6SystemRK12TrialFactory">
-<span class="target" id="classfeasst_1_1HeatCapacity_1af4b32488d532272620b9d0ead3eb6dc2"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">criteria</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">system</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">trial_factory</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12HeatCapacity5writeERK8CriteriaRK6SystemRK12TrialFactory" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12HeatCapacity5writeERK10MonteCarlo">
+<span class="target" id="classfeasst_1_1HeatCapacity_1a35c63690baaf070580ec3ce96ed4f196"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12HeatCapacity5writeERK10MonteCarlo" title="Link to this definition"></a><br /></dt>
 <dd><p>Perform write action. </p>
 </dd></dl>
 
@@ -270,7 +272,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="ExtensiveMoments.html" class="btn btn-neutral float-left" title="ExtensiveMoments" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="GhostTrialVolume.html" class="btn btn-neutral float-left" title="GhostTrialVolume" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="IncrementPhase.html" class="btn btn-neutral float-right" title="IncrementPhase" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

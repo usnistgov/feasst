@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Developer guidelines &mdash; FEASST v0.25.3 documentation</title>
+  <title>Developer guidelines &mdash; FEASST v0.25.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=440f07cd"></script>
+        <script src="../_static/documentation_options.js?v=8f869700"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -27,8 +27,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Acknowledgement" href="../ACKNOWLEDGEMENT.html" />
-    <link rel="prev" title="Contributing" href="../CONTRIBUTING.html" />
+    <link rel="next" title="Acknowledgement" href="sphinx/ACKNOWLEDGEMENT.html" />
+    <link rel="prev" title="Contributing" href="sphinx/CONTRIBUTING.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -55,7 +55,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.3
+                v0.25.4
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -68,8 +68,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../CONTRIBUTING.html#for-contributing-code">For contributing code</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="sphinx/CONTRIBUTING.html">Contributing</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="sphinx/CONTRIBUTING.html#for-contributing-code">For contributing code</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Developer guidelines</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#branch-policies">Branch policies</a></li>
@@ -82,11 +82,11 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../CONTRIBUTING.html#guidelines-for-collaboration-with-feasst-developers">Guidelines for collaboration with FEASST developers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sphinx/CONTRIBUTING.html#guidelines-for-collaboration-with-feasst-developers">Guidelines for collaboration with FEASST developers</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx/CITATION.html">Citation</a></li>
 </ul>
 
         </div>
@@ -143,7 +143,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../CONTRIBUTING.html">Contributing</a> &raquo;</li>
+          <li><a href="sphinx/CONTRIBUTING.html">Contributing</a> &raquo;</li>
         
       <li>Developer guidelines</li>
     
@@ -529,14 +529,12 @@ compatibility.</p></li>
 <li><p>Add option to not serialize neighbor lists to reduce checkpoint size.</p></li>
 <li><p>Allow one script to contain multiple MonteCarlo, CollectionMatrixSplice, Prefetch in any order? (checkpointing is difficult)</p></li>
 <li><p>When trials start, check to see if there is a trial that uses weight_per_number_fraction but there are fixed particles (or, see if there are weight_per_number for all types unless excluded?)</p></li>
-<li><p>Speed up compilation. Try… <a class="reference external" href="https://stackoverflow.com/a/373179">https://stackoverflow.com/a/373179</a> .. pimpl, less includes, forward declare, etc. Remove Propertied entities, etc.</p></li>
 <li><p>Add a FAQ for sim questions, such as, an overview of various table potential options, etc.</p></li>
 <li><p>Optimize BondVisitor that uses deserialize_map and strings in inner loop</p></li>
-<li><p>Hard code version into source code releases. Or update README_html to download releases with wget? Release not just tag? Remove -g from compiler flags?</p></li>
-<li><p>Compress README features list (table?)</p></li>
 <li><p>Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).</p></li>
-<li><p>Remove ConvertToRefPotential in v0.26</p></li>
-<li><p>Make a macro for mapper/serialization boiler plate</p></li>
+<li><p>Remove ConvertToRefPotential and ProfileTrials in v0.26</p></li>
+<li><p>Have the tests override hours checkpoint , etc so that users don’t have bad values</p></li>
+<li><p>CopyNextLine -&gt; CopyFollowingLines , … then end, indent</p></li>
 </ul>
 </section>
 </section>
@@ -545,8 +543,8 @@ compatibility.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../CONTRIBUTING.html" class="btn btn-neutral float-left" title="Contributing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../ACKNOWLEDGEMENT.html" class="btn btn-neutral float-right" title="Acknowledgement" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="sphinx/CONTRIBUTING.html" class="btn btn-neutral float-left" title="Contributing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sphinx/ACKNOWLEDGEMENT.html" class="btn btn-neutral float-right" title="Acknowledgement" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

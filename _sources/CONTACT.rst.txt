@@ -10,12 +10,17 @@ https://www.nist.gov/people/harold-wickes-hatch
 
 harold.hatch@nist.gov
 
-Email list
+GitHub Discussion
+--------------------------------------------------------------------------------
+
+https://github.com/usnistgov/feasst/discussions
+
+Google Group
 --------------------------------------------------------------------------------
 
 https://list.nist.gov/feasst
 
-Issue tracker
+GitHub Issues
 --------------------------------------------------------------------------------
 
 https://github.com/usnistgov/feasst/issues

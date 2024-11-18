@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; FEASST v0.25.3 documentation</title>
+  <title>Index &mdash; FEASST v0.25.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=440f07cd"></script>
+        <script src="_static/documentation_options.js?v=8f869700"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.3
+                v0.25.4
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -65,9 +65,9 @@
 <li class="toctree-l1"><a class="reference internal" href="pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CITATION.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev/sphinx/CITATION.html">Citation</a></li>
 </ul>
 
         </div>
@@ -346,11 +346,15 @@
 </li>
       <li><a href="plugin/math/doc/Accumulator.html#_CPPv4NK6feasst11Accumulator16block_std_of_stdEKi">feasst::Accumulator::block_std_of_std (C++ function)</a>
 </li>
-      <li><a href="plugin/math/doc/Accumulator.html#_CPPv4NK6feasst11Accumulator11block_stdevEKiKi">feasst::Accumulator::block_stdev (C++ function)</a>
+      <li><a href="plugin/math/doc/Accumulator.html#_CPPv4NK6feasst11Accumulator11block_stdevEKiKi">feasst::Accumulator::block_stdev (C++ function)</a>, <a href="plugin/math/doc/Accumulator.html#_CPPv4NK6feasst11Accumulator11block_stdevERK7FormulaKi">[1]</a>
 </li>
       <li><a href="plugin/math/doc/Accumulator.html#_CPPv4NK6feasst11Accumulator6blocksEv">feasst::Accumulator::blocks (C++ function)</a>
 </li>
       <li><a href="plugin/math/doc/Accumulator.html#_CPPv4NK6feasst11Accumulator13is_equivalentERK11AccumulatorKdKiKb">feasst::Accumulator::is_equivalent (C++ function)</a>
+</li>
+      <li><a href="plugin/math/doc/Accumulator.html#_CPPv4NK6feasst11Accumulator23largest_block_operationEKi">feasst::Accumulator::largest_block_operation (C++ function)</a>
+</li>
+      <li><a href="plugin/math/doc/Accumulator.html#_CPPv4NK6feasst11Accumulator14largest_blocksEKi">feasst::Accumulator::largest_blocks (C++ function)</a>
 </li>
       <li><a href="plugin/math/doc/Accumulator.html#_CPPv4NK6feasst11Accumulator10last_valueEv">feasst::Accumulator::last_value (C++ function)</a>
 </li>
@@ -414,13 +418,13 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/Analyze.html#_CPPv4N6feasst7AnalyzeE">feasst::Analyze (C++ class)</a>, <a href="plugin/monte_carlo/doc/Analyze_arguments.html#_CPPv4N6feasst7AnalyzeE">[1]</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/Analyze.html#_CPPv4N6feasst7Analyze10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::Analyze::initialize (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/Analyze.html#_CPPv4N6feasst7Analyze10initializeEP10MonteCarlo">feasst::Analyze::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/Analyze.html#_CPPv4N6feasst7Analyze5trialERK8CriteriaRK6SystemRK12TrialFactory">feasst::Analyze::trial (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/Analyze.html#_CPPv4N6feasst7Analyze5trialERK10MonteCarlo">feasst::Analyze::trial (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/Analyze.html#_CPPv4N6feasst7Analyze6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::Analyze::update (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/Analyze.html#_CPPv4N6feasst7Analyze6updateERK10MonteCarlo">feasst::Analyze::update (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/Analyze.html#_CPPv4N6feasst7Analyze5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::Analyze::write (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/Analyze.html#_CPPv4N6feasst7Analyze5writeERK10MonteCarlo">feasst::Analyze::write (C++ function)</a>
 </li>
       <li><a href="plugin/chain/doc/AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBondsE">feasst::AnalyzeBonds (C++ class)</a>, <a href="plugin/chain/doc/AnalyzeBonds_arguments.html#_CPPv4N6feasst12AnalyzeBondsE">[1]</a>
 </li>
@@ -436,23 +440,23 @@
 </li>
       <li><a href="plugin/chain/doc/AnalyzeBonds.html#_CPPv4NK6feasst12AnalyzeBonds13dihedral_histEKi">feasst::AnalyzeBonds::dihedral_hist (C++ function)</a>
 </li>
-      <li><a href="plugin/chain/doc/AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBonds10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::AnalyzeBonds::initialize (C++ function)</a>
+      <li><a href="plugin/chain/doc/AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBonds10initializeEP10MonteCarlo">feasst::AnalyzeBonds::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/chain/doc/AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBonds6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::AnalyzeBonds::update (C++ function)</a>
+      <li><a href="plugin/chain/doc/AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBonds6updateERK10MonteCarlo">feasst::AnalyzeBonds::update (C++ function)</a>
 </li>
-      <li><a href="plugin/chain/doc/AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBonds5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::AnalyzeBonds::write (C++ function)</a>
+      <li><a href="plugin/chain/doc/AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBonds5writeERK10MonteCarlo">feasst::AnalyzeBonds::write (C++ function)</a>
 </li>
       <li><a href="plugin/cluster/doc/AnalyzeCluster.html#_CPPv4N6feasst14AnalyzeClusterE">feasst::AnalyzeCluster (C++ class)</a>, <a href="plugin/cluster/doc/AnalyzeCluster_arguments.html#_CPPv4N6feasst14AnalyzeClusterE">[1]</a>
 </li>
       <li><a href="plugin/cluster/doc/AnalyzeCluster.html#_CPPv4NK6feasst14AnalyzeCluster12cluster_sizeEv">feasst::AnalyzeCluster::cluster_size (C++ function)</a>
 </li>
-      <li><a href="plugin/cluster/doc/AnalyzeCluster.html#_CPPv4NK6feasst14AnalyzeCluster6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::AnalyzeCluster::header (C++ function)</a>
+      <li><a href="plugin/cluster/doc/AnalyzeCluster.html#_CPPv4NK6feasst14AnalyzeCluster6headerERK10MonteCarlo">feasst::AnalyzeCluster::header (C++ function)</a>
 </li>
-      <li><a href="plugin/cluster/doc/AnalyzeCluster.html#_CPPv4N6feasst14AnalyzeCluster10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::AnalyzeCluster::initialize (C++ function)</a>
+      <li><a href="plugin/cluster/doc/AnalyzeCluster.html#_CPPv4N6feasst14AnalyzeCluster10initializeEP10MonteCarlo">feasst::AnalyzeCluster::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/cluster/doc/AnalyzeCluster.html#_CPPv4N6feasst14AnalyzeCluster6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::AnalyzeCluster::update (C++ function)</a>
+      <li><a href="plugin/cluster/doc/AnalyzeCluster.html#_CPPv4N6feasst14AnalyzeCluster6updateERK10MonteCarlo">feasst::AnalyzeCluster::update (C++ function)</a>
 </li>
-      <li><a href="plugin/cluster/doc/AnalyzeCluster.html#_CPPv4N6feasst14AnalyzeCluster5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::AnalyzeCluster::write (C++ function)</a>
+      <li><a href="plugin/cluster/doc/AnalyzeCluster.html#_CPPv4N6feasst14AnalyzeCluster5writeERK10MonteCarlo">feasst::AnalyzeCluster::write (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE">feasst::AnalyzeData (C++ class)</a>, <a href="plugin/steppers/doc/AnalyzeData_arguments.html#_CPPv4N6feasst11AnalyzeDataE">[1]</a>
 </li>
@@ -460,13 +464,13 @@
 </li>
       <li><a href="plugin/example/doc/AnalyzeExample.html#_CPPv4NK6feasst14AnalyzeExample16geometric_centerEKi">feasst::AnalyzeExample::geometric_center (C++ function)</a>, <a href="plugin/example/doc/AnalyzeExample.html#_CPPv4NK6feasst14AnalyzeExample16geometric_centerEv">[1]</a>
 </li>
-      <li><a href="plugin/example/doc/AnalyzeExample.html#_CPPv4NK6feasst14AnalyzeExample6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::AnalyzeExample::header (C++ function)</a>
+      <li><a href="plugin/example/doc/AnalyzeExample.html#_CPPv4NK6feasst14AnalyzeExample6headerERK10MonteCarlo">feasst::AnalyzeExample::header (C++ function)</a>
 </li>
-      <li><a href="plugin/example/doc/AnalyzeExample.html#_CPPv4N6feasst14AnalyzeExample10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::AnalyzeExample::initialize (C++ function)</a>
+      <li><a href="plugin/example/doc/AnalyzeExample.html#_CPPv4N6feasst14AnalyzeExample10initializeEP10MonteCarlo">feasst::AnalyzeExample::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/example/doc/AnalyzeExample.html#_CPPv4N6feasst14AnalyzeExample6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::AnalyzeExample::update (C++ function)</a>
+      <li><a href="plugin/example/doc/AnalyzeExample.html#_CPPv4N6feasst14AnalyzeExample6updateERK10MonteCarlo">feasst::AnalyzeExample::update (C++ function)</a>
 </li>
-      <li><a href="plugin/example/doc/AnalyzeExample.html#_CPPv4N6feasst14AnalyzeExample5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::AnalyzeExample::write (C++ function)</a>
+      <li><a href="plugin/example/doc/AnalyzeExample.html#_CPPv4N6feasst14AnalyzeExample5writeERK10MonteCarlo">feasst::AnalyzeExample::write (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/AnalyzeFactory.html#_CPPv4N6feasst14AnalyzeFactoryE">feasst::AnalyzeFactory (C++ class)</a>, <a href="plugin/monte_carlo/doc/AnalyzeFactory_arguments.html#_CPPv4N6feasst14AnalyzeFactoryE">[1]</a>
 </li>
@@ -478,15 +482,19 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/AnalyzeFactory.html#_CPPv4NK6feasst14AnalyzeFactory9analyzersEv">feasst::AnalyzeFactory::analyzers (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/AnalyzeFactory.html#_CPPv4N6feasst14AnalyzeFactory10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::AnalyzeFactory::initialize (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/AnalyzeFactory.html#_CPPv4N6feasst14AnalyzeFactory10initializeEP10MonteCarlo">feasst::AnalyzeFactory::initialize (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/AnalyzeFactory.html#_CPPv4NK6feasst14AnalyzeFactory3numEv">feasst::AnalyzeFactory::num (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/AnalyzeFactory.html#_CPPv4N6feasst14AnalyzeFactory6removeEKi">feasst::AnalyzeFactory::remove (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/AnalyzeFactory.html#_CPPv4N6feasst14AnalyzeFactory5trialERK8CriteriaRK6SystemRK12TrialFactory">feasst::AnalyzeFactory::trial (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/AnalyzeFactory.html#_CPPv4N6feasst14AnalyzeFactory9set_timerEv">feasst::AnalyzeFactory::set_timer (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/AnalyzeFactory.html#_CPPv4N6feasst14AnalyzeFactory13write_to_fileERK8CriteriaRK6SystemRK12TrialFactory">feasst::AnalyzeFactory::write_to_file (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/AnalyzeFactory.html#_CPPv4NK6feasst14AnalyzeFactory5timerEv">feasst::AnalyzeFactory::timer (C++ function)</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/AnalyzeFactory.html#_CPPv4N6feasst14AnalyzeFactory5trialERK10MonteCarlo">feasst::AnalyzeFactory::trial (C++ function)</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/AnalyzeFactory.html#_CPPv4N6feasst14AnalyzeFactory13write_to_fileERK10MonteCarlo">feasst::AnalyzeFactory::write_to_file (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Analyze.html#_CPPv4N6feasst17AnalyzeUpdateOnlyE">feasst::AnalyzeUpdateOnly (C++ class)</a>, <a href="plugin/monte_carlo/doc/Analyze_arguments.html#_CPPv4N6feasst17AnalyzeUpdateOnlyE">[1]</a>
 </li>
@@ -532,9 +540,9 @@
 </li>
       <li><a href="plugin/aniso/doc/Backmap.html#_CPPv4N6feasst7BackmapE">feasst::Backmap (C++ class)</a>, <a href="plugin/aniso/doc/Backmap_arguments.html#_CPPv4N6feasst7BackmapE">[1]</a>
 </li>
-      <li><a href="plugin/aniso/doc/Backmap.html#_CPPv4N6feasst7Backmap10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::Backmap::initialize (C++ function)</a>
+      <li><a href="plugin/aniso/doc/Backmap.html#_CPPv4N6feasst7Backmap10initializeEP10MonteCarlo">feasst::Backmap::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/aniso/doc/Backmap.html#_CPPv4N6feasst7Backmap5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::Backmap::write (C++ function)</a>
+      <li><a href="plugin/aniso/doc/Backmap.html#_CPPv4N6feasst7Backmap5writeERK10MonteCarlo">feasst::Backmap::write (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/Bias.html#_CPPv4N6feasst4BiasE">feasst::Bias (C++ class)</a>, <a href="plugin/flat_histogram/doc/Bias_arguments.html#_CPPv4N6feasst4BiasE">[1]</a>
 </li>
@@ -616,13 +624,13 @@
 </li>
       <li><a href="plugin/cluster/doc/CalculateCluster.html#_CPPv4NK6feasst16CalculateCluster12cluster_sizeEv">feasst::CalculateCluster::cluster_size (C++ function)</a>
 </li>
-      <li><a href="plugin/cluster/doc/CalculateCluster.html#_CPPv4NK6feasst16CalculateCluster6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::CalculateCluster::header (C++ function)</a>
+      <li><a href="plugin/cluster/doc/CalculateCluster.html#_CPPv4NK6feasst16CalculateCluster6headerERK10MonteCarlo">feasst::CalculateCluster::header (C++ function)</a>
 </li>
-      <li><a href="plugin/cluster/doc/CalculateCluster.html#_CPPv4N6feasst16CalculateCluster10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::CalculateCluster::initialize (C++ function)</a>
+      <li><a href="plugin/cluster/doc/CalculateCluster.html#_CPPv4N6feasst16CalculateCluster10initializeEP10MonteCarlo">feasst::CalculateCluster::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/cluster/doc/CalculateCluster.html#_CPPv4N6feasst16CalculateCluster6updateEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::CalculateCluster::update (C++ function)</a>
+      <li><a href="plugin/cluster/doc/CalculateCluster.html#_CPPv4N6feasst16CalculateCluster6updateEP10MonteCarlo">feasst::CalculateCluster::update (C++ function)</a>
 </li>
-      <li><a href="plugin/cluster/doc/CalculateCluster.html#_CPPv4N6feasst16CalculateCluster5writeEP8CriteriaP6SystemP12TrialFactory">feasst::CalculateCluster::write (C++ function)</a>
+      <li><a href="plugin/cluster/doc/CalculateCluster.html#_CPPv4N6feasst16CalculateCluster5writeEP10MonteCarlo">feasst::CalculateCluster::write (C++ function)</a>
 </li>
       <li><a href="plugin/system/doc/Cells.html#_CPPv4N6feasst5CellsE">feasst::Cells (C++ class)</a>, <a href="plugin/system/doc/Cells_arguments.html#_CPPv4N6feasst5CellsE">[1]</a>
 </li>
@@ -676,23 +684,23 @@
 </li>
       <li><a href="plugin/steppers/doc/Check.html#_CPPv4N6feasst5CheckE">feasst::Check (C++ class)</a>, <a href="plugin/steppers/doc/Check_arguments.html#_CPPv4N6feasst5CheckE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/Check.html#_CPPv4N6feasst5Check6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::Check::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Check.html#_CPPv4N6feasst5Check6updateERK10MonteCarlo">feasst::Check::update (C++ function)</a>
 </li>
       <li><a href="plugin/gibbs/doc/CheckConstantVolume.html#_CPPv4N6feasst19CheckConstantVolumeE">feasst::CheckConstantVolume (C++ class)</a>, <a href="plugin/gibbs/doc/CheckConstantVolume_arguments.html#_CPPv4N6feasst19CheckConstantVolumeE">[1]</a>
 </li>
-      <li><a href="plugin/gibbs/doc/CheckConstantVolume.html#_CPPv4N6feasst19CheckConstantVolume6updateEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::CheckConstantVolume::update (C++ function)</a>
+      <li><a href="plugin/gibbs/doc/CheckConstantVolume.html#_CPPv4N6feasst19CheckConstantVolume6updateEP10MonteCarlo">feasst::CheckConstantVolume::update (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/CheckEnergy.html#_CPPv4N6feasst11CheckEnergyE">feasst::CheckEnergy (C++ class)</a>, <a href="plugin/steppers/doc/CheckEnergy_arguments.html#_CPPv4N6feasst11CheckEnergyE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/CheckEnergy.html#_CPPv4N6feasst11CheckEnergy6updateEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::CheckEnergy::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/CheckEnergy.html#_CPPv4N6feasst11CheckEnergy6updateEP10MonteCarlo">feasst::CheckEnergy::update (C++ function)</a>
 </li>
       <li><a href="plugin/charge/doc/CheckNetCharge.html#_CPPv4N6feasst14CheckNetChargeE">feasst::CheckNetCharge (C++ class)</a>, <a href="plugin/charge/doc/CheckNetCharge_arguments.html#_CPPv4N6feasst14CheckNetChargeE">[1]</a>
 </li>
-      <li><a href="plugin/charge/doc/CheckNetCharge.html#_CPPv4N6feasst14CheckNetCharge6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::CheckNetCharge::update (C++ function)</a>
+      <li><a href="plugin/charge/doc/CheckNetCharge.html#_CPPv4N6feasst14CheckNetCharge6updateERK10MonteCarlo">feasst::CheckNetCharge::update (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/CheckPhysicality.html#_CPPv4N6feasst16CheckPhysicalityE">feasst::CheckPhysicality (C++ class)</a>, <a href="plugin/steppers/doc/CheckPhysicality_arguments.html#_CPPv4N6feasst16CheckPhysicalityE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/CheckPhysicality.html#_CPPv4N6feasst16CheckPhysicality6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::CheckPhysicality::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/CheckPhysicality.html#_CPPv4N6feasst16CheckPhysicality6updateERK10MonteCarlo">feasst::CheckPhysicality::update (C++ function)</a>
 </li>
       <li><a href="plugin/utils/doc/Checkpoint.html#_CPPv4N6feasst10CheckpointE">feasst::Checkpoint (C++ class)</a>, <a href="plugin/utils/doc/Checkpoint_arguments.html#_CPPv4N6feasst10CheckpointE">[1]</a>
 </li>
@@ -712,19 +720,19 @@
 </li>
       <li><a href="plugin/steppers/doc/CheckProperties.html#_CPPv4N6feasst15CheckProperties15CheckPropertiesE7argtype">feasst::CheckProperties::CheckProperties (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/CheckProperties.html#_CPPv4N6feasst15CheckProperties6updateEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::CheckProperties::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/CheckProperties.html#_CPPv4N6feasst15CheckProperties6updateEP10MonteCarlo">feasst::CheckProperties::update (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/Chirality2D.html#_CPPv4N6feasst11Chirality2DE">feasst::Chirality2D (C++ class)</a>, <a href="plugin/steppers/doc/Chirality2D_arguments.html#_CPPv4N6feasst11Chirality2DE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/Chirality2D.html#_CPPv4NK6feasst11Chirality2D6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::Chirality2D::header (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Chirality2D.html#_CPPv4NK6feasst11Chirality2D6headerERK10MonteCarlo">feasst::Chirality2D::header (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Chirality2D.html#_CPPv4N6feasst11Chirality2D10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::Chirality2D::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Chirality2D.html#_CPPv4N6feasst11Chirality2D10initializeEP10MonteCarlo">feasst::Chirality2D::initialize (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/Chirality2D.html#_CPPv4NK6feasst11Chirality2D12num_positiveEv">feasst::Chirality2D::num_positive (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Chirality2D.html#_CPPv4N6feasst11Chirality2D6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::Chirality2D::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Chirality2D.html#_CPPv4N6feasst11Chirality2D6updateERK10MonteCarlo">feasst::Chirality2D::update (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Chirality2D.html#_CPPv4N6feasst11Chirality2D5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::Chirality2D::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Chirality2D.html#_CPPv4N6feasst11Chirality2D5writeERK10MonteCarlo">feasst::Chirality2D::write (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/Clones.html#_CPPv4N6feasst6ClonesE">feasst::Clones (C++ class)</a>, <a href="plugin/flat_histogram/doc/Clones_arguments.html#_CPPv4N6feasst6ClonesE">[1]</a>
 </li>
@@ -1080,6 +1088,10 @@
 </li>
       <li><a href="plugin/aniso/doc/ContactObjective.html#_CPPv4N6feasst16ContactObjectiveE">feasst::ContactObjective (C++ class)</a>, <a href="plugin/aniso/doc/ContactObjective_arguments.html#_CPPv4N6feasst16ContactObjectiveE">[1]</a>
 </li>
+      <li><a href="plugin/gibbs/doc/CopyFollowingLines.html#_CPPv4N6feasst18CopyFollowingLinesE">feasst::CopyFollowingLines (C++ class)</a>, <a href="plugin/gibbs/doc/CopyFollowingLines_arguments.html#_CPPv4N6feasst18CopyFollowingLinesE">[1]</a>
+</li>
+      <li><a href="plugin/gibbs/doc/CopyNextLine.html#_CPPv4N6feasst12CopyNextLineE">feasst::CopyNextLine (C++ class)</a>, <a href="plugin/gibbs/doc/CopyNextLine_arguments.html#_CPPv4N6feasst12CopyNextLineE">[1]</a>
+</li>
       <li><a href="plugin/patch/doc/PatchAngle.html#_CPPv4N6feasst13CosPatchAngleE">feasst::CosPatchAngle (C++ class)</a>, <a href="plugin/patch/doc/PatchAngle_arguments.html#_CPPv4N6feasst13CosPatchAngleE">[1]</a>
 </li>
       <li><a href="plugin/charge/doc/Coulomb.html#_CPPv4N6feasst7CoulombE">feasst::Coulomb (C++ class)</a>, <a href="plugin/charge/doc/Coulomb_arguments.html#_CPPv4N6feasst7CoulombE">[1]</a>
@@ -1090,9 +1102,9 @@
 </li>
       <li><a href="plugin/steppers/doc/CPUTime.html#_CPPv4N6feasst7CPUTimeE">feasst::CPUTime (C++ class)</a>, <a href="plugin/steppers/doc/CPUTime_arguments.html#_CPPv4N6feasst7CPUTimeE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/CPUTime.html#_CPPv4N6feasst7CPUTime10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::CPUTime::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/CPUTime.html#_CPPv4N6feasst7CPUTime10initializeEP10MonteCarlo">feasst::CPUTime::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/CPUTime.html#_CPPv4N6feasst7CPUTime5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::CPUTime::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/CPUTime.html#_CPPv4N6feasst7CPUTime5writeERK10MonteCarlo">feasst::CPUTime::write (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE">feasst::Criteria (C++ class)</a>, <a href="plugin/monte_carlo/doc/Criteria_arguments.html#_CPPv4N6feasst8CriteriaE">[1]</a>
 </li>
@@ -1109,6 +1121,8 @@
       <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4NK6feasst8Criteria14expanded_stateEv">feasst::Criteria::expanded_state (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4N6feasst8Criteria15increment_phaseEv">feasst::Criteria::increment_phase (C++ function)</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4N6feasst8Criteria10initializeEP6System">feasst::Criteria::initialize (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4N6feasst8Criteria11is_acceptedERK6SystemP10AcceptanceP6Random">feasst::Criteria::is_accepted (C++ function)</a>
 </li>
@@ -1154,11 +1168,11 @@
 </li>
       <li><a href="plugin/steppers/doc/CriteriaUpdater.html#_CPPv4N6feasst15CriteriaUpdaterE">feasst::CriteriaUpdater (C++ class)</a>, <a href="plugin/steppers/doc/CriteriaUpdater_arguments.html#_CPPv4N6feasst15CriteriaUpdaterE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/CriteriaUpdater.html#_CPPv4N6feasst15CriteriaUpdater6updateEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::CriteriaUpdater::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/CriteriaUpdater.html#_CPPv4N6feasst15CriteriaUpdater6updateEP10MonteCarlo">feasst::CriteriaUpdater::update (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/CriteriaWriter.html#_CPPv4N6feasst14CriteriaWriterE">feasst::CriteriaWriter (C++ class)</a>, <a href="plugin/steppers/doc/CriteriaWriter_arguments.html#_CPPv4N6feasst14CriteriaWriterE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/CriteriaWriter.html#_CPPv4N6feasst14CriteriaWriter5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::CriteriaWriter::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/CriteriaWriter.html#_CPPv4N6feasst14CriteriaWriter5writeERK10MonteCarlo">feasst::CriteriaWriter::write (C++ function)</a>
 </li>
       <li><a href="plugin/shape/doc/Cuboid.html#_CPPv4N6feasst6CuboidE">feasst::Cuboid (C++ class)</a>, <a href="plugin/shape/doc/Cuboid_arguments.html#_CPPv4N6feasst6CuboidE">[1]</a>
 </li>
@@ -1192,25 +1206,25 @@
 </li>
       <li><a href="plugin/steppers/doc/Density.html#_CPPv4N6feasst7DensityE">feasst::Density (C++ class)</a>, <a href="plugin/steppers/doc/Density_arguments.html#_CPPv4N6feasst7DensityE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/Density.html#_CPPv4NK6feasst7Density6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::Density::header (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Density.html#_CPPv4NK6feasst7Density6headerERK10MonteCarlo">feasst::Density::header (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Density.html#_CPPv4N6feasst7Density10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::Density::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Density.html#_CPPv4N6feasst7Density10initializeEP10MonteCarlo">feasst::Density::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Density.html#_CPPv4N6feasst7Density6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::Density::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Density.html#_CPPv4N6feasst7Density6updateERK10MonteCarlo">feasst::Density::update (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Density.html#_CPPv4N6feasst7Density5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::Density::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Density.html#_CPPv4N6feasst7Density5writeERK10MonteCarlo">feasst::Density::write (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/DensityProfile.html#_CPPv4N6feasst14DensityProfileE">feasst::DensityProfile (C++ class)</a>, <a href="plugin/steppers/doc/DensityProfile_arguments.html#_CPPv4N6feasst14DensityProfileE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/DensityProfile.html#_CPPv4NK6feasst14DensityProfile6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::DensityProfile::header (C++ function)</a>
+      <li><a href="plugin/steppers/doc/DensityProfile.html#_CPPv4NK6feasst14DensityProfile6headerERK10MonteCarlo">feasst::DensityProfile::header (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/DensityProfile.html#_CPPv4N6feasst14DensityProfile10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::DensityProfile::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/DensityProfile.html#_CPPv4N6feasst14DensityProfile10initializeEP10MonteCarlo">feasst::DensityProfile::initialize (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/DensityProfile.html#_CPPv4NK6feasst14DensityProfile7profileEv">feasst::DensityProfile::profile (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/DensityProfile.html#_CPPv4N6feasst14DensityProfile6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::DensityProfile::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/DensityProfile.html#_CPPv4N6feasst14DensityProfile6updateERK10MonteCarlo">feasst::DensityProfile::update (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/DensityProfile.html#_CPPv4N6feasst14DensityProfile5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::DensityProfile::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/DensityProfile.html#_CPPv4N6feasst14DensityProfile5writeERK10MonteCarlo">feasst::DensityProfile::write (C++ function)</a>
 </li>
       <li><a href="plugin/configuration/doc/Bond.html#_CPPv4N6feasst8DihedralE">feasst::Dihedral (C++ class)</a>, <a href="plugin/configuration/doc/Bond_arguments.html#_CPPv4N6feasst8DihedralE">[1]</a>
 </li>
@@ -1282,29 +1296,31 @@
 </li>
       <li><a href="plugin/charge/doc/ElectricField.html#_CPPv4NK6feasst13ElectricField9serializeERNSt7ostreamE">feasst::ElectricField::serialize (C++ function)</a>
 </li>
+      <li><a href="plugin/gibbs/doc/EndCopy.html#_CPPv4N6feasst7EndCopyE">feasst::EndCopy (C++ class)</a>, <a href="plugin/gibbs/doc/EndCopy_arguments.html#_CPPv4N6feasst7EndCopyE">[1]</a>
+</li>
       <li><a href="plugin/chain/doc/EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistanceE">feasst::EndToEndDistance (C++ class)</a>, <a href="plugin/chain/doc/EndToEndDistance_arguments.html#_CPPv4N6feasst16EndToEndDistanceE">[1]</a>
 </li>
       <li><a href="plugin/chain/doc/EndToEndDistance.html#_CPPv4NK6feasst16EndToEndDistance19end_to_end_distanceEv">feasst::EndToEndDistance::end_to_end_distance (C++ function)</a>
 </li>
-      <li><a href="plugin/chain/doc/EndToEndDistance.html#_CPPv4NK6feasst16EndToEndDistance6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::EndToEndDistance::header (C++ function)</a>
+      <li><a href="plugin/chain/doc/EndToEndDistance.html#_CPPv4NK6feasst16EndToEndDistance6headerERK10MonteCarlo">feasst::EndToEndDistance::header (C++ function)</a>
 </li>
-      <li><a href="plugin/chain/doc/EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistance10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::EndToEndDistance::initialize (C++ function)</a>
+      <li><a href="plugin/chain/doc/EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistance10initializeEP10MonteCarlo">feasst::EndToEndDistance::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/chain/doc/EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistance6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::EndToEndDistance::update (C++ function)</a>
+      <li><a href="plugin/chain/doc/EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistance6updateERK10MonteCarlo">feasst::EndToEndDistance::update (C++ function)</a>
 </li>
-      <li><a href="plugin/chain/doc/EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistance5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::EndToEndDistance::write (C++ function)</a>
+      <li><a href="plugin/chain/doc/EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistance5writeERK10MonteCarlo">feasst::EndToEndDistance::write (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/Energy.html#_CPPv4N6feasst6EnergyE">feasst::Energy (C++ class)</a>, <a href="plugin/steppers/doc/Energy_arguments.html#_CPPv4N6feasst6EnergyE">[1]</a>
 </li>
       <li><a href="plugin/steppers/doc/Energy.html#_CPPv4NK6feasst6Energy6energyEv">feasst::Energy::energy (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Energy.html#_CPPv4NK6feasst6Energy6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::Energy::header (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Energy.html#_CPPv4NK6feasst6Energy6headerERK10MonteCarlo">feasst::Energy::header (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Energy.html#_CPPv4N6feasst6Energy10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::Energy::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Energy.html#_CPPv4N6feasst6Energy10initializeEP10MonteCarlo">feasst::Energy::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Energy.html#_CPPv4N6feasst6Energy6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::Energy::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Energy.html#_CPPv4N6feasst6Energy6updateERK10MonteCarlo">feasst::Energy::update (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Energy.html#_CPPv4N6feasst6Energy5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::Energy::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Energy.html#_CPPv4N6feasst6Energy5writeERK10MonteCarlo">feasst::Energy::write (C++ function)</a>
 </li>
       <li><a href="plugin/models/doc/LennardJonesAlpha.html#_CPPv4N6feasst14EnergyAtCutOffE">feasst::EnergyAtCutOff (C++ class)</a>, <a href="plugin/models/doc/LennardJonesAlpha_arguments.html#_CPPv4N6feasst14EnergyAtCutOffE">[1]</a>
 </li>
@@ -1470,15 +1486,15 @@
 </li>
       <li><a href="plugin/steppers/doc/ExtensiveMoments.html#_CPPv4N6feasst16ExtensiveMomentsE">feasst::ExtensiveMoments (C++ class)</a>, <a href="plugin/steppers/doc/ExtensiveMoments_arguments.html#_CPPv4N6feasst16ExtensiveMomentsE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/ExtensiveMoments.html#_CPPv4NK6feasst16ExtensiveMoments6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::ExtensiveMoments::header (C++ function)</a>
+      <li><a href="plugin/steppers/doc/ExtensiveMoments.html#_CPPv4NK6feasst16ExtensiveMoments6headerERK10MonteCarlo">feasst::ExtensiveMoments::header (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/ExtensiveMoments.html#_CPPv4N6feasst16ExtensiveMoments10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::ExtensiveMoments::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/ExtensiveMoments.html#_CPPv4N6feasst16ExtensiveMoments10initializeEP10MonteCarlo">feasst::ExtensiveMoments::initialize (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/ExtensiveMoments.html#_CPPv4NK6feasst16ExtensiveMoments7momentsEKiKiKiKiKi">feasst::ExtensiveMoments::moments (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/ExtensiveMoments.html#_CPPv4N6feasst16ExtensiveMoments6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::ExtensiveMoments::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/ExtensiveMoments.html#_CPPv4N6feasst16ExtensiveMoments6updateERK10MonteCarlo">feasst::ExtensiveMoments::update (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/ExtensiveMoments.html#_CPPv4N6feasst16ExtensiveMoments5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::ExtensiveMoments::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/ExtensiveMoments.html#_CPPv4N6feasst16ExtensiveMoments5writeERK10MonteCarlo">feasst::ExtensiveMoments::write (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/Ensemble.html#_CPPv4N6feasst18ExtrapolateBetaGCEE">feasst::ExtrapolateBetaGCE (C++ class)</a>, <a href="plugin/flat_histogram/doc/Ensemble_arguments.html#_CPPv4N6feasst18ExtrapolateBetaGCEE">[1]</a>
 </li>
@@ -1742,13 +1758,33 @@
 </li>
       <li><a href="plugin/chain/doc/GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrowE">feasst::GhostTrialGrow (C++ class)</a>, <a href="plugin/chain/doc/GhostTrialGrow_arguments.html#_CPPv4N6feasst14GhostTrialGrowE">[1]</a>
 </li>
-      <li><a href="plugin/chain/doc/GhostTrialGrow.html#_CPPv4NK6feasst14GhostTrialGrow6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::GhostTrialGrow::header (C++ function)</a>
+      <li><a href="plugin/chain/doc/GhostTrialGrow.html#_CPPv4NK6feasst14GhostTrialGrow6headerERK10MonteCarlo">feasst::GhostTrialGrow::header (C++ function)</a>
 </li>
-      <li><a href="plugin/chain/doc/GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrow10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::GhostTrialGrow::initialize (C++ function)</a>
+      <li><a href="plugin/chain/doc/GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrow10initializeEP10MonteCarlo">feasst::GhostTrialGrow::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/chain/doc/GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrow6updateEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::GhostTrialGrow::update (C++ function)</a>
+      <li><a href="plugin/chain/doc/GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrow6updateEP10MonteCarlo">feasst::GhostTrialGrow::update (C++ function)</a>
 </li>
-      <li><a href="plugin/chain/doc/GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrow5writeEP8CriteriaP6SystemP12TrialFactory">feasst::GhostTrialGrow::write (C++ function)</a>
+      <li><a href="plugin/chain/doc/GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrow5writeEP10MonteCarlo">feasst::GhostTrialGrow::write (C++ function)</a>
+</li>
+      <li><a href="plugin/steppers/doc/GhostTrialVolume.html#_CPPv4N6feasst16GhostTrialVolumeE">feasst::GhostTrialVolume (C++ class)</a>, <a href="plugin/steppers/doc/GhostTrialVolume_arguments.html#_CPPv4N6feasst16GhostTrialVolumeE">[1]</a>
+</li>
+      <li><a href="plugin/steppers/doc/GhostTrialVolume.html#_CPPv4NK6feasst16GhostTrialVolume6headerERK10MonteCarlo">feasst::GhostTrialVolume::header (C++ function)</a>
+</li>
+      <li><a href="plugin/steppers/doc/GhostTrialVolume.html#_CPPv4N6feasst16GhostTrialVolume10initializeEP10MonteCarlo">feasst::GhostTrialVolume::initialize (C++ function)</a>
+</li>
+      <li><a href="plugin/steppers/doc/GhostTrialVolume.html#_CPPv4N6feasst16GhostTrialVolume6updateEP10MonteCarlo">feasst::GhostTrialVolume::update (C++ function)</a>
+</li>
+      <li><a href="plugin/steppers/doc/GhostTrialVolume.html#_CPPv4N6feasst16GhostTrialVolume5writeEP10MonteCarlo">feasst::GhostTrialVolume::write (C++ function)</a>
+</li>
+      <li><a href="plugin/gibbs/doc/GibbsInitialize.html#_CPPv4N6feasst15GibbsInitializeE">feasst::GibbsInitialize (C++ class)</a>, <a href="plugin/gibbs/doc/GibbsInitialize_arguments.html#_CPPv4N6feasst15GibbsInitializeE">[1]</a>
+</li>
+      <li><a href="plugin/gibbs/doc/GibbsInitialize.html#_CPPv4NK6feasst15GibbsInitialize6headerERK10MonteCarlo">feasst::GibbsInitialize::header (C++ function)</a>
+</li>
+      <li><a href="plugin/gibbs/doc/GibbsInitialize.html#_CPPv4N6feasst15GibbsInitialize10initializeEP10MonteCarlo">feasst::GibbsInitialize::initialize (C++ function)</a>
+</li>
+      <li><a href="plugin/gibbs/doc/GibbsInitialize.html#_CPPv4N6feasst15GibbsInitialize6updateEP10MonteCarlo">feasst::GibbsInitialize::update (C++ function)</a>
+</li>
+      <li><a href="plugin/gibbs/doc/GibbsInitialize.html#_CPPv4N6feasst15GibbsInitialize5writeEP10MonteCarlo">feasst::GibbsInitialize::write (C++ function)</a>
 </li>
       <li><a href="plugin/math/doc/GoldenSearch.html#_CPPv4N6feasst12GoldenSearchE">feasst::GoldenSearch (C++ class)</a>, <a href="plugin/math/doc/GoldenSearch_arguments.html#_CPPv4N6feasst12GoldenSearchE">[1]</a>
 </li>
@@ -1820,25 +1856,25 @@
 </li>
       <li><a href="plugin/steppers/doc/HeatCapacity.html#_CPPv4N6feasst12HeatCapacityE">feasst::HeatCapacity (C++ class)</a>, <a href="plugin/steppers/doc/HeatCapacity_arguments.html#_CPPv4N6feasst12HeatCapacityE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/HeatCapacity.html#_CPPv4NK6feasst12HeatCapacity6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::HeatCapacity::header (C++ function)</a>
+      <li><a href="plugin/steppers/doc/HeatCapacity.html#_CPPv4NK6feasst12HeatCapacity6headerERK10MonteCarlo">feasst::HeatCapacity::header (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/HeatCapacity.html#_CPPv4N6feasst12HeatCapacity10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::HeatCapacity::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/HeatCapacity.html#_CPPv4N6feasst12HeatCapacity10initializeEP10MonteCarlo">feasst::HeatCapacity::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/HeatCapacity.html#_CPPv4N6feasst12HeatCapacity6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::HeatCapacity::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/HeatCapacity.html#_CPPv4N6feasst12HeatCapacity6updateERK10MonteCarlo">feasst::HeatCapacity::update (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/HeatCapacity.html#_CPPv4N6feasst12HeatCapacity5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::HeatCapacity::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/HeatCapacity.html#_CPPv4N6feasst12HeatCapacity5writeERK10MonteCarlo">feasst::HeatCapacity::write (C++ function)</a>
 </li>
       <li><a href="plugin/confinement/doc/HenryCoefficient.html#_CPPv4N6feasst16HenryCoefficientE">feasst::HenryCoefficient (C++ class)</a>, <a href="plugin/confinement/doc/HenryCoefficient_arguments.html#_CPPv4N6feasst16HenryCoefficientE">[1]</a>
 </li>
-      <li><a href="plugin/confinement/doc/HenryCoefficient.html#_CPPv4NK6feasst16HenryCoefficient6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::HenryCoefficient::header (C++ function)</a>
+      <li><a href="plugin/confinement/doc/HenryCoefficient.html#_CPPv4NK6feasst16HenryCoefficient6headerERK10MonteCarlo">feasst::HenryCoefficient::header (C++ function)</a>
 </li>
-      <li><a href="plugin/confinement/doc/HenryCoefficient.html#_CPPv4N6feasst16HenryCoefficient10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::HenryCoefficient::initialize (C++ function)</a>
+      <li><a href="plugin/confinement/doc/HenryCoefficient.html#_CPPv4N6feasst16HenryCoefficient10initializeEP10MonteCarlo">feasst::HenryCoefficient::initialize (C++ function)</a>
 </li>
       <li><a href="plugin/confinement/doc/HenryCoefficient.html#_CPPv4NK6feasst16HenryCoefficient15num_beta_taylorEv">feasst::HenryCoefficient::num_beta_taylor (C++ function)</a>
 </li>
-      <li><a href="plugin/confinement/doc/HenryCoefficient.html#_CPPv4N6feasst16HenryCoefficient6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::HenryCoefficient::update (C++ function)</a>
+      <li><a href="plugin/confinement/doc/HenryCoefficient.html#_CPPv4N6feasst16HenryCoefficient6updateERK10MonteCarlo">feasst::HenryCoefficient::update (C++ function)</a>
 </li>
-      <li><a href="plugin/confinement/doc/HenryCoefficient.html#_CPPv4N6feasst16HenryCoefficient5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::HenryCoefficient::write (C++ function)</a>
+      <li><a href="plugin/confinement/doc/HenryCoefficient.html#_CPPv4N6feasst16HenryCoefficient5writeERK10MonteCarlo">feasst::HenryCoefficient::write (C++ function)</a>
 </li>
       <li><a href="plugin/math/doc/Histogram.html#_CPPv4N6feasst9HistogramE">feasst::Histogram (C++ class)</a>, <a href="plugin/math/doc/Histogram_arguments.html#_CPPv4N6feasst9HistogramE">[1]</a>
 </li>
@@ -1882,7 +1918,7 @@
 </li>
       <li><a href="plugin/steppers/doc/IncrementPhase.html#_CPPv4N6feasst14IncrementPhaseE">feasst::IncrementPhase (C++ class)</a>, <a href="plugin/steppers/doc/IncrementPhase_arguments.html#_CPPv4N6feasst14IncrementPhaseE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/IncrementPhase.html#_CPPv4N6feasst14IncrementPhase6updateEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::IncrementPhase::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/IncrementPhase.html#_CPPv4N6feasst14IncrementPhase6updateEP10MonteCarlo">feasst::IncrementPhase::update (C++ function)</a>
 </li>
       <li><a href="plugin/models/doc/Jagla.html#_CPPv4N6feasst5JaglaE">feasst::Jagla (C++ class)</a>, <a href="plugin/models/doc/Jagla_arguments.html#_CPPv4N6feasst5JaglaE">[1]</a>
 </li>
@@ -1960,11 +1996,11 @@
 </li>
       <li><a href="plugin/steppers/doc/Log.html#_CPPv4N6feasst3LogE">feasst::Log (C++ class)</a>, <a href="plugin/steppers/doc/Log_arguments.html#_CPPv4N6feasst3LogE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/Log.html#_CPPv4NK6feasst3Log6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::Log::header (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Log.html#_CPPv4NK6feasst3Log6headerERK10MonteCarlo">feasst::Log::header (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Log.html#_CPPv4N6feasst3Log10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::Log::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Log.html#_CPPv4N6feasst3Log10initializeEP10MonteCarlo">feasst::Log::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Log.html#_CPPv4N6feasst3Log5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::Log::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Log.html#_CPPv4N6feasst3Log5writeERK10MonteCarlo">feasst::Log::write (C++ function)</a>
 </li>
       <li><a href="plugin/system/doc/LongRangeCorrections.html#_CPPv4N6feasst20LongRangeCorrectionsE">feasst::LongRangeCorrections (C++ class)</a>, <a href="plugin/system/doc/LongRangeCorrections_arguments.html#_CPPv4N6feasst20LongRangeCorrectionsE">[1]</a>
 </li>
@@ -2086,11 +2122,11 @@
 </li>
       <li><a href="plugin/steppers/doc/MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacementE">feasst::MeanSquaredDisplacement (C++ class)</a>, <a href="plugin/steppers/doc/MeanSquaredDisplacement_arguments.html#_CPPv4N6feasst23MeanSquaredDisplacementE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacement10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::MeanSquaredDisplacement::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacement10initializeEP10MonteCarlo">feasst::MeanSquaredDisplacement::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacement6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::MeanSquaredDisplacement::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacement6updateERK10MonteCarlo">feasst::MeanSquaredDisplacement::update (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacement5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::MeanSquaredDisplacement::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/MeanSquaredDisplacement.html#_CPPv4N6feasst23MeanSquaredDisplacement5writeERK10MonteCarlo">feasst::MeanSquaredDisplacement::write (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Metropolis.html#_CPPv4N6feasst10MetropolisE">feasst::Metropolis (C++ class)</a>, <a href="plugin/monte_carlo/doc/Metropolis_arguments.html#_CPPv4N6feasst10MetropolisE">[1]</a>
 </li>
@@ -2346,13 +2382,13 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/Modify.html#_CPPv4N6feasst6ModifyE">feasst::Modify (C++ class)</a>, <a href="plugin/monte_carlo/doc/Modify_arguments.html#_CPPv4N6feasst6ModifyE">[1]</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/Modify.html#_CPPv4N6feasst6Modify10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::Modify::initialize (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/Modify.html#_CPPv4N6feasst6Modify10initializeEP10MonteCarlo">feasst::Modify::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/Modify.html#_CPPv4N6feasst6Modify5trialEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::Modify::trial (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/Modify.html#_CPPv4N6feasst6Modify5trialEP10MonteCarlo">feasst::Modify::trial (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/Modify.html#_CPPv4N6feasst6Modify6updateEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::Modify::update (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/Modify.html#_CPPv4N6feasst6Modify6updateEP10MonteCarlo">feasst::Modify::update (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/Modify.html#_CPPv4N6feasst6Modify5writeEP8CriteriaP6SystemP12TrialFactory">feasst::Modify::write (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/Modify.html#_CPPv4N6feasst6Modify5writeEP10MonteCarlo">feasst::Modify::write (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/ModifyFactory.html#_CPPv4N6feasst13ModifyFactoryE">feasst::ModifyFactory (C++ class)</a>, <a href="plugin/monte_carlo/doc/ModifyFactory_arguments.html#_CPPv4N6feasst13ModifyFactoryE">[1]</a>
 </li>
@@ -2360,7 +2396,7 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/ModifyFactory.html#_CPPv4N6feasst13ModifyFactory13adjust_boundsEKbRKNSt6vectorIiEEP13ModifyFactory">feasst::ModifyFactory::adjust_bounds (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/ModifyFactory.html#_CPPv4N6feasst13ModifyFactory10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::ModifyFactory::initialize (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/ModifyFactory.html#_CPPv4N6feasst13ModifyFactory10initializeEP10MonteCarlo">feasst::ModifyFactory::initialize (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/ModifyFactory.html#_CPPv4NK6feasst13ModifyFactory9modifiersEv">feasst::ModifyFactory::modifiers (C++ function)</a>
 </li>
@@ -2370,9 +2406,13 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/ModifyFactory.html#_CPPv4N6feasst13ModifyFactory6removeEKi">feasst::ModifyFactory::remove (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/ModifyFactory.html#_CPPv4N6feasst13ModifyFactory5trialEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::ModifyFactory::trial (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/ModifyFactory.html#_CPPv4N6feasst13ModifyFactory9set_timerEv">feasst::ModifyFactory::set_timer (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/ModifyFactory.html#_CPPv4N6feasst13ModifyFactory13write_to_fileEP8CriteriaP6SystemP12TrialFactory">feasst::ModifyFactory::write_to_file (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/ModifyFactory.html#_CPPv4NK6feasst13ModifyFactory5timerEv">feasst::ModifyFactory::timer (C++ function)</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/ModifyFactory.html#_CPPv4N6feasst13ModifyFactory5trialEP10MonteCarlo">feasst::ModifyFactory::trial (C++ function)</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/ModifyFactory.html#_CPPv4N6feasst13ModifyFactory13write_to_fileEP10MonteCarlo">feasst::ModifyFactory::write_to_file (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Modify.html#_CPPv4N6feasst16ModifyUpdateOnlyE">feasst::ModifyUpdateOnly (C++ class)</a>, <a href="plugin/monte_carlo/doc/Modify_arguments.html#_CPPv4N6feasst16ModifyUpdateOnlyE">[1]</a>
 </li>
@@ -2388,13 +2428,17 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo7analyzeEKi">feasst::MonteCarlo::analyze (C++ function)</a>
 </li>
+      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo15analyze_factoryEv">feasst::MonteCarlo::analyze_factory (C++ function)</a>
+</li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo9analyzersEv">feasst::MonteCarlo::analyzers (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo7attemptEKi">feasst::MonteCarlo::attempt (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo13attempt_trialEKi">feasst::MonteCarlo::attempt_trial (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo5beginE7arglist">feasst::MonteCarlo::begin (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo5beginE7arglistKb">feasst::MonteCarlo::begin (C++ function)</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo15clear_argumentsEv">feasst::MonteCarlo::clear_arguments (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo13configurationEKi">feasst::MonteCarlo::configuration (C++ function)</a>
 </li>
@@ -2408,7 +2452,11 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo17initialize_trialsEv">feasst::MonteCarlo::initialize_trials (C++ function)</a>
 </li>
+      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo9modifiersEv">feasst::MonteCarlo::modifiers (C++ function)</a>
+</li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo6modifyEKi">feasst::MonteCarlo::modify (C++ function)</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo14modify_factoryEv">feasst::MonteCarlo::modify_factory (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo10MonteCarloENSt10shared_ptrI6RandomEE">feasst::MonteCarlo::MonteCarlo (C++ function)</a>, <a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo10MonteCarloEv">[1]</a>
 </li>
@@ -2430,7 +2478,7 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo17reset_trial_statsEv">feasst::MonteCarlo::reset_trial_stats (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo6resumeEv">feasst::MonteCarlo::resume (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo6resumeEKb">feasst::MonteCarlo::resume (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo3runENSt10shared_ptrI6ActionEE">feasst::MonteCarlo::run (C++ function)</a>
 </li>
@@ -2450,11 +2498,21 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo30set_num_iterations_to_completeEKi">feasst::MonteCarlo::set_num_iterations_to_complete (C++ function)</a>
 </li>
+      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo25set_parse_for_num_configsEKi">feasst::MonteCarlo::set_parse_for_num_configs (C++ function)</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo17set_parse_replaceERKNSt6vectorINSt6vectorINSt6stringEEEEE">feasst::MonteCarlo::set_parse_replace (C++ function)</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo9set_timerEv">feasst::MonteCarlo::set_timer (C++ function)</a>
+</li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo6systemEv">feasst::MonteCarlo::system (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo13thermo_paramsEv">feasst::MonteCarlo::thermo_params (C++ function)</a>
 </li>
+      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo5timerEv">feasst::MonteCarlo::timer (C++ function)</a>
+</li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo5trialEKi">feasst::MonteCarlo::trial (C++ function)</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo13trial_factoryEv">feasst::MonteCarlo::trial_factory (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo6trialsEv">feasst::MonteCarlo::trials (C++ function)</a>
 </li>
@@ -2464,21 +2522,21 @@
 </li>
       <li><a href="plugin/steppers/doc/Movie.html#_CPPv4N6feasst5MovieE">feasst::Movie (C++ class)</a>, <a href="plugin/steppers/doc/Movie_arguments.html#_CPPv4N6feasst5MovieE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/Movie.html#_CPPv4N6feasst5Movie10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::Movie::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Movie.html#_CPPv4N6feasst5Movie10initializeEP10MonteCarlo">feasst::Movie::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Movie.html#_CPPv4N6feasst5Movie5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::Movie::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Movie.html#_CPPv4N6feasst5Movie5writeERK10MonteCarlo">feasst::Movie::write (C++ function)</a>
 </li>
       <li><a href="plugin/patch/doc/MoviePatch.html#_CPPv4N6feasst10MoviePatchE">feasst::MoviePatch (C++ class)</a>, <a href="plugin/patch/doc/MoviePatch_arguments.html#_CPPv4N6feasst10MoviePatchE">[1]</a>
 </li>
-      <li><a href="plugin/patch/doc/MoviePatch.html#_CPPv4N6feasst10MoviePatch10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::MoviePatch::initialize (C++ function)</a>
+      <li><a href="plugin/patch/doc/MoviePatch.html#_CPPv4N6feasst10MoviePatch10initializeEP10MonteCarlo">feasst::MoviePatch::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/patch/doc/MoviePatch.html#_CPPv4N6feasst10MoviePatch5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::MoviePatch::write (C++ function)</a>
+      <li><a href="plugin/patch/doc/MoviePatch.html#_CPPv4N6feasst10MoviePatch5writeERK10MonteCarlo">feasst::MoviePatch::write (C++ function)</a>
 </li>
       <li><a href="plugin/patch/doc/MovieSpherocylinder.html#_CPPv4N6feasst19MovieSpherocylinderE">feasst::MovieSpherocylinder (C++ class)</a>, <a href="plugin/patch/doc/MovieSpherocylinder_arguments.html#_CPPv4N6feasst19MovieSpherocylinderE">[1]</a>
 </li>
-      <li><a href="plugin/patch/doc/MovieSpherocylinder.html#_CPPv4N6feasst19MovieSpherocylinder10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::MovieSpherocylinder::initialize (C++ function)</a>
+      <li><a href="plugin/patch/doc/MovieSpherocylinder.html#_CPPv4N6feasst19MovieSpherocylinder10initializeEP10MonteCarlo">feasst::MovieSpherocylinder::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/patch/doc/MovieSpherocylinder.html#_CPPv4N6feasst19MovieSpherocylinder5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::MovieSpherocylinder::write (C++ function)</a>
+      <li><a href="plugin/patch/doc/MovieSpherocylinder.html#_CPPv4N6feasst19MovieSpherocylinder5writeERK10MonteCarlo">feasst::MovieSpherocylinder::write (C++ function)</a>
 </li>
       <li><a href="plugin/math/doc/constants.html#_CPPv4N6feasst13NEAR_INFINITYE">feasst::NEAR_INFINITY (C++ member)</a>, <a href="plugin/math/doc/constants_arguments.html#_CPPv4N6feasst13NEAR_INFINITYE">[1]</a>
 </li>
@@ -2498,23 +2556,23 @@
 </li>
       <li><a href="plugin/steppers/doc/NumParticles.html#_CPPv4N6feasst12NumParticlesE">feasst::NumParticles (C++ class)</a>, <a href="plugin/steppers/doc/NumParticles_arguments.html#_CPPv4N6feasst12NumParticlesE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/NumParticles.html#_CPPv4NK6feasst12NumParticles6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::NumParticles::header (C++ function)</a>
+      <li><a href="plugin/steppers/doc/NumParticles.html#_CPPv4NK6feasst12NumParticles6headerERK10MonteCarlo">feasst::NumParticles::header (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/NumParticles.html#_CPPv4N6feasst12NumParticles10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::NumParticles::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/NumParticles.html#_CPPv4N6feasst12NumParticles10initializeEP10MonteCarlo">feasst::NumParticles::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/NumParticles.html#_CPPv4N6feasst12NumParticles6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::NumParticles::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/NumParticles.html#_CPPv4N6feasst12NumParticles6updateERK10MonteCarlo">feasst::NumParticles::update (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/NumParticles.html#_CPPv4N6feasst12NumParticles5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::NumParticles::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/NumParticles.html#_CPPv4N6feasst12NumParticles5writeERK10MonteCarlo">feasst::NumParticles::write (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/PairDistributionInner.html#_CPPv4N6feasst16PairDistributionE">feasst::PairDistribution (C++ class)</a>, <a href="plugin/steppers/doc/PairDistributionInner_arguments.html#_CPPv4N6feasst16PairDistributionE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/PairDistributionInner.html#_CPPv4NK6feasst16PairDistribution6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::PairDistribution::header (C++ function)</a>
+      <li><a href="plugin/steppers/doc/PairDistributionInner.html#_CPPv4NK6feasst16PairDistribution6headerERK10MonteCarlo">feasst::PairDistribution::header (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/PairDistributionInner.html#_CPPv4N6feasst16PairDistribution10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::PairDistribution::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/PairDistributionInner.html#_CPPv4N6feasst16PairDistribution10initializeEP10MonteCarlo">feasst::PairDistribution::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/PairDistributionInner.html#_CPPv4N6feasst16PairDistribution6updateEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::PairDistribution::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/PairDistributionInner.html#_CPPv4N6feasst16PairDistribution6updateEP10MonteCarlo">feasst::PairDistribution::update (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/PairDistributionInner.html#_CPPv4N6feasst16PairDistribution5writeEP8CriteriaP6SystemP12TrialFactory">feasst::PairDistribution::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/PairDistributionInner.html#_CPPv4N6feasst16PairDistribution5writeEP10MonteCarlo">feasst::PairDistribution::write (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/PairDistributionInner.html#_CPPv4N6feasst21PairDistributionInnerE">feasst::PairDistributionInner (C++ class)</a>, <a href="plugin/steppers/doc/PairDistributionInner_arguments.html#_CPPv4N6feasst21PairDistributionInnerE">[1]</a>
 </li>
@@ -2522,6 +2580,8 @@
 </li>
       <li><a href="plugin/configuration/doc/Particle.html#_CPPv4N6feasst8ParticleE">feasst::Particle (C++ class)</a>, <a href="plugin/configuration/doc/Particle_arguments.html#_CPPv4N6feasst8ParticleE">[1]</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="plugin/configuration/doc/Particle.html#_CPPv4N6feasst8Particle3addE4Site">feasst::Particle::add (C++ function)</a>
 </li>
       <li><a href="plugin/configuration/doc/Particle.html#_CPPv4N6feasst8Particle9add_angleERK5Angle">feasst::Particle::add_angle (C++ function)</a>
@@ -2550,8 +2610,6 @@
 </li>
       <li><a href="plugin/configuration/doc/Particle.html#_CPPv4NK6feasst8Particle15angle_neighborsEKi">feasst::Particle::angle_neighbors (C++ function)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="plugin/configuration/doc/Particle.html#_CPPv4NK6feasst8Particle6anglesEv">feasst::Particle::angles (C++ function)</a>
 </li>
       <li><a href="plugin/configuration/doc/Particle.html#_CPPv4NK6feasst8Particle4bondEKi">feasst::Particle::bond (C++ function)</a>, <a href="plugin/configuration/doc/Particle.html#_CPPv4NK6feasst8Particle4bondEKiKi">[1]</a>
@@ -3184,31 +3242,29 @@
 </li>
       <li><a href="plugin/prefetch/doc/Pool.html#_CPPv4NK6feasst8Prefetch16trials_per_checkEv">feasst::Prefetch::trials_per_check (C++ function)</a>
 </li>
-      <li><a href="plugin/gibbs/doc/PressureFromTestVolume.html#_CPPv4N6feasst22PressureFromTestVolumeE">feasst::PressureFromTestVolume (C++ class)</a>, <a href="plugin/gibbs/doc/PressureFromTestVolume_arguments.html#_CPPv4N6feasst22PressureFromTestVolumeE">[1]</a>
-</li>
-      <li><a href="plugin/gibbs/doc/PressureFromTestVolume.html#_CPPv4NK6feasst22PressureFromTestVolume6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::PressureFromTestVolume::header (C++ function)</a>
-</li>
-      <li><a href="plugin/gibbs/doc/PressureFromTestVolume.html#_CPPv4N6feasst22PressureFromTestVolume10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::PressureFromTestVolume::initialize (C++ function)</a>
-</li>
-      <li><a href="plugin/gibbs/doc/PressureFromTestVolume.html#_CPPv4N6feasst22PressureFromTestVolume6updateEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::PressureFromTestVolume::update (C++ function)</a>
-</li>
-      <li><a href="plugin/gibbs/doc/PressureFromTestVolume.html#_CPPv4N6feasst22PressureFromTestVolume5writeEP8CriteriaP6SystemP12TrialFactory">feasst::PressureFromTestVolume::write (C++ function)</a>
-</li>
       <li><a href="plugin/configuration/doc/PrinterXYZ.html#_CPPv4N6feasst10PrinterXYZE">feasst::PrinterXYZ (C++ class)</a>, <a href="plugin/configuration/doc/PrinterXYZ_arguments.html#_CPPv4N6feasst10PrinterXYZE">[1]</a>
 </li>
       <li><a href="plugin/patch/doc/FileVMDPatch.html#_CPPv4N6feasst15PrinterXYZPatchE">feasst::PrinterXYZPatch (C++ class)</a>, <a href="plugin/patch/doc/FileVMDPatch_arguments.html#_CPPv4N6feasst15PrinterXYZPatchE">[1]</a>
 </li>
       <li><a href="plugin/patch/doc/FileVMDSpherocylinder.html#_CPPv4N6feasst24PrinterXYZSpherocylinderE">feasst::PrinterXYZSpherocylinder (C++ class)</a>, <a href="plugin/patch/doc/FileVMDSpherocylinder_arguments.html#_CPPv4N6feasst24PrinterXYZSpherocylinderE">[1]</a>
 </li>
+      <li><a href="plugin/steppers/doc/ProfileCPU.html#_CPPv4N6feasst10ProfileCPUE">feasst::ProfileCPU (C++ class)</a>, <a href="plugin/steppers/doc/ProfileCPU_arguments.html#_CPPv4N6feasst10ProfileCPUE">[1]</a>
+</li>
+      <li><a href="plugin/steppers/doc/ProfileCPU.html#_CPPv4NK6feasst10ProfileCPU6headerERK10MonteCarlo">feasst::ProfileCPU::header (C++ function)</a>
+</li>
+      <li><a href="plugin/steppers/doc/ProfileCPU.html#_CPPv4N6feasst10ProfileCPU10initializeEP10MonteCarlo">feasst::ProfileCPU::initialize (C++ function)</a>
+</li>
+      <li><a href="plugin/steppers/doc/ProfileCPU.html#_CPPv4N6feasst10ProfileCPU5writeERK10MonteCarlo">feasst::ProfileCPU::write (C++ function)</a>
+</li>
       <li><a href="plugin/steppers/doc/ProfileTrials.html#_CPPv4N6feasst13ProfileTrialsE">feasst::ProfileTrials (C++ class)</a>, <a href="plugin/steppers/doc/ProfileTrials_arguments.html#_CPPv4N6feasst13ProfileTrialsE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/ProfileTrials.html#_CPPv4NK6feasst13ProfileTrials6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::ProfileTrials::header (C++ function)</a>
+      <li><a href="plugin/steppers/doc/ProfileTrials.html#_CPPv4NK6feasst13ProfileTrials6headerERK10MonteCarlo">feasst::ProfileTrials::header (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/ProfileTrials.html#_CPPv4N6feasst13ProfileTrials10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::ProfileTrials::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/ProfileTrials.html#_CPPv4N6feasst13ProfileTrials10initializeEP10MonteCarlo">feasst::ProfileTrials::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/ProfileTrials.html#_CPPv4N6feasst13ProfileTrials6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::ProfileTrials::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/ProfileTrials.html#_CPPv4N6feasst13ProfileTrials6updateERK10MonteCarlo">feasst::ProfileTrials::update (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/ProfileTrials.html#_CPPv4N6feasst13ProfileTrials5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::ProfileTrials::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/ProfileTrials.html#_CPPv4N6feasst13ProfileTrials5writeERK10MonteCarlo">feasst::ProfileTrials::write (C++ function)</a>
 </li>
       <li><a href="plugin/utils/doc/ProgressReport.html#_CPPv4N6feasst14ProgressReportE">feasst::ProgressReport (C++ class)</a>, <a href="plugin/utils/doc/ProgressReport_arguments.html#_CPPv4N6feasst14ProgressReportE">[1]</a>
 </li>
@@ -3270,19 +3326,19 @@
 </li>
       <li><a href="plugin/chain/doc/RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyrationE">feasst::RadiusOfGyration (C++ class)</a>, <a href="plugin/chain/doc/RadiusOfGyration_arguments.html#_CPPv4N6feasst16RadiusOfGyrationE">[1]</a>
 </li>
-      <li><a href="plugin/chain/doc/RadiusOfGyration.html#_CPPv4NK6feasst16RadiusOfGyration6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::RadiusOfGyration::header (C++ function)</a>
+      <li><a href="plugin/chain/doc/RadiusOfGyration.html#_CPPv4NK6feasst16RadiusOfGyration6headerERK10MonteCarlo">feasst::RadiusOfGyration::header (C++ function)</a>
 </li>
       <li><a href="plugin/chain/doc/RadiusOfGyration.html#_CPPv4NK6feasst16RadiusOfGyration9histogramEv">feasst::RadiusOfGyration::histogram (C++ function)</a>
 </li>
-      <li><a href="plugin/chain/doc/RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyration10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::RadiusOfGyration::initialize (C++ function)</a>
+      <li><a href="plugin/chain/doc/RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyration10initializeEP10MonteCarlo">feasst::RadiusOfGyration::initialize (C++ function)</a>
 </li>
       <li><a href="plugin/chain/doc/RadiusOfGyration.html#_CPPv4NK6feasst16RadiusOfGyration18radius_of_gyrationEv">feasst::RadiusOfGyration::radius_of_gyration (C++ function)</a>
 </li>
       <li><a href="plugin/chain/doc/RadiusOfGyration.html#_CPPv4NK6feasst16RadiusOfGyration4rg_eEv">feasst::RadiusOfGyration::rg_e (C++ function)</a>
 </li>
-      <li><a href="plugin/chain/doc/RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyration6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::RadiusOfGyration::update (C++ function)</a>
+      <li><a href="plugin/chain/doc/RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyration6updateERK10MonteCarlo">feasst::RadiusOfGyration::update (C++ function)</a>
 </li>
-      <li><a href="plugin/chain/doc/RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyration5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::RadiusOfGyration::write (C++ function)</a>
+      <li><a href="plugin/chain/doc/RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyration5writeERK10MonteCarlo">feasst::RadiusOfGyration::write (C++ function)</a>
 </li>
       <li><a href="plugin/math/doc/Random.html#_CPPv4N6feasst6RandomE">feasst::Random (C++ class)</a>, <a href="plugin/math/doc/Random_arguments.html#_CPPv4N6feasst6RandomE">[1]</a>
 </li>
@@ -3338,9 +3394,9 @@
 </li>
       <li><a href="plugin/steppers/doc/ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFileE">feasst::ReadConfigFromFile (C++ class)</a>, <a href="plugin/steppers/doc/ReadConfigFromFile_arguments.html#_CPPv4N6feasst18ReadConfigFromFileE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFile10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::ReadConfigFromFile::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFile10initializeEP10MonteCarlo">feasst::ReadConfigFromFile::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFile6updateEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::ReadConfigFromFile::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFile6updateEP10MonteCarlo">feasst::ReadConfigFromFile::update (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/RefPotential.html#_CPPv4N6feasst12RefPotentialE">feasst::RefPotential (C++ class)</a>, <a href="plugin/monte_carlo/doc/RefPotential_arguments.html#_CPPv4N6feasst12RefPotentialE">[1]</a>
 </li>
@@ -3414,11 +3470,11 @@
 </li>
       <li><a href="plugin/steppers/doc/Scattering.html#_CPPv4N6feasst10ScatteringE">feasst::Scattering (C++ class)</a>, <a href="plugin/steppers/doc/Scattering_arguments.html#_CPPv4N6feasst10ScatteringE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/Scattering.html#_CPPv4N6feasst10Scattering10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::Scattering::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Scattering.html#_CPPv4N6feasst10Scattering10initializeEP10MonteCarlo">feasst::Scattering::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Scattering.html#_CPPv4N6feasst10Scattering6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::Scattering::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Scattering.html#_CPPv4N6feasst10Scattering6updateERK10MonteCarlo">feasst::Scattering::update (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Scattering.html#_CPPv4N6feasst10Scattering5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::Scattering::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Scattering.html#_CPPv4N6feasst10Scattering5writeERK10MonteCarlo">feasst::Scattering::write (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/AnalyzeData.html#_CPPv4N6feasst11SeekAnalyzeE">feasst::SeekAnalyze (C++ class)</a>, <a href="plugin/steppers/doc/AnalyzeData_arguments.html#_CPPv4N6feasst11SeekAnalyzeE">[1]</a>
 </li>
@@ -3431,20 +3487,6 @@
       <li><a href="plugin/steppers/doc/SeekModify.html#_CPPv4N6feasst10SeekModifyE">feasst::SeekModify (C++ class)</a>, <a href="plugin/steppers/doc/SeekModify_arguments.html#_CPPv4N6feasst10SeekModifyE">[1]</a>
 </li>
       <li><a href="plugin/steppers/doc/SeekModify.html#_CPPv4NK6feasst10SeekModify5indexEKNSt6stringERK10MonteCarlo">feasst::SeekModify::index (C++ function)</a>
-</li>
-      <li><a href="plugin/monte_carlo/doc/SeekNumParticles.html#_CPPv4N6feasst16SeekNumParticlesE">feasst::SeekNumParticles (C++ class)</a>, <a href="plugin/monte_carlo/doc/SeekNumParticles_arguments.html#_CPPv4N6feasst16SeekNumParticlesE">[1]</a>
-</li>
-      <li><a href="plugin/monte_carlo/doc/SeekNumParticles.html#_CPPv4N6feasst16SeekNumParticles3addENSt10shared_ptrI14ProgressReportEE">feasst::SeekNumParticles::add (C++ function)</a>, <a href="plugin/monte_carlo/doc/SeekNumParticles.html#_CPPv4N6feasst16SeekNumParticles3addENSt10shared_ptrI5TrialEE">[1]</a>
-</li>
-      <li><a href="plugin/monte_carlo/doc/SeekNumParticles.html#_CPPv4N6feasst16SeekNumParticles3runEP10MonteCarlo">feasst::SeekNumParticles::run (C++ function)</a>
-</li>
-      <li><a href="plugin/monte_carlo/doc/SeekNumParticles.html#_CPPv4N6feasst16SeekNumParticles16SeekNumParticlesEKi7argtype">feasst::SeekNumParticles::SeekNumParticles (C++ function)</a>
-</li>
-      <li><a href="plugin/monte_carlo/doc/SeekNumParticles.html#_CPPv4N6feasst16SeekNumParticles15with_metropolisENSt10shared_ptrI10ConstraintEE">feasst::SeekNumParticles::with_metropolis (C++ function)</a>, <a href="plugin/monte_carlo/doc/SeekNumParticles.html#_CPPv4N6feasst16SeekNumParticles15with_metropolisEv">[1]</a>
-</li>
-      <li><a href="plugin/monte_carlo/doc/SeekNumParticles.html#_CPPv4N6feasst16SeekNumParticles18with_thermo_paramsE7argtype">feasst::SeekNumParticles::with_thermo_params (C++ function)</a>
-</li>
-      <li><a href="plugin/monte_carlo/doc/SeekNumParticles.html#_CPPv4N6feasst16SeekNumParticles14with_trial_addE7argtype">feasst::SeekNumParticles::with_trial_add (C++ function)</a>
 </li>
       <li><a href="plugin/configuration/doc/Select.html#_CPPv4N6feasst6SelectE">feasst::Select (C++ class)</a>, <a href="plugin/configuration/doc/Select_arguments.html#_CPPv4N6feasst6SelectE">[1]</a>
 </li>
@@ -3804,7 +3846,7 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/Stepper.html#_CPPv4N6feasst7Stepper15get_accumulatorEv">feasst::Stepper::get_accumulator (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/Stepper.html#_CPPv4NK6feasst7Stepper6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::Stepper::header (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/Stepper.html#_CPPv4NK6feasst7Stepper6headerERK10MonteCarlo">feasst::Stepper::header (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Stepper.html#_CPPv4NK6feasst7Stepper13is_multistateEv">feasst::Stepper::is_multistate (C++ function)</a>
 </li>
@@ -3911,6 +3953,8 @@
       <li><a href="plugin/system/doc/System.html#_CPPv4N6feasst6System6energyEKi">feasst::System::energy (C++ function)</a>
 </li>
       <li><a href="plugin/system/doc/System.html#_CPPv4N6feasst6System8finalizeERK6SelectKi">feasst::System::finalize (C++ function)</a>
+</li>
+      <li><a href="plugin/system/doc/System.html#_CPPv4N6feasst6System10initializeEKi">feasst::System::initialize (C++ function)</a>
 </li>
       <li><a href="plugin/system/doc/System.html#_CPPv4N6feasst6System10load_cacheEKb">feasst::System::load_cache (C++ function)</a>
 </li>
@@ -4238,6 +4282,18 @@
 </li>
       <li><a href="plugin/utils/doc/Timer.html#_CPPv4NK6feasst5Timer10sum_clocksEv">feasst::Timer::sum_clocks (C++ function)</a>
 </li>
+      <li><a href="plugin/utils/doc/TimerRDTSC.html#_CPPv4N6feasst10TimerRDTSCE">feasst::TimerRDTSC (C++ class)</a>, <a href="plugin/utils/doc/TimerRDTSC_arguments.html#_CPPv4N6feasst10TimerRDTSCE">[1]</a>
+</li>
+      <li><a href="plugin/utils/doc/TimerRDTSC.html#_CPPv4N6feasst10TimerRDTSC3addEv">feasst::TimerRDTSC::add (C++ function)</a>
+</li>
+      <li><a href="plugin/utils/doc/TimerRDTSC.html#_CPPv4N6feasst10TimerRDTSC5eraseEKi">feasst::TimerRDTSC::erase (C++ function)</a>
+</li>
+      <li><a href="plugin/utils/doc/TimerRDTSC.html#_CPPv4NK6feasst10TimerRDTSC8percentsEv">feasst::TimerRDTSC::percents (C++ function)</a>
+</li>
+      <li><a href="plugin/utils/doc/TimerRDTSC.html#_CPPv4N6feasst10TimerRDTSC5startEKi">feasst::TimerRDTSC::start (C++ function)</a>
+</li>
+      <li><a href="plugin/utils/doc/TimerRDTSC.html#_CPPv4N6feasst10TimerRDTSC10TimerRDTSCEKi">feasst::TimerRDTSC::TimerRDTSC (C++ function)</a>
+</li>
       <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrixE">feasst::TransitionMatrix (C++ class)</a>, <a href="plugin/flat_histogram/doc/TransitionMatrix_arguments.html#_CPPv4N6feasst16TransitionMatrixE">[1]</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrix17infrequent_updateERK10Macrostate">feasst::TransitionMatrix::infrequent_update (C++ function)</a>
@@ -4269,6 +4325,8 @@
       <li><a href="plugin/monte_carlo/doc/Trial.html#_CPPv4NK6feasst5Trial11descriptionEv">feasst::Trial::description (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Trial.html#_CPPv4N6feasst5Trial22increment_num_attemptsEv">feasst::Trial::increment_num_attempts (C++ function)</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/Trial.html#_CPPv4NK6feasst5Trial19name_or_descriptionEv">feasst::Trial::name_or_description (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Trial.html#_CPPv4NK6feasst5Trial12num_attemptsEv">feasst::Trial::num_attempts (C++ function)</a>
 </li>
@@ -4374,9 +4432,13 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactory6revertEKiKbKbP6SystemP8Criteria">feasst::TrialFactory::revert (C++ function)</a>
 </li>
+      <li><a href="plugin/monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactory9set_timerEv">feasst::TrialFactory::set_timer (C++ function)</a>
+</li>
       <li><a href="plugin/monte_carlo/doc/TrialFactory.html#_CPPv4NK6feasst12TrialFactory6statusEv">feasst::TrialFactory::status (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/TrialFactory.html#_CPPv4NK6feasst12TrialFactory13status_headerEv">feasst::TrialFactory::status_header (C++ function)</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/TrialFactory.html#_CPPv4NK6feasst12TrialFactory5timerEv">feasst::TrialFactory::timer (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/TrialFactory.html#_CPPv4NK6feasst12TrialFactory5trialEKi">feasst::TrialFactory::trial (C++ function)</a>
 </li>
@@ -4391,10 +4453,6 @@
       <li><a href="plugin/gibbs/doc/TrialGibbsParticleTransfer.html#_CPPv4N6feasst32TrialGibbsParticleTransferOneWay32TrialGibbsParticleTransferOneWayE7argtype">feasst::TrialGibbsParticleTransferOneWay::TrialGibbsParticleTransferOneWay (C++ function)</a>
 </li>
       <li><a href="plugin/gibbs/doc/TrialGibbsVolumeTransfer.html#_CPPv4N6feasst24TrialGibbsVolumeTransferE">feasst::TrialGibbsVolumeTransfer (C++ class)</a>, <a href="plugin/gibbs/doc/TrialGibbsVolumeTransfer_arguments.html#_CPPv4N6feasst24TrialGibbsVolumeTransferE">[1]</a>
-</li>
-      <li><a href="plugin/gibbs/doc/TrialGibbsVolumeTransfer.html#_CPPv4N6feasst30TrialGibbsVolumeTransferOneWayE">feasst::TrialGibbsVolumeTransferOneWay (C++ class)</a>, <a href="plugin/gibbs/doc/TrialGibbsVolumeTransfer_arguments.html#_CPPv4N6feasst30TrialGibbsVolumeTransferOneWayE">[1]</a>
-</li>
-      <li><a href="plugin/gibbs/doc/TrialGibbsVolumeTransfer.html#_CPPv4N6feasst30TrialGibbsVolumeTransferOneWay30TrialGibbsVolumeTransferOneWayE7argtype">feasst::TrialGibbsVolumeTransferOneWay::TrialGibbsVolumeTransferOneWay (C++ function)</a>
 </li>
       <li><a href="plugin/chain/doc/TrialGrow.html#_CPPv4N6feasst9TrialGrowE">feasst::TrialGrow (C++ class)</a>, <a href="plugin/chain/doc/TrialGrow_arguments.html#_CPPv4N6feasst9TrialGrowE">[1]</a>
 </li>
@@ -4636,13 +4694,13 @@
 </li>
       <li><a href="plugin/steppers/doc/Tune.html#_CPPv4N6feasst4TuneE">feasst::Tune (C++ class)</a>, <a href="plugin/steppers/doc/Tune_arguments.html#_CPPv4N6feasst4TuneE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/Tune.html#_CPPv4NK6feasst4Tune6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::Tune::header (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Tune.html#_CPPv4NK6feasst4Tune6headerERK10MonteCarlo">feasst::Tune::header (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Tune.html#_CPPv4N6feasst4Tune10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::Tune::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Tune.html#_CPPv4N6feasst4Tune10initializeEP10MonteCarlo">feasst::Tune::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Tune.html#_CPPv4N6feasst4Tune6updateEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::Tune::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Tune.html#_CPPv4N6feasst4Tune6updateEP10MonteCarlo">feasst::Tune::update (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Tune.html#_CPPv4N6feasst4Tune5writeEP8CriteriaP6SystemP12TrialFactory">feasst::Tune::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Tune.html#_CPPv4N6feasst4Tune5writeEP10MonteCarlo">feasst::Tune::write (C++ function)</a>
 </li>
       <li><a href="plugin/models/doc/TwoBodyAlpha.html#_CPPv4N6feasst12TwoBodyAlphaE">feasst::TwoBodyAlpha (C++ class)</a>, <a href="plugin/models/doc/TwoBodyAlpha_arguments.html#_CPPv4N6feasst12TwoBodyAlphaE">[1]</a>
 </li>
@@ -4732,17 +4790,17 @@
 </li>
       <li><a href="plugin/steppers/doc/Volume.html#_CPPv4N6feasst6VolumeE">feasst::Volume (C++ class)</a>, <a href="plugin/steppers/doc/Volume_arguments.html#_CPPv4N6feasst6VolumeE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/Volume.html#_CPPv4NK6feasst6Volume6headerERK8CriteriaRK6SystemRK12TrialFactory">feasst::Volume::header (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Volume.html#_CPPv4NK6feasst6Volume6headerERK10MonteCarlo">feasst::Volume::header (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Volume.html#_CPPv4N6feasst6Volume10initializeEP8CriteriaP6SystemP12TrialFactory">feasst::Volume::initialize (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Volume.html#_CPPv4N6feasst6Volume10initializeEP10MonteCarlo">feasst::Volume::initialize (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Volume.html#_CPPv4N6feasst6Volume6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::Volume::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Volume.html#_CPPv4N6feasst6Volume6updateERK10MonteCarlo">feasst::Volume::update (C++ function)</a>
 </li>
-      <li><a href="plugin/steppers/doc/Volume.html#_CPPv4N6feasst6Volume5writeERK8CriteriaRK6SystemRK12TrialFactory">feasst::Volume::write (C++ function)</a>
+      <li><a href="plugin/steppers/doc/Volume.html#_CPPv4N6feasst6Volume5writeERK10MonteCarlo">feasst::Volume::write (C++ function)</a>
 </li>
       <li><a href="plugin/steppers/doc/WallClockLimit.html#_CPPv4N6feasst14WallClockLimitE">feasst::WallClockLimit (C++ class)</a>, <a href="plugin/steppers/doc/WallClockLimit_arguments.html#_CPPv4N6feasst14WallClockLimitE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/WallClockLimit.html#_CPPv4N6feasst14WallClockLimit6updateERK8CriteriaRK6SystemRK12TrialFactory">feasst::WallClockLimit::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/WallClockLimit.html#_CPPv4N6feasst14WallClockLimit6updateERK10MonteCarlo">feasst::WallClockLimit::update (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/WangLandau.html#_CPPv4N6feasst10WangLandauE">feasst::WangLandau (C++ class)</a>, <a href="plugin/flat_histogram/doc/WangLandau_arguments.html#_CPPv4N6feasst10WangLandauE">[1]</a>
 </li>
@@ -4806,7 +4864,7 @@
 </li>
       <li><a href="plugin/steppers/doc/WrapParticles.html#_CPPv4N6feasst13WrapParticlesE">feasst::WrapParticles (C++ class)</a>, <a href="plugin/steppers/doc/WrapParticles_arguments.html#_CPPv4N6feasst13WrapParticlesE">[1]</a>
 </li>
-      <li><a href="plugin/steppers/doc/WrapParticles.html#_CPPv4N6feasst13WrapParticles6updateEP8CriteriaP6SystemP6RandomP12TrialFactory">feasst::WrapParticles::update (C++ function)</a>
+      <li><a href="plugin/steppers/doc/WrapParticles.html#_CPPv4N6feasst13WrapParticles6updateEP10MonteCarlo">feasst::WrapParticles::update (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/WriteCheckpoint.html#_CPPv4N6feasst15WriteCheckpointE">feasst::WriteCheckpoint (C++ class)</a>, <a href="plugin/monte_carlo/doc/WriteCheckpoint_arguments.html#_CPPv4N6feasst15WriteCheckpointE">[1]</a>
 </li>
@@ -4819,6 +4877,8 @@
       <li><a href="plugin/models/doc/Yukawa.html#_CPPv4NK6feasst6Yukawa9serializeERNSt7ostreamE">feasst::Yukawa::serialize (C++ function)</a>
 </li>
       <li><a href="plugin/models/doc/Yukawa.html#_CPPv4N6feasst6Yukawa9set_kappaEKd">feasst::Yukawa::set_kappa (C++ function)</a>
+</li>
+      <li><a href="plugin/confinement/doc/ZeroBackground.html#_CPPv4N6feasst14ZeroBackgroundE">feasst::ZeroBackground (C++ class)</a>, <a href="plugin/confinement/doc/ZeroBackground_arguments.html#_CPPv4N6feasst14ZeroBackgroundE">[1]</a>
 </li>
       <li><a href="plugin/utils/doc/debug.html#c.FEASST_MACRO_EXCEPTION">FEASST_MACRO_EXCEPTION (C macro)</a>, <a href="plugin/utils/doc/debug_arguments.html#c.FEASST_MACRO_EXCEPTION">[1]</a>
 </li>

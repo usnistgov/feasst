@@ -1,7 +1,11 @@
 
 .. toctree::
 
+   AnalyzeData
+   SeekModify
+   WriteStepper
    Check
+   CheckEnergy
    CheckPhysicality
    CheckProperties
    Chirality2D
@@ -11,22 +15,20 @@
    DensityProfile
    Energy
    ExtensiveMoments
+   GhostTrialVolume
    HeatCapacity
    IncrementPhase
    Movie
-   NumParticles
-   ReadConfigFromFile
+   ProfileTrials
    Scattering
-   AnalyzeData
-   SeekModify
    Tune
    Volume
-   WallClockLimit
    WrapParticles
-   WriteStepper
+   NumParticles
+   ProfileCPU
+   WallClockLimit
+   CPUTime
    MeanSquaredDisplacement
-   ProfileTrials
-   CheckEnergy
+   ReadConfigFromFile
    Log
    PairDistributionInner
-   CPUTime

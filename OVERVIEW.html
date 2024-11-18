@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overview &mdash; FEASST v0.25.3 documentation</title>
+  <title>Overview &mdash; FEASST v0.25.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=440f07cd"></script>
+        <script src="_static/documentation_options.js?v=8f869700"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -55,14 +55,15 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.3
+                v0.25.4
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-compile">How to compile</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#text-input-file-example">Text input file example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#how-to-get-started">How to get started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-run-a-simulation">How to run a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-input-text-file">Example input text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-learn-more">How to learn more</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#features">Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#troubleshooting-install">Troubleshooting install</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#ubuntu-18-20-22-24-and-rocky-8-and-9">Ubuntu 18, 20, 22, 24 and Rocky 8 and 9</a></li>
@@ -78,8 +79,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#documentation-for-a-specific-version-of-feasst">Documentation for a specific version of FEASST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#contact">Contact</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#project-lead">Project lead</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#email-list">Email list</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#issue-tracker">Issue tracker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#github-discussion">GitHub Discussion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#google-group">Google Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#github-issues">GitHub Issues</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bug-reporting">Bug reporting</a></li>
 </ul>
 </li>
@@ -95,9 +97,9 @@
 <li class="toctree-l1"><a class="reference internal" href="pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CITATION.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev/sphinx/CITATION.html">Citation</a></li>
 </ul>
 
         </div>
@@ -173,42 +175,32 @@
              
   <section id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h1>
-<p>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
-open-source, public domain software to conduct molecular- and particle-based
-simulations with Monte Carlo methods.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Website: <a class="reference external" href="https://pages.nist.gov/feasst/">https://pages.nist.gov/feasst/</a></p>
-<p>Website DOI: <a class="reference external" href="https://doi.org/10.18434/M3S095">https://doi.org/10.18434/M3S095</a></p>
-<p>Manuscript (v0.25.1): <a class="reference external" href="https://doi.org/10.1063/5.0224283">https://doi.org/10.1063/5.0224283</a></p>
-<p>Code repository: <a class="reference external" href="https://github.com/usnistgov/feasst">https://github.com/usnistgov/feasst</a></p>
-<p>Discussion list: <a class="reference external" href="https://groups.google.com/a/list.nist.gov/d/forum/feasst">https://groups.google.com/a/list.nist.gov/d/forum/feasst</a></p>
-</div>
+<p>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free and open-source software to conduct molecular- and particle-based simulations with Monte Carlo methods.
+New users should start with the <a class="reference external" href="https://pages.nist.gov/feasst/">website</a> (<a class="reference external" href="https://doi.org/10.18434/M3S095">DOI</a>) and the <a class="reference external" href="https://doi.org/10.1063/5.0224283">manuscript</a>.</p>
 <section id="how-to-compile">
 <h2>How to compile<a class="headerlink" href="#how-to-compile" title="Link to this heading"></a></h2>
 <p>FEASST requires C++14 and CMake, and is compiled with the following BASH commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#[apt/yum/dnf/brew] install g++ cmake</span>
 <span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span><span class="w"> </span><span class="c1"># replace this with your preference throughout</span>
-wget<span class="w"> </span>https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.3.tar.gz
-tar<span class="w"> </span>-xf<span class="w"> </span>v0.25.3.tar.gz<span class="w"> </span>--transform<span class="w"> </span>s/-/-v/
-mkdir<span class="w"> </span>feasst-v0.25.3/build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span>
+wget<span class="w"> </span>https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.4.tar.gz
+tar<span class="w"> </span>-xf<span class="w"> </span>v0.25.4.tar.gz<span class="w"> </span>--transform<span class="w"> </span>s/-/-v/
+mkdir<span class="w"> </span>feasst-v0.25.4/build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span>
 cmake<span class="w"> </span>..
 make<span class="w"> </span>install<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span>
 <span class="c1"># optional Python packages for feasst tutorials</span>
 pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>matplotlib<span class="w"> </span>pandas<span class="w"> </span>scipy<span class="w"> </span>../pyfeasst<span class="w"> </span><span class="c1"># ../ ensures pyfeasst matches feasst</span>
 </pre></div>
 </div>
-<p>To run a text input file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst-v0.25.3/build/bin/fst<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$HOME</span>/feasst-v0.25.3/tutorial/example.txt
-</pre></div>
-</div>
-<p>To restart a simulation from a <a class="reference internal" href="plugin/utils/doc/Checkpoint.html#_CPPv4N6feasst10CheckpointE" title="feasst::Checkpoint"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Checkpoint</span></code></a> file, checkpoint.fst:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Restart checkpoint.fst&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">$HOME</span>/feasst-v0.25.3/build/bin/fst
+</section>
+<section id="how-to-run-a-simulation">
+<h2>How to run a simulation<a class="headerlink" href="#how-to-run-a-simulation" title="Link to this heading"></a></h2>
+<p>Input a text file to the compiled executable.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst-v0.25.4/build/bin/fst<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$HOME</span>/feasst-v0.25.4/tutorial/example.txt
 </pre></div>
 </div>
 </section>
-<section id="text-input-file-example">
-<h2>Text input file example<a class="headerlink" href="#text-input-file-example" title="Link to this heading"></a></h2>
+<section id="example-input-text-file">
+<h2>Example input text file<a class="headerlink" href="#example-input-text-file" title="Link to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Comments begin with the # symbol.</span>
 <span class="c1"># Usage: ./fst &lt; example.txt</span>
 <span class="n">MonteCarlo</span>
@@ -226,17 +218,17 @@ pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"
 <span class="n">RemoveTrial</span> <span class="n">name</span> <span class="n">TrialAdd</span>
 <span class="n">Run</span> <span class="n">num_trials</span> <span class="mf">1e5</span>
 <span class="n">RemoveModify</span> <span class="n">name</span> <span class="n">Tune</span>
-<span class="n">Log</span> <span class="n">trials_per_write</span> <span class="mf">1e4</span> <span class="n">output_file</span> <span class="n">lj</span><span class="o">.</span><span class="n">csv</span>
+<span class="n">Log</span>    <span class="n">trials_per_write</span> <span class="mf">1e4</span> <span class="n">output_file</span> <span class="n">lj</span><span class="o">.</span><span class="n">csv</span>
 <span class="n">Energy</span> <span class="n">trials_per_write</span> <span class="mf">1e4</span> <span class="n">output_file</span> <span class="n">lj_en</span><span class="o">.</span><span class="n">csv</span>
-<span class="n">Movie</span> <span class="n">trials_per_write</span> <span class="mf">1e4</span> <span class="n">output_file</span> <span class="n">lj</span><span class="o">.</span><span class="n">xyz</span>
+<span class="n">Movie</span>  <span class="n">trials_per_write</span> <span class="mf">1e4</span> <span class="n">output_file</span> <span class="n">lj</span><span class="o">.</span><span class="n">xyz</span>
 <span class="n">Metropolis</span> <span class="n">num_trials_per_iteration</span> <span class="mf">1e4</span> <span class="n">num_iterations_to_complete</span> <span class="mf">1e2</span>
 <span class="n">Run</span> <span class="n">until_criteria_complete</span> <span class="n">true</span>
 </pre></div>
 </div>
 <p>This text input file is explained in detail in the first <a class="reference internal" href="tutorial/tutorial.html"><span class="doc">tutorial</span></a>.</p>
 </section>
-<section id="how-to-get-started">
-<h2>How to get started<a class="headerlink" href="#how-to-get-started" title="Link to this heading"></a></h2>
+<section id="how-to-learn-more">
+<h2>How to learn more<a class="headerlink" href="#how-to-learn-more" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Review the <a class="reference internal" href="tutorial/tutorial.html"><span class="doc">first</span></a> and <a class="reference internal" href="tutorial/launch.html"><span class="doc">second tutorial</span></a>.</p>
 <ul>
@@ -246,8 +238,9 @@ pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"
 </li>
 <li><p>Find <a class="reference internal" href="tutorial/README.html"><span class="doc">Tutorials</span></a> that are closest to what you would like to accomplish.</p></li>
 <li><p>Reproduce the expected result of those <a class="reference internal" href="tutorial/README.html"><span class="doc">Tutorials</span></a>.</p></li>
-<li><p>To modify the tutorial to accomplish your goals, refer to the <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> documentation.</p></li>
-<li><p>Compare the energy of a <a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_0_ref_configs.html"><span class="doc">reference configuration</span></a> with a trusted source.</p></li>
+<li><p>To modify <a class="reference internal" href="tutorial/README.html"><span class="doc">Tutorials</span></a> to accomplish your goals, refer to the <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> documentation.</p></li>
+<li><p>Compare the energy of a <a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_0_ref_configs.html"><span class="doc">reference configuration</span></a> with a trusted source to ensure the model, <a class="reference internal" href="particle/README.html"><span class="doc">Particle files and units</span></a> return an expected result.</p></li>
+<li><p><a class="reference internal" href="CONTACT.html"><span class="doc">Contact</span></a> us.</p></li>
 </ul>
 </section>
 <section id="features">
@@ -361,12 +354,16 @@ google-chrome<span class="w"> </span>index.html
 <p><a class="reference external" href="https://www.nist.gov/people/harold-wickes-hatch">https://www.nist.gov/people/harold-wickes-hatch</a></p>
 <p><a class="reference external" href="mailto:harold&#46;hatch&#37;&#52;&#48;nist&#46;gov">harold<span>&#46;</span>hatch<span>&#64;</span>nist<span>&#46;</span>gov</a></p>
 </section>
-<section id="email-list">
-<h3>Email list<a class="headerlink" href="#email-list" title="Link to this heading"></a></h3>
+<section id="github-discussion">
+<h3>GitHub Discussion<a class="headerlink" href="#github-discussion" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://github.com/usnistgov/feasst/discussions">https://github.com/usnistgov/feasst/discussions</a></p>
+</section>
+<section id="google-group">
+<h3>Google Group<a class="headerlink" href="#google-group" title="Link to this heading"></a></h3>
 <p><a class="reference external" href="https://list.nist.gov/feasst">https://list.nist.gov/feasst</a></p>
 </section>
-<section id="issue-tracker">
-<h3>Issue tracker<a class="headerlink" href="#issue-tracker" title="Link to this heading"></a></h3>
+<section id="github-issues">
+<h3>GitHub Issues<a class="headerlink" href="#github-issues" title="Link to this heading"></a></h3>
 <p><a class="reference external" href="https://github.com/usnistgov/feasst/issues">https://github.com/usnistgov/feasst/issues</a></p>
 </section>
 <section id="bug-reporting">

@@ -1,6 +1,7 @@
 
 .. toctree::
 
+   ZeroBackground
    HenryCoefficient
    ModelTableCart1DHard
    ModelSquareWellShape

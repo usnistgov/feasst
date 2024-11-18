@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; FEASST v0.25.3 documentation</title>
+  <title>&lt;no title&gt; &mdash; FEASST v0.25.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=440f07cd"></script>
+        <script src="../../../_static/documentation_options.js?v=8f869700"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -29,7 +29,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="PerturbSiteType" href="PerturbSiteType.html" />
+    <link rel="next" title="PerturbConnector" href="PerturbConnector.html" />
     <link rel="prev" title="Chain" href="../README.html" />
 
 	<!-- frame blocking -->
@@ -57,7 +57,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.3
+                v0.25.4
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -70,9 +70,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CITATION.html">Citation</a></li>
 </ul>
 
         </div>
@@ -152,112 +152,9 @@
              
   <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="PerturbSiteType.html#_CPPv4N6feasst15PerturbSiteTypeE"><code class="docutils literal notranslate"><span class="pre">PerturbSiteType</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4N6feasst15PerturbSiteType15PerturbSiteTypeE7argtype"><code class="docutils literal notranslate"><span class="pre">PerturbSiteType()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4N6feasst15PerturbSiteType13set_site_typeEP6SystemRK11TrialSelectKi"><code class="docutils literal notranslate"><span class="pre">set_site_type()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4N6feasst15PerturbSiteType7perturbEP6SystemP11TrialSelectP6RandomKbP10Acceptance"><code class="docutils literal notranslate"><span class="pre">perturb()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4N6feasst15PerturbSiteType6revertEP6System"><code class="docutils literal notranslate"><span class="pre">revert()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4N6feasst15PerturbSiteType8finalizeEP6System"><code class="docutils literal notranslate"><span class="pre">finalize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4NK6feasst15PerturbSiteType13status_headerEv"><code class="docutils literal notranslate"><span class="pre">status_header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4NK6feasst15PerturbSiteType6statusEv"><code class="docutils literal notranslate"><span class="pre">status()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="PerturbToAnchor.html#_CPPv4N6feasst15PerturbToAnchorE"><code class="docutils literal notranslate"><span class="pre">PerturbToAnchor</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PerturbToAnchor.html#_CPPv4N6feasst15PerturbToAnchor4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="PerturbPositionSwap.html">PerturbPositionSwap</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="PerturbPositionSwap.html#_CPPv4N6feasst19PerturbPositionSwapE"><code class="docutils literal notranslate"><span class="pre">PerturbPositionSwap</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PerturbPositionSwap.html#_CPPv4N6feasst19PerturbPositionSwap4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="SelectTwoSites.html">SelectTwoSites</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SelectTwoSites.html#_CPPv4N6feasst14SelectTwoSitesE"><code class="docutils literal notranslate"><span class="pre">SelectTwoSites</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="SelectTwoSites.html#_CPPv4NK6feasst14SelectTwoSites11mobile_siteEv"><code class="docutils literal notranslate"><span class="pre">mobile_site()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectTwoSites.html#_CPPv4NK6feasst14SelectTwoSites12mobile_site2Ev"><code class="docutils literal notranslate"><span class="pre">mobile_site2()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectTwoSites.html#_CPPv4N6feasst14SelectTwoSites10precomputeEP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectTwoSites.html#_CPPv4N6feasst14SelectTwoSites6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SelectPerturbed.html#_CPPv4N6feasst15SelectPerturbedE"><code class="docutils literal notranslate"><span class="pre">SelectPerturbed</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html#_CPPv4N6feasst15SelectPerturbed6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="SelectParticlePivot.html">SelectParticlePivot</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SelectParticlePivot.html#_CPPv4N6feasst19SelectParticlePivotE"><code class="docutils literal notranslate"><span class="pre">SelectParticlePivot</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="SelectParticlePivot.html#_CPPv4N6feasst19SelectParticlePivot10precomputeEP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectParticlePivot.html#_CPPv4N6feasst19SelectParticlePivot6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SelectSiteOfType.html#_CPPv4N6feasst16SelectSiteOfTypeE"><code class="docutils literal notranslate"><span class="pre">SelectSiteOfType</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html#_CPPv4N6feasst16SelectSiteOfType16SelectSiteOfTypeE7argtype"><code class="docutils literal notranslate"><span class="pre">SelectSiteOfType()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html#_CPPv4N6feasst16SelectSiteOfType23random_site_in_particleERK13ConfigurationP6SelectP6Random"><code class="docutils literal notranslate"><span class="pre">random_site_in_particle()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html#_CPPv4N6feasst16SelectSiteOfType6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="SelectBranch.html">SelectBranch</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SelectBranch.html#_CPPv4N6feasst12SelectBranchE"><code class="docutils literal notranslate"><span class="pre">SelectBranch</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="SelectBranch.html#_CPPv4N6feasst12SelectBranch10precomputeEP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="SelectSegment.html">SelectSegment</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SelectSegment.html#_CPPv4N6feasst13SelectSegmentE"><code class="docutils literal notranslate"><span class="pre">SelectSegment</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="SelectSegment.html#_CPPv4NK6feasst13SelectSegment10max_lengthEv"><code class="docutils literal notranslate"><span class="pre">max_length()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectSegment.html#_CPPv4N6feasst13SelectSegment26random_segment_in_particleERK13ConfigurationP6SelectP6RandomKi"><code class="docutils literal notranslate"><span class="pre">random_segment_in_particle()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectSegment.html#_CPPv4N6feasst13SelectSegment6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SelectEndSegment.html#_CPPv4N6feasst16SelectEndSegmentE"><code class="docutils literal notranslate"><span class="pre">SelectEndSegment</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html#_CPPv4N6feasst16SelectEndSegment10precomputeEP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html#_CPPv4N6feasst16SelectEndSegment30random_end_segment_in_particleERK13ConfigurationKiP6SelectP6RandomPb"><code class="docutils literal notranslate"><span class="pre">random_end_segment_in_particle()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html#_CPPv4N6feasst16SelectEndSegment6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="SelectCrankshaftSmall.html">SelectCrankshaftSmall</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SelectCrankshaftSmall.html#_CPPv4N6feasst21SelectCrankshaftSmallE"><code class="docutils literal notranslate"><span class="pre">SelectCrankshaftSmall</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="SelectCrankshaftSmall.html#_CPPv4N6feasst21SelectCrankshaftSmall10precomputeEP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectCrankshaftSmall.html#_CPPv4N6feasst21SelectCrankshaftSmall6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="PerturbConnector.html">PerturbConnector</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="PerturbConnector.html#_CPPv4N6feasst16PerturbConnectorE"><code class="docutils literal notranslate"><span class="pre">PerturbConnector</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="PerturbConnector.html#_CPPv4N6feasst16PerturbConnector4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="SelectReptate.html">SelectReptate</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SelectReptate.html#_CPPv4N6feasst13SelectReptateE"><code class="docutils literal notranslate"><span class="pre">SelectReptate</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="SelectReptate.html#_CPPv4N6feasst13SelectReptate13SelectReptateE7argtype"><code class="docutils literal notranslate"><span class="pre">SelectReptate()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectReptate.html#_CPPv4N6feasst13SelectReptate10precomputeEP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="SelectReptate.html#_CPPv4N6feasst13SelectReptate9mid_stageEv"><code class="docutils literal notranslate"><span class="pre">mid_stage()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -300,12 +197,117 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="PerturbPositionSwap.html">PerturbPositionSwap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="PerturbPositionSwap.html#_CPPv4N6feasst19PerturbPositionSwapE"><code class="docutils literal notranslate"><span class="pre">PerturbPositionSwap</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="PerturbPositionSwap.html#_CPPv4N6feasst19PerturbPositionSwap4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="PerturbSiteType.html#_CPPv4N6feasst15PerturbSiteTypeE"><code class="docutils literal notranslate"><span class="pre">PerturbSiteType</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4N6feasst15PerturbSiteType15PerturbSiteTypeE7argtype"><code class="docutils literal notranslate"><span class="pre">PerturbSiteType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4N6feasst15PerturbSiteType13set_site_typeEP6SystemRK11TrialSelectKi"><code class="docutils literal notranslate"><span class="pre">set_site_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4N6feasst15PerturbSiteType7perturbEP6SystemP11TrialSelectP6RandomKbP10Acceptance"><code class="docutils literal notranslate"><span class="pre">perturb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4N6feasst15PerturbSiteType6revertEP6System"><code class="docutils literal notranslate"><span class="pre">revert()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4N6feasst15PerturbSiteType8finalizeEP6System"><code class="docutils literal notranslate"><span class="pre">finalize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4NK6feasst15PerturbSiteType13status_headerEv"><code class="docutils literal notranslate"><span class="pre">status_header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html#_CPPv4NK6feasst15PerturbSiteType6statusEv"><code class="docutils literal notranslate"><span class="pre">status()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PerturbToAnchor.html">PerturbToAnchor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="PerturbToAnchor.html#_CPPv4N6feasst15PerturbToAnchorE"><code class="docutils literal notranslate"><span class="pre">PerturbToAnchor</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="PerturbToAnchor.html#_CPPv4N6feasst15PerturbToAnchor4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SelectBranch.html">SelectBranch</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SelectBranch.html#_CPPv4N6feasst12SelectBranchE"><code class="docutils literal notranslate"><span class="pre">SelectBranch</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SelectBranch.html#_CPPv4N6feasst12SelectBranch10precomputeEP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SelectCrankshaftSmall.html">SelectCrankshaftSmall</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SelectCrankshaftSmall.html#_CPPv4N6feasst21SelectCrankshaftSmallE"><code class="docutils literal notranslate"><span class="pre">SelectCrankshaftSmall</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SelectCrankshaftSmall.html#_CPPv4N6feasst21SelectCrankshaftSmall10precomputeEP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectCrankshaftSmall.html#_CPPv4N6feasst21SelectCrankshaftSmall6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SelectParticlePivot.html">SelectParticlePivot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SelectParticlePivot.html#_CPPv4N6feasst19SelectParticlePivotE"><code class="docutils literal notranslate"><span class="pre">SelectParticlePivot</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SelectParticlePivot.html#_CPPv4N6feasst19SelectParticlePivot10precomputeEP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectParticlePivot.html#_CPPv4N6feasst19SelectParticlePivot6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SelectPerturbed.html#_CPPv4N6feasst15SelectPerturbedE"><code class="docutils literal notranslate"><span class="pre">SelectPerturbed</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html#_CPPv4N6feasst15SelectPerturbed6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SelectSegment.html">SelectSegment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SelectSegment.html#_CPPv4N6feasst13SelectSegmentE"><code class="docutils literal notranslate"><span class="pre">SelectSegment</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SelectSegment.html#_CPPv4NK6feasst13SelectSegment10max_lengthEv"><code class="docutils literal notranslate"><span class="pre">max_length()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectSegment.html#_CPPv4N6feasst13SelectSegment26random_segment_in_particleERK13ConfigurationP6SelectP6RandomKi"><code class="docutils literal notranslate"><span class="pre">random_segment_in_particle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectSegment.html#_CPPv4N6feasst13SelectSegment6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SelectEndSegment.html#_CPPv4N6feasst16SelectEndSegmentE"><code class="docutils literal notranslate"><span class="pre">SelectEndSegment</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html#_CPPv4N6feasst16SelectEndSegment10precomputeEP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html#_CPPv4N6feasst16SelectEndSegment30random_end_segment_in_particleERK13ConfigurationKiP6SelectP6RandomPb"><code class="docutils literal notranslate"><span class="pre">random_end_segment_in_particle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html#_CPPv4N6feasst16SelectEndSegment6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SelectSiteOfType.html#_CPPv4N6feasst16SelectSiteOfTypeE"><code class="docutils literal notranslate"><span class="pre">SelectSiteOfType</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html#_CPPv4N6feasst16SelectSiteOfType16SelectSiteOfTypeE7argtype"><code class="docutils literal notranslate"><span class="pre">SelectSiteOfType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html#_CPPv4N6feasst16SelectSiteOfType23random_site_in_particleERK13ConfigurationP6SelectP6Random"><code class="docutils literal notranslate"><span class="pre">random_site_in_particle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html#_CPPv4N6feasst16SelectSiteOfType6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SelectTwoSites.html">SelectTwoSites</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SelectTwoSites.html#_CPPv4N6feasst14SelectTwoSitesE"><code class="docutils literal notranslate"><span class="pre">SelectTwoSites</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SelectTwoSites.html#_CPPv4NK6feasst14SelectTwoSites11mobile_siteEv"><code class="docutils literal notranslate"><span class="pre">mobile_site()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectTwoSites.html#_CPPv4NK6feasst14SelectTwoSites12mobile_site2Ev"><code class="docutils literal notranslate"><span class="pre">mobile_site2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectTwoSites.html#_CPPv4N6feasst14SelectTwoSites10precomputeEP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectTwoSites.html#_CPPv4N6feasst14SelectTwoSites6selectERK6SelectP6SystemP6Random"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="EndToEndDistance.html">EndToEndDistance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistanceE"><code class="docutils literal notranslate"><span class="pre">EndToEndDistance</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html#_CPPv4NK6feasst16EndToEndDistance6headerERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistance10initializeEP10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistance6updateERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistance5writeERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html#_CPPv4NK6feasst16EndToEndDistance19end_to_end_distanceEv"><code class="docutils literal notranslate"><span class="pre">end_to_end_distance()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="RadiusOfGyration.html">RadiusOfGyration</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyrationE"><code class="docutils literal notranslate"><span class="pre">RadiusOfGyration</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html#_CPPv4NK6feasst16RadiusOfGyration6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyration10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyration6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyration5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html#_CPPv4NK6feasst16RadiusOfGyration6headerERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyration10initializeEP10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyration6updateERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html#_CPPv4N6feasst16RadiusOfGyration5writeERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html#_CPPv4NK6feasst16RadiusOfGyration18radius_of_gyrationEv"><code class="docutils literal notranslate"><span class="pre">radius_of_gyration()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html#_CPPv4NK6feasst16RadiusOfGyration9histogramEv"><code class="docutils literal notranslate"><span class="pre">histogram()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="RadiusOfGyration.html#_CPPv4NK6feasst16RadiusOfGyration4rg_eEv"><code class="docutils literal notranslate"><span class="pre">rg_e()</span></code></a></li>
@@ -313,13 +315,19 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="EndToEndDistance.html">EndToEndDistance</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistanceE"><code class="docutils literal notranslate"><span class="pre">EndToEndDistance</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html#_CPPv4NK6feasst16EndToEndDistance6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistance10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistance6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html#_CPPv4N6feasst16EndToEndDistance5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="EndToEndDistance.html#_CPPv4NK6feasst16EndToEndDistance19end_to_end_distanceEv"><code class="docutils literal notranslate"><span class="pre">end_to_end_distance()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="SelectReptate.html">SelectReptate</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SelectReptate.html#_CPPv4N6feasst13SelectReptateE"><code class="docutils literal notranslate"><span class="pre">SelectReptate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SelectReptate.html#_CPPv4N6feasst13SelectReptate13SelectReptateE7argtype"><code class="docutils literal notranslate"><span class="pre">SelectReptate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectReptate.html#_CPPv4N6feasst13SelectReptate10precomputeEP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectReptate.html#_CPPv4N6feasst13SelectReptate9mid_stageEv"><code class="docutils literal notranslate"><span class="pre">mid_stage()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="PerturbReptate.html#_CPPv4N6feasst14PerturbReptateE"><code class="docutils literal notranslate"><span class="pre">PerturbReptate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html#_CPPv4N6feasst14PerturbReptate4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html#_CPPv4N6feasst14PerturbReptate8finalizeEP6System"><code class="docutils literal notranslate"><span class="pre">finalize()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -337,48 +345,27 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="PerturbReptate.html#_CPPv4N6feasst14PerturbReptateE"><code class="docutils literal notranslate"><span class="pre">PerturbReptate</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html#_CPPv4N6feasst14PerturbReptate4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html#_CPPv4N6feasst14PerturbReptate8finalizeEP6System"><code class="docutils literal notranslate"><span class="pre">finalize()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="AnalyzeBonds.html">AnalyzeBonds</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBondsE"><code class="docutils literal notranslate"><span class="pre">AnalyzeBonds</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBonds6updateERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBonds10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBonds6updateERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBonds10initializeEP10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html#_CPPv4NK6feasst12AnalyzeBonds4bondEKi"><code class="docutils literal notranslate"><span class="pre">bond()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html#_CPPv4NK6feasst12AnalyzeBonds5angleEKi"><code class="docutils literal notranslate"><span class="pre">angle()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html#_CPPv4NK6feasst12AnalyzeBonds8dihedralEKi"><code class="docutils literal notranslate"><span class="pre">dihedral()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html#_CPPv4NK6feasst12AnalyzeBonds9bond_histEKi"><code class="docutils literal notranslate"><span class="pre">bond_hist()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html#_CPPv4NK6feasst12AnalyzeBonds10angle_histEKi"><code class="docutils literal notranslate"><span class="pre">angle_hist()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html#_CPPv4NK6feasst12AnalyzeBonds13dihedral_histEKi"><code class="docutils literal notranslate"><span class="pre">dihedral_hist()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBonds5writeERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeBonds.html#_CPPv4N6feasst12AnalyzeBonds5writeERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="TrialCrankshaft.html#_CPPv4N6feasst15TrialCrankshaftE"><code class="docutils literal notranslate"><span class="pre">TrialCrankshaft</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="TrialCrankshaftSmall.html">TrialCrankshaftSmall</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="TrialCrankshaftSmall.html#_CPPv4N6feasst20TrialCrankshaftSmallE"><code class="docutils literal notranslate"><span class="pre">TrialCrankshaftSmall</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="TrialParticlePivot.html">TrialParticlePivot</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="TrialParticlePivot.html#_CPPv4N6feasst18TrialParticlePivotE"><code class="docutils literal notranslate"><span class="pre">TrialParticlePivot</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="TrialPivot.html">TrialPivot</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="TrialPivot.html#_CPPv4N6feasst10TrialPivotE"><code class="docutils literal notranslate"><span class="pre">TrialPivot</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="TrialReptate.html">TrialReptate</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="TrialReptate.html#_CPPv4N6feasst12TrialReptateE"><code class="docutils literal notranslate"><span class="pre">TrialReptate</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html#_CPPv4N6feasst12TrialReptate12TrialReptateE7argtype"><code class="docutils literal notranslate"><span class="pre">TrialReptate()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="GhostTrialGrow.html">GhostTrialGrow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrowE"><code class="docutils literal notranslate"><span class="pre">GhostTrialGrow</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="GhostTrialGrow.html#_CPPv4NK6feasst14GhostTrialGrow6headerERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrow10initializeEP10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrow6updateEP10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrow5writeEP10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -387,12 +374,10 @@
 <li class="toctree-l2"><a class="reference internal" href="TrialSwapSites.html#_CPPv4N6feasst14TrialSwapSitesE"><code class="docutils literal notranslate"><span class="pre">TrialSwapSites</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="GhostTrialGrow.html">GhostTrialGrow</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrowE"><code class="docutils literal notranslate"><span class="pre">GhostTrialGrow</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="GhostTrialGrow.html#_CPPv4NK6feasst14GhostTrialGrow6headerERK8CriteriaRK6SystemRK12TrialFactory"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrow10initializeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrow6updateEP8CriteriaP6SystemP6RandomP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="GhostTrialGrow.html#_CPPv4N6feasst14GhostTrialGrow5writeEP8CriteriaP6SystemP12TrialFactory"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TrialGrowLinear.html#_CPPv4N6feasst15TrialGrowLinearE"><code class="docutils literal notranslate"><span class="pre">TrialGrowLinear</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html#_CPPv4N6feasst15TrialGrowLinear15TrialGrowLinearENSt10shared_ptrI12TrialComputeEE7argtype"><code class="docutils literal notranslate"><span class="pre">TrialGrowLinear()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html#_CPPv4N6feasst15TrialGrowLinear10precomputeEP8CriteriaP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -405,12 +390,27 @@
 <li class="toctree-l2"><a class="reference internal" href="TrialGrow.html#_CPPv4N6feasst13TrialGrowFileE"><code class="docutils literal notranslate"><span class="pre">TrialGrowFile</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="TrialGrowLinear.html#_CPPv4N6feasst15TrialGrowLinearE"><code class="docutils literal notranslate"><span class="pre">TrialGrowLinear</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html#_CPPv4N6feasst15TrialGrowLinear15TrialGrowLinearENSt10shared_ptrI12TrialComputeEE7argtype"><code class="docutils literal notranslate"><span class="pre">TrialGrowLinear()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html#_CPPv4N6feasst15TrialGrowLinear10precomputeEP8CriteriaP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialReptate.html">TrialReptate</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TrialReptate.html#_CPPv4N6feasst12TrialReptateE"><code class="docutils literal notranslate"><span class="pre">TrialReptate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html#_CPPv4N6feasst12TrialReptate12TrialReptateE7argtype"><code class="docutils literal notranslate"><span class="pre">TrialReptate()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TrialPivot.html">TrialPivot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TrialPivot.html#_CPPv4N6feasst10TrialPivotE"><code class="docutils literal notranslate"><span class="pre">TrialPivot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TrialParticlePivot.html">TrialParticlePivot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TrialParticlePivot.html#_CPPv4N6feasst18TrialParticlePivotE"><code class="docutils literal notranslate"><span class="pre">TrialParticlePivot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TrialCrankshaftSmall.html">TrialCrankshaftSmall</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TrialCrankshaftSmall.html#_CPPv4N6feasst20TrialCrankshaftSmallE"><code class="docutils literal notranslate"><span class="pre">TrialCrankshaftSmall</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TrialCrankshaft.html#_CPPv4N6feasst15TrialCrankshaftE"><code class="docutils literal notranslate"><span class="pre">TrialCrankshaft</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -421,7 +421,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../README.html" class="btn btn-neutral float-left" title="Chain" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="PerturbSiteType.html" class="btn btn-neutral float-right" title="PerturbSiteType" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="PerturbConnector.html" class="btn btn-neutral float-right" title="PerturbConnector" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

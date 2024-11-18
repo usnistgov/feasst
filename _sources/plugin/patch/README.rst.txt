@@ -15,8 +15,6 @@ Tutorial
 .. toctree::
    :glob:
 
-   tutorial/tutorial*
-
 FEASST plugin dependencies
 ============================
 

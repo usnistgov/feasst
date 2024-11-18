@@ -22,9 +22,9 @@ Contents:
    pyfeasst/README
    python/README
    CONTACT
-   CONTRIBUTING
-   ACKNOWLEDGEMENT
-   CITATION
+   dev/sphinx/CONTRIBUTING
+   dev/sphinx/ACKNOWLEDGEMENT
+   dev/sphinx/CITATION
 
 Index
 ==================

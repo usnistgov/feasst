@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gibbs Ensemble Simulation of TraPPE alkanes &mdash; FEASST v0.25.3 documentation</title>
+  <title>Gibbs Ensemble Simulation of TraPPE alkanes &mdash; FEASST v0.25.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=440f07cd"></script>
+        <script src="../../../_static/documentation_options.js?v=8f869700"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -55,7 +55,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.3
+                v0.25.4
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -89,12 +89,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../../aniso/README.html">Aniso</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Gibbs</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../doc/CheckConstantVolume.html">CheckConstantVolume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/ComputeGibbsParticleTransfer.html">ComputeGibbsParticleTransfer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/PressureFromTestVolume.html">PressureFromTestVolume</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/ComputeGibbsVolumeTransfer.html">ComputeGibbsVolumeTransfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/CopyNextLine.html">CopyNextLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/CheckConstantVolume.html">CheckConstantVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/GibbsInitialize.html">GibbsInitialize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/CopyFollowingLines.html">CopyFollowingLines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/EndCopy.html">EndCopy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/TrialGibbsVolumeTransfer.html">TrialGibbsVolumeTransfer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/TrialGibbsParticleTransfer.html">TrialGibbsParticleTransfer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/ComputeGibbsVolumeTransfer.html">ComputeGibbsVolumeTransfer</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#tutorial">Tutorial</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="tutorial_1_lj_gibbs.html">Gibbs Ensemble Simulation of Lennard-Jones</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Gibbs Ensemble Simulation of TraPPE alkanes</a></li>
@@ -114,9 +117,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CITATION.html">Citation</a></li>
 </ul>
 
         </div>
@@ -264,6 +267,8 @@
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;procs_per_sim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span>
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">physical_constants</span><span class="o">.</span><span class="n">MolarGasConstant</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">/</span><span class="mf">1e3</span><span class="p">)</span> <span class="c1"># mol/kJ</span>
 <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;mu_init&#39;</span><span class="p">]</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;equil&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;equilibration_iterations&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;trials_per_iteration&#39;</span><span class="p">]</span>
+<span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;double_equil&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;equil&#39;</span><span class="p">]</span>
 <span class="k">if</span> <span class="s1">&#39;n-butane&#39;</span> <span class="ow">in</span> <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;fstprt&#39;</span><span class="p">]:</span>
     <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
     <span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;molecular_weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">58.12</span>
@@ -381,18 +386,12 @@
 <span class="s2">RandomMT19937 seed </span><span class="si">{seed}</span>
 <span class="s2">Configuration </span><span class="si">{vapor_config}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span><span class="s2"> cutoff </span><span class="si">{cutoff}</span>
 <span class="s2">Configuration </span><span class="si">{liquid_config}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span><span class="s2"> cutoff </span><span class="si">{cutoff}</span>
-<span class="s2">CopyNextLine replace configuration_index with 0</span>
-<span class="s2">Potential Model LennardJones configuration_index 1</span>
-<span class="s2">CopyNextLine replace configuration_index with 0</span>
-<span class="s2">Potential Model LennardJones VisitModel VisitModelIntra intra_cut 3 configuration_index 1</span>
-<span class="s2">CopyNextLine replace configuration_index with 0</span>
-<span class="s2">Potential VisitModel LongRangeCorrections configuration_index 1</span>
-<span class="s2">CopyNextLine replace configuration_index with 0</span>
-<span class="s2">RefPotential VisitModel DontVisitModel reference_index 0 configuration_index 1</span>
-<span class="s2">#CopyNextLine replace configuration_index with 0</span>
-<span class="s2">#RefPotential Model LennardJones reference_index 0 configuration_index 1</span>
-<span class="s2">#CopyNextLine replace configuration_index with 0</span>
-<span class="s2">#RefPotential Model LennardJones VisitModel VisitModelIntra intra_cut 3 reference_index 0 configuration_index 1</span>
+<span class="s2">CopyFollowingLines for_num_configurations 2</span>
+<span class="s2">    Potential Model LennardJones</span>
+<span class="s2">    Potential Model LennardJones VisitModel VisitModelIntra intra_cut 3</span>
+<span class="s2">    Potential VisitModel LongRangeCorrections</span>
+<span class="s2">    RefPotential VisitModel DontVisitModel reference_index 0</span>
+<span class="s2">EndCopy</span>
 <span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential 10</span>
 <span class="s2">Metropolis</span>
 <span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 30</span>
@@ -411,7 +410,7 @@
 <span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_fill.xyz configuration_index 1</span>
 <span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_fill.csv include_bonds true</span>
 <span class="s2"># decrease trials per due to infrequency of volume transfer attempts</span>
-<span class="s2">Tune trials_per_tune 10</span>
+<span class="s2">Tune</span>
 
 <span class="s2"># fill the first box</span>
 <span class="si">{init_vapor}</span>
@@ -419,39 +418,45 @@
 <span class="s2"># fill the second box</span>
 <span class="si">{init_liquid}</span>
 
-<span class="s2"># equilibrate both</span>
-<span class="s2">#Metropolis num_trials_per_iteration </span><span class="si">{trials_per_iteration}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{equilibration_iterations}</span>
-<span class="s2">#Run until_criteria_complete true</span>
-<span class="s2">RemoveAnalyze name Log</span>
-<span class="s2">RemoveAnalyze name Movie</span>
-<span class="s2">RemoveAnalyze name Movie</span>
-
-<span class="s2"># gibbs ensemble equilibration</span>
-<span class="s2">Metropolis num_trials_per_iteration </span><span class="si">{trials_per_iteration}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{equilibration_iterations}</span>
-<span class="s2">TrialGrowFile grow_file </span><span class="si">{prefix}</span><span class="s2">_grow_gibbs.txt</span>
-<span class="s2">TrialGibbsVolumeTransfer weight 0.006 tunable_param 3000 reference_index 0 print_num_accepted true</span>
-<span class="s2">CheckConstantVolume trials_per_update </span><span class="si">{trials_per_iteration}</span><span class="s2"> tolerance 1e-4</span>
-<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_eq.csv</span>
-<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_eq.xyz</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_eq.xyz configuration_index 1</span>
-<span class="s2">Run until_criteria_complete true</span>
 <span class="s2">RemoveModify name Tune</span>
 <span class="s2">RemoveAnalyze name Log</span>
 <span class="s2">RemoveAnalyze name Movie</span>
 <span class="s2">RemoveAnalyze name Movie</span>
 
+<span class="s2"># gibbs equilibration cycles: equilibrate, estimate density, adjust, repeat</span>
+<span class="s2"># start a very long run GibbsInitialize completes once targets are reached</span>
+<span class="s2">Metropolis num_trials_per_iteration 1e9 num_iterations_to_complete 1e9</span>
+<span class="s2">GibbsInitialize updates_density_equil </span><span class="si">{equil}</span><span class="s2"> updates_per_adjust </span><span class="si">{double_equil}</span>
+<span class="s2">TrialGrowFile grow_file </span><span class="si">{prefix}</span><span class="s2">_grow_gibbs.txt</span>
+<span class="s2">TrialGibbsVolumeTransfer weight 0.006 tunable_param 3000 reference_index 0 print_num_accepted true</span>
+<span class="s2"># a new tune is required when new Trials are introduced</span>
+<span class="s2">Tune trials_per_tune 20</span>
+<span class="s2">CheckEnergy trials_per_update </span><span class="si">{trials_per_iteration}</span><span class="s2"> decimal_places 8</span>
+<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_eq.csv</span>
+<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_eq.xyz</span>
+<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_eq.xyz configuration_index 1</span>
+<span class="s2">ProfileCPU trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_eq_profile.csv</span>
+<span class="s2"># decrease trials per due to infrequency of volume transfer attempts</span>
+<span class="s2">Run until_criteria_complete true</span>
+<span class="s2">RemoveModify name GibbsInitialize</span>
+<span class="s2">RemoveModify name Tune</span>
+<span class="s2">RemoveAnalyze name Log</span>
+<span class="s2">RemoveAnalyze name Movie</span>
+<span class="s2">RemoveAnalyze name Movie</span>
+<span class="s2">RemoveAnalyze name ProfileCPU</span>
+
 <span class="s2"># gibbs ensemble production</span>
 <span class="s2">Metropolis num_trials_per_iteration </span><span class="si">{trials_per_iteration}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{production_iterations}</span>
+<span class="s2">CheckConstantVolume trials_per_update </span><span class="si">{trials_per_iteration}</span><span class="s2"> tolerance 1e-4</span>
 <span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">.csv</span>
-<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0.xyz</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1.xyz configuration_index 1</span>
-<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_new.xyz</span>
-<span class="s2">Energy trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_en.csv configuration_index 1</span>
-<span class="s2">CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_dens.csv</span>
-<span class="s2">Density trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c1_dens.csv configuration_index 1</span>
-<span class="s2">PressureFromTestVolume trials_per_update 1e3 trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_pressure.csv</span>
+<span class="s2">CopyFollowingLines for_num_configurations 2 replace c0 with c1</span>
+<span class="s2">    Movie   trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0.xyz</span>
+<span class="s2">    Energy  trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_en.csv</span>
+<span class="s2">    Density trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_c0_dens.csv</span>
+<span class="s2">EndCopy</span>
+<span class="s2">GhostTrialVolume trials_per_update 1e3 trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_pressure.csv</span>
 <span class="s2">CPUTime trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_cpu.csv</span>
-<span class="s2">ProfileTrials trials_per_update 1e4 trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_profile.csv</span>
+<span class="s2">ProfileCPU trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_profile.csv</span>
 <span class="s2">Run until_criteria_complete true</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
@@ -466,7 +471,8 @@
     <span class="n">vapor_density</span><span class="p">[</span><span class="s1">&#39;tol&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">vapor_density</span><span class="p">[</span><span class="s1">&#39;block_stdev&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">vapor_density</span><span class="p">)</span>
     <span class="n">diverged</span> <span class="o">=</span> <span class="n">vapor_density</span><span class="p">[</span><span class="n">vapor_density</span><span class="p">[</span><span class="s1">&#39;diff&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">z_factor</span><span class="o">*</span><span class="n">vapor_density</span><span class="p">[</span><span class="s1">&#39;tol&#39;</span><span class="p">]]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">diverged</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">diverged</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">diverged</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">diverged</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
     <span class="n">liquid_density</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;0_c1_dens.csv&quot;</span><span class="p">)</span>
     <span class="n">liquid_density</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">dens_conv</span>
@@ -475,9 +481,16 @@
     <span class="n">liquid_density</span><span class="p">[</span><span class="s1">&#39;tol&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">liquid_density</span><span class="p">[</span><span class="s1">&#39;block_stdev&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">liquid_density</span><span class="p">)</span>
     <span class="n">diverged</span> <span class="o">=</span> <span class="n">liquid_density</span><span class="p">[</span><span class="n">liquid_density</span><span class="p">[</span><span class="s1">&#39;diff&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">z_factor</span><span class="o">*</span><span class="n">liquid_density</span><span class="p">[</span><span class="s1">&#39;tol&#39;</span><span class="p">]]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">diverged</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">diverged</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">diverged</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">diverged</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-
+    <span class="n">pres_conv</span> <span class="o">=</span> <span class="mf">1e33</span><span class="o">/</span><span class="n">na</span> <span class="c1"># convert from kJ/mol/A^3 to Pa (J/m^3)</span>
+    <span class="n">pressure</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;0_pressure.csv&quot;</span><span class="p">)</span>
+    <span class="n">pressure</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">pres_conv</span>
+    <span class="n">pressure</span><span class="p">[</span><span class="s1">&#39;block_stdev&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">pres_conv</span>
+    <span class="n">pressure</span><span class="p">[</span><span class="s1">&#39;diff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">pressure</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">]</span><span class="o">-</span><span class="mf">1.1976E+06</span><span class="p">)</span>
+    <span class="n">pressure</span><span class="p">[</span><span class="s1">&#39;tol&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pressure</span><span class="p">[</span><span class="s1">&#39;block_stdev&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="mf">3.6212E+02</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">pressure</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">fstio</span><span class="o">.</span><span class="n">run_simulations</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">PARAMS</span><span class="p">,</span>
