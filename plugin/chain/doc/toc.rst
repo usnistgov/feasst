@@ -20,7 +20,6 @@
    SelectTwoSites
    EndToEndDistance
    RadiusOfGyration
-   SelectReptate
    PerturbReptate
    PerturbDistanceAngleConnector
    PerturbBranch
@@ -34,3 +33,4 @@
    TrialParticlePivot
    TrialCrankshaftSmall
    TrialCrankshaft
+   SelectReptate

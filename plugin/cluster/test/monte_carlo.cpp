@@ -15,7 +15,7 @@
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/constrain_num_particles.h"
 #include "monte_carlo/include/run.h"
-#include "monte_carlo/include/remove_trial.h"
+#include "monte_carlo/include/remove.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/log.h"
 #include "steppers/include/movie.h"
@@ -166,7 +166,7 @@ std::unique_ptr<MonteCarlo> mc_avb_test(
   monte_carlo->set(MakeMetropolis());
   monte_carlo->add(MakeTrialAdd({{"particle_type", "0"}}));
   monte_carlo->run(MakeRun({{"until_num_particles", str(min_particles)}}));
-  monte_carlo->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  monte_carlo->run(MakeRemove({{"name", "TrialAdd"}}));
   monte_carlo->set(MakeThermoParams({{"beta", "0.2"}, {"chemical_potential", "-20."}}));
   monte_carlo->set(MakeMetropolis(
     MakeConstrainNumParticles({{"minimum", str(min_particles)}})));

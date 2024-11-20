@@ -189,7 +189,7 @@ CriteriaWriter trials_per_write trials_per output_file {prefix}_{domain}_b2_eq.t
 #Movie trials_per_write trials_per output_file {prefix}_{domain}_eq.xyz
 Tune
 Run until_criteria_complete true
-RemoveModify name Tune
+Remove name Tune
 
 # production
 CriteriaWriter trials_per_write trials_per output_file {prefix}_{domain}_b2.txt

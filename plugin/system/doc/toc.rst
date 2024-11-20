@@ -7,8 +7,6 @@
    BondTwoBody
    BondSquareWell
    BondVisitor
-   Cells
-   CutoffOuter
    Model
    ModelOneBody
    ModelEmpty
@@ -34,6 +32,8 @@
    VisitModelInner
    VisitModelIntra
    VisitModelIntraMap
+   Potential
    System
    VisitModelCutoffOuter
-   Potential
+   CutoffOuter
+   Cells

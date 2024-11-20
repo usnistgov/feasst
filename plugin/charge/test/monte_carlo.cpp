@@ -126,7 +126,7 @@ TEST(MonteCarlo, spce) {
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
   //mc.add(MakeTrialAdd({{"weight", "4."}, {"particle_type", "0"}}));
   //mc.run(MakeRun({{"until_num_particles", "2"}}));
-  //mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  //mc.run(MakeRemove({{"name", "TrialAdd"}}));
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(5e2)}, {"output_file", "tmp/spce"}}));
   //mc.add(MakeCheckEnergyAndTune({{"trials_per", "1"}, {"tolerance", str(1e-6)}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(5e2)}, {"tolerance", str(1e-6)}}));
@@ -211,9 +211,9 @@ TEST(MonteCarlo, spcearglist) {
     {"Tune", {{}}},
     {"Run", {{"until_num_particles", "50"}}},
     {"ThermoParams", {{"beta", "1.2"}}},
-    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Remove", {{"name", "TrialAdd"}}},
     {"Run", {{"num_trials", str(1e3)}}},
-    {"RemoveModify", {{"name", "Tune"}}},
+    {"Remove", {{"name", "Tune"}}},
     {"Run", {{"num_trials", str(1e3)}}},
     {"WriteCheckpoint", {{}}},
   }}, true);
@@ -243,10 +243,10 @@ TEST(MonteCarlo, spce_npt) {
     {"Tune", {{}}},
     {"Run", {{"until_num_particles", "10"}}},
     {"ThermoParams", {{"beta", "0.02"}, {"pressure", "0.01"}}},
-    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Remove", {{"name", "TrialAdd"}}},
     {"TrialVolume", {{"tunable_target_acceptance", "0.5"}}},
     {"Run", {{"num_trials", str(1e3)}}},
-    {"RemoveModify", {{"name", "Tune"}}},
+    {"Remove", {{"name", "Tune"}}},
     {"Run", {{"num_trials", str(1e3)}}},
     {"WriteCheckpoint", {{}}},
   }}, true);

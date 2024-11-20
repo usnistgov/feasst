@@ -85,8 +85,7 @@ TrialAdd particle_type 0
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_init.csv
 Tune
 Run until_num_particles {num_particles}
-RemoveTrial name TrialAdd
-RemoveAnalyze name Log
+Remove name0 TrialAdd name1 Log
 
 # npt equilibration
 ThermoParams beta {beta} pressure {pressure}
@@ -96,10 +95,7 @@ Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.xyz
 Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_density_eq.csv
 Run until_criteria_complete true
-RemoveModify name Tune
-RemoveAnalyze name Log
-RemoveAnalyze name Movie
-RemoveAnalyze name Density
+Remove name0 Tune name1 Log name2 Movie name3 Density
 
 # npt production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}

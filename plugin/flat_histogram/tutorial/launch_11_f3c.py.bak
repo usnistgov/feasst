@@ -113,13 +113,11 @@ TrialGrowFile grow_file {prefix}_grow_grand_canonical.txt
 Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.txt include_bonds true
 Tune
 Run until_num_particles [soft_macro_min]
-RemoveTrial name_contains add
-RemoveTrial name_contains remove
+Remove name_contains0 add name_contains1 remove
 ThermoParams beta {beta} chemical_potential {mu}
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 Run until_criteria_complete true
-RemoveModify name Tune
-RemoveAnalyze name Log
+Remove name0 Tune name1 Log
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \

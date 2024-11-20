@@ -1,0 +1,14 @@
+# LAMMPS-inspired data file
+# This represents a single oxygen site on F3C water
+
+1 sites
+
+1 site types
+
+Site Properties
+
+0 sigma 3.5532 epsilon 0.1848 charge -0.82 cutoff 10.0
+
+Sites
+
+0 0 0.0 0.0 0.0

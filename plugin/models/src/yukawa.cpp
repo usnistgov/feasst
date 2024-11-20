@@ -36,7 +36,7 @@ double Yukawa::energy(
     const ModelParams& model_params) {
   const double epsilon = model_params.select(epsilon_index()).mixed_values()[type1][type2];
   const double sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
-  const double distance = sqrt(squared_distance);
+  const double distance = std::sqrt(squared_distance);
   return epsilon*std::exp(-kappa_*(distance/sigma - 1.))/(distance/sigma);
 }
 

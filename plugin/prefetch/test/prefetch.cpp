@@ -9,7 +9,7 @@
 #include "system/include/long_range_corrections.h"
 #include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/run.h"
-#include "monte_carlo/include/remove_trial.h"
+#include "monte_carlo/include/remove.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/trial_rotate.h"
@@ -57,7 +57,7 @@ void run_prefetch(const int trials, const int trials_per) {
   //mc->activate_prefetch(false);
   mc->add(MakeTrialAdd({{"particle_type", "0"}}));
   mc->run(MakeRun({{"until_num_particles", "50"}}));
-  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc->run(MakeRemove({{"name", "TrialAdd"}}));
   // activate prefetch after initial configuration
   mc->activate_prefetch(true);
   mc->attempt(trials);
@@ -160,7 +160,7 @@ TEST(Prefetch, NVT_spce) {
   mc->activate_prefetch(false);
   mc->add(MakeTrialAdd({{"particle_type", "0"}}));
   mc->run(MakeRun({{"until_num_particles", "50"}}));
-  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc->run(MakeRemove({{"name", "TrialAdd"}}));
   // activate prefetch after initial configuration
   mc->activate_prefetch(true);
   // mc->attempt(1e6);  // ~3.5 seconds (now 4.1)
@@ -183,7 +183,7 @@ TEST(Prefetch, AVB) {
   monte_carlo->activate_prefetch(false);
   monte_carlo->add(MakeTrialAdd({{"particle_type", "0"}}));
   monte_carlo->run(MakeRun({{"until_num_particles", "50"}}));
-  monte_carlo->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  monte_carlo->run(MakeRemove({{"name", "TrialAdd"}}));
   monte_carlo->activate_prefetch(true);
   monte_carlo->set(MakeThermoParams({{"beta", "0.2"}, {"chemical_potential", "-20."}}));
   monte_carlo->add(MakeNeighborCriteria({{"maximum_distance", "3"},

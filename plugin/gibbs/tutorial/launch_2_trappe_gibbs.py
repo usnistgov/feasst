@@ -78,7 +78,7 @@ if PARAMS['xyz_vapor'] == '':
     PARAMS['vapor_config'] = """cubic_side_length {cubic_side_length_vapor}""".format(**PARAMS)
     PARAMS['init_vapor'] = """TrialGrowFile grow_file {prefix}_c0_grow_add.txt
 Run until_num_particles {num_particles_vapor} configuration_index 0
-RemoveTrial name_contains add""".format(**PARAMS)
+Remove name_contains add""".format(**PARAMS)
 else:
     PARAMS['vapor_config'] = """xyz_file {xyz_vapor}""".format(**PARAMS)
     PARAMS['init_vapor'] = ''
@@ -86,7 +86,7 @@ if PARAMS['xyz_liquid'] == '':
     PARAMS['liquid_config'] = """cubic_side_length {cubic_side_length_liquid}""".format(**PARAMS)
     PARAMS['init_liquid'] = """TrialGrowFile grow_file {prefix}_c1_grow_add.txt
 Run until_num_particles {num_particles_liquid} configuration_index 1
-RemoveTrial name_contains add""".format(**PARAMS)
+Remove name_contains add""".format(**PARAMS)
 else:
     PARAMS['liquid_config'] = """xyz_file {xyz_liquid}""".format(**PARAMS)
     PARAMS['init_liquid'] = ''
@@ -217,10 +217,7 @@ Tune
 # fill the second box
 {init_liquid}
 
-RemoveModify name Tune
-RemoveAnalyze name Log
-RemoveAnalyze name Movie
-RemoveAnalyze name Movie
+Remove name0 Tune name1 Log name2 Movie name3 Movie
 
 # gibbs equilibration cycles: equilibrate, estimate density, adjust, repeat
 # start a very long run GibbsInitialize completes once targets are reached
@@ -237,12 +234,7 @@ Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_eq.xy
 ProfileCPU trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq_profile.csv
 # decrease trials per due to infrequency of volume transfer attempts
 Run until_criteria_complete true
-RemoveModify name GibbsInitialize
-RemoveModify name Tune
-RemoveAnalyze name Log
-RemoveAnalyze name Movie
-RemoveAnalyze name Movie
-RemoveAnalyze name ProfileCPU
+Remove name0 GibbsInitialize name1 Tune name2 Log name3 Movie name4 Movie name5 ProfileCPU
 
 # gibbs ensemble production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}

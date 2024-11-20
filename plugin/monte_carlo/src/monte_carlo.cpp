@@ -77,6 +77,12 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
     args->begin()->first = "GhostTrialVolume";
   } else if (args->begin()->first == "ProfileTrials") {
     WARN("ProfileTrials is deprecated. Use ProfileCPU instead.");
+  } else if (args->begin()->first == "RemoveTrial") {
+    WARN("RemoveTrial is deprecated. Use Remove instead.");
+  } else if (args->begin()->first == "RemoveAnalyze") {
+    WARN("RemoveAnalyze is deprecated. Use Remove instead.");
+  } else if (args->begin()->first == "RemoveModify") {
+    WARN("RemoveModify is deprecated. Use Remove instead.");
   }
 
   if (!silent &&

@@ -294,9 +294,7 @@ Actions
    :maxdepth: 1
 
    monte_carlo/doc/Run_arguments
-   monte_carlo/doc/RemoveTrial_arguments
-   monte_carlo/doc/RemoveAnalyze_arguments
-   monte_carlo/doc/RemoveModify_arguments
+   monte_carlo/doc/Remove_arguments
    monte_carlo/doc/WriteCheckpoint_arguments
    monte_carlo/doc/WriteModelParams_arguments
    monte_carlo/doc/RefPotential_arguments

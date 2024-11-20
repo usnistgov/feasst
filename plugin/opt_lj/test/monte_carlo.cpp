@@ -10,7 +10,7 @@
 #include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/run.h"
-#include "monte_carlo/include/remove_trial.h"
+#include "monte_carlo/include/remove.h"
 #include "monte_carlo/include/metropolis.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
 //#include "system/include/energy_map_all.h"
@@ -33,7 +33,7 @@ TEST(MonteCarlo, NVT_opt_lj_BENCHMARK_LONG) {
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "50"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemove({{"name", "TrialAdd"}}));
   mc.attempt(1e6);  // 3.28s with 50 on 10/16/20 without is_physical (3.03s VERBOSE 0)
   //mc.attempt(1e6);  // 4.1 sec with 50 [5 sec 11/21/19, 4.3 on 1/6/19, 4.5 on 1/30/19 (4.18 VERBOSE_LEVEL=0)]
   // mc.attempt(1e5);  // 15 sec with 450 on slow computer

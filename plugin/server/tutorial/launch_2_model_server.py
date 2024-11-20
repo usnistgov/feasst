@@ -73,14 +73,13 @@ TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 TrialAdd particle_type 0
 Run until_num_particles {num_particles}
-RemoveTrial name TrialAdd
+Remove name TrialAdd
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 Tune
 CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-8
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
 Run until_criteria_complete true
-RemoveModify name Tune
-RemoveAnalyze name Log
+Remove name0 Tune name1 Log
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz

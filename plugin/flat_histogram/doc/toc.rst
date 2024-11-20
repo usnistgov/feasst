@@ -3,6 +3,7 @@
 
    Bias
    CollectionMatrix
+   FlatHistogram
    LnProbability
    Macrostate
    Ensemble
@@ -12,9 +13,8 @@
    TransitionMatrix
    WangLandau
    Window
+   CollectionMatrixSplice
+   Clones
    WindowCustom
    WindowExponential
    WLTM
-   FlatHistogram
-   Clones
-   CollectionMatrixSplice

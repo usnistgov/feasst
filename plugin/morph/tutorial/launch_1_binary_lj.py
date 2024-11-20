@@ -86,15 +86,14 @@ TrialAdd particle_type 0
 Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.txt
 Tune
 Run until_num_particles [soft_macro_min]
-RemoveTrial name TrialAdd
+Remove name TrialAdd
 TrialAdd particle_type 1
 Run until_num_particles {num_particles}
-RemoveTrial name TrialAdd
+Remove name TrialAdd
 ThermoParams beta {beta} chemical_potential0 {mu0} chemical_potential1 {mu1}
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 Run until_criteria_complete true
-RemoveModify name Tune
-RemoveAnalyze name Log
+Remove name0 Tune name1 Log
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles particle_type 0 width 1 max {num_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \

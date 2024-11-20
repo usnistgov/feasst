@@ -16,8 +16,7 @@
 #include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/run.h"
-#include "monte_carlo/include/remove_trial.h"
-#include "monte_carlo/include/remove_modify.h"
+#include "monte_carlo/include/remove.h"
 #include "monte_carlo/include/convert_to_ref_potential.h"
 #include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/trial_rotate.h"
@@ -131,7 +130,7 @@ std::unique_ptr<MonteCarlo> test_lj_fh(const int num_steps,
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc->add(MakeTrialAdd({{"particle_type", "0"}}));
   mc->run(MakeRun({{"until_num_particles", str(min)}}));
-  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc->run(MakeRemove({{"name", "TrialAdd"}}));
   argtype transfer_args =
     { {"particle_type0", "0"},
       {"reference_index", str(ref)},
@@ -385,7 +384,7 @@ std::unique_ptr<MonteCarlo> test_spce_fh(std::shared_ptr<Bias> bias,
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "0.2"}}));
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", str(min)}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemove({{"name", "TrialAdd"}}));
   mc.set(MakeThermoParams({{"beta", str(beta)}, {"chemical_potential", str(-8.14/beta)}}));
   mc.add(MakeTrialTransfer({
     {"particle_type", "0"},
@@ -697,9 +696,9 @@ std::unique_ptr<MonteCarlo> nvtw(const int num) {
   mc->add(MakeCheckEnergy({{"trials_per_update", str(trials_per)}}));
 //  mc->add(MakeLogAndMovie({{"trials_per_write", str(trials_per)}, {"output_file", "tmp/lj_fh"}}));
   mc->run(MakeRun({{"until_num_particles", str(num)}}));
-  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc->run(MakeRemove({{"name", "TrialAdd"}}));
   mc->attempt((num+1)*num_equil);
-  mc->run(MakeRemoveModify({{"name", "Tune"}}));
+  mc->run(MakeRemove({{"name", "Tune"}}));
 //  mc->add(MakeTrialGrow({{{"transfer", "true"}, {"particle_type", "0"}, {"weight", "4"}, {"num_steps", "4"}, {"reference_index", "0"}}}));
   mc->add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
   mc->set(MakeFlatHistogram(

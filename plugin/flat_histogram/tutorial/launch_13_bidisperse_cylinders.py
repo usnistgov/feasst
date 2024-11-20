@@ -103,11 +103,10 @@ TrialAdd particle_type 0
 Log trials_per_write {tpi} output_file {prefix}n{node}_eq.txt
 Tune
 Run until_num_particles {num_particles}
-RemoveTrial name TrialAdd
+Remove name TrialAdd
 Metropolis num_trials_per_iteration {tpi} num_iterations_to_complete {equilibration_iterations}
 Run until_criteria_complete true
-RemoveModify name Tune
-RemoveAnalyze name Log
+Remove name0 Tune name1 Log
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostatePosition particle_index 0 site_index 0 dimension 0 width 0.1 max 2.1001 min 1.1001 \

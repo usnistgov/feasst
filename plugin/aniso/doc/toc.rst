@@ -1,9 +1,9 @@
 
 .. toctree::
 
-   Anisotropic
-   Backmap
    VisitModelInnerTable
    VisitModelInnerNN
+   Anisotropic
    ContactObjective
    TabulateTwoRigidBody3D
+   Backmap

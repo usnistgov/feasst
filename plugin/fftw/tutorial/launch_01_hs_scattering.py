@@ -35,7 +35,7 @@ Checkpoint checkpoint_file hs.fst num_hours_terminate {num_hours_terminate}
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
 Run until_num_particles {num_particles}
-RemoveTrial name TrialAdd
+Remove name TrialAdd
 Run num_trials {equilibration}
 
 # nvt production

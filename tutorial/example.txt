@@ -12,9 +12,9 @@ Tune
 CheckEnergy trials_per_update 1e4 decimal_places 8
 TrialAdd weight 2 particle_type 0
 Run until_num_particles 500
-RemoveTrial name TrialAdd
+Remove name TrialAdd
 Run num_trials 1e5
-RemoveModify name Tune
+Remove name Tune
 Log    trials_per_write 1e4 output_file lj.csv
 Energy trials_per_write 1e4 output_file lj_en.csv
 Movie  trials_per_write 1e4 output_file lj.xyz

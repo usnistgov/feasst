@@ -95,10 +95,7 @@ Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.txt
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.xyz
 Tune
 Run until_criteria_complete true
-RemoveModify name Tune
-RemoveAnalyze name CriteriaWriter
-RemoveAnalyze name Log
-RemoveAnalyze name Movie
+Remove name0 Tune name1 CriteriaWriter name2 Log name3 Movie
 
 # production
 CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}{sim}_b2.txt

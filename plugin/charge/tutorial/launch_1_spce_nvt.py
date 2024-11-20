@@ -81,7 +81,7 @@ Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpo
 # grand canonical ensemble initalization
 TrialAdd particle_type 0
 Run until_num_particles {num_particles}
-RemoveTrial name TrialAdd
+Remove name TrialAdd
 
 # canonical ensemble equilibration
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
@@ -89,8 +89,7 @@ Tune
 CheckEnergy trials_per_update {trials_per_iteration} decimal_places 8
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.txt
 Run until_criteria_complete true
-RemoveModify name Tune
-RemoveAnalyze name Log
+Remove name0 Tune name1 Log
 
 # canonical ensemble production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}

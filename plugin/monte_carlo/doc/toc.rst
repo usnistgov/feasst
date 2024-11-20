@@ -13,6 +13,7 @@
    PerturbTranslate
    PerturbAnywhere
    PerturbAdd
+   PerturbVolume
    RefPotential
    RemoveAnalyze
    RemoveModify
@@ -33,16 +34,15 @@
    Tunable
    WriteCheckpoint
    WriteModelParams
+   ConvertToRefPotential
+   MonteCarlo
+   Run
    Stepper
    Analyze
-   PerturbVolume
    AnalyzeFactory
    Modify
    ModifyFactory
-   MonteCarlo
-   ConvertToRefPotential
-   Run
-   Rosenbluth
+   Remove
    PerturbDistance
    PerturbDistanceAngle
    PerturbDihedral
@@ -52,9 +52,10 @@
    Trial
    TrialFactory
    TrialTransfer
+   TrialVolume
    TrialRemove
    TrialMove
    TrialTranslate
    TrialRotate
    TrialAdd
-   TrialVolume
+   Rosenbluth

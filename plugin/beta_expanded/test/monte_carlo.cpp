@@ -45,7 +45,7 @@ TEST(MonteCarlo, beta_expanded) {
     {"TrialTranslate", {{"weight", "1."},{"tunable_param", "1."}}},
     {"TrialAdd", {{"particle_type", "0"}}},
     {"Run", {{"until_num_particles", "10"}}},
-    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Remove", {{"name", "TrialAdd"}}},
     {"FlatHistogram", {{"Macrostate", "MacrostateBeta"}, {"width", delta_beta}, {"max", str(beta_max)}, {"min", str(beta_min)},
       {"Bias", "WLTM"}, {"collect_flatness", "18"}, {"min_flatness", "22"}, {"min_sweeps", "10"}}},
     {"TrialBeta", {{"fixed_beta_change", delta_beta}}},

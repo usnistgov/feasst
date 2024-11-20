@@ -26,7 +26,7 @@
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/run.h"
-#include "monte_carlo/include/remove_trial.h"
+#include "monte_carlo/include/remove.h"
 #include "monte_carlo/include/trial_compute_move.h"
 #include "monte_carlo/include/trial_select_dihedral.h"
 #include "monte_carlo/include/perturb_dihedral.h"
@@ -67,7 +67,7 @@ TEST(MonteCarlo, chain) {
   mc.set(MakeMetropolis());
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "1"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemove({{"name", "TrialAdd"}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "20."}}));
   mc.add(MakeTrialPivot({
@@ -135,7 +135,7 @@ TEST(MonteCarlo, TrialGrow_LONG) {
     mc.set(MakeMetropolis());
     mc.add(MakeTrialAdd({{"particle_type", "0"}}));
     mc.run(MakeRun({{"until_num_particles", "3"}}));
-    mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+    mc.run(MakeRemove({{"name", "TrialAdd"}}));
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
     std::vector<argtype> grow_args = {
       {{"default_num_steps", "4"}, {"default_reference_index", "0"},
@@ -200,7 +200,7 @@ std::unique_ptr<MonteCarlo> cg7mab2(const std::string& data, const int num, cons
   mc->set(MakeMetropolis());
   mc->add(MakeTrialAdd({{"particle_type", "0"}}));
   mc->run(MakeRun({{"until_num_particles", str(num)}}));
-  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc->run(MakeRemove({{"name", "TrialAdd"}}));
   if (is_found_in(data, "fullangflex")) {
     mc->add(MakeTrialGrow({
       //{{"particle_type", "0"}, {"site", "0"}, {"weight", "4"}, {"regrow", "1"}},
@@ -308,7 +308,7 @@ std::unique_ptr<MonteCarlo> test_avb(const bool avb2, const bool avb4 = true) {
     {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}}}));
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "10"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemove({{"name", "TrialAdd"}}));
   const std::string trials_per = feasst::str(1e5);
   mc.add(MakeEnergy());
 //  mc.add(MakeLogAndMovie({{"output_file", "tmp/trimer2d"}, {"trials_per_write", trials_per}}));
@@ -353,7 +353,7 @@ TEST(MonteCarlo, multisite_neighbors) {
   mc.set(MakeMetropolis());
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "5"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemove({{"name", "TrialAdd"}}));
   auto neigh = MakeEnergyMapNeighbor();
   mc.set(0, MakePotential(MakeLennardJones(), MakeVisitModel(MakeVisitModelInner(neigh))));
   mc.add_to_reference(MakePotential(MakeLennardJones()));
@@ -818,7 +818,7 @@ TEST(MonteCarlo, ethane) {
      {"particle_type", "0"}}}));
   mc->add(MakeTrialAdd({{"weight", "4"}, {"particle_type", "0"}}));
   mc->run(MakeRun({{"until_num_particles", "10"}}));
-  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc->run(MakeRemove({{"name", "TrialAdd"}}));
   const std::string trials_per = "1e0";
   mc->add(MakeWrapParticles({{"trials_per_update", trials_per}}));
 //  mc->add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/ethane.txt"}}));
@@ -867,7 +867,7 @@ TEST(MonteCarlo, water) {
     {"tunable_param", "250."}}));
   mc->add(MakeTrialAdd({{"weight", "4"}, {"particle_type", "0"}}));
   mc->run(MakeRun({{"until_num_particles", "10"}}));
-  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc->run(MakeRemove({{"name", "TrialAdd"}}));
   const std::string trials_per = "1e0";
   mc->add(MakeWrapParticles({{"trials_per_update", trials_per}}));
 //  mc->add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/water"}}));
@@ -895,9 +895,9 @@ TEST(MonteCarlo, chainarglist) {
     {"Tune", {{}}},
 //    {"Run", {{"until_num_particles", "50"}}},
 //    {"ThermoParams", {{"beta", "1.2"}}},
-//    {"RemoveTrial", {{"name", "TrialAdd"}}},
+//    {"Remove", {{"name", "TrialAdd"}}},
 //    {"Run", {{"num_trials", str(1e3)}}},
-//    {"RemoveModify", {{"name", "Tune"}}},
+//    {"Remove", {{"name", "Tune"}}},
 //    {"Run", {{"num_trials", str(1e3)}}},
 //    {"WriteCheckpoint", {{}}},
   }}, true);
@@ -953,10 +953,10 @@ TEST(MonteCarlo, lj_position_swap) {
      {"weight", "4"}}}));
   mc->add(MakeTrialAdd({{"weight", "1"}, {"particle_type", "0"}}));
   mc->run(MakeRun({{"until_num_particles", "2"}}));
-  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc->run(MakeRemove({{"name", "TrialAdd"}}));
   mc->add(MakeTrialAdd({{"weight", "1"}, {"particle_type", "1"}}));
   mc->run(MakeRun({{"until_num_particles", "4"}}));
-  mc->run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc->run(MakeRemove({{"name", "TrialAdd"}}));
   const std::string trials_per = "1e0";
   mc->add(MakeMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/lj.xyz"}}));
   mc->add(MakeCheckEnergy({{"trials_per_update", trials_per}, {"tolerance", str(1e-2)}}));

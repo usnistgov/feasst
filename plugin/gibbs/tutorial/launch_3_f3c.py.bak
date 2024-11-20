@@ -132,19 +132,17 @@ Tune
 # fill the first box
 TrialGrowFile grow_file {prefix}_c0_grow_add.txt
 Run until_num_particles {num_particles_vapor} configuration_index 0
-RemoveTrial name_contains add
+Remove name_contains add
 
 # fill the second box
 TrialGrowFile grow_file {prefix}_c1_grow_add.txt
 Run until_num_particles {num_particles_liquid} configuration_index 1
-RemoveTrial name_contains add
+Remove name_contains add
 
 # equilibrate both
 #Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 #Run until_criteria_complete true
-RemoveAnalyze name Log
-RemoveAnalyze name Movie
-RemoveAnalyze name Movie
+Remove name0 Log name1 Movie name2 Movie
 
 # gibbs ensemble equilibration
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
@@ -155,10 +153,7 @@ Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_eq.xyz configuration_index 0
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
 Run until_criteria_complete true
-RemoveModify name Tune
-RemoveAnalyze name Log
-RemoveAnalyze name Movie
-RemoveAnalyze name Movie
+Remove name0 Tune name1 Log name2 Movie name3 Movie
 
 # gibbs ensemble production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}

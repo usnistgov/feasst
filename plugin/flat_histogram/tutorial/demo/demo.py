@@ -44,9 +44,9 @@ CheckEnergy trials_per_update {trials_per} tolerance 1e-8
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
 Run until_num_particles [soft_macro_min]
-RemoveTrial name TrialAdd
+Remove name TrialAdd
 Run num_trials {equilibration}
-RemoveModify name Tune
+Remove name Tune
 
 # gcmc tm production
 ThermoParams beta {beta} chemical_potential {mu}

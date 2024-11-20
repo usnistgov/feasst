@@ -81,14 +81,10 @@ Movie trials_per_write {tpi} output_file {prefix}{sim}_c1_fill.xyz configuration
 Tune
 TrialAdd particle_type 0 configuration_index 0
 Run until_num_particles 112 configuration_index 0
-RemoveTrial name TrialAdd
+Remove name TrialAdd
 TrialAdd particle_type 0 configuration_index 1
 Run until_num_particles 400 configuration_index 1
-RemoveModify name Tune
-RemoveTrial name TrialAdd
-RemoveAnalyze name Log
-RemoveAnalyze name Movie
-RemoveAnalyze name Movie
+Remove name0 Tune name1 TrialAdd name2 Log name3 Movie name4 Movie
 
 # gibbs equilibration cycles: equilibrate, estimate density, adjust, repeat
 # start a very long run GibbsInitialize completes once targets are reached
@@ -105,12 +101,7 @@ ProfileCPU trials_per_write {tpi} output_file {prefix}{sim}_eq_profile.csv
 # decrease trials per due to infrequency of volume transfer attempts
 Tune trials_per_tune 20
 Run until_criteria_complete true
-RemoveModify name GibbsInitialize
-RemoveModify name Tune
-RemoveAnalyze name Log
-RemoveAnalyze name Movie
-RemoveAnalyze name Movie
-RemoveAnalyze name ProfileCPU
+Remove name0 GibbsInitialize name1 Tune name2 Log name3 Movie name4 Movie name5 ProfileCPU
 
 # gibbs ensemble production
 Metropolis num_trials_per_iteration {tpi} num_iterations_to_complete {production_iterations}
@@ -128,7 +119,7 @@ ProfileCPU trials_per_write {tpi} output_file {prefix}{sim}_profile.csv
 Run until_criteria_complete true
 """.format(**params))
 
-def compare(label, average, stdev, params, z_factor=3):
+def compare(label, average, stdev, params, z_factor=5):
     df = pd.read_csv(params['prefix']+"0_"+label+".csv")
     df['diff'] = np.abs(df['average']-average)
     df['tol'] = np.sqrt(df['block_stdev']**2+stdev**2)

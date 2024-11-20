@@ -16,7 +16,7 @@ TEST(MonteCarlo, TrialModel) {
     {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},
     {"TrialAdd", {{"particle_type", "0"}}},
     {"Run", {{"until_num_particles", "20"}}},
-    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Remove", {{"name", "TrialAdd"}}},
     {"Checkpoint", {{"num_hours", "0.0001"}, {"checkpoint_file", "tmp/merst"}}},
     //{"Metropolis", {{}}},
     {"FlatHistogram", {{"Macrostate", "MacrostateModel"}, {"width", "1"}, {"max", "1"}, {"Bias", "WangLandau"}, {"min_flatness", "25"}}},

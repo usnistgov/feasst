@@ -94,19 +94,18 @@ CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
 # write the MOF xyz for visualization
 Movie output_file {prefix}{node}s[sim_index]_MOF.xyz group MOF clear_file true
 WriteStepper analyze_name Movie
-RemoveAnalyze name Movie
+Remove name Movie
 
 # gcmc initialization and nvt equilibration
 TrialAdd weight 50.0 particle_type 0
 Log trials_per_write {trials_per_iteration} output_file {prefix}{node}s[sim_index]_eq.txt
 Tune
 Run until_num_particles [soft_macro_min] particle_type 0
-RemoveTrial name TrialAdd
+Remove name TrialAdd
 ThermoParams beta {beta} chemical_potential {mu}
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 Run until_criteria_complete true
-RemoveModify name Tune
-RemoveAnalyze name Log
+Remove name0 Tune name1 Log
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles particle_type 0 width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \

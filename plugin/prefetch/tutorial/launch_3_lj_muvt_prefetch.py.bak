@@ -73,9 +73,7 @@ Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_com
 Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.txt
 Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.xyz
 Run until_criteria_complete true
-RemoveModify name Tune
-RemoveAnalyze name Log
-RemoveAnalyze name Movie
+Remove name0 Tune name1 Log name2 Movie
 
 # muvt production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}

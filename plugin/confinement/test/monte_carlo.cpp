@@ -28,7 +28,7 @@
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/run.h"
-#include "monte_carlo/include/remove_trial.h"
+#include "monte_carlo/include/remove.h"
 #include "monte_carlo/include/always_reject.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/tune.h"
@@ -57,7 +57,7 @@ TEST(MonteCarlo, ShapeUnion) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "10"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemove({{"name", "TrialAdd"}}));
 //  const int trials_per = 1e0;
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
 //                          {"output_file", "tmp/confine"}}));
@@ -76,7 +76,7 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "500"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemove({{"name", "TrialAdd"}}));
 //  const int trials_per = 1e3;
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
 //                          {"output_file", "tmp/confine"}}));
@@ -223,7 +223,7 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
   mc.add(MakeTune());
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "15"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemove({{"name", "TrialAdd"}}));
   mc.attempt(1e6);
 }
 
@@ -390,10 +390,10 @@ TEST(DensityProfile, ig_hard_slab) {
 //  mc.add(MakeTrialTranslate({{"tunable_param", "3"}}));
 //  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
 //  mc.run(MakeRun({{"until_num_particles", "10"}}));
-//  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+//  mc.run(MakeRemove({{"name", "TrialAdd"}}));
 //  mc.add(MakeTrialAdd({{"particle_type", "1"}}));
 //  mc.run(MakeRun({{"until_num_particles", "20"}}));
-//  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+//  mc.run(MakeRemove({{"name", "TrialAdd"}}));
 //  mc.add(MakeLogAndMovie({{"trials_per", "100"}, {"output_file", "tmp/prof_traj"}}));
 //  EXPECT_EQ(mc.configuration().num_particles(), 20);
 //  auto profile = MakeDensityProfile({{"trials_per_update", "100"},
@@ -422,7 +422,7 @@ TEST(MonteCarlo, SineSlab) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "500"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemove({{"name", "TrialAdd"}}));
 //  const int trials_per = 1e2;
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
 //                          {"output_file", "tmp/sine"}}));
@@ -472,7 +472,7 @@ TEST(MonteCarlo, SineSlabTable_LONG) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "500"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemove({{"name", "TrialAdd"}}));
 //  const int trials_per = 1e2;
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(trials_per)},
 //                          {"output_file", "tmp/sine"}}));

@@ -79,7 +79,7 @@
     "        mc.add(fst.MakeLogAndMovie(fst.args({\"trials_per\": trials_per, \"file_name\": \"pentane\"})))\n",
     "        #mc.add(fst.MakeTune(fst.args({\"trials_per\": trials_per})))\n",
     "        #mc.attempt(int(1e5))\n",
-    "        #mc.run(fst.MakeRemoveModify(fst.args({\"name\": \"Tune\"})))\n",
+    "        #mc.run(fst.MakeRemove(fst.args({\"name\": \"Tune\"})))\n",
     "        #mc.attempt(int(1e6))\n",
     "        #mayer = fst.MakeMayerSampling()\n",
     "        #mc.set(mayer)\n",

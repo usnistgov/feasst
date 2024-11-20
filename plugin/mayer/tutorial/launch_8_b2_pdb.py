@@ -99,15 +99,9 @@ TrialRotate new_only true reference_index 0 tunable_param 40
 # tune trial parameters
 CriteriaWriter trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}_b2_eq.txt
 Log trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}_eq.txt
-#Movie trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}_eq.xyz
-#CPUTime trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}_cpu.txt append true
 Tune
-#Run num_trials {equilibration}
 Run until_criteria_complete true
-RemoveAnalyze name CriteriaWriter
-RemoveAnalyze name Log
-#RemoveAnalyze name Movie
-RemoveModify name Tune
+Remove name0 CriteriaWriter name1 Log name2 Tune
 
 # production
 CriteriaWriter trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}_b2.txt

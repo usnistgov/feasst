@@ -7,7 +7,7 @@
 #include "system/include/dont_visit_model.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/run.h"
-#include "monte_carlo/include/remove_trial.h"
+#include "monte_carlo/include/remove.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_add.h"
@@ -41,10 +41,10 @@ void test_morph(const System& system) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "2"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemove({{"name", "TrialAdd"}}));
   mc.add(MakeTrialAdd({{"particle_type", "1"}}));
   mc.run(MakeRun({{"until_num_particles", "4"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemove({{"name", "TrialAdd"}}));
   EXPECT_EQ(mc.configuration().num_particles_of_type(0), 2);
   EXPECT_EQ(mc.configuration().num_particles_of_type(1), 2);
   mc.add(MakeTrialMorph({{"particle_type0", "1"},
@@ -326,7 +326,7 @@ TEST(MonteCarlo, morphrxn) {
     {"TrialParticlePivot", {{"weight_per_number_fraction", str(1./8.)}, {"particle_type", "3"}}},
     {"TrialAdd", {{"particle_type", "0"}}},
     {"Run", {{"until_num_particles", "100"}, {"particle_type", "0"}}},
-    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Remove", {{"name", "TrialAdd"}}},
     {"TrialMorph", {{"weight", "0.1"},
                     {"particle_type0", "0"}, {"particle_type_morph0", "1"},
                     {"particle_type1", "2"}, {"particle_type_morph1", "3"}}},

@@ -3,5 +3,5 @@
 
    ActionExample
    AnalyzeExample
-   Gamma
    ModelExample
+   Gamma

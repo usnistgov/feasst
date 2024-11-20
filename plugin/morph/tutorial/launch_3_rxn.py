@@ -86,8 +86,7 @@ Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_fi
 Tune
 TrialAdd particle_type 0
 Run until_num_particles {num_particles} particle_type 0
-RemoveTrial name TrialAdd
-RemoveAnalyze name Log
+Remove name0 TrialAdd name1 Log
 
 # equilibration
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
@@ -96,8 +95,7 @@ TrialMorph weight 0.1 reference_index 0 particle_type0 1 particle_type_morph0 0 
 TrialMorph weight 0.1 reference_index 0 particle_type0 0 particle_type_morph0 1 particle_type1 1 particle_type_morph1 0
 Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_eq.csv
 Run until_criteria_complete true
-RemoveModify name Tune
-RemoveAnalyze name Log
+Remove name0 Tune name1 Log
 
 # production
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}

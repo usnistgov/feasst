@@ -57,7 +57,7 @@ Metropolis
 TrialTranslate
 TrialAdd particle_type 0
 Run until_num_particles 20
-RemoveTrial name TrialAdd
+Remove name TrialAdd
 Log trials_per_write 2e6 output_file {prefix}{sim}.csv
 Run num_trials 2e6""".format(**params)
     for line in feasst_commands.split('\n'):

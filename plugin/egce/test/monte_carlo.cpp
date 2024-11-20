@@ -15,7 +15,7 @@
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/run.h"
-#include "monte_carlo/include/remove_trial.h"
+#include "monte_carlo/include/remove.h"
 #include "monte_carlo/include/convert_to_ref_potential.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/cpu_time.h"
@@ -524,7 +524,7 @@ TEST(MonteCarlo, lj_fh_trial_grow_liquid_LONG) {
   mc.set(MakeMetropolis());
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "100"}}));
-  mc.run(MakeRemoveTrial({{"name", "TrialAdd"}}));
+  mc.run(MakeRemove({{"name", "TrialAdd"}}));
   mc.set(MakeFlatHistogram(
     MakeMacrostateNumParticles(Histogram({{"width", "1"}, {"max", "105"}, {"min", "100"}})),
     MakeTransitionMatrix({{"min_sweeps", "1000"}})));

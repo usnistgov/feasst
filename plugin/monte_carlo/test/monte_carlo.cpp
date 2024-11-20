@@ -26,8 +26,7 @@
 #include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/run.h"
-#include "monte_carlo/include/remove_trial.h"
-#include "monte_carlo/include/remove_modify.h"
+#include "monte_carlo/include/remove.h"
 #include "monte_carlo/include/convert_to_ref_potential.h"
 #include "monte_carlo/test/monte_carlo_benchmark.h"
 #include "steppers/include/num_particles.h"
@@ -133,7 +132,7 @@ TEST(MonteCarlo, NVT_cells_BENCHMARK_LONG) {
       {"tunable_param", "1"}}},
     {"TrialAdd", {{"particle_type", "0"}}},
     {"Run", {{"until_num_particles", "200"}}},
-    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Remove", {{"name", "TrialAdd"}}},
     {"ThermoParams", {{"beta", "1.2"}}},
     {"CheckEnergy", {{"trials_per_update", str(1e4)}, {"tolerance", str(1e-9)}}},
     {"Tune", {{}}},
@@ -154,7 +153,7 @@ TEST(MonteCarlo, NVT_cells2_BENCHMARK_LONG) {
       {"tunable_param", "1"}}},
     {"TrialAdd", {{"particle_type", "0"}}},
     {"Run", {{"until_num_particles", "200"}}},
-    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Remove", {{"name", "TrialAdd"}}},
     {"ThermoParams", {{"beta", "1.2"}}},
     {"Log", {{"trials_per_write", str(1e4)}, {"output_file", "tmp/cell.txt"}}},
     {"Movie", {{"trials_per_write", str(1e4)}, {"output_file", "tmp/cell.xyz"}}},
@@ -179,7 +178,7 @@ TEST(MonteCarlo, NVT_SRSW) {
     {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},
     {"TrialAdd", {{"particle_type", "0"}}},
     {"Run", {{"until_num_particles", str(nMol)}}},
-    {"RemoveTrial", {{"name_contains", "Add"}}},
+    {"Remove", {{"name_contains", "Add"}}},
     {"Log", {{"trials_per_write", "1e3"}, {"output_file", "tmp/lj.csv"}}},
     {"Movie", {{"trials_per_write", "1e3"}, {"output_file", "tmp/lj.xyz"}}},
     {"CheckEnergy", {{"trials_per_update", "1e3"}, {"decimal_places", "9"}}},
@@ -315,7 +314,7 @@ TEST(MonteCarlo, lj_npt) {
     {"CheckEnergy", {{"trials_per_update", trials_per}, {"tolerance", "1e-4"}}},
     {"TrialAdd", {{"particle_type", "0"}}},
     {"Run", {{"until_num_particles", str(num)}}},
-    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Remove", {{"name", "TrialAdd"}}},
     {"TrialVolume", {{"tunable_param", "0.5"}}},
     {"Tune", {{}}},
     {"Log", {{"output_file", "tmp/lj.csv"}}},
@@ -455,9 +454,9 @@ TEST(MonteCarlo, arglist) {
     {"Tune", {{}}},
     {"Run", {{"until_num_particles", "50"}}},
     {"ThermoParams", {{"beta", "1.2"}}},
-    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Remove", {{"name", "TrialAdd"}}},
     {"Run", {{"num_trials", str(1e3)}}},
-    {"RemoveModify", {{"name", "Tune"}}},
+    {"Remove", {{"name0", "Tune"}}},
     {"Run", {{"num_trials", str(1e3)}}},
     {"WriteCheckpoint", {{}}},
   }}, true);
@@ -473,9 +472,14 @@ TEST(MonteCarlo, arglist) {
   EXPECT_EQ("CheckEnergy", mc->modify(0).class_name());
   EXPECT_LT(100, mc->trials().num_attempts());
   EXPECT_EQ(50, mc->configuration().num_particles());
-  mc->run(MakeRemoveTrial({{"all", "true"}}));
-  mc->run(MakeRemoveModify({{"all", "true"}}));
+  EXPECT_NE(0, mc->trials().num());
+  mc->run(MakeRemove({{"all_trials", "true"}}));
   EXPECT_EQ(0, mc->trials().num());
+  EXPECT_NE(0, mc->num_analyzers());
+  mc->run(MakeRemove({{"all_analyzers", "true"}}));
+  EXPECT_EQ(0, mc->num_analyzers());
+  EXPECT_NE(0, mc->num_modifiers());
+  mc->run(MakeRemove({{"all_modifiers", "true"}}));
   EXPECT_EQ(0, mc->num_modifiers());
 }
 

@@ -30,14 +30,14 @@ Metropolis
 TrialTranslate tunable_param 2. tunable_target_acceptance 0.2
 TrialAdd particle_type 0
 Run until_num_particles {num_particles}
-RemoveTrial name TrialAdd
+Remove name TrialAdd
 ThermoParams beta {beta}
 Tune
 CheckEnergy trials_per_update {trials_per} tolerance 1e-8
 
 # equilibrate
 Run num_trials {equilibration}
-RemoveModify name Tune
+Remove name Tune
 
 # production analysis and output
 Log trials_per_write {trials_per} output_file lj.txt
