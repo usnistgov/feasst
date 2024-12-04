@@ -17,12 +17,11 @@ PARSER.add_argument('--beta', type=float, default=1./0.9, help='inverse temperat
 PARSER.add_argument('--num_particles', type=int, default=400, help='number of particles')
 PARSER.add_argument('--cubic_side_length', type=float, default=8,
                     help='cubic periodic boundary length')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e4),
-                    help='like cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e2),
-                    help='number of iterations for equilibraiton')
-PARSER.add_argument('--production_iterations', type=int, default=int(1e3),
-                    help='number of iterations for production')
+PARSER.add_argument('--tpc', type=int, default=int(1e4), help='trials per cycle')
+PARSER.add_argument('--equilibration_cycles', type=int, default=int(1e2),
+                    help='number of cycles for equilibraiton')
+PARSER.add_argument('--production_cycles', type=int, default=int(1e3),
+                    help='number of cycles for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
 PARSER.add_argument('--run_type', '-r', type=int, default=0,
@@ -86,30 +85,30 @@ ThermoParams beta {beta} chemical_potential -1
 Metropolis
 {trials}
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
+CheckEnergy trials_per_update {tpc} decimal_places 4
 
 # gcmc initialization
 TrialAdd particle_type 0
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_init.txt
+Log trials_per_write {tpc} output_file {prefix}{sim}_init.txt
 Tune
 Run until_num_particles {num_particles}
 Remove name0 TrialAdd name1 Log
 
 # nvt equilibration
 ThermoParams beta {beta}
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.txt
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.xyz
-Run until_criteria_complete true
+Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
+Log trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
+Movie trials_per_write {tpc} output_file {prefix}{sim}_eq.xyz
+Run until complete
 Remove name0 Tune name1 Log name2 Movie
 
 # nvt production
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.txt
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz start_after_iteration 1
-Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_en.txt append true
-CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_time.txt append true
-Run until_criteria_complete true
+Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
+Log trials_per_write {tpc} output_file {prefix}{sim}.txt
+Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
+Energy trials_per_write {tpc} output_file {prefix}{sim}_en.txt append true
+CPUTime trials_per_write {tpc} output_file {prefix}{sim}_time.txt append true
+Run until complete
 """.format(**params))
 
 def linear_fit(x, b):

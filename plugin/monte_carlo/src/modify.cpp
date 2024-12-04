@@ -45,9 +45,9 @@ void Modify::check_update_(MonteCarlo * mc) {
 void Modify::trial(MonteCarlo * mc) {
   const Criteria& criteria = mc->criteria();
   if ((stop_after_phase() == -1 || criteria.phase() <= stop_after_phase()) &&
-      (stop_after_iteration() == -1 || criteria.num_iterations() <= stop_after_iteration())) {
+      (stop_after_cycle() == -1 || criteria.num_cycles() <= stop_after_cycle())) {
     if ((criteria.phase() > start_after_phase()) &&
-        (criteria.num_iterations() > start_after_iteration())) {
+        (criteria.num_cycles() > start_after_cycle())) {
       check_update_(mc);
       if (is_time(trials_per_write(), &trials_since_write_)) {
         write_to_file(mc);

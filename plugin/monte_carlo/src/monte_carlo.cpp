@@ -85,13 +85,6 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
     WARN("RemoveModify is deprecated. Use Remove instead.");
   }
 
-  if (!silent &&
-      args->begin()->first != "CopyFollowingLines" &&
-      args->begin()->first != "EndCopy") {
-    std::cout << args->begin()->first << " "
-              << str(args->begin()->second) << " " << std::endl;
-  }
-
   // repeat for each config
   DEBUG("parse_for_num_configs " << parse_for_num_configs_);
   ASSERT(parse_for_num_configs_ == 1 || parse_for_num_configs_ == 2,
@@ -114,16 +107,18 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
             feasst::replace(vals[0], vals[1], &p.second);
           }
         }
-        if (!silent &&
-            args->begin()->first != "CopyFollowingLines" &&
-            args->begin()->first != "EndCopy") {
-          std::cout << args->begin()->first << " "
-                    << str(args->begin()->second) << " " << std::endl;
+      }
+      for (auto &p : args->begin()->second) {
+        if (!replace_with_index_.empty()) {
+          feasst::replace(replace_with_index_, str(config), &p.second);
         }
       }
-      //for (std::map<std::string, std::string>& mp : args->begin->second) {
-        //INFO(mp->second);
-      //}
+    }
+    if (!silent &&
+        args->begin()->first != "CopyFollowingLines" &&
+        args->begin()->first != "EndCopy") {
+      std::cout << args->begin()->first << " "
+                << str(args->begin()->second) << " " << std::endl;
     }
 
     // parse all derived classes of Random
@@ -530,8 +525,8 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
       {"trials_per_update", "1"},
       {"stop_after_phase", str(analyze->stop_after_phase())},
       {"start_after_phase", str(analyze->start_after_phase())},
-      {"stop_after_iteration", str(analyze->stop_after_iteration())},
-      {"start_after_iteration", str(analyze->start_after_iteration())},
+      {"stop_after_cycle", str(analyze->stop_after_cycle())},
+      {"start_after_cycle", str(analyze->start_after_cycle())},
       {"output_file_append_phase", str(analyze->output_file_append_phase())},
       {"multistate_aggregate", str(analyze->is_multistate_aggregate())}});
     DEBUG("making multi " << multi->is_multistate());
@@ -580,8 +575,8 @@ void MonteCarlo::add(std::shared_ptr<Modify> modify) {
       {"trials_per_update", "1"},
       {"stop_after_phase", str(modify->stop_after_phase())},
       {"start_after_phase", str(modify->start_after_phase())},
-      {"stop_after_iteration", str(modify->stop_after_iteration())},
-      {"start_after_iteration", str(modify->start_after_iteration())},
+      {"stop_after_cycle", str(modify->stop_after_cycle())},
+      {"start_after_cycle", str(modify->start_after_cycle())},
       {"output_file_append_phase", str(modify->output_file_append_phase())},
       {"multistate_aggregate", str(modify->is_multistate_aggregate())}});
     DEBUG("making multi " << multi->is_multistate());
@@ -634,7 +629,7 @@ void MonteCarlo::after_trial_checkpoint_() {
 }
 
 void MonteCarlo::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(530, ostr);
+  feasst_serialize_version(531, ostr);
   feasst_serialize(system_, ostr);
   feasst_serialize_fstdr(criteria_, ostr);
   feasst_serialize(trial_factory_, ostr);
@@ -652,6 +647,7 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
   feasst_serialize(criteria_set_, ostr);
   feasst_serialize(parse_for_num_configs_, ostr);
   feasst_serialize(parse_replace_, ostr);
+  feasst_serialize(replace_with_index_, ostr);
   feasst_serialize(timer_, ostr);
   feasst_serialize_endcap("MonteCarlo", ostr);
   DEBUG("size: " << ostr.tellp());
@@ -659,7 +655,7 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
 
 MonteCarlo::MonteCarlo(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 529 && version <= 530, "version: " << version);
+  ASSERT(version >= 529 && version <= 531, "version: " << version);
   feasst_deserialize(system_, istr);
   // feasst_deserialize_fstdr(criteria_, istr);
   { // HWH for unknown reasons the above template function does not work
@@ -708,6 +704,9 @@ MonteCarlo::MonteCarlo(std::istream& istr) {
   if (version >= 530) {
     feasst_deserialize(&parse_for_num_configs_, istr);
     feasst_deserialize(&parse_replace_, istr);
+  }
+  if (version >= 531) {
+    feasst_deserialize(&replace_with_index_, istr);
   }
   feasst_deserialize(timer_, istr);
   feasst_deserialize_endcap("MonteCarlo", istr);
@@ -970,8 +969,8 @@ int MonteCarlo::num_analyzers() const {
 const std::vector<std::shared_ptr<Modify> >& MonteCarlo::modifiers() const {
   return modify_factory_->modifiers(); }
 
-void MonteCarlo::set_num_iterations_to_complete(const int num) {
-  criteria_->set_num_iterations_to_complete(num);
+void MonteCarlo::set_cycles_to_complete(const int num) {
+  criteria_->set_cycles_to_complete(num);
 }
 
 void MonteCarlo::set_parse_for_num_configs(const int num) {
@@ -983,5 +982,9 @@ void MonteCarlo::set_parse_replace(
     const std::vector<std::vector<std::string> >& replace) {
   parse_replace_ = replace;
 }
+void MonteCarlo::set_replace_with_index(const std::string& str) {
+  replace_with_index_ = str;
+}
+
 
 }  // namespace feasst

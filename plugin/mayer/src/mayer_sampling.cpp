@@ -20,16 +20,13 @@ MayerSampling::MayerSampling(argtype * args) : Criteria(args) {
 
   // HWH deprecate
   // Support deprecation warning for old argument name
-  if (used("num_attempts_per_iteration", *args)) {
-    WARN("Metropolis argument num_attempts_per_iteration is deprecated. " <<
-         "Use num_trials_per_iteration instead.");
-    ASSERT(!used("num_trials_per_iteration", *args),
-      "Both num_trials_per_iteration and num_attempts_per_iteration");
-    num_trials_per_iteration_ =
-      integer("num_attempts_per_iteration", args);
+  if (used("num_trials_per_iteration", *args)) {
+    WARN("Metropolis argument num_trials_per_iteration is deprecated. " <<
+         "Use trials_per_cycle instead.");
+    trials_per_cycle_ = integer("num_trials_per_iteration", args);
+  } else {
+    trials_per_cycle_ = integer("trials_per_cycle", args, 1e9);
   }
-  num_trials_per_iteration_ =
-    integer("num_trials_per_iteration", args, 1e9);
   const int num_beta_taylor = integer("num_beta_taylor", args, 0);
   beta_taylor_.resize(num_beta_taylor);
   for (int ibt = 0; ibt < num_beta_taylor; ++ibt) {
@@ -53,7 +50,7 @@ bool MayerSampling::is_accepted(
     const System& system,
     Acceptance * acceptance,
     Random * random) {
-  check_num_iterations_(num_trials_per_iteration_);
+  check_num_cycles_(trials_per_cycle_);
   ASSERT(system.num_configurations() == 1, "assumes 1 config");
   double energy_new = acceptance->energy_new();
   if (!training_file_.empty()) {
@@ -140,7 +137,7 @@ void MayerSampling::serialize(std::ostream& ostr) const {
   feasst_serialize_version(3253, ostr);
   feasst_serialize(f12old_, ostr);
   feasst_serialize(f12ref_, ostr);
-  feasst_serialize(num_trials_per_iteration_, ostr);
+  feasst_serialize(trials_per_cycle_, ostr);
   feasst_serialize_fstobj(mayer_, ostr);
   feasst_serialize_fstobj(mayer_ref_, ostr);
   feasst_serialize(intra_pot_, ostr);
@@ -154,7 +151,7 @@ MayerSampling::MayerSampling(std::istream& istr) : Criteria(istr) {
   ASSERT(version >= 3251 && version <= 3253, "unrecognized verison: " << version);
   feasst_deserialize(&f12old_, istr);
   feasst_deserialize(&f12ref_, istr);
-  feasst_deserialize(&num_trials_per_iteration_, istr);
+  feasst_deserialize(&trials_per_cycle_, istr);
   feasst_deserialize_fstobj(&mayer_, istr);
   feasst_deserialize_fstobj(&mayer_ref_, istr);
   feasst_deserialize(&intra_pot_, istr);

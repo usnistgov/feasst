@@ -31,10 +31,8 @@ PARSER.add_argument('--min_sweeps', type=int, default=1,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
 PARSER.add_argument('--cubic_side_length', type=float, default=10,
                     help='cubic periodic boundary length')
-PARSER.add_argument('--tpi', type=int, default=int(1e6),
-                    help='trials per iteration, similar to MC cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=0,
-                    help='number of iterations for equilibration')
+PARSER.add_argument('--tpc', type=int, default=int(1e6), help='trials per cycle')
+PARSER.add_argument('--equilibration', type=int, default=0, help='number of cycles for equilibration')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
@@ -96,32 +94,32 @@ ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 2 particle_type 0
 TrialRotate weight 1 tunable_param 40 particle_type 0
-CheckEnergy trials_per_update {tpi} decimal_places 4
+CheckEnergy trials_per_update {tpc} decimal_places 4
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
-Log trials_per_write {tpi} output_file {prefix}n{node}_eq.txt
+Log trials_per_write {tpc} output_file {prefix}n{node}_eq.txt
 Tune
 Run until_num_particles {num_particles}
 Remove name TrialAdd
-Metropolis num_trials_per_iteration {tpi} num_iterations_to_complete {equilibration_iterations}
-Run until_criteria_complete true
+Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
+Run until complete
 Remove name0 Tune name1 Log
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostatePosition particle_index 0 site_index 0 dimension 0 width 0.1 max 2.1001 min 1.1001 \
   Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
 TrialTranslate weight 1 tunable_param 0.1 particle_type 1 dimension 0
-Log                 trials_per_write {tpi} output_file {prefix}n{node}.txt
-Movie               trials_per_write {tpi} output_file {prefix}n{node}_eq.xyz stop_after_iteration 1
-MovieSpherocylinder trials_per_write {tpi} output_file {prefix}n{node}_eqc.xyz stop_after_iteration 1
-Movie               trials_per_write {tpi} output_file {prefix}n{node}.xyz start_after_iteration 1
-MovieSpherocylinder trials_per_write {tpi} output_file {prefix}n{node}c.xyz start_after_iteration 1
-Tune                trials_per_write {tpi} output_file {prefix}n{node}_tune.txt multistate true stop_after_iteration 1
-Energy              trials_per_write {tpi} output_file {prefix}n{node}_en.txt multistate true start_after_iteration 1
-CriteriaWriter      trials_per_write {tpi} output_file {prefix}n{node}_crit.txt
+Log                 trials_per_write {tpc} output_file {prefix}n{node}.txt
+Movie               trials_per_write {tpc} output_file {prefix}n{node}_eq.xyz stop_after_cycle 1
+MovieSpherocylinder trials_per_write {tpc} output_file {prefix}n{node}_eqc.xyz stop_after_cycle 1
+Movie               trials_per_write {tpc} output_file {prefix}n{node}.xyz start_after_cycle 1
+MovieSpherocylinder trials_per_write {tpc} output_file {prefix}n{node}c.xyz start_after_cycle 1
+Tune                trials_per_write {tpc} output_file {prefix}n{node}_tune.txt multistate true stop_after_cycle 1
+Energy              trials_per_write {tpc} output_file {prefix}n{node}_en.txt multistate true start_after_cycle 1
+CriteriaWriter      trials_per_write {tpc} output_file {prefix}n{node}_crit.txt
 CriteriaUpdater     trials_per_update 1e5
-Run until_criteria_complete true
+Run until complete
 """.format(**params))
 
 def post_process(params):

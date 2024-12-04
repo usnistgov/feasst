@@ -15,7 +15,7 @@ namespace feasst {
   Read through a number of configurations in a file.
   For each update, set the configuration to the next.
   Once the end of file is reached, the Criteria is set to complete.
-  Thus, use with "Run until_criteria_complete true"
+  Thus, use with "Run until complete"
  */
 class ReadConfigFromFile : public ModifyUpdateOnly {
  public:

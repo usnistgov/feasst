@@ -22,10 +22,10 @@ class Metropolis : public Criteria {
  public:
   //@{
   /** @name Arguments
-    - num_trials_per_iteration: define an iteration as a number of trials
+    - trials_per_cycle: define a cycle as a number of trials
       (as measured by number of calls to is_accepted) default: 1e9.
-      Note that iterations are defined like cycles, but are not necessarily
-      the number of particles.
+      Cycles are not necessarily the number of particles, nor do cycles perturb
+      each particle in order systematically.
     - Criteria arguments.
    */
   explicit Metropolis(argtype args = argtype());
@@ -54,7 +54,7 @@ class Metropolis : public Criteria {
 
   //@}
  private:
-  int num_trials_per_iteration_;
+  int trials_per_cycle_;
 };
 
 inline std::shared_ptr<Metropolis> MakeMetropolis(argtype args = argtype()) {

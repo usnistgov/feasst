@@ -59,7 +59,7 @@ Metropolis
 Scattering trials_per_update 1 trials_per_write 1 num_frequency 10 output_file {prefix}{sim}_iq.csv
 ReadConfigFromFile input_file {xyz_file}
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-Run until_criteria_complete true
+Run until complete
 """.format(**params))
 
 def post_process(params):

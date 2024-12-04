@@ -386,6 +386,8 @@ To Do List
 * Add a FAQ for sim questions, such as, an overview of various table potential options, etc.
 * Optimize BondVisitor that uses deserialize_map and strings in inner loop
 * Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).
-* Remove ConvertToRefPotential and ProfileTrials, RemoveModify, RemoveAnalyze, RemoveTrial in v0.26
+* In v0.26, Remove ConvertToRefPotential, ProfileTrials, RemoveModify, RemoveAnalyze, RemoveTrial, Run::until_criteria_complete, Criteria/Stepper::iteration
 * Have the tests override hours checkpoint , etc so that users don't have bad values
 * Maybe make some kind of class that factories out the creation of analyze and modify (e.g., all using the same trials_per_iteration, file name prefixes, etc)
+* CopyFollowingLines replace_with_index [box], then use file names like {prefix}[box]
+* Remove CollectionMatrixSplice from tutorials?

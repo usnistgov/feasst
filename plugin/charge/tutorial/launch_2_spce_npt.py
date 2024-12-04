@@ -20,16 +20,12 @@ PARSER.add_argument('--num_particles', type=int, default=500, help='number of pa
 PARSER.add_argument('--pressures', type=json.loads, default='{"pressure":[5.790E+01,5.521E+02,1.277E+03,2.270E+03,3.290E+03,3.432E+03,3.586E+03,3.728E+03]}',
                     help='dictionary with a list of pressures in units of atm.')
 PARSER.add_argument('--initial_cubic_side_length', type=int, default=25, help='cubic periodic boundary length')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e4),
-                    help='like cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=int(2e1),
-                    help='number of iterations for equilibraiton')
-PARSER.add_argument('--production_iterations', type=int, default=int(2e1),
-                    help='number of iterations for production')
+PARSER.add_argument('--tpc', type=int, default=int(1e4), help='trials per cycle')
+PARSER.add_argument('--equilibration', type=int, default=int(2e1), help='number of cycles for equilibraiton')
+PARSER.add_argument('--production', type=int, default=int(2e1), help='number of cycles for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
-PARSER.add_argument('--run_type', '-r', type=int, default=0,
-                    help='0: run, 1: submit to queue, 2: post-process')
+PARSER.add_argument('--run_type', '-r', type=int, default=0, help='0: run, 1: submit to queue, 2: post-process')
 PARSER.add_argument('--seed', type=int, default=-1,
                     help='Random number generator seed. If -1, assign random seed to each sim.')
 PARSER.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
@@ -78,33 +74,33 @@ Metropolis
 TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
 TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
+CheckEnergy trials_per_update {tpc} decimal_places 4
 
 # gcmc initialization
 TrialAdd particle_type 0
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_init.csv
+Log trials_per_write {tpc} output_file {prefix}{sim}_init.csv
 Tune
 Run until_num_particles {num_particles}
 Remove name0 TrialAdd name1 Log
 
 # npt equilibration
 ThermoParams beta {beta} pressure {pressure}
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
 TrialVolume weight 0.05 tunable_param 0.2 tunable_target_acceptance 0.5
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.xyz
-Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_density_eq.csv
-Run until_criteria_complete true
+Log trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
+Movie trials_per_write {tpc} output_file {prefix}{sim}_eq.xyz
+Density trials_per_write {tpc} output_file {prefix}{sim}_density_eq.csv
+Run until complete
 Remove name0 Tune name1 Log name2 Movie name3 Density
 
 # npt production
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz start_after_iteration 1
-Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_en.csv
-Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_density.csv
-Volume trials_per_write {trials_per_iteration} output_file {prefix}{sim}_volume.csv
-Run until_criteria_complete true
+Metropolis trials_per_cycle {tpc} cycles_to_complete {production}
+Log trials_per_write {tpc} output_file {prefix}{sim}.csv
+Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz start_after_cycle 1
+Energy trials_per_write {tpc} output_file {prefix}{sim}_en.csv
+Density trials_per_write {tpc} output_file {prefix}{sim}_density.csv
+Volume trials_per_write {tpc} output_file {prefix}{sim}_volume.csv
+Run until complete
 """.format(**params))
 
 def post_process(params):

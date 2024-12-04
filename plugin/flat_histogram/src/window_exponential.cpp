@@ -4,6 +4,7 @@
 #include <string>
 #include "utils/include/arguments.h"
 #include "utils/include/debug.h"
+#include "utils/include/io.h"
 #include "flat_histogram/include/window_exponential.h"
 
 namespace feasst {
@@ -54,7 +55,15 @@ std::vector<double> WindowExponential::segment() const {
         1./alpha_);
     }
   }
+  DEBUG(feasst_str(segment));
   return segment;
+}
+
+int WindowExponential::minimum() const {
+  if (static_cast<int>(partial_segment_.size()) > 0) {
+    return partial_segment_[0];
+  }
+  return Window::minimum();
 }
 
 }  // namespace feasst

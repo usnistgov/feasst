@@ -52,9 +52,11 @@ while not finished:
 for filename in Path('../').rglob('*_slurm_*.txt'):
     with cd.cd(filename.parent):
         subprocess.call("grep \"Err\" " + str(filename.name) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
+        subprocess.call("grep \"Segmentation\" " + str(filename.name) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
         subprocess.call("grep \"Throw\" " + str(filename.name) + " | grep -v 'Terminating because Checkpoint has reached the user input' >> launch_failures.txt", shell=True, executable='/bin/bash')
         subprocess.call("grep \"No such file or directory\" " + str(filename.name) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
     subprocess.call("grep \"Err\" " + str(filename) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
+    subprocess.call("grep \"Segmentation\" " + str(filename) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
     subprocess.call("grep \"Throw\" " + str(filename) + " | grep -v 'Terminating because Checkpoint has reached the user input' >> launch_failures.txt", shell=True, executable='/bin/bash')
     subprocess.call("grep \"No such file or directory\" " + str(filename) + " >> launch_failures.txt", shell=True, executable='/bin/bash')
 

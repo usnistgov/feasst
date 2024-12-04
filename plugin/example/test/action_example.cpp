@@ -22,7 +22,7 @@ TEST(ActionExample, fh) {
     {"CriteriaWriter", {{"trials_per_write", "1e2"}, {"output_file", "tmp/action_ex_crit.csv"}}},
     {"Energy", {{"output_file", "tmp/en.csv"}, {"trials_per_write", "1e2"}, {"multistate", "true"}}},
     {"PairDistribution", {{"output_file", "tmp/grig.csv"}, {"trials_per_write", "1e2"}}},
-    {"Run", {{"until_criteria_complete", "true"}}},
+    {"Run", {{"until", "complete"}}},
     {"ActionExample", {{"analyze_name", "CriteriaWriter"}}},
     {"ActionExample", {{"analyze_name", "Energy"}}},
     {"ActionExample", {{"modify_name", "PairDistribution"}}},

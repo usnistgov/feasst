@@ -88,8 +88,8 @@ class Clones {
     argtype run_args = argtype(),
     argtype init_args = argtype());
 
-  /// Set the number of Criteria iterations of all clones.
-  void set_num_iterations_to_complete(const int iterations);
+  /// Set the number of Criteria cycles of all clones.
+  void set_cycles_to_complete(const int cycles);
 
   /// Return the FlatHistogram of a given clone index.
   std::unique_ptr<FlatHistogram> flat_histogram(const int index) const;

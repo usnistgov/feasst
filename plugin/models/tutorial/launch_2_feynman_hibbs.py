@@ -19,12 +19,11 @@ PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
 PARSER.add_argument('--beta', type=float, default=1./0.9, help='inverse temperature')
 PARSER.add_argument('--num_particles', type=int, default=50, help='number of particles')
 PARSER.add_argument('--density', type=float, default=0.001, help='density')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
-    help='like cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
-    help='number of iterations for equilibration')
-PARSER.add_argument('--production_iterations', type=int, default=int(1e2),
-    help='number of iterations for production')
+PARSER.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
+PARSER.add_argument('--equilibration_cycles', type=int, default=int(1e1),
+    help='number of cycles for equilibration')
+PARSER.add_argument('--production_cycles', type=int, default=int(1e2),
+    help='number of cycles for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
@@ -79,20 +78,20 @@ Run until_num_particles {num_particles}
 Remove name TrialAdd
 
 # canonical ensemble equilibration
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
 Tune
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-8
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.txt
-Run until_criteria_complete true
+CheckEnergy trials_per_update {tpc} tolerance 1e-8
+Log trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
+Run until complete
 Remove name0 Tune name1 Log
 
 # canonical ensemble production
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.txt
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz
-Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_en.txt
-CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.txt
-Run until_criteria_complete true
+Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
+Log trials_per_write {tpc} output_file {prefix}{sim}.txt
+Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
+Energy trials_per_write {tpc} output_file {prefix}{sim}_en.txt
+CPUTime trials_per_write {tpc} output_file {prefix}{sim}_cpu.txt
+Run until complete
 """.format(**params))
 
 def post_process(params):

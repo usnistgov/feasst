@@ -24,12 +24,11 @@ PARSER.add_argument('--reference_sigma', type=float, default=1,
 PARSER.add_argument('--beta', type=float, default=1., help='the inverse temperature')
 PARSER.add_argument('--num_beta_taylor', type=int, default=10, help='number of Taylor series coefficients')
 PARSER.add_argument('--show_plot', type=int, default=0, help='If != 0, show plot')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e4),
-                    help='like cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
-                    help='number of iterations for equilibration')
-PARSER.add_argument('--production_iterations', type=int, default=int(1e2),
-                    help='number of iterations for production')
+PARSER.add_argument('--tpc', type=int, default=int(1e4), help='trials per cycle')
+PARSER.add_argument('--equilibration_cycles', type=int, default=int(1e1),
+                    help='number of cycles for equilibration')
+PARSER.add_argument('--production_cycles', type=int, default=int(1e2),
+                    help='number of cycles for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
@@ -71,25 +70,25 @@ Configuration cubic_side_length 1e10 periodic0 false periodic1 false periodic2 f
 Potential Model LennardJones
 RefPotential Model HardSphere sigma 0 sigma0 {reference_sigma} cutoff 0 cutoff0 {reference_sigma}
 ThermoParams beta {beta}
-MayerSampling num_beta_taylor {num_beta_taylor} num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+MayerSampling num_beta_taylor {num_beta_taylor} trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
 TrialTranslate new_only true reference_index 0 tunable_param 1 group first
 #TrialRotate new_only true reference_index 0 tunable_param 40
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # tune trial parameters
-CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}{sim}_b2_eq.txt
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.txt
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.xyz
+CriteriaWriter trials_per_write {tpc} output_file {prefix}{sim}_b2_eq.txt
+Log trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
+Movie trials_per_write {tpc} output_file {prefix}{sim}_eq.xyz
 Tune
-Run until_criteria_complete true
+Run until complete
 Remove name0 Tune name1 CriteriaWriter name2 Log name3 Movie
 
 # production
-CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}{sim}_b2.txt
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.txt
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz
-MayerSampling num_beta_taylor {num_beta_taylor} num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Run until_criteria_complete true
+CriteriaWriter trials_per_write {tpc} output_file {prefix}{sim}_b2.txt
+Log trials_per_write {tpc} output_file {prefix}{sim}.txt
+Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
+MayerSampling num_beta_taylor {num_beta_taylor} trials_per_cycle {tpc} cycles_to_complete {production_cycles}
+Run until complete
 """.format(**params))
 
 def post_process(params):

@@ -27,12 +27,9 @@ PARSER.add_argument('--mu_init', type=float, default=10, help='initial chemical 
 PARSER.add_argument('--num_particles', type=int, default=370, help='maximum number of particles')
 PARSER.add_argument('--cubic_side_length', type=float, default=8,
                     help='cubic periodic boundary length')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e4),
-                    help='like cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=1e2,
-                    help='number of iterations for equilibration')
-PARSER.add_argument('--production_iterations', type=int, default=1e3,
-                    help='number of iterations for production')
+PARSER.add_argument('--tpc', type=int, default=int(1e4), help='trials per cycle')
+PARSER.add_argument('--equilibration', type=int, default=1e2, help='number of cycles for equilibration')
+PARSER.add_argument('--production', type=int, default=1e3, help='number of cycles for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
@@ -74,24 +71,24 @@ Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {tpc} tolerance 1e-4
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
-Log trials_per_write {trials_per_iteration} file_name {prefix}_eq.txt
+Log trials_per_write {tpc} file_name {prefix}_eq.txt
 Tune
 Run until_num_particles {num_particles}
 Remove name TrialAdd
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
-Run until_criteria_complete true
+Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
+Run until complete
 Remove name0 Tune name1 Log
 
 # nvt production
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log trials_per_write {trials_per_iteration} file_name {prefix}.txt
-Movie trials_per_write {trials_per_iteration} file_name {prefix}.xyz
-Energy trials_per_write {trials_per_iteration} file_name {prefix}_en.txt
-Run until_criteria_complete true
+Metropolis trials_per_cycle {tpc} cycles_to_complete {production}
+Log trials_per_write {tpc} file_name {prefix}.txt
+Movie trials_per_write {tpc} file_name {prefix}.xyz
+Energy trials_per_write {tpc} file_name {prefix}_en.txt
+Run until complete
 """.format(**params))
 
 def post_process(params):

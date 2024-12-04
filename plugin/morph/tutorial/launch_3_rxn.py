@@ -18,12 +18,11 @@ def parse():
     parser.add_argument('--num_particles', type=int, default=20, help='total number of particles')
     parser.add_argument('--cubic_side_length', type=float, default=8,
                         help='cubic periodic boundary length')
-    parser.add_argument('--trials_per_iteration', type=int, default=int(1e0),
-                        help='like cycles, but not necessary num_particles')
-    parser.add_argument('--equilibration_iterations', type=int, default=1e3,
-                        help='number of iterations for equilibration')
-    parser.add_argument('--production_iterations', type=int, default=1e3,
-                        help='number of iterations for production')
+    parser.add_argument('--tpc', type=int, default=int(1e0), help='trials per cycle')
+    parser.add_argument('--equilibration_cycles', type=int, default=1e3,
+                        help='number of cycles for equilibration')
+    parser.add_argument('--production_cycles', type=int, default=1e3,
+                        help='number of cycles for production')
     parser.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
     parser.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
     parser.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
@@ -78,35 +77,35 @@ TrialTranslate particle_type 3 weight_per_number_fraction 0.125
 #TrialParticlePivot particle_type 1 weight_per_number_fraction 0.125
 #TrialParticlePivot particle_type 2 weight_per_number_fraction 0.125
 #TrialParticlePivot particle_type 3 weight_per_number_fraction 0.125
-CheckEnergy trials_per_update {trials_per_iteration} decimal_places 8
+CheckEnergy trials_per_update {tpc} decimal_places 8
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # initialization number of particles
-Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_fill.csv
+Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_fill.csv
 Tune
 TrialAdd particle_type 0
 Run until_num_particles {num_particles} particle_type 0
 Remove name0 TrialAdd name1 Log
 
 # equilibration
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
 TrialMorph weight 0.1 reference_index 0 particle_type0 0 particle_type_morph0 1 particle_type1 2 particle_type_morph1 3
 TrialMorph weight 0.1 reference_index 0 particle_type0 1 particle_type_morph0 0 particle_type1 3 particle_type_morph1 2
 TrialMorph weight 0.1 reference_index 0 particle_type0 0 particle_type_morph0 1 particle_type1 1 particle_type_morph1 0
-Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_eq.csv
-Run until_criteria_complete true
+Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.csv
+Run until complete
 Remove name0 Tune name1 Log
 
 # production
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log          trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}.csv
-Movie        trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_eq.xyz
-Movie        trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}.xyz
-Tune         trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_tune.csv
-Energy       trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_en.csv
-NumParticles trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_n.csv particle_type 2
-ProfileCPU   trials_per_write {trials_per_iteration} output_file {prefix}n{node}s{sim}_profile.csv trials_per_update 5e3
-Run until_criteria_complete true
+Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
+Log          trials_per_write {tpc} output_file {prefix}n{node}s{sim}.csv
+Movie        trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.xyz
+Movie        trials_per_write {tpc} output_file {prefix}n{node}s{sim}.xyz
+Tune         trials_per_write {tpc} output_file {prefix}n{node}s{sim}_tune.csv
+Energy       trials_per_write {tpc} output_file {prefix}n{node}s{sim}_en.csv
+NumParticles trials_per_write {tpc} output_file {prefix}n{node}s{sim}_n.csv particle_type 2
+ProfileCPU   trials_per_write {tpc} output_file {prefix}n{node}s{sim}_profile.csv trials_per_update 5e3
+Run until complete
 """.format(**params))
 
 def post_process(params):

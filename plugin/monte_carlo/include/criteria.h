@@ -28,7 +28,7 @@ class Criteria {
  public:
   //@{
   /** @name Arguments
-    - num_iterations_to_complete: set the number of iterations for a simulation
+    - cycles_to_complete: set the number of cycles for a simulation
       to be considered complete (default: 20).
     - Constraint: ConstrainNumParticles, AHalfB, etc.
    */
@@ -105,29 +105,29 @@ class Criteria {
   /// Increment the simulation phase.
   virtual void increment_phase() { ++phase_; }
 
-  /// Return the number of iterations for a simulation to be complete.
+  /// Return the number of cycles for a simulation to be complete.
   /// Iterations are defined by the Derived class.
-  /// For example, one Metropolis iteration is 1000 trials.
-  /// FlatHistogram iterations depend on the Bias.
-  /// For TransitionMatrix, one iteration is a sweep.
-  virtual int num_iterations_to_complete() const {
-    return num_iterations_to_complete_; }
+  /// For example, one Metropolis cycle is 1000 trials.
+  /// FlatHistogram cycles depend on the Bias.
+  /// For TransitionMatrix, one cycle is a sweep.
+  virtual int cycles_to_complete() const {
+    return cycles_to_complete_; }
 
-  /// Set the number of iterations for a simulation to be complete.
-  virtual void set_num_iterations_to_complete(const int num) {
-    num_iterations_to_complete_ = num; }
+  /// Set the number of cycles for a simulation to be complete.
+  virtual void set_cycles_to_complete(const int num) {
+    cycles_to_complete_ = num; }
 
-  /// Return the current number of iterations.
-  virtual int num_iterations(
-    /// If != -1, return iterations of a particular state (TM/WLTM only).
+  /// Return the current number of cycles.
+  virtual int num_cycles(
+    /// If != -1, return cycles of a particular state (TM/WLTM only).
     const int state = -1) const;
 
-  /// Return true if the number of iterations for completion has been reached.
+  /// Return true if the number of cycles for completion has been reached.
   virtual bool is_complete() const {
-    return num_iterations() >= num_iterations_to_complete(); }
+    return num_cycles() >= cycles_to_complete(); }
 
   /// Set the simulation as complete. Used for post processing.
-  virtual void set_complete() { set_num_iterations_to_complete(0); }
+  virtual void set_complete() { set_cycles_to_complete(0); }
 
   /// Return the state index for multistate simulations (default: 0).
   virtual int state() const { return 0; }
@@ -210,7 +210,7 @@ class Criteria {
   void serialize_criteria_(std::ostream& ostr) const;
   bool was_accepted_ = false;
   SynchronizeData data_;
-  void check_num_iterations_(const int num_trials_per_iteration);
+  void check_num_cycles_(const int trials_per_cycle);
 
  private:
   double previous_energy_ = 0.;
@@ -218,7 +218,7 @@ class Criteria {
   int phase_ = 0;
   int expanded_state_;
   int num_expanded_states_;
-  int num_iterations_to_complete_;
+  int cycles_to_complete_;
   std::vector<std::shared_ptr<Constraint> > constraints_;
 
   std::vector<double> * current_energy_() {
@@ -229,10 +229,10 @@ class Criteria {
     return &((*data_.get_dble_3D())[0]); }
   const std::vector<std::vector<double> >& const_current_energy_profile_()
     const { return data_.dble_3D()[0]; }
-  int * num_attempt_since_last_iteration_() {
+  int * num_attempt_since_last_cycle_() {
     return &((*data_.get_int_1D())[0]); }
-  int * num_iterations_() { return &((*data_.get_int_1D())[1]); }
-  int const_num_iterations_() const { return data_.int_1D()[1]; }
+  int * num_cycles_() { return &((*data_.get_int_1D())[1]); }
+  int const_num_cycles_() const { return data_.int_1D()[1]; }
 };
 
 }  // namespace feasst

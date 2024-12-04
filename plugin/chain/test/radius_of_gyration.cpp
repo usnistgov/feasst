@@ -18,7 +18,7 @@ TEST(RadiusOfGyration, test) {
     {"Metropolis", {{}}},
     {"RadiusOfGyration", {{"print_histogram", "true"}, {"min", "27"}, {"max", "27"}, {"width", "1"}, {"output_file", "tmp/rg.csv"}}},
     {"ReadConfigFromFile", {{"input_file", "../plugin/steppers/test/data/nvt0.xyze"}, {"euler", "true"}}},
-    {"Run", {{"until_criteria_complete", "true"}}},
+    {"Run", {{"until", "complete"}}},
     {"WriteStepper", {{"analyze_name", "RadiusOfGyration"}}},
   }}, true);
   EXPECT_NEAR(27.336812419903538, mc->analyze(0).accumulator().average(), 1e-8);

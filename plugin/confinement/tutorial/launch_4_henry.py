@@ -22,8 +22,7 @@ PARSER.add_argument('--beta', type=float, default=1., help='inverse temperature'
 PARSER.add_argument('--mu', type=float, default=-1, help='chemical potential')
 PARSER.add_argument('--cubic_side_length', type=float, default=9,
                     help='cubic periodic boundary length')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
-                    help='like cycles, but not necessary num_particles')
+PARSER.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
@@ -67,7 +66,7 @@ Potential Model ModelHardShape shape_file {prefix}_shape_file.txt
 ThermoParams beta {beta} chemical_potential {mu}
 AlwaysReject
 TrialAdd particle_type 0 new_only true
-HenryCoefficient trials_per_write {trials_per_iteration} file_name {prefix}.csv write_precision 12 num_beta_taylor 4
+HenryCoefficient trials_per_write {tpc} file_name {prefix}.csv write_precision 12 num_beta_taylor 4
 Run num_trials 1e6
 """.format(**params))
 

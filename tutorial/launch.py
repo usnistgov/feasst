@@ -25,15 +25,11 @@ def parse():
     parser.add_argument('--num_particles', type=int, default=500, help='number of particles')
     parser.add_argument('--density_lower', type=float, default=0.001, help='lowest number density')
     parser.add_argument('--density_upper', type=float, default=0.009, help='highest number density')
-    parser.add_argument('--tpi', type=int, default=int(1e4),
-                        help='trials per iteration, similar to MC cycles, but not necessary num_particles')
-    parser.add_argument('--equilibration_iterations', type=int, default=int(1e1),
-                        help='number of iterations for equilibraiton')
-    parser.add_argument('--production_iterations', type=int, default=int(1e1),
-                        help='number of iterations for production')
+    parser.add_argument('--tpc', type=int, default=int(1e4), help='trials per cycle')
+    parser.add_argument('--equilibration', type=int, default=int(1e1), help='number of cycles for equilibraiton')
+    parser.add_argument('--production', type=int, default=int(1e1), help='number of cycles for production')
     parser.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
-    parser.add_argument('--hours_terminate', type=float, default=0.1,
-                        help='hours until termination')
+    parser.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
     parser.add_argument('--procs_per_node', type=int, default=5, help='number of processors')
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')
@@ -92,21 +88,21 @@ Run until_num_particles {num_particles}
 Remove name TrialAdd
 
 # canonical ensemble equilibration
-Metropolis num_trials_per_iteration {tpi} num_iterations_to_complete {equilibration_iterations}
+Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
 Tune
-CheckEnergy trials_per_update {tpi} decimal_places 8
-Log trials_per_write {tpi} output_file {prefix}{sim}_eq.csv
+CheckEnergy trials_per_update {tpc} decimal_places 8
+Log trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
 Run until_criteria_complete true
 Remove name0 Tune name1 Log
 
 # canonical ensemble production
-Metropolis num_trials_per_iteration {tpi} num_iterations_to_complete {production_iterations}
-Log              trials_per_write {tpi} output_file {prefix}{sim}.csv
-Movie            trials_per_write {tpi} output_file {prefix}{sim}.xyz
-Energy           trials_per_write {tpi} output_file {prefix}{sim}_en.csv
-CPUTime          trials_per_write {tpi} output_file {prefix}{sim}_cpu.txt
-GhostTrialVolume trials_per_write {tpi} output_file {prefix}{sim}_pressure.csv trials_per_update {tpi}
-ProfileCPU       trials_per_write {tpi} output_file {prefix}{sim}_profile.csv
+Metropolis trials_per_cycle {tpc} cycles_to_complete {production}
+Log              trials_per_write {tpc} output_file {prefix}{sim}.csv
+Movie            trials_per_write {tpc} output_file {prefix}{sim}.xyz
+Energy           trials_per_write {tpc} output_file {prefix}{sim}_en.csv
+CPUTime          trials_per_write {tpc} output_file {prefix}{sim}_cpu.txt
+GhostTrialVolume trials_per_write {tpc} output_file {prefix}{sim}_pressure.csv trials_per_update {tpc}
+ProfileCPU       trials_per_write {tpc} output_file {prefix}{sim}_profile.csv
 Run until_criteria_complete true
 """.format(**params))
 

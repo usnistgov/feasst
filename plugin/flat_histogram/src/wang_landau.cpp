@@ -121,7 +121,7 @@ void WangLandau::serialize(std::ostream& ostr) const {
   feasst_serialize(min_flatness_, ostr);
 }
 
-void WangLandau::set_num_iterations_to_complete(const int flatness) {
+void WangLandau::set_cycles_to_complete(const int flatness) {
   min_flatness_ = flatness;
   if (num_flatness_ < min_flatness_) set_incomplete_();
 }

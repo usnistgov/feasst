@@ -1,5 +1,6 @@
 #include "utils/include/serialize_extra.h"
 #include "utils/include/arguments.h"
+#include "math/include/accumulator.h"
 #include "configuration/include/select.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/configuration.h"
@@ -106,10 +107,11 @@ std::shared_ptr<TrialSelect> TrialSelect::deserialize(std::istream& istr) {
 }
 
 void TrialSelect::serialize_trial_select_(std::ostream& ostr) const {
-  feasst_serialize_version(274, ostr);
+  feasst_serialize_version(275, ostr);
   feasst_serialize(mobile_original_, ostr);
   feasst_serialize(mobile_, ostr);
   feasst_serialize(anchor_, ostr);
+  feasst_serialize(printable_, ostr);
   feasst_serialize(group_index_, ostr);
   feasst_serialize(particle_type_, ostr);
   feasst_serialize(configuration_index_, ostr);
@@ -122,7 +124,7 @@ void TrialSelect::serialize_trial_select_(std::ostream& ostr) const {
 TrialSelect::TrialSelect(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 273 && version <= 274, "mismatch version: " << version);
+  ASSERT(version >= 273 && version <= 275, "mismatch version: " << version);
 //  feasst_deserialize(mobile_original_, istr);
 // HWH for unknown reasons, this function template does not work.
   {
@@ -149,6 +151,9 @@ TrialSelect::TrialSelect(std::istream& istr) {
     if (existing != 0) {
       anchor_ = std::make_shared<Select>(istr);
     }
+  }
+  if (version >= 275) {
+    feasst_deserialize(&printable_, istr);
   }
   feasst_deserialize(&group_index_, istr);
   feasst_deserialize(&particle_type_, istr);

@@ -77,12 +77,12 @@ void AnalyzeFactory::trial(const MonteCarlo& mc) {
   if (is_multistate()) {
     stt = criteria.state();
   }
-  DEBUG("criteria.num_iterations(" << stt << ") " << criteria.num_iterations(stt)  <<
-       " start_after_iteration() " << start_after_iteration());
+  DEBUG("criteria.num_cycles(" << stt << ") " << criteria.num_cycles(stt)  <<
+       " start_after_cycle() " << start_after_cycle());
   if ( (stop_after_phase() != -1 && criteria.phase() > stop_after_phase()) ||
-       (stop_after_iteration() != -1 && criteria.num_iterations(stt) > stop_after_iteration()) ||
+       (stop_after_cycle() != -1 && criteria.num_cycles(stt) > stop_after_cycle()) ||
        (criteria.phase() <= start_after_phase()) ||
-       (criteria.num_iterations(stt) <= start_after_iteration()) ) {
+       (criteria.num_cycles(stt) <= start_after_cycle()) ) {
     return;
   }
   if (is_multistate()) {

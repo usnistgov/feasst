@@ -68,7 +68,7 @@ Energy         trials_per_write {trials_per} output_file lj_enn{min_particles}s{
 CPUTime        trials_per_write {trials_per} output_file lj_cpun{min_particles}s{sim}_[sim_index].txt append true
 CriteriaWriter trials_per_write {trials_per} output_file lj_critn{min_particles}s{sim}_[sim_index].txt
 CriteriaUpdater trials_per_update {trials_per}
-#Run until_criteria_complete true
+#Run until complete
 """.format(**params))
 
 # write slurm script to fill nodes with simulations

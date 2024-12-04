@@ -46,9 +46,9 @@ void ModifyFactory::trial(MonteCarlo * mc) {
     stt = criteria.state();
   }
   if ( (stop_after_phase() != -1 && criteria.phase() > stop_after_phase()) ||
-       (stop_after_iteration() != -1 && criteria.num_iterations(stt) > stop_after_iteration()) ||
+       (stop_after_cycle() != -1 && criteria.num_cycles(stt) > stop_after_cycle()) ||
        (criteria.phase() <= start_after_phase()) ||
-       (criteria.num_iterations(stt) <= start_after_iteration()) ) {
+       (criteria.num_cycles(stt) <= start_after_cycle()) ) {
     return;
   }
   if (is_multistate()) {

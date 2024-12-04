@@ -432,6 +432,37 @@ void feasst_serialize_fstdr(const std::vector<std::shared_ptr<T> >& vector,
 //   }
 // }
 
+/// Serialize a map of shared pointers of feasst objects
+template <typename T>
+void feasst_serialize(const std::map<std::string, std::shared_ptr<T> >& map,
+    std::ostream& ostr) {
+  ostr << map.size() << " ";
+  for (auto const& element : map) {
+    feasst_serialize(element.first, ostr);
+    feasst_serialize(element.second, ostr);
+  }
+}
+
+/// Deerialize a map of shared pointers of feasst objects
+template <typename T>
+void feasst_deserialize(std::map<std::string, std::shared_ptr<T> > * map,
+    std::istream& istr) {
+  int dim1;
+  istr >> dim1;
+  for (int index = 0; index < dim1; ++index) {
+    std::string name;
+    feasst_deserialize(&name, istr);
+    std::shared_ptr<T> obj;
+    //feasst_deserialize_sp(obj, istr);
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      obj = std::make_shared<T>(istr);
+    }
+    map->insert({name, obj});
+  }
+}
+
 /// End class serialization with this notification to aid debugging.
 void feasst_serialize_endcap(const std::string name, std::ostream& ostr);
 

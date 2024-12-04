@@ -18,5 +18,5 @@ Remove name Tune
 Log    trials_per_write 1e4 output_file lj.csv
 Energy trials_per_write 1e4 output_file lj_en.csv
 Movie  trials_per_write 1e4 output_file lj.xyz
-Metropolis num_trials_per_iteration 1e4 num_iterations_to_complete 1e2
-Run until_criteria_complete true
+Metropolis trials_per_cycle 1e4 cycles_to_complete 1e2
+Run until complete

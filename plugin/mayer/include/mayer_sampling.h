@@ -31,7 +31,7 @@ class MayerSampling : public Criteria {
  public:
   //@{
   /** @name Arguments
-    - num_trials_per_iteration: define an iteration as a number of trials
+    - trials_per_cycle: define a cycle as a number of trials
       (as measured by number of calls to is_accepted) default: 1e9.
     - intra_potential: index of intramolecular potential that will be used
       to select the move. Ignore if -1 (default: -1).
@@ -103,7 +103,7 @@ class MayerSampling : public Criteria {
  private:
   double f12old_ = -1.;
   double f12ref_ = -1.;
-  int num_trials_per_iteration_;
+  int trials_per_cycle_;
   Accumulator mayer_;
   Accumulator mayer_ref_;
   int intra_pot_;

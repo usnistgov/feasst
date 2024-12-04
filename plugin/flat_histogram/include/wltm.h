@@ -47,9 +47,9 @@ class WLTM : public Bias {
     const Macrostate& macro) override;
 
   /// Updates min_sweeps, but neither flatness.
-  int num_iterations_to_complete() const override;
-  void set_num_iterations_to_complete(const int sweeps) override;
-  int num_iterations(const int state, const Macrostate& macro) const override;
+  int cycles_to_complete() const override;
+  void set_cycles_to_complete(const int sweeps) override;
+  int num_cycles(const int state, const Macrostate& macro) const override;
   const TransitionMatrix& transition_matrix() const;
   const LnProbability& ln_prob() const override;
   void resize(const Histogram& histogram) override;

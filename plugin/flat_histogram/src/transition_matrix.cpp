@@ -264,7 +264,7 @@ bool TransitionMatrix::is_equal(const TransitionMatrix& transition_matrix,
   return true;
 }
 
-void TransitionMatrix::set_num_iterations_to_complete(const int sweeps) {
+void TransitionMatrix::set_cycles_to_complete(const int sweeps) {
   min_sweeps_ = sweeps;
   if (num_sweeps_ < min_sweeps_) set_incomplete_();
 }
@@ -291,7 +291,7 @@ void TransitionMatrix::set_cm(const CollectionMatrix& cm) {
   collection_->compute_ln_prob(ln_prob_.get());
 }
 
-int TransitionMatrix::num_iterations(const int state, const Macrostate& macro) const {
+int TransitionMatrix::num_cycles(const int state, const Macrostate& macro) const {
   if (new_sweep_ == 0 || state == -1) {
     if (new_sweep_ != 0) {
       return min_vis_calc_(macro);

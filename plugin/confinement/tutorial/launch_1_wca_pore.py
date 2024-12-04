@@ -28,10 +28,8 @@ PARSER.add_argument('--min_sweeps', type=int, default=2,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
 PARSER.add_argument('--cubic_side_length', type=float, default=9,
                     help='cubic periodic boundary length')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
-                    help='like cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=1e0,
-                    help='number of iterations for equilibration')
+PARSER.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
+PARSER.add_argument('--equilibration', type=int, default=1e0, help='number of cycles for equilibration')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
@@ -83,7 +81,7 @@ Metropolis
 TrialTranslate weight 1 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialAVB2 weight 0.1 particle_type 0
 TrialAVB4 weight 0.1 particle_type 0
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {tpc} tolerance 1e-4
 
 # write the pore xyz for visualization
 Movie output_file {prefix}{node}s[sim_index]_pore.xyz group pore clear_file true
@@ -92,13 +90,13 @@ Remove name Movie
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
-Log trials_per_write {trials_per_iteration} output_file {prefix}{node}s[sim_index]_eq.txt
+Log trials_per_write {tpc} output_file {prefix}{node}s[sim_index]_eq.txt
 Tune
 Run until_num_particles [soft_macro_min] particle_type 0
 Remove name TrialAdd
 ThermoParams beta {beta} chemical_potential {mu}
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
-Run until_criteria_complete true
+Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
+Run until complete
 Remove name0 Tune name1 Log
 
 # gcmc tm production
@@ -106,14 +104,14 @@ FlatHistogram Macrostate MacrostateNumParticles particle_type 0 width 1 max {max
   Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
 TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 4
 TrialTransferAVB weight 0.2 particle_type 0 reference_index 0 num_steps 4
-Log trials_per_write {trials_per_iteration} output_file {prefix}{node}s[sim_index].txt
+Log trials_per_write {tpc} output_file {prefix}{node}s[sim_index].txt
 #To print trajectories for each macrostate in separate files, add the following arguments to the "Movie" lines below: multistate true multistate_aggregate false
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{node}s[sim_index]_eq.xyz stop_after_iteration 1 group liquid
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{node}s[sim_index].xyz start_after_iteration 1 group liquid
-Tune trials_per_write {trials_per_iteration} output_file {prefix}{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1
-Energy trials_per_write {trials_per_iteration} output_file {prefix}{node}s[sim_index]_en.txt multistate true start_after_iteration 1
+Movie trials_per_write {tpc} output_file {prefix}{node}s[sim_index]_eq.xyz stop_after_cycle 1 group liquid
+Movie trials_per_write {tpc} output_file {prefix}{node}s[sim_index].xyz start_after_cycle 1 group liquid
+Tune trials_per_write {tpc} output_file {prefix}{node}s[sim_index]_tune.txt multistate true stop_after_cycle 1
+Energy trials_per_write {tpc} output_file {prefix}{node}s[sim_index]_en.txt multistate true start_after_cycle 1
 CriteriaUpdater trials_per_update 1e5
-CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}{node}s[sim_index]_crit.txt
+CriteriaWriter trials_per_write {tpc} output_file {prefix}{node}s[sim_index]_crit.txt
 """.format(**params))
 
 def post_process(params):

@@ -61,16 +61,16 @@ class Bias {
   /// Increment the simulation phase.
   virtual void increment_phase() { ++phase_; }
 
-  /// Return the number of iterations required for completion.
+  /// Return the number of cycles required for completion.
   /// In TransitionMatrix and WLTM, this is the minimum number of sweeps.
   /// In WangLandau, this is the minimum number of flatness checks.
   /// Afterward, check again for completeness.
-  virtual int num_iterations_to_complete() const = 0;
+  virtual int cycles_to_complete() const = 0;
 
-  /// Set the number of iterations required for completion.
-  virtual void set_num_iterations_to_complete(const int iteration) = 0;
+  /// Set the number of cycles required for completion.
+  virtual void set_cycles_to_complete(const int cycle) = 0;
 
-  virtual int num_iterations(const int state, const Macrostate& macro)
+  virtual int num_cycles(const int state, const Macrostate& macro)
     const = 0;
   bool is_complete() const { return is_complete_; }
   void set_complete_() { is_complete_ = true; }

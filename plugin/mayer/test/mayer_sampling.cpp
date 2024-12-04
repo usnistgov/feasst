@@ -26,7 +26,7 @@
 namespace feasst {
 
 TEST(MayerSampling, serialize) {
-  //auto mayer = MakeMayerSampling({{"num_attempts_per_iteration", "1"}});
+  //auto mayer = MakeMayerSampling({{"num_attempts_per_cycle", "1"}});
   auto mayer = MakeMayerSampling();
   MayerSampling mayer2 = test_serialize(*mayer);
 }

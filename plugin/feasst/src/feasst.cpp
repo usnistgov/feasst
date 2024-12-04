@@ -173,10 +173,12 @@ void parse_restart(std::string line) {
   std::cout << "# Restarting from file: " << checkpoint_file << std::endl;
   std::unique_ptr<MonteCarlo> mc = restart(checkpoint_file, resume);
   // after restart is complete, check for more text input
-  for (arglist argl : parse_mcs(std::cin)) {
-    mc->add_args(argl);
+  if (mc) {
+    for (arglist argl : parse_mcs(std::cin)) {
+      mc->add_args(argl);
+    }
+    mc->resume();
   }
-  mc->resume();
  // arglist list;
  // argtype variables;
 //  while (std::getline(std::cin, line)) {

@@ -83,9 +83,9 @@ class TransitionMatrix : public Bias {
   /// Return the reset_sweeps parameter.
   int reset_sweeps() const { return reset_sweeps_; }
 
-  int num_iterations_to_complete() const override { return min_sweeps_;}
-  void set_num_iterations_to_complete(const int sweeps) override;
-  int num_iterations(const int state, const Macrostate& macro) const override;
+  int cycles_to_complete() const override { return min_sweeps_;}
+  void set_cycles_to_complete(const int sweeps) override;
+  int num_cycles(const int state, const Macrostate& macro) const override;
   const LnProbability& ln_prob() const override;
   void resize(const int size);
   void resize(const Histogram& histogram) override;

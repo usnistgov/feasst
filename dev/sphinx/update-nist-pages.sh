@@ -3,10 +3,7 @@
 # For preparing a new release:
 # Check /feasst/dev/analyze_public_interface.py
 # CMakeLists.txt:
-# - version
-# - compiler flags (-Wall -pedantic -g)
-# - remove depend.py
-# add feasst.h
+# - check version, check -DEV=ON, depend.py
 # tag commit
 # run nightly test
 

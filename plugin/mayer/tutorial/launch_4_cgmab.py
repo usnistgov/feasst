@@ -19,12 +19,11 @@ PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--pdb_file', type=str, default="../../../pyfeasst/tests/1igt.pdb",
                     help='pdb file that describes a mAb')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
-                    help='like cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e0),
-                    help='number of iterations for equilibration')
-PARSER.add_argument('--production_iterations', type=int, default=int(1e1),
-                    help='number of iterations for production')
+PARSER.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle, but not necessary num_particles')
+PARSER.add_argument('--equilibration_cycles', type=int, default=int(1e0),
+                    help='number of cycles for equilibration')
+PARSER.add_argument('--production_cycles', type=int, default=int(1e1),
+                    help='number of cycles for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=9, help='number of processors')
@@ -177,7 +176,7 @@ Configuration cubic_side_length 200 particle_type0 1igt_{domain}.fstprt \
 Potential Model HardSphere VisitModel VisitModelCell min_length 3.9 energy_cutoff 1e100
 RefPotential Model HardSphere sigma0 0 sigma1 0 sigma2 0 sigma3 0 sigma4 0 sigma5 30 cutoff0 0 cutoff1 0 cutoff2 0 cutoff3 0 cutoff4 0 cutoff5 30 group com
 ThermoParams beta 1
-MayerSampling num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+MayerSampling trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
 TrialTranslate new_only true reference_index 0 tunable_param 1 group first
 TrialRotate new_only true reference_index 0 tunable_param 40
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
@@ -188,15 +187,15 @@ CriteriaWriter trials_per_write trials_per output_file {prefix}_{domain}_b2_eq.t
 #Log trials_per_write trials_per output_file {prefix}_{domain}_eq.txt
 #Movie trials_per_write trials_per output_file {prefix}_{domain}_eq.xyz
 Tune
-Run until_criteria_complete true
+Run until complete
 Remove name Tune
 
 # production
 CriteriaWriter trials_per_write trials_per output_file {prefix}_{domain}_b2.txt
 #Log trials_per_write trials_per output_file {prefix}_{domain}.txt
 #Movie trials_per_write trials_per output_file {prefix}_{domain}.xyz
-MayerSampling num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Run until_criteria_complete true
+MayerSampling trials_per_cycle {tpc} cycles_to_complete {production_cycles}
+Run until complete
 """.format(**params))
 
 def post_process(params):

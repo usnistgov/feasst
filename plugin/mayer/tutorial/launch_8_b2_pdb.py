@@ -21,9 +21,9 @@ PARSER.add_argument('--cubic_side_length', type=float, default=1e4, help='cubic 
 PARSER.add_argument('--molecular_weight', type=float, default=14315, help='molecular weight of protein in g/mol')
 PARSER.add_argument('--num_beta_taylor', type=int, default=10, help='number of Taylor series coefficients')
 PARSER.add_argument('--reference_sigma', type=float, default=30, help='size of hard sphere on COM of rigid domain')
-PARSER.add_argument('--trials_per', type=int, default=1e2, help='number of trials per iteration')
-PARSER.add_argument('--equilibration', type=int, default=1e2, help='number of iterations in equilibration')
-PARSER.add_argument('--production', type=int, default=1e9, help='number of iterations in production')
+PARSER.add_argument('--trials_per', type=int, default=1e2, help='number of trials per cycle')
+PARSER.add_argument('--equilibration', type=int, default=1e2, help='number of cycles in equilibration')
+PARSER.add_argument('--production', type=int, default=1e9, help='number of cycles in production')
 PARSER.add_argument('--seed', type=int, default=-1,
                     help='Random number generator seed. If -1, assign random seed to each sim.')
 PARSER.add_argument('--domain1', type=str, default='4lyt', help='fstprt file')
@@ -92,7 +92,7 @@ Configuration cubic_side_length {cubic_side_length} particle_type0 {domain1}_wit
 {potential}
 RefPotential Model HardSphere sigma 0 cutoff 0 sigma0 {reference_sigma} cutoff0 {reference_sigma} sigma{num_site_types} {reference_sigma} cutoff{num_site_types} {reference_sigma}
 ThermoParams beta {beta}
-MayerSampling num_trials_per_iteration {trials_per} num_iterations_to_complete {equilibration} num_beta_taylor {num_beta_taylor}
+MayerSampling trials_per_cycle {trials_per} cycles_to_complete {equilibration} num_beta_taylor {num_beta_taylor}
 TrialTranslate new_only true reference_index 0 tunable_param 35 group mobile
 TrialRotate new_only true reference_index 0 tunable_param 40
 
@@ -100,15 +100,15 @@ TrialRotate new_only true reference_index 0 tunable_param 40
 CriteriaWriter trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}_b2_eq.txt
 Log trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}_eq.txt
 Tune
-Run until_criteria_complete true
+Run until complete
 Remove name0 CriteriaWriter name1 Log name2 Tune
 
 # production
 CriteriaWriter trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}_b2.txt
 Log trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}.txt
 #Movie trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}.xyz
-MayerSampling num_trials_per_iteration {trials_per} num_iterations_to_complete {production} num_beta_taylor {num_beta_taylor}
-Run until_criteria_complete true
+MayerSampling trials_per_cycle {trials_per} cycles_to_complete {production} num_beta_taylor {num_beta_taylor}
+Run until complete
 """.format(**params))
 
 def post_process(params):

@@ -27,6 +27,7 @@ CopyFollowingLines::CopyFollowingLines(argtype * args) {
       key << start << index;
     }
   }
+  replace_with_index_ = str("replace_with_index", args, "");
 }
 CopyFollowingLines::CopyFollowingLines(argtype args) : CopyFollowingLines(&args) {
   feasst_check_all_used(args);
@@ -34,23 +35,28 @@ CopyFollowingLines::CopyFollowingLines(argtype args) : CopyFollowingLines(&args)
 
 CopyFollowingLines::CopyFollowingLines(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 3406 && version <= 3406, "mismatch version: " << version);
+  ASSERT(version >= 3406 && version <= 3407, "mismatch version: " << version);
   feasst_deserialize(&for_num_configurations_, istr);
   feasst_deserialize(&replace_, istr);
+  if (version >= 3407) {
+    feasst_deserialize(&replace_with_index_, istr);
+  }
 }
 
 void CopyFollowingLines::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_action_(ostr);
-  feasst_serialize_version(3406, ostr);
+  feasst_serialize_version(3407, ostr);
   feasst_serialize(for_num_configurations_, ostr);
   feasst_serialize(replace_, ostr);
+  feasst_serialize(replace_with_index_, ostr);
 }
 
 void CopyFollowingLines::run(MonteCarlo * mc) {
   DEBUG("setting " << for_num_configurations_);
   mc->set_parse_for_num_configs(for_num_configurations_);
   mc->set_parse_replace(replace_);
+  mc->set_replace_with_index(replace_with_index_);
 }
 
 }  // namespace feasst

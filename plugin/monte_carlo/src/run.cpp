@@ -16,6 +16,9 @@ Run::Run(argtype * args) {
   particle_type_ = integer("particle_type", args, -1);
   for_hours_ = dble("for_hours", args, -1);
   until_criteria_complete_ = boolean("until_criteria_complete", args, false);
+  if (str("until", args, "") == "complete") {
+    until_criteria_complete_ = true;
+  }
   until_file_exists_ = str("until_file_exists", args, "");
   class_name_ = "Run";
 }

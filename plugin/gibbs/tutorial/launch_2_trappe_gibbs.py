@@ -30,12 +30,11 @@ PARSER.add_argument('--xyz_vapor', type=str, default='',
                     help='optionally, use an xyz file to initialize vapor')
 PARSER.add_argument('--xyz_liquid', type=str, default='',
                     help='optionally, use an xyz file to initialize liquid')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
-                    help='like cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
-                    help='number of iterations for equilibration')
-PARSER.add_argument('--production_iterations', type=int, default=int(1e2),
-                    help='number of iterations for production')
+PARSER.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
+PARSER.add_argument('--equilibration_cycles', type=int, default=int(1e1),
+                    help='number of cycles for equilibration')
+PARSER.add_argument('--production_cycles', type=int, default=int(1e2),
+                    help='number of cycles for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.2, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
@@ -66,7 +65,7 @@ PARAMS['num_sims'] = PARAMS['num_nodes']
 PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
 PARAMS['beta'] = 1./(PARAMS['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
 PARAMS['mu_init']=10
-PARAMS['equil'] = PARAMS['equilibration_iterations']*PARAMS['trials_per_iteration']
+PARAMS['equil'] = PARAMS['equilibration_cycles']*PARAMS['tpc']
 PARAMS['double_equil'] = 2*PARAMS['equil']
 if 'n-butane' in PARAMS['fstprt']:
     PARAMS['num_sites'] = 4
@@ -201,13 +200,13 @@ CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 1
 TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.4 pivot_site {last_site} configuration_index 1
 TrialGrowFile grow_file {prefix}_c0_grow_canonical.txt
 TrialGrowFile grow_file {prefix}_c1_grow_canonical.txt
-CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
+CheckEnergy trials_per_update {tpc} decimal_places 4
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # gcmc initialization and nvt equilibration
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_fill.xyz
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_fill.csv include_bonds true
+Movie trials_per_write {tpc} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
+Log trials_per_write {tpc} output_file {prefix}{sim}_fill.csv include_bonds true
 # decrease trials per due to infrequency of volume transfer attempts
 Tune
 
@@ -221,34 +220,33 @@ Remove name0 Tune name1 Log name2 Movie name3 Movie
 
 # gibbs equilibration cycles: equilibrate, estimate density, adjust, repeat
 # start a very long run GibbsInitialize completes once targets are reached
-Metropolis num_trials_per_iteration 1e9 num_iterations_to_complete 1e9
+Metropolis trials_per_cycle 1e9 cycles_to_complete 1e9
 GibbsInitialize updates_density_equil {equil} updates_per_adjust {double_equil}
 TrialGrowFile grow_file {prefix}_grow_gibbs.txt
 TrialGibbsVolumeTransfer weight 0.006 tunable_param 3000 reference_index 0 print_num_accepted true
 # a new tune is required when new Trials are introduced
 Tune trials_per_tune 20
-CheckEnergy trials_per_update {trials_per_iteration} decimal_places 8
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
+CheckEnergy trials_per_update {tpc} decimal_places 8
+Log trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
-ProfileCPU trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq_profile.csv
+Movie trials_per_write {tpc} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
+ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_eq_profile.csv
 # decrease trials per due to infrequency of volume transfer attempts
-Run until_criteria_complete true
+Run until complete
 Remove name0 GibbsInitialize name1 Tune name2 Log name3 Movie name4 Movie name5 ProfileCPU
 
 # gibbs ensemble production
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-CheckConstantVolume trials_per_update {trials_per_iteration} tolerance 1e-4
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
-CopyFollowingLines for_num_configurations 2 replace c0 with c1
-    Movie   trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0.xyz
-    Energy  trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_en.csv
-    Density trials_per_write {trials_per_iteration} output_file {prefix}{sim}_c0_dens.csv
+Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
+Log trials_per_write {tpc} output_file {prefix}{sim}.csv
+CopyFollowingLines for_num_configurations 2 replace_with_index [config]
+    Movie   trials_per_write {tpc} output_file {prefix}{sim}_c[config].xyz
+    Energy  trials_per_write {tpc} output_file {prefix}{sim}_c[config]_en.csv
+    Density trials_per_write {tpc} output_file {prefix}{sim}_c[config]_dens.csv
 EndCopy
-GhostTrialVolume trials_per_update 1e3 trials_per_write {trials_per_iteration} output_file {prefix}{sim}_pressure.csv
-CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.csv
-ProfileCPU trials_per_write {trials_per_iteration} output_file {prefix}{sim}_profile.csv
-Run until_criteria_complete true
+GhostTrialVolume trials_per_update 1e3 trials_per_write {tpc} output_file {prefix}{sim}_pressure.csv
+CPUTime trials_per_write {tpc} output_file {prefix}{sim}_cpu.csv
+ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_profile.csv
+Run until complete
 """.format(**params))
 
 def post_process(params):

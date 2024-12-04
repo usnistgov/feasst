@@ -22,7 +22,7 @@ TEST(WriteStepper, fh) {
     {"CriteriaWriter", {{"trials_per_write", "1e2"}, {"output_file", "tmp/action_ex_crit.csv"}}},
     {"Energy", {{"output_file", "tmp/en.csv"}, {"trials_per_write", "1e2"}, {"multistate", "true"}}},
     {"PairDistribution", {{"output_file", "tmp/grig.csv"}, {"trials_per_write", "1e2"}}},
-    {"Run", {{"until_criteria_complete", "true"}}},
+    {"Run", {{"until", "complete"}}},
     {"WriteStepper", {{"analyze_name", "CriteriaWriter"}}},
     {"WriteStepper", {{"analyze_name", "Energy"}}},
     {"WriteStepper", {{"modify_name", "PairDistribution"}}},

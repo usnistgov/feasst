@@ -22,9 +22,15 @@ Criteria::Criteria(argtype * args) {
   data_.get_dble_3D()->resize(1);
   *current_energy_profile_() = std::vector<std::vector<double> >();
   data_.get_int_1D()->resize(2);
-  *num_iterations_() = 0;
-  *num_attempt_since_last_iteration_() = 0;
-  num_iterations_to_complete_ = integer("num_iterations_to_complete", args, 20);
+  *num_cycles_() = 0;
+  *num_attempt_since_last_cycle_() = 0;
+  if (used("num_cycles_to_complete", *args)) {
+    WARN("num_cycles_to_complete is deprecated. " <<
+         "use cycles_to_complete.");
+    cycles_to_complete_ = integer("num_cycles_to_complete", args);
+  } else {
+    cycles_to_complete_ = integer("cycles_to_complete", args, 20);
+  }
   if (used("Constraint", *args)) {
     add(ConstrainNumParticles().factory(str("Constraint", args), args));
   }
@@ -183,7 +189,7 @@ void Criteria::serialize_criteria_(std::ostream& ostr) const {
   feasst_serialize(previous_energy_profile_, ostr);
   feasst_serialize(expanded_state_, ostr);
   feasst_serialize(num_expanded_states_, ostr);
-  feasst_serialize(num_iterations_to_complete_, ostr);
+  feasst_serialize(cycles_to_complete_, ostr);
   feasst_serialize(phase_, ostr);
   feasst_serialize_fstdr(constraints_, ostr);
   feasst_serialize_fstobj(data_, ostr);
@@ -197,7 +203,7 @@ Criteria::Criteria(std::istream& istr) {
   feasst_deserialize(&previous_energy_profile_, istr);
   feasst_deserialize(&expanded_state_, istr);
   feasst_deserialize(&num_expanded_states_, istr);
-  feasst_deserialize(&num_iterations_to_complete_, istr);
+  feasst_deserialize(&cycles_to_complete_, istr);
   feasst_deserialize(&phase_, istr);
   // HWH for unknown reasons, this function template does not work.
   // feasst_deserialize_fstdr(constraints_, istr);
@@ -247,11 +253,11 @@ bool Criteria::is_allowed(const System& system, const Acceptance& acceptance) {
   return true;
 }
 
-void Criteria::check_num_iterations_(const int num_trials_per_iteration) {
-  *num_attempt_since_last_iteration_() += 1;
-  if (*num_attempt_since_last_iteration_() >= num_trials_per_iteration) {
-    *num_iterations_() += 1;
-    *num_attempt_since_last_iteration_() = 0;
+void Criteria::check_num_cycles_(const int num_trials_per_cycle) {
+  *num_attempt_since_last_cycle_() += 1;
+  if (*num_attempt_since_last_cycle_() >= num_trials_per_cycle) {
+    *num_cycles_() += 1;
+    *num_attempt_since_last_cycle_() = 0;
   }
 }
 
@@ -283,8 +289,8 @@ const Bias& Criteria::bias() const { FATAL("not implemented"); }
 
 const FlatHistogram& Criteria::flat_histogram() const { FATAL("not implemented"); }
 
-int Criteria::num_iterations(const int state) const {
-  return const_num_iterations_();
+int Criteria::num_cycles(const int state) const {
+  return const_num_cycles_();
 }
 
 void Criteria::initialize(System * system) {

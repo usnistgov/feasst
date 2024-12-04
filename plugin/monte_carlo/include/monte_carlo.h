@@ -282,8 +282,8 @@ class MonteCarlo {
   /// Attempt Monte Carlo trials until the given file name exists.
   virtual void run_until_file_exists(const std::string& file_name);
 
-  /// Set the Criteria::number_iterations_to_complete.
-  void set_num_iterations_to_complete(const int num);
+  /// Set the Criteria::cycles_to_complete.
+  void set_cycles_to_complete(const int num);
 
   // HWH hackish interface for prefetch
   void before_attempts_();
@@ -333,6 +333,9 @@ class MonteCarlo {
   void set_parse_replace(
     const std::vector<std::vector<std::string> >& replace = {});
 
+  /// Set the parse replacement
+  void set_replace_with_index(const std::string& str);
+
   /// Set the timer
   void set_timer();
 
@@ -373,6 +376,7 @@ class MonteCarlo {
   bool criteria_set_ = false;
   int parse_for_num_configs_ = 1;
   std::vector<std::vector<std::string> > parse_replace_;
+  std::string replace_with_index_;
 
   std::unique_ptr<TimerRDTSC> timer_;
 

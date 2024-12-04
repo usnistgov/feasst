@@ -31,16 +31,15 @@ PARSER.add_argument('--mu', type=float, default=-3, help='chemical potential')
 PARSER.add_argument('--mu_init', type=float, default=10, help='initial chemical potential')
 PARSER.add_argument('--max_particles', type=int, default=475, help='maximum number of particles')
 PARSER.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
-PARSER.add_argument('--min_sweeps', type=int, default=20,
+PARSER.add_argument('--min_sweeps', type=int, default=2,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
 PARSER.add_argument('--cubic_side_length', type=float, default=9,
                     help='cubic periodic boundary length')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e6),
-                    help='like cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=0,
-                    help='number of iterations for equilibration')
+PARSER.add_argument('--tpc', type=int, default=int(1e6), help='trials per cycle')
+PARSER.add_argument('--equilibration_cycles', type=int, default=0,
+                    help='number of cycles for equilibration')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
-PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
+PARSER.add_argument('--hours_terminate', type=float, default=0.3, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
 PARSER.add_argument('--run_type', '-r', type=int, default=0,
                     help='0: run, 1: submit to queue, 2: post-process')
@@ -124,36 +123,36 @@ ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialRotate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-CheckEnergy trials_per_update {trials_per_iteration} decimal_places 4
+CheckEnergy trials_per_update {tpc} decimal_places 4
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
-Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.txt
+Log trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_eq.txt
 Tune
 Run until_num_particles [soft_macro_min]
 Remove name TrialAdd
 ThermoParams beta {beta} chemical_potential {mu}
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
-Run until_criteria_complete true
+Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
+Run until complete
 Remove name0 Tune name1 Log
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
-Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
+Bias WLTM min_sweeps {min_sweeps} min_flatness 22 collect_flatness 18 min_collect_sweeps 1
 TrialTransfer weight 2 particle_type 0
-Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index].txt
-Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1
-Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index].xyz start_after_iteration 1
-Tune trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1
-Energy trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_iteration 1
+Log trials_per_write {tpc} output_file {prefix}n{node}s[sim_index].txt
+Movie trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_eq.xyz stop_after_cycle 1
+Movie trials_per_write {tpc} output_file {prefix}n{node}s[sim_index].xyz start_after_cycle 1
+Tune trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_cycle 1
+Energy trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_cycle 1
 CriteriaUpdater trials_per_update 1e5
-CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_crit.txt
+CriteriaWriter trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_crit.txt
 """.format(**params))
 
 def post_process(params):
     lnpi = macrostate_distribution.MacrostateDistribution(file_name=params['prefix']+'n0_lnpi.txt')
     rw = lnpi.equilibrium()
-    self.assertAlmostEqual(params['beta']*params['mu'] + rw, -3.194, delta=1e-2)
+    assert np.abs(params['beta']*params['mu'] + rw + 3.194) < 1e-2
     #lnpi.plot(show=True)
     vap, liq = lnpi.split()
     assert np.abs(vap.average_macrostate()/params['cubic_side_length']**3 - 9.723E-02) < 1e-3

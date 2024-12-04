@@ -111,6 +111,7 @@ TEST(MonteCarlo, chain) {
 
   auto mc2 = test_serialize_unique(mc);
   EXPECT_EQ(mc2->analyzers().size(), 2);
+  mc2->attempt(3e2);
 }
 
 // HWH this test is known to fail infrequently

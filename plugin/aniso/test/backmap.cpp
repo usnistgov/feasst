@@ -18,7 +18,7 @@ TEST(MonteCarlo, backmap) {
     {"Metropolis", {{}}},
     {"ReadConfigFromFile", {{"input_file", "../plugin/steppers/test/data/nvt0.xyze"}, {"euler", "true"}}},
     {"Backmap", {{"trials_per_write", "1"}, {"output_file", "tmp/backmap.xyz"}, {"site0", "0"}, {"fstprt0", "../plugin/aniso/test/data/fc.fstprt"}, {"site1", "3"}, {"fstprt1", "../plugin/aniso/test/data/fc.fstprt"}}},
-    {"Run", {{"until_criteria_complete", "true"}}},
+    {"Run", {{"until", "complete"}}},
   }}, true);
 }
 

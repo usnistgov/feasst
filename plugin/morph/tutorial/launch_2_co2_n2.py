@@ -28,10 +28,9 @@ PARSER.add_argument('--min_sweeps', type=int, default=1e2,
                     help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
 PARSER.add_argument('--cubic_side_length', type=float, default=30,
                     help='cubic periodic boundary length')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e6),
-                    help='like cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=0,
-                    help='number of iterations for equilibration')
+PARSER.add_argument('--tpc', type=int, default=int(1e6), help='trials per cycle')
+PARSER.add_argument('--equilibration_cycles', type=int, default=0,
+                    help='number of cycles for equilibration')
 PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=2, help='number of processors')
@@ -84,11 +83,11 @@ ThermoParams beta {beta} chemical_potential0 {mu_init} chemical_potential1 {mu_i
 Metropolis
 TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
+CheckEnergy trials_per_update {tpc} tolerance 1e-4
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
-Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.txt
+Log trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_eq.txt
 Tune
 Run until_num_particles [soft_macro_min]
 Remove name TrialAdd
@@ -96,8 +95,8 @@ TrialAdd particle_type 1
 Run until_num_particles {num_particles}
 Remove name TrialAdd
 ThermoParams beta {beta} chemical_potential0 {mu0} chemical_potential1 {mu1}
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
-Run until_criteria_complete true
+Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
+Run until complete
 Remove name0 Tune name1 Log
 
 # gcmc tm production
@@ -105,13 +104,13 @@ FlatHistogram Macrostate MacrostateNumParticles particle_type 0 width 1 max {num
 Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
 TrialMorph particle_type0 0 particle_type_morph0 1
 TrialMorph particle_type0 1 particle_type_morph0 0
-Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index].txt
-Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.xyz stop_after_iteration 1
-Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index].xyz start_after_iteration 1
-Tune trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_iteration 1
-Energy trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_iteration 1
+Log trials_per_write {tpc} output_file {prefix}n{node}s[sim_index].txt
+Movie trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_eq.xyz stop_after_cycle 1
+Movie trials_per_write {tpc} output_file {prefix}n{node}s[sim_index].xyz start_after_cycle 1
+Tune trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_cycle 1
+Energy trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_cycle 1
 CriteriaUpdater trials_per_update 1e5
-CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_crit.txt
+CriteriaWriter trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_crit.txt
 """.format(**params))
 
 def post_process(params):

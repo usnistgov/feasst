@@ -56,11 +56,11 @@ Bias TransitionMatrix min_sweeps {min_sweeps} new_sweep 1
 TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 4
 Movie trials_per_write {trials_per} file_name lj[sim_index].xyz
 Log trials_per_write {trials_per} file_name lj[sim_index].txt
-Tune trials_per_write {trials_per} file_name lj_tune[sim_index].txt multistate true stop_after_iteration 1
-Energy trials_per_write {trials_per} file_name lj_en[sim_index].txt multistate true start_after_iteration 1
+Tune trials_per_write {trials_per} file_name lj_tune[sim_index].txt multistate true stop_after_cycle 1
+Energy trials_per_write {trials_per} file_name lj_en[sim_index].txt multistate true start_after_cycle 1
 CriteriaUpdater trials_per_update {trials_per}
 CriteriaWriter trials_per_write {trials_per} file_name lj_crit[sim_index].txt append true
-#Run until_criteria_complete true
+#Run until complete
 """.format(**params))
 
 # write slurm script to fill nodes with simulations

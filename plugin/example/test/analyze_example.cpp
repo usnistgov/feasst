@@ -19,11 +19,11 @@ TEST(AnalyzeExample, ideal_gas_fluid_geometric_center_LONG) {
                        {"add_particles_of_type0", "100"}}},
     {"Potential", {{"Model", "IdealGas"}}},
     {"ThermoParams", {{"beta", "1"}}},
-    {"Metropolis", {{"num_trials_per_iteration", "1e2"}}},
+    {"Metropolis", {{"trials_per_cycle", "1e2"}}},
     {"TrialTranslate", {{"tunable_param", "4."}}},
     {"AnalyzeExample", {{"trials_per_write", str(1e3)},
                         {"output_file", "tmp/ig_center.csv"},
-                        {"start_after_iteration", "1"}}},
+                        {"start_after_cycle", "1"}}},
     {"Run", {{"num_trials", "1e5"}}},
   }}, true);
   std::stringstream ss;

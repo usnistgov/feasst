@@ -23,12 +23,11 @@ PARSER.add_argument('--beta', type=float, default=1/0.9, help='1 / kB / T')
 PARSER.add_argument('--port', type=int, default=50005, help='server client interface port')
 PARSER.add_argument('--density', type=float, default=1e-3, help='number density')
 PARSER.add_argument('--num_particles', type=int, default=256, help='number of particles')
-PARSER.add_argument('--trials_per_iteration', type=int, default=int(1e5),
-                    help='like cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e1),
-                    help='number of iterations for equilibraiton')
-PARSER.add_argument('--production_iterations', type=int, default=int(1e1),
-                    help='number of iterations for production')
+PARSER.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
+PARSER.add_argument('--equilibration_cycles', type=int, default=int(1e1),
+                    help='number of cycles for equilibraiton')
+PARSER.add_argument('--production_cycles', type=int, default=int(1e1),
+                    help='number of cycles for production')
 PARSER.add_argument('--buffer_size', type=int, default=1000, help='server client interface port')
 PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
 PARSER.add_argument('--seed', type=int, default=-1,
@@ -73,18 +72,18 @@ Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpo
 TrialAdd particle_type 0
 Run until_num_particles {num_particles}
 Remove name TrialAdd
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
 Tune
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-8
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}_eq.csv
-Run until_criteria_complete true
+CheckEnergy trials_per_update {tpc} tolerance 1e-8
+Log trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
+Run until complete
 Remove name0 Tune name1 Log
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log trials_per_write {trials_per_iteration} output_file {prefix}{sim}.csv
-Movie trials_per_write {trials_per_iteration} output_file {prefix}{sim}.xyz
-Energy trials_per_write {trials_per_iteration} output_file {prefix}{sim}_en.csv
-CPUTime trials_per_write {trials_per_iteration} output_file {prefix}{sim}_cpu.txt
-Run until_criteria_complete true
+Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
+Log trials_per_write {tpc} output_file {prefix}{sim}.csv
+Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
+Energy trials_per_write {tpc} output_file {prefix}{sim}_en.csv
+CPUTime trials_per_write {tpc} output_file {prefix}{sim}_cpu.txt
+Run until complete
 """.format(**params))
 
 def en_lj(r2):

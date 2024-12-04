@@ -8,8 +8,11 @@ namespace feasst {
 
 /**
 \rst
-This implements the F3C water model potential described in
+This class attempts to implement the F3C water model potential described in
 :footcite:t:`levitt_calibration_1997`.
+Unfortunately, we have not been able to reproduce those results, and there may
+be an error in our implementation.
+Use this implementation at your own risk.
 
 The charge conversion factor assuming the following units:
   1. length: Angstroms

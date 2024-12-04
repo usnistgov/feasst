@@ -67,9 +67,9 @@ def parse():
     parser.add_argument('--ignore_intra_energy', type=str, default='false', help='true if intra interaction is excluded volume only.')
     parser.add_argument('--num_beta_taylor', type=int, default=10, help='number of Tayler series derivatives')
     parser.add_argument('--show_plot', type=int, default=0, help='show extrapolation plot if != 0')
-    parser.add_argument('--trials_per', type=int, default=int(1e5), help='number of trials per iteration')
-    parser.add_argument('--equilibration', type=int, default=int(2e1), help='number of iterations in equilibration')
-    parser.add_argument('--production', type=int, default=int(2e1), help='number of iterations in production')
+    parser.add_argument('--trials_per', type=int, default=int(1e5), help='number of trials per cycle')
+    parser.add_argument('--equilibration', type=int, default=int(2e1), help='number of cycles in equilibration')
+    parser.add_argument('--production', type=int, default=int(2e1), help='number of cycles in production')
     parser.add_argument('--seed', type=int, default=-1,
                         help='Random number generator seed. If -1, assign random seed to each sim.')
     parser.add_argument('--fstprt', type=str, default='/feasst/plugin/aniso/particle/aniso_tabular.fstprt', help='fstprt file')

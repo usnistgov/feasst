@@ -49,9 +49,9 @@ class Stepper {
       multistate is enabled (default: true).
       Thus, trials_per_write refers now to the writing of all states.
       Individual states no longer write.
-    - stop_after_iteration: stop when Criteria reaches this iteration.
+    - stop_after_cycle: stop when Criteria reaches this cycle.
       If -1, never stop (default: -1).
-    - start_after_iteration: start when Criteria reaches this iteration.
+    - start_after_cycle: start when Criteria reaches this cycle.
       If -1, start at beginning (default: -1).
     - rewrite_header: set true to rewrite header every write (default: true).
       If multistate_aggregate, automatically set to false.
@@ -96,11 +96,11 @@ class Stepper {
   /// Stop after simulation reaches this phase index.
   int start_after_phase() const { return start_after_phase_; }
 
-  /// Stop after Criteria reaches this iteration.
-  int stop_after_iteration() const { return stop_after_iteration_; }
+  /// Stop after Criteria reaches this cycle.
+  int stop_after_cycle() const { return stop_after_cycle_; }
 
-  /// Stop after Criteria reaches this iteration.
-  int start_after_iteration() const { return start_after_iteration_; }
+  /// Stop after Criteria reaches this cycle.
+  int start_after_cycle() const { return start_after_cycle_; }
 
   /// Return the configuration index
   int configuration_index() const { return configuration_index_; }
@@ -180,8 +180,8 @@ class Stepper {
   bool append_;
   int stop_after_phase_;
   int start_after_phase_;
-  int stop_after_iteration_;
-  int start_after_iteration_;
+  int stop_after_cycle_;
+  int start_after_cycle_;
   bool output_file_append_phase_;
   bool is_multistate_;
   bool is_multistate_aggregate_;

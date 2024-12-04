@@ -28,7 +28,7 @@ WLTM::~WLTM() {}
 
 bool WLTM::is_wl_bias_(const Macrostate& macro) const {
   if ((wang_landau_->num_flatness() < min_flatness_) ||
-      (transition_matrix_->num_iterations(-1, macro) < min_collect_sweeps_)) {
+      (transition_matrix_->num_cycles(-1, macro) < min_collect_sweeps_)) {
     return true;
   }
   return false;
@@ -120,11 +120,11 @@ std::shared_ptr<Bias> WLTM::create(std::istream& istr) const {
   return std::make_shared<WLTM>(istr);
 }
 
-int WLTM::num_iterations(const int state, const Macrostate& macro) const {
+int WLTM::num_cycles(const int state, const Macrostate& macro) const {
   if (is_wl_bias_(macro)) {
     return 0;
   }
-  return transition_matrix_->num_iterations(state, macro);
+  return transition_matrix_->num_cycles(state, macro);
 }
 
 bool WLTM::is_adjust_allowed(const Macrostate& macro) const {
@@ -158,11 +158,11 @@ void WLTM::serialize(std::ostream& ostr) const {
   feasst_serialize(transition_matrix_, ostr);
 }
 
-int WLTM::num_iterations_to_complete() const {
-  return transition_matrix_->num_iterations_to_complete(); }
+int WLTM::cycles_to_complete() const {
+  return transition_matrix_->cycles_to_complete(); }
 
-void WLTM::set_num_iterations_to_complete(const int sweeps) {
-  transition_matrix_->set_num_iterations_to_complete(sweeps); }
+void WLTM::set_cycles_to_complete(const int sweeps) {
+  transition_matrix_->set_cycles_to_complete(sweeps); }
 
 const TransitionMatrix& WLTM::transition_matrix() const {
   return const_cast<TransitionMatrix&>(*transition_matrix_); }

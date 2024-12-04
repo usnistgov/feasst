@@ -23,9 +23,9 @@ class Histogram;
   Beware attempting to splice windows with different move sets (trials/weights).
   This can cause issues in the calculation of ln_prob.
 
-  Adjust bounds based on the number of iterations.
-  Thus, iteratively give a window with less iterations macrostates from a
-  window with more iterations, while possible.
+  Adjust bounds based on the number of cycles.
+  Thus, iteratively give a window with less cycles macrostates from a
+  window with more cycles, while possible.
   Left and right most windows can completely abandon completed macrostates.
   Also, left and right most don't lose macrostates if the entire window
   has already reached its completion criteria.

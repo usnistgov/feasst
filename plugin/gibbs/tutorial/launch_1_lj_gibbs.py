@@ -15,12 +15,11 @@ PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
 PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--beta', type=float, default=1., help='inverse temperature')
-PARSER.add_argument('--tpi', type=int, default=int(1e5),
-                    help='like cycles, but not necessary num_particles')
-PARSER.add_argument('--equilibration_iterations', type=int, default=int(1e2),
-                    help='number of iterations for equilibraiton')
-PARSER.add_argument('--production_iterations', type=int, default=int(3e2),
-                    help='number of iterations for production')
+PARSER.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
+PARSER.add_argument('--equilibration_cycles', type=int, default=int(1e2),
+                    help='number of cycles for equilibraiton')
+PARSER.add_argument('--production_cycles', type=int, default=int(3e2),
+                    help='number of cycles for production')
 PARSER.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
@@ -48,7 +47,7 @@ PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on que
 PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate before queue
 PARAMS['procs_per_sim'] = 1
 PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
-PARAMS['equil'] = PARAMS['equilibration_iterations']*PARAMS['tpi']
+PARAMS['equil'] = PARAMS['equilibration_cycles']*PARAMS['tpc']
 PARAMS['double_equil'] = 2*PARAMS['equil']
 
 def sim_node_dependent_params(params):
@@ -75,9 +74,9 @@ TrialTranslate tunable_param 0.1 tunable_target_acceptance 0.2 configuration_ind
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # fill both boxes with particles
-Log trials_per_write {tpi} output_file {prefix}{sim}_fill.csv
+Log trials_per_write {tpc} output_file {prefix}{sim}_fill.csv
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_fill.xyz
-Movie trials_per_write {tpi} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
+Movie trials_per_write {tpc} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
 Tune
 TrialAdd particle_type 0 configuration_index 0
 Run until_num_particles 112 configuration_index 0
@@ -88,35 +87,34 @@ Remove name0 Tune name1 TrialAdd name2 Log name3 Movie name4 Movie
 
 # gibbs equilibration cycles: equilibrate, estimate density, adjust, repeat
 # start a very long run GibbsInitialize completes once targets are reached
-Metropolis num_trials_per_iteration 1e9 num_iterations_to_complete 1e9
+Metropolis trials_per_cycle 1e9 cycles_to_complete 1e9
 GibbsInitialize updates_density_equil {equil} updates_per_adjust {double_equil}
 TrialGibbsParticleTransfer weight 0.5 particle_type 0 reference_index 0 print_num_accepted true
 TrialGibbsVolumeTransfer weight 0.01 tunable_param 10. tunable_target_acceptance 0.5 reference_index 0 print_num_accepted true
-CheckEnergy trials_per_update {tpi} decimal_places 8
-Log trials_per_write {tpi} output_file {prefix}{sim}_eq.csv
+CheckEnergy trials_per_update {tpc} decimal_places 8
+Log trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
-Movie trials_per_write {tpi} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
-ProfileCPU trials_per_write {tpi} output_file {prefix}{sim}_eq_profile.csv
+Movie trials_per_write {tpc} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
+ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_eq_profile.csv
 # a new tune is required when new Trials are introduced
 # decrease trials per due to infrequency of volume transfer attempts
 Tune trials_per_tune 20
-Run until_criteria_complete true
+Run until complete
 Remove name0 GibbsInitialize name1 Tune name2 Log name3 Movie name4 Movie name5 ProfileCPU
 
 # gibbs ensemble production
-Metropolis num_trials_per_iteration {tpi} num_iterations_to_complete {production_iterations}
-CheckConstantVolume trials_per_update {tpi} tolerance 1e-4
-Log trials_per_write {tpi} output_file {prefix}{sim}.csv
-CopyFollowingLines for_num_configurations 2 replace c0 with c1
-    Movie   trials_per_write {tpi} output_file {prefix}{sim}_c0.xyz
-    Energy  trials_per_write {tpi} output_file {prefix}{sim}_c0_en.csv
-    Density trials_per_write {tpi} output_file {prefix}{sim}_c0_dens.csv
-    Volume  trials_per_write {tpi} output_file {prefix}{sim}_c0_vol.csv
+Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
+Log trials_per_write {tpc} output_file {prefix}{sim}.csv
+CopyFollowingLines for_num_configurations 2 replace_with_index [config]
+    Movie   trials_per_write {tpc} output_file {prefix}{sim}_c[config].xyz
+    Energy  trials_per_write {tpc} output_file {prefix}{sim}_c[config]_en.csv
+    Density trials_per_write {tpc} output_file {prefix}{sim}_c[config]_dens.csv
+    Volume  trials_per_write {tpc} output_file {prefix}{sim}_c[config]_vol.csv
 EndCopy
-GhostTrialVolume trials_per_write {tpi} output_file {prefix}{sim}_pressure.csv trials_per_update 1e3
-CPUTime trials_per_write {tpi} output_file {prefix}{sim}_cpu.csv
-ProfileCPU trials_per_write {tpi} output_file {prefix}{sim}_profile.csv
-Run until_criteria_complete true
+GhostTrialVolume trials_per_write {tpc} output_file {prefix}{sim}_pressure.csv trials_per_update 1e3
+CPUTime trials_per_write {tpc} output_file {prefix}{sim}_cpu.csv
+ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_profile.csv
+Run until complete
 """.format(**params))
 
 def compare(label, average, stdev, params, z_factor=5):

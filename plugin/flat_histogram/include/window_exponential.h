@@ -58,6 +58,9 @@ class WindowExponential : public Window {
    */
   //@{
 
+  /// Return the minimum.
+  int minimum() const override;
+
   std::vector<double> segment() const override;
   virtual ~WindowExponential() {}
 

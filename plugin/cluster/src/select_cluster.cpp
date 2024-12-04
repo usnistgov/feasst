@@ -85,6 +85,7 @@ bool SelectCluster::select(const Select& perturbed,
   const int first_particle = first_node.particle_index(0);
   set_probability_(1./static_cast<double>(num));
   select_cluster(first_particle, *system);
+  ASSERT(printable_.count("cluster_size") == 1, "err");
   printable_["cluster_size"]->accumulate(mobile().num_particles());
   if (mobile().num_particles() == 1) {
     return false;

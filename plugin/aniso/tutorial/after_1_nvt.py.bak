@@ -18,9 +18,9 @@ PARSER.add_argument('--molecular_weight', type=float, default=14315.03534, help=
 PARSER.add_argument('--num_particles', type=int, default=50, help='number of proteins')
 PARSER.add_argument('--fstprt', type=str, default="/feasst/plugin/aniso/particle/aniso_tabular.fstprt", help='fstprt file')
 PARSER.add_argument('--table_file', type=str, default='energy.txt', help='file describes cg table potential.')
-PARSER.add_argument('--trials_per_iteration', type=int, default=1e5, help='number of trials per iteration')
-PARSER.add_argument('--equilibration_iterations', type=int, default=1e1, help='number of iterations in equilibration')
-PARSER.add_argument('--production_iterations', type=int, default=1e1, help='number of iterations in production')
+PARSER.add_argument('--tpc', type=int, default=1e5, help='trials per cyclen')
+PARSER.add_argument('--equilibration_cycles', type=int, default=1e1, help='number of cycles in equilibration')
+PARSER.add_argument('--production_cycles', type=int, default=1e1, help='number of cycles in production')
 PARSER.add_argument('--seed', type=int, default=-1,
                     help='Random number generator seed. If -1, assign random seed to each sim.')
 PARSER.add_argument('--run_type', '-r', type=int, default=0,
@@ -70,22 +70,22 @@ Run until_num_particles {num_particles}
 RemoveTrial name TrialAdd
 
 # canonical ensemble equilibration
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
+Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
 Tune
-CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-8
-Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}_eq.txt
+CheckEnergy trials_per_update {tpc} tolerance 1e-8
+Log trials_per_write {tpc} file_name {prefix}{sim}_eq.txt
 Run until_criteria_complete true
 RemoveModify name Tune
 RemoveAnalyze name Log
 
 # canonical ensemble production
-Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {production_iterations}
-Log trials_per_write {trials_per_iteration} file_name {prefix}{sim}.txt
-Movie trials_per_write {trials_per_iteration} file_name {prefix}{sim}.xyz euler true
-Energy trials_per_write {trials_per_iteration} file_name {prefix}{sim}_en.txt
-CPUTime trials_per_write {trials_per_iteration} file_name {prefix}{sim}_cpu.txt
-PairDistribution trials_per_update 1000 trials_per_write {trials_per_iteration} dr 2 file_name {prefix}{sim}_gr.csv print_intra true
-AnalyzeBonds trials_per_write {trials_per_iteration} file_name {prefix}{sim}_bonds.txt bond_bin_width 0.25 angle_bin_width 0.0314159265358979
+Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
+Log trials_per_write {tpc} file_name {prefix}{sim}.txt
+Movie trials_per_write {tpc} file_name {prefix}{sim}.xyz euler true
+Energy trials_per_write {tpc} file_name {prefix}{sim}_en.txt
+CPUTime trials_per_write {tpc} file_name {prefix}{sim}_cpu.txt
+PairDistribution trials_per_update 1000 trials_per_write {tpc} dr 2 file_name {prefix}{sim}_gr.csv print_intra true
+AnalyzeBonds trials_per_write {tpc} file_name {prefix}{sim}_bonds.txt bond_bin_width 0.25 angle_bin_width 0.0314159265358979
 Run until_criteria_complete true
 """.format(**params))
 

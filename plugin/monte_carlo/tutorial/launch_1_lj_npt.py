@@ -19,12 +19,9 @@ def parse():
     parser.add_argument('--pressures', type=json.loads, default='{"pressure":[8.9429E-04, 2.6485E-03, 4.3569E-03, 6.0193E-03, 7.6363E-03]}',
                         help='dictionary with a list of pressures to simulate')
     parser.add_argument('--initial_cubic_side_length', type=int, default=20, help='cubic periodic boundary length')
-    parser.add_argument('--tpi', type=int, default=int(1e4),
-                        help='trials per iteration, similar to MC cycles, but not necessary num_particles')
-    parser.add_argument('--equilibration_iterations', type=int, default=int(1e1),
-                        help='number of iterations for equilibraiton')
-    parser.add_argument('--production_iterations', type=int, default=int(1e2),
-                        help='number of iterations for production')
+    parser.add_argument('--tpc', type=int, default=int(1e4), help='trials per cycle')
+    parser.add_argument('--equilibration', type=int, default=int(1e1), help='number of cycles for equilibraiton')
+    parser.add_argument('--production', type=int, default=int(1e2), help='number of cycles for production')
     parser.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
     parser.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
     parser.add_argument('--run_type', '-r', type=int, default=0,
@@ -71,34 +68,34 @@ ThermoParams beta {beta} chemical_potential -1
 Metropolis
 TrialTranslate weight 1 tunable_param 2 tunable_target_acceptance 0.2
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-CheckEnergy trials_per_update {tpi} decimal_places 4
+CheckEnergy trials_per_update {tpc} decimal_places 4
 
 # gcmc initialization
 TrialAdd particle_type 0
-Log trials_per_write {tpi} output_file {prefix}{sim}_init.txt
+Log trials_per_write {tpc} output_file {prefix}{sim}_init.txt
 Tune
 Run until_num_particles {num_particles}
 Remove name0 TrialAdd name1 Log
 
 # npt equilibration
 ThermoParams beta {beta} pressure {pressure}
-Metropolis num_trials_per_iteration {tpi} num_iterations_to_complete {equilibration_iterations}
+Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
 TrialVolume weight 0.005 tunable_param 0.2 tunable_target_acceptance 0.5
-Log     trials_per_write {tpi} output_file {prefix}{sim}_eq.txt
-Movie   trials_per_write {tpi} output_file {prefix}{sim}_eq.xyz
-Density trials_per_write {tpi} output_file {prefix}{sim}_density_eq.txt
-Run until_criteria_complete true
+Log     trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
+Movie   trials_per_write {tpc} output_file {prefix}{sim}_eq.xyz
+Density trials_per_write {tpc} output_file {prefix}{sim}_density_eq.txt
+Run until complete
 Remove name0 Tune name1 Log name2 Movie name3 Density
 
 # npt production
-Metropolis num_trials_per_iteration {tpi} num_iterations_to_complete {production_iterations}
-Log        trials_per_write {tpi} output_file {prefix}{sim}.txt
-Movie      trials_per_write {tpi} output_file {prefix}{sim}.xyz start_after_iteration 1
-Energy     trials_per_write {tpi} output_file {prefix}{sim}_en.txt
-Density    trials_per_write {tpi} output_file {prefix}{sim}_density.txt
-Volume     trials_per_write {tpi} output_file {prefix}{sim}_volume.txt
-ProfileCPU trials_per_write {tpi} output_file {prefix}{sim}_profile.csv
-Run until_criteria_complete true
+Metropolis trials_per_cycle {tpc} cycles_to_complete {production}
+Log        trials_per_write {tpc} output_file {prefix}{sim}.txt
+Movie      trials_per_write {tpc} output_file {prefix}{sim}.xyz
+Energy     trials_per_write {tpc} output_file {prefix}{sim}_en.txt
+Density    trials_per_write {tpc} output_file {prefix}{sim}_density.txt
+Volume     trials_per_write {tpc} output_file {prefix}{sim}_volume.txt
+ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_profile.csv
+Run until complete
 """.format(**params))
 
 def post_process(params):

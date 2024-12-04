@@ -5,9 +5,9 @@
 namespace feasst {
 
 TEST(Metropolis, serialize) {
-  //auto crit = MakeMetropolis({{"num_attempts_per_iteration", "1"}});
-  //auto crit = MakeMetropolis({{"num_trials_per_iteration", "1"}, {"num_attempts_per_iteration", "1"}});
-  auto crit = MakeMetropolis({{"num_trials_per_iteration", "1"}});
+  //auto crit = MakeMetropolis({{"num_attempts_per_cycle", "1"}});
+  //auto crit = MakeMetropolis({{"trials_per_cycle", "1"}, {"num_attempts_per_cycle", "1"}});
+  auto crit = MakeMetropolis({{"trials_per_cycle", "1"}});
   Metropolis crit2 = test_serialize(*crit);
 }
 

@@ -36,8 +36,8 @@ FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,
 }
 FlatHistogram::FlatHistogram(argtype * args) : Criteria(args) {
   class_name_ = "FlatHistogram";
-  ASSERT(!used("num_iterations_to_complete", *args),
-    "FlatHistogram does not use the argument num_iterations_to_complete");
+  ASSERT(!used("cycles_to_complete", *args),
+    "FlatHistogram does not use the argument cycles_to_complete");
   init_(MacrostateEnergy().factory(str("Macrostate", args), args),
         MakeWangLandau({{"min_flatness", "1"}})->factory(str("Bias", args), args));
 }
@@ -277,8 +277,8 @@ void FlatHistogram::check_left_and_right_most_(const bool left_most, const bool 
       if (all_min_size && is_complete()) {
         set_soft_min(0, system);
       } else {
-        if (bias().visits(macrostate().soft_min(), 0) >= num_iterations_to_complete() &&
-            bias().visits(macrostate().soft_min(), 1) >= num_iterations_to_complete()) {
+        if (bias().visits(macrostate().soft_min(), 0) >= cycles_to_complete() &&
+            bias().visits(macrostate().soft_min(), 1) >= cycles_to_complete()) {
           if (macrostate().soft_max() - macrostate().soft_min() + 1 > min_size) {
             if (set_soft_min(macrostate().soft_min() + 1, system) != 0) {
               not_reject = true;
@@ -297,8 +297,8 @@ void FlatHistogram::check_left_and_right_most_(const bool left_most, const bool 
       if (all_min_size && criteria->is_complete()) {
         criteria->set_soft_max(criteria->num_states() - 1, *upper_sys);
       } else if (upper_sys) {
-        if (criteria->bias().visits(criteria->macrostate().soft_max(), 0) >= criteria->num_iterations_to_complete() &&
-            criteria->bias().visits(criteria->macrostate().soft_max(), 1) >= criteria->num_iterations_to_complete()) {
+        if (criteria->bias().visits(criteria->macrostate().soft_max(), 0) >= criteria->cycles_to_complete() &&
+            criteria->bias().visits(criteria->macrostate().soft_max(), 1) >= criteria->cycles_to_complete()) {
           if (criteria->macrostate().soft_max() - criteria->macrostate().soft_min() + 1 > min_size) {
             if (criteria->set_soft_max(criteria->macrostate().soft_max() - 1, *upper_sys) != 0) {
               not_reject = true;
@@ -306,8 +306,8 @@ void FlatHistogram::check_left_and_right_most_(const bool left_most, const bool 
           }
         }
       } else {
-        if (bias().visits(macrostate().soft_max(), 0) >= num_iterations_to_complete() &&
-            bias().visits(macrostate().soft_max(), 1) >= num_iterations_to_complete()) {
+        if (bias().visits(macrostate().soft_max(), 0) >= cycles_to_complete() &&
+            bias().visits(macrostate().soft_max(), 1) >= cycles_to_complete()) {
           if (macrostate().soft_max() - macrostate().soft_min() + 1 > min_size) {
             if (set_soft_max(macrostate().soft_max() - 1, system) != 0) {
               not_reject = true;
@@ -333,8 +333,8 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
       not_reject = false;
       const int lower_max = macrostate().soft_max();
       // if its left_most and already finished, don't send macrostates to upper
-      if (num_iterations() < criteria->num_iterations()) {
-//      && (!left_most || right_complete || all_min_size || num_iterations() < num_iterations_to_complete())) {
+      if (num_cycles() < criteria->num_cycles()) {
+//      && (!left_most || right_complete || all_min_size || num_cycles() < cycles_to_complete())) {
         if (lower_max - macrostate().soft_min() + 1 > min_size) {
           DEBUG("move macrostate from lower to upper");
           if (set_soft_max(lower_max - 1, system) > 0) {
@@ -356,8 +356,8 @@ void FlatHistogram::adjust_bounds(const bool left_most, const bool right_most,
       not_reject = false;
       const int upper_min = criteria->macrostate().soft_min();
       // if its right_most and already finished, don't send macrostates to lower
-      if (num_iterations() > criteria->num_iterations()) {
-//      && (!right_most || left_complete || all_min_size || criteria->num_iterations() < criteria->num_iterations_to_complete())) {
+      if (num_cycles() > criteria->num_cycles()) {
+//      && (!right_most || left_complete || all_min_size || criteria->num_cycles() < criteria->cycles_to_complete())) {
         if (criteria->macrostate().soft_max() - upper_min + 1 > min_size) {
           DEBUG("move macrostate from upper to lower");
           if (criteria->set_soft_min(upper_min + 1, *upper_sys) > 0) {
@@ -393,12 +393,12 @@ const LnProbability& FlatHistogram::ln_prob() const { return bias_->ln_prob(); }
 void FlatHistogram::update() { bias_->infrequent_update(*macrostate_); }
 const Bias& FlatHistogram::bias() const { return const_cast<Bias&>(*bias_); }
 void FlatHistogram::set_bias(std::shared_ptr<Bias> bias) { bias_ = bias; }
-int FlatHistogram::num_iterations_to_complete() const {
-  return bias_->num_iterations_to_complete(); }
-void FlatHistogram::set_num_iterations_to_complete(const int num) {
-  bias_->set_num_iterations_to_complete(num); }
-int FlatHistogram::num_iterations(const int state) const {
-  return bias_->num_iterations(state, *macrostate_); }
+int FlatHistogram::cycles_to_complete() const {
+  return bias_->cycles_to_complete(); }
+void FlatHistogram::set_cycles_to_complete(const int num) {
+  bias_->set_cycles_to_complete(num); }
+int FlatHistogram::num_cycles(const int state) const {
+  return bias_->num_cycles(state, *macrostate_); }
 bool FlatHistogram::is_complete() const { return bias_->is_complete(); }
 void FlatHistogram::set_complete() { bias_->set_complete_(); }
 const Macrostate& FlatHistogram::macrostate() const {

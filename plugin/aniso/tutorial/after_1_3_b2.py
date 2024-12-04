@@ -20,7 +20,7 @@ Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} add_
 Potential Model TwoBodyTable VisitModelInner VisitModelInnerTable table_file {table_file} ignore_energy {ignore_energy}
 RefPotential Model HardSphere sigma 0 cutoff 0 sigma0 {reference_sigma} cutoff0 {reference_sigma}
 ThermoParams beta {beta}
-MayerSampling num_beta_taylor {num_beta_taylor} num_trials_per_iteration {trials_per} num_iterations_to_complete {equilibration}
+MayerSampling num_beta_taylor {num_beta_taylor} trials_per_cycle {trials_per} cycles_to_complete {equilibration}
 TrialTranslate new_only true reference_index 0 tunable_param 35 group mobile
 TrialRotate new_only true reference_index 0 tunable_param 40
 
@@ -28,15 +28,15 @@ TrialRotate new_only true reference_index 0 tunable_param 40
 CriteriaWriter trials_per_write {trials_per} output_file {prefix}_{sim}_b2_eq.txt
 Log trials_per_write {trials_per} output_file {prefix}_{sim}_eq.txt
 Tune
-Run until_criteria_complete true
+Run until complete
 Remove name0 CriteriaWriter name1 Log name2 Tune
 
 # production
 CriteriaWriter trials_per_write {trials_per} output_file {prefix}_{sim}_b2.txt
 Log trials_per_write {trials_per} output_file {prefix}_{sim}.txt
 #Movie trials_per_write {trials_per} output_file {prefix}_{sim}.xyz
-MayerSampling num_beta_taylor {num_beta_taylor} num_trials_per_iteration {trials_per} num_iterations_to_complete {production}
-Run until_criteria_complete true
+MayerSampling num_beta_taylor {num_beta_taylor} trials_per_cycle {trials_per} cycles_to_complete {production}
+Run until complete
 """.format(**params))
 
 def post_process(params):

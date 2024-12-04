@@ -58,9 +58,9 @@ class FlatHistogram : public Criteria {
   const Bias& bias() const override;
   void set_bias(std::shared_ptr<Bias> bias);
 
-  int num_iterations_to_complete() const override;
-  void set_num_iterations_to_complete(const int num) override;
-  int num_iterations(const int state = -1) const override;
+  int cycles_to_complete() const override;
+  void set_cycles_to_complete(const int num) override;
+  int num_cycles(const int state = -1) const override;
   bool is_complete() const override;
   void set_complete() override;
 

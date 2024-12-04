@@ -100,15 +100,15 @@ TEST(MonteCarlo, gibbs_adjust) {
     {"TrialGibbsVolumeTransfer", {{"tunable_param", "0.1"}, {"reference_index", "0"}}},
     {"Tune", {{"trials_per_tune", "4"}}},
     {"Log", {{"trials_per_write", "1e0"}, {"output_file", "tmp/lj.txt"}}},
-    {"CopyFollowingLines", {{"for_num_configurations", "2"}, {"replace", "c0"}, {"with", "c1"}}},
-    {"Movie", {{"trials_per_write", "1e0"}, {"output_file", "tmp/ljc0.xyz"}}},
-    {"Density", {{"trials_per_write", "1e0"}, {"output_file", "tmp/ljc0dens.xyz"}}},
+    {"CopyFollowingLines", {{"for_num_configurations", "2"}, {"replace_with_index", "[config]"}}},
+    {"Movie", {{"trials_per_write", "1e0"}, {"output_file", "tmp/ljc[config].xyz"}}},
+    {"Density", {{"trials_per_write", "1e0"}, {"output_file", "tmp/ljc[config]dens.xyz"}}},
     {"EndCopy", {{}}},
     {"CheckEnergy", {{"trials_per_update", "1e0"}, {"tolerance", str(1e-9)}}},
     {"GibbsInitialize", {{"trials_per_update", "1e0"}}},
     {"Run", {{"num_trials", "1e2"}}},
-  }});
-  //}}, true);
+  //}});
+  }}, true);
   auto mc2 = test_serialize_unique(*mc);
   EXPECT_EQ(2, mc2->system().num_configurations());
 }

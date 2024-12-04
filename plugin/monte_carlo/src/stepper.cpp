@@ -41,8 +41,16 @@ Stepper::Stepper(argtype * args) {
   rewrite_header_ = boolean("rewrite_header", args, true);
   stop_after_phase_ = integer("stop_after_phase", args, -1);
   start_after_phase_ = integer("start_after_phase", args, -1);
-  stop_after_iteration_ = integer("stop_after_iteration", args, -1);
-  start_after_iteration_ = integer("start_after_iteration", args, -1);
+  stop_after_cycle_ = integer("stop_after_cycle", args, -1);
+  if (used("stop_after_iteration", *args)) {
+    stop_after_cycle_ = integer("stop_after_iteration", args);
+    WARN("Stepper::stop_after_iteration is deprecated. Use stop_after_cycle instead.");
+  }
+  start_after_cycle_ = integer("start_after_cycle", args, -1);
+  if (used("start_after_iteration", *args)) {
+    start_after_cycle_ = integer("start_after_iteration", args);
+    WARN("Stepper::start_after_iteration is deprecated. Use start_after_cycle instead.");
+  }
   output_file_append_phase_ =
     boolean("output_file_append_phase", args, false);
   if (used("file_name_append_phase", *args)) {
@@ -117,8 +125,8 @@ void Stepper::serialize(std::ostream& ostr) const {
   feasst_serialize(append_, ostr);
   feasst_serialize(stop_after_phase_, ostr);
   feasst_serialize(start_after_phase_, ostr);
-  feasst_serialize(stop_after_iteration_, ostr);
-  feasst_serialize(start_after_iteration_, ostr);
+  feasst_serialize(stop_after_cycle_, ostr);
+  feasst_serialize(start_after_cycle_, ostr);
   feasst_serialize(output_file_append_phase_, ostr);
   feasst_serialize(is_multistate_, ostr);
   feasst_serialize(is_multistate_aggregate_, ostr);
@@ -142,8 +150,8 @@ Stepper::Stepper(std::istream& istr) {
   feasst_deserialize(&append_, istr);
   feasst_deserialize(&stop_after_phase_, istr);
   feasst_deserialize(&start_after_phase_, istr);
-  feasst_deserialize(&stop_after_iteration_, istr);
-  feasst_deserialize(&start_after_iteration_, istr);
+  feasst_deserialize(&stop_after_cycle_, istr);
+  feasst_deserialize(&start_after_cycle_, istr);
   feasst_deserialize(&output_file_append_phase_, istr);
   feasst_deserialize(&is_multistate_, istr);
   feasst_deserialize(&is_multistate_aggregate_, istr);

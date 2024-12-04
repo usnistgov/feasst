@@ -7,8 +7,8 @@ FEASST requires C++14 and CMake, and is compiled with the following BASH command
 
     #[apt/yum/dnf/brew] install g++ cmake
     cd $HOME # replace this with your preference throughout
-    wget https://github.com/usnistgov/feasst/archive/refs/tags/@FEASST_VERSION@.tar.gz
-    tar -xf @FEASST_VERSION@.tar.gz --transform s/-/-v/
+    curl -OL https://github.com/usnistgov/feasst/archive/refs/tags/v@FEASST_VERSION@.tar.gz
+    tar -xf v@FEASST_VERSION@.tar.gz
     mkdir feasst-@FEASST_VERSION@/build; cd $_
     cmake ..
     make install -j$(nproc)

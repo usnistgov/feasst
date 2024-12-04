@@ -22,7 +22,7 @@ class Run : public Action {
     - configuration_index: configuration for until_num_particles (default: 0).
     - particle_type: type of particle to count. If -1, all particles (default: -1).
     - for_hours: run for this many CPU hours (default: -1 e.g., None).
-    - until_criteria_complete: run until Criteria is complete (default: false).
+    - until: if "complete", run until Criteria is complete (default: empty).
       Afterward, write all Analyze and Modify.
     - until_file_exists: run until the given file name exists.
       Afterward, write all Analyze and Modify.
