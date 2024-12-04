@@ -338,8 +338,19 @@ Simulate multiple :cpp:class:`Configuration <feasst::Configuration>` s and trans
 Change Log
 ================
 
-Below is a list of all notable changes made to the text interface which will likely lead to the errors if older text interface scripts use the newer version.
+Below is a list of all notable changes made to the text interface.
+Backwards incompatibility should remain for deprecated interface on minor version changes.
 Renamed arguments are shown as Class::old_argument->new_argument.
+
+v0.25.4 to v0.25.5
+-----------------------
+
+* Criteria::num_iterations_to_complete->cycles_to_complete
+* Metropolis/MayerSampling::num_trials_per_iteration->trials_per_cycle
+* Stepper::stop_after_iteration->stop_after_cycle
+* Stepper::start_after_iteration->start_after_cycle
+* Remove[Trial,Analyze,Modify]->Remove
+* Run::until_criteria_complete->until
 
 v0.25.3 to v0.25.4
 -----------------------

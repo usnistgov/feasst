@@ -1,6 +1,7 @@
 
 .. toctree::
 
+   Accumulator
    constants
    Euler
    Formula
@@ -21,4 +22,3 @@
    SolverNewtonRaphson
    Table
    utils_math
-   Accumulator

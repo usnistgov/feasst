@@ -1,14 +1,12 @@
 
 .. toctree::
 
-   AnalyzeData
-   SeekModify
-   WriteStepper
    Check
    CheckEnergy
    CheckPhysicality
    CheckProperties
    Chirality2D
+   CPUTime
    CriteriaUpdater
    CriteriaWriter
    Density
@@ -18,17 +16,19 @@
    GhostTrialVolume
    HeatCapacity
    IncrementPhase
+   MeanSquaredDisplacement
    Movie
    NumParticles
    ProfileCPU
    ProfileTrials
    Scattering
+   AnalyzeData
+   SeekModify
    Tune
    Volume
    WallClockLimit
    WrapParticles
-   Log
-   CPUTime
-   PairDistributionInner
-   MeanSquaredDisplacement
+   WriteStepper
    ReadConfigFromFile
+   Log
+   PairDistributionInner

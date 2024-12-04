@@ -7,6 +7,8 @@
    BondTwoBody
    BondSquareWell
    BondVisitor
+   Cells
+   CutoffOuter
    Model
    ModelOneBody
    ModelEmpty
@@ -17,23 +19,21 @@
    HardSphere
    ModelTwoBodyFactory
    ModelTwoBodyTable
+   Potential
    PotentialFactory
    RigidAngle
    RigidBond
    RigidDihedral
    SynchronizeData
    EnergyMap
+   System
    ThermoParams
    VisitModel
    LongRangeCorrections
    DontVisitModel
    VisitModelBond
    VisitModelCell
+   VisitModelCutoffOuter
    VisitModelInner
    VisitModelIntra
    VisitModelIntraMap
-   Potential
-   System
-   VisitModelCutoffOuter
-   CutoffOuter
-   Cells
