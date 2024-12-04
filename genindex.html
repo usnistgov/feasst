@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; FEASST v0.25.4 documentation</title>
+  <title>Index &mdash; FEASST 0.25.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=8f869700"></script>
+        <script src="_static/documentation_options.js?v=80d49aaf"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -52,7 +52,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.4
+                0.25.5
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -546,6 +546,8 @@
 </li>
       <li><a href="plugin/flat_histogram/doc/Bias.html#_CPPv4N6feasst4BiasE">feasst::Bias (C++ class)</a>, <a href="plugin/flat_histogram/doc/Bias_arguments.html#_CPPv4N6feasst4BiasE">[1]</a>
 </li>
+      <li><a href="plugin/flat_histogram/doc/Bias.html#_CPPv4NK6feasst4Bias18cycles_to_completeEv">feasst::Bias::cycles_to_complete (C++ function)</a>
+</li>
       <li><a href="plugin/flat_histogram/doc/Bias.html#_CPPv4N6feasst4Bias15increment_phaseEv">feasst::Bias::increment_phase (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/Bias.html#_CPPv4N6feasst4Bias17infrequent_updateERK10Macrostate">feasst::Bias::infrequent_update (C++ function)</a>
@@ -554,13 +556,11 @@
 </li>
       <li><a href="plugin/flat_histogram/doc/Bias.html#_CPPv4NK6feasst4Bias7ln_probEv">feasst::Bias::ln_prob (C++ function)</a>
 </li>
-      <li><a href="plugin/flat_histogram/doc/Bias.html#_CPPv4NK6feasst4Bias26num_iterations_to_completeEv">feasst::Bias::num_iterations_to_complete (C++ function)</a>
-</li>
       <li><a href="plugin/flat_histogram/doc/Bias.html#_CPPv4NK6feasst4Bias5phaseEv">feasst::Bias::phase (C++ function)</a>
 </li>
-      <li><a href="plugin/flat_histogram/doc/Bias.html#_CPPv4N6feasst4Bias11set_ln_probERK13LnProbability">feasst::Bias::set_ln_prob (C++ function)</a>
+      <li><a href="plugin/flat_histogram/doc/Bias.html#_CPPv4N6feasst4Bias22set_cycles_to_completeEKi">feasst::Bias::set_cycles_to_complete (C++ function)</a>
 </li>
-      <li><a href="plugin/flat_histogram/doc/Bias.html#_CPPv4N6feasst4Bias30set_num_iterations_to_completeEKi">feasst::Bias::set_num_iterations_to_complete (C++ function)</a>
+      <li><a href="plugin/flat_histogram/doc/Bias.html#_CPPv4N6feasst4Bias11set_ln_probERK13LnProbability">feasst::Bias::set_ln_prob (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/Bias.html#_CPPv4N6feasst4Bias6updateEKiKiKdKbKbRK10Macrostate">feasst::Bias::update (C++ function)</a>
 </li>
@@ -762,7 +762,7 @@
 </li>
       <li><a href="plugin/flat_histogram/doc/Clones.html#_CPPv4N6feasst6Clones3setENSt10shared_ptrI10CheckpointEE">feasst::Clones::set (C++ function)</a>
 </li>
-      <li><a href="plugin/flat_histogram/doc/Clones.html#_CPPv4N6feasst6Clones30set_num_iterations_to_completeEKi">feasst::Clones::set_num_iterations_to_complete (C++ function)</a>
+      <li><a href="plugin/flat_histogram/doc/Clones.html#_CPPv4N6feasst6Clones22set_cycles_to_completeEKi">feasst::Clones::set_cycles_to_complete (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/Clones.html#_CPPv4NK6feasst6Clones6stitchEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData">feasst::Clones::stitch (C++ function)</a>, <a href="plugin/flat_histogram/doc/Clones.html#_CPPv4NK6feasst6Clones6stitchEPNSt6vectorIdEEKNSt6stringERK11AnalyzeData">[1]</a>
 </li>
@@ -1118,6 +1118,8 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4NK6feasst8Criteria22current_energy_profileEKi">feasst::Criteria::current_energy_profile (C++ function)</a>
 </li>
+      <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4NK6feasst8Criteria18cycles_to_completeEv">feasst::Criteria::cycles_to_complete (C++ function)</a>
+</li>
       <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4NK6feasst8Criteria14expanded_stateEv">feasst::Criteria::expanded_state (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4N6feasst8Criteria15increment_phaseEv">feasst::Criteria::increment_phase (C++ function)</a>
@@ -1132,11 +1134,9 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4NK6feasst8Criteria8is_equalERK8Criteria">feasst::Criteria::is_equal (C++ function)</a>, <a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4NK6feasst8Criteria8is_equalERK8CriteriaKd">[1]</a>
 </li>
+      <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4NK6feasst8Criteria10num_cyclesEKi">feasst::Criteria::num_cycles (C++ function)</a>
+</li>
       <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4NK6feasst8Criteria19num_expanded_statesEv">feasst::Criteria::num_expanded_states (C++ function)</a>
-</li>
-      <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4NK6feasst8Criteria14num_iterationsEKi">feasst::Criteria::num_iterations (C++ function)</a>
-</li>
-      <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4NK6feasst8Criteria26num_iterations_to_completeEv">feasst::Criteria::num_iterations_to_complete (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4NK6feasst8Criteria10num_statesEv">feasst::Criteria::num_states (C++ function)</a>
 </li>
@@ -1148,9 +1148,9 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4N6feasst8Criteria26set_current_energy_profileERKNSt6vectorIdEEKi">feasst::Criteria::set_current_energy_profile (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4N6feasst8Criteria18set_expanded_stateEKiKi">feasst::Criteria::set_expanded_state (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4N6feasst8Criteria22set_cycles_to_completeEKi">feasst::Criteria::set_cycles_to_complete (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4N6feasst8Criteria30set_num_iterations_to_completeEKi">feasst::Criteria::set_num_iterations_to_complete (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4N6feasst8Criteria18set_expanded_stateEKiKi">feasst::Criteria::set_expanded_state (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Criteria.html#_CPPv4NK6feasst8Criteria5stateEv">feasst::Criteria::state (C++ function)</a>
 </li>
@@ -1502,6 +1502,12 @@
 </li>
       <li><a href="plugin/flat_histogram/doc/Ensemble.html#_CPPv4N6feasst18ExtrapolateBetaGCE18ExtrapolateBetaGCEERK10MonteCarloRK13FlatHistogram7argtype">feasst::ExtrapolateBetaGCE::ExtrapolateBetaGCE (C++ function)</a>, <a href="plugin/flat_histogram/doc/Ensemble.html#_CPPv4N6feasst18ExtrapolateBetaGCE18ExtrapolateBetaGCEERK6Clones7argtype">[1]</a>
 </li>
+      <li><a href="plugin/models/doc/F3C.html#_CPPv4N6feasst3F3CE">feasst::F3C (C++ class)</a>, <a href="plugin/models/doc/F3C_arguments.html#_CPPv4N6feasst3F3CE">[1]</a>
+</li>
+      <li><a href="plugin/models/doc/F3C.html#_CPPv4N6feasst3F3C10precomputeERK11ModelParams">feasst::F3C::precompute (C++ function)</a>
+</li>
+      <li><a href="plugin/models/doc/F3C.html#_CPPv4NK6feasst3F3C9serializeERNSt7ostreamE">feasst::F3C::serialize (C++ function)</a>
+</li>
       <li><a href="plugin/math/doc/utils_math.html#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorI1TEEPNSt6vectorI1TEE">feasst::feasst::add (C++ function)</a>, <a href="plugin/math/doc/utils_math.html#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorI1TEEEEPNSt6vectorINSt6vectorI1TEEEE">[1]</a>, <a href="plugin/math/doc/utils_math.html#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEEPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE">[2]</a>, <a href="plugin/math/doc/utils_math.html#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEPNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE">[3]</a>, <a href="plugin/math/doc/utils_math_arguments.html#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorI1TEEPNSt6vectorI1TEE">[4]</a>, <a href="plugin/math/doc/utils_math_arguments.html#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorI1TEEEEPNSt6vectorINSt6vectorI1TEEEE">[5]</a>, <a href="plugin/math/doc/utils_math_arguments.html#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEEPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE">[6]</a>, <a href="plugin/math/doc/utils_math_arguments.html#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEPNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE">[7]</a>
 </li>
       <li><a href="plugin/math/doc/utils_math.html#_CPPv4I0EN6feasst6feasst7averageEdRKNSt6vectorI1TEE">feasst::feasst::average (C++ function)</a>, <a href="plugin/math/doc/utils_math_arguments.html#_CPPv4I0EN6feasst6feasst7averageEdRKNSt6vectorI1TEE">[1]</a>
@@ -1522,7 +1528,7 @@
 </li>
       <li><a href="plugin/utils/doc/arguments.html#_CPPv4N6feasst6feasst21feasst_check_all_usedERK7argtype">feasst::feasst::feasst_check_all_used (C++ function)</a>, <a href="plugin/utils/doc/arguments_arguments.html#_CPPv4N6feasst6feasst21feasst_check_all_usedERK7argtype">[1]</a>
 </li>
-      <li><a href="plugin/utils/doc/serialize.html#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T12T2EERNSt7istreamE">feasst::feasst::feasst_deserialize (C++ function)</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T1NSt6vectorI2T2EEEERNSt7istreamE">[1]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvP1TRNSt7istreamE">[2]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt5dequeI1TEERNSt7istreamE">[3]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorI1TEERNSt7istreamE">[4]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt10unique_ptrI1TEEEERNSt7istreamE">[5]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvRNSt10unique_ptrI1TEERNSt7istreamE">[6]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEP7argtypeRNSt7istreamE">[7]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6stringERNSt7istreamE">[8]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorINSt6vectorIbEEEERNSt7istreamE">[9]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIbEERNSt7istreamE">[10]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIdEERNSt7istreamE">[11]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIeEERNSt7istreamE">[12]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPbRNSt7istreamE">[13]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPdRNSt7istreamE">[14]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPeRNSt7istreamE">[15]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T12T2EERNSt7istreamE">[16]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T1NSt6vectorI2T2EEEERNSt7istreamE">[17]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvP1TRNSt7istreamE">[18]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt5dequeI1TEERNSt7istreamE">[19]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorI1TEERNSt7istreamE">[20]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt10unique_ptrI1TEEEERNSt7istreamE">[21]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvRNSt10unique_ptrI1TEERNSt7istreamE">[22]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEP7argtypeRNSt7istreamE">[23]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6stringERNSt7istreamE">[24]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorINSt6vectorIbEEEERNSt7istreamE">[25]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIbEERNSt7istreamE">[26]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIdEERNSt7istreamE">[27]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIeEERNSt7istreamE">[28]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPbRNSt7istreamE">[29]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPdRNSt7istreamE">[30]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPeRNSt7istreamE">[31]</a>
+      <li><a href="plugin/utils/doc/serialize.html#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T12T2EERNSt7istreamE">feasst::feasst::feasst_deserialize (C++ function)</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T1NSt6vectorI2T2EEEERNSt7istreamE">[1]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvP1TRNSt7istreamE">[2]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt3mapINSt6stringENSt10shared_ptrI1TEEEERNSt7istreamE">[3]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt5dequeI1TEERNSt7istreamE">[4]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorI1TEERNSt7istreamE">[5]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt10unique_ptrI1TEEEERNSt7istreamE">[6]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvRNSt10unique_ptrI1TEERNSt7istreamE">[7]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEP7argtypeRNSt7istreamE">[8]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6stringERNSt7istreamE">[9]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorINSt6vectorIbEEEERNSt7istreamE">[10]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIbEERNSt7istreamE">[11]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIdEERNSt7istreamE">[12]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIeEERNSt7istreamE">[13]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPbRNSt7istreamE">[14]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPdRNSt7istreamE">[15]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst18feasst_deserializeEPeRNSt7istreamE">[16]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T12T2EERNSt7istreamE">[17]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I00EN6feasst6feasst18feasst_deserializeEvPNSt4pairI2T1NSt6vectorI2T2EEEERNSt7istreamE">[18]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvP1TRNSt7istreamE">[19]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt3mapINSt6stringENSt10shared_ptrI1TEEEERNSt7istreamE">[20]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt5dequeI1TEERNSt7istreamE">[21]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorI1TEERNSt7istreamE">[22]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt10unique_ptrI1TEEEERNSt7istreamE">[23]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvRNSt10unique_ptrI1TEERNSt7istreamE">[24]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEP7argtypeRNSt7istreamE">[25]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6stringERNSt7istreamE">[26]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorINSt6vectorIbEEEERNSt7istreamE">[27]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIbEERNSt7istreamE">[28]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIdEERNSt7istreamE">[29]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIeEERNSt7istreamE">[30]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPbRNSt7istreamE">[31]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPdRNSt7istreamE">[32]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst18feasst_deserializeEPeRNSt7istreamE">[33]</a>
 </li>
       <li><a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst25feasst_deserialize_endcapEKNSt6stringERNSt7istreamE">feasst::feasst::feasst_deserialize_endcap (C++ function)</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst25feasst_deserialize_endcapEKNSt6stringERNSt7istreamE">[1]</a>
 </li>
@@ -1538,7 +1544,7 @@
 </li>
       <li><a href="plugin/utils/doc/debug.html#_CPPv4N6feasst6feasst17feasst_omp_threadEv">feasst::feasst::feasst_omp_thread (C++ function)</a>, <a href="plugin/utils/doc/debug_arguments.html#_CPPv4N6feasst6feasst17feasst_omp_threadEv">[1]</a>
 </li>
-      <li><a href="plugin/utils/doc/serialize.html#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T12T2EERNSt7ostreamE">feasst::feasst::feasst_serialize (C++ function)</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T1NSt6vectorI2T2EEEERNSt7ostreamE">[1]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvKNSt10shared_ptrI1TEERNSt7ostreamE">[2]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRK1TRNSt7ostreamE">[3]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt10unique_ptrI1TEERNSt7ostreamE">[4]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt5dequeI1TEERNSt7ostreamE">[5]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorI1TEERNSt7ostreamE">[6]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt10shared_ptrI1TEEEERNSt7ostreamE">[7]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt10unique_ptrI1TEEEERNSt7ostreamE">[8]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeEKNSt6stringERNSt7ostreamE">[9]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeEKbRNSt7ostreamE">[10]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeEKdRNSt7ostreamE">[11]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeERK7argtypeRNSt7ostreamE">[12]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeERKNSt6vectorIdEERNSt7ostreamE">[13]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeERKNSt6vectorIeEERNSt7ostreamE">[14]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeERKeRNSt7ostreamE">[15]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T12T2EERNSt7ostreamE">[16]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T1NSt6vectorI2T2EEEERNSt7ostreamE">[17]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvKNSt10shared_ptrI1TEERNSt7ostreamE">[18]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRK1TRNSt7ostreamE">[19]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt10unique_ptrI1TEERNSt7ostreamE">[20]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt5dequeI1TEERNSt7ostreamE">[21]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorI1TEERNSt7ostreamE">[22]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt10shared_ptrI1TEEEERNSt7ostreamE">[23]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt10unique_ptrI1TEEEERNSt7ostreamE">[24]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeEKNSt6stringERNSt7ostreamE">[25]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeEKbRNSt7ostreamE">[26]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeEKdRNSt7ostreamE">[27]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeERK7argtypeRNSt7ostreamE">[28]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeERKNSt6vectorIdEERNSt7ostreamE">[29]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeERKNSt6vectorIeEERNSt7ostreamE">[30]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeERKeRNSt7ostreamE">[31]</a>
+      <li><a href="plugin/utils/doc/serialize.html#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T12T2EERNSt7ostreamE">feasst::feasst::feasst_serialize (C++ function)</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T1NSt6vectorI2T2EEEERNSt7ostreamE">[1]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvKNSt10shared_ptrI1TEERNSt7ostreamE">[2]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRK1TRNSt7ostreamE">[3]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt10unique_ptrI1TEERNSt7ostreamE">[4]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt3mapINSt6stringENSt10shared_ptrI1TEEEERNSt7ostreamE">[5]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt5dequeI1TEERNSt7ostreamE">[6]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorI1TEERNSt7ostreamE">[7]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt10shared_ptrI1TEEEERNSt7ostreamE">[8]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt10unique_ptrI1TEEEERNSt7ostreamE">[9]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeEKNSt6stringERNSt7ostreamE">[10]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeEKbRNSt7ostreamE">[11]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeEKdRNSt7ostreamE">[12]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeERK7argtypeRNSt7ostreamE">[13]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeERKNSt6vectorIdEERNSt7ostreamE">[14]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeERKNSt6vectorIeEERNSt7ostreamE">[15]</a>, <a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst16feasst_serializeERKeRNSt7ostreamE">[16]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T12T2EERNSt7ostreamE">[17]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I00EN6feasst6feasst16feasst_serializeEvRKNSt4pairI2T1NSt6vectorI2T2EEEERNSt7ostreamE">[18]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvKNSt10shared_ptrI1TEERNSt7ostreamE">[19]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRK1TRNSt7ostreamE">[20]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt10unique_ptrI1TEERNSt7ostreamE">[21]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt3mapINSt6stringENSt10shared_ptrI1TEEEERNSt7ostreamE">[22]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt5dequeI1TEERNSt7ostreamE">[23]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorI1TEERNSt7ostreamE">[24]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt10shared_ptrI1TEEEERNSt7ostreamE">[25]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt10unique_ptrI1TEEEERNSt7ostreamE">[26]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeEKNSt6stringERNSt7ostreamE">[27]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeEKbRNSt7ostreamE">[28]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeEKdRNSt7ostreamE">[29]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeERK7argtypeRNSt7ostreamE">[30]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeERKNSt6vectorIdEERNSt7ostreamE">[31]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeERKNSt6vectorIeEERNSt7ostreamE">[32]</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst16feasst_serializeERKeRNSt7ostreamE">[33]</a>
 </li>
       <li><a href="plugin/utils/doc/serialize.html#_CPPv4N6feasst6feasst23feasst_serialize_endcapEKNSt6stringERNSt7ostreamE">feasst::feasst::feasst_serialize_endcap (C++ function)</a>, <a href="plugin/utils/doc/serialize_arguments.html#_CPPv4N6feasst6feasst23feasst_serialize_endcapEKNSt6stringERNSt7ostreamE">[1]</a>
 </li>
@@ -1698,6 +1704,8 @@
 </li>
       <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram4biasEv">feasst::FlatHistogram::bias (C++ function)</a>
 </li>
+      <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram18cycles_to_completeEv">feasst::FlatHistogram::cycles_to_complete (C++ function)</a>
+</li>
       <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEE">feasst::FlatHistogram::FlatHistogram (C++ function)</a>, <a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEENSt10shared_ptrI10ConstraintEE">[1]</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4N6feasst13FlatHistogram15increment_phaseEv">feasst::FlatHistogram::increment_phase (C++ function)</a>
@@ -1710,9 +1718,7 @@
 </li>
       <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram10macrostateEv">feasst::FlatHistogram::macrostate (C++ function)</a>
 </li>
-      <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram14num_iterationsEKi">feasst::FlatHistogram::num_iterations (C++ function)</a>
-</li>
-      <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram26num_iterations_to_completeEv">feasst::FlatHistogram::num_iterations_to_complete (C++ function)</a>
+      <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram10num_cyclesEKi">feasst::FlatHistogram::num_cycles (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram10num_statesEv">feasst::FlatHistogram::num_states (C++ function)</a>
 </li>
@@ -1720,9 +1726,9 @@
 </li>
       <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4N6feasst13FlatHistogram12set_completeEv">feasst::FlatHistogram::set_complete (C++ function)</a>
 </li>
-      <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4N6feasst13FlatHistogram11set_ln_probERK13LnProbability">feasst::FlatHistogram::set_ln_prob (C++ function)</a>
+      <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4N6feasst13FlatHistogram22set_cycles_to_completeEKi">feasst::FlatHistogram::set_cycles_to_complete (C++ function)</a>
 </li>
-      <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4N6feasst13FlatHistogram30set_num_iterations_to_completeEKi">feasst::FlatHistogram::set_num_iterations_to_complete (C++ function)</a>
+      <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4N6feasst13FlatHistogram11set_ln_probERK13LnProbability">feasst::FlatHistogram::set_ln_prob (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram5stateEv">feasst::FlatHistogram::state (C++ function)</a>
 </li>
@@ -2496,11 +2502,13 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo3setEKNSt10shared_ptrI10CheckpointEE">feasst::MonteCarlo::set (C++ function)</a>, <a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo3setEKiNSt10shared_ptrI9PotentialEE">[1]</a>, <a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo3setENSt10shared_ptrI12ThermoParamsEE">[2]</a>, <a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo3setENSt10shared_ptrI6RandomEE">[3]</a>, <a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo3setENSt10shared_ptrI8CriteriaEE">[4]</a>, <a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo3setERK6System">[5]</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo30set_num_iterations_to_completeEKi">feasst::MonteCarlo::set_num_iterations_to_complete (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo22set_cycles_to_completeEKi">feasst::MonteCarlo::set_cycles_to_complete (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo25set_parse_for_num_configsEKi">feasst::MonteCarlo::set_parse_for_num_configs (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo17set_parse_replaceERKNSt6vectorINSt6vectorINSt6stringEEEEE">feasst::MonteCarlo::set_parse_replace (C++ function)</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo22set_replace_with_indexERKNSt6stringE">feasst::MonteCarlo::set_replace_with_index (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo9set_timerEv">feasst::MonteCarlo::set_timer (C++ function)</a>
 </li>
@@ -2992,6 +3000,8 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/PerturbRotate.html#_CPPv4N6feasst13PerturbRotate4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance">feasst::PerturbRotate::move (C++ function)</a>, <a href="plugin/monte_carlo/doc/PerturbRotate.html#_CPPv4N6feasst13PerturbRotate4moveEP6SystemP11TrialSelectP6RandomRK8Position">[1]</a>, <a href="plugin/monte_carlo/doc/PerturbRotate.html#_CPPv4N6feasst13PerturbRotate4moveERK8PositionRK14RotationMatrixP6SystemP11TrialSelect">[2]</a>
 </li>
+      <li><a href="plugin/monte_carlo/doc/PerturbRotate.html#_CPPv4N6feasst13PerturbRotate13PerturbRotateE7argtype">feasst::PerturbRotate::PerturbRotate (C++ function)</a>
+</li>
       <li><a href="plugin/monte_carlo/doc/PerturbRotate.html#_CPPv4N6feasst13PerturbRotate13update_eulersERK14RotationMatrixP11TrialSelectPK6System">feasst::PerturbRotate::update_eulers (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/PerturbRotate.html#_CPPv4N6feasst13PerturbRotate16update_selectionERK8PositionRK14RotationMatrixP11TrialSelect">feasst::PerturbRotate::update_selection (C++ function)</a>
@@ -3399,6 +3409,8 @@
       <li><a href="plugin/steppers/doc/ReadConfigFromFile.html#_CPPv4N6feasst18ReadConfigFromFile6updateEP10MonteCarlo">feasst::ReadConfigFromFile::update (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/RefPotential.html#_CPPv4N6feasst12RefPotentialE">feasst::RefPotential (C++ class)</a>, <a href="plugin/monte_carlo/doc/RefPotential_arguments.html#_CPPv4N6feasst12RefPotentialE">[1]</a>
+</li>
+      <li><a href="plugin/monte_carlo/doc/Remove.html#_CPPv4N6feasst6RemoveE">feasst::Remove (C++ class)</a>, <a href="plugin/monte_carlo/doc/Remove_arguments.html#_CPPv4N6feasst6RemoveE">[1]</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/RemoveAnalyze.html#_CPPv4N6feasst13RemoveAnalyzeE">feasst::RemoveAnalyze (C++ class)</a>, <a href="plugin/monte_carlo/doc/RemoveAnalyze_arguments.html#_CPPv4N6feasst13RemoveAnalyzeE">[1]</a>
 </li>
@@ -3862,7 +3874,7 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/Stepper.html#_CPPv4N6feasst7Stepper9set_stateEKi">feasst::Stepper::set_state (C++ function)</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/Stepper.html#_CPPv4NK6feasst7Stepper21start_after_iterationEv">feasst::Stepper::start_after_iteration (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/Stepper.html#_CPPv4NK6feasst7Stepper17start_after_cycleEv">feasst::Stepper::start_after_cycle (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Stepper.html#_CPPv4NK6feasst7Stepper17start_after_phaseEv">feasst::Stepper::start_after_phase (C++ function)</a>
 </li>
@@ -3870,7 +3882,7 @@
 </li>
       <li><a href="plugin/monte_carlo/doc/Stepper.html#_CPPv4N6feasst7Stepper7StepperE7argtype">feasst::Stepper::Stepper (C++ function)</a>, <a href="plugin/monte_carlo/doc/Stepper_arguments.html#_CPPv4N6feasst7Stepper7StepperE7argtype">[1]</a>
 </li>
-      <li><a href="plugin/monte_carlo/doc/Stepper.html#_CPPv4NK6feasst7Stepper20stop_after_iterationEv">feasst::Stepper::stop_after_iteration (C++ function)</a>
+      <li><a href="plugin/monte_carlo/doc/Stepper.html#_CPPv4NK6feasst7Stepper16stop_after_cycleEv">feasst::Stepper::stop_after_cycle (C++ function)</a>
 </li>
       <li><a href="plugin/monte_carlo/doc/Stepper.html#_CPPv4NK6feasst7Stepper16stop_after_phaseEv">feasst::Stepper::stop_after_phase (C++ function)</a>
 </li>
@@ -4296,19 +4308,19 @@
 </li>
       <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrixE">feasst::TransitionMatrix (C++ class)</a>, <a href="plugin/flat_histogram/doc/TransitionMatrix_arguments.html#_CPPv4N6feasst16TransitionMatrixE">[1]</a>
 </li>
+      <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4NK6feasst16TransitionMatrix18cycles_to_completeEv">feasst::TransitionMatrix::cycles_to_complete (C++ function)</a>
+</li>
       <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrix17infrequent_updateERK10Macrostate">feasst::TransitionMatrix::infrequent_update (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4NK6feasst16TransitionMatrix7ln_probEv">feasst::TransitionMatrix::ln_prob (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4NK6feasst16TransitionMatrix10min_sweepsEv">feasst::TransitionMatrix::min_sweeps (C++ function)</a>
 </li>
-      <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4NK6feasst16TransitionMatrix26num_iterations_to_completeEv">feasst::TransitionMatrix::num_iterations_to_complete (C++ function)</a>
-</li>
       <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4NK6feasst16TransitionMatrix12reset_sweepsEv">feasst::TransitionMatrix::reset_sweeps (C++ function)</a>
 </li>
-      <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrix11set_ln_probERK13LnProbability">feasst::TransitionMatrix::set_ln_prob (C++ function)</a>
+      <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrix22set_cycles_to_completeEKi">feasst::TransitionMatrix::set_cycles_to_complete (C++ function)</a>
 </li>
-      <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrix30set_num_iterations_to_completeEKi">feasst::TransitionMatrix::set_num_iterations_to_complete (C++ function)</a>
+      <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrix11set_ln_probERK13LnProbability">feasst::TransitionMatrix::set_ln_prob (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrix6updateEKiKiKdKbKbRK10Macrostate">feasst::TransitionMatrix::update (C++ function)</a>
 </li>
@@ -4772,6 +4784,8 @@
 </li>
       <li><a href="plugin/aniso/doc/VisitModelInnerTable.html#_CPPv4NK6feasst20VisitModelInnerTable15is_energy_tableERKNSt6vectorINSt6vectorINSt10shared_ptrI7Table6DEEEEEE">feasst::VisitModelInnerTable::is_energy_table (C++ function)</a>
 </li>
+      <li><a href="plugin/aniso/doc/VisitModelInnerTable.html#_CPPv4N6feasst20VisitModelInnerTable10precomputeEP13Configuration">feasst::VisitModelInnerTable::precompute (C++ function)</a>
+</li>
       <li><a href="plugin/aniso/doc/VisitModelInnerTable.html#_CPPv4NK6feasst20VisitModelInnerTable25second_virial_coefficientERK13Configuration7argtype">feasst::VisitModelInnerTable::second_virial_coefficient (C++ function)</a>
 </li>
       <li><a href="plugin/system/doc/VisitModelIntra.html#_CPPv4N6feasst15VisitModelIntraE">feasst::VisitModelIntra (C++ class)</a>, <a href="plugin/system/doc/VisitModelIntra_arguments.html#_CPPv4N6feasst15VisitModelIntraE">[1]</a>
@@ -4804,15 +4818,15 @@
 </li>
       <li><a href="plugin/flat_histogram/doc/WangLandau.html#_CPPv4N6feasst10WangLandauE">feasst::WangLandau (C++ class)</a>, <a href="plugin/flat_histogram/doc/WangLandau_arguments.html#_CPPv4N6feasst10WangLandauE">[1]</a>
 </li>
+      <li><a href="plugin/flat_histogram/doc/WangLandau.html#_CPPv4NK6feasst10WangLandau18cycles_to_completeEv">feasst::WangLandau::cycles_to_complete (C++ function)</a>
+</li>
       <li><a href="plugin/flat_histogram/doc/WangLandau.html#_CPPv4N6feasst10WangLandau17infrequent_updateERK10Macrostate">feasst::WangLandau::infrequent_update (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/WangLandau.html#_CPPv4NK6feasst10WangLandau7ln_probEv">feasst::WangLandau::ln_prob (C++ function)</a>
 </li>
-      <li><a href="plugin/flat_histogram/doc/WangLandau.html#_CPPv4NK6feasst10WangLandau26num_iterations_to_completeEv">feasst::WangLandau::num_iterations_to_complete (C++ function)</a>
+      <li><a href="plugin/flat_histogram/doc/WangLandau.html#_CPPv4N6feasst10WangLandau22set_cycles_to_completeEKi">feasst::WangLandau::set_cycles_to_complete (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/WangLandau.html#_CPPv4N6feasst10WangLandau11set_ln_probERK13LnProbability">feasst::WangLandau::set_ln_prob (C++ function)</a>
-</li>
-      <li><a href="plugin/flat_histogram/doc/WangLandau.html#_CPPv4N6feasst10WangLandau30set_num_iterations_to_completeEKi">feasst::WangLandau::set_num_iterations_to_complete (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/WangLandau.html#_CPPv4N6feasst10WangLandau6updateEKiKiKdKbKbRK10Macrostate">feasst::WangLandau::update (C++ function)</a>
 </li>
@@ -4846,19 +4860,21 @@
 </li>
       <li><a href="plugin/flat_histogram/doc/WindowExponential.html#_CPPv4N6feasst17WindowExponentialE">feasst::WindowExponential (C++ class)</a>, <a href="plugin/flat_histogram/doc/WindowExponential_arguments.html#_CPPv4N6feasst17WindowExponentialE">[1]</a>
 </li>
+      <li><a href="plugin/flat_histogram/doc/WindowExponential.html#_CPPv4NK6feasst17WindowExponential7minimumEv">feasst::WindowExponential::minimum (C++ function)</a>
+</li>
       <li><a href="plugin/flat_histogram/doc/WindowExponential.html#_CPPv4NK6feasst17WindowExponential7segmentEv">feasst::WindowExponential::segment (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/WLTM.html#_CPPv4N6feasst4WLTME">feasst::WLTM (C++ class)</a>, <a href="plugin/flat_histogram/doc/WLTM_arguments.html#_CPPv4N6feasst4WLTME">[1]</a>
+</li>
+      <li><a href="plugin/flat_histogram/doc/WLTM.html#_CPPv4NK6feasst4WLTM18cycles_to_completeEv">feasst::WLTM::cycles_to_complete (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/WLTM.html#_CPPv4N6feasst4WLTM17infrequent_updateERK10Macrostate">feasst::WLTM::infrequent_update (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/WLTM.html#_CPPv4NK6feasst4WLTM7ln_probEv">feasst::WLTM::ln_prob (C++ function)</a>
 </li>
-      <li><a href="plugin/flat_histogram/doc/WLTM.html#_CPPv4NK6feasst4WLTM26num_iterations_to_completeEv">feasst::WLTM::num_iterations_to_complete (C++ function)</a>
+      <li><a href="plugin/flat_histogram/doc/WLTM.html#_CPPv4N6feasst4WLTM22set_cycles_to_completeEKi">feasst::WLTM::set_cycles_to_complete (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/WLTM.html#_CPPv4N6feasst4WLTM11set_ln_probERK13LnProbability">feasst::WLTM::set_ln_prob (C++ function)</a>
-</li>
-      <li><a href="plugin/flat_histogram/doc/WLTM.html#_CPPv4N6feasst4WLTM30set_num_iterations_to_completeEKi">feasst::WLTM::set_num_iterations_to_complete (C++ function)</a>
 </li>
       <li><a href="plugin/flat_histogram/doc/WLTM.html#_CPPv4N6feasst4WLTM6updateEKiKiKdKbKbRK10Macrostate">feasst::WLTM::update (C++ function)</a>
 </li>

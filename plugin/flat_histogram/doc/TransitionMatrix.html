@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TransitionMatrix &mdash; FEASST v0.25.4 documentation</title>
+  <title>TransitionMatrix &mdash; FEASST 0.25.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=8f869700"></script>
+        <script src="../../../_static/documentation_options.js?v=80d49aaf"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -28,7 +28,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="WangLandau" href="WangLandau.html" />
-    <link rel="prev" title="MacrostatePosition" href="MacrostatePosition.html" />
+    <link rel="prev" title="Bias" href="Bias.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -55,7 +55,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.4
+                0.25.5
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -76,23 +76,23 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostatePosition.html">MacrostatePosition</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">TransitionMatrix</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">TransitionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WLTM.html">WLTM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 </ul>
 </li>
 </ul>
@@ -241,6 +241,21 @@ of chemical potential.</p>
 </div>
 </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> arguments.</p></li>
+<li><p>min_visits: A sweep is performed when all macrostates are visited by another macrostate this number of times (default: 100).</p></li>
+<li><p>average_visits: A sweep is performed when macrostates are visited by another macrostate more than this average number of times (default: 0).</p></li>
+<li><p>min_sweeps: Number of sweeps required for completion.</p></li>
+<li><p>reset_sweeps: The ‘phase’ counter increments from 0 to 1 when reset_sweeps are completed (default: -1 [counter will never increment])</p></li>
+<li><p><p>new_sweep: if set to 1, use new sweep definition of “the minimum number</p>
+<p>of accepted transitions for each possible” (default: 0).</p>
+</p></li>
+<li><p>widom: if true, also store a <a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> without the minimum(1,P) term typical of <a class="reference internal" href="../../monte_carlo/doc/Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> acceptance (default: false). This allows direct calculation of the chemical potential </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16TransitionMatrix6updateEKiKiKdKbKbRK10Macrostate">
@@ -261,15 +276,15 @@ of chemical potential.</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst16TransitionMatrix26num_iterations_to_completeEv">
-<span class="target" id="classfeasst_1_1TransitionMatrix_1a6db4294e792a5298600484897a93ed09"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_iterations_to_complete</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16TransitionMatrix26num_iterations_to_completeEv" title="Link to this definition"></a><br /></dt>
-<dd><p>Return the number of iterations required for completion. In <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> and <a class="reference internal" href="WLTM_arguments.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a>, this is the minimum number of sweeps. In <a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a>, this is the minimum number of flatness checks. Afterward, check again for completeness. </p>
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst16TransitionMatrix18cycles_to_completeEv">
+<span class="target" id="classfeasst_1_1TransitionMatrix_1a10a7114aca093e5b19fb87b66081ccaf"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cycles_to_complete</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst16TransitionMatrix18cycles_to_completeEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Return the number of cycles required for completion. In <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> and <a class="reference internal" href="WLTM_arguments.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a>, this is the minimum number of sweeps. In <a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a>, this is the minimum number of flatness checks. Afterward, check again for completeness. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst16TransitionMatrix30set_num_iterations_to_completeEKi">
-<span class="target" id="classfeasst_1_1TransitionMatrix_1aa21c4532de23c9027aba0a2011808861"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_num_iterations_to_complete</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">iteration</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrix30set_num_iterations_to_completeEKi" title="Link to this definition"></a><br /></dt>
-<dd><p>Set the number of iterations required for completion. </p>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst16TransitionMatrix22set_cycles_to_completeEKi">
+<span class="target" id="classfeasst_1_1TransitionMatrix_1ad1ff281c995ac8ff55be0b3d12dd150b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_cycles_to_complete</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cycle</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16TransitionMatrix22set_cycles_to_completeEKi" title="Link to this definition"></a><br /></dt>
+<dd><p>Set the number of cycles required for completion. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -291,21 +306,6 @@ of chemical potential.</p>
 </dd></dl>
 
 </div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p><a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> arguments.</p></li>
-<li><p>min_visits: A sweep is performed when all macrostates are visited by another macrostate this number of times (default: 100).</p></li>
-<li><p>average_visits: A sweep is performed when macrostates are visited by another macrostate more than this average number of times (default: 0).</p></li>
-<li><p>min_sweeps: Number of sweeps required for completion.</p></li>
-<li><p>reset_sweeps: The ‘phase’ counter increments from 0 to 1 when reset_sweeps are completed (default: -1 [counter will never increment])</p></li>
-<li><p><p>new_sweep: if set to 1, use new sweep definition of “the minimum number</p>
-<p>of accepted transitions for each possible” (default: 0).</p>
-</p></li>
-<li><p>widom: if true, also store a <a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> without the minimum(1,P) term typical of <a class="reference internal" href="../../monte_carlo/doc/Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> acceptance (default: false). This allows direct calculation of the chemical potential </p></li>
-</ul>
-</p>
-</div>
 </dd></dl>
 
 </section>
@@ -314,7 +314,7 @@ of chemical potential.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="MacrostatePosition.html" class="btn btn-neutral float-left" title="MacrostatePosition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Bias.html" class="btn btn-neutral float-left" title="Bias" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="WangLandau.html" class="btn btn-neutral float-right" title="WangLandau" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

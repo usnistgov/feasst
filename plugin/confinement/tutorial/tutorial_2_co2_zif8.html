@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grand Canonical Flat Histogram Simulation of TraPPE CO2 in ZIF8 &mdash; FEASST v0.25.4 documentation</title>
+  <title>Grand Canonical Flat Histogram Simulation of TraPPE CO2 in ZIF8 &mdash; FEASST 0.25.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=8f869700"></script>
+        <script src="../../../_static/documentation_options.js?v=80d49aaf"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -55,7 +55,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.4
+                0.25.5
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -70,6 +70,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_0_ref_configs.html">Lennard Jones Alpha potential test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_1_lj_table.html">User defined tabular potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_2_feynman_hibbs.html">Example TwoBodyAlpha potential: Feynman-Hibbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_3_trimer_table.html">Example Table with multiple site types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_4_f3c_ref_config.html">F3C potential test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_01_custom_model.html">Make your own custom two body model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_02_custom_analyze.html">Make your own custom analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_03_custom_action.html">Make your own custom Action</a></li>
@@ -242,10 +244,8 @@
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--cubic_side_length&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">34.023240</span><span class="p">,</span>
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;cubic periodic boundary length&#39;</span><span class="p">)</span>
-<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--trials_per_iteration&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span>
-                    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;like cycles, but not necessary num_particles&#39;</span><span class="p">)</span>
-<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--equilibration_iterations&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1e0</span><span class="p">,</span>
-                    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of iterations for equilibration&#39;</span><span class="p">)</span>
+<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--tpc&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;trials per cycle&#39;</span><span class="p">)</span>
+<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--equilibration&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1e0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of cycles for equilibration&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--hours_checkpoint&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;hours per checkpoint&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--hours_terminate&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;hours until termination&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--procs_per_node&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of processors&#39;</span><span class="p">)</span>
@@ -298,37 +298,36 @@
 <span class="s2">Metropolis</span>
 <span class="s2">TrialTranslate weight 30 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25</span>
 <span class="s2">TrialParticlePivot weight 20 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25</span>
-<span class="s2">CheckEnergy trials_per_update </span><span class="si">{trials_per_iteration}</span><span class="s2"> tolerance 1e-4</span>
+<span class="s2">CheckEnergy trials_per_update </span><span class="si">{tpc}</span><span class="s2"> tolerance 1e-4</span>
 
 <span class="s2"># write the MOF xyz for visualization</span>
 <span class="s2">Movie output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_MOF.xyz group MOF clear_file true</span>
 <span class="s2">WriteStepper analyze_name Movie</span>
-<span class="s2">RemoveAnalyze name Movie</span>
+<span class="s2">Remove name Movie</span>
 
 <span class="s2"># gcmc initialization and nvt equilibration</span>
 <span class="s2">TrialAdd weight 50.0 particle_type 0</span>
-<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_eq.txt</span>
+<span class="s2">Log trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_eq.txt</span>
 <span class="s2">Tune</span>
 <span class="s2">Run until_num_particles [soft_macro_min] particle_type 0</span>
-<span class="s2">RemoveTrial name TrialAdd</span>
+<span class="s2">Remove name TrialAdd</span>
 <span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential </span><span class="si">{mu}</span>
-<span class="s2">Metropolis num_trials_per_iteration </span><span class="si">{trials_per_iteration}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{equilibration_iterations}</span>
-<span class="s2">Run until_criteria_complete true</span>
-<span class="s2">RemoveModify name Tune</span>
-<span class="s2">RemoveAnalyze name Log</span>
+<span class="s2">Metropolis trials_per_cycle </span><span class="si">{tpc}</span><span class="s2"> cycles_to_complete </span><span class="si">{equilibration}</span>
+<span class="s2">Run until complete</span>
+<span class="s2">Remove name0 Tune name1 Log</span>
 
 <span class="s2"># gcmc tm production</span>
 <span class="s2">FlatHistogram Macrostate MacrostateNumParticles particle_type 0 width 1 max </span><span class="si">{max_particles}</span><span class="s2"> min </span><span class="si">{min_particles}</span><span class="s2"> soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] </span><span class="se">\</span>
 <span class="s2">  Bias TransitionMatrix min_sweeps </span><span class="si">{min_sweeps}</span>
 <span class="s2">TrialTransfer weight 50 particle_type 0</span>
-<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index].txt</span>
+<span class="s2">Log trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index].txt</span>
 <span class="s2">#To print trajectories for each macrostate in separate files, add the following arguments to the &quot;Movie&quot; lines below: multistate true multistate_aggregate false</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_eq.xyz stop_after_iteration 1 group fluid</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index].xyz start_after_iteration 1 group fluid</span>
-<span class="s2">Tune trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_tune.txt multistate true stop_after_iteration 1</span>
-<span class="s2">Energy trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_en.txt multistate true start_after_iteration 1</span>
+<span class="s2">Movie trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_eq.xyz stop_after_cycle 1 group fluid</span>
+<span class="s2">Movie trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index].xyz start_after_cycle 1 group fluid</span>
+<span class="s2">Tune trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_tune.txt multistate true stop_after_cycle 1</span>
+<span class="s2">Energy trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_en.txt multistate true start_after_cycle 1</span>
 <span class="s2">CriteriaUpdater trials_per_update 1e5</span>
-<span class="s2">CriteriaWriter trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_crit.txt</span>
+<span class="s2">CriteriaWriter trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_crit.txt</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
@@ -374,10 +373,8 @@
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--cubic_side_length&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;cubic periodic boundary length&#39;</span><span class="p">)</span>
-<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--trials_per_iteration&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span>
-                    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;like cycles, but not necessary num_particles&#39;</span><span class="p">)</span>
-<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--equilibration_iterations&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1e0</span><span class="p">,</span>
-                    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of iterations for equilibration&#39;</span><span class="p">)</span>
+<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--tpc&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;trials per cycle&#39;</span><span class="p">)</span>
+<span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--equilibration&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1e0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of cycles for equilibration&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--hours_checkpoint&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;hours per checkpoint&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--hours_terminate&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;hours until termination&#39;</span><span class="p">)</span>
 <span class="n">PARSER</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--procs_per_node&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of processors&#39;</span><span class="p">)</span>
@@ -428,31 +425,30 @@
 <span class="s2">Metropolis</span>
 <span class="s2">TrialTranslate weight 30 tunable_param 0.2 tunable_target_acceptance 0.25</span>
 <span class="s2">TrialParticlePivot weight 20 tunable_param 0.5 tunable_target_acceptance 0.25 particle_type 0</span>
-<span class="s2">CheckEnergy trials_per_update </span><span class="si">{trials_per_iteration}</span><span class="s2"> tolerance 1e-4</span>
+<span class="s2">CheckEnergy trials_per_update </span><span class="si">{tpc}</span><span class="s2"> tolerance 1e-4</span>
 
 <span class="s2"># gcmc initialization and nvt equilibration</span>
 <span class="s2">TrialAdd weight 50.0 particle_type 0</span>
-<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_eq.txt</span>
+<span class="s2">Log trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_eq.txt</span>
 <span class="s2">Tune</span>
 <span class="s2">Run until_num_particles [soft_macro_min]</span>
-<span class="s2">RemoveTrial name TrialAdd</span>
+<span class="s2">Remove name TrialAdd</span>
 <span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential </span><span class="si">{mu}</span>
-<span class="s2">Metropolis num_trials_per_iteration </span><span class="si">{trials_per_iteration}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{equilibration_iterations}</span>
-<span class="s2">Run until_criteria_complete true</span>
-<span class="s2">RemoveModify name Tune</span>
-<span class="s2">RemoveAnalyze name Log</span>
+<span class="s2">Metropolis trials_per_cycle </span><span class="si">{tpc}</span><span class="s2"> cycles_to_complete </span><span class="si">{equilibration}</span>
+<span class="s2">Run until complete</span>
+<span class="s2">Remove name0 Tune name1 Log</span>
 
 <span class="s2"># gcmc tm production</span>
 <span class="s2">FlatHistogram Macrostate MacrostateNumParticles width 1 max </span><span class="si">{max_particles}</span><span class="s2"> min </span><span class="si">{min_particles}</span><span class="s2"> soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] </span><span class="se">\</span>
 <span class="s2">  Bias TransitionMatrix min_sweeps </span><span class="si">{min_sweeps}</span>
 <span class="s2">TrialTransfer weight 50 particle_type 0</span>
-<span class="s2">Log trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index].txt</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_eq.xyz stop_after_iteration 1</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index].xyz start_after_iteration 1</span>
-<span class="s2">Tune trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_tune.txt multistate true stop_after_iteration 1</span>
-<span class="s2">Energy trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_en.txt multistate true start_after_iteration 1</span>
+<span class="s2">Log trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index].txt</span>
+<span class="s2">Movie trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_eq.xyz stop_after_cycle 1</span>
+<span class="s2">Movie trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index].xyz start_after_cycle 1</span>
+<span class="s2">Tune trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_tune.txt multistate true stop_after_cycle 1</span>
+<span class="s2">Energy trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_en.txt multistate true start_after_cycle 1</span>
 <span class="s2">CriteriaUpdater trials_per_update 1e5</span>
-<span class="s2">CriteriaWriter trials_per_write </span><span class="si">{trials_per_iteration}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_crit.txt</span>
+<span class="s2">CriteriaWriter trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{node}</span><span class="s2">s[sim_index]_crit.txt</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>

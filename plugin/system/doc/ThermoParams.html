@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ThermoParams &mdash; FEASST v0.25.4 documentation</title>
+  <title>ThermoParams &mdash; FEASST 0.25.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=8f869700"></script>
+        <script src="../../../_static/documentation_options.js?v=80d49aaf"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -30,7 +30,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="VisitModel" href="VisitModel.html" />
-    <link rel="prev" title="EnergyMap" href="EnergyMap.html" />
+    <link rel="prev" title="System" href="System.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -57,7 +57,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.4
+                0.25.5
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -91,24 +91,24 @@
 <li class="toctree-l4"><a class="reference internal" href="HardSphere.html">HardSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyTable.html">ModelTwoBodyTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Potential.html">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RigidAngle.html">RigidAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RigidBond.html">RigidBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RigidDihedral.html">RigidDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="DontVisitModel.html">DontVisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelCutoffOuter.html">VisitModelCutoffOuter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelCutoffOuter.html">VisitModelCutoffOuter</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Potential.html">Potential</a></li>
 </ul>
 </li>
 </ul>
@@ -233,6 +233,16 @@
 <span class="target" id="classfeasst_1_1ThermoParams"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ThermoParams</span></span></span><a class="headerlink" href="#_CPPv4N6feasst12ThermoParamsE" title="Link to this definition"></a><br /></dt>
 <dd><p>Intensive thermodynamic state variables. Units should be consistent with the <a class="reference external" href="../../../particle/README.html">particle</a>. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>beta: inverse temperature, <span class="math notranslate nohighlight">\( \beta = \frac{1}{k_B T} \)</span>.</p></li>
+<li><p>pH: negative of the log-base-10 of the proton concentration.</p></li>
+<li><p>chemical_potential[i]: chemical potential of the i-th particle type. The [i] is to be substituted for an integer 0, 1, 2, … If only one particle type, you can drop the [i]. The chemical potential must have the inverse units of <span class="math notranslate nohighlight">\(\beta\)</span>.</p></li>
+<li><p>pressure: imposed isotropic system pressure. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst12ThermoParams8set_betaEKd">
@@ -307,16 +317,6 @@
 </dd></dl>
 
 </div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>beta: inverse temperature, <span class="math notranslate nohighlight">\( \beta = \frac{1}{k_B T} \)</span>.</p></li>
-<li><p>pH: negative of the log-base-10 of the proton concentration.</p></li>
-<li><p>chemical_potential[i]: chemical potential of the i-th particle type. The [i] is to be substituted for an integer 0, 1, 2, … If only one particle type, you can drop the [i]. The chemical potential must have the inverse units of <span class="math notranslate nohighlight">\(\beta\)</span>.</p></li>
-<li><p>pressure: imposed isotropic system pressure. </p></li>
-</ul>
-</p>
-</div>
 </dd></dl>
 
 </section>
@@ -325,7 +325,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="EnergyMap.html" class="btn btn-neutral float-left" title="EnergyMap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="System.html" class="btn btn-neutral float-left" title="System" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="VisitModel.html" class="btn btn-neutral float-right" title="VisitModel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

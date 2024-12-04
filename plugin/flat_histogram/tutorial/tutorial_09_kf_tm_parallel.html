@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches &mdash; FEASST v0.25.4 documentation</title>
+  <title>Grand Canonical Flat Histogram Simulation of Kern-Frenkel Patches &mdash; FEASST 0.25.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=8f869700"></script>
+        <script src="../../../_static/documentation_options.js?v=80d49aaf"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -55,7 +55,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.4
+                0.25.5
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -70,6 +70,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_0_ref_configs.html">Lennard Jones Alpha potential test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_1_lj_table.html">User defined tabular potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_2_feynman_hibbs.html">Example TwoBodyAlpha potential: Feynman-Hibbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_3_trimer_table.html">Example Table with multiple site types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_4_f3c_ref_config.html">F3C potential test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_01_custom_model.html">Make your own custom two body model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_02_custom_analyze.html">Make your own custom analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_03_custom_action.html">Make your own custom Action</a></li>
@@ -210,6 +212,7 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Flat-histogram simulation of Kern-Frenkel patchy particles in the grand canonical ensemble.</span>
 <span class="sd">https://doi.org/10.1063/1.1569473</span>
+<span class="sd">This tutorial uses the flat histogram LJ tutorial for most of the simulation setup.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">argparse</span>
@@ -217,108 +220,35 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">fstio</span>
+<span class="kn">import</span> <span class="nn">launch_04_lj_tm_parallel</span>
 
 <span class="k">def</span> <span class="nf">parse</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Parse arguments from command line or change their default values. &quot;&quot;&quot;</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentDefaultsHelpFormatter</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--feasst_install&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;../../../build/&#39;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;FEASST install directory (e.g., the path to build)&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--fstprt&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;/feasst/plugin/patch/particle/two_patch_linear.fstprt&#39;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;FEASST particle definition&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--chi&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;patch size parameter&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--beta&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;inverse temperature&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--mu&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;chemical potential&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--mu_init&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;initial chemical potential&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--max_particles&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">370</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;maximum number of particles&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--min_particles&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;minimum number of particles&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--min_sweeps&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--cubic_side_length&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;cubic periodic boundary length&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--tpi&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">),</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;trials per iteration, similar to MC cycles, but not necessary num_particles&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--equilibration_iterations&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of iterations for equilibration&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--hours_checkpoint&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;hours per checkpoint&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--hours_terminate&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;hours until termination&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--procs_per_node&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of processors&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--run_type&#39;</span><span class="p">,</span> <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;0: run, 1: submit to queue, 2: post-process&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--seed&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Random number generator seed. If -1, assign random seed to each sim.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--max_restarts&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Number of restarts in queue&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--num_nodes&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Number of nodes in queue&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--scratch&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Optionally write scheduled job to scratch/logname/jobid.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--node&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;node ID&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--queue_id&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;If != -1, read args from file&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--queue_task&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;If &gt; 0, restart from checkpoint&#39;</span><span class="p">)</span>
-
-    <span class="c1"># Convert arguments into a parameter dictionary, and add argument-dependent parameters.</span>
-    <span class="n">args</span><span class="p">,</span> <span class="n">unknown_args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_known_args</span><span class="p">()</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">unknown_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;An unknown argument was included: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">unknown_args</span><span class="p">)</span>
-    <span class="n">params</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">launch_04_lj_tm_parallel</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+          <span class="n">fstprt</span><span class="o">=</span><span class="s1">&#39;/feasst/plugin/patch/particle/two_patch_linear.fstprt&#39;</span><span class="p">,</span>
+          <span class="n">beta</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mf">0.7</span><span class="p">,</span>
+          <span class="n">beta_mu</span><span class="o">=-</span><span class="mf">2.14285714285714</span><span class="p">,</span>
+          <span class="n">min_sweeps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+          <span class="n">cubic_side_length</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+          <span class="n">max_particles</span><span class="o">=</span><span class="mi">370</span><span class="p">,</span>
+          <span class="n">window_alpha</span><span class="o">=</span><span class="mf">2.25</span><span class="p">)</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;script&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="vm">__file__</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;kf&#39;</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_id_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span> <span class="s1">&#39;_sim_ids.txt&#39;</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;minutes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span> <span class="c1"># minutes allocated on queue</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.95</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.05</span> <span class="c1"># terminate FEASST before SLURM</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span> <span class="c1"># real time -&gt; cpu time</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_checkpoint&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sims&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_sim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;chi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.7</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;patch_angle&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;chi&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
-    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span>
-
-<span class="k">def</span> <span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Write fst script for a single simulation with keys of params {} enclosed. &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
-        <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2"># first, initialize multiple clones into windows</span>
-<span class="s2">CollectionMatrixSplice hours_per </span><span class="si">{hours_checkpoint}</span><span class="s2"> ln_prob_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">_lnpi.txt min_window_size -1</span>
-<span class="s2">WindowExponential maximum </span><span class="si">{max_particles}</span><span class="s2"> minimum </span><span class="si">{min_particles}</span><span class="s2"> num </span><span class="si">{procs_per_node}</span><span class="s2"> overlap 0 alpha 2.25 min_size 5</span>
-<span class="s2">Checkpoint checkpoint_file </span><span class="si">{prefix}{sim}</span><span class="s2">_checkpoint.fst num_hours </span><span class="si">{hours_checkpoint}</span><span class="s2"> num_hours_terminate </span><span class="si">{hours_terminate}</span>
-
-<span class="s2">RandomMT19937 seed </span><span class="si">{seed}</span>
-<span class="s2">Configuration cubic_side_length </span><span class="si">{cubic_side_length}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span><span class="s2"> </span><span class="se">\</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Configuration cubic_side_length </span><span class="si">{cubic_side_length}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span><span class="s2"> </span><span class="se">\</span>
 <span class="s2">  patch_angle1 </span><span class="si">{patch_angle}</span><span class="s2"> group0 centers centers_site_type0 0</span>
 <span class="s2">Potential Model HardSphere VisitModel VisitModelCell min_length 1 cell_group centers group centers</span>
 <span class="s2">Potential Model SquareWell VisitModel VisitModelCell min_length 1.5 cell_group centers </span><span class="se">\</span>
-<span class="s2">  VisitModelInner VisitModelInnerPatch group centers</span>
-<span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential </span><span class="si">{mu_init}</span>
-<span class="s2">Metropolis</span>
-<span class="s2">TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25</span>
-<span class="s2">TrialRotate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25</span>
-<span class="s2">CheckEnergy trials_per_update </span><span class="si">{tpi}</span><span class="s2"> decimal_places 4</span>
-
-<span class="s2"># gcmc initialization and nvt equilibration</span>
-<span class="s2">TrialAdd particle_type 0</span>
-<span class="s2">Log trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_eq.txt</span>
-<span class="s2">Tune</span>
-<span class="s2">Run until_num_particles [soft_macro_min]</span>
-<span class="s2">RemoveTrial name TrialAdd</span>
-<span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential </span><span class="si">{mu}</span>
-<span class="s2">Metropolis num_trials_per_iteration </span><span class="si">{tpi}</span><span class="s2"> num_iterations_to_complete </span><span class="si">{equilibration_iterations}</span>
-<span class="s2">Run until_criteria_complete true</span>
-<span class="s2">RemoveModify name Tune</span>
-<span class="s2">RemoveAnalyze name Log</span>
-
-<span class="s2"># gcmc tm production</span>
-<span class="s2">FlatHistogram Macrostate MacrostateNumParticles width 1 max </span><span class="si">{max_particles}</span><span class="s2"> min </span><span class="si">{min_particles}</span><span class="s2"> soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] </span><span class="se">\</span>
-<span class="s2">Bias WLTM min_sweeps </span><span class="si">{min_sweeps}</span><span class="s2"> min_flatness 25 collect_flatness 20 min_collect_sweeps 1</span>
-<span class="s2">TrialTransfer weight 2 particle_type 0</span>
-<span class="s2">Log            trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index].txt</span>
-<span class="s2">MoviePatch     trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_eq.xyz stop_after_iteration 1</span>
-<span class="s2">MoviePatch     trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index].xyz start_after_iteration 1</span>
-<span class="s2">Tune           trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_tune.txt multistate true stop_after_iteration 1</span>
-<span class="s2">Energy         trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_en.txt multistate true start_after_iteration 1</span>
-<span class="s2">CriteriaWriter trials_per_write </span><span class="si">{tpi}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_crit.txt</span>
-<span class="s2">CriteriaUpdater trials_per_update 1e5</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
+<span class="s2">  VisitModelInner VisitModelInnerPatch group centers&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;nvt_trials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25</span>
+<span class="s2">TrialRotate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span>
 
 <span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
     <span class="n">lnpi</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;n0_lnpi.txt&#39;</span><span class="p">)</span>
-    <span class="n">lnpi</span> <span class="o">=</span> <span class="n">lnpi</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span> <span class="c1"># cut down to three rows</span>
+    <span class="n">lnpi</span> <span class="o">=</span> <span class="n">lnpi</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span> <span class="c1"># cut down to six rows</span>
     <span class="n">lnpi</span><span class="p">[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">lnpi</span><span class="p">[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">])))</span>  <span class="c1"># renormalize</span>
     <span class="n">lnpi</span><span class="p">[</span><span class="s1">&#39;ln_prob_prev&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">15.9976474469475</span><span class="p">,</span> <span class="o">-</span><span class="mf">11.9104563420586</span><span class="p">,</span>  <span class="o">-</span><span class="mf">8.48324267323538</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.42988602574393</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.64984051640555</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.07824246342703</span><span class="p">]</span>
     <span class="n">lnpi</span><span class="p">[</span><span class="s1">&#39;ln_prob_prev_stdev&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.035</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">]</span>
@@ -336,7 +266,7 @@
     <span class="n">parameters</span><span class="p">,</span> <span class="n">arguments</span> <span class="o">=</span> <span class="n">parse</span><span class="p">()</span>
     <span class="n">fstio</span><span class="o">.</span><span class="n">run_simulations</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
                           <span class="n">sim_node_dependent_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                          <span class="n">write_feasst_script</span><span class="o">=</span><span class="n">write_feasst_script</span><span class="p">,</span>
+                          <span class="n">write_feasst_script</span><span class="o">=</span><span class="n">launch_04_lj_tm_parallel</span><span class="o">.</span><span class="n">write_feasst_script</span><span class="p">,</span>
                           <span class="n">post_process</span><span class="o">=</span><span class="n">post_process</span><span class="p">,</span>
                           <span class="n">queue_function</span><span class="o">=</span><span class="n">fstio</span><span class="o">.</span><span class="n">slurm_single_node</span><span class="p">,</span>
                           <span class="n">args</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>

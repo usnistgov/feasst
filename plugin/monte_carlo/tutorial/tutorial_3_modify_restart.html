@@ -4,11 +4,11 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modify a checkpoint file during restarting to run longer &mdash; FEASST v0.25.4 documentation</title>
+  <title>Modify a checkpoint file during restarting to run longer &mdash; FEASST 0.25.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/nbsphinx-code-cells.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/nbsphinx-code-cells.css?v=2aa19091" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
@@ -18,7 +18,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=8f869700"></script>
+        <script src="../../../_static/documentation_options.js?v=80d49aaf"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -58,7 +58,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.4
+                0.25.5
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -73,6 +73,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_0_ref_configs.html">Lennard Jones Alpha potential test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_1_lj_table.html">User defined tabular potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_2_feynman_hibbs.html">Example TwoBodyAlpha potential: Feynman-Hibbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_3_trimer_table.html">Example Table with multiple site types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_4_f3c_ref_config.html">F3C potential test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_01_custom_model.html">Make your own custom two body model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_02_custom_analyze.html">Make your own custom analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example/tutorial/tutorial_03_custom_action.html">Make your own custom Action</a></li>
@@ -210,7 +212,7 @@
              
   <section id="Modify-a-checkpoint-file-during-restarting-to-run-longer">
 <h1>Modify a checkpoint file during restarting to run longer<a class="headerlink" href="#Modify-a-checkpoint-file-during-restarting-to-run-longer" title="Link to this heading"></a></h1>
-<p>In this example, the first simulation generates a checkpoint file. The second simulation runs from the checkpoint file after modification of the number of iterations to complete a simulation.</p>
+<p>In this example, the first simulation generates a checkpoint file. The second simulation runs from the checkpoint file after modification of the number of cycles to complete a simulation.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -235,14 +237,14 @@
 <span class="s2">CheckEnergy trials_per_update 1e4 tolerance 1e-8</span>
 <span class="s2">TrialAdd weight 2 particle_type 0</span>
 <span class="s2">Run until_num_particles 500</span>
-<span class="s2">RemoveTrial name TrialAdd</span>
+<span class="s2">Remove name TrialAdd</span>
 <span class="s2">Run num_trials 1e5</span>
-<span class="s2">RemoveModify name Tune</span>
+<span class="s2">Remove name Tune</span>
 <span class="s2">Log trials_per_write 1e4 output_file lj.csv clear_file true</span>
 <span class="s2">Energy trials_per_write 1e4 output_file lj_en.csv</span>
 <span class="s2">Movie trials_per_write 1e4 output_file lj.xyz</span>
-<span class="s2">Metropolis num_trials_per_iteration 1e4 num_iterations_to_complete 1e2</span>
-<span class="s2">Run until_criteria_complete true</span>
+<span class="s2">Metropolis trials_per_cycle 1e4 cycles_to_complete 1e2</span>
+<span class="s2">Run until complete</span>
 <span class="s2">WriteCheckpoint</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
     <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; launch00.txt&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
@@ -254,17 +256,17 @@
 
 <span class="c1"># Write a second run script that restarts the simulation and adds a lot more trials. Too many. Try to clear those on a second restart.</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;continue.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span> <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Restart lj.fst</span>
-<span class="s2">Metropolis num_trials_per_iteration 1e8 num_iterations_to_complete 2e8</span>
+<span class="s2">Metropolis trials_per_cycle 1e8 cycles_to_complete 2e8</span>
 <span class="s2">Checkpoint checkpoint_file lj2.fst num_hours_terminate 0.01</span>
-<span class="s2">Run until_criteria_complete true</span>
+<span class="s2">Run until complete</span>
 <span class="s2">WriteCheckpoint</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; continue.txt&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
 
 <span class="c1"># Write a third run script that restarts the simulation and the clears the previous arguments. Ask for a reasonable number of trials.</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;continue2.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span> <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Restart lj2.fst clear_previous_arguments</span>
-<span class="s2">Metropolis num_trials_per_iteration 1e4 num_iterations_to_complete 1e1</span>
-<span class="s2">Run until_criteria_complete true</span>
+<span class="s2">Metropolis trials_per_cycle 1e4 cycles_to_complete 1e1</span>
+<span class="s2">Run until complete</span>
 <span class="s2">WriteCheckpoint</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; continue2.txt&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
@@ -285,7 +287,7 @@ MonteCarlo
 Checkpoint checkpoint_file lj.fst
 RandomMT19937 seed 1572362164
 # initializing random number generator with seed: 1572362164
-Configuration cubic_side_length 55.0321208149104 particle_type0 /home/hwh/feasst/particle/lj.fstprt
+Configuration cubic_side_length 55.0321208149104 particle_type0 /home/user/feasst/particle/lj.fstprt
 Potential Model LennardJones VisitModel VisitModelCell min_length max_cutoff
 Potential VisitModel LongRangeCorrections
 ThermoParams beta 1.111111111111111 chemical_potential0 -1
@@ -295,21 +297,21 @@ Tune
 CheckEnergy tolerance 1e-8 trials_per_update 1e4
 TrialAdd particle_type 0 weight 2
 Run until_num_particles 500
-RemoveTrial name TrialAdd
+Remove name TrialAdd
 Run num_trials 1e5
-RemoveModify name Tune
+Remove name Tune
 Log clear_file true output_file lj.csv trials_per_write 1e4
 Energy output_file lj_en.csv trials_per_write 1e4
 Movie output_file lj.xyz trials_per_write 1e4
-Metropolis num_iterations_to_complete 1e2 num_trials_per_iteration 1e4
-Run until_criteria_complete true
+Metropolis cycles_to_complete 1e2 trials_per_cycle 1e4
+Run until complete
 WriteCheckpoint
 # FEASST version: v0.25.3
 # Usage: ./fst &lt; file.txt
 # Restarting from file: lj.fst
-Metropolis num_iterations_to_complete 2e8 num_trials_per_iteration 1e8
+Metropolis cycles_to_complete 2e8 trials_per_cycle 1e8
 Checkpoint checkpoint_file lj2.fst num_hours_terminate 0.01
-Run until_criteria_complete true
+Run until complete
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -330,8 +332,8 @@ terminate called after throwing an instance of &#39;feasst::CustomException&#39;
 # FEASST version: v0.25.3
 # Usage: ./fst &lt; file.txt
 # Restarting from file: lj2.fst
-Metropolis num_iterations_to_complete 1e1 num_trials_per_iteration 1e4
-Run until_criteria_complete true
+Metropolis cycles_to_complete 1e1 trials_per_cycle 1e4
+Run until complete
 WriteCheckpoint
 </pre></div></div>
 </div>

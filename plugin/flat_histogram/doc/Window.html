@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Window &mdash; FEASST v0.25.4 documentation</title>
+  <title>Window &mdash; FEASST 0.25.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=8f869700"></script>
+        <script src="../../../_static/documentation_options.js?v=80d49aaf"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -28,7 +28,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="WindowCustom" href="WindowCustom.html" />
-    <link rel="prev" title="WangLandau" href="WangLandau.html" />
+    <link rel="prev" title="MacrostatePosition" href="MacrostatePosition.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -55,7 +55,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.4
+                0.25.5
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -76,23 +76,23 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostatePosition.html">MacrostatePosition</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Window</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WLTM.html">WLTM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CollectionMatrixSplice.html">CollectionMatrixSplice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 </ul>
 </li>
 </ul>
@@ -220,6 +220,18 @@
 <p>For (2) collection matrix splicing, windows cannot share any macrostates but the boundaries must be adjacent and all trial moves of the windows must be exactly the same. </p>
 <p>Subclassed by <a class="reference internal" href="WindowCustom_arguments.html#classfeasst_1_1WindowCustom"><span class="std std-ref">feasst::WindowCustom</span></a>, <a class="reference internal" href="WindowExponential_arguments.html#classfeasst_1_1WindowExponential"><span class="std std-ref">feasst::WindowExponential</span></a></p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>minimum: minimum in macrostate range (default: 0).</p></li>
+<li><p>maximum: maximum in macrostate range (default: -1).</p></li>
+<li><p>num: number of windows (default: -1).</p></li>
+<li><p>num_from_omp: obtain num from OMP threads (default: false).</p></li>
+<li><p>overlap: number of macrostate overlaps between windows (default: 1).</p></li>
+<li><p>min_size: minimum size of each window (default: 1). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Window7minimumEv">
@@ -258,18 +270,6 @@
 </dd></dl>
 
 </div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>minimum: minimum in macrostate range (default: 0).</p></li>
-<li><p>maximum: maximum in macrostate range (default: -1).</p></li>
-<li><p>num: number of windows (default: -1).</p></li>
-<li><p>num_from_omp: obtain num from OMP threads (default: false).</p></li>
-<li><p>overlap: number of macrostate overlaps between windows (default: 1).</p></li>
-<li><p>min_size: minimum size of each window (default: 1). </p></li>
-</ul>
-</p>
-</div>
 </dd></dl>
 
 </section>
@@ -278,7 +278,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="WangLandau.html" class="btn btn-neutral float-left" title="WangLandau" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="MacrostatePosition.html" class="btn btn-neutral float-left" title="MacrostatePosition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="WindowCustom.html" class="btn btn-neutral float-right" title="WindowCustom" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

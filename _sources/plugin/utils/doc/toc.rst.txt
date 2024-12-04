@@ -12,8 +12,8 @@
    io
    ProgressReport
    Timer
-   utils
    Checkpoint
+   TimerRDTSC
+   utils
    serialize
    serialize_extra
-   TimerRDTSC

@@ -1,20 +1,20 @@
 
 .. toctree::
 
-   Bias
-   CollectionMatrix
    LnProbability
    Macrostate
-   Ensemble
    MacrostateEnergy
-   MacrostateNumParticles
    MacrostatePosition
-   TransitionMatrix
-   WangLandau
    Window
    WindowCustom
+   Bias
+   TransitionMatrix
+   WangLandau
    WindowExponential
    WLTM
+   MacrostateNumParticles
+   CollectionMatrix
+   Ensemble
    FlatHistogram
-   Clones
    CollectionMatrixSplice
+   Clones

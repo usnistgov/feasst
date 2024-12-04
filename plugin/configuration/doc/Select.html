@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Select &mdash; FEASST v0.25.4 documentation</title>
+  <title>Select &mdash; FEASST 0.25.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=8f869700"></script>
+        <script src="../../../_static/documentation_options.js?v=80d49aaf"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -28,7 +28,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Site" href="Site.html" />
-    <link rel="prev" title="Group" href="Group.html" />
+    <link rel="prev" title="Domain" href="Domain.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -55,7 +55,7 @@
             FEASST
           </a>
               <div class="version">
-                v0.25.4
+                0.25.5
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -69,13 +69,17 @@
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Configuration</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Properties.html">Properties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Bond.html">Bond</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bond.html">Bond</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PrinterXYZ.html">PrinterXYZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Select</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst6SelectE"><code class="docutils literal notranslate"><span class="pre">Select</span></code></a></li>
 </ul>
@@ -84,10 +88,6 @@
 <li class="toctree-l3"><a class="reference internal" href="Particle.html">Particle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileParticle.html">FileParticle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
-<li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PrinterXYZ.html">PrinterXYZ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -212,34 +212,6 @@
 <span class="target" id="classfeasst_1_1Select"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Select</span></span></span><a class="headerlink" href="#_CPPv4N6feasst6SelectE" title="Link to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="Select_arguments.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> a subset of particles and sites by storing their respective indices. For optimization, all input lists of indices are assumed to be sorted. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-checks">Checks</p>
-<p>Consistency checks and tests. </p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Select5checkEv">
-<span class="target" id="classfeasst_1_1Select_1a63969785f797698a597be3195ac1eadd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Select5checkEv" title="Link to this definition"></a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check_arguments.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> the size of member vectors. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Select8is_equalERK6Select">
-<span class="target" id="classfeasst_1_1Select_1a132d4e77b91f20fa8326fb29e85d67ed"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_equal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Select8is_equalERK6Select" title="Link to this definition"></a><br /></dt>
-<dd><p>Return true if the selections are equivalent. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Select15random_particleEP6Random">
-<span class="target" id="classfeasst_1_1Select_1a4587e5f0ddadaf2b84b4c52650ffa410"></span><a class="reference internal" href="#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">random_particle</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Select15random_particleEP6Random" title="Link to this definition"></a><br /></dt>
-<dd><p>Return the selection of a particle chosen randomly from current selection. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Select3strEKb">
-<span class="target" id="classfeasst_1_1Select_1a752e747e166f0114c7e75c649ec7261a"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Select3strEKb" title="Link to this definition"></a><br /></dt>
-<dd><p>Print the selection. </p>
-</dd></dl>
-
-</div>
-<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-indices">Indices</p>
 <p>Add, remove or access the indices of sites and particles. </p>
 <dl class="cpp function">
@@ -281,7 +253,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6Select12remove_sitesEKiKNSt6vectorIiEE">
 <span class="target" id="classfeasst_1_1Select_1a750b33fb0766319ec08bb0ddb2feb4bf"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_sites</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_indices</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Select12remove_sitesEKiKNSt6vectorIiEE" title="Link to this definition"></a><br /></dt>
-<dd><p>Remove sites by configuration-based particle and site index. </p>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Remove_arguments.html#classfeasst_1_1Remove"><span class="std std-ref">Remove</span></a> sites by configuration-based particle and site index. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -327,43 +299,43 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6Select6removeERK6Select">
 <span class="target" id="classfeasst_1_1Select_1a939ba100c9decf1e369c36220148df35"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Select6removeERK6Select" title="Link to this definition"></a><br /></dt>
-<dd><p>Remove input selection from current. </p>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Remove_arguments.html#classfeasst_1_1Remove"><span class="std std-ref">Remove</span></a> input selection from current. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6Select20remove_last_particleEv">
 <span class="target" id="classfeasst_1_1Select_1a789cea3a4a6a88474d96a23e2fba3281"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_last_particle</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Select20remove_last_particleEv" title="Link to this definition"></a><br /></dt>
-<dd><p>Remove the last particle. </p>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Remove_arguments.html#classfeasst_1_1Remove"><span class="std std-ref">Remove</span></a> the last particle. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6Select16remove_last_siteEv">
 <span class="target" id="classfeasst_1_1Select_1aeb302eb249ced07d510b49eab27651d6"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_last_site</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Select16remove_last_siteEv" title="Link to this definition"></a><br /></dt>
-<dd><p>Remove the last site. </p>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Remove_arguments.html#classfeasst_1_1Remove"><span class="std std-ref">Remove</span></a> the last site. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6Select17remove_last_sitesEKi">
 <span class="target" id="classfeasst_1_1Select_1aeccc5c4371978aaf675b62b1fdeb7a86"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_last_sites</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Select17remove_last_sitesEKi" title="Link to this definition"></a><br /></dt>
-<dd><p>Remove the last num sites. </p>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Remove_arguments.html#classfeasst_1_1Remove"><span class="std std-ref">Remove</span></a> the last num sites. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6Select17remove_first_siteEv">
 <span class="target" id="classfeasst_1_1Select_1a29720e4416910509325c012bfc4acd6d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_first_site</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Select17remove_first_siteEv" title="Link to this definition"></a><br /></dt>
-<dd><p>Remove the first site. </p>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Remove_arguments.html#classfeasst_1_1Remove"><span class="std std-ref">Remove</span></a> the first site. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6Select18remove_first_sitesEKi">
 <span class="target" id="classfeasst_1_1Select_1ad1407047845ebd7c5ab9069db9c3f1c9"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_first_sites</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Select18remove_first_sitesEKi" title="Link to this definition"></a><br /></dt>
-<dd><p>Remove the first num sites. </p>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Remove_arguments.html#classfeasst_1_1Remove"><span class="std std-ref">Remove</span></a> the first num sites. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6Select15remove_particleEKi">
 <span class="target" id="classfeasst_1_1Select_1a6080216b88abe78e6a7b03d0568397d0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_particle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Select15remove_particleEKi" title="Link to this definition"></a><br /></dt>
-<dd><p>Remove particle by index. </p>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Remove_arguments.html#classfeasst_1_1Remove"><span class="std std-ref">Remove</span></a> particle by index. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -573,6 +545,37 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-euler">Euler</p>
 <p>Orientation </p>
 </div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-checks">Checks</p>
+<p>Consistency checks and tests. </p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Select5checkEv">
+<span class="target" id="classfeasst_1_1Select_1a63969785f797698a597be3195ac1eadd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Select5checkEv" title="Link to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check_arguments.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> the size of member vectors. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Select8is_equalERK6Select">
+<span class="target" id="classfeasst_1_1Select_1a132d4e77b91f20fa8326fb29e85d67ed"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_equal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">select</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Select8is_equalERK6Select" title="Link to this definition"></a><br /></dt>
+<dd><p>Return true if the selections are equivalent. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6Select15random_particleEP6Random">
+<span class="target" id="classfeasst_1_1Select_1a4587e5f0ddadaf2b84b4c52650ffa410"></span><a class="reference internal" href="#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">random_particle</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Select15random_particleEP6Random" title="Link to this definition"></a><br /></dt>
+<dd><p>Return the selection of a particle chosen randomly from current selection. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Select3strEKb">
+<span class="target" id="classfeasst_1_1Select_1a752e747e166f0114c7e75c649ec7261a"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Select3strEKb" title="Link to this definition"></a><br /></dt>
+<dd><p>Print the selection. </p>
+</dd></dl>
+
+</div>
 </dd></dl>
 
 </section>
@@ -581,7 +584,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Group.html" class="btn btn-neutral float-left" title="Group" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Domain.html" class="btn btn-neutral float-left" title="Domain" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="Site.html" class="btn btn-neutral float-right" title="Site" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
