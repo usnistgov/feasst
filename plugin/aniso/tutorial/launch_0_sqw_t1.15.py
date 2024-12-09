@@ -155,8 +155,12 @@ def post_process(params):
     assert np.abs(params['beta']*params['mu'] + rw + 3.194) < 1e-2
     #lnpi.plot(show=True)
     vap, liq = lnpi.split()
-    assert np.abs(vap.average_macrostate()/params['cubic_side_length']**3 - 9.723E-02) < 1e-3
-    assert np.abs(liq.average_macrostate()/params['cubic_side_length']**3 - 5.384E-01) < 1e-3
+    rhov = vap.average_macrostate()/params['cubic_side_length']**3
+    print('rhov', rhov)
+    assert np.abs(rhov - 9.723E-02) < 1e-3
+    rhol = liq.average_macrostate()/params['cubic_side_length']**3
+    print('rhol', rhol)
+    assert np.abs(rhol - 5.384E-01) < 1e-3
 
 if __name__ == '__main__':
     fstio.run_simulations(params=PARAMS,

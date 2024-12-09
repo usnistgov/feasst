@@ -389,5 +389,5 @@ To Do List
 * In v0.26, Remove ConvertToRefPotential, ProfileTrials, RemoveModify, RemoveAnalyze, RemoveTrial, Run::until_criteria_complete, Criteria/Stepper::iteration
 * Have the tests override hours checkpoint , etc so that users don't have bad values
 * Maybe make some kind of class that factories out the creation of analyze and modify (e.g., all using the same trials_per_iteration, file name prefixes, etc)
-* CopyFollowingLines replace_with_index [box], then use file names like {prefix}[box]
 * Remove CollectionMatrixSplice from tutorials?
+* Enable DCCB with Gibbs (transfer issue, or all cb ?)

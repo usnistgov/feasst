@@ -30,18 +30,9 @@ std::string Log::header(const MonteCarlo& mc) const {
   const System& system = mc.system();
   std::stringstream ss;
   ss << system.status_header();
-  ss << mc.criteria().status_header(system);
-  if (include_bonds_) {
-    std::string append = "";
-    for (int iconf = 0; iconf < system.num_configurations(); ++iconf) {
-      if (system.num_configurations() > 1) {
-        append = "_config" + str(iconf);
-      }
-      ss << ",BondTwoBody" << append <<
-            ",BondThreeBody" << append <<
-            ",BondFourBody" << append;
-    }
-  }
+  ss << ",";
+  ss << mc.criteria().status_header(system, include_bonds_);
+  ss << ",";
   // print number of trials here instead of TrialFactory header because
   // multiple factories makes it redundant.
   ss << ",trial"
@@ -56,21 +47,9 @@ std::string Log::write(const MonteCarlo& mc) {
   // ensure the following order matches the header from initialization.
   std::stringstream ss;
   ss << system.status();
-  ss << mc.criteria().status(max_precision_);
-  if (include_bonds_) {
-    for (int iconf = 0; iconf < system.num_configurations(); ++iconf) {
-      bond_visitor_.compute_all(system.configuration());
-      if (max_precision_) {
-        ss << "," << MAX_PRECISION << bond_visitor_.energy_two_body()
-           << "," << MAX_PRECISION << bond_visitor_.energy_three_body()
-           << "," << MAX_PRECISION << bond_visitor_.energy_four_body();
-      } else {
-        ss << "," << bond_visitor_.energy_two_body()
-           << "," << bond_visitor_.energy_three_body()
-           << "," << bond_visitor_.energy_four_body();
-      }
-    }
-  }
+  ss << ",";
+  ss << mc.criteria().status(system, max_precision_, include_bonds_, &bond_visitor_);
+  ss << ",";
   ss << "," << trial_factory.num_attempts()
      << trial_factory.status()
      << std::endl;

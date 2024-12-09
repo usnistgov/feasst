@@ -23,3 +23,8 @@ Input a text file to the compiled executable.
 .. code-block:: bash
 
     $HOME/feasst-@FEASST_VERSION@/build/bin/fst < $HOME/feasst-@FEASST_VERSION@/tutorial/example.txt
+
+The following text input file is explained in detail in the first :doc:`tutorial <tutorial/tutorial>`.
+
+.. literalinclude:: tutorial/example.txt
+

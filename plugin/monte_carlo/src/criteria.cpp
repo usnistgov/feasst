@@ -8,6 +8,7 @@
 #include "system/include/model.h"
 #include "system/include/visit_model_inner.h"
 #include "system/include/system.h"
+#include "system/include/bond_visitor.h"
 #include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/constraint.h"
@@ -69,7 +70,8 @@ void Criteria::update_current_energy(const Acceptance& acceptance) {
   }
 }
 
-std::string Criteria::status_header(const System& system) const {
+std::string Criteria::status_header(const System& system,
+    const bool include_bonds) const {
   std::stringstream ss;
   if (num_states() > 1) {
     ss << ",state";
@@ -88,11 +90,21 @@ std::string Criteria::status_header(const System& system) const {
       }
       ss << "," << name << append;
     }
+    if (include_bonds) {
+      std::string append = "";
+      if (system.num_configurations() > 1) {
+        append = "_config" + str(iconf);
+      }
+      ss << ",BondTwoBody" << append <<
+            ",BondThreeBody" << append <<
+            ",BondFourBody" << append;
+    }
   }
   return ss.str();
 }
 
-std::string Criteria::status(const bool max_precision) const {
+std::string Criteria::status(const System& system, const bool max_precision,
+    const bool include_bonds, BondVisitor * visitor) const {
   std::stringstream ss;
   if (max_precision) {
     ss << MAX_PRECISION;
@@ -105,6 +117,18 @@ std::string Criteria::status(const bool max_precision) const {
     ss << "," << current_energy(iconf);
     for (const double potential : current_energy_profile(iconf)) {
       ss << "," << potential;
+    }
+    if (include_bonds) {
+      visitor->compute_all(system.configuration(iconf));
+      if (max_precision) {
+        ss << "," << MAX_PRECISION << visitor->energy_two_body()
+           << "," << MAX_PRECISION << visitor->energy_three_body()
+           << "," << MAX_PRECISION << visitor->energy_four_body();
+      } else {
+        ss << "," << visitor->energy_two_body()
+           << "," << visitor->energy_three_body()
+           << "," << visitor->energy_four_body();
+      }
     }
   }
   return ss.str();

@@ -12,6 +12,7 @@ namespace feasst {
 
 class Acceptance;
 class Bias;
+class BondVisitor;
 class Constraint;
 class FlatHistogram;
 class Macrostate;
@@ -90,10 +91,12 @@ class Criteria {
   void update_current_energy(const Acceptance& acceptance);
 
   /// Return the header of the status for periodic output.
-  std::string status_header(const System& system) const;
+  std::string status_header(const System& system,
+                            const bool include_bonds) const;
 
   /// Return the brief status for periodic output.
-  std::string status(const bool max_precision) const;
+  std::string status(const System& system, const bool max_precision,
+    const bool include_bonds, BondVisitor * visitor) const;
 
   /// Return a human-readable output of all data (not as brief as status).
   virtual std::string write() const;

@@ -6,14 +6,6 @@ Overview
 
 .. include:: build/build.rst
 
-Example input text file
-===============================================
-
-.. literalinclude:: tutorial/example.txt
-
-This text input file is explained in detail in the first :doc:`tutorial <tutorial/tutorial>`.
-
-
 How to learn more
 ===============================================
 

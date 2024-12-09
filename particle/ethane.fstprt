@@ -10,7 +10,8 @@
 Units
 
 length Angstrom
-energy K
+energy kJ/mol
+charge elementary
 
 Site Labels
 
@@ -18,7 +19,7 @@ Site Labels
 
 Site Properties
 
-0 sigma 3.75 epsilon 98 cutoff 14 cutoff_outer 1.54
+0 sigma 3.75 epsilon 0.8148173365790174 cutoff 14 cutoff_outer 1.54
 
 Sites
 
