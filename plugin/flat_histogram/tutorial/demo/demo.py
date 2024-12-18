@@ -2,7 +2,6 @@ import sys
 import subprocess
 import argparse
 import random
-import unittest
 
 # define parameters of a pure component NVT MC Lennard-Jones simulation
 params = {
@@ -87,61 +86,60 @@ parser.add_argument('--task', type=int, default=0, help="input by slurm schedule
 args = parser.parse_args()
 
 # after the simulation is complete, perform some tests
-class TestFlatHistogramLJ(unittest.TestCase):
-    def test(self):
-        # analyze grand canonical ensemble average number of particles
-        import numpy as np
-        import pandas as pd
-        import matplotlib.pyplot as plt
-        from pyfeasst import macrostate_distribution
+def test():
+    # analyze grand canonical ensemble average number of particles
+    import numpy as np
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    from pyfeasst import macrostate_distribution
 #        dists = macrostate_distribution.read_appended('lj_crit00.txt', num_states=params['max_particles']+1)
 #        print(dists[0][0].ln_prob())
-        with open('lj_crit00.txt', 'r') as file1:
-            lines = file1.readlines()
-        lines_per_frame = params['max_particles']+4
-        print('lines_per_frame', lines_per_frame)
-        frames = int(round(len(lines)/lines_per_frame))
-        print('len', len(lines))
-        print('frames', frames)
-        num = pd.read_csv('lj00.txt')
-        skip = 1
-        for frame in range(1, frames, skip):
-            print('frame', frame)
-            start = lines_per_frame*frame
-            end = lines_per_frame*(frame+1)
-            tmpfile = 'ljtmp'+str(frame)
-            with open(tmpfile, 'w') as file1:
-                for line in lines[start:end]:
-                    file1.write(line)
-            lnpi = macrostate_distribution.MacrostateDistribution(file_name=tmpfile)
-            lnpi.reweight(-1.0743260638585548, inplace=True)
-            #if frame == frames - 1:
-                #lnpi.reweight(-1, inplace=True)
-                #print(lnpi.equilibrium())
-            fac = (np.pi/6)/params['cubic_side_length']**3
-            volfrac = lnpi.macrostates()*fac
-            prob = np.exp(lnpi.ln_prob())
-            fig, ax = plt.subplots()
-            ax.scatter(volfrac, prob)
-            #print('num', num, num['p0'])
-            ax.scatter(num['num_particles_of_type0'][frame]*fac, 0.001, color='red')
-            im = plt.imread('tmp/untitled.'+str("{:05d}".format(frame))+'.ppm')
-            plt.xlabel('Volume Fraction', fontsize=20)
-            plt.ylabel('Probability', fontsize=20)
-            #plt.ylim([-12, -2])
-            plt.ylim([0, 0.065])
-            newax = fig.add_axes([0.17,0.5,0.5,0.5], anchor='NE', zorder=1)
-            newax.imshow(im)
-            newax.axis('off')
-            plt.savefig('lj'+str("{:04d}".format(frame))+'.png', bbox_inches='tight')
-            #plt.show()
-            plt.close()
-            plt.clf()
-            # ffmpeg -i lj%04d.png -c:v libx264 -crf 23 -profile:v baseline -level 3.0 -pix_fmt yuv420p -c:a aac -ac 2 -b:a 128k -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" -movflags faststart output.mp4
-            # ffmpeg -an -i lj%04d.png -vcodec mpeg1video -r 24 -qscale:v 10 -vframes 500 lnpi.mpg
-            # ffmpeg -an -i lj%04d.png -vcodec libx264 -pix_fmt yuv420p -r 24 -qscale:v 10 -vframes 500 lnpi.mpg
-            # not this#ffmpeg -an -i /home/user/feasst/plugin/flat_histogram/tutorial/demo/tmp/untitled.%05d.ppm -vcodec mpeg1video -r 24 -vframes 2967 /home/user/feasst/plugin/flat_histogram/tutorial/demo/tmp/untitled.mpg
-            # convert old: ffmpeg -i gca.mpg -c:v libx264 -crf 23 -profile:v baseline -level 3.0 -pix_fmt yuv420p -c:a aac -ac 2 -b:a 128k -movflags faststart -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" gca2.mp4
+    with open('lj_crit00.txt', 'r') as file1:
+        lines = file1.readlines()
+    lines_per_frame = params['max_particles']+4
+    print('lines_per_frame', lines_per_frame)
+    frames = int(round(len(lines)/lines_per_frame))
+    print('len', len(lines))
+    print('frames', frames)
+    num = pd.read_csv('lj00.txt')
+    skip = 1
+    for frame in range(1, frames, skip):
+        print('frame', frame)
+        start = lines_per_frame*frame
+        end = lines_per_frame*(frame+1)
+        tmpfile = 'ljtmp'+str(frame)
+        with open(tmpfile, 'w') as file1:
+            for line in lines[start:end]:
+                file1.write(line)
+        lnpi = macrostate_distribution.MacrostateDistribution(file_name=tmpfile)
+        lnpi.reweight(-1.0743260638585548, inplace=True)
+        #if frame == frames - 1:
+            #lnpi.reweight(-1, inplace=True)
+            #print(lnpi.equilibrium())
+        fac = (np.pi/6)/params['cubic_side_length']**3
+        volfrac = lnpi.macrostates()*fac
+        prob = np.exp(lnpi.ln_prob())
+        fig, ax = plt.subplots()
+        ax.scatter(volfrac, prob)
+        #print('num', num, num['p0'])
+        ax.scatter(num['num_particles_of_type0'][frame]*fac, 0.001, color='red')
+        im = plt.imread('tmp/untitled.'+str("{:05d}".format(frame))+'.ppm')
+        plt.xlabel('Volume Fraction', fontsize=20)
+        plt.ylabel('Probability', fontsize=20)
+        #plt.ylim([-12, -2])
+        plt.ylim([0, 0.065])
+        newax = fig.add_axes([0.17,0.5,0.5,0.5], anchor='NE', zorder=1)
+        newax.imshow(im)
+        newax.axis('off')
+        plt.savefig('lj'+str("{:04d}".format(frame))+'.png', bbox_inches='tight')
+        #plt.show()
+        plt.close()
+        plt.clf()
+        # ffmpeg -i lj%04d.png -c:v libx264 -crf 23 -profile:v baseline -level 3.0 -pix_fmt yuv420p -c:a aac -ac 2 -b:a 128k -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" -movflags faststart output.mp4
+        # ffmpeg -an -i lj%04d.png -vcodec mpeg1video -r 24 -qscale:v 10 -vframes 500 lnpi.mpg
+        # ffmpeg -an -i lj%04d.png -vcodec libx264 -pix_fmt yuv420p -r 24 -qscale:v 10 -vframes 500 lnpi.mpg
+        # not this#ffmpeg -an -i /home/user/feasst/plugin/flat_histogram/tutorial/demo/tmp/untitled.%05d.ppm -vcodec mpeg1video -r 24 -vframes 2967 /home/user/feasst/plugin/flat_histogram/tutorial/demo/tmp/untitled.mpg
+        # convert old: ffmpeg -i gca.mpg -c:v libx264 -crf 23 -profile:v baseline -level 3.0 -pix_fmt yuv420p -c:a aac -ac 2 -b:a 128k -movflags faststart -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" gca2.mp4
 
 # run the simulation and, if complete, analyze.
 def run():
@@ -152,7 +150,7 @@ def run():
     else:
         syscode = subprocess.call("../../../build/bin/rst lj_checkpoint.fst", shell=True, executable='/bin/bash')
     if syscode == 0:
-        unittest.main(argv=[''], verbosity=2, exit=False)
+        test()
     return syscode
 
 if __name__ == "__main__":
@@ -161,6 +159,6 @@ if __name__ == "__main__":
         if syscode != 0:
             sys.exit(1)
     if args.run_type == 2:
-        unittest.main(argv=[''], verbosity=2, exit=False)
+        test()
     else:
         assert False  # unrecognized run_type

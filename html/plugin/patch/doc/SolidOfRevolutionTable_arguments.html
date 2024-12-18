@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SolidOfRevolutionTable &mdash; FEASST 0.25.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=b72c10c5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+
+	<!-- frame blocking -->
+	<script type="text/javascript">
+		if (top !=self) {
+			top.location=self.location;
+		}
+	</script>
+
+	<!-- NIST header and footer -->
+	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
+          </a>
+              <div class="version">
+                0.25.6
+              </div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../OVERVIEW.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">C++ Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CITATION.html">Citation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">FEASST</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <header class="nist-header" id="nist-header" role="banner">
+
+  <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
+    <svg aria-hidden="true" class="nist-header__logo-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32">
+      <path d="M20.911 5.375l-9.482 9.482 9.482 9.482c0.446 0.446 0.446 1.161 0 1.607l-2.964 2.964c-0.446 0.446-1.161 0.446-1.607 0l-13.25-13.25c-0.446-0.446-0.446-1.161 0-1.607l13.25-13.25c0.446-0.446 1.161-0.446 1.607 0l2.964 2.964c0.446 0.446 0.446 1.161 0 1.607z"></path>
+    </svg>
+    <svg class="nist-header__logo-image" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-237 385.7 109.7 29.3">
+      <title>National Institute of Standards and Technology</title>
+      <g>
+        <path class="st0" d="M-231,415h-6v-23.1c0,0,0-4.4,4.4-5.8c4-1.3,6.6,1.3,6.6,1.3l19.7,21.3c1,0.6,1.4,0,1.4-0.6v-22h6.1V409
+          c0,1.9-1.6,4.4-4,5.3c-2.4,0.9-4.9,0.9-7.9-1.7l-18.5-20c-0.5-0.5-1.8-0.6-1.8,0.4L-231,415L-231,415z"/>
+        <path class="st0" d="M-195,386.1h6.1v20.7c0,2.2,1.9,2.2,3.6,2.2h26.8c1.1,0,2.4-1.3,2.4-2.7c0-1.4-1.3-2.8-2.5-2.8H-176
+          c-3,0.1-9.2-2.7-9.2-8.5c0-7.1,5.9-8.8,8.6-9h49.4v6.1h-12.3V415h-6v-22.9h-30.2c-2.9-0.2-4.9,4.7-0.2,5.4h18.6
+          c2.8,0,7.4,2.4,7.5,8.4c0,6.1-3.6,9-7.5,9H-185c-4.5,0-6.2-1.1-7.8-2.5c-1.5-1.5-1.7-2.3-2.2-5.3L-195,386.1
+          C-194.9,386.1-195,386.1-195,386.1z"/>
+      </g>
+    </svg>
+  </a>
+
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>SolidOfRevolutionTable</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="solidofrevolutiontable">
+<h1>SolidOfRevolutionTable<a class="headerlink" href="#solidofrevolutiontable" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst22SolidOfRevolutionTableE">
+<span class="target" id="classfeasst_1_1SolidOfRevolutionTable"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SolidOfRevolutionTable</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/VisitModelInner.html#_CPPv4N6feasst15VisitModelInnerE" title="feasst::VisitModelInner"><span class="n"><span class="pre">VisitModelInner</span></span></a><br /></dt>
+<dd><p><a class="reference internal" href="../../system/doc/Model_arguments.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a> solids of revolution using a tabular potential that is precomputed and read from a file. An additional assumption is that the solids of revolution are not only rotationally symmetric about the axis of revolution, but also symmetric about the plane perpendicular to the axis of revolution that passes through the center of the particle. This class is implemented in a similar fashion as VisitModelInnerAniso, except that directors are used for orientations and not euler angles.</p>
+<p>The relative position and orientation of two solids of revolution is given by given by three orientational degrees of freedom and one radial distance, r, between the centers of the two bodies.</p>
+<p>The three orientational degrees of freedom (i.e., three angles) are defined by two unit vectors which represent the orientation of the axis of symmetry of each shape (e.g., i2 and j2), and the vector connecting the centers of the two shapes, (rij = ri - rj). <div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">i2</span>            <span class="n">obtain</span> <span class="n">dihedral</span>    <span class="n">i2</span>
+<span class="o">/</span>  <span class="n">thetai</span>          <span class="n">project</span>        <span class="o">|</span>
+</pre></div>
+</div>
+ i &lt;&amp;#8212; rij -&amp;#8212; j &gt;&gt;&gt;&gt;&gt; ij -psi thetaj / on rij \ j2 j2</p>
+<p>This implementation computes -cos(psi), where normally you would expect it to be psi. The tabular potential uses the -cos(psi) convention(cos(pi-a)=-cos(a)), and the nj=j2cross(-uij) leads to -cos(psi). Use the right hand rule to see that psi was computed with the negative. See: <a class="reference external" href="http://math.stackexchange.com/questions/47059/how-do-i-calculate-a-dihedral-angle-given-cartesian-coordinates">http://math.stackexchange.com/questions/47059/how-do-i-calculate-a-dihedral-angle-given-cartesian-coordinates</a></p>
+<p>r = |rij| uij = rij/r cos thetai = i2 .dot. (-uij) cos thetaj = j2 .dot. ( uij) ni = i2 .cross. uij nj = j2 .cross. (-uij) cos psi = ni .dot. nj</p>
+<p>Bounds: theta(i,j) [0, pi/2] -&gt; symmetry, if theta &gt; pi/2, theta=pi-theta psi [0, pi] -&gt; symmetry, if psi &gt; pi, psi = 2pi-psi costheta(i,j) ~ [0, 1] cospsi ~ [-1, 1]</p>
+<p>The radial distance, r, is transformed into z which varies from z=0 at the hard contact distance, r_h, to z=1 at the cutoff, r_c. A stretching parameter, <span class="math notranslate nohighlight">\(\gamma\)</span>, increases the resolution at shorter distances when negative.</p>
+<p><span class="math notranslate nohighlight">\(z=[(r^\gamma - r_h^\gamma)/(r_c^\gamma - r_h^\gamma)]\)</span>.</p>
+<p>The format of the tabular potential stored in a file is as follows.</p>
+<p>The first line should be ‘site_types’ followed by the number of site types and then the identity of each of those site types in order of the tables given below. (e.g., “site_types n i” where n is the number of site types and each following number is the type of each anisotropic site.)</p>
+<p>There is a table for each unique pair of site types. For example, if the first line is as follows: “site_types 2 1 7” then the first table will be for interactions of site type 1 with site type 1 (i.e., 1-1), the second table will be for 1-7 interactions, and the third table will be for 7-7 interactions.</p>
+<p>For each pair of site types, i &lt;= j, a table is given by the following lines.</p>
+<p><ol class="arabic simple">
+<li><p>“num_orientations_per_half_pi [value]” is used to determine the resolution of all 5 orientational degrees of freedom.</p></li>
+<li><p>”gamma [value]” is the expononent for the definition of z. But, if gamma==0, then use a square well potential.</p></li>
+<li><p>”delta [value]” is the distance between the hard particle inner cutoff and the outer cutoff when the potential goes to zero (e.g., delta = r_c - r_h).</p></li>
+<li><p>”num_z [value]” is the number of energy values along the z parameter.</p></li>
+<li><p>”smoothing_distance [value]” is the distance to linearly interpolate the energy to zero. Specifically, r_c - smoothing_distance is the z=1 value. If smoothing_distance is &lt;= 0, then it is not used at all.</p></li>
+<li><p>The remaining lines are for each unique set of the three angles separated by spaces. The outer loop is cos(theta1), with range [0, pi/2]. The next loop is cos(theta2) in [0, 1], then cos(psi) in [-1, 0]. The number of lines should be (2k+1)(k+1)^2, where k=num_orientations_per_half_pi. Each line then reports the contact distance, r_h, followed by num_z values of the potential energy uniformly in the z range of [0, 1].</p></li>
+</ol>
+</p>
+<p>Coordinate axes and references:</p>
+<p>z | |__ x the reference is for the axis of rotation to point along the z-axis / which is how one defines the rotation matrices for the theta_i/j and psi y</p>
+<p>In order to obtain the orientation given thetai, thetaj, psi and d: -place two particles on the origin with axes of rotation along the z-axis -rotate the first particle by an angle phi = pi/2 - thetai about the y axis (toward the x-axis) -rotate the second particle by an angle phi = pi/2- thetaj about the y axis (toward the negative x-axis) -rotate the second particle by an angle psi about the x-axis -translate the second particle by a distance, d along the x-axis</p>
+<p>If using superballs, only the z-exponent, a3 can be different from a1=a2. In this case, the reference position has the axis of revolution along the z-axis. Therefore, when thetai = PI/2, the particle is in the ‘reference’ orientation. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>table_file: table file with format described above.</p></li>
+<li><p>ignore_energy: do not read the energy table (default: false). </p></li>
+</ul>
+</p>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+
+
+  <br></br>
+  <footer class="nist-footer">
+  <div class="nist-footer__inner">
+    <div class="nist-footer__menu" role="navigation">
+      <ul>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy">Privacy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#privpolicy">Privacy Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#secnot">Security Notice</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#accesstate">Accessibility Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy">NIST Privacy Program</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/disclaimer">Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/office-director/freedom-information-act">FOIA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#cookie">Cookie Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity Summary</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/nist-information-quality-standards">NIST Information Quality Standards</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://business.usa.gov/">Business USA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.commerce.gov/">Commerce.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.healthcare.gov/">Healthcare.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.science.gov/">Science.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.usa.gov/">USA.gov</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="nist-footer__logo">
+    <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-footer__logo-link" rel="home">
+      <img src="https://pages.nist.gov/nist-header-footer/images/nist_logo_centered_rev.svg" alt="National Institute of Standards and Technology logo" />
+    </a>
+  </div>
+</footer>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-115121490-6');
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WN56CL762L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WN56CL762L');
+  </script>
+
+
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

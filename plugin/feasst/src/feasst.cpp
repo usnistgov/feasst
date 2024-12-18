@@ -204,8 +204,8 @@ void parse_restart(std::string line) {
   feasst::install_dir().
  */
 int main() {
-  std::cout << "# FEASST version: " << version() << std::endl;
   std::cout << "# Usage: ./fst < file.txt" << std::endl;
+  std::cout << "FEASST version " << version() << std::endl;
   std::string line;
   std::getline(std::cin, line);
 
@@ -215,6 +215,18 @@ int main() {
     std::getline(std::cin, line);
     ++num_lines;
     ASSERT(num_lines < 1e6, "Improperly formated input");
+  }
+
+  // Check for FEASST arguments and check version
+  if (line.substr(0, 6) == "FEASST") {
+    argtype variables;
+    auto args = parse_line(line, NULL, NULL);
+    const std::string read_ver = str("version", &args.second);
+    if (read_ver != version()) {
+      WARN("Version given in text file: " << read_ver << " is not the same " <<
+           "as the executable version: " << version());
+    }
+    std::getline(std::cin, line);
   }
 
   if (line == "MonteCarlo") {

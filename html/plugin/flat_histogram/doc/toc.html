@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; FEASST 0.25.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=b72c10c5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="LnProbability" href="LnProbability.html" />
+    <link rel="prev" title="Flat histogram" href="../README.html" />
+
+	<!-- frame blocking -->
+	<script type="text/javascript">
+		if (top !=self) {
+			top.location=self.location;
+		}
+	</script>
+
+	<!-- NIST header and footer -->
+	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
+          </a>
+              <div class="version">
+                0.25.6
+              </div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../OVERVIEW.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">C++ Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CITATION.html">Citation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">FEASST</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <header class="nist-header" id="nist-header" role="banner">
+
+  <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
+    <svg aria-hidden="true" class="nist-header__logo-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32">
+      <path d="M20.911 5.375l-9.482 9.482 9.482 9.482c0.446 0.446 0.446 1.161 0 1.607l-2.964 2.964c-0.446 0.446-1.161 0.446-1.607 0l-13.25-13.25c-0.446-0.446-0.446-1.161 0-1.607l13.25-13.25c0.446-0.446 1.161-0.446 1.607 0l2.964 2.964c0.446 0.446 0.446 1.161 0 1.607z"></path>
+    </svg>
+    <svg class="nist-header__logo-image" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-237 385.7 109.7 29.3">
+      <title>National Institute of Standards and Technology</title>
+      <g>
+        <path class="st0" d="M-231,415h-6v-23.1c0,0,0-4.4,4.4-5.8c4-1.3,6.6,1.3,6.6,1.3l19.7,21.3c1,0.6,1.4,0,1.4-0.6v-22h6.1V409
+          c0,1.9-1.6,4.4-4,5.3c-2.4,0.9-4.9,0.9-7.9-1.7l-18.5-20c-0.5-0.5-1.8-0.6-1.8,0.4L-231,415L-231,415z"/>
+        <path class="st0" d="M-195,386.1h6.1v20.7c0,2.2,1.9,2.2,3.6,2.2h26.8c1.1,0,2.4-1.3,2.4-2.7c0-1.4-1.3-2.8-2.5-2.8H-176
+          c-3,0.1-9.2-2.7-9.2-8.5c0-7.1,5.9-8.8,8.6-9h49.4v6.1h-12.3V415h-6v-22.9h-30.2c-2.9-0.2-4.9,4.7-0.2,5.4h18.6
+          c2.8,0,7.4,2.4,7.5,8.4c0,6.1-3.6,9-7.5,9H-185c-4.5,0-6.2-1.1-7.8-2.5c-1.5-1.5-1.7-2.3-2.2-5.3L-195,386.1
+          C-194.9,386.1-195,386.1-195,386.1z"/>
+      </g>
+    </svg>
+  </a>
+
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../README.html">C++ Interface</a> &raquo;</li>
+        
+          <li><a href="../README.html">Flat histogram</a> &raquo;</li>
+        
+      <li>&lt;no title&gt;</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="LnProbability.html">LnProbability</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE"><code class="docutils literal notranslate"><span class="pre">LnProbability</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbability13LnProbabilityERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">LnProbability()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4NK6feasst13LnProbability5valueEKi"><code class="docutils literal notranslate"><span class="pre">value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4NK6feasst13LnProbability5deltaEKi"><code class="docutils literal notranslate"><span class="pre">delta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbability9set_valueEKiKd"><code class="docutils literal notranslate"><span class="pre">set_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbability3addEKiKd"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbability6resizeEKi"><code class="docutils literal notranslate"><span class="pre">resize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4NK6feasst13LnProbability6valuesEv"><code class="docutils literal notranslate"><span class="pre">values()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4NK6feasst13LnProbability12delta_valuesEv"><code class="docutils literal notranslate"><span class="pre">delta_values()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4NK6feasst13LnProbability4sizeEv"><code class="docutils literal notranslate"><span class="pre">size()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4NK6feasst13LnProbability15sum_probabilityEKiKi"><code class="docutils literal notranslate"><span class="pre">sum_probability()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4NK6feasst13LnProbability15sum_probabilityEv"><code class="docutils literal notranslate"><span class="pre">sum_probability()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbability9normalizeEv"><code class="docutils literal notranslate"><span class="pre">normalize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4NK6feasst13LnProbability6minimaEKi"><code class="docutils literal notranslate"><span class="pre">minima()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4NK6feasst13LnProbability21equilibrium_objectiveEKi"><code class="docutils literal notranslate"><span class="pre">equilibrium_objective()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4NK6feasst13LnProbability30equilibrium_objective_boundaryEi"><code class="docutils literal notranslate"><span class="pre">equilibrium_objective_boundary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LnProbability.html#_CPPv4NK6feasst13LnProbability6reduceEKiKi"><code class="docutils literal notranslate"><span class="pre">reduce()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Macrostate.html">Macrostate</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE"><code class="docutils literal notranslate"><span class="pre">Macrostate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10Macrostate10MacrostateERK9Histogram7argtype"><code class="docutils literal notranslate"><span class="pre">Macrostate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10Macrostate3setEK9Histogram"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Macrostate.html#_CPPv4NK6feasst10Macrostate9histogramEv"><code class="docutils literal notranslate"><span class="pre">histogram()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Macrostate.html#_CPPv4NK6feasst10Macrostate8soft_maxEv"><code class="docutils literal notranslate"><span class="pre">soft_max()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Macrostate.html#_CPPv4NK6feasst10Macrostate8soft_minEv"><code class="docutils literal notranslate"><span class="pre">soft_min()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Macrostate.html#_CPPv4NK6feasst10Macrostate29num_macrostates_in_soft_rangeEv"><code class="docutils literal notranslate"><span class="pre">num_macrostates_in_soft_range()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Macrostate.html#_CPPv4NK6feasst10Macrostate5valueERK6SystemRK8CriteriaRK10Acceptance"><code class="docutils literal notranslate"><span class="pre">value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Macrostate.html#_CPPv4NK6feasst10Macrostate3binERK6SystemRK8CriteriaRK10Acceptance"><code class="docutils literal notranslate"><span class="pre">bin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Macrostate.html#_CPPv4NK6feasst10Macrostate5valueEKi"><code class="docutils literal notranslate"><span class="pre">value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Macrostate.html#_CPPv4NK6feasst10Macrostate10is_allowedERK6SystemRK8CriteriaRK10Acceptance"><code class="docutils literal notranslate"><span class="pre">is_allowed()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="MacrostateEnergy.html">MacrostateEnergy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="MacrostateEnergy.html#_CPPv4N6feasst16MacrostateEnergyE"><code class="docutils literal notranslate"><span class="pre">MacrostateEnergy</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MacrostateEnergy.html#_CPPv4N6feasst16MacrostateEnergy16MacrostateEnergyERK9Histogram7argtype"><code class="docutils literal notranslate"><span class="pre">MacrostateEnergy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="MacrostateEnergy.html#_CPPv4NK6feasst16MacrostateEnergy5valueERK6SystemRK8CriteriaRK10Acceptance"><code class="docutils literal notranslate"><span class="pre">value()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="MacrostatePosition.html">MacrostatePosition</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="MacrostatePosition.html#_CPPv4N6feasst18MacrostatePositionE"><code class="docutils literal notranslate"><span class="pre">MacrostatePosition</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MacrostatePosition.html#_CPPv4N6feasst18MacrostatePosition18MacrostatePositionERK9Histogram7argtype"><code class="docutils literal notranslate"><span class="pre">MacrostatePosition()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="MacrostatePosition.html#_CPPv4NK6feasst18MacrostatePosition5valueERK6SystemRK8CriteriaRK10Acceptance"><code class="docutils literal notranslate"><span class="pre">value()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Window.html">Window</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Window.html#_CPPv4N6feasst6WindowE"><code class="docutils literal notranslate"><span class="pre">Window</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Window.html#_CPPv4NK6feasst6Window7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Window.html#_CPPv4NK6feasst6Window7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Window.html#_CPPv4NK6feasst6Window3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Window.html#_CPPv4NK6feasst6Window7overlapEv"><code class="docutils literal notranslate"><span class="pre">overlap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Window.html#_CPPv4NK6feasst6Window7segmentEv"><code class="docutils literal notranslate"><span class="pre">segment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Window.html#_CPPv4NK6feasst6Window10boundariesEv"><code class="docutils literal notranslate"><span class="pre">boundaries()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="WindowCustom.html">WindowCustom</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="WindowCustom.html#_CPPv4N6feasst12WindowCustomE"><code class="docutils literal notranslate"><span class="pre">WindowCustom</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="WindowCustom.html#_CPPv4N6feasst12WindowCustom12WindowCustomEKNSt6vectorIdEE7argtype"><code class="docutils literal notranslate"><span class="pre">WindowCustom()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WindowCustom.html#_CPPv4NK6feasst12WindowCustom7segmentEv"><code class="docutils literal notranslate"><span class="pre">segment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WindowCustom.html#_CPPv4NK6feasst12WindowCustom10boundariesEv"><code class="docutils literal notranslate"><span class="pre">boundaries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WindowCustom.html#_CPPv4NK6feasst12WindowCustom7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WindowCustom.html#_CPPv4NK6feasst12WindowCustom7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WindowCustom.html#_CPPv4NK6feasst12WindowCustom3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Bias.html">Bias</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE"><code class="docutils literal notranslate"><span class="pre">Bias</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Bias.html#_CPPv4NK6feasst4Bias7ln_biasEKiKi"><code class="docutils literal notranslate"><span class="pre">ln_bias()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bias.html#_CPPv4N6feasst4Bias6updateEKiKiKdKbKbRK10Macrostate"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bias.html#_CPPv4N6feasst4Bias17infrequent_updateERK10Macrostate"><code class="docutils literal notranslate"><span class="pre">infrequent_update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bias.html#_CPPv4NK6feasst4Bias7ln_probEv"><code class="docutils literal notranslate"><span class="pre">ln_prob()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bias.html#_CPPv4N6feasst4Bias11set_ln_probERK13LnProbability"><code class="docutils literal notranslate"><span class="pre">set_ln_prob()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bias.html#_CPPv4NK6feasst4Bias5phaseEv"><code class="docutils literal notranslate"><span class="pre">phase()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bias.html#_CPPv4N6feasst4Bias15increment_phaseEv"><code class="docutils literal notranslate"><span class="pre">increment_phase()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bias.html#_CPPv4NK6feasst4Bias18cycles_to_completeEv"><code class="docutils literal notranslate"><span class="pre">cycles_to_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bias.html#_CPPv4N6feasst4Bias22set_cycles_to_completeEKi"><code class="docutils literal notranslate"><span class="pre">set_cycles_to_complete()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrixE"><code class="docutils literal notranslate"><span class="pre">TransitionMatrix</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrix6updateEKiKiKdKbKbRK10Macrostate"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TransitionMatrix.html#_CPPv4NK6feasst16TransitionMatrix10min_sweepsEv"><code class="docutils literal notranslate"><span class="pre">min_sweeps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TransitionMatrix.html#_CPPv4NK6feasst16TransitionMatrix12reset_sweepsEv"><code class="docutils literal notranslate"><span class="pre">reset_sweeps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TransitionMatrix.html#_CPPv4NK6feasst16TransitionMatrix18cycles_to_completeEv"><code class="docutils literal notranslate"><span class="pre">cycles_to_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrix22set_cycles_to_completeEKi"><code class="docutils literal notranslate"><span class="pre">set_cycles_to_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TransitionMatrix.html#_CPPv4NK6feasst16TransitionMatrix7ln_probEv"><code class="docutils literal notranslate"><span class="pre">ln_prob()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrix11set_ln_probERK13LnProbability"><code class="docutils literal notranslate"><span class="pre">set_ln_prob()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrix17infrequent_updateERK10Macrostate"><code class="docutils literal notranslate"><span class="pre">infrequent_update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="WangLandau.html">WangLandau</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="WangLandau.html#_CPPv4N6feasst10WangLandauE"><code class="docutils literal notranslate"><span class="pre">WangLandau</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="WangLandau.html#_CPPv4N6feasst10WangLandau6updateEKiKiKdKbKbRK10Macrostate"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WangLandau.html#_CPPv4NK6feasst10WangLandau18cycles_to_completeEv"><code class="docutils literal notranslate"><span class="pre">cycles_to_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WangLandau.html#_CPPv4N6feasst10WangLandau22set_cycles_to_completeEKi"><code class="docutils literal notranslate"><span class="pre">set_cycles_to_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WangLandau.html#_CPPv4NK6feasst10WangLandau7ln_probEv"><code class="docutils literal notranslate"><span class="pre">ln_prob()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WangLandau.html#_CPPv4N6feasst10WangLandau17infrequent_updateERK10Macrostate"><code class="docutils literal notranslate"><span class="pre">infrequent_update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WangLandau.html#_CPPv4N6feasst10WangLandau11set_ln_probERK13LnProbability"><code class="docutils literal notranslate"><span class="pre">set_ln_prob()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="WindowExponential.html">WindowExponential</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="WindowExponential.html#_CPPv4N6feasst17WindowExponentialE"><code class="docutils literal notranslate"><span class="pre">WindowExponential</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="WindowExponential.html#_CPPv4NK6feasst17WindowExponential7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WindowExponential.html#_CPPv4NK6feasst17WindowExponential7segmentEv"><code class="docutils literal notranslate"><span class="pre">segment()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="WLTM.html">WLTM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="WLTM.html#_CPPv4N6feasst4WLTME"><code class="docutils literal notranslate"><span class="pre">WLTM</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="WLTM.html#_CPPv4N6feasst4WLTM6updateEKiKiKdKbKbRK10Macrostate"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WLTM.html#_CPPv4NK6feasst4WLTM18cycles_to_completeEv"><code class="docutils literal notranslate"><span class="pre">cycles_to_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WLTM.html#_CPPv4N6feasst4WLTM22set_cycles_to_completeEKi"><code class="docutils literal notranslate"><span class="pre">set_cycles_to_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WLTM.html#_CPPv4NK6feasst4WLTM7ln_probEv"><code class="docutils literal notranslate"><span class="pre">ln_prob()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WLTM.html#_CPPv4N6feasst4WLTM17infrequent_updateERK10Macrostate"><code class="docutils literal notranslate"><span class="pre">infrequent_update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="WLTM.html#_CPPv4N6feasst4WLTM11set_ln_probERK13LnProbability"><code class="docutils literal notranslate"><span class="pre">set_ln_prob()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="MacrostateNumParticles.html#_CPPv4N6feasst22MacrostateNumParticlesE"><code class="docutils literal notranslate"><span class="pre">MacrostateNumParticles</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MacrostateNumParticles.html#_CPPv4N6feasst22MacrostateNumParticles22MacrostateNumParticlesERK9Histogram7argtype"><code class="docutils literal notranslate"><span class="pre">MacrostateNumParticles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="MacrostateNumParticles.html#_CPPv4NK6feasst22MacrostateNumParticles5valueERK6SystemRK8CriteriaRK10Acceptance"><code class="docutils literal notranslate"><span class="pre">value()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CollectionMatrix.html">CollectionMatrix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CollectionMatrix.html#_CPPv4N6feasst16CollectionMatrixE"><code class="docutils literal notranslate"><span class="pre">CollectionMatrix</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrix.html#_CPPv4N6feasst16CollectionMatrix16CollectionMatrixERKNSt6vectorINSt6vectorI11AccumulatorEEEE"><code class="docutils literal notranslate"><span class="pre">CollectionMatrix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrix.html#_CPPv4N6feasst16CollectionMatrix16CollectionMatrixERKNSt6vectorINSt6vectorINSt6vectorI11AccumulatorEEEEEE"><code class="docutils literal notranslate"><span class="pre">CollectionMatrix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrix.html#_CPPv4N6feasst16CollectionMatrix9incrementEKiKiKd"><code class="docutils literal notranslate"><span class="pre">increment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrix.html#_CPPv4N6feasst16CollectionMatrix3setEKiRKNSt6vectorI11AccumulatorEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrix.html#_CPPv4NK6feasst16CollectionMatrix15compute_ln_probEP13LnProbabilityKi"><code class="docutils literal notranslate"><span class="pre">compute_ln_prob()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrix.html#_CPPv4NK6feasst16CollectionMatrix6matrixEv"><code class="docutils literal notranslate"><span class="pre">matrix()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Ensemble.html">Ensemble</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Ensemble.html#_CPPv4N6feasst8EnsembleE"><code class="docutils literal notranslate"><span class="pre">Ensemble</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4N6feasst8Ensemble8EnsembleERK9HistogramRK13LnProbabilityKd"><code class="docutils literal notranslate"><span class="pre">Ensemble()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4N6feasst8Ensemble8EnsembleERK13FlatHistogram"><code class="docutils literal notranslate"><span class="pre">Ensemble()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4N6feasst8Ensemble8EnsembleERK6Clones"><code class="docutils literal notranslate"><span class="pre">Ensemble()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4NK6feasst8Ensemble16ln_prob_originalEv"><code class="docutils literal notranslate"><span class="pre">ln_prob_original()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4NK6feasst8Ensemble7ln_probEv"><code class="docutils literal notranslate"><span class="pre">ln_prob()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4NK6feasst8Ensemble11macrostatesEv"><code class="docutils literal notranslate"><span class="pre">macrostates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4NK6feasst8Ensemble14phase_boundaryEKiPiPi"><code class="docutils literal notranslate"><span class="pre">phase_boundary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4NK6feasst8Ensemble17is_phase_boundaryEv"><code class="docutils literal notranslate"><span class="pre">is_phase_boundary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4NK6feasst8Ensemble18original_conjugateEv"><code class="docutils literal notranslate"><span class="pre">original_conjugate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4N6feasst8Ensemble8reweightEKd"><code class="docutils literal notranslate"><span class="pre">reweight()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4NK6feasst8Ensemble9conjugateEv"><code class="docutils literal notranslate"><span class="pre">conjugate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4NK6feasst8Ensemble7averageERKNSt6vectorIdEEKi"><code class="docutils literal notranslate"><span class="pre">average()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4NK6feasst8Ensemble18average_macrostateEKi"><code class="docutils literal notranslate"><span class="pre">average_macrostate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Ensemble.html#_CPPv4N6feasst22GrandCanonicalEnsembleE"><code class="docutils literal notranslate"><span class="pre">GrandCanonicalEnsemble</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4N6feasst22GrandCanonicalEnsemble22GrandCanonicalEnsembleERK9HistogramRK13LnProbabilityKd"><code class="docutils literal notranslate"><span class="pre">GrandCanonicalEnsemble()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4NK6feasst22GrandCanonicalEnsemble7beta_muEv"><code class="docutils literal notranslate"><span class="pre">beta_mu()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4NK6feasst22GrandCanonicalEnsemble6betaPVEKi"><code class="docutils literal notranslate"><span class="pre">betaPV()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Ensemble.html#_CPPv4N6feasst18ExtrapolateBetaGCEE"><code class="docutils literal notranslate"><span class="pre">ExtrapolateBetaGCE</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4N6feasst18ExtrapolateBetaGCE18ExtrapolateBetaGCEERK10MonteCarloRK13FlatHistogram7argtype"><code class="docutils literal notranslate"><span class="pre">ExtrapolateBetaGCE()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4N6feasst18ExtrapolateBetaGCE18ExtrapolateBetaGCEERK6Clones7argtype"><code class="docutils literal notranslate"><span class="pre">ExtrapolateBetaGCE()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ensemble.html#_CPPv4NK6feasst18ExtrapolateBetaGCE6energyEv"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="FlatHistogram.html#_CPPv4N6feasst13FlatHistogramE"><code class="docutils literal notranslate"><span class="pre">FlatHistogram</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEE"><code class="docutils literal notranslate"><span class="pre">FlatHistogram()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEENSt10shared_ptrI10ConstraintEE"><code class="docutils literal notranslate"><span class="pre">FlatHistogram()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram10macrostateEv"><code class="docutils literal notranslate"><span class="pre">macrostate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram4biasEv"><code class="docutils literal notranslate"><span class="pre">bias()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram18cycles_to_completeEv"><code class="docutils literal notranslate"><span class="pre">cycles_to_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4N6feasst13FlatHistogram22set_cycles_to_completeEKi"><code class="docutils literal notranslate"><span class="pre">set_cycles_to_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram10num_cyclesEKi"><code class="docutils literal notranslate"><span class="pre">num_cycles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram11is_completeEv"><code class="docutils literal notranslate"><span class="pre">is_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4N6feasst13FlatHistogram12set_completeEv"><code class="docutils literal notranslate"><span class="pre">set_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4N6feasst13FlatHistogram14before_attemptERK6System"><code class="docutils literal notranslate"><span class="pre">before_attempt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4N6feasst13FlatHistogram11is_acceptedERK6SystemP10AcceptanceP6Random"><code class="docutils literal notranslate"><span class="pre">is_accepted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram5writeEv"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram5phaseEv"><code class="docutils literal notranslate"><span class="pre">phase()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4N6feasst13FlatHistogram15increment_phaseEv"><code class="docutils literal notranslate"><span class="pre">increment_phase()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram5stateEv"><code class="docutils literal notranslate"><span class="pre">state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram10num_statesEv"><code class="docutils literal notranslate"><span class="pre">num_states()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4N6feasst13FlatHistogram11set_ln_probERK13LnProbability"><code class="docutils literal notranslate"><span class="pre">set_ln_prob()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4NK6feasst13FlatHistogram7ln_probEv"><code class="docutils literal notranslate"><span class="pre">ln_prob()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="FlatHistogram.html#_CPPv4N6feasst13FlatHistogram6updateEv"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CollectionMatrixSplice.html">CollectionMatrixSplice</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4N6feasst22CollectionMatrixSpliceE"><code class="docutils literal notranslate"><span class="pre">CollectionMatrixSplice</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4N6feasst22CollectionMatrixSplice3addENSt10shared_ptrI10MonteCarloEE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4N6feasst22CollectionMatrixSplice8set_sizeEKi"><code class="docutils literal notranslate"><span class="pre">set_size()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4N6feasst22CollectionMatrixSplice3setEKiNSt10shared_ptrI10MonteCarloEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4NK6feasst22CollectionMatrixSplice3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4NK6feasst22CollectionMatrixSplice5cloneEKi"><code class="docutils literal notranslate"><span class="pre">clone()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4N6feasst22CollectionMatrixSplice9get_cloneEKi"><code class="docutils literal notranslate"><span class="pre">get_clone()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4N6feasst22CollectionMatrixSplice10get_clonesEv"><code class="docutils literal notranslate"><span class="pre">get_clones()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4N6feasst22CollectionMatrixSplice3setENSt10shared_ptrI10CheckpointEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4NK6feasst22CollectionMatrixSplice14flat_histogramEKi"><code class="docutils literal notranslate"><span class="pre">flat_histogram()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4NK6feasst22CollectionMatrixSplice17collection_matrixEKi"><code class="docutils literal notranslate"><span class="pre">collection_matrix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4N6feasst22CollectionMatrixSplice13adjust_boundsEv"><code class="docutils literal notranslate"><span class="pre">adjust_bounds()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4N6feasst22CollectionMatrixSplice12write_boundsEKb"><code class="docutils literal notranslate"><span class="pre">write_bounds()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4NK6feasst22CollectionMatrixSplice16are_all_completeEv"><code class="docutils literal notranslate"><span class="pre">are_all_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4N6feasst22CollectionMatrixSplice3runEKd"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4N6feasst22CollectionMatrixSplice26run_until_all_are_completeEv"><code class="docutils literal notranslate"><span class="pre">run_until_all_are_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4NK6feasst22CollectionMatrixSplice17collection_matrixEv"><code class="docutils literal notranslate"><span class="pre">collection_matrix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4NK6feasst22CollectionMatrixSplice7ln_probEv"><code class="docutils literal notranslate"><span class="pre">ln_prob()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4NK6feasst22CollectionMatrixSplice9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4N6feasst22CollectionMatrixSplice22CollectionMatrixSpliceERNSt7istreamE"><code class="docutils literal notranslate"><span class="pre">CollectionMatrixSplice()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CollectionMatrixSplice.html#_CPPv4NK6feasst22CollectionMatrixSplice5writeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Clones.html">Clones</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Clones.html#_CPPv4N6feasst6ClonesE"><code class="docutils literal notranslate"><span class="pre">Clones</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4N6feasst6Clones3addENSt10shared_ptrI10MonteCarloEE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4NK6feasst6Clones3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4NK6feasst6Clones5cloneEKi"><code class="docutils literal notranslate"><span class="pre">clone()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4N6feasst6Clones9get_cloneEKi"><code class="docutils literal notranslate"><span class="pre">get_clone()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4N6feasst6Clones10get_clonesEv"><code class="docutils literal notranslate"><span class="pre">get_clones()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4N6feasst6Clones3setENSt10shared_ptrI10CheckpointEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4N6feasst6Clones10initializeE7argtype"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4N6feasst6Clones10initializeEKi7argtype"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4N6feasst6Clones18run_until_completeE7argtype"><code class="docutils literal notranslate"><span class="pre">run_until_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4N6feasst6Clones33initialize_and_run_until_completeE7argtype7argtype"><code class="docutils literal notranslate"><span class="pre">initialize_and_run_until_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4N6feasst6Clones22set_cycles_to_completeEKi"><code class="docutils literal notranslate"><span class="pre">set_cycles_to_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4NK6feasst6Clones14flat_histogramEKi"><code class="docutils literal notranslate"><span class="pre">flat_histogram()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4NK6feasst6Clones7ln_probEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData"><code class="docutils literal notranslate"><span class="pre">ln_prob()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4NK6feasst6Clones6stitchEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData"><code class="docutils literal notranslate"><span class="pre">stitch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4NK6feasst6Clones6stitchEPNSt6vectorIdEEKNSt6stringERK11AnalyzeData"><code class="docutils literal notranslate"><span class="pre">stitch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4NK6feasst6Clones9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Clones.html#_CPPv4N6feasst6Clones6ClonesERNSt7istreamE"><code class="docutils literal notranslate"><span class="pre">Clones()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../README.html" class="btn btn-neutral float-left" title="Flat histogram" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="LnProbability.html" class="btn btn-neutral float-right" title="LnProbability" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+
+
+  <br></br>
+  <footer class="nist-footer">
+  <div class="nist-footer__inner">
+    <div class="nist-footer__menu" role="navigation">
+      <ul>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy">Privacy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#privpolicy">Privacy Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#secnot">Security Notice</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#accesstate">Accessibility Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy">NIST Privacy Program</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/disclaimer">Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/office-director/freedom-information-act">FOIA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#cookie">Cookie Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity Summary</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/nist-information-quality-standards">NIST Information Quality Standards</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://business.usa.gov/">Business USA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.commerce.gov/">Commerce.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.healthcare.gov/">Healthcare.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.science.gov/">Science.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.usa.gov/">USA.gov</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="nist-footer__logo">
+    <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-footer__logo-link" rel="home">
+      <img src="https://pages.nist.gov/nist-header-footer/images/nist_logo_centered_rev.svg" alt="National Institute of Standards and Technology logo" />
+    </a>
+  </div>
+</footer>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-115121490-6');
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WN56CL762L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WN56CL762L');
+  </script>
+
+
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

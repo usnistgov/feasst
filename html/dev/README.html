@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developer guidelines &mdash; FEASST 0.25.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=b72c10c5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../_static/leave_notice.js?v=db0899f3"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Acknowledgement" href="sphinx/ACKNOWLEDGEMENT.html" />
+    <link rel="prev" title="Contributing" href="sphinx/CONTRIBUTING.html" />
+
+	<!-- frame blocking -->
+	<script type="text/javascript">
+		if (top !=self) {
+			top.location=self.location;
+		}
+	</script>
+
+	<!-- NIST header and footer -->
+	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FEASST
+          </a>
+              <div class="version">
+                0.25.6
+              </div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../OVERVIEW.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/text_interface.html">Text Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../particle/README.html">Particle files and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">C++ Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/README.html">Python Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="sphinx/CONTRIBUTING.html">Contributing</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="sphinx/CONTRIBUTING.html#for-contributing-code">For contributing code</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Developer guidelines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#branch-policies">Branch policies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tools">Tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#document">Document</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#style">Style</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#for-quick-reference">For quick reference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#to-do-list">To Do List</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sphinx/CONTRIBUTING.html#guidelines-for-collaboration-with-feasst-developers">Guidelines for collaboration with FEASST developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx/CITATION.html">Citation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FEASST</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <header class="nist-header" id="nist-header" role="banner">
+
+  <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
+    <svg aria-hidden="true" class="nist-header__logo-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32">
+      <path d="M20.911 5.375l-9.482 9.482 9.482 9.482c0.446 0.446 0.446 1.161 0 1.607l-2.964 2.964c-0.446 0.446-1.161 0.446-1.607 0l-13.25-13.25c-0.446-0.446-0.446-1.161 0-1.607l13.25-13.25c0.446-0.446 1.161-0.446 1.607 0l2.964 2.964c0.446 0.446 0.446 1.161 0 1.607z"></path>
+    </svg>
+    <svg class="nist-header__logo-image" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-237 385.7 109.7 29.3">
+      <title>National Institute of Standards and Technology</title>
+      <g>
+        <path class="st0" d="M-231,415h-6v-23.1c0,0,0-4.4,4.4-5.8c4-1.3,6.6,1.3,6.6,1.3l19.7,21.3c1,0.6,1.4,0,1.4-0.6v-22h6.1V409
+          c0,1.9-1.6,4.4-4,5.3c-2.4,0.9-4.9,0.9-7.9-1.7l-18.5-20c-0.5-0.5-1.8-0.6-1.8,0.4L-231,415L-231,415z"/>
+        <path class="st0" d="M-195,386.1h6.1v20.7c0,2.2,1.9,2.2,3.6,2.2h26.8c1.1,0,2.4-1.3,2.4-2.7c0-1.4-1.3-2.8-2.5-2.8H-176
+          c-3,0.1-9.2-2.7-9.2-8.5c0-7.1,5.9-8.8,8.6-9h49.4v6.1h-12.3V415h-6v-22.9h-30.2c-2.9-0.2-4.9,4.7-0.2,5.4h18.6
+          c2.8,0,7.4,2.4,7.5,8.4c0,6.1-3.6,9-7.5,9H-185c-4.5,0-6.2-1.1-7.8-2.5c-1.5-1.5-1.7-2.3-2.2-5.3L-195,386.1
+          C-194.9,386.1-195,386.1-195,386.1z"/>
+      </g>
+    </svg>
+  </a>
+
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="sphinx/CONTRIBUTING.html">Contributing</a> &raquo;</li>
+        
+      <li>Developer guidelines</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="developer-guidelines">
+<h1>Developer guidelines<a class="headerlink" href="#developer-guidelines" title="Link to this heading"></a></h1>
+<p>Developers and contributors of FEASST may consider the following guidelines in order to simplify collaboration.</p>
+<section id="branch-policies">
+<h2>Branch policies<a class="headerlink" href="#branch-policies" title="Link to this heading"></a></h2>
+<p>Branches in Git are extremely useful for working on different features within the same code base and then merging them into a final product or release.</p>
+<p>Using and naming branches in a way that is consistent may simplify this process.</p>
+<section id="main-branch">
+<h3>Main branch<a class="headerlink" href="#main-branch" title="Link to this heading"></a></h3>
+<p>This is the release branch.
+This branch may only merge with develop and hotfix branches.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#gtest-unittest-c">GTEST: Unittest C++</a> and all tests pass</p></li>
+<li><p><a class="reference internal" href="#valgrind-find-memory-leaks">Valgrind: Find memory leaks</a></p></li>
+<li><p><a class="reference internal" href="#gcov-and-lcov-test-coverage">GCOV and LCOV: Test coverage</a> which must be &gt;85%</p></li>
+<li><p><a class="reference internal" href="#cpplint-and-pylint-clean-up-styling">cpplint and pylint: Clean up styling</a></p></li>
+<li><p>SWIG and Python unittested</p></li>
+<li><p><a class="reference internal" href="#document">Document</a> new features</p></li>
+<li><p>Tag <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span> <span class="pre">-a</span> <span class="pre">&lt;version</span> <span class="pre">number&gt;</span></code> and <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">--tags</span></code></p></li>
+</ul>
+</section>
+<section id="develop-branch">
+<h3>Develop branch<a class="headerlink" href="#develop-branch" title="Link to this heading"></a></h3>
+<p>This is the development branch.</p>
+<p>Tested and complete implementation of new features are added here.</p>
+<ul class="simple">
+<li><p>Code must compile and gtests pass successfully</p></li>
+<li><p>Consider feature compatibility with swig python interface</p></li>
+<li><p>When merging into this branch, use –squash to add the entire feature with a single commit.
+Alternatively, you could also rebase your private branch.</p></li>
+</ul>
+</section>
+<section id="hotfix-branch">
+<h3>Hotfix branch<a class="headerlink" href="#hotfix-branch" title="Link to this heading"></a></h3>
+<p>The hotfix branch is for implementation of bug fixes to the main branch.
+After merging with main and develop, they are deleted.</p>
+</section>
+<section id="feature-branches">
+<h3>Feature branches<a class="headerlink" href="#feature-branches" title="Link to this heading"></a></h3>
+<p>These branches are for the development of new features.
+These branch names must begin with characters which identify the main developer of the feature (e..g, username/feature)
+The main developer sets the branch policy.</p>
+</section>
+<section id="dead-dead-branches">
+<h3>Dead (dead_*) branches<a class="headerlink" href="#dead-dead-branches" title="Link to this heading"></a></h3>
+<p>These branches may record an incomplete attempt of a feature that may be relevant in the future.
+These branch names must begin with the characters “dead”.</p>
+<ul class="simple">
+<li><p>No rules. Code may not compile.
+HINT: rename branches with “git branch -m &lt;newname&gt;”</p></li>
+</ul>
+</section>
+<section id="pull-requests">
+<h3>Pull requests<a class="headerlink" href="#pull-requests" title="Link to this heading"></a></h3>
+<p>To create a pull request:</p>
+<ul class="simple">
+<li><p>fork the usnistgov repo</p></li>
+<li><p>create a new feature branch “user/feature” to implement your changes (git checkout develop; git checkout -b user/feature)</p></li>
+<li><p>make as many commits as you want for yourself, which will be squashed into one commit when you’re finished as follows</p></li>
+<li><p>when your feature is ready and well tested and you’re ready to submit a pull request, first you can check if any more changes were made to develop (git checkout develop; git pull usnistgov develop; git checkout user/feature; git merge develop)</p></li>
+<li><p>squash your commits into a new branch “testmerge” off develop (git checkout develop; git checkout -b testmerge; git merge –squash user/feature)</p></li>
+<li><p>submit the “testmerge” branch in the pull request.</p></li>
+<li><p>You can keep your “user/feature” branch with more fine-grain commits for your own purposes or later testing if an issue is discovered. I often rename these “complete_feature_[commit]” after merging to develop where the commit is 6-10 of the first characters of the squash merge commit (for later record).</p></li>
+</ul>
+<p>Try to copy the style of existing commits in the main branch. This means reducing the number of commits in a pull request (e.g., consider a git merge), and to keep the commit descriptions in a similar style as existing commits. For example, the description should be a single sentence that is general and not redundant information from what you see when you click on the details of the commit. Basically, the commit description should be a single line and very succinct (e.g., the classes or plugins changed).</p>
+<p>For lead developers to incorporate the pull request into feasst
+- git fetch usnistgov pull/ID/head:BRANCHNAME
+- git checkout BRANCHNAME
+- [make local changes. Can “git commit –amend”]
+- If authorship is missing after a squash merge, use git commit –amend –author=”My Nick my.adress&#64;email.com”
+- git push usnistgov BRANCHNAME</p>
+</section>
+</section>
+<section id="tools">
+<h2>Tools<a class="headerlink" href="#tools" title="Link to this heading"></a></h2>
+<section id="gtest-unittest-c">
+<h3>GTEST: Unittest C++<a class="headerlink" href="#gtest-unittest-c" title="Link to this heading"></a></h3>
+<p>The main branch requires GTEST coverage for all cpp plugins in plugin/name/test.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-DUSE_GTEST<span class="o">=</span>ON<span class="w"> </span>..
+make<span class="w"> </span>unittest<span class="w"> </span>-j12
+./bin/unittest
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>use <code class="code docutils literal notranslate"><span class="pre">--gtest_filter=*Name*</span></code> to run specific tests</p></li>
+<li><p>use <code class="code docutils literal notranslate"><span class="pre">./bin/unittest</span> <span class="pre">|&amp;</span> <span class="pre">more</span></code> to pipe stderr to stdout.</p></li>
+<li><p>use <code class="code docutils literal notranslate"><span class="pre">--gtest_shuffle</span></code> to randomize the order of the tests</p></li>
+<li><p>use <code class="code docutils literal notranslate"><span class="pre">--gtest_random_seed=SEED</span></code> to reproduce an specific order.</p></li>
+</ul>
+</section>
+<section id="gdb-or-lldb-debugging">
+<h3>GDB or LLDB: Debugging<a class="headerlink" href="#gdb-or-lldb-debugging" title="Link to this heading"></a></h3>
+<p>gdb (or lldb on macOS) is especially useful for identifying segfaults via backtraces.
+The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.
+Often, the optimization flags (e.g., -O3) can obfuscate the backtrace.
+If that is the case, recompile without optimization (using cmake).</p>
+<p>In bash</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gdb<span class="w"> </span><span class="o">[</span>program<span class="w"> </span>executable<span class="w"> </span>name<span class="o">]</span>
+r<span class="w"> </span><span class="o">[</span>flags<span class="o">]</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gdb<span class="w"> </span>--batch<span class="w"> </span>--command<span class="o">=</span>../dev/test.gdb<span class="w"> </span>./bin/unittest
+</pre></div>
+</div>
+<p>gdb can also be used with python as</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$PYTHONPATH</span>:~/feasst/build/
+gdb<span class="w"> </span>python
+r<span class="w"> </span><span class="o">[</span>python<span class="w"> </span>script<span class="o">]</span><span class="w"> </span><span class="o">[</span>optional<span class="w"> </span>flags<span class="o">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>use ‘gdb catch throw’ or ‘lldb break set -E C++’ to backtrace exceptions</p></li>
+<li><p>use gdb as a profiler by ctrl c in the middle and backtrace: <a class="reference external" href="https://stackoverflow.com/a/378024">https://stackoverflow.com/a/378024</a></p></li>
+<li><p>use gdb as a parallel profiler: <a class="reference external" href="http://poormansprofiler.org/">http://poormansprofiler.org/</a></p></li>
+</ul>
+</section>
+<section id="valgrind-find-memory-leaks">
+<h3>Valgrind: Find memory leaks<a class="headerlink" href="#valgrind-find-memory-leaks" title="Link to this heading"></a></h3>
+<p>Valgrind helps to detect memory management bugs.</p>
+<p><a class="reference external" href="http://valgrind.org/">http://valgrind.org/</a></p>
+<p>For example, to run Valgrind on a particular test and output to text file</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>valgrind<span class="w"> </span>./unittest<span class="w"> </span>--gtest_filter<span class="o">=</span>MC.*<span class="w"> </span>&gt;<span class="w"> </span>out.txt<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>For uninitialized value errors, try –track-origins=yes</p></li>
+<li><p>For leaks, try –leak-check=full –show-leak-kinds=all</p></li>
+<li><p>Don’t use profiler for leak checks. OMP causes “leaks” O.K.</p></li>
+<li><p>For suppress false-positives (e.g., gomp or gsl), use –gen-suppressions=all to generate suppression files</p></li>
+</ul>
+</section>
+<section id="gcov-and-lcov-test-coverage">
+<h3>GCOV and LCOV: Test coverage<a class="headerlink" href="#gcov-and-lcov-test-coverage" title="Link to this heading"></a></h3>
+<p>GCC compilers allow testing of coverage with gcov and lcov for visualization.</p>
+<ul class="simple">
+<li><p>Code: currently implemented with Travis CI and CodeCov and available online.
+See .travis.yml for example of how to use lcov</p></li>
+<li><p>Use GCOV with CMake: cmake -DUSE_GCOV .
+Note: this disables optimization, so don’t use it for production simulations.</p></li>
+<li><p>make coverage</p></li>
+<li><p>Open coverage/index.html in your browser.</p></li>
+<li><p>Go into “src” and ignore the external library coverage.</p></li>
+</ul>
+</section>
+<section id="ccache-speed-up-compilation-time">
+<h3>CCACHE: Speed up compilation time<a class="headerlink" href="#ccache-speed-up-compilation-time" title="Link to this heading"></a></h3>
+<p>Something as trivial as changing a comment in a header file can lead to a massive recompile of the entire source.
+Your previous compile is remembered by ccache, leading to near instant recompilation in the above example.</p>
+</section>
+<section id="cpplint-and-pylint-clean-up-styling">
+<h3>cpplint and pylint: Clean up styling<a class="headerlink" href="#cpplint-and-pylint-clean-up-styling" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://google.github.io/styleguide/cppguide.html">https://google.github.io/styleguide/cppguide.html</a></p>
+<p><a class="reference external" href="https://github.com/google/styleguide/tree/gh-pages/cpplint">https://github.com/google/styleguide/tree/gh-pages/cpplint</a></p>
+</section>
+</section>
+<section id="document">
+<h2>Document<a class="headerlink" href="#document" title="Link to this heading"></a></h2>
+<section id="setup">
+<h3>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h3>
+<p>sudo apt install doxygen pandoc
+pip install sphinx breathe pandoc
+doxygen with GENERATE_XML
+run sphinx-quickstart, enable autodoc
+add something like the following to your sphinx index.rst:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">doxygenclass</span><span class="p">::</span> <span class="n">Nutshell</span>
+   <span class="p">:</span><span class="n">project</span><span class="p">:</span> <span class="n">nutshell</span>
+   <span class="p">:</span><span class="n">members</span><span class="p">:</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>add the following to your sphinx conf.py</dt><dd><p>extensions = [ “breathe”, “nbsphinx” ]
+breathe_projects = {“FEASST”:”../xml”}
+breathe_domain_by_extension = {“h” : “cc”}</p>
+</dd>
+</dl>
+<p>pip install sphinx_rtd_theme nbsphinx</p>
+<p>run sphinx: make html</p>
+<p>apt install graphviz graphviz-dev pandoc</p>
+<p>pip install pygraphviz breathe pandoc</p>
+</section>
+<section id="sphinx-breathe-doxygen-notes">
+<h3>Sphinx/Breathe/Doxygen notes<a class="headerlink" href="#sphinx-breathe-doxygen-notes" title="Link to this heading"></a></h3>
+<ul>
+<li><p>Link from rst file to C++ function: <code class="docutils literal notranslate"><span class="pre">:cpp:func:`link</span> <span class="pre">&lt;feasst::className::function()&gt;`</span></code></p></li>
+<li><p>Link from rst file to C++ class: <code class="docutils literal notranslate"><span class="pre">:cpp:class:`link</span> <span class="pre">&lt;feasst::className&gt;`</span></code></p></li>
+<li><p>Link from rst file to fst file: <code class="docutils literal notranslate"><span class="pre">:doc:`/tutorial/asdf`</span></code> [note, / references root]</p></li>
+<li><p>Link from rst file to ipynb file : <code class="docutils literal notranslate"><span class="pre">`Tutorial</span> <span class="pre">&lt;tutorial/tutorial.html&gt;`_</span></code></p></li>
+<li><p>Link from C++ to C++: <code class="docutils literal notranslate"><span class="pre">className::function()</span></code></p></li>
+<li><p>Link from C++ source to rst file: <code class="docutils literal notranslate"><span class="pre">&lt;a</span> <span class="pre">href=&quot;tutorial/asdf.html&quot;&gt;test&lt;/a&gt;</span></code></p></li>
+<li><p>For math in C++ comments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\f$ latex code here \f$
+</pre></div>
+</div>
+</li>
+<li><p>For tables, see monte_carlo/include/trial_compute_add.h</p></li>
+</ul>
+<p>For Ubuntu 22, I had to comment out lines 713-714 of ~/.pyenv/feasst/lib/python3.10/site-packages/breathe/renderer/sphinxrenderer.py</p>
+<blockquote>
+<div><p>#assert isinstance(n, addnodes.desc_annotation)
+#assert n.astext()[-1] == “ “</p>
+</div></blockquote>
+</section>
+<section id="sphinx-bibtex">
+<h3>Sphinx bibtex<a class="headerlink" href="#sphinx-bibtex" title="Link to this heading"></a></h3>
+<p>Add references in header file documentation as rstendrst
+and update the bibtex in /feasst/dev/sphinx/refs.bib</p>
+</section>
+<section id="pip-notes">
+<h3>Pip notes<a class="headerlink" href="#pip-notes" title="Link to this heading"></a></h3>
+<p>dev/tools/pip_install.sh</p>
+</section>
+</section>
+<section id="style">
+<h2>Style<a class="headerlink" href="#style" title="Link to this heading"></a></h2>
+<section id="reference-guides-for-c">
+<h3>Reference guides for C++<a class="headerlink" href="#reference-guides-for-c" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="http://www.cplusplus.com/">http://www.cplusplus.com/</a></p></li>
+<li><p><a class="reference external" href="https://google.github.io/styleguide/cppguide.html">https://google.github.io/styleguide/cppguide.html</a></p></li>
+<li><p><a class="reference external" href="http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines</a></p></li>
+</ul>
+</section>
+<section id="naming">
+<h3>Naming<a class="headerlink" href="#naming" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>ClassNames are mixed case with starting upper case letter</p></li>
+<li><p>member_names are lower case with underscores</p></li>
+<li><p>private_member_names_ end with an underscore</p></li>
+<li><p>function_names are also lower case with underscores</p></li>
+<li><p>bools syntax: is_[accepted.., etc]</p></li>
+<li><p>MACROS and CONSTANTS are all upper case.</p></li>
+<li><p>Avoid MACROS and CONSTANTS.</p></li>
+<li><p>use “and”, “or” instead of “&amp;&amp;”, “||” (HWH: change this to follow Google?)</p></li>
+</ul>
+</section>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Use return values. Argument ordering: input (value or constant reference), then output (pointer only)</p></li>
+<li><p>Overloaded functions -&gt; can you document all in a single comment? good</p></li>
+<li><p>No Default parameters on virtual functions</p></li>
+</ul>
+</section>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Nearly all data members should be private. Limit protected members</p></li>
+<li><p>member_name() returns const member</p></li>
+<li><p>set_member_name(member_name) sets member</p></li>
+<li><p>For setters with multiple arguments, the first are vector indices as in order x[0] = 3…</p></li>
+<li><p>getptr_member_name returns constant pointer (optimization only)</p></li>
+</ul>
+</section>
+<section id="loops-and-if">
+<h3>Loops and if<a class="headerlink" href="#loops-and-if" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>use of “for (auto element : container) { … }” is dangerous</p></li>
+<li><p>for simple loops over containers, use “for (element : container)”</p></li>
+<li><p>for loops where you need the index, use:
+for (int index = 0; index &lt; static_cast&lt;int&gt;(container.size()); ++index)</p></li>
+</ul>
+</section>
+<section id="auto">
+<h3>Auto<a class="headerlink" href="#auto" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>only use auto when the type is clear such as auto var = std::make_shared&lt;..&gt;.</p></li>
+</ul>
+</section>
+<section id="arguments">
+<h3>Arguments<a class="headerlink" href="#arguments" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>All arguments are provided as strings and converted to the expected type.</p></li>
+<li><p>Check that all arguments are used (e.g., like implicit none, a typo is caught).</p></li>
+<li><p>Argument defaults need to be set and clearly commented.</p></li>
+<li><p>If no default, it is a required argument.</p></li>
+</ul>
+</section>
+<section id="serialization">
+<h3>Serialization<a class="headerlink" href="#serialization" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>guided by <a class="reference external" href="https://isocpp.org/wiki/faq/serialization">https://isocpp.org/wiki/faq/serialization</a></p></li>
+<li><p>For inheritance hierarchy, a static deserialize_map is used to relate class
+name to template.</p></li>
+<li><p>Each object serializes a version that can be used for checks and backwards
+compatibility.</p></li>
+<li><p>utils_io.h contains many function templates for serialization.</p></li>
+<li><p>In particular, feasst_deserialize_fstdr() needs to be fixed.</p></li>
+<li><p>Don’t forget to serialize (private) member data in new implementations.</p></li>
+<li><p>To compare differences between two serializations, paste into file and using “s/ /r/g”</p></li>
+</ul>
+</section>
+<section id="file-output">
+<h3>File output<a class="headerlink" href="#file-output" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>comma-separated values (CSV) are the preferred format (e.g., comma deliminter)</p></li>
+</ul>
+</section>
+</section>
+<section id="for-quick-reference">
+<h2>For quick reference<a class="headerlink" href="#for-quick-reference" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>line counts [find . -name ‘<em>.cpp’ -o -name ‘</em>.h’ | xargs wc -l | sort -n]</p></li>
+<li><p>tutorial errors [ find . -name ‘tutorial_failures.txt’ | xargs cat ]</p></li>
+<li><p>tutorial errors [ for fl in <cite>find . -name ‘tutorial_failures.txt’</cite>; do echo $fl; cat $fl; done ]</p></li>
+<li><p>launch errors [ for fl in <cite>find . -name ‘launch_failures.txt’</cite>; do echo $fl; cat $fl | grep -v “Terminating because Checkpoint”; done ]</p></li>
+<li><p>clear tutorial errors [ for fl in <cite>find . -name ‘tutorial_failures.txt’</cite>; do echo $fl; rm $fl; done ]</p></li>
+<li><p>clean docs before running depend.py again [ for dir in <cite>ls –color=never -d *</cite>; do rm $dir/doc/<a href="#id1"><span class="problematic" id="id2">*</span></a>rst; done ]</p></li>
+<li><p>screen html errors [ make html &gt; tt 2&amp;&gt;1; grep -v “WARNING: document i” tt | grep -v “WARNING: Duplicate” | grep -v “Declaration is” &gt; ttt ]</p></li>
+<li><p>find all headers in the public interface [ find . -name ‘<a href="#id3"><span class="problematic" id="id4">*</span></a>.h’ | xargs grep “^  /** &#64;name Arguments$” ]</p></li>
+<li><p>find difference in serialization string: [ diff -u f1 f2 <a href="#id5"><span class="problematic" id="id6">|</span></a>colordiff  | perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | more ]</p></li>
+</ul>
+</section>
+<section id="to-do-list">
+<h2>To Do List<a class="headerlink" href="#to-do-list" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>profile: Create benchmarking profile to compare among versions</p></li>
+<li><p>profile: implement timer for profiles (with hierarchies by class… tried this, but its too slow. Time only infrequently?)</p></li>
+<li><p>profile: implement a timer to auto-balance trial weights based on cpu time.</p></li>
+<li><p>debug: Toggle more debug levels, and localized to certain files/plugins, etc</p></li>
+<li><p>debug: Implement a class-specific debug output setting</p></li>
+<li><p>compile: fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu</p></li>
+<li><p>opt: when selecting from cpdf, use lnp instead of p?</p></li>
+<li><p>force precompute when reinitializing system, criteria, etc in MonteCarlo</p></li>
+<li><p>MonteCarlo subclass Simulation</p></li>
+<li><p>add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects</p></li>
+<li><p>VisitModels may prefer to update select properties (e.g., cell, eik)</p></li>
+<li><p>Rename TrialSelect-&gt;SelectTrial, TrialCompute-&gt;ComputeTrial. Rename Compute-&gt;Decide?.</p></li>
+<li><p>Somehow, trial_growth_expanded.h doesn’t include debug.h but can compile with ASSERT</p></li>
+<li><p>Speed up RNG by maintaining int_distribution like dis_double</p></li>
+<li><p>Make a CachedRandom and CachedPotential for prefetch and avoid if statements that could slow down serial simulations.</p></li>
+<li><p>add orientation argument to shapes with internal coordinate transformation</p></li>
+<li><p>Sort selection_of_all, or impose sorting in Select::add_particles. Currently, this leads to issues.</p></li>
+<li><p>Rename xyz files, and/or document more cleary (second line in xyz).</p></li>
+<li><p>Rename plugin chain-&gt;config_bias ?</p></li>
+<li><p>in optimizing where config only updates when trial finalized, how to build off new perturbed config in CB?</p></li>
+<li><p>Optimize TrialRemove for new_only by not computing interactions with neighbors</p></li>
+<li><p>Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.</p></li>
+<li><p>(repeat) regrow but within near existing, for ‘free dof, e.g. azimuthal in  angle, sphere in bond, etc’</p></li>
+<li><p>Rename Movie-&gt;XYZ</p></li>
+<li><p>Rename Stepper?</p></li>
+<li><p>Patch custom model params not present in mc.configuration().model_params (affects FileXYZPatch).</p></li>
+<li><p>early rejection scheme: <a class="reference external" href="https://doi.org/10.1080/00268976.2014.897392">https://doi.org/10.1080/00268976.2014.897392</a></p></li>
+<li><p>get rid of ‘time’ and ‘default’ values for Random seed argument.</p></li>
+<li><p>Windows with non-integer macrostates?</p></li>
+<li><p>For unknown reasons, VisitModelOuterCutoff had energy issues with RPM</p></li>
+<li><p>Add TrialParticlePivot to TrialGrow (randomly orients particle about site). Or, more generally, say num_steps=-1 combines stages into one.</p></li>
+<li><p>better support compressed trajectory formats: xtc, dcd, etc</p></li>
+<li><p>Wrap triclinic particles for Movie. See: <a class="reference external" href="https://github.com/lammps/lammps/blob/develop/src/domain.cpp#L1232-L1322">https://github.com/lammps/lammps/blob/develop/src/domain.cpp#L1232-L1322</a></p></li>
+<li><p>Implement Jeff’s parallel method via CollectionMatrixSplice that allows exchange of window ranges with overlapping simulations</p></li>
+<li><p>Similarly, implement a non-OMP fh parallelization. Maybe that should be the first example before OMP communication? Only problem, keep windows running until last one converges?</p></li>
+<li><p>Update Translate tunable maximum when volume changes..?</p></li>
+<li><p>tutorials which segfault on restart dont report errors in automated tests</p></li>
+<li><p>Move Trial checks so that they can be applied to GhostTrialGrow</p></li>
+<li><p>Make Criteria[Updater,Writer] part of FlatHistogram keywords?</p></li>
+<li><p>Restart Prefetch. Does Run::num_trials work properly?</p></li>
+<li><p>optimize Ewald::update_wave_vector for NPT (less clear,push_back).</p></li>
+<li><p>Reduce size of Checkpoint files for cell/neighbor lists (re-compute instead of checkpointing them). Also large tables.</p></li>
+<li><p>Represent relative rigid bodies as screw motion: <a class="reference external" href="https://en.wikipedia.org/wiki/Screw_theory">https://en.wikipedia.org/wiki/Screw_theory</a></p></li>
+<li><p>Allow mixing rules input in fstprt files (either as manual input i-j or selection of mixing rules from list, or both).</p></li>
+<li><p>Depreciate and update AngleSquareWell::min/max to min_degrees/max_degrees</p></li>
+<li><p>Ewald mod k2max like LAMMPS</p></li>
+<li><p>Add 1/2 factor in AngleHarmonic</p></li>
+<li><p>Add precompute for BondFourBody, ThreeBody, etc, to speed up? But different dihedrals have different coefficients.</p></li>
+<li><p>Add option to not serialize neighbor lists to reduce checkpoint size.</p></li>
+<li><p>Allow one script to contain multiple MonteCarlo, CollectionMatrixSplice, Prefetch in any order? (checkpointing is difficult)</p></li>
+<li><p>When trials start, check to see if there is a trial that uses weight_per_number_fraction but there are fixed particles (or, see if there are weight_per_number for all types unless excluded?)</p></li>
+<li><p>Add a FAQ for sim questions, such as, an overview of various table potential options, etc.</p></li>
+<li><p>Optimize BondVisitor that uses deserialize_map and strings in inner loop</p></li>
+<li><p>Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).</p></li>
+<li><p>In v0.26, Remove ConvertToRefPotential, ProfileTrials, RemoveModify, RemoveAnalyze, RemoveTrial, Run::until_criteria_complete, Criteria/Stepper::iteration</p></li>
+<li><p>Have the tests override hours checkpoint , etc so that users don’t have bad values</p></li>
+<li><p>Maybe make some kind of class that factories out the creation of analyze and modify (e.g., all using the same trials_per_iteration, file name prefixes, etc)</p></li>
+<li><p>Remove CollectionMatrixSplice from tutorials?</p></li>
+<li><p>Enable DCCB with Gibbs (transfer issue, or all cb ?)- ACtually, it seems to be cell lists that are the problem (the ref potential)</p></li>
+<li><p>fstprt files use label strings instead of numbers (document this, 0-O, 1-H for spce, etc)</p></li>
+<li><p>pip install feasst</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sphinx/CONTRIBUTING.html" class="btn btn-neutral float-left" title="Contributing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sphinx/ACKNOWLEDGEMENT.html" class="btn btn-neutral float-right" title="Acknowledgement" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+
+
+  <br></br>
+  <footer class="nist-footer">
+  <div class="nist-footer__inner">
+    <div class="nist-footer__menu" role="navigation">
+      <ul>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy">Privacy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#privpolicy">Privacy Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#secnot">Security Notice</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#accesstate">Accessibility Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy">NIST Privacy Program</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/disclaimer">Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/office-director/freedom-information-act">FOIA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#cookie">Cookie Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity Summary</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/nist-information-quality-standards">NIST Information Quality Standards</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://business.usa.gov/">Business USA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.commerce.gov/">Commerce.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.healthcare.gov/">Healthcare.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.science.gov/">Science.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.usa.gov/">USA.gov</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="nist-footer__logo">
+    <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-footer__logo-link" rel="home">
+      <img src="https://pages.nist.gov/nist-header-footer/images/nist_logo_centered_rev.svg" alt="National Institute of Standards and Technology logo" />
+    </a>
+  </div>
+</footer>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-115121490-6');
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WN56CL762L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WN56CL762L');
+  </script>
+
+
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -7,7 +7,6 @@ import sys
 import subprocess
 import argparse
 import random
-import unittest
 import pathlib
 import numpy as np
 from multiprocessing import Pool
@@ -119,42 +118,41 @@ def linear_fit(x, b):
     return -0.5*x + b
 
 # after the simulation is complete, perform some tests
-class TestFlatHistogramLJ(unittest.TestCase):
-    def test(self):
-        # analyze grand canonical ensemble average number of particles
-        import pandas as pd
-        from pyfeasst import macrostate_distribution
-        import matplotlib.pyplot as plt
-        from scipy.optimize import curve_fit
-        show_plot = False
-        #show_plot = True
-        slopes = list()
-        for s in range(3):
-            dists = macrostate_distribution.read_appended(file_name='lj_lnpin100s'+str(s)+'.txt', num_states=2)
-            #print(dists)
-            time, std = dists_to_time_std(dists)
-            logt = np.log(time[10:])
-            logs = np.log(std[10:])
-            popt, pcov = curve_fit(linear_fit, logt, logs)
-            slopes.append(popt[0])
-            #print(s, popt[0])
+def test():
+    # analyze grand canonical ensemble average number of particles
+    import pandas as pd
+    from pyfeasst import macrostate_distribution
+    import matplotlib.pyplot as plt
+    from scipy.optimize import curve_fit
+    show_plot = False
+    #show_plot = True
+    slopes = list()
+    for s in range(3):
+        dists = macrostate_distribution.read_appended(file_name='lj_lnpin100s'+str(s)+'.txt', num_states=2)
+        #print(dists)
+        time, std = dists_to_time_std(dists)
+        logt = np.log(time[10:])
+        logs = np.log(std[10:])
+        popt, pcov = curve_fit(linear_fit, logt, logs)
+        slopes.append(popt[0])
+        #print(s, popt[0])
 
-            if show_plot:
-                label = '2bin'
-                if s == 2:
-                    label = '1bin'
-                plt.plot(np.log(time), np.log(std), label=label)
-                plt.plot(logt, linear_fit(logt, popt[0]), label=label + ' slope: ' + str(round(popt[0],2)))
-
-        z12 = np.exp(2*(slopes[2] - np.average(slopes[0:1])))
-        print('efficiency of a double macrostate simulation compared to two single macrostate simulations', z12)
         if show_plot:
-            plt.xlabel('log(time)', fontsize=16)
-            plt.ylabel('log(std_of_average)', fontsize=16)
-            #plt.title(r'$z_{12}=$'+str(round(z12, 2)), fontsize=16)
-            plt.title('efficiency of a double macrostate simulation\n compared to two single macrostate simulations\n'+r'$z_{12}=$'+str(round(z12, 2)), fontsize=16)
-            plt.legend()
-            plt.show()
+            label = '2bin'
+            if s == 2:
+                label = '1bin'
+            plt.plot(np.log(time), np.log(std), label=label)
+            plt.plot(logt, linear_fit(logt, popt[0]), label=label + ' slope: ' + str(round(popt[0],2)))
+
+    z12 = np.exp(2*(slopes[2] - np.average(slopes[0:1])))
+    print('efficiency of a double macrostate simulation compared to two single macrostate simulations', z12)
+    if show_plot:
+        plt.xlabel('log(time)', fontsize=16)
+        plt.ylabel('log(std_of_average)', fontsize=16)
+        #plt.title(r'$z_{12}=$'+str(round(z12, 2)), fontsize=16)
+        plt.title('efficiency of a double macrostate simulation\n compared to two single macrostate simulations\n'+r'$z_{12}=$'+str(round(z12, 2)), fontsize=16)
+        plt.legend()
+        plt.show()
 
 # run the simulation and, if complete, analyze.
 def run(sim):
@@ -172,7 +170,7 @@ def run(sim):
 #    else:
 #        syscode = subprocess.call("~/binning_efficiency/feasst/build/bin/rst lj_checkpointn"+str(params['min_particles'])+"s"+str(sim)+".fst", shell=True, executable='/bin/bash')
     if syscode == 0:
-        unittest.main(argv=[''], verbosity=2, exit=False)
+        test()
     return syscode
 
 if __name__ == "__main__":
@@ -187,6 +185,6 @@ if __name__ == "__main__":
             slurm_queue(min_particles=min_particles)
             subprocess.call("sbatch slurm.txt | awk '{print $4}' >> launch_ids.txt", shell=True, executable='/bin/bash')
     elif args.run_type == 2:
-        unittest.main(argv=[''], verbosity=2, exit=False)
+        test()
     else:
         assert False  # unrecognized run_type

@@ -18,7 +18,7 @@ FEASST_MAPPER(VisitModelCell,);
 VisitModelCell::VisitModelCell(argtype * args) : VisitModel(args) {
   class_name_ = "VisitModelCell";
   cells_ = std::make_shared<Cells>();
-  min_length_ = str("min_length", args);
+  min_length_ = str("min_length", args, "max_cutoff");
   if (used("cell_group_index", *args)) {
     group_index_ = integer("cell_group_index", args);
     ASSERT(!used("cell_group", *args),

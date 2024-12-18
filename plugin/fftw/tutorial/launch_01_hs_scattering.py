@@ -6,7 +6,7 @@ import sys
 import subprocess
 import argparse
 import random
-import unittest
+import numpy as np
 
 # define parameters of a pure component NVT MC hard sphere simulation
 params = {
@@ -70,34 +70,33 @@ parser.add_argument('--task', type=int, default=0, help="input by slurm schedule
 args = parser.parse_args()
 
 # after the simulation is complete, perform some analysis
-class TestFlatHistogramHS(unittest.TestCase):
-    def test(self):
-        import numpy as np
-        import math
-        import pandas as pd
-        from pyfeasst import scattering
-        iq=pd.read_csv('hs_iq.csv', comment="#")
-        grp = iq.groupby('q', as_index=False)
-        self.assertAlmostEqual(iq['i'][3810], 5.72894, delta=0.4)
-        self.assertAlmostEqual(iq['i'][0]/iq['p0'][0]**2, 1, delta=0.075)
-        iqfftw = pd.read_csv('hs_iq_fftw.csv')
-        self.assertAlmostEqual(iqfftw['s'][1], 0.42828, delta=0.005)
+def test():
+    import numpy as np
+    import math
+    import pandas as pd
+    from pyfeasst import scattering
+    iq=pd.read_csv('hs_iq.csv', comment="#")
+    grp = iq.groupby('q', as_index=False)
+    assert np.abs(iq['i'][3810] - 5.72894) < 0.4
+    assert np.abs(iq['i'][0]/iq['p0'][0]**2 - 1) < 0.075
+    iqfftw = pd.read_csv('hs_iq_fftw.csv')
+    assert np.abs(iqfftw['s'][1] - 0.42828) < 0.005
 
-        import matplotlib.pyplot as plt
-        plt.scatter(iq['q'], iq['i']/iq['p0']**2, label='sq_all')
-        plt.plot(grp.mean()['q'], grp.mean()['i']/grp.mean()['p0']**2, label='sq_av', color='black')
-        plt.plot(iqfftw['q'], iqfftw['s'], label='sq fftw', color='red')
-        plt.legend()
-        plt.xlabel('q', fontsize=16)
-        plt.ylabel('S', fontsize=16)
-        plt.show()
-        plt.clf()
-        plt.scatter(iq['q'], iq['i'], label='iq_all')
-        plt.xscale('log')
-        plt.yscale('log')
-        plt.xlabel('q', fontsize=16)
-        plt.ylabel('I', fontsize=16)
-        plt.show()
+    import matplotlib.pyplot as plt
+    plt.scatter(iq['q'], iq['i']/iq['p0']**2, label='sq_all')
+    plt.plot(grp.mean()['q'], grp.mean()['i']/grp.mean()['p0']**2, label='sq_av', color='black')
+    plt.plot(iqfftw['q'], iqfftw['s'], label='sq fftw', color='red')
+    plt.legend()
+    plt.xlabel('q', fontsize=16)
+    plt.ylabel('S', fontsize=16)
+    plt.show()
+    plt.clf()
+    plt.scatter(iq['q'], iq['i'], label='iq_all')
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.xlabel('q', fontsize=16)
+    plt.ylabel('I', fontsize=16)
+    plt.show()
 
 # run the simulation and, if complete, analyze.
 def run():
@@ -108,7 +107,7 @@ def run():
     else:
         syscode = subprocess.call("../../../build/bin/rst hs_checkpoint.fst", shell=True, executable='/bin/bash')
     if syscode == 0:
-        unittest.main(argv=[''], verbosity=2, exit=False)
+        test()
     return syscode
 
 if __name__ == "__main__":
@@ -120,6 +119,6 @@ if __name__ == "__main__":
         slurm_queue()
         subprocess.call("sbatch --array=0-10%1 slurm.txt | awk '{print $4}' >> launch_ids.txt", shell=True, executable='/bin/bash')
     elif args.run_type == 2:
-        unittest.main(argv=[''], verbosity=2, exit=False)
+        test()
     else:
         assert False  # unrecognized run_type

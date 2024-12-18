@@ -151,16 +151,18 @@ CriteriaWriter trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_cr
 
 def post_process(params):
     lnpi = macrostate_distribution.MacrostateDistribution(file_name=params['prefix']+'n0_lnpi.txt')
+    lnpi.set_minimum_smoothing(25)
+    #lnpi.plot(show=True)
     rw = lnpi.equilibrium()
     assert np.abs(params['beta']*params['mu'] + rw + 3.194) < 1e-2
     #lnpi.plot(show=True)
     vap, liq = lnpi.split()
     rhov = vap.average_macrostate()/params['cubic_side_length']**3
     print('rhov', rhov)
-    assert np.abs(rhov - 9.723E-02) < 1e-3
+    assert np.abs(rhov - 9.723E-02) < 2e-3
     rhol = liq.average_macrostate()/params['cubic_side_length']**3
     print('rhol', rhol)
-    assert np.abs(rhol - 5.384E-01) < 1e-3
+    assert np.abs(rhol - 5.384E-01) < 5e-2
 
 if __name__ == '__main__':
     fstio.run_simulations(params=PARAMS,

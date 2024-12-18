@@ -13,7 +13,7 @@ for col in plugins.columns:
     #print(col)
     for filename in Path('../plugin/'+col+'/').rglob('launch*.py'):
         if 'checkpoint' not in filename.name:
-            if 'build' and 'dev' and 'feasst_test_env' and 'library' not in str(filename.parent):
+            if 'build' and 'dev' and 'html' and 'feasst_test_env' and 'library' not in str(filename.parent):
                 with cd.cd(filename.parent):
                     print("Running:", filename.name, "in", filename.parent)
                     subprocess.call("python " + str(filename.name) + " -r 1", shell=True, executable='/bin/bash')

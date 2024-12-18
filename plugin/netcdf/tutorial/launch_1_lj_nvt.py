@@ -4,7 +4,7 @@ import numpy as np
 import argparse
 from multiprocessing import Pool
 import random
-import unittest
+import numpy as np
 
 # define parameters of a pure component NVT MC Lennard-Jones simulation
 params = {
@@ -74,13 +74,12 @@ parser.add_argument('--task', type=int, default=0, help="input by slurm schedule
 args = parser.parse_args()
 
 # after the simulation is complete, perform some tests
-class TestMonteCarloLJ(unittest.TestCase):
-    def test(self):
-        # test the average energy against the NIST SRSW
-        import pandas as pd
-        df = pd.read_csv('en.txt')
-        stdev = (df['block_stdev'][0]**2 + (1.89E-05)**2)**(1./2.)
-        self.assertAlmostEqual(-9.9165E-03*params["num_particles"], df['average'][0], delta=2.576*stdev)
+def test():
+    # test the average energy against the NIST SRSW
+    import pandas as pd
+    df = pd.read_csv('en.txt')
+    stdev = (df['block_stdev'][0]**2 + (1.89E-05)**2)**(1./2.)
+    assert np.abs(-9.9165E-03*params["num_particles"] - df['average'][0]) < 2.576*stdev
 
 # run a single simulation as part of the batch to fill a node
 def run(sim):
@@ -94,7 +93,7 @@ def run(sim):
     else:
         syscode = subprocess.call("../../../build/bin/rst checkpoint" + str(sim) + ".fst", shell=True, executable='/bin/bash')
     if syscode == 0:
-        unittest.main(argv=[''], verbosity=2, exit=False)
+        test()
     return syscode
 
 if __name__ == "__main__":

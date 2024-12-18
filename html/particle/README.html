@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Particle files and units &mdash; FEASST 0.25.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=b72c10c5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../_static/leave_notice.js?v=db0899f3"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="C++ Interface" href="../plugin/README.html" />
+    <link rel="prev" title="CheckConstantVolume" href="../plugin/gibbs/doc/CheckConstantVolume_arguments.html" />
+
+	<!-- frame blocking -->
+	<script type="text/javascript">
+		if (top !=self) {
+			top.location=self.location;
+		}
+	</script>
+
+	<!-- NIST header and footer -->
+	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FEASST
+          </a>
+              <div class="version">
+                0.25.6
+              </div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../OVERVIEW.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/text_interface.html">Text Interface</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Particle files and units</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#units">Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#differences-from-lammps">Differences from LAMMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#site-properties">Site Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sites">Sites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#site-labels">Site Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bond-angle-and-dihedral-properties">Bond, Angle and Dihedral Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bonds">Bonds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#angles">Angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dihedrals">Dihedrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comments">Comments</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">C++ Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/README.html">Python Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/sphinx/CITATION.html">Citation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FEASST</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <header class="nist-header" id="nist-header" role="banner">
+
+  <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
+    <svg aria-hidden="true" class="nist-header__logo-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32">
+      <path d="M20.911 5.375l-9.482 9.482 9.482 9.482c0.446 0.446 0.446 1.161 0 1.607l-2.964 2.964c-0.446 0.446-1.161 0.446-1.607 0l-13.25-13.25c-0.446-0.446-0.446-1.161 0-1.607l13.25-13.25c0.446-0.446 1.161-0.446 1.607 0l2.964 2.964c0.446 0.446 0.446 1.161 0 1.607z"></path>
+    </svg>
+    <svg class="nist-header__logo-image" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-237 385.7 109.7 29.3">
+      <title>National Institute of Standards and Technology</title>
+      <g>
+        <path class="st0" d="M-231,415h-6v-23.1c0,0,0-4.4,4.4-5.8c4-1.3,6.6,1.3,6.6,1.3l19.7,21.3c1,0.6,1.4,0,1.4-0.6v-22h6.1V409
+          c0,1.9-1.6,4.4-4,5.3c-2.4,0.9-4.9,0.9-7.9-1.7l-18.5-20c-0.5-0.5-1.8-0.6-1.8,0.4L-231,415L-231,415z"/>
+        <path class="st0" d="M-195,386.1h6.1v20.7c0,2.2,1.9,2.2,3.6,2.2h26.8c1.1,0,2.4-1.3,2.4-2.7c0-1.4-1.3-2.8-2.5-2.8H-176
+          c-3,0.1-9.2-2.7-9.2-8.5c0-7.1,5.9-8.8,8.6-9h49.4v6.1h-12.3V415h-6v-22.9h-30.2c-2.9-0.2-4.9,4.7-0.2,5.4h18.6
+          c2.8,0,7.4,2.4,7.5,8.4c0,6.1-3.6,9-7.5,9H-185c-4.5,0-6.2-1.1-7.8-2.5c-1.5-1.5-1.7-2.3-2.2-5.3L-195,386.1
+          C-194.9,386.1-195,386.1-195,386.1z"/>
+      </g>
+    </svg>
+  </a>
+
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Particle files and units</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="particle-files-and-units">
+<h1>Particle files and units<a class="headerlink" href="#particle-files-and-units" title="Link to this heading"></a></h1>
+<p>The particle directory is a place for files which describe a single particle.
+Particles could represent an atom, molecule, colloid or coarse-grained model.
+These files are LAMMPS-inspired (<a class="reference external" href="https://docs.lammps.org/read_data.html">https://docs.lammps.org/read_data.html</a>), but deviate significantly from LAMMPS as described in detail below.
+Each file represents only a single particle (or molecule), and these files are used to define the types of particles (or molecules) that can exist in the simulation.
+Each plugin many also contain a particle directory as additional examples and for use in tutorials.
+The units used in these files (length, energy, etc) are not assumed (with one exception) and must be consistent with the units to initialize your simulations.</p>
+<section id="units">
+<h2>Units<a class="headerlink" href="#units" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="../plugin/charge/README.html"><span class="doc">charge plugin</span></a> is the only plugin that assumes units.
+Otherwise, any other use of FEASST assumes that the user takes care to input values with a consistent set of units of their choosing.
+For example, the units of length for positions in the data file should match whatever is used for defining the Domain, and the <a class="reference internal" href="../plugin/configuration/doc/PrinterXYZ.html#_CPPv4N6feasst7FileXYZE" title="feasst::FileXYZ"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">FileXYZ</span></code></a> positions will also be consistent with that user choice.
+The energy scale is given by epsilon-like parameters, as should be consistent with the beta given to <a class="reference internal" href="../plugin/system/doc/ThermoParams.html#_CPPv4N6feasst12ThermoParamsE" title="feasst::ThermoParams"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ThermoParams</span></code></a>.
+That is, beta has units of inverse energy.
+Similarly, chemical_potential has units of energy.
+Because pressure times volume is in units of energy, pressure is in units of energy per volume.</p>
+<p>The <a class="reference internal" href="../plugin/system/doc/Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Potentials</span></code></a> in <a class="reference internal" href="../plugin/charge/README.html"><span class="doc">charge plugin</span></a> are exceptions because the unit of charge is assumed to be elementary charge.
+Because of an assumed conversion factor, the units of energy must be in kJ/mol, and therefore, beta must be given in units of mol/kJ.
+Finally, the units of length must be in Angstroms.</p>
+</section>
+<section id="differences-from-lammps">
+<h2>Differences from LAMMPS<a class="headerlink" href="#differences-from-lammps" title="Link to this heading"></a></h2>
+<p>LAMMPS data files are defined here: <a class="reference external" href="https://docs.lammps.org/read_data.html">https://docs.lammps.org/read_data.html</a></p>
+<p>The data files used by FEASST have the following major differences:</p>
+<ul class="simple">
+<li><p>atoms in LAMMPS are analogous to sites in FEASST.</p></li>
+<li><p>molecules in LAMMPS are analogous to particles in FEASST.</p></li>
+<li><p>FEASST data files contain only one particle.</p></li>
+<li><p>all FEASST indices (types, sites, etc) begin with 0, not 1.</p></li>
+<li><p>characters are case sensitive,</p></li>
+<li><p>the number of spaces between characters does not matter,</p></li>
+<li><p>LMP Coeffs sections were replaced by Properties sections, with very different formatting,</p></li>
+<li><p>“2 dimensions” may be specified at the beginning of the file for a 2D simulation.</p></li>
+<li><p>FEASST data files contain no information about the <a class="reference internal" href="../plugin/configuration/doc/Domain.html#_CPPv4N6feasst6DomainE" title="feasst::Domain"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Domain</span></code></a> boundaries.</p></li>
+<li><p>The “Sites” section has the following three major differences: (1) these files describe only one particle so, unlike LAMMPS, molecule index is not included, (2) charge is a site-type property, and thus is not given for each site and (3) wrapping is not included.</p></li>
+</ul>
+</section>
+<section id="site-properties">
+<h2>Site Properties<a class="headerlink" href="#site-properties" title="Link to this heading"></a></h2>
+<p>Each site type may have a list of properties given by a label and value.</p>
+<p>The format for this section is as follows:</p>
+<p>[site type] [label_0] [value_0] … [label_n] [value_n]</p>
+<p>The labels are typically the ones described in <a class="reference internal" href="../plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ModelParams</span></code></a>, such as sigma, epsilon, cutoff and charge.
+The use of these parameters depends on the chosen models.
+For example, <a class="reference internal" href="../plugin/system/doc/LennardJones.html#_CPPv4N6feasst12LennardJonesE" title="feasst::LennardJones"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">LennardJones</span></code></a> or <a class="reference internal" href="../plugin/models/doc/SquareWell.html#_CPPv4N6feasst10SquareWellE" title="feasst::SquareWell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SquareWell</span></code></a>.</p>
+<p>Other more complex models may utilize a custom defined ModelParam, such as <a class="reference internal" href="../plugin/patch/doc/PatchAngle.html#_CPPv4N6feasst10PatchAngleE" title="feasst::PatchAngle"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">patch_angle</span></code></a> as shown in /path/to/feasst/plugin/patch/particle/patch_one.fstprt.
+In addition, the label “director” is described in <a class="reference internal" href="../plugin/patch/doc/VisitModelInnerPatch.html#_CPPv4N6feasst20VisitModelInnerPatchE" title="feasst::VisitModelInnerPatch"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">VisitModelInnerPatch</span></code></a> and utilized by <a class="reference internal" href="../plugin/configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Site</span></code></a>.</p>
+</section>
+<section id="sites">
+<h2>Sites<a class="headerlink" href="#sites" title="Link to this heading"></a></h2>
+<p>The format for this section is as follows:</p>
+<p>[site index] [site type] [x-position] [y-position] [z-position]</p>
+<p>Note that the site type matches the Site Properties.</p>
+</section>
+<section id="site-labels">
+<h2>Site Labels<a class="headerlink" href="#site-labels" title="Link to this heading"></a></h2>
+<p>Site labels are used to attach a name to the site type, often used for visualization programs, etc.
+Note: these are not currently implemented but serve as a place holder or for reference.</p>
+</section>
+<section id="bond-angle-and-dihedral-properties">
+<h2>Bond, Angle and Dihedral Properties<a class="headerlink" href="#bond-angle-and-dihedral-properties" title="Link to this heading"></a></h2>
+<p>The format for this section is as follows:</p>
+<p>[bond type] [bond class name] [label_0] [value_0] … [label_n] [value_n]</p>
+<p>The labels are described for each bond class, such as <a class="reference internal" href="../plugin/system/doc/RigidBond.html#_CPPv4N6feasst9RigidBondE" title="feasst::RigidBond"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">RigidBond</span></code></a>, <a class="reference internal" href="../plugin/models/doc/AngleHarmonic.html#_CPPv4N6feasst13AngleHarmonicE" title="feasst::AngleHarmonic"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AngleHarmonic</span></code></a> and <a class="reference internal" href="../plugin/models/doc/DihedralTraPPE.html#_CPPv4N6feasst14DihedralTraPPEE" title="feasst::DihedralTraPPE"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">DihedralTraPPE</span></code></a>.</p>
+</section>
+<section id="bonds">
+<h2>Bonds<a class="headerlink" href="#bonds" title="Link to this heading"></a></h2>
+<p>The format for this section is as follows:</p>
+<p>[bond index] [bond type] [site index i] [site index j]</p>
+</section>
+<section id="angles">
+<h2>Angles<a class="headerlink" href="#angles" title="Link to this heading"></a></h2>
+<p>The format for this section is as follows:</p>
+<p>[angle index] [angle type] [site index i] [site index j] [site index k]</p>
+<p>Note that j is the vertex of the defined angle.
+In 2D, angles are defined clockwise, such that angles ijk and kji are not the same.
+For more information on the angle definition, see <a class="reference internal" href="../plugin/math/doc/Position.html#_CPPv4NK6feasst8Position20vertex_angle_radiansERK8PositionRK8Position" title="feasst::Position::vertex_angle_radians"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vertex_angle_radians</span></code></a></p>
+</section>
+<section id="dihedrals">
+<h2>Dihedrals<a class="headerlink" href="#dihedrals" title="Link to this heading"></a></h2>
+<p>The format for this section is as follows:</p>
+<p>[dihedral index] [dihedral type] [site index i] [site index j] [site index k] [site index l]</p>
+<p>For more information on the dihedral definition, see <a class="reference internal" href="../plugin/math/doc/Position.html#_CPPv4NK6feasst8Position21torsion_angle_radiansERK8PositionRK8PositionRK8Position" title="feasst::Position::torsion_angle_radians"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">torsion_angle_radians</span></code></a>.</p>
+</section>
+<section id="comments">
+<h2>Comments<a class="headerlink" href="#comments" title="Link to this heading"></a></h2>
+<p>For comments at the beginning of the file, begin each comment line with the “#” character.
+Do not add comments anywhere else in the file.
+Comments can only be one contiguous group of lines beginning with “#.”
+Always end comments with a blank line immediately after.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../plugin/gibbs/doc/CheckConstantVolume_arguments.html" class="btn btn-neutral float-left" title="CheckConstantVolume" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../plugin/README.html" class="btn btn-neutral float-right" title="C++ Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+
+
+  <br></br>
+  <footer class="nist-footer">
+  <div class="nist-footer__inner">
+    <div class="nist-footer__menu" role="navigation">
+      <ul>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy">Privacy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#privpolicy">Privacy Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#secnot">Security Notice</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#accesstate">Accessibility Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy">NIST Privacy Program</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/disclaimer">Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/office-director/freedom-information-act">FOIA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#cookie">Cookie Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity Summary</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/nist-information-quality-standards">NIST Information Quality Standards</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://business.usa.gov/">Business USA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.commerce.gov/">Commerce.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.healthcare.gov/">Healthcare.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.science.gov/">Science.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.usa.gov/">USA.gov</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="nist-footer__logo">
+    <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-footer__logo-link" rel="home">
+      <img src="https://pages.nist.gov/nist-header-footer/images/nist_logo_centered_rev.svg" alt="National Institute of Standards and Technology logo" />
+    </a>
+  </div>
+</footer>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-115121490-6');
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WN56CL762L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WN56CL762L');
+  </script>
+
+
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

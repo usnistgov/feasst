@@ -12,7 +12,7 @@ assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_
 
 def run_file(filename):
     if 'checkpoint' not in filename.name:
-        exclude = ['build', 'dev', 'feasst_test_env', 'library']
+        exclude = ['build', 'html', 'dev', 'feasst_test_env', 'library']
         if all([x not in str(filename.parent) for x in exclude]):
             with cd.cd(filename.parent):
                 print("Running:", filename, "in", filename.parent)
@@ -21,7 +21,7 @@ def run_file(filename):
 
 def grep_file(filename):
     if 'checkpoint' not in filename.name:
-        exclude = ['build', 'dev', 'feasst_test_env', 'library']
+        exclude = ['build', 'html', 'dev', 'feasst_test_env', 'library']
         if all([x not in str(filename.parent) for x in exclude]):
             with cd.cd(filename.parent):
                 print("Grepping:", filename, "in", filename.parent)

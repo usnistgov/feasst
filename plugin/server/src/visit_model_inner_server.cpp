@@ -182,6 +182,7 @@ void VisitModelInnerServer::compute(
   std::stringstream ss;
   ss << squared_distance << "," << s1 << "," << s2 << "," << e1 << "," << e2
      << "," << e3 << "," << type1 << "," << type2;
+  // Access neighbor list throught energy_map_
   server_->send(ss.str());
   const int size = server_->receive();
   TRACE(server_->buffer());

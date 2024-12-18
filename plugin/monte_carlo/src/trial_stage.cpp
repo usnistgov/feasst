@@ -121,7 +121,7 @@ void TrialStage::attempt(System * system,
         DEBUG("updating positions " << rosenbluth_->chosen().str());
         DEBUG("pos0 " << rosenbluth_->chosen().site_positions()[0][0].str());
         // DEBUG("pos1 " << rosenbluth_->chosen().site_positions()[0][1].str());
-        system->get_configuration()->update_positions(rosenbluth_->chosen());
+        select_->get_configuration(system)->update_positions(rosenbluth_->chosen());
         // if select->is_ghost() then revive particle
       } else if (is_new_only()) {
         ASSERT(rosenbluth_->num() == 1, "assumes 1 step for mayer");

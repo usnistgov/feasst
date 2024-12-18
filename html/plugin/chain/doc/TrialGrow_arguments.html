@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TrialGrow &mdash; FEASST 0.25.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=b72c10c5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="TrialAdd" href="../../monte_carlo/doc/TrialAdd_arguments.html" />
+    <link rel="prev" title="TrialTransfer" href="../../monte_carlo/doc/TrialTransfer_arguments.html" />
+
+	<!-- frame blocking -->
+	<script type="text/javascript">
+		if (top !=self) {
+			top.location=self.location;
+		}
+	</script>
+
+	<!-- NIST header and footer -->
+	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            FEASST
+          </a>
+              <div class="version">
+                0.25.6
+              </div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../OVERVIEW.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../text_interface.html">Text Interface</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/doc/Checkpoint_arguments.html">Checkpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#random-number-generators">Random Number Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-isotropic-models">Nonbonded Isotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-potentials">Nonbonded Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#nonbonded-anisotropic-models">Nonbonded Anisotropic Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#long-range-electrostatics">Long-Range Electrostatics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#one-body-potentials">One-Body Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#bonded-interactions">Bonded Interactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#thermodynamic-parameters">Thermodynamic Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#acceptance-criteria">Acceptance Criteria</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#constraints">Constraints</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../text_interface.html#monte-carlo-trials">Monte Carlo Trials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../monte_carlo/doc/TrialTranslate_arguments.html">TrialTranslate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialParticlePivot_arguments.html">TrialParticlePivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../monte_carlo/doc/TrialTransfer_arguments.html">TrialTransfer</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TrialGrow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst9TrialGrowE"><code class="docutils literal notranslate"><span class="pre">TrialGrow</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst13TrialGrowFileE"><code class="docutils literal notranslate"><span class="pre">TrialGrowFile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../monte_carlo/doc/TrialAdd_arguments.html">TrialAdd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../monte_carlo/doc/TrialRemove_arguments.html">TrialRemove</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../monte_carlo/doc/TrialVolume_arguments.html">TrialVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../beta_expanded/doc/TrialBeta_arguments.html">TrialBeta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaft_arguments.html">TrialCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialCrankshaftSmall_arguments.html">TrialCrankshaftSmall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialPivot_arguments.html">TrialPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialSwapSites_arguments.html">TrialSwapSites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../charge/doc/TrialAddMultiple_arguments.html">TrialAddMultiple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../charge/doc/TrialRemoveMultiple_arguments.html">TrialRemoveMultiple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../charge/doc/TrialTransferMultiple_arguments.html">TrialTransferMultiple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialAVB2_arguments.html">TrialAVB2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialAVB4_arguments.html">TrialAVB4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialRigidCluster_arguments.html">TrialRigidCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialTranslateCluster_arguments.html">TrialTranslateCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialRotateCluster_arguments.html">TrialRotateCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialTransferAVB_arguments.html">TrialTransferAVB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialAddAVB_arguments.html">TrialAddAVB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialRemoveAVB_arguments.html">TrialRemoveAVB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialTransferAVBDivalent_arguments.html">TrialTransferAVBDivalent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialAddAVBDivalent_arguments.html">TrialAddAVBDivalent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialRemoveAVBDivalent_arguments.html">TrialRemoveAVBDivalent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../morph/doc/TrialMorph_arguments.html">TrialMorph</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#analyze">Analyze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#modify">Modify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#actions">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#flat-histogram">Flat Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#gibbs-ensemble">Gibbs Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text_interface.html#change-log">Change Log</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">C++ Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CITATION.html">Citation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">FEASST</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <header class="nist-header" id="nist-header" role="banner">
+
+  <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-header__logo-link" rel="home">
+    <svg aria-hidden="true" class="nist-header__logo-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32">
+      <path d="M20.911 5.375l-9.482 9.482 9.482 9.482c0.446 0.446 0.446 1.161 0 1.607l-2.964 2.964c-0.446 0.446-1.161 0.446-1.607 0l-13.25-13.25c-0.446-0.446-0.446-1.161 0-1.607l13.25-13.25c0.446-0.446 1.161-0.446 1.607 0l2.964 2.964c0.446 0.446 0.446 1.161 0 1.607z"></path>
+    </svg>
+    <svg class="nist-header__logo-image" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-237 385.7 109.7 29.3">
+      <title>National Institute of Standards and Technology</title>
+      <g>
+        <path class="st0" d="M-231,415h-6v-23.1c0,0,0-4.4,4.4-5.8c4-1.3,6.6,1.3,6.6,1.3l19.7,21.3c1,0.6,1.4,0,1.4-0.6v-22h6.1V409
+          c0,1.9-1.6,4.4-4,5.3c-2.4,0.9-4.9,0.9-7.9-1.7l-18.5-20c-0.5-0.5-1.8-0.6-1.8,0.4L-231,415L-231,415z"/>
+        <path class="st0" d="M-195,386.1h6.1v20.7c0,2.2,1.9,2.2,3.6,2.2h26.8c1.1,0,2.4-1.3,2.4-2.7c0-1.4-1.3-2.8-2.5-2.8H-176
+          c-3,0.1-9.2-2.7-9.2-8.5c0-7.1,5.9-8.8,8.6-9h49.4v6.1h-12.3V415h-6v-22.9h-30.2c-2.9-0.2-4.9,4.7-0.2,5.4h18.6
+          c2.8,0,7.4,2.4,7.5,8.4c0,6.1-3.6,9-7.5,9H-185c-4.5,0-6.2-1.1-7.8-2.5c-1.5-1.5-1.7-2.3-2.2-5.3L-195,386.1
+          C-194.9,386.1-195,386.1-195,386.1z"/>
+      </g>
+    </svg>
+  </a>
+
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../text_interface.html">Text Interface</a> &raquo;</li>
+        
+      <li>TrialGrow</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="trialgrow">
+<h1>TrialGrow<a class="headerlink" href="#trialgrow" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst9TrialGrowE">
+<span class="target" id="classfeasst_1_1TrialGrow"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialGrow</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst17TrialFactoryNamedE" title="feasst::TrialFactoryNamed"><span class="n"><span class="pre">TrialFactoryNamed</span></span></a><br /></dt>
+<dd><p>Manually describe partial or full-particle growth using configurational bias. The input is a vector of argtype, where each argtype represents a <a class="reference internal" href="../../monte_carlo/doc/TrialStage_arguments.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a> for growing one (or rarely, multiple) sites.</p>
+<p>The following options may only be used in the first argtype.<ul class="simple">
+<li><p>particle_type: type of particle in <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> (always required).</p></li>
+<li><p>site: site index in particle_type to transfer/regrow (always required).</p></li>
+<li><p>weight: weight of selection of this trial (default: see <a class="reference internal" href="../../monte_carlo/doc/Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>).</p></li>
+<li><p>transfer: if true, create add and remove trial with equal weight (default: false).</p></li>
+<li><p>gibbs_transfer: if true, create two trials which transfer particles between configuration_index and configuration_index2 (default: false).</p></li>
+<li><p>regrow: if true, place anywhere in the domain (default: false).</p></li>
+<li><p>transfer_avb: if true, same as transfer but with TrialAddAVB/TrialRemoveAVB for the first stage (default: false).</p></li>
+<li><p>regrow_avb2: if true, regrow using <a class="reference internal" href="../../cluster/doc/TrialAVB2_arguments.html#classfeasst_1_1TrialAVB2"><span class="std std-ref">TrialAVB2</span></a> in the first stage (default: false).</p></li>
+<li><p>regrow_avb4: if true, regrow using <a class="reference internal" href="../../cluster/doc/TrialAVB4_arguments.html#classfeasst_1_1TrialAVB4"><span class="std std-ref">TrialAVB4</span></a> in the first stage (default: false).</p></li>
+<li><p>translate: if true (default: false), translate site (which is required arg for <a class="reference internal" href="../../monte_carlo/doc/TrialSelectParticle_arguments.html#classfeasst_1_1TrialSelectParticle"><span class="std std-ref">TrialSelectParticle</span></a>). In addition, must have number of stages equal to number of sites.</p></li>
+<li><p>add: if true, create an add trial (default: false).</p></li>
+<li><p>remove: if true, create a remove trial (default: false).</p></li>
+<li><p>add_avb: if true, create an avb add trial (default: false).</p></li>
+<li><p>remove_avb: if true, create an avb remove trial (default: false).</p></li>
+<li><p>default_num_steps: optional default number of steps for all stages.</p></li>
+<li><p>default_reference_index: optional default reference index for all stages.</p></li>
+<li><p>default_new_only: optional default new only for all stages.</p></li>
+</ul>
+</p>
+<p>The following options may be used in any argtype. If used in the first, then it is a partial regrowth move.<ul class="simple">
+<li><p>bond: if true, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDistance_arguments.html#classfeasst_1_1PerturbDistance"><span class="std std-ref">PerturbDistance</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
+<li><p>angle: if true, adds <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle_arguments.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDistanceAngle_arguments.html#classfeasst_1_1PerturbDistanceAngle"><span class="std std-ref">PerturbDistanceAngle</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle_arguments.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
+<li><p>dihedral: if true, adds <a class="reference internal" href="../../monte_carlo/doc/TrialSelectDihedral_arguments.html#classfeasst_1_1TrialSelectDihedral"><span class="std std-ref">TrialSelectDihedral</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDihedral_arguments.html#classfeasst_1_1PerturbDihedral"><span class="std std-ref">PerturbDihedral</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectDihedral_arguments.html#classfeasst_1_1TrialSelectDihedral"><span class="std std-ref">TrialSelectDihedral</span></a>, <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle_arguments.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
+<li><p>branch: if true, adds <a class="reference internal" href="SelectBranch_arguments.html#classfeasst_1_1SelectBranch"><span class="std std-ref">SelectBranch</span></a> and <a class="reference internal" href="PerturbBranch_arguments.html#classfeasst_1_1PerturbBranch"><span class="std std-ref">PerturbBranch</span></a>. Requires arguments described in <a class="reference internal" href="SelectBranch_arguments.html#classfeasst_1_1SelectBranch"><span class="std std-ref">SelectBranch</span></a>, <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle_arguments.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>. Note, only the “2-branch” case, where two sites are placed simultaneous, as described in <a class="reference external" href="https://doi.org/10.1021/acs.jctc.7b00173">https://doi.org/10.1021/acs.jctc.7b00173</a> is implemented here.</p></li>
+<li><p>reptate: if true, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a> and <a class="reference internal" href="PerturbToAnchor_arguments.html#classfeasst_1_1PerturbToAnchor"><span class="std std-ref">PerturbToAnchor</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
+<li><p>position_swap: if true, add <a class="reference internal" href="SelectTwoSites_arguments.html#classfeasst_1_1SelectTwoSites"><span class="std std-ref">SelectTwoSites</span></a> and <a class="reference internal" href="PerturbPositionSwap_arguments.html#classfeasst_1_1PerturbPositionSwap"><span class="std std-ref">PerturbPositionSwap</span></a>. Requires arguments described in <a class="reference internal" href="SelectTwoSites_arguments.html#classfeasst_1_1SelectTwoSites"><span class="std std-ref">SelectTwoSites</span></a>.</p></li>
+<li><p>rigid_body_connector: if true, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a> and <a class="reference internal" href="PerturbConnector_arguments.html#classfeasst_1_1PerturbConnector"><span class="std std-ref">PerturbConnector</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
+<li><p>rigid_body_angle: if true, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle_arguments.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="PerturbDistanceAngleConnector_arguments.html#classfeasst_1_1PerturbDistanceAngleConnector"><span class="std std-ref">PerturbDistanceAngleConnector</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle_arguments.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a>.</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/TrialStage_arguments.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a> arguments: num_steps, reference_index, new_only, etc.</p></li>
+</ul>
+</p>
+<p>Note that only one of bond, angle or branch may be true for a given stage.</p>
+<p>Derivation of the acceptance criteria follows the procedure described in <a class="reference internal" href="../../monte_carlo/doc/TrialComputeMove_arguments.html#classfeasst_1_1TrialComputeMove"><span class="std std-ref">TrialComputeMove</span></a> and first described in Lecture 9 of Prof. David Kofke’s Molecular Simulation course CE 530</p>
+<p><a class="reference external" href="http://www.eng.buffalo.edu/~kofke/ce530/Lectures/lectures.html">http://www.eng.buffalo.edu/~kofke/ce530/Lectures/lectures.html</a></p>
+<p>For bonds, angles and dihedrals, the relevant forward and reverse probabilities are as follows: <p><table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>Forward event</p>
+<p>[reverse event]</p>
+</td>
+<td><p>Probability, <span class="math notranslate nohighlight">\(\pi_{on}\)</span></p>
+<p>[reverse probability, <span class="math notranslate nohighlight">\(\pi_{no}\)</span>]</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Select particle of type t</p>
+<p>[Select particle of type t]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(1/N_t\)</span></p>
+<p><span class="math notranslate nohighlight">\([1/N_t]\)</span></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Select bond from given site indices</p>
+<p>[Select bond from given site indices]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(1\)</span></p>
+<p><span class="math notranslate nohighlight">\(1\)</span></p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Select new length/angle <span class="math notranslate nohighlight">\(b_n\)</span></p>
+<p>[Select old length/angle <span class="math notranslate nohighlight">\(b_o\)</span>]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(P(b_n)\)</span></p>
+<p><span class="math notranslate nohighlight">\(P(b_o)\)</span></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Select new orientation</p>
+<p>[Select old orientation]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(1/\omega\)</span></p>
+<p><span class="math notranslate nohighlight">\(1/\omega\)</span></p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Accept</p>
+<p>[Accept]</p>
+</td>
+<td><p><span class="math notranslate nohighlight">\(\min(1, \chi)\)</span></p>
+<p><span class="math notranslate nohighlight">\([\min(1, 1/\chi)]\)</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Applying (local) detailed balance yields</p>
+<p><span class="math notranslate nohighlight">\(\chi = \frac{P(b_o)}{P(b_n)}\exp[-\beta(U_n - U_o)]\)</span>.</p>
+<p>For example, the probabililty of selecting a bond length/angle, b, by an
+entirely random placement in space is given by</p>
+<p><span class="math notranslate nohighlight">\(P \propto 1\)</span>.</p>
+<p>In this case,</p>
+<p><span class="math notranslate nohighlight">\(\chi = \exp[-\beta(U_n - U_o)]\)</span></p>
+<p>where the energies include all intramolecular and intermolecular terms.
+For strong bonds, this becomes highly inefficient because most trials will be
+rejected due to the intramolecular term, which is inexpensive to compute,
+but the intermolecular term has to be computed for each trial and is expensive.
+This is described as scheme one on page 347 of Frenkel and Smit’s Understanding
+Molecular Simulation.</p>
+<p>The second, more efficient scheme is to select the bond/angle by taking the
+intramolecular bond energy, <span class="math notranslate nohighlight">\(U^b\)</span>, into account during the selection.</p>
+<p><span class="math notranslate nohighlight">\(P \propto \exp(-\beta U^b)\)</span>.</p>
+<p>In this case,</p>
+<p><span class="math notranslate nohighlight">\(\chi = \frac{P(b_o)}{P(b_n)}\exp\{-\beta[(U_n-U^b_n) - (U_o-U^b_o)]\}\)</span>.</p>
+<p>Because <span class="math notranslate nohighlight">\(U^b\)</span> is already taken into account during selection of the
+bond/angle using this Rosenbluth form for <span class="math notranslate nohighlight">\(P(l)\)</span>, <span class="math notranslate nohighlight">\(U^b\)</span> is
+excluded from the energy in the acceptance probability.</p>
+</p>
+</p>
+<p>Subclassed by <a class="reference internal" href="#classfeasst_1_1TrialGrowFile"><span class="std std-ref">feasst::TrialGrowFile</span></a></p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst13TrialGrowFileE">
+<span class="target" id="classfeasst_1_1TrialGrowFile"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialGrowFile</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="TrialGrow.html#_CPPv4N6feasst9TrialGrowE" title="feasst::TrialGrow"><span class="n"><span class="pre">TrialGrow</span></span></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul>
+<li><p>grow_file: name of <a class="reference internal" href="#classfeasst_1_1TrialGrowFile"><span class="std std-ref">TrialGrowFile</span></a> file with the following format:</p>
+<p>line1: <a class="reference internal" href="#classfeasst_1_1TrialGrowFile"><span class="std std-ref">TrialGrowFile</span></a></p>
+<p>line2: optional space</p>
+<p>line3: stage with key pair separated by space (e.g., “transfer true site 0”)</p>
+<p>lineX: additional stages until end of file or empty line.</p>
+<p>lineY: additional trials with additional stages as described above, separated by empty lines.</p>
+<p>See the tutorials for examples. </p>
+</li>
+</ul>
+</p>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../monte_carlo/doc/TrialTransfer_arguments.html" class="btn btn-neutral float-left" title="TrialTransfer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../monte_carlo/doc/TrialAdd_arguments.html" class="btn btn-neutral float-right" title="TrialAdd" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+
+
+  <br></br>
+  <footer class="nist-footer">
+  <div class="nist-footer__inner">
+    <div class="nist-footer__menu" role="navigation">
+      <ul>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy">Privacy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#privpolicy">Privacy Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#secnot">Security Notice</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#accesstate">Accessibility Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy">NIST Privacy Program</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/disclaimer">Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/office-director/freedom-information-act">FOIA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy Statement</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.nist.gov/privacy-policy#cookie">Cookie Disclaimer</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity Summary</a>
+        </li>
+        <li class="nist-footer__menu-item ">
+          <a href="https://www.nist.gov/nist-information-quality-standards">NIST Information Quality Standards</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://business.usa.gov/">Business USA</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.commerce.gov/">Commerce.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="https://www.healthcare.gov/">Healthcare.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.science.gov/">Science.gov</a>
+        </li>
+        <li class="nist-footer__menu-item">
+          <a href="http://www.usa.gov/">USA.gov</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="nist-footer__logo">
+    <a href="https://www.nist.gov/" title="National Institute of Standards and Technology" class="nist-footer__logo-link" rel="home">
+      <img src="https://pages.nist.gov/nist-header-footer/images/nist_logo_centered_rev.svg" alt="National Institute of Standards and Technology logo" />
+    </a>
+  </div>
+</footer>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-115121490-6');
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WN56CL762L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WN56CL762L');
+  </script>
+
+
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

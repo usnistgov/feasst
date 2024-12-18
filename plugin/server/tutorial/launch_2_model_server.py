@@ -64,7 +64,7 @@ def write_feasst_script(params, script_file):
 MonteCarlo
 RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
-Potential Model ModelServer port {port} VisitModel VisitModelCell min_length max_cutoff
+Potential Model ModelServer port {port} VisitModel VisitModelCell
 Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential -1
 Metropolis

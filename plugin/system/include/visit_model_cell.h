@@ -22,7 +22,7 @@ class VisitModelCell : public VisitModel {
   //@{
   /** @name Arguments
     - min_length: build cell list with given minimum distance between cells
-      as a floating point number.
+      as a floating point number (default: "max_cutoff").
       If "max_sigma" then use the largest mixed sigma value.
       If "max_cutoff" then use the largest mixed cutoff value.
     - cell_group_index: compute cells only in given group index (default: 0).

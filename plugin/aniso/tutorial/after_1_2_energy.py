@@ -24,7 +24,7 @@ Potential Model ModelTwoBodyFactory \
   model0 HardSphere \
   model1 LennardJones \
   model2 DebyeHuckel kappa {kappa} dielectric {dielectric_water} smoothing_distance {smoothing_distance} \
-  VisitModel VisitModelCell min_length max_cutoff energy_cutoff 1e100
+  VisitModel VisitModelCell energy_cutoff 1e100
 TabulateTwoRigidBody3D proc {sim} num_proc {num_sims} input_orientation_file {orientation_file} num_z {num_z} smoothing_distance {smoothing_distance} input_table_file {contact_file} output_table_file {prefix}{sim}.txt gamma {gamma}
 """.format(**params))
 

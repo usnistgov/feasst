@@ -65,7 +65,7 @@ MonteCarlo
 RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
 Potential Model ModelMPI
-#Potential Model ModelMPI VisitModel VisitModelCell min_length max_cutoff
+#Potential Model ModelMPI VisitModel VisitModelCell
 Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential -1
 Metropolis
