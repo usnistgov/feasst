@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <x86intrin.h>
 #include "utils/include/serialize_extra.h"
 #include "utils/include/arguments.h"
 #include "utils/include/file.h"
@@ -819,7 +818,8 @@ void MonteCarlo::run_until_file_exists(const std::string& file_name) {
   }
 }
 
-void MonteCarlo::synchronize_(const MonteCarlo& mc, const Select& perturbed) {
+void MonteCarlo::synchronize_(const MonteCarlo& mc,
+     const std::vector<std::shared_ptr<Select> >& perturbed) {
   system_->synchronize_(mc.system(), perturbed);
   criteria_->synchronize_(mc.criteria());
   trial_factory_->synchronize_(mc.trials());

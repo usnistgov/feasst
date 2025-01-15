@@ -136,7 +136,9 @@ void Trial::revert(System * system, Criteria * criteria) {
   for (int index = num_stages() - 1; index >= 0; --index) {
     stages_[index]->revert(system);
   }
-  system->revert(acceptance_->perturbed());
+  for (int config = 0; config < system->num_configurations(); ++config) {
+    system->revert(acceptance_->perturbed(config), config);
+  }
 }
 
 void Trial::revert(const int index,
@@ -185,7 +187,7 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
     //DEBUG("existing: " << config.group_select(0).str());
     DEBUG("num of type 0: " << config.num_particles_of_type(0));
     DEBUG("current_energy: " << criteria->current_energy(iconf));
-    //INFO("all: " << system->configuration(iconf).selection_of_all().str());
+    //DEBUG("all: " << system->configuration(iconf).selection_of_all().str());
   }
   increment_num_attempts();
   if (!acceptance_) {

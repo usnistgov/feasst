@@ -393,3 +393,4 @@ To Do List
 * Enable DCCB with Gibbs (transfer issue, or all cb ?)- ACtually, it seems to be cell lists that are the problem (the ref potential)
 * fstprt files use label strings instead of numbers (document this, 0-O, 1-H for spce, etc)
 * pip install feasst
+* x86intrin.h is not portable to mac M processors

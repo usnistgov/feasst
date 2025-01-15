@@ -29,9 +29,10 @@ void ComputeAddAVBDivalent::perturb_and_acceptance(
     std::vector<TrialStage*> * stages,
     Random * random) {
   DEBUG("ComputeAddAVBDivalent");
-
-  ASSERT(acceptance->perturbed().num_sites() == 3,
-    "hard coded for single site particles");
+  for (int config = 0; config < system->num_configurations(); ++config) {
+    ASSERT(acceptance->perturbed(config).num_sites() == 3,
+      "hard coded for single site particles");
+  }
 
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);

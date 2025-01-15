@@ -1,6 +1,8 @@
 #include "utils/include/serialize.h"
 #include "utils/include/io.h"
 #include "utils/include/arguments.h"
+#include "system/include/potential.h"
+#include "system/include/visit_model.h"
 #include "monte_carlo/include/trial_select_all.h"
 #include "monte_carlo/include/perturb_volume.h"
 #include "gibbs/include/compute_gibbs_volume_transfer.h"
@@ -39,6 +41,26 @@ TrialGibbsVolumeTransfer::TrialGibbsVolumeTransfer(argtype * args) : Trial(args)
 }
 TrialGibbsVolumeTransfer::TrialGibbsVolumeTransfer(argtype args) : TrialGibbsVolumeTransfer(&args) {
   feasst_check_all_used(args);
+}
+
+void TrialGibbsVolumeTransfer::precompute(Criteria * criteria, System * system) {
+  Trial::precompute(criteria, system);
+
+  // User input check if DontVisitModel is used as a reference index
+  const int ref = stage(0).reference();
+  DEBUG("ref " << ref);
+  ASSERT(ref > -1, "TrialGibbsVolumeTransfer requires a reference_potential.");
+  for (int st = 0; st < num_stages(); ++st) {
+    const int config = stage(st).select().configuration_index();
+    DEBUG("config " << config);
+    const VisitModel& vis = system->reference(ref, 0, config).visit_model();
+    ASSERT(vis.class_name() == "DontVisitModel", "TrialGibbsVolumeTransfer "
+      << "requires the argument \"reference_index {index}\" where {index} is "
+      << "refers to a previous required command: \"RefPotential reference_index"
+      << " {index} configuration_index {config} VisitModel DontVisitModel\" "
+      << "for each {config}. Here, the reference potential is using "
+      << vis.class_name() << " instead of DontVisitModel in config " << config);
+  }
 }
 
 TrialGibbsVolumeTransfer::TrialGibbsVolumeTransfer(std::istream& istr) : Trial(istr) {

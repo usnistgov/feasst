@@ -167,10 +167,12 @@ def write_grow_file(filename, params,
                     conf, conf2=-1): # the second conf is for gibbs transfer only
     params['conf'] = conf
     params['conf2'] = conf2
+    params['ref'] = 0
     params['num_steps'] = 1
-    # To enable DCCB, uncomment the following two lines
-    #if gce == 2:
-    #    params['num_steps'] = params['num_dccb']
+    if gce == 2 or conf == 1:
+        # use DCCB in config 1 (liquid) or with transfers
+        params['ref'] = 1
+        params['num_steps'] = params['num_dccb']
     with open(filename, 'w') as f:
         f.write("TrialGrowFile\n\n")
         for inv in [True, False]:
@@ -183,17 +185,17 @@ def write_grow_file(filename, params,
                         params['site'+str(i)] = site + sign*i
                         if inv:
                             params['site'+str(i)] = params['num_sites'] - site - 1 - sign*i
-                    bond = """bond true mobile_site {site0} anchor_site {site1} num_steps {num_steps} reference_index 0\n""".format(**params)
-                    angle = """angle true mobile_site {site0} anchor_site {site1} anchor_site2 {site2} num_steps {num_steps} reference_index 0\n""".format(**params)
-                    dihedral = """dihedral true mobile_site {site0} anchor_site {site1} anchor_site2 {site2} anchor_site3 {site3} num_steps {num_steps} reference_index 0\n""".format(**params)
+                    bond = """bond true mobile_site {site0} anchor_site {site1} num_steps {num_steps} reference_index {ref}\n""".format(**params)
+                    angle = """angle true mobile_site {site0} anchor_site {site1} anchor_site2 {site2} num_steps {num_steps} reference_index {ref}\n""".format(**params)
+                    dihedral = """dihedral true mobile_site {site0} anchor_site {site1} anchor_site2 {site2} anchor_site3 {site3} num_steps {num_steps} reference_index {ref}\n""".format(**params)
 
                     # full regrowth insertion/deletion
                     if trial_type == 1 and (gce == 1 or gce == 2):
                         if site == 0:
                             if gce == 2:
-                                f.write("""particle_type 0 configuration_index {conf} configuration_index2 {conf2} weight 1 gibbs_transfer true site {site0} num_steps {num_steps} reference_index 0 print_num_accepted true\n""".format(**params))
+                                f.write("""particle_type 0 configuration_index {conf} configuration_index2 {conf2} weight 1 gibbs_transfer true site {site0} num_steps {num_steps} reference_index {ref} print_num_accepted true\n""".format(**params))
                             elif gce == 1:
-                                f.write("""particle_type 0 configuration_index {conf} weight 1 add true site {site0} num_steps {num_steps} reference_index 0\n""".format(**params))
+                                f.write("""particle_type 0 configuration_index {conf} weight 1 add true site {site0} num_steps {num_steps} reference_index {ref}\n""".format(**params))
                         elif site == 1:
                             f.write(bond)
                         elif site == 2:
@@ -208,7 +210,7 @@ def write_grow_file(filename, params,
 #                        else:
 #                            if site == 0:
 #                                f.write("""particle_type 0 configuration_index {conf} weight 0.25 """.format(**params))
-#                            f.write("""reptate true mobile_site {site0} anchor_site {site1} num_steps 1 reference_index 0\n""".format(**params))
+#                            f.write("""reptate true mobile_site {site0} anchor_site {site1} num_steps 1 reference_index {ref}\n""".format(**params))
 #
 #                    # partial regrow of the last site
 #                    if trial_type == 2 and gce == 0:
@@ -245,9 +247,9 @@ CopyFollowingLines for_num_configurations 2
     Potential VisitModel LongRangeCorrections
     RefPotential reference_index 0 VisitModel DontVisitModel
 EndCopy
-# To enable DCCB, replace the RefPotential above with these
-#RefPotential reference_index 0 configuration_index 0 VisitModel DontVisitModel
-#RefPotential reference_index 0 configuration_index 1 Model LennardJones VisitModel VisitModelCell cutoff {dccb_cut} min_length {dccb_cut}
+# Initialize dual-cut configuration bias reference potential in the liquid but not in the vapor
+RefPotential reference_index 1 configuration_index 0 VisitModel DontVisitModel
+RefPotential reference_index 1 configuration_index 1 Model LennardJones VisitModel VisitModelCell cutoff {dccb_cut} min_length {dccb_cut}
 ThermoParams beta {beta} chemical_potential 10
 Metropolis
 CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 30

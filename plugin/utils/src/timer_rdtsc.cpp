@@ -1,4 +1,6 @@
-#include <x86intrin.h>
+#ifdef IS_X86
+  #include <x86intrin.h>
+#endif
 #include <numeric>  // accumulate
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
@@ -12,9 +14,15 @@ TimerRDTSC::TimerRDTSC(const int num) {
 TimerRDTSC::~TimerRDTSC() {}
 
 void TimerRDTSC::start(const int index) {
-  const uint64_t current_clock = __rdtsc();
+  #ifdef IS_X86
+    const uint64_t current_clock = __rdtsc();
+  #else
+    const uint64_t current_clock = 0;
+  #endif
   if (previous_index_ != -1) {
-    ASSERT(previous_clock_ != 0, "uninitialized");
+    #ifdef IS_X86
+      ASSERT(previous_clock_ != 0, "uninitialized");
+    #endif
     ticks_[previous_index_] += current_clock - previous_clock_;
   }
   previous_index_ = index;
@@ -25,7 +33,7 @@ std::vector<double> TimerRDTSC::percents() const {
   const uint64_t total = std::accumulate(ticks_.begin(), ticks_.end(), 0.);
   std::vector<double> pers;
   for (const uint64_t val : ticks_) {
-    pers.push_back(static_cast<double>(val)/total*100.);  
+    pers.push_back(static_cast<double>(val)/total*100.);
   }
   return pers;
 }

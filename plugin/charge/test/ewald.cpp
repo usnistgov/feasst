@@ -121,9 +121,9 @@ TEST(Ewald, synchronize) {
   s1.precompute();
   s1.energy();
   System s2 = test_serialize(s1);
-  Select part(0, s1.configuration().particle(0));
+  auto part = std::make_shared<Select>(0, s1.configuration().particle(0));
   Position disp({0.5, 0.5, 0.5});
-  s1.get_configuration()->displace_particle(part, disp);
+  s1.get_configuration()->displace_particle(*part, disp);
   s1.energy();
 
   std::stringstream ss;
@@ -141,7 +141,7 @@ TEST(Ewald, synchronize) {
   EXPECT_NEAR(s1.potential(0).visit_model().manual_data().dble_3D()[0][0][2], 0.95105651629515364, NEAR_ZERO);
   EXPECT_NEAR(s2.configuration().particle(0).site(0).position().coord(0), 0., NEAR_ZERO);
   EXPECT_NEAR(s2.potential(0).visit_model().manual_data().dble_3D()[0][0][2], 1, NEAR_ZERO);
-  s2.synchronize_(s1, part);
+  s2.synchronize_(s1, {part});
   EXPECT_NEAR(s2.configuration().particle(0).site(0).position().coord(0), 0.5, NEAR_ZERO);
   EXPECT_NEAR(s1.potential(0).visit_model().manual_data().dble_3D()[0][0][2], 0.95105651629515364, NEAR_ZERO);
   EXPECT_NEAR(s2.potential(0).visit_model().manual_data().dble_3D()[0][0][2], 0.95105651629515364, NEAR_ZERO);

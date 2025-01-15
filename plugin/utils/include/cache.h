@@ -32,6 +32,9 @@ class Cache {
   /// Attempt to load value into cache
   void load(const double value);
 
+  /// Stored values.
+  const std::deque<double> stored() const { return stored_; }
+
   /// Serialize.
   void serialize(std::ostream& ostr) const;
 

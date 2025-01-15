@@ -30,6 +30,9 @@ class TrialGibbsVolumeTransfer : public Trial {
    */
   //@{
 
+  // Same as Trial but also check reference potential.
+  void precompute(Criteria * criteria, System * system) override;
+
   std::shared_ptr<Trial> create(std::istream& istr) const override {
     return std::make_shared<TrialGibbsVolumeTransfer>(istr); }
   std::shared_ptr<Trial> create(argtype * args) const override {

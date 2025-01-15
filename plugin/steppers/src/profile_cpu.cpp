@@ -1,4 +1,3 @@
-#include <x86intrin.h>
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/timer_rdtsc.h"
@@ -63,6 +62,10 @@ std::string ProfileCPU::header(const MonteCarlo& mc) const {
 
 std::string ProfileCPU::write(const MonteCarlo& mc) {
   std::stringstream ss;
+  #ifndef IS_X86
+    ss << "ProfileCPU only works on x86 architectures." << std::endl;
+    return ss.str();
+  #endif
   if (rewrite_header()) {
     ss << header(mc);
   }

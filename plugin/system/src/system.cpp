@@ -326,15 +326,14 @@ std::string System::status() const {
 }
 
   // HWH suggest: make perturb a vector, one for each config?
-void System::synchronize_(const System& system, const Select& perturbed) {
+void System::synchronize_(const System& system, const std::vector<std::shared_ptr<Select> >& perturbed) {
   for (int config = 0; config < num_configurations(); ++config) {
     configurations_[config]->synchronize_(system.configuration(config),
-      perturbed);
-    ASSERT(config == 0, "perturb not implemented for multiple configs");
-    unoptimized_[config].synchronize_(system.unoptimized(), perturbed);
-    optimized_[config].synchronize_(system.optimized(), perturbed);
+      *perturbed[config]);
+    unoptimized_[config].synchronize_(system.unoptimized(), *perturbed[config]);
+    optimized_[config].synchronize_(system.optimized(), *perturbed[config]);
     for (int ref = 0; ref < num_references(config); ++ref) {
-      references_[config][ref].synchronize_(system.references()[config][ref], perturbed);
+      references_[config][ref].synchronize_(system.references()[config][ref], *perturbed[config]);
     }
   }
 }

@@ -277,7 +277,7 @@ class MonteCarlo {
 
   /// Attempt Monte Carlo trials until Criteria returns completion.
   /// If available, automatically write checkpoint when complete.
-  void run_until_complete();
+  virtual void run_until_complete();
 
   /// Attempt Monte Carlo trials until the given file name exists.
   virtual void run_until_file_exists(const std::string& file_name);
@@ -317,7 +317,7 @@ class MonteCarlo {
   void load_cache_(const bool load);
   // Unload random numbers and energy calculations from cache.
   void unload_cache_(const MonteCarlo& mc);
-  void synchronize_(const MonteCarlo& mc, const Select& perturbed);
+  void synchronize_(const MonteCarlo& mc, const std::vector<std::shared_ptr<Select> >& perturbed);
 
   /// Write all Analyze and Modify.
   void write_to_file();

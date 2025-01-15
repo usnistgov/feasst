@@ -252,7 +252,7 @@ class System {
   /// Set cache to unload energy calclatuions.
   void unload_cache(const System& system);
 
-  void synchronize_(const System& system, const Select& perturbed);
+  void synchronize_(const System& system, const std::vector<std::shared_ptr<Select> >& perturbed);
 
   /// Return the header of the status for periodic output.
   std::string status_header() const;

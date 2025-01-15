@@ -121,7 +121,8 @@ class Acceptance {
   void set_perturbed_state(const int state, const int config = 0);
 
   /// Return the perturbed selection.
-  const Select& perturbed(const int config = 0) const;
+  const std::vector<std::shared_ptr<Select> >& perturbed() const { return perturbed_; }
+  const Select& perturbed(const int config) const;
 
   ~Acceptance();
 

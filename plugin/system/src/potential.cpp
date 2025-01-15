@@ -162,6 +162,7 @@ double Potential::energy(Configuration * config) {
     } else {
       stored_energy_ = model_->compute(group_index_, config, visit_model_.get());
     }
+    DEBUG("caching " << stored_energy_ << " in " << model_->class_name());
     cache_->load(stored_energy_);
   }
   return stored_energy_;
@@ -177,6 +178,7 @@ double Potential::select_energy(const Select& select, Configuration * config) {
       stored_energy_ = model_->compute(select, group_index_, config,
                                        visit_model_.get());
     }
+    DEBUG("caching " << stored_energy_ << " in " << model_->class_name());
     cache_->load(stored_energy_);
   }
   return stored_energy_;
@@ -342,6 +344,7 @@ const Cache& Potential::cache() const { return *cache_; }
 void Potential::load_cache(const bool load) { cache_->set_load(load); }
 
 void Potential::unload_cache(const Potential& potential) {
+  DEBUG("unloading Potential cache");
   cache_->set_unload(potential.cache());
 }
 

@@ -114,6 +114,7 @@ class Prefetch : public MonteCarlo {
                                const int particle_type,
                                const int configuration_index) override;
   void run_until_file_exists(const std::string& file_name) override;
+  void run_until_complete() override;
 
   void serialize(std::ostream& ostr) const override;
   explicit Prefetch(std::istream& istr);

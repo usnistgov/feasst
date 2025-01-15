@@ -30,6 +30,10 @@ endif()
 # CMake attempts to find the libraries on its own.
 option(SET_PYTHON_PATH "Manually define PYTHON_INCLUDE_DIR and PYTHON_LIBRARY" OFF)
 
+if (CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
+  add_compile_definitions(IS_X86)
+endif ()
+
 # List the plugins to compile.
 if (NOT FEASST_PLUGINS)
   #set(FEASST_PLUGINS "threads")

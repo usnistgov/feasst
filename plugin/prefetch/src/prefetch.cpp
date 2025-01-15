@@ -20,7 +20,7 @@
 #include "prefetch/include/prefetch.h"
 
 // use this to make prefetch serial and simply debugging
-// #define DEBUG_SERIAL_MODE_5324634
+#define DEBUG_SERIAL_MODE_5324634
 
 namespace feasst {
 
@@ -90,6 +90,7 @@ void Prefetch::create(std::vector<Pool> * pool) {
 
 void Prefetch::run_until_complete_(TrialFactory * trial_factory,
                                    Random * random) {
+  DEBUG("here");
   if (!is_activated_) {
     MonteCarlo::run_until_complete_(trial_factory, random);
     return;
@@ -294,9 +295,9 @@ void Prefetch::attempt_(
           const Criteria& old_criteria = clone_(ithread)->criteria();
           DEBUG("nump " << clone_(ithread)->configuration().num_particles());
           for (int jthread = 0; jthread < num_threads_; ++jthread) {
+            DEBUG("j " << jthread);
             if (ithread != jthread) {
-              DEBUG("j " << jthread <<
-                   " index " << pool_[ithread].index() <<
+              DEBUG(" index " << pool_[ithread].index() <<
                    " lnp " << pool_[ithread].ln_prob() <<
                    " old " << old_criteria.state_old() <<
                    " new " << old_criteria.state_new());
@@ -309,20 +310,24 @@ void Prefetch::attempt_(
                 old_criteria.state_new()
               );
             } else {
-              // Update TM on rejection
+              DEBUG("Update TM on rejection");
+              DEBUG(clone_(jthread)->get_criteria()->class_name());
               clone_(jthread)->get_criteria()->imitate_trial_rejection_(
                 pool_[ithread].ln_prob(),
                 old_criteria.state_old(),
                 old_criteria.state_new(),
                 pool_[ithread].endpoint()
               );
+              DEBUG("here");
             }
             if (jthread == 0) {
+              DEBUG("analyzing");
               after_trial_analyze_();
+              DEBUG("here");
             }
           }
-          DEBUG("num attempts " << pool->mc->trials().num_attempts() << " "
-                                << pool->mc->trials().num_success() << " " << &pool->mc);
+//          DEBUG("num attempts " << pool->mc->trials().num_attempts() << " "
+//                                << pool->mc->trials().num_success() << " " << &pool->mc);
         }
         DEBUG("num attempts main " << trials().num_attempts() << " "
                                      << trials().num_success() << " " << this);
@@ -372,7 +377,7 @@ void Prefetch::attempt_(
             DEBUG(first_thread_accepted);
             DEBUG(accepted_pool->index());
             const MonteCarlo& cln = *clone_(first_thread_accepted);
-            DEBUG(cln.trial(accepted_pool->index()).accept().perturbed().str());
+            DEBUG(cln.trial(accepted_pool->index()).accept().perturbed(0).str());
             mc->synchronize_(cln,
               cln.trial(accepted_pool->index()).accept().perturbed());
           }
@@ -519,8 +524,11 @@ void Prefetch::run(std::shared_ptr<Action> action) {
 }
 
 void Prefetch::run_num_trials(int num_trials) {
+  if (num_trials < 0) {
+    return;
+  }
   if (num_trials < 10) {
-    WARN("num_trials:" << num_trials << " is inefficient.");
+    FATAL("num_trials:" << num_trials << " is inefficient.");
   }
   pool_.clear();
   while (num_trials > 0) {
@@ -571,4 +579,10 @@ const std::string Pool::str() const {
   ss << index_ << " " << ln_prob_ << " " << accepted_;
   return ss.str();
 }
+
+void Prefetch::run_until_complete() {
+  DEBUG("here");
+  run_until_complete_(get_trial_factory(), get_random());
+}
+
 }  // namespace feasst

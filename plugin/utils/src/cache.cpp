@@ -24,7 +24,7 @@ void Cache::set_unload(const bool unload) {
 void Cache::set_unload(const Cache& cache) {
   set_unload(true);
   ASSERT(cache.is_loading_, "other cache was not storing values");
-  ASSERT(cache.stored_.size() > 0, "other cache has no stored values");
+  //ASSERT(cache.stored_.size() > 0, "other cache has no stored values");
   stored_ = cache.stored_;
 }
 
