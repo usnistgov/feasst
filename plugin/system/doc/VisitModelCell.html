@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VisitModelCell &mdash; FEASST 0.25.5 documentation</title>
+  <title>VisitModelCell &mdash; FEASST 0.25.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=80d49aaf"></script>
+        <script src="../../../_static/documentation_options.js?v=b72c10c5"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -27,8 +27,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="VisitModelCutoffOuter" href="VisitModelCutoffOuter.html" />
-    <link rel="prev" title="VisitModelBond" href="VisitModelBond.html" />
+    <link rel="next" title="System" href="System.html" />
+    <link rel="prev" title="VisitModelIntraMap" href="VisitModelIntraMap.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -55,7 +55,7 @@
             FEASST
           </a>
               <div class="version">
-                0.25.5
+                0.25.6
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -96,17 +96,17 @@
 <li class="toctree-l4"><a class="reference internal" href="RigidDihedral.html">RigidDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="DontVisitModel.html">DontVisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCutoffOuter.html">VisitModelCutoffOuter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">VisitModelCell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 </ul>
 </li>
 </ul>
@@ -233,7 +233,7 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
 <p><ul class="simple">
-<li><p>min_length: build cell list with given minimum distance between cells as a floating point number. If “max_sigma” then use the largest mixed sigma value. If “max_cutoff” then use the largest mixed cutoff value.</p></li>
+<li><p>min_length: build cell list with given minimum distance between cells as a floating point number (default: “max_cutoff”). If “max_sigma” then use the largest mixed sigma value. If “max_cutoff” then use the largest mixed cutoff value.</p></li>
 <li><p>cell_group_index: compute cells only in given group index (default: 0).</p></li>
 <li><p>cell_group: as above, but use the name of the group, not the index. Do not use at the same time as cell_group_index (default: “”).</p></li>
 <li><p><a class="reference internal" href="VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a> arguments. </p></li>
@@ -287,8 +287,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="VisitModelBond.html" class="btn btn-neutral float-left" title="VisitModelBond" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="VisitModelCutoffOuter.html" class="btn btn-neutral float-right" title="VisitModelCutoffOuter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="VisitModelIntraMap.html" class="btn btn-neutral float-left" title="VisitModelIntraMap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="System.html" class="btn btn-neutral float-right" title="System" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

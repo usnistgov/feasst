@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CG simulation of a protein using anisotropic precomputed potentials &mdash; FEASST 0.25.5 documentation</title>
+  <title>CG simulation of a protein using anisotropic precomputed potentials &mdash; FEASST 0.25.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=80d49aaf"></script>
+        <script src="../../../_static/documentation_options.js?v=b72c10c5"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -55,7 +55,7 @@
             FEASST
           </a>
               <div class="version">
-                0.25.5
+                0.25.6
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -460,7 +460,7 @@
 <span class="s2">  model0 HardSphere </span><span class="se">\</span>
 <span class="s2">  model1 LennardJones </span><span class="se">\</span>
 <span class="s2">  model2 DebyeHuckel kappa </span><span class="si">{kappa}</span><span class="s2"> dielectric </span><span class="si">{dielectric_water}</span><span class="s2"> smoothing_distance </span><span class="si">{smoothing_distance}</span><span class="s2"> </span><span class="se">\</span>
-<span class="s2">  VisitModel VisitModelCell min_length max_cutoff energy_cutoff 1e100</span>
+<span class="s2">  VisitModel VisitModelCell energy_cutoff 1e100</span>
 <span class="s2">TabulateTwoRigidBody3D proc </span><span class="si">{sim}</span><span class="s2"> num_proc </span><span class="si">{num_sims}</span><span class="s2"> input_orientation_file </span><span class="si">{orientation_file}</span><span class="s2"> num_z </span><span class="si">{num_z}</span><span class="s2"> smoothing_distance </span><span class="si">{smoothing_distance}</span><span class="s2"> input_table_file </span><span class="si">{contact_file}</span><span class="s2"> output_table_file </span><span class="si">{prefix}{sim}</span><span class="s2">.txt gamma </span><span class="si">{gamma}</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 

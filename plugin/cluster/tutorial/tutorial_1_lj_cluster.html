@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monte Carlo with rigid cluster moves &mdash; FEASST 0.25.5 documentation</title>
+  <title>Monte Carlo with rigid cluster moves &mdash; FEASST 0.25.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -18,7 +18,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=80d49aaf"></script>
+        <script src="../../../_static/documentation_options.js?v=b72c10c5"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -58,7 +58,7 @@
             FEASST
           </a>
               <div class="version">
-                0.25.5
+                0.25.6
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -265,16 +265,17 @@ particle translations are still required to form a droplet. Without single parti
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.23.0-52-g781fe2b0e3-user/widom3
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-Configuration cubic_side_length 8 particle_type0 /home/user/open_mab_cg/feasst/particle/lj.fstprt
+Configuration cubic_side_length 8 particle_type0 /home/user/feasst/particle/lj.fstprt
 Potential Model LennardJones
 ThermoParams beta 4 chemical_potential0 1
 Metropolis
 TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
 TrialAdd particle_type 0
 Run until_num_particles 25
-# initializing random number generator with seed: 1695991527
+# initializing random number generator with seed: 1734454414
 Remove name TrialAdd
 Tune
 Log output_file log1.txt trials_per_write 1000
@@ -284,15 +285,16 @@ CheckEnergy tolerance 1e-8 trials_per_update 1000
 Run num_trials 1e5
 
  exit: 0
-# FEASST version: v0.23.0-52-g781fe2b0e3-user/widom3
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-Configuration cubic_side_length 8 particle_type0 /home/user/open_mab_cg/feasst/particle/lj.fstprt
+Configuration cubic_side_length 8 particle_type0 /home/user/feasst/particle/lj.fstprt
 Potential EnergyMap EnergyMapAll Model LennardJones
 ThermoParams beta 4 chemical_potential0 1
 Metropolis
 TrialAdd particle_type 0
 Run until_num_particles 25
-# initializing random number generator with seed: 1695991527
+# initializing random number generator with seed: 1734454414
 Remove name TrialAdd
 NeighborCriteria energy_maximum -0.5
 TrialRigidCluster neighbor_index 0
@@ -305,16 +307,17 @@ CheckEnergy tolerance 1e-8 trials_per_update 1000
 Run num_trials 1e5
 
  exit: 0
-# FEASST version: v0.23.0-52-g781fe2b0e3-user/widom3
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-Configuration cubic_side_length 8 particle_type0 /home/user/open_mab_cg/feasst/particle/lj.fstprt
+Configuration cubic_side_length 8 particle_type0 /home/user/feasst/particle/lj.fstprt
 Potential EnergyMap EnergyMapAll Model LennardJones
 ThermoParams beta 4 chemical_potential0 1
 Metropolis
 TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
 TrialAdd particle_type 0
 Run until_num_particles 25
-# initializing random number generator with seed: 1695991527
+# initializing random number generator with seed: 1734454415
 Remove name TrialAdd
 NeighborCriteria energy_maximum -0.5
 TrialRigidCluster neighbor_index 0
@@ -333,57 +336,32 @@ Run num_trials 1e5
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="c1"># #import math</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="k">class</span> <span class="nc">TestRigidCluster</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="c1">#         end_to_end=pd.read_csv(&#39;end_to_end.txt&#39;)</span>
 <span class="c1">#         self.assertAlmostEqual(end_to_end[&#39;average&#39;][0], math.sqrt(params[&#39;num_monomers&#39;]), delta=20)</span>
 <span class="c1">#         rg=pd.read_csv(&#39;rg.txt&#39;)</span>
 <span class="c1">#         self.assertAlmostEqual(rg[&#39;average&#39;][0], params[&#39;num_monomers&#39;]/6, delta=200)</span>
 
-        <span class="c1"># With rigid cluster moves only, clusters cannot coalesce or break up.</span>
-        <span class="c1"># So the clusters in the original configuration remain.</span>
-        <span class="k">for</span> <span class="n">sim</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="n">sim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="n">cluster</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;cluster3.txt&#39;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">cluster</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">])</span>
-                <span class="k">assert</span> <span class="n">cluster</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">8</span>
-<span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># With rigid cluster moves only, clusters cannot coalesce or break up.</span>
+<span class="c1"># So the clusters in the original configuration remain.</span>
+<span class="k">for</span> <span class="n">sim</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">sim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">cluster</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;cluster3.txt&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">cluster</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">])</span>
+        <span class="k">assert</span> <span class="n">cluster</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">8</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-test (__main__.TestRigidCluster) ... ok
-
-----------------------------------------------------------------------
-Ran 1 test in 0.002s
-
-OK
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-0    24.602957
-Name: average, dtype: float64
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f0014f0fcd0&gt;
+0    24.316069
+Name: average, dtype: float64
 </pre></div></div>
 </div>
 <p>Take a look at the cpu files. Sim 1 is faster than sim 2 because cluster moves are more expensive. Even when clusters are small, energy map book keeping and cluster calculations can be slow compared to a simple LJ potential.</p>

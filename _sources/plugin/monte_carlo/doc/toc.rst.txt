@@ -1,7 +1,6 @@
 
 .. toctree::
 
-   Acceptance
    Action
    Constraint
    ConstrainNumParticles
@@ -38,6 +37,7 @@
    AnalyzeFactory
    Modify
    ModifyFactory
+   Acceptance
    MonteCarlo
    Rosenbluth
    PerturbRotate

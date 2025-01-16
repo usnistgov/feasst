@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Testing angles and branches &mdash; FEASST 0.25.5 documentation</title>
+  <title>Testing angles and branches &mdash; FEASST 0.25.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -18,7 +18,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=80d49aaf"></script>
+        <script src="../../../_static/documentation_options.js?v=b72c10c5"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -58,7 +58,7 @@
             FEASST
           </a>
               <div class="version">
-                0.25.5
+                0.25.6
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -234,7 +234,6 @@
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -512,10 +511,11 @@
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 878356495
-# initializing random number generator with seed: 878356495
+RandomMT19937 seed 647906855
+# initializing random number generator with seed: 647906855
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 floppy_angle.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -565,10 +565,11 @@ Run num_trials 1000000.0
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 996885932
-# initializing random number generator with seed: 996885932
+RandomMT19937 seed 460314496
+# initializing random number generator with seed: 460314496
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 floppy_dihedral.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -619,10 +620,11 @@ Run num_trials 1000000.0
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 890422165
-# initializing random number generator with seed: 890422165
+RandomMT19937 seed 931707174
+# initializing random number generator with seed: 931707174
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 /home/user/feasst/particle/propane.fstprt
 Potential Model LennardJones
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -673,10 +675,11 @@ Run num_trials 1000000.0
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 775102168
-# initializing random number generator with seed: 775102168
+RandomMT19937 seed 207057294
+# initializing random number generator with seed: 207057294
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 /home/user/feasst/particle/2-methylpropane.fstprt
 Potential Model LennardJones
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -737,10 +740,11 @@ Run num_trials 1000000.0
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 79821632
-# initializing random number generator with seed: 79821632
+RandomMT19937 seed 265806426
+# initializing random number generator with seed: 265806426
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk0i0.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -755,10 +759,11 @@ Run num_trials 100000.0
 
  exit: 0
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 733717029
-# initializing random number generator with seed: 733717029
+RandomMT19937 seed 510260368
+# initializing random number generator with seed: 510260368
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk0i1.fstprt
 Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -773,10 +778,11 @@ Run num_trials 100000.0
 
  exit: 0
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 273331985
-# initializing random number generator with seed: 273331985
+RandomMT19937 seed 708636432
+# initializing random number generator with seed: 708636432
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk0i0.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -791,10 +797,11 @@ Run num_trials 100000.0
 
  exit: 0
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 99495162
-# initializing random number generator with seed: 99495162
+RandomMT19937 seed 297622198
+# initializing random number generator with seed: 297622198
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk0i1.fstprt
 Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -809,10 +816,11 @@ Run num_trials 100000.0
 
  exit: 0
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 610952794
-# initializing random number generator with seed: 610952794
+RandomMT19937 seed 719569029
+# initializing random number generator with seed: 719569029
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk0i0.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -827,10 +835,11 @@ Run num_trials 100000.0
 
  exit: 0
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 614753912
-# initializing random number generator with seed: 614753912
+RandomMT19937 seed 486850217
+# initializing random number generator with seed: 486850217
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk0i1.fstprt
 Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -845,10 +854,11 @@ Run num_trials 100000.0
 
  exit: 0
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 830208665
-# initializing random number generator with seed: 830208665
+RandomMT19937 seed 987140515
+# initializing random number generator with seed: 987140515
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i0.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -863,10 +873,11 @@ Run num_trials 100000.0
 
  exit: 0
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 59554301
-# initializing random number generator with seed: 59554301
+RandomMT19937 seed 940498430
+# initializing random number generator with seed: 940498430
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i1.fstprt
 Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -881,10 +892,11 @@ Run num_trials 100000.0
 
  exit: 0
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 168818909
-# initializing random number generator with seed: 168818909
+RandomMT19937 seed 499402325
+# initializing random number generator with seed: 499402325
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i0.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -899,10 +911,11 @@ Run num_trials 100000.0
 
  exit: 0
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 885021345
-# initializing random number generator with seed: 885021345
+RandomMT19937 seed 846179957
+# initializing random number generator with seed: 846179957
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i1.fstprt
 Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -917,10 +930,11 @@ Run num_trials 100000.0
 
  exit: 0
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 575098948
-# initializing random number generator with seed: 575098948
+RandomMT19937 seed 584307228
+# initializing random number generator with seed: 584307228
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i0.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -935,10 +949,11 @@ Run num_trials 100000.0
 
  exit: 0
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 786417294
-# initializing random number generator with seed: 786417294
+RandomMT19937 seed 530290532
+# initializing random number generator with seed: 530290532
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i1.fstprt
 Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -1009,10 +1024,11 @@ Run num_trials 100000.0
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 475701026
-# initializing random number generator with seed: 475701026
+RandomMT19937 seed 791301673
+# initializing random number generator with seed: 791301673
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i0.fstprt
 Potential Model IdealGas
 ThermoParams beta 0.4009078501424201 chemical_potential -25
@@ -1028,10 +1044,11 @@ Run num_trials 1000000.0
 
  exit: 0
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 210635937
-# initializing random number generator with seed: 210635937
+RandomMT19937 seed 59659645
+# initializing random number generator with seed: 59659645
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i0.fstprt
 Potential Model IdealGas
 ThermoParams beta 0.4009078501424201 chemical_potential -25
@@ -1047,10 +1064,11 @@ Run num_trials 1000000.0
 
  exit: 0
 running
-# FEASST version: v0.24.5-13-g5252255c16-dirty-user/pybind11
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
 MonteCarlo
-RandomMT19937 seed 17488583
-# initializing random number generator with seed: 17488583
+RandomMT19937 seed 296180358
+# initializing random number generator with seed: 296180358
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i0.fstprt
 Potential Model IdealGas
 ThermoParams beta 0.4009078501424201 chemical_potential -25

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling &mdash; FEASST 0.25.5 documentation</title>
+  <title>Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling &mdash; FEASST 0.25.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -18,7 +18,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=80d49aaf"></script>
+        <script src="../../../_static/documentation_options.js?v=b72c10c5"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -58,7 +58,7 @@
             FEASST
           </a>
               <div class="version">
-                0.25.5
+                0.25.6
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -261,7 +261,9 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.19.0-107-gda43557a2e-dirty-user/newtutorials
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
+MonteCarlo
 Configuration add_particles_of_type0 2 centers_site_type0 0 cubic_side_length 100 first_particle_index 0 group0 first group1 centers particle_type0 /home/user/feasst/plugin/patch/particle/janus.fstprt
 Potential Model HardSphere group centers
 Potential Model SquareWell VisitModel VisitModel VisitModelInner VisitModelInnerPatch group centers
@@ -270,12 +272,12 @@ ThermoParams beta 0.1
 MayerSampling
 TrialTranslate group first new_only true reference_index 0 tunable_param 1
 TrialRotate new_only true reference_index 0 tunable_param 40
-CriteriaWriter output_file patch_b2.txt trials_per 10000.0
-Log output_file patch.txt trials_per 10000.0
-MoviePatch output_file patch.xyz trials_per 10000.0
+CriteriaWriter output_file patch_b2.txt trials_per_write 10000.0
+Log output_file patch.txt trials_per_write 10000.0
+MoviePatch output_file patch.xyz trials_per_write 10000.0
 Tune
 Run num_trials 1e5
-# initializing random number generator with seed: 1653578111
+# initializing random number generator with seed: 1734453653
 Remove name Tune
 Run num_trials 1e6
 MayerSampling
@@ -289,59 +291,24 @@ Run num_trials 1e7
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">unittest</span>
-
-<span class="k">class</span> <span class="nc">TestMayerSamplingTrimer</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">b2_reduced</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="mf">0.5</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mf">1.5</span><span class="o">**</span><span class="mi">3</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;patch_b2.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">firstline</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
-            <span class="n">b2</span><span class="o">=</span><span class="nb">eval</span><span class="p">(</span><span class="n">firstline</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">b2</span><span class="p">[</span><span class="s1">&#39;second_virial_ratio&#39;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">b2_reduced</span><span class="p">,</span> <span class="n">b2</span><span class="p">[</span><span class="s1">&#39;second_virial_ratio&#39;</span><span class="p">],</span>
-                               <span class="n">delta</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="n">b2</span><span class="p">[</span><span class="s1">&#39;second_virial_ratio_block_stdev&#39;</span><span class="p">])</span>
-<span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">b2_reduced</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="mf">0.5</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mf">1.5</span><span class="o">**</span><span class="mi">3</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;patch_b2.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">firstline</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+    <span class="n">b2</span><span class="o">=</span><span class="nb">eval</span><span class="p">(</span><span class="n">firstline</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b2</span><span class="p">[</span><span class="s1">&#39;second_virial_ratio&#39;</span><span class="p">])</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">b2_reduced</span> <span class="o">-</span> <span class="n">b2</span><span class="p">[</span><span class="s1">&#39;second_virial_ratio&#39;</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">*</span><span class="n">b2</span><span class="p">[</span><span class="s1">&#39;second_virial_ratio_block_stdev&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-test (__main__.TestMayerSamplingTrimer) ...
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-{&#39;second_virial_ratio&#39;: 0.937239, &#39;second_virial_ratio_block_stdev&#39;: 0.00101948}
-0.937239
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-ok
-
-----------------------------------------------------------------------
-Ran 1 test in 0.001s
-
-OK
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f9134066310&gt;
+{&#39;second_virial_ratio&#39;: 0.937375, &#39;second_virial_ratio_block_stdev&#39;: 0.00114558}
+0.937375
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
