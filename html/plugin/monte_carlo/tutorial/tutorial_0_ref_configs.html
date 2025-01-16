@@ -8,7 +8,7 @@
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/nbsphinx-code-cells.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/nbsphinx-code-cells.css?v=2aa19091" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
@@ -221,7 +221,7 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="c1"># Run a feasst simulation with the given parameters</span>
@@ -236,93 +236,100 @@
 <span class="s2">Log output_file lj.csv max_precision true clear_file true</span>
 <span class="s2">Run num_trials 1</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
-    <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; launch0.txt &gt; launch0.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+    <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; launch0.txt&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">syscode</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="k">class</span> <span class="nc">TestMonteCarloLJRef</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">test_two_particle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test the LJ potential against analytical calculation of two particles&quot;&quot;&quot;</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;displacement&quot;</span><span class="p">:</span> <span class="mf">1.2345</span><span class="p">}</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;two.xyz&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span> <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+<span class="sd">&quot;&quot;&quot;Test the LJ potential against analytical calculation of two particles&quot;&quot;&quot;</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;displacement&quot;</span><span class="p">:</span> <span class="mf">1.2345</span><span class="p">}</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;two.xyz&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span> <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
 <span class="sd">&quot;&quot;&quot;2</span>
 <span class="sd">-1 8 8 8</span>
 <span class="sd">0 0 0 0</span>
 <span class="sd">1 0 0 {displacement}&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
-        <span class="n">run_fst</span><span class="p">({</span><span class="s2">&quot;config_params&quot;</span><span class="p">:</span> <span class="s2">&quot;particle_type0 /feasst/particle/lj.fstprt xyz_file two.xyz&quot;</span><span class="p">})</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;lj.csv&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;num_particles_of_type0&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">run_fst</span><span class="p">({</span><span class="s2">&quot;config_params&quot;</span><span class="p">:</span> <span class="s2">&quot;particle_type0 /feasst/particle/lj.fstprt xyz_file two.xyz&quot;</span><span class="p">})</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;lj.csv&#39;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="mi">2</span> <span class="o">==</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;num_particles_of_type0&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="c1"># compute the expected analytical LJ and LRC energies</span>
-        <span class="n">enlj</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;displacement&quot;</span><span class="p">]</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">)</span> <span class="o">-</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;displacement&quot;</span><span class="p">]</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">))</span>
-        <span class="n">rcut</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1">#mc.system().configuration().model_params().select(&quot;cutoff&quot;).value(0)</span>
-        <span class="n">enlrc</span> <span class="o">=</span> <span class="p">(</span><span class="mf">8.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span> <span class="mi">8</span><span class="o">**</span><span class="mi">3</span><span class="o">*</span><span class="p">((</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="n">rcut</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span> <span class="o">-</span> <span class="n">rcut</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span>
+<span class="c1"># compute the expected analytical LJ and LRC energies</span>
+<span class="n">enlj</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;displacement&quot;</span><span class="p">]</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">)</span> <span class="o">-</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;displacement&quot;</span><span class="p">]</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">rcut</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1">#mc.system().configuration().model_params().select(&quot;cutoff&quot;).value(0)</span>
+<span class="n">enlrc</span> <span class="o">=</span> <span class="p">(</span><span class="mf">8.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span> <span class="mi">8</span><span class="o">**</span><span class="mi">3</span><span class="o">*</span><span class="p">((</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="n">rcut</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span> <span class="o">-</span> <span class="n">rcut</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span>
 
-        <span class="c1"># Compare the analytical results with the FEASST computed energies.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlj</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LennardJones&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">12</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlrc</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LongRangeCorrections&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">12</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlj</span> <span class="o">+</span> <span class="n">enlrc</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">12</span><span class="p">)</span>
+<span class="c1"># Compare the analytical results with the FEASST computed energies.</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">enlj</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LennardJones&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">12</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">enlrc</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LongRangeCorrections&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">12</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">enlj</span> <span class="o">+</span> <span class="n">enlrc</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">12</span>
 
-    <span class="k">def</span> <span class="nf">test_srsw_ref_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test the LJ potential against a configuration of 30 particles.</span>
-<span class="sd">        In particular, the 4th configuration of the LJ SRSW reference:</span>
-<span class="sd">        https://www.nist.gov/mml/csd/chemical-informatics-research-group/lennard-jones-fluid-reference-calculations</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">run_fst</span><span class="p">({</span><span class="s2">&quot;config_params&quot;</span><span class="p">:</span> <span class="s2">&quot;cubic_side_length 8 particle_type0 /feasst/particle/lj.fstprt </span><span class="se">\</span>
-<span class="s2">                  xyz_file /feasst/plugin/configuration/test/data/lj_sample_config_periodic4.xyz&quot;</span><span class="p">})</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;lj.csv&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;num_particles_of_type0&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">30</span><span class="p">)</span>
-        <span class="n">enlj</span> <span class="o">=</span> <span class="o">-</span><span class="mf">16.790321304625856</span>
-        <span class="n">enlrc</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5451660014945704</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlj</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LennardJones&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">12</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlrc</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LongRangeCorrections&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">12</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlj</span> <span class="o">+</span> <span class="n">enlrc</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">12</span><span class="p">)</span>
+<span class="sd">&quot;&quot;&quot;Test the LJ potential against a configuration of 30 particles.</span>
+<span class="sd">In particular, the 4th configuration of the LJ SRSW reference:</span>
+<span class="sd">https://www.nist.gov/mml/csd/chemical-informatics-research-group/lennard-jones-fluid-reference-calculations</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">run_fst</span><span class="p">({</span><span class="s2">&quot;config_params&quot;</span><span class="p">:</span> <span class="s2">&quot;cubic_side_length 8 particle_type0 /feasst/particle/lj.fstprt </span><span class="se">\</span>
+<span class="s2">          xyz_file /feasst/plugin/configuration/test/data/lj_sample_config_periodic4.xyz&quot;</span><span class="p">})</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;lj.csv&#39;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;num_particles_of_type0&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">30</span>
+<span class="n">enlj</span> <span class="o">=</span> <span class="o">-</span><span class="mf">16.790321304625856</span>
+<span class="n">enlrc</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5451660014945704</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">enlj</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LennardJones&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">12</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">enlrc</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LongRangeCorrections&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">12</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">enlj</span> <span class="o">+</span> <span class="n">enlrc</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">12</span>
 
-    <span class="k">def</span> <span class="nf">test_srsw_ref_config_triclinic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test the LJ potential against a configuration of 300 particles in a trinclinic cell.</span>
-<span class="sd">        In particular, the 3th configuration of the triclinic LJ SRSW reference:</span>
-<span class="sd">        https://www.nist.gov/mml/csd/chemical-informatics-group/lennard-jones-fluid-reference-calculations-non-cuboid-cell</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">run_fst</span><span class="p">({</span><span class="s2">&quot;config_params&quot;</span><span class="p">:</span> <span class="s2">&quot;side_length0 10.0 side_length1 9.84807753012208 side_length2 9.64974312607518 </span><span class="se">\</span>
-<span class="s2">            xy 1.7364817766693041 xz 2.5881904510252074 yz 0.42863479791864567 </span><span class="se">\</span>
-<span class="s2">            particle_type0 /feasst/particle/lj.fstprt </span><span class="se">\</span>
-<span class="s2">            xyz_file /feasst/plugin/configuration/test/data/lj_triclinic_sample_config_periodic3.xyz&quot;</span><span class="p">})</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;lj.csv&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;num_particles_of_type0&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">300</span><span class="p">)</span>
-        <span class="n">enlj</span> <span class="o">=</span> <span class="o">-</span><span class="mf">505.78567945268367</span>
-        <span class="n">enlrc</span> <span class="o">=</span> <span class="o">-</span><span class="mf">29.37186430697248</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlj</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LennardJones&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">12</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlrc</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LongRangeCorrections&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">12</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">enlj</span> <span class="o">+</span> <span class="n">enlrc</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">12</span><span class="p">)</span>
-
-<span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<br/><br/></pre></div>
+<span class="sd">&quot;&quot;&quot;Test the LJ potential against a configuration of 300 particles in a trinclinic cell.</span>
+<span class="sd">In particular, the 3th configuration of the triclinic LJ SRSW reference:</span>
+<span class="sd">https://www.nist.gov/mml/csd/chemical-informatics-group/lennard-jones-fluid-reference-calculations-non-cuboid-cell</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">run_fst</span><span class="p">({</span><span class="s2">&quot;config_params&quot;</span><span class="p">:</span> <span class="s2">&quot;side_length0 10.0 side_length1 9.84807753012208 side_length2 9.64974312607518 </span><span class="se">\</span>
+<span class="s2">    xy 1.7364817766693041 xz 2.5881904510252074 yz 0.42863479791864567 </span><span class="se">\</span>
+<span class="s2">    particle_type0 /feasst/particle/lj.fstprt </span><span class="se">\</span>
+<span class="s2">    xyz_file /feasst/plugin/configuration/test/data/lj_triclinic_sample_config_periodic3.xyz&quot;</span><span class="p">})</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;lj.csv&#39;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;num_particles_of_type0&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">300</span>
+<span class="n">enlj</span> <span class="o">=</span> <span class="o">-</span><span class="mf">505.78567945268367</span>
+<span class="n">enlrc</span> <span class="o">=</span> <span class="o">-</span><span class="mf">29.37186430697248</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">enlj</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LennardJones&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">12</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">enlrc</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LongRangeCorrections&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">12</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">enlj</span> <span class="o">+</span> <span class="n">enlrc</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">12</span>
+</pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-test_srsw_ref_config (__main__.TestMonteCarloLJRef.test_srsw_ref_config)
-Test the LJ potential against a configuration of 30 particles. ... ok
-test_srsw_ref_config_triclinic (__main__.TestMonteCarloLJRef.test_srsw_ref_config_triclinic)
-Test the LJ potential against a configuration of 300 particles in a trinclinic cell. ... ok
-test_two_particle (__main__.TestMonteCarloLJRef.test_two_particle)
-Test the LJ potential against analytical calculation of two particles ... ok
-
-----------------------------------------------------------------------
-Ran 3 tests in 0.028s
-
-OK
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f5036b8c4a0&gt;
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
+MonteCarlo
+Configuration particle_type0 /home/user/feasst/particle/lj.fstprt xyz_file two.xyz
+Potential Model LennardJones
+Potential VisitModel LongRangeCorrections
+ThermoParams beta 1000000
+Metropolis
+Log clear_file true max_precision true output_file lj.csv
+Run num_trials 1
+#Warn 0 [plugin/monte_carlo/src/monte_carlo.cpp:744] No Trials to attempt.
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
+MonteCarlo
+Configuration cubic_side_length 8 particle_type0 /home/user/feasst/particle/lj.fstprt xyz_file /home/user/feasst/plugin/configuration/test/data/lj_sample_config_periodic4.xyz
+Potential Model LennardJones
+Potential VisitModel LongRangeCorrections
+ThermoParams beta 1000000
+Metropolis
+Log clear_file true max_precision true output_file lj.csv
+Run num_trials 1
+#Warn 0 [plugin/monte_carlo/src/monte_carlo.cpp:744] No Trials to attempt.
+# Usage: ./fst &lt; file.txt
+FEASST version 0.25.6
+MonteCarlo
+Configuration particle_type0 /home/user/feasst/particle/lj.fstprt side_length0 10.0 side_length1 9.84807753012208 side_length2 9.64974312607518 xy 1.7364817766693041 xyz_file /home/user/feasst/plugin/configuration/test/data/lj_triclinic_sample_config_periodic3.xyz xz 2.5881904510252074 yz 0.42863479791864567
+Potential Model LennardJones
+Potential VisitModel LongRangeCorrections
+ThermoParams beta 1000000
+Metropolis
+Log clear_file true max_precision true output_file lj.csv
+Run num_trials 1
+#Warn 0 [plugin/monte_carlo/src/monte_carlo.cpp:744] No Trials to attempt.
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

@@ -73,7 +73,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Action.html">Action</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
@@ -109,6 +108,7 @@
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -258,11 +258,6 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst13PerturbRemove7perturbEP6SystemP11TrialSelectP6RandomKbP10Acceptance">
 <span class="target" id="classfeasst_1_1PerturbRemove_1a1808cf3ed50fb452be7c07ab604ccd04"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">perturb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span>, <a class="reference internal" href="TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect"><span class="n"><span class="pre">TrialSelect</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">select</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">is_position_held</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span>, <a class="reference internal" href="Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance"><span class="n"><span class="pre">Acceptance</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">acceptance</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">NULL</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13PerturbRemove7perturbEP6SystemP11TrialSelectP6RandomKbP10Acceptance" title="Link to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="Perturb_arguments.html#classfeasst_1_1Perturb"><span class="std std-ref">Perturb</span></a> the selection of the system. </p>
-<dl class="field-list simple">
-<dt class="field-odd">param is_position_held<span class="colon">:</span></dt>
-<dd class="field-odd"><p>If position is held, all but perform the actual perturbation, as typically required for calculations of old configurations and <a class="reference internal" href="Rosenbluth_arguments.html#classfeasst_1_1Rosenbluth"><span class="std std-ref">Rosenbluth</span></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="cpp function">

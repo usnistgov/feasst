@@ -215,6 +215,18 @@
 <p>Beware attempting to splice windows with different move sets (trials/weights). This can cause issues in the calculation of ln_prob.</p>
 <p>Adjust bounds based on the number of cycles. Thus, iteratively give a window with less cycles macrostates from a window with more cycles, while possible. Left and right most windows can completely abandon completed macrostates. Also, left and right most don’t lose macrostates if the entire window has already reached its completion criteria. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>min_window_size: minimum size of window boundaries during adjustment. If -1, do not adjust window boundaries (default: 5).</p></li>
+<li><p>hours_per: hours per bounds adjustment, checkpoint and writing the combined ln_prob (default: 0.01).</p></li>
+<li><p>ln_prob_file: file name for the combined ln_prob, if not empty (default: empty).</p></li>
+<li><p>ln_prob_file_append: if true, append to ln_prob_file (default: false).</p></li>
+<li><p>num_adjust_per_write: number of adjustments per writing of ln_prob (default: 1)</p></li>
+<li><p>bounds_file: file name for periodic output of bounds, if not empty (default: empty). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst22CollectionMatrixSplice3addENSt10shared_ptrI10MonteCarloEE">
@@ -341,18 +353,6 @@
 <dd><p>write to file </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>min_window_size: minimum size of window boundaries during adjustment. If -1, do not adjust window boundaries (default: 5).</p></li>
-<li><p>hours_per: hours per bounds adjustment, checkpoint and writing the combined ln_prob (default: 0.01).</p></li>
-<li><p>ln_prob_file: file name for the combined ln_prob, if not empty (default: empty).</p></li>
-<li><p>ln_prob_file_append: if true, append to ln_prob_file (default: false).</p></li>
-<li><p>num_adjust_per_write: number of adjustments per writing of ln_prob (default: 1)</p></li>
-<li><p>bounds_file: file name for periodic output of bounds, if not empty (default: empty). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

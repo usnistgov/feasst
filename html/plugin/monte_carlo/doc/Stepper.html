@@ -73,7 +73,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Action.html">Action</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
@@ -109,6 +108,7 @@
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -254,6 +254,32 @@
 <dd><p>Perform an action (update or write) every so many trials. This action could be read-only (see <a class="reference internal" href="Analyze_arguments.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a>) or not (see <a class="reference internal" href="Modify_arguments.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a>). Write to screen if file name is not provided. </p>
 <p>Subclassed by <a class="reference internal" href="Analyze_arguments.html#classfeasst_1_1Analyze"><span class="std std-ref">feasst::Analyze</span></a>, <a class="reference internal" href="Modify_arguments.html#classfeasst_1_1Modify"><span class="std std-ref">feasst::Modify</span></a></p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst7Stepper7StepperE7argtype">
+<span class="target" id="classfeasst_1_1Stepper_1a97b707d87fe23710fbbae7a380872ab1"></span><span class="sig-name descname"><span class="n"><span class="pre">Stepper</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Stepper7StepperE7argtype" title="Link to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>trials_per_write: Set the number of trials per write (default: 1). Disabled if negative value is provided.</p></li>
+<li><p>trials_per_update: Set the number of trials per update (default: 1). Disabled if negative value is provided.</p></li>
+<li><p>output_file: Set the file name to write output (default: empty).</p></li>
+<li><p>append: append file output if set to true. Do not append if false (default: “false”).</p></li>
+<li><p>clear_file: set true to clear contents of output_file, if exists. (default: false).</p></li>
+<li><p>stop_after_phase: stop when simulation reaches this phase index. If -1, never stop (default: -1).</p></li>
+<li><p>start_after_phase: start when simulation reaches this phase index. If -1, start at beginning (default: -1).</p></li>
+<li><p>output_file_append_phase: append phase to file name (default: false)</p></li>
+<li><p>multistate: set “true” to copy for each state (default: false)</p></li>
+<li><p>multistate_aggregate: aggregate the writing of all states, only when multistate is enabled (default: true). Thus, trials_per_write refers now to the writing of all states. Individual states no longer write.</p></li>
+<li><p>stop_after_cycle: stop when <a class="reference internal" href="Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> reaches this cycle. If -1, never stop (default: -1).</p></li>
+<li><p>start_after_cycle: start when <a class="reference internal" href="Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> reaches this cycle. If -1, start at beginning (default: -1).</p></li>
+<li><p>rewrite_header: set true to rewrite header every write (default: true). If multistate_aggregate, automatically set to false.</p></li>
+<li><p><a class="reference internal" href="../../math/doc/Accumulator_arguments.html#classfeasst_1_1Accumulator"><span class="std std-ref">Accumulator</span></a> arguments.</p></li>
+<li><p>configuration_index: index of configuration (default: 0) </p></li>
+</ul>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst7Stepper17trials_per_updateEv">
@@ -397,32 +423,6 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst7Stepper7printerEKNSt6stringERKNSt6stringE">
 <span class="target" id="classfeasst_1_1Stepper_1a824eef314a6f7165cb1f334edde3c73c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">printer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">output</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">output_file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Stepper7printerEKNSt6stringERKNSt6stringE" title="Link to this definition"></a><br /></dt>
 <dd><p>Write to standard output if file name is not set. Otherwise, output file. </p>
-</dd></dl>
-
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst7Stepper7StepperE7argtype">
-<span class="target" id="classfeasst_1_1Stepper_1a97b707d87fe23710fbbae7a380872ab1"></span><span class="sig-name descname"><span class="n"><span class="pre">Stepper</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Stepper7StepperE7argtype" title="Link to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>trials_per_write: Set the number of trials per write (default: 1). Disabled if negative value is provided.</p></li>
-<li><p>trials_per_update: Set the number of trials per update (default: 1). Disabled if negative value is provided.</p></li>
-<li><p>output_file: Set the file name to write output (default: empty).</p></li>
-<li><p>append: append file output if set to true. Do not append if false (default: “false”).</p></li>
-<li><p>clear_file: set true to clear contents of output_file, if exists. (default: false).</p></li>
-<li><p>stop_after_phase: stop when simulation reaches this phase index. If -1, never stop (default: -1).</p></li>
-<li><p>start_after_phase: start when simulation reaches this phase index. If -1, start at beginning (default: -1).</p></li>
-<li><p>output_file_append_phase: append phase to file name (default: false)</p></li>
-<li><p>multistate: set “true” to copy for each state (default: false)</p></li>
-<li><p>multistate_aggregate: aggregate the writing of all states, only when multistate is enabled (default: true). Thus, trials_per_write refers now to the writing of all states. Individual states no longer write.</p></li>
-<li><p>stop_after_cycle: stop when <a class="reference internal" href="Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> reaches this cycle. If -1, never stop (default: -1).</p></li>
-<li><p>start_after_cycle: start when <a class="reference internal" href="Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> reaches this cycle. If -1, start at beginning (default: -1).</p></li>
-<li><p>rewrite_header: set true to rewrite header every write (default: true). If multistate_aggregate, automatically set to false.</p></li>
-<li><p><a class="reference internal" href="../../math/doc/Accumulator_arguments.html#classfeasst_1_1Accumulator"><span class="std std-ref">Accumulator</span></a> arguments.</p></li>
-<li><p>configuration_index: index of configuration (default: 0) </p></li>
-</ul>
-</p>
 </dd></dl>
 
 </div>

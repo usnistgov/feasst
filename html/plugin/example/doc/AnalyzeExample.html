@@ -220,6 +220,15 @@
 <p>For more inspiration, take a look at the other existing <a class="reference internal" href="../../monte_carlo/doc/Analyze_arguments.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> in the stepper plugin, such as <a class="reference internal" href="../../steppers/doc/Movie_arguments.html#classfeasst_1_1Movie"><span class="std std-ref">Movie</span></a>, <a class="reference internal" href="../../steppers/doc/Log_arguments.html#classfeasst_1_1Log"><span class="std std-ref">Log</span></a> or <a class="reference internal" href="../../steppers/doc/PairDistributionInner_arguments.html#classfeasst_1_1PairDistribution"><span class="std std-ref">PairDistribution</span></a>.</p>
 <p>In this example, compute the average geometric center of all site positions. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>group_index: index of group defined in <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> (default: 0, which is all existing sites).</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments.</p></li>
+</ul>
+</p>
+<p>Note that <a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a>, which is the Base class of <a class="reference internal" href="../../monte_carlo/doc/Analyze_arguments.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a>, already contains the vast majority of arguments that are required. </p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst14AnalyzeExample16geometric_centerEKi">
@@ -257,15 +266,6 @@
 <dd><p>Write the geometric center to file. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>group_index: index of group defined in <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> (default: 0, which is all existing sites).</p></li>
-<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments.</p></li>
-</ul>
-</p>
-<p>Note that <a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a>, which is the Base class of <a class="reference internal" href="../../monte_carlo/doc/Analyze_arguments.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a>, already contains the vast majority of arguments that are required. </p>
 </div>
 </dd></dl>
 

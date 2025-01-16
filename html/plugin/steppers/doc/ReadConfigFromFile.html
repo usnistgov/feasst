@@ -77,7 +77,6 @@
 <li class="toctree-l3"><a class="reference internal" href="CheckPhysicality.html">CheckPhysicality</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Chirality2D.html">Chirality2D</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Density.html">Density</a></li>
@@ -106,6 +105,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairDistributionInner.html">PairDistributionInner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -227,6 +227,14 @@
 <span class="target" id="classfeasst_1_1ReadConfigFromFile"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ReadConfigFromFile</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Modify.html#_CPPv4N6feasst16ModifyUpdateOnlyE" title="feasst::ModifyUpdateOnly"><span class="n"><span class="pre">ModifyUpdateOnly</span></span></a><a class="headerlink" href="#_CPPv4N6feasst18ReadConfigFromFileE" title="Link to this definition"></a><br /></dt>
 <dd><p>This class is used for post processing a configuration file to analyze with a <a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a>. Read through a number of configurations in a file. For each update, set the configuration to the next. Once the end of file is reached, the <a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> is set to complete. Thus, use with “Run until complete” </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>input_file: name of <a class="reference internal" href="../../configuration/doc/PrinterXYZ_arguments.html#classfeasst_1_1FileXYZ"><span class="std std-ref">FileXYZ</span></a> to input <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>.</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst18ReadConfigFromFile10initializeEP10MonteCarlo">
@@ -240,14 +248,6 @@
 <dd><p>Perform update. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>input_file: name of <a class="reference internal" href="../../configuration/doc/PrinterXYZ_arguments.html#classfeasst_1_1FileXYZ"><span class="std std-ref">FileXYZ</span></a> to input <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>.</p></li>
-<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

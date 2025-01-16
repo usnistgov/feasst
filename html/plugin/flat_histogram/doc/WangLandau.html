@@ -213,6 +213,17 @@
 <span class="target" id="classfeasst_1_1WangLandau"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">WangLandau</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias"><span class="n"><span class="pre">Bias</span></span></a><a class="headerlink" href="#_CPPv4N6feasst10WangLandauE" title="Link to this definition"></a><br /></dt>
 <dd><p>Wang Landau flat histogram bias. <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.86.2050">https://doi.org/10.1103/PhysRevLett.86.2050</a> <a class="reference external" href="https://doi.org/10.1063/1.1615966">https://doi.org/10.1063/1.1615966</a></p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>min_flatness : Number of flatness checks required for completion.</p></li>
+<li><p>add_to_ln_probability : The initial amount to add to the natural log of the macrostate probability upon visiting that state (default: 1.0).</p></li>
+<li><p>reduce_ln_probability : Reduce the amount to add to the natural log of the macrostate probability by multiplcation of this factor upon reaching a sufficiently flat histogram (default: 0.5).</p></li>
+<li><p>flatness_threshold : The visited states histogram is determined to be flat when the percentage between minimum visisted states and average reaches this threshold (default: 0.8).</p></li>
+<li><p>min_visit_per_macro: The minimum number of visits for each macrostate required during flatness check (default: 10^3). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10WangLandau6updateEKiKiKdKbKbRK10Macrostate">
@@ -250,17 +261,6 @@
 <dd><p>Set the macrostate probability distribution. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>min_flatness : Number of flatness checks required for completion.</p></li>
-<li><p>add_to_ln_probability : The initial amount to add to the natural log of the macrostate probability upon visiting that state (default: 1.0).</p></li>
-<li><p>reduce_ln_probability : Reduce the amount to add to the natural log of the macrostate probability by multiplcation of this factor upon reaching a sufficiently flat histogram (default: 0.5).</p></li>
-<li><p>flatness_threshold : The visited states histogram is determined to be flat when the percentage between minimum visisted states and average reaches this threshold (default: 0.8).</p></li>
-<li><p>min_visit_per_macro: The minimum number of visits for each macrostate required during flatness check (default: 10^3). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

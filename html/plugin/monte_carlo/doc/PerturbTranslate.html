@@ -73,7 +73,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Action.html">Action</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
@@ -109,6 +108,7 @@
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -253,6 +253,13 @@
 <span class="target" id="classfeasst_1_1PerturbTranslate"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PerturbTranslate</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="PerturbMove.html#_CPPv4N6feasst11PerturbMoveE" title="feasst::PerturbMove"><span class="n"><span class="pre">PerturbMove</span></span></a><a class="headerlink" href="#_CPPv4N6feasst16PerturbTranslateE" title="Link to this definition"></a><br /></dt>
 <dd><p>Translate the positions of the selection uniformly random within postivie and negative tunable parameter values. The tunable parameter must be within the bounds of 2*NEAR_ZERO and half of <a class="reference internal" href="../../configuration/doc/Domain.html#classfeasst_1_1Domain_1a73dcc000bc9eda557d0a18254b1e6d46"><span class="std std-ref">Domain::max_side_length</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>dimension: if == -1, uniform translation in all dimensions (default: -1). Otherwise, translate only specifically +/- value (without tuning) in specific dimension. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16PerturbTranslate10precomputeEP11TrialSelectP6System">
@@ -284,13 +291,6 @@
 <dd><p>Move the selected particles. The particles are translated by +/- a maximum of the <a class="reference internal" href="Tunable_arguments.html#classfeasst_1_1Tunable"><span class="std std-ref">Tunable</span></a> parameter. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>dimension: if == -1, uniform translation in all dimensions (default: -1). Otherwise, translate only specifically +/- value (without tuning) in specific dimension. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

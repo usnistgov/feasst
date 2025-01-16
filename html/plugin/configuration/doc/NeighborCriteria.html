@@ -212,6 +212,19 @@
 <span class="target" id="classfeasst_1_1NeighborCriteria"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NeighborCriteria</span></span></span><a class="headerlink" href="#_CPPv4N6feasst16NeighborCriteriaE" title="Link to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> for defining neighbors. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>reference_potential: index of reference potentials (default: -1). If -1, use full potentials.</p></li>
+<li><p>potential_index: index of potential for pair interaction (default: 0).</p></li>
+<li><p>energy_maximum: maximum energy to be in cluster (default: largest double precision).</p></li>
+<li><p>minimum_distance: minimum separation distance (default: 0).</p></li>
+<li><p>maximum_distance: maximum separation distance (default: NEAR_INFINITY).</p></li>
+<li><p>site_type0: consider only interactions between a specific site type. If -1, consider all sites (default: -1).</p></li>
+<li><p>site_type1: consider only interactions between a specific site type. If -1, consider all sites (default: -1). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst16NeighborCriteria11is_acceptedEKdKdKiKi">
@@ -243,19 +256,6 @@
 <dd><p>Construct from serialization. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>reference_potential: index of reference potentials (default: -1). If -1, use full potentials.</p></li>
-<li><p>potential_index: index of potential for pair interaction (default: 0).</p></li>
-<li><p>energy_maximum: maximum energy to be in cluster (default: largest double precision).</p></li>
-<li><p>minimum_distance: minimum separation distance (default: 0).</p></li>
-<li><p>maximum_distance: maximum separation distance (default: NEAR_INFINITY).</p></li>
-<li><p>site_type0: consider only interactions between a specific site type. If -1, consider all sites (default: -1).</p></li>
-<li><p>site_type1: consider only interactions between a specific site type. If -1, consider all sites (default: -1). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

@@ -219,6 +219,15 @@
 </ul>
 </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>delta_ln_prob_guess: if the <a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> lacks transitions to compute a delta_ln_prob, use this value instead (default: 0). This guess can affect the initial convergence. When a simulation starts at low macrostate, a negative number encourages acceptance of macrostates that have not yet been visited. And for high macrostate, a positive number may help. If the value is too large, a very low probability trial may be accepted, creating a large free energy difference that will make it difficult to sample the reverse transition. If a simulation appears “stuck” in a subset of the macrostate range, then the guess may be too large.</p></li>
+<li><p>visits_per_delta_ln_prob_boost: In the case where a guess is needed, if “n” attempts to increase the macrostate, decrease delta_ln_prob_guess by 0.01 per “n”. Alternatively, if “n” attempts to decrease macrostate, increase delta_ln_prob_guess by 0.01 per “n”. If visits_per_delta_ln_prob_boost is -1, do nothing (default: -1).</p></li>
+<li><p>exp_for_boost: ratio of neighboring probabilities must be within 10^exp or 10^-exp for boosting. If -1, ignore (default: 2). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16CollectionMatrix16CollectionMatrixERKNSt6vectorINSt6vectorI11AccumulatorEEEE">
@@ -261,15 +270,6 @@
 <dd><p>Return the matrix. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>delta_ln_prob_guess: if the <a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> lacks transitions to compute a delta_ln_prob, use this value instead (default: 0). This guess can affect the initial convergence. When a simulation starts at low macrostate, a negative number encourages acceptance of macrostates that have not yet been visited. And for high macrostate, a positive number may help. If the value is too large, a very low probability trial may be accepted, creating a large free energy difference that will make it difficult to sample the reverse transition. If a simulation appears “stuck” in a subset of the macrostate range, then the guess may be too large.</p></li>
-<li><p>visits_per_delta_ln_prob_boost: In the case where a guess is needed, if “n” attempts to increase the macrostate, decrease delta_ln_prob_guess by 0.01 per “n”. Alternatively, if “n” attempts to decrease macrostate, increase delta_ln_prob_guess by 0.01 per “n”. If visits_per_delta_ln_prob_boost is -1, do nothing (default: -1).</p></li>
-<li><p>exp_for_boost: ratio of neighboring probabilities must be within 10^exp or 10^-exp for boosting. If -1, ignore (default: 2). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

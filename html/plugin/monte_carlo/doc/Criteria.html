@@ -73,7 +73,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Action.html">Action</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
@@ -109,6 +108,7 @@
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -253,6 +253,14 @@
 <span class="target" id="classfeasst_1_1Criteria"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Criteria</span></span></span><a class="headerlink" href="#_CPPv4N6feasst8CriteriaE" title="Link to this definition"></a><br /></dt>
 <dd><p>Determine whether to accept or reject a trial. Stores the total energy based on energy changes from each trial. </p>
 <p>Subclassed by <a class="reference internal" href="AlwaysReject_arguments.html#classfeasst_1_1AlwaysReject"><span class="std std-ref">feasst::AlwaysReject</span></a>, <a class="reference internal" href="../../flat_histogram/doc/FlatHistogram_arguments.html#classfeasst_1_1FlatHistogram"><span class="std std-ref">feasst::FlatHistogram</span></a>, <a class="reference internal" href="../../mayer/doc/MayerSampling_arguments.html#classfeasst_1_1MayerSampling"><span class="std std-ref">feasst::MayerSampling</span></a>, <a class="reference internal" href="Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">feasst::Metropolis</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>cycles_to_complete: set the number of cycles for a simulation to be considered complete (default: 20).</p></li>
+<li><p><a class="reference internal" href="Constraint_arguments.html#classfeasst_1_1Constraint"><span class="std std-ref">Constraint</span></a>: <a class="reference internal" href="ConstrainNumParticles_arguments.html#classfeasst_1_1ConstrainNumParticles"><span class="std std-ref">ConstrainNumParticles</span></a>, <a class="reference internal" href="../../egce/doc/AHalfB_arguments.html#classfeasst_1_1AHalfB"><span class="std std-ref">AHalfB</span></a>, etc. </p></li>
+</ul>
+</p>
+</div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -440,14 +448,6 @@
 <dd><p>Initialize criteria. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>cycles_to_complete: set the number of cycles for a simulation to be considered complete (default: 20).</p></li>
-<li><p><a class="reference internal" href="Constraint_arguments.html#classfeasst_1_1Constraint"><span class="std std-ref">Constraint</span></a>: <a class="reference internal" href="ConstrainNumParticles_arguments.html#classfeasst_1_1ConstrainNumParticles"><span class="std std-ref">ConstrainNumParticles</span></a>, <a class="reference internal" href="../../egce/doc/AHalfB_arguments.html#classfeasst_1_1AHalfB"><span class="std std-ref">AHalfB</span></a>, etc. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

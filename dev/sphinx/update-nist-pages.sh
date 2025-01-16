@@ -1,11 +1,13 @@
 #!/bin/bash
 
 # For preparing a new release:
+# bump version number
 # Check /feasst/dev/analyze_public_interface.py
 # CMakeLists.txt:
 # - check version, check -DEV=ON, depend.py
-# tag commit
+# update html and nist-pages
 # run nightly test
+# tag commit
 
 # update nist-pages
 mkdir build

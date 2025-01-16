@@ -220,6 +220,18 @@
 <p>For (2) collection matrix splicing, windows cannot share any macrostates but the boundaries must be adjacent and all trial moves of the windows must be exactly the same. </p>
 <p>Subclassed by <a class="reference internal" href="WindowCustom_arguments.html#classfeasst_1_1WindowCustom"><span class="std std-ref">feasst::WindowCustom</span></a>, <a class="reference internal" href="WindowExponential_arguments.html#classfeasst_1_1WindowExponential"><span class="std std-ref">feasst::WindowExponential</span></a></p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>minimum: minimum in macrostate range (default: 0).</p></li>
+<li><p>maximum: maximum in macrostate range (default: -1).</p></li>
+<li><p>num: number of windows (default: -1).</p></li>
+<li><p>num_from_omp: obtain num from OMP threads (default: false).</p></li>
+<li><p>overlap: number of macrostate overlaps between windows (default: 1).</p></li>
+<li><p>min_size: minimum size of each window (default: 1). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Window7minimumEv">
@@ -257,18 +269,6 @@
 <dd><p>Return the boundaries as a vector of vectors. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>minimum: minimum in macrostate range (default: 0).</p></li>
-<li><p>maximum: maximum in macrostate range (default: -1).</p></li>
-<li><p>num: number of windows (default: -1).</p></li>
-<li><p>num_from_omp: obtain num from OMP threads (default: false).</p></li>
-<li><p>overlap: number of macrostate overlaps between windows (default: 1).</p></li>
-<li><p>min_size: minimum size of each window (default: 1). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

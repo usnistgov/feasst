@@ -27,7 +27,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="VisitModelInnerTable" href="VisitModelInnerTable.html" />
+    <link rel="next" title="Modify FEASST" href="../../example/README.html" />
     <link rel="prev" title="ContactObjective" href="ContactObjective.html" />
 
 	<!-- frame blocking -->
@@ -89,13 +89,13 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Aniso</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Anisotropic.html">Anisotropic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Backmap.html">Backmap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitModelInnerTable.html">VisitModelInnerTable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitModelInnerNN.html">VisitModelInnerNN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ContactObjective.html">ContactObjective</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">TabulateTwoRigidBody3D</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst22TabulateTwoRigidBody3DE"><code class="docutils literal notranslate"><span class="pre">TabulateTwoRigidBody3D</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="VisitModelInnerTable.html">VisitModelInnerTable</a></li>
-<li class="toctree-l3"><a class="reference internal" href="VisitModelInnerNN.html">VisitModelInnerNN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -203,6 +203,26 @@
 <dd><p>Generate a table of interactions between two rigid bodies in 3D. This class is currently in development and not well supported.</p>
 <p>Contact distances are determined by <a class="reference internal" href="../../monte_carlo/doc/RefPotential_arguments.html#classfeasst_1_1RefPotential"><span class="std std-ref">RefPotential</span></a>. This is typically a <a class="reference internal" href="../../system/doc/HardSphere_arguments.html#classfeasst_1_1HardSphere"><span class="std std-ref">HardSphere</span></a> potential with an optimzied <a class="reference internal" href="../../system/doc/VisitModelCell_arguments.html#classfeasst_1_1VisitModelCell"><span class="std std-ref">VisitModelCell</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>num_orientations_per_pi: As described in <a class="reference internal" href="VisitModelInnerTable_arguments.html#classfeasst_1_1VisitModelInnerTable"><span class="std std-ref">VisitModelInnerTable</span></a> (default: -1).</p></li>
+<li><p>num_z: As described in <a class="reference internal" href="VisitModelInnerTable_arguments.html#classfeasst_1_1VisitModelInnerTable"><span class="std std-ref">VisitModelInnerTable</span></a> (default: -1). Set to -1 when computing contact distances.</p></li>
+<li><p>gamma: As described in <a class="reference internal" href="VisitModelInnerTable_arguments.html#classfeasst_1_1VisitModelInnerTable"><span class="std std-ref">VisitModelInnerTable</span></a> (default: -4).</p></li>
+<li><p>smoothing_distance: As described in <a class="reference internal" href="VisitModelInnerTable_arguments.html#classfeasst_1_1VisitModelInnerTable"><span class="std std-ref">VisitModelInnerTable</span></a> (default: 2).</p></li>
+<li><p>max_energy: For handshake configurations (large energy for z &gt; 0), set the energy to max_energy_set instead, which may be 1e30, near the max single precision, or lower (default: 1e30).</p></li>
+<li><p>max_energy_set: set to this energy if above max and z &gt; 0 (default: 5).</p></li>
+<li><p>output_orientation_file: name of file to output unique orientations, and terminate early, if not empty (default: empty). This is used to compute unique orientations using a fast and simple model.</p></li>
+<li><p>input_orientation_file: name of file to input unique orientations, if not empty (default: empty).</p></li>
+<li><p>output_table_file: name of file to output computed table.</p></li>
+<li><p>input_table_file: name of file to input computed table.</p></li>
+<li><p>xyz_file: if not empty, visualize (default: empty).</p></li>
+<li><p>contact_xyz_file: if not empty, visualize (default: empty).</p></li>
+<li><p>contact_xyz_index: if not -1, only consider this index (default: -1).</p></li>
+<li><p><a class="reference internal" href="ContactObjective_arguments.html#classfeasst_1_1Rotator"><span class="std std-ref">Rotator</span></a> arguments. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst22TabulateTwoRigidBody3D21max_cubic_side_lengthEKiRK13Configuration">
@@ -240,26 +260,6 @@
 </dd></dl>
 
 </div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>num_orientations_per_pi: As described in <a class="reference internal" href="VisitModelInnerTable_arguments.html#classfeasst_1_1VisitModelInnerTable"><span class="std std-ref">VisitModelInnerTable</span></a> (default: -1).</p></li>
-<li><p>num_z: As described in <a class="reference internal" href="VisitModelInnerTable_arguments.html#classfeasst_1_1VisitModelInnerTable"><span class="std std-ref">VisitModelInnerTable</span></a> (default: -1). Set to -1 when computing contact distances.</p></li>
-<li><p>gamma: As described in <a class="reference internal" href="VisitModelInnerTable_arguments.html#classfeasst_1_1VisitModelInnerTable"><span class="std std-ref">VisitModelInnerTable</span></a> (default: -4).</p></li>
-<li><p>smoothing_distance: As described in <a class="reference internal" href="VisitModelInnerTable_arguments.html#classfeasst_1_1VisitModelInnerTable"><span class="std std-ref">VisitModelInnerTable</span></a> (default: 2).</p></li>
-<li><p>max_energy: For handshake configurations (large energy for z &gt; 0), set the energy to max_energy_set instead, which may be 1e30, near the max single precision, or lower (default: 1e30).</p></li>
-<li><p>max_energy_set: set to this energy if above max and z &gt; 0 (default: 5).</p></li>
-<li><p>output_orientation_file: name of file to output unique orientations, and terminate early, if not empty (default: empty). This is used to compute unique orientations using a fast and simple model.</p></li>
-<li><p>input_orientation_file: name of file to input unique orientations, if not empty (default: empty).</p></li>
-<li><p>output_table_file: name of file to output computed table.</p></li>
-<li><p>input_table_file: name of file to input computed table.</p></li>
-<li><p>xyz_file: if not empty, visualize (default: empty).</p></li>
-<li><p>contact_xyz_file: if not empty, visualize (default: empty).</p></li>
-<li><p>contact_xyz_index: if not -1, only consider this index (default: -1).</p></li>
-<li><p><a class="reference internal" href="ContactObjective_arguments.html#classfeasst_1_1Rotator"><span class="std std-ref">Rotator</span></a> arguments. </p></li>
-</ul>
-</p>
-</div>
 </dd></dl>
 
 </section>
@@ -269,7 +269,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="ContactObjective.html" class="btn btn-neutral float-left" title="ContactObjective" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="VisitModelInnerTable.html" class="btn btn-neutral float-right" title="VisitModelInnerTable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../../example/README.html" class="btn btn-neutral float-right" title="Modify FEASST" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

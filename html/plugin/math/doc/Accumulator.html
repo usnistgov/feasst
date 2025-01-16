@@ -216,6 +216,14 @@
 <span class="target" id="classfeasst_1_1Accumulator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Accumulator</span></span></span><a class="headerlink" href="#_CPPv4N6feasst11AccumulatorE" title="Link to this definition"></a><br /></dt>
 <dd><p>Accumulate a series of values to compute the average, standard deviation, and the standard deviation of the average of uncorrelated data using the blocking method. Flyvbjerg, Error estimates on averages of correlated data, <a class="reference external" href="http://dx.doi.org/10.1063/1.457480">http://dx.doi.org/10.1063/1.457480</a> Also, see Frenkel and Smit, Understanding Molecular Simulations, Appendix D and Case study 4 (pages 98-100, Figure 4.4). </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p>args:<ul class="simple">
+<li><p>num_moments: maximum number of moments (default: 5).</p></li>
+<li><p>max_block_operations: maximum number of blocking operations (default: 6). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Accumulator20max_block_operationsEv">
@@ -405,14 +413,6 @@
 <dd><p>Return true if the <a class="reference internal" href="Accumulator_arguments.html#classfeasst_1_1Accumulator"><span class="std std-ref">Accumulator</span></a> is equivalent within the given confidence interval based on the block average standard deviations. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p>args:<ul class="simple">
-<li><p>num_moments: maximum number of moments (default: 5).</p></li>
-<li><p>max_block_operations: maximum number of blocking operations (default: 6). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

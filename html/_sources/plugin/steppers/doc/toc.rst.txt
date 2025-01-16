@@ -6,7 +6,6 @@
    CheckPhysicality
    CheckProperties
    Chirality2D
-   CPUTime
    CriteriaUpdater
    CriteriaWriter
    Density
@@ -32,3 +31,4 @@
    ReadConfigFromFile
    Log
    PairDistributionInner
+   CPUTime

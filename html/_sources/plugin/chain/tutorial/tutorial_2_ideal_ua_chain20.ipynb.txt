@@ -18,7 +18,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# FEASST version: v0.24.6-12-ge723d4ffc2-dirty-user/fixtut\n",
+      "# Usage: ./fst < file.txt\n",
+      "FEASST version 0.25.6\n",
       "MonteCarlo\n",
       "Configuration cubic_side_length 30 particle_type0 /home/user/feasst/plugin/chain/particle/chain20.fstprt  \n",
       "Potential Model LennardJones VisitModel VisitModelIntra intra_cut 1  \n",
@@ -26,7 +27,7 @@
       "Metropolis  \n",
       "TrialAdd particle_type 0  \n",
       "Run until_num_particles 1  \n",
-      "# initializing random number generator with seed: 1714769149\n",
+      "# initializing random number generator with seed: 1734452944\n",
       "Remove name TrialAdd  \n",
       "TrialPivot max_length 8 tunable_param 20 weight 1  \n",
       "TrialCrankshaft max_length 8 tunable_param 20 weight 1  \n",
@@ -46,7 +47,6 @@
     }
    ],
    "source": [
-    "import unittest\n",
     "import copy\n",
     "import math\n",
     "import numpy as np\n",
@@ -114,40 +114,14 @@
    "execution_count": 2,
    "id": "narrow-pendant",
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stderr",
-     "output_type": "stream",
-     "text": [
-      "test_rg_en (__main__.TestChain20RG) ... ok\n",
-      "\n",
-      "----------------------------------------------------------------------\n",
-      "Ran 1 test in 0.005s\n",
-      "\n",
-      "OK\n"
-     ]
-    },
-    {
-     "data": {
-      "text/plain": [
-       "<unittest.main.TestProgram at 0x7823fc712f80>"
-      ]
-     },
-     "execution_count": 2,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
+   "outputs": [],
    "source": [
-    "class TestChain20RG(unittest.TestCase):\n",
-    "    def test_rg_en(self):\n",
-    "        rg=pd.read_csv('rg2.txt')\n",
-    "        self.assertAlmostEqual(np.sqrt(2.45), rg['average'][0], delta=4*rg['block_stdev'][0])\n",
-    "        end_to_end=pd.read_csv('end_to_end2.txt')\n",
-    "        self.assertAlmostEqual(2.92, end_to_end['average'][0], delta=4*end_to_end['block_stdev'][0])\n",
-    "        en=pd.read_csv('chain_en.txt')\n",
-    "        self.assertAlmostEqual(-29.4, en['average'][0], delta=4*en['block_stdev'][0])\n",
-    "unittest.main(argv=[''], verbosity=2, exit=False)"
+    "rg=pd.read_csv('rg2.txt')\n",
+    "assert np.abs(np.sqrt(2.45) - rg['average'][0]) < 4*rg['block_stdev'][0]\n",
+    "end_to_end=pd.read_csv('end_to_end2.txt')\n",
+    "assert np.abs(2.92 - end_to_end['average'][0]) < 4*end_to_end['block_stdev'][0]\n",
+    "en=pd.read_csv('chain_en.txt')\n",
+    "assert np.abs(-29.4 - en['average'][0]) < 4*en['block_stdev'][0]"
    ]
   },
   {
@@ -175,7 +149,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.10.12"
+   "version": "3.12.6"
   }
  },
  "nbformat": 4,

@@ -30,7 +30,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="VisitModelInnerNN" href="VisitModelInnerNN.html" />
-    <link rel="prev" title="TabulateTwoRigidBody3D" href="TabulateTwoRigidBody3D.html" />
+    <link rel="prev" title="Backmap" href="Backmap.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -91,13 +91,13 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Aniso</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Anisotropic.html">Anisotropic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Backmap.html">Backmap</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ContactObjective.html">ContactObjective</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TabulateTwoRigidBody3D.html">TabulateTwoRigidBody3D</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">VisitModelInnerTable</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst20VisitModelInnerTableE"><code class="docutils literal notranslate"><span class="pre">VisitModelInnerTable</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="VisitModelInnerNN.html">VisitModelInnerNN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ContactObjective.html">ContactObjective</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TabulateTwoRigidBody3D.html">TabulateTwoRigidBody3D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -223,6 +223,14 @@
 </p>
 <p>Subclassed by <a class="reference internal" href="VisitModelInnerNN_arguments.html#classfeasst_1_1VisitModelInnerNN"><span class="std std-ref">feasst::VisitModelInnerNN</span></a></p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>table_file: table file with format described above.</p></li>
+<li><p>ignore_energy: do not read the energy table (default: false). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst20VisitModelInnerTable15is_energy_tableERKNSt6vectorINSt6vectorINSt10shared_ptrI7Table6DEEEEEE">
@@ -245,14 +253,19 @@
 </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>table_file: table file with format described above.</p></li>
-<li><p>ignore_energy: do not read the energy table (default: false). </p></li>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst20VisitModelInnerTable10precomputeEP13Configuration">
+<span class="target" id="classfeasst_1_1VisitModelInnerTable_1afc2652ee4637bd4c4143f2dde66ab029"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20VisitModelInnerTable10precomputeEP13Configuration" title="Link to this definition"></a><br /></dt>
+<dd><p>Write an xyz file that represents the shape based on the inner cutoff, rh. For a given pair of types, and for each angle, a site is created at rh/2.</p>
+<p>args:<ul class="simple">
+<li><p>xyz_file: name of file to print xyz representation</p></li>
+<li><p>type1: pairwise site type (default: 0).</p></li>
+<li><p>type2: pairwise site type (default: 0).</p></li>
+<li><p>expand_t: increase orientation points by this factor (default: 1). </p></li>
 </ul>
 </p>
+</dd></dl>
+
 </div>
 </dd></dl>
 
@@ -262,7 +275,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="TabulateTwoRigidBody3D.html" class="btn btn-neutral float-left" title="TabulateTwoRigidBody3D" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Backmap.html" class="btn btn-neutral float-left" title="Backmap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="VisitModelInnerNN.html" class="btn btn-neutral float-right" title="VisitModelInnerNN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

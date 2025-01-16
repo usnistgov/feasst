@@ -77,7 +77,6 @@
 <li class="toctree-l3"><a class="reference internal" href="CheckPhysicality.html">CheckPhysicality</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Chirality2D.html">Chirality2D</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Density.html">Density</a></li>
@@ -106,6 +105,7 @@
 <li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html">ReadConfigFromFile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairDistributionInner.html">PairDistributionInner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -227,6 +227,16 @@
 <span class="target" id="classfeasst_1_1Movie"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Movie</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst16AnalyzeWriteOnlyE" title="feasst::AnalyzeWriteOnly"><span class="n"><span class="pre">AnalyzeWriteOnly</span></span></a><a class="headerlink" href="#_CPPv4N6feasst5MovieE" title="Link to this definition"></a><br /></dt>
 <dd><p>Write a trajectory of the site positions using <a class="reference internal" href="../../configuration/doc/PrinterXYZ_arguments.html#classfeasst_1_1FileXYZ"><span class="std std-ref">FileXYZ</span></a> format. Appends to existing file by default. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="../../configuration/doc/PrinterXYZ_arguments.html#classfeasst_1_1FileXYZ"><span class="std std-ref">FileXYZ</span></a> arguments (e.g., group_index).</p></li>
+<li><p><a class="reference internal" href="../../configuration/doc/FileVMD_arguments.html#classfeasst_1_1FileVMD"><span class="std std-ref">FileVMD</span></a> arguments (e.g., min_sigma).</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments.</p></li>
+<li><p>append is always set to true via <a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a>:set_append(). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst5Movie10initializeEP10MonteCarlo">
@@ -240,16 +250,6 @@
 <dd><p>Write the configuration. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p><a class="reference internal" href="../../configuration/doc/PrinterXYZ_arguments.html#classfeasst_1_1FileXYZ"><span class="std std-ref">FileXYZ</span></a> arguments (e.g., group_index).</p></li>
-<li><p><a class="reference internal" href="../../configuration/doc/FileVMD_arguments.html#classfeasst_1_1FileVMD"><span class="std std-ref">FileVMD</span></a> arguments (e.g., min_sigma).</p></li>
-<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments.</p></li>
-<li><p>append is always set to true via <a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a>:set_append(). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

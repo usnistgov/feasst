@@ -95,11 +95,11 @@
 <li class="toctree-l4"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ewald.html">Ewald</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CheckNetCharge.html">CheckNetCharge</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SlabCorrection.html">SlabCorrection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 </ul>
 </li>
 </ul>
@@ -222,6 +222,15 @@
 <p>An optional smoothing_distance linearly interpolates the energy to zero at the cutoff starting at a distance of cutoff - smoothing_distance.</p>
 <p>Avoid singularity by returning a large, positive number when <span class="math notranslate nohighlight">\(r\)</span> is near zero. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>kappa: as described above.</p></li>
+<li><p>dielectric: as described above.</p></li>
+<li><p>smoothing_distance: as described above. Disabled when negative (default: -1). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst11DebyeHuckel10precomputeERK11ModelParams">
@@ -235,15 +244,6 @@
 <dd><p>Output a serialized version of the existing model. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>kappa: as described above.</p></li>
-<li><p>dielectric: as described above.</p></li>
-<li><p>smoothing_distance: as described above. Disabled when negative (default: -1). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

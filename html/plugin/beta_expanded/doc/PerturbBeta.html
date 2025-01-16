@@ -203,16 +203,23 @@
 <span class="target" id="classfeasst_1_1PerturbBeta"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PerturbBeta</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Perturb.html#_CPPv4N6feasst7PerturbE" title="feasst::Perturb"><span class="n"><span class="pre">Perturb</span></span></a><a class="headerlink" href="#_CPPv4N6feasst11PerturbBetaE" title="Link to this definition"></a><br /></dt>
 <dd><p>Change the inverse temperature, <span class="math notranslate nohighlight">\(\beta\)</span>, of the system by a fixed amount, randomly up or down. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst11PerturbBeta11PerturbBetaE7argtype">
+<span class="target" id="classfeasst_1_1PerturbBeta_1a0468024d6c9e51552ba43ce2cc12e76c"></span><span class="sig-name descname"><span class="n"><span class="pre">PerturbBeta</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11PerturbBeta11PerturbBetaE7argtype" title="Link to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>fixed_beta_change: input the fixed amount that beta changes. The choice to increase or decrease is randomly selected. </p></li>
+</ul>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst11PerturbBeta7perturbEP6SystemP11TrialSelectP6RandomKbP10Acceptance">
 <span class="target" id="classfeasst_1_1PerturbBeta_1a31b42dce89e8ca772e66ea3051113906"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">perturb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span>, <a class="reference internal" href="../../monte_carlo/doc/TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect"><span class="n"><span class="pre">TrialSelect</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">select</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">is_position_held</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance"><span class="n"><span class="pre">Acceptance</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">acceptance</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">NULL</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11PerturbBeta7perturbEP6SystemP11TrialSelectP6RandomKbP10Acceptance" title="Link to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="../../monte_carlo/doc/Perturb_arguments.html#classfeasst_1_1Perturb"><span class="std std-ref">Perturb</span></a> the selection of the system. </p>
-<dl class="field-list simple">
-<dt class="field-odd">param is_position_held<span class="colon">:</span></dt>
-<dd class="field-odd"><p>If position is held, all but perform the actual perturbation, as typically required for calculations of old configurations and <a class="reference internal" href="../../monte_carlo/doc/Rosenbluth_arguments.html#classfeasst_1_1Rosenbluth"><span class="std std-ref">Rosenbluth</span></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="cpp function">
@@ -225,18 +232,6 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst11PerturbBeta6revertEP6System">
 <span class="target" id="classfeasst_1_1PerturbBeta_1a4937bdf7c597389ebcb151aeb60bbe93"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">revert</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11PerturbBeta6revertEP6System" title="Link to this definition"></a><br /></dt>
 <dd><p>Revert the system for an unaccepted perturbation. </p>
-</dd></dl>
-
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst11PerturbBeta11PerturbBetaE7argtype">
-<span class="target" id="classfeasst_1_1PerturbBeta_1a0468024d6c9e51552ba43ce2cc12e76c"></span><span class="sig-name descname"><span class="n"><span class="pre">PerturbBeta</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11PerturbBeta11PerturbBetaE7argtype" title="Link to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>fixed_beta_change: input the fixed amount that beta changes. The choice to increase or decrease is randomly selected. </p></li>
-</ul>
-</p>
 </dd></dl>
 
 </div>

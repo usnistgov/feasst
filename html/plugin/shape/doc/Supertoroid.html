@@ -218,6 +218,19 @@
 <p>The size of the hole is related to <span class="math notranslate nohighlight">\(a_4\)</span>, where the radius of the toroid, <span class="math notranslate nohighlight">\(R=a_4\sqrt{a_1^2+a_2^2}\)</span>.</p>
 <p>To model a superquadric, set <span class="math notranslate nohighlight">\(a_4=0\)</span>. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>center: set the unique key for the center positions. Thus, arguments of “key[i]” are expected to follow. The “[i]” is to be substituted for integer dimensions 0, 1, 2, … The “[i]” are also expected to be in order, starting from 0. If center arg is not used, a three dimensional origin is assumed.</p></li>
+<li><p>a1: (default: 1).</p></li>
+<li><p>a2: (default: 1).</p></li>
+<li><p>a3: (default: 1).</p></li>
+<li><p>a4: (default: 0).</p></li>
+<li><p>epsilon1: (default: 1).</p></li>
+<li><p>epsilon2: (default: 1). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Supertoroid16nearest_distanceERK8Position">
@@ -249,19 +262,6 @@
 <dd><p>Return the volume (if implemented). </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>center: set the unique key for the center positions. Thus, arguments of “key[i]” are expected to follow. The “[i]” is to be substituted for integer dimensions 0, 1, 2, … The “[i]” are also expected to be in order, starting from 0. If center arg is not used, a three dimensional origin is assumed.</p></li>
-<li><p>a1: (default: 1).</p></li>
-<li><p>a2: (default: 1).</p></li>
-<li><p>a3: (default: 1).</p></li>
-<li><p>a4: (default: 0).</p></li>
-<li><p>epsilon1: (default: 1).</p></li>
-<li><p>epsilon2: (default: 1). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

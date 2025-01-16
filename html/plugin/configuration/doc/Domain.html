@@ -229,6 +229,18 @@
 <p>For more information, see LAMMPS: <a class="reference external" href="https://docs.lammps.org/Howto_triclinic.html">https://docs.lammps.org/Howto_triclinic.html</a></p>
 <p>Another good resource is the inner workings of Monte Carlo codes <a class="reference external" href="https://doi.org/10.1080/08927022.2013.819102">https://doi.org/10.1080/08927022.2013.819102</a></p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>side_length[i]: set the side length of the i-th dimension. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
+<li><p>cubic_side_length: side length of cubic perioidic boundary conditions.</p></li>
+<li><p>periodic[i]: set if the i-th dimension is periodic (default: true).</p></li>
+<li><p>xy: set the tilt along the x-y direction (default: 0).</p></li>
+<li><p>xz: set the tilt along the x-z direction (default: 0).</p></li>
+<li><p>yz: set the tilt along the y-z direction (default: 0). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Domain12side_lengthsEv">
@@ -380,18 +392,6 @@
 <dd><p>Return the brief status for periodic output. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>side_length[i]: set the side length of the i-th dimension. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
-<li><p>cubic_side_length: side length of cubic perioidic boundary conditions.</p></li>
-<li><p>periodic[i]: set if the i-th dimension is periodic (default: true).</p></li>
-<li><p>xy: set the tilt along the x-y direction (default: 0).</p></li>
-<li><p>xz: set the tilt along the x-z direction (default: 0).</p></li>
-<li><p>yz: set the tilt along the y-z direction (default: 0). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

@@ -27,7 +27,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="CPUTime" href="CPUTime.html" />
+    <link rel="next" title="CriteriaUpdater" href="CriteriaUpdater.html" />
     <link rel="prev" title="CheckProperties" href="CheckProperties.html" />
 
 	<!-- frame blocking -->
@@ -80,7 +80,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst11Chirality2DE"><code class="docutils literal notranslate"><span class="pre">Chirality2D</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Density.html">Density</a></li>
@@ -106,6 +105,7 @@
 <li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html">ReadConfigFromFile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairDistributionInner.html">PairDistributionInner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -227,6 +227,17 @@
 <span class="target" id="classfeasst_1_1Chirality2D"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Chirality2D</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze"><span class="n"><span class="pre">Analyze</span></span></a><a class="headerlink" href="#_CPPv4N6feasst11Chirality2DE" title="Link to this definition"></a><br /></dt>
 <dd><p>Compute the 2D chirality by analyzing the sign of the cross product between two bonds. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>group: group index in <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> (default: 0).</p></li>
+<li><p>bond1: index of the first bond (default: 0).</p></li>
+<li><p>bond2: index of the second bond (default: 1).</p></li>
+<li><p>sign_error: error if chirality of sign and != 0 (default 0).</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11Chirality2D6headerERK10MonteCarlo">
@@ -259,17 +270,6 @@
 </dd></dl>
 
 </div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>group: group index in <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> (default: 0).</p></li>
-<li><p>bond1: index of the first bond (default: 0).</p></li>
-<li><p>bond2: index of the second bond (default: 1).</p></li>
-<li><p>sign_error: error if chirality of sign and != 0 (default 0).</p></li>
-<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
-</ul>
-</p>
-</div>
 </dd></dl>
 
 </section>
@@ -279,7 +279,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="CheckProperties.html" class="btn btn-neutral float-left" title="CheckProperties" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="CPUTime.html" class="btn btn-neutral float-right" title="CPUTime" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="CriteriaUpdater.html" class="btn btn-neutral float-right" title="CriteriaUpdater" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

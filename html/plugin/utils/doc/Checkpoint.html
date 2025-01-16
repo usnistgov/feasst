@@ -69,7 +69,6 @@
 <li class="toctree-l3"><a class="reference internal" href="ArgumentParse.html">ArgumentParse</a></li>
 <li class="toctree-l3"><a class="reference internal" href="arguments.html">utils/include/arguments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="arguments_extra.html">utils/include/arguments_extra</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debug.html">utils/include/debug</a></li>
 <li class="toctree-l3"><a class="reference internal" href="file.html">utils/include/file</a></li>
@@ -85,6 +84,7 @@
 <li class="toctree-l3"><a class="reference internal" href="utils.html">utils/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="serialize_extra.html">utils/include/serialize_extra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -214,6 +214,16 @@
 <p>echo “Restart checkpoint.fst” | $HOME/feasst(-version)/build/bin/fst</p>
 <p>Note that more commands may be added afted the line “Restart checkpoint.fst” </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>num_hours: Number of hours between printing of checkpoint file (default: 1).</p></li>
+<li><p>num_hours_terminate: Terminate after this many hours. If -1, do not terminate (default: -1). Termination may be detected in Bash shell using “$? != 0”.</p></li>
+<li><p>checkpoint_file: The default is one space (e.g., “ “). Do not checkpoint if checkpoint_file is empty or is one space.</p></li>
+<li><p>writes_per_backup: Create a unique checkpoint file name every this many times that a checkpoint is written (default: -1). If -1, only backup the previous file by appending its name with “.bak”. Otherwise, if &gt; 0, append each backup with an integer count beginning with 0. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10Checkpoint9num_hoursEv">
@@ -251,16 +261,6 @@
 <dd><p>Deserialize object. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>num_hours: Number of hours between printing of checkpoint file (default: 1).</p></li>
-<li><p>num_hours_terminate: Terminate after this many hours. If -1, do not terminate (default: -1). Termination may be detected in Bash shell using “$? != 0”.</p></li>
-<li><p>checkpoint_file: The default is one space (e.g., “ “). Do not checkpoint if checkpoint_file is empty or is one space.</p></li>
-<li><p>writes_per_backup: Create a unique checkpoint file name every this many times that a checkpoint is written (default: -1). If -1, only backup the previous file by appending its name with “.bak”. Otherwise, if &gt; 0, append each backup with an integer count beginning with 0. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

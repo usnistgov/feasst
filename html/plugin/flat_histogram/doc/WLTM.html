@@ -213,6 +213,16 @@
 <span class="target" id="classfeasst_1_1WLTM"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">WLTM</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias"><span class="n"><span class="pre">Bias</span></span></a><a class="headerlink" href="#_CPPv4N6feasst4WLTME" title="Link to this definition"></a><br /></dt>
 <dd><p>Begin with <a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> and end with <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>. See <a class="reference external" href="https://doi.org/10.1063/1.1615966">https://doi.org/10.1063/1.1615966</a> and <a class="reference external" href="https://doi.org/10.1063/1.4884124">https://doi.org/10.1063/1.4884124</a></p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> arguments.</p></li>
+<li><p><a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> arguments.</p></li>
+<li><p>collect_flatness: Begin populating the collection matrix when Wang-Landau has completed this many flatness checks. Note that populating the collection matrix does not necessarily mean that the collection matrix is used to compute the bias.</p></li>
+<li><p>min_collect_sweeps: In addition to WangLandau::min_flatness, do not use <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> as bias until it has this minimum number of sweeps. If -1, do nothing (default: -1). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst4WLTM6updateEKiKiKdKbKbRK10Macrostate">
@@ -250,16 +260,6 @@
 <dd><p>Set the macrostate probability distribution. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p><a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> arguments.</p></li>
-<li><p><a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> arguments.</p></li>
-<li><p>collect_flatness: Begin populating the collection matrix when Wang-Landau has completed this many flatness checks. Note that populating the collection matrix does not necessarily mean that the collection matrix is used to compute the bias.</p></li>
-<li><p>min_collect_sweeps: In addition to WangLandau::min_flatness, do not use <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> as bias until it has this minimum number of sweeps. If -1, do nothing (default: -1). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

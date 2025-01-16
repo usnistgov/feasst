@@ -73,7 +73,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Action.html">Action</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
@@ -109,6 +108,7 @@
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -254,6 +254,19 @@
 <dd><p><a class="reference internal" href="../../configuration/doc/Select_arguments.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> a random particle for trial. </p>
 <p>Subclassed by <a class="reference internal" href="../../chain/doc/SelectCrankshaftSmall_arguments.html#classfeasst_1_1SelectCrankshaftSmall"><span class="std std-ref">feasst::SelectCrankshaftSmall</span></a>, <a class="reference internal" href="../../chain/doc/SelectSegment_arguments.html#classfeasst_1_1SelectSegment"><span class="std std-ref">feasst::SelectSegment</span></a></p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>load_coordinates: load the coordinates into the selection (default: true)</p></li>
+<li><p>site: site index to select. If all sites, set to -1 (default).</p></li>
+<li><p>ghost: select ghost particles (default: false).</p></li>
+<li><p>exclude_perturbed: if true, exclude perturbed particle (default: false)</p></li>
+<li><p>min_particles: do not select if less than min number of particles. If -1, no constraint (default: -1). Note that this is the number of particles before the <a class="reference internal" href="Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>.</p></li>
+<li><p>max_particles: do not select if more than max number of particles. If -1, no constraint (default: -1). Note that this is the number of particles before the <a class="reference internal" href="Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>.</p></li>
+<li><p><a class="reference internal" href="TrialSelect_arguments.html#classfeasst_1_1TrialSelect"><span class="std std-ref">TrialSelect</span></a> arguments. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst19TrialSelectParticle16load_coordinatesEv">
@@ -305,11 +318,6 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst19TrialSelectParticle6selectERK6SelectP6SystemP6Random">
 <span class="target" id="classfeasst_1_1TrialSelectParticle_1a4117483394e9c554059a53f017b1dd4d"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">select</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">perturbed</span></span>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst19TrialSelectParticle6selectERK6SelectP6SystemP6Random" title="Link to this definition"></a><br /></dt>
 <dd><p>Perform the selection as implemented in the derived class. Return false if the selection cannot be made. Otherwise, return true. </p>
-<dl class="field-list simple">
-<dt class="field-odd">param perturbed<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Perturbed is included to allow chaining of selection based on previous. </p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="cpp function">
@@ -318,19 +326,6 @@
 <dd><p><a class="reference internal" href="../../configuration/doc/Select_arguments.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> a particular particle by index. Note that this index ignores ghost particles. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>load_coordinates: load the coordinates into the selection (default: true)</p></li>
-<li><p>site: site index to select. If all sites, set to -1 (default).</p></li>
-<li><p>ghost: select ghost particles (default: false).</p></li>
-<li><p>exclude_perturbed: if true, exclude perturbed particle (default: false)</p></li>
-<li><p>min_particles: do not select if less than min number of particles. If -1, no constraint (default: -1). Note that this is the number of particles before the <a class="reference internal" href="Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>.</p></li>
-<li><p>max_particles: do not select if more than max number of particles. If -1, no constraint (default: -1). Note that this is the number of particles before the <a class="reference internal" href="Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>.</p></li>
-<li><p><a class="reference internal" href="TrialSelect_arguments.html#classfeasst_1_1TrialSelect"><span class="std std-ref">TrialSelect</span></a> arguments. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

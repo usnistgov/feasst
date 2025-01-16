@@ -30,7 +30,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="CheckNetCharge" href="CheckNetCharge.html" />
-    <link rel="prev" title="ComputeAddMultiple" href="ComputeAddMultiple.html" />
+    <link rel="prev" title="TrialTransferMultiple" href="TrialTransferMultiple.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -95,11 +95,11 @@
 <li class="toctree-l4"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Ewald</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CheckNetCharge.html">CheckNetCharge</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SlabCorrection.html">SlabCorrection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 </ul>
 </li>
 </ul>
@@ -219,6 +219,19 @@
 <p><span class="math notranslate nohighlight">\(\vec{u} = 2\pi\vec{b}\times\vec{c}/V\)</span></p>
 <p><span class="math notranslate nohighlight">\(\vec{v} = 2\pi\vec{b}\times\vec{c}/V\)</span></p>
 <p><span class="math notranslate nohighlight">\(\vec{w} = 2\pi\vec{b}\times\vec{c}/V\)</span></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>tolerance: determine the alpha parameter and number of wave vectors by specifying the accuracy relative to the energy of two unit charges separated by a distance of one unit. As described and implemented in LAMMPS, see: <a class="reference external" href="https://docs.lammps.org/kspace_style.html,">https://docs.lammps.org/kspace_style.html,</a> <a class="reference external" href="https://doi.org/10.1080/08927029208049126,">https://doi.org/10.1080/08927029208049126,</a> <a class="reference external" href="https://doi.org/10.1063/1.470043">https://doi.org/10.1063/1.470043</a>.</p></li>
+<li><p>tolerance_num_sites: for setting parameters with the tolerance, optionally set the number of sites to be used for the parameter calculation rather than the currently existing number of sites (default).</p></li>
+<li><p>alpha: optionally specify the alpha parameter in units of inverse length.</p></li>
+<li><p>kxmax: optionally specify the maximum wave vectors in the first dimension.</p></li>
+<li><p>kymax: same as above, but in the second dimension.</p></li>
+<li><p>kzmax: same as above, but in the third dimension.</p></li>
+<li><p>kmax_squared: optionally set the squared maximum integer wave vector for cubic domains only, which also sets kxmax, etc. </p></li>
+</ul>
+</p>
+</div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -371,19 +384,6 @@
 </dd></dl>
 
 </div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>tolerance: determine the alpha parameter and number of wave vectors by specifying the accuracy relative to the energy of two unit charges separated by a distance of one unit. As described and implemented in LAMMPS, see: <a class="reference external" href="https://docs.lammps.org/kspace_style.html">https://docs.lammps.org/kspace_style.html</a>, <a class="reference external" href="https://doi.org/10.1080/08927029208049126">https://doi.org/10.1080/08927029208049126</a>, <a class="reference external" href="https://doi.org/10.1063/1.470043">https://doi.org/10.1063/1.470043</a>.</p></li>
-<li><p>tolerance_num_sites: for setting parameters with the tolerance, optionally set the number of sites to be used for the parameter calculation rather than the currently existing number of sites (default).</p></li>
-<li><p>alpha: optionally specify the alpha parameter in units of inverse length.</p></li>
-<li><p>kxmax: optionally specify the maximum wave vectors in the first dimension.</p></li>
-<li><p>kymax: same as above, but in the second dimension.</p></li>
-<li><p>kzmax: same as above, but in the third dimension.</p></li>
-<li><p>kmax_squared: optionally set the squared maximum integer wave vector for cubic domains only, which also sets kxmax, etc. </p></li>
-</ul>
-</p>
-</div>
 </dd></dl>
 
 </section>
@@ -392,7 +392,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="ComputeAddMultiple.html" class="btn btn-neutral float-left" title="ComputeAddMultiple" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="TrialTransferMultiple.html" class="btn btn-neutral float-left" title="TrialTransferMultiple" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="CheckNetCharge.html" class="btn btn-neutral float-right" title="CheckNetCharge" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

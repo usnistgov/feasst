@@ -280,6 +280,23 @@
 <span class="target" id="classfeasst_1_1ModelTableCart3DIntegr"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelTableCart3DIntegr</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody"><span class="n"><span class="pre">ModelOneBody</span></span></a><a class="headerlink" href="#_CPPv4N6feasst22ModelTableCart3DIntegrE" title="Link to this definition"></a><br /></dt>
 <dd><p>A tabular potential based on cartesian coordinates. Assumes symmetry along the x, y and z planes and that the <a class="reference internal" href="../../configuration/doc/Domain_arguments.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> has no tilt. Integration of material does not take periodicity into account. E.g., the shapes extend forever and are not periodic in the domain. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>table_file: file name for the table.</p></li>
+<li><p>shape_file: <a class="reference internal" href="../../shape/doc/ShapeFile_arguments.html#classfeasst_1_1ShapeFile"><span class="std std-ref">ShapeFile</span></a> that describes the shape.</p></li>
+<li><p>ModelTableCart3DIntegr::compute_table::integration_args.</p></li>
+<li><p>use_omp: use OpenMP to compute the table (default: false).</p></li>
+<li><p>node: for parallelization, see compute_table_omp (default: 0).</p></li>
+<li><p>num_node: for parallelization, see compute_table_omp (default: 1).</p></li>
+<li><p><a class="reference internal" href="../../math/doc/Table_arguments.html#classfeasst_1_1Table3D"><span class="std std-ref">Table3D</span></a> arguments.</p></li>
+<li><p><a class="reference internal" href="../../configuration/doc/Domain_arguments.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> arguments.</p></li>
+</ul>
+</p>
+<p>The format for the table file is as follows.</p>
+<p>The first line should be ‘site_types’ followed by the number of site types and then the identity of each of those site types in order of the tables given below. (e.g., “site_types n i” where n is the number of site types and each following number is the type of each anisotropic site.)</p>
+<p>The remaining lines are the individual tables for each of the site types. </p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst22ModelTableCart3DIntegr5tableEKi">
@@ -359,23 +376,6 @@
 <dd><p>Output a serialized version of the existing model. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>table_file: file name for the table.</p></li>
-<li><p>shape_file: <a class="reference internal" href="../../shape/doc/ShapeFile_arguments.html#classfeasst_1_1ShapeFile"><span class="std std-ref">ShapeFile</span></a> that describes the shape.</p></li>
-<li><p>ModelTableCart3DIntegr::compute_table::integration_args.</p></li>
-<li><p>use_omp: use OpenMP to compute the table (default: false).</p></li>
-<li><p>node: for parallelization, see compute_table_omp (default: 0).</p></li>
-<li><p>num_node: for parallelization, see compute_table_omp (default: 1).</p></li>
-<li><p><a class="reference internal" href="../../math/doc/Table_arguments.html#classfeasst_1_1Table3D"><span class="std std-ref">Table3D</span></a> arguments.</p></li>
-<li><p><a class="reference internal" href="../../configuration/doc/Domain_arguments.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> arguments.</p></li>
-</ul>
-</p>
-<p>The format for the table file is as follows.</p>
-<p>The first line should be ‘site_types’ followed by the number of site types and then the identity of each of those site types in order of the tables given below. (e.g., “site_types n i” where n is the number of site types and each following number is the type of each anisotropic site.)</p>
-<p>The remaining lines are the individual tables for each of the site types. </p>
 </div>
 </dd></dl>
 

@@ -219,6 +219,17 @@
 <p>and the low density <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> is adjusted yield the predicted total volume.</p>
 <p>When all constraints pass within their given tolerance, the <a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> is set to complete to allow for production simulations. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>particle_type: type of particle to consider density (default: 0).</p></li>
+<li><p>fraction_particles_low_density: fractional amount of particles in the low density phase (default: 0.15).</p></li>
+<li><p>fraction_particles_low_density_tolerane: tolerance on the fractional amount of particles in the low density phase (default: 0.05). When all tolerances are achieved, the <a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> is set to complete.</p></li>
+<li><p>updates_density_equil: number of updates before computing average density (default: 1e7).</p></li>
+<li><p>updates_per_adjust: number of updates per adjustment (default: 2e7). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst15GibbsInitialize6headerERK10MonteCarlo">
@@ -244,17 +255,6 @@
 <dd><p>Perform write. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>particle_type: type of particle to consider density (default: 0).</p></li>
-<li><p>fraction_particles_low_density: fractional amount of particles in the low density phase (default: 0.15).</p></li>
-<li><p>fraction_particles_low_density_tolerane: tolerance on the fractional amount of particles in the low density phase (default: 0.05). When all tolerances are achieved, the <a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> is set to complete.</p></li>
-<li><p>updates_density_equil: number of updates before computing average density (default: 1e7).</p></li>
-<li><p>updates_per_adjust: number of updates per adjustment (default: 2e7). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

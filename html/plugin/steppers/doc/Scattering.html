@@ -79,7 +79,6 @@
 <li class="toctree-l3"><a class="reference internal" href="CheckPhysicality.html">CheckPhysicality</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Chirality2D.html">Chirality2D</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Density.html">Density</a></li>
@@ -108,6 +107,7 @@
 <li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html">ReadConfigFromFile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairDistributionInner.html">PairDistributionInner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -235,6 +235,14 @@
 <p>The intensity, <span class="math notranslate nohighlight">\(I\)</span>, is then given by the <span class="math notranslate nohighlight">\(F(\vec{q})\)</span> multiplied by its complex conjugate:</p>
 <p><span class="math notranslate nohighlight">\(I(q) = |F(\vec{q})|^2\)</span>. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>num_frequency: the number of linearly spaced frequencies between the largest and the smallest, 2*pi/minimum_domain_length (default: 100).</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10Scattering10initializeEP10MonteCarlo">
@@ -254,14 +262,6 @@
 <dd><p>Perform write action. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>num_frequency: the number of linearly spaced frequencies between the largest and the smallest, 2*pi/minimum_domain_length (default: 100).</p></li>
-<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

@@ -3,7 +3,7 @@
 
    Anisotropic
    Backmap
-   ContactObjective
-   TabulateTwoRigidBody3D
    VisitModelInnerTable
    VisitModelInnerNN
+   ContactObjective
+   TabulateTwoRigidBody3D

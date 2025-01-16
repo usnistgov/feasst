@@ -201,16 +201,18 @@
 <span class="target" id="classfeasst_1_1PerturbModel"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PerturbModel</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Perturb.html#_CPPv4N6feasst7PerturbE" title="feasst::Perturb"><span class="n"><span class="pre">Perturb</span></span></a><a class="headerlink" href="#_CPPv4N6feasst12PerturbModelE" title="Link to this definition"></a><br /></dt>
 <dd><p>Change the <a class="reference internal" href="ModelExpanded.html#classfeasst_1_1ModelExpanded_1ab535b78ad4417a3c4fcf42e6d11b8853"><span class="std std-ref">ModelExpanded::model_index</span></a> by plus or minus one. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p>args:<ul class="simple">
+<li><p>potential_index: index of potential with model_index (default: 0). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst12PerturbModel7perturbEP6SystemP11TrialSelectP6RandomKbP10Acceptance">
 <span class="target" id="classfeasst_1_1PerturbModel_1a9eaf2482af0dc25182f6d9950dd38329"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">perturb</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span>, <a class="reference internal" href="../../monte_carlo/doc/TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect"><span class="n"><span class="pre">TrialSelect</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">select</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">is_position_held</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance"><span class="n"><span class="pre">Acceptance</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">acceptance</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">NULL</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12PerturbModel7perturbEP6SystemP11TrialSelectP6RandomKbP10Acceptance" title="Link to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="../../monte_carlo/doc/Perturb_arguments.html#classfeasst_1_1Perturb"><span class="std std-ref">Perturb</span></a> the selection of the system. </p>
-<dl class="field-list simple">
-<dt class="field-odd">param is_position_held<span class="colon">:</span></dt>
-<dd class="field-odd"><p>If position is held, all but perform the actual perturbation, as typically required for calculations of old configurations and <a class="reference internal" href="../../monte_carlo/doc/Rosenbluth_arguments.html#classfeasst_1_1Rosenbluth"><span class="std std-ref">Rosenbluth</span></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="cpp function">
@@ -225,13 +227,6 @@
 <dd><p>Revert the system for an unaccepted perturbation. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p>args:<ul class="simple">
-<li><p>potential_index: index of potential with model_index (default: 0). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

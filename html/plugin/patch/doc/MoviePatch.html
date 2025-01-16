@@ -82,10 +82,10 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="FileVMDSpherocylinder.html">FileVMDSpherocylinder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="MovieSpherocylinder.html">MovieSpherocylinder</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TwoParticleContactObjective.html">TwoParticleContactObjective</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitModelInnerPatch.html">VisitModelInnerPatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Spherocylinder.html">Spherocylinder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SolidOfRevolutionTable.html">SolidOfRevolutionTable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TwoParticleContactObjective.html">TwoParticleContactObjective</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -205,6 +205,15 @@
 <span class="target" id="classfeasst_1_1MoviePatch"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MoviePatch</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst16AnalyzeWriteOnlyE" title="feasst::AnalyzeWriteOnly"><span class="n"><span class="pre">AnalyzeWriteOnly</span></span></a><a class="headerlink" href="#_CPPv4N6feasst10MoviePatchE" title="Link to this definition"></a><br /></dt>
 <dd><p>Write a trajectory of the site positions using <a class="reference internal" href="FileVMDPatch_arguments.html#classfeasst_1_1FileXYZPatch"><span class="std std-ref">FileXYZPatch</span></a> format. Appends to existing file by default. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="FileVMDPatch_arguments.html#classfeasst_1_1FileXYZPatch"><span class="std std-ref">FileXYZPatch</span></a> arguments.</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments.</p></li>
+<li><p>append is always set to true via <a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a>:set_append(). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10MoviePatch10initializeEP10MonteCarlo">
@@ -218,15 +227,6 @@
 <dd><p>Write the configuration. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p><a class="reference internal" href="FileVMDPatch_arguments.html#classfeasst_1_1FileXYZPatch"><span class="std std-ref">FileXYZPatch</span></a> arguments.</p></li>
-<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments.</p></li>
-<li><p>append is always set to true via <a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a>:set_append(). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

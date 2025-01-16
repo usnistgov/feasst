@@ -27,7 +27,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Monte Carlo" href="../../monte_carlo/README.html" />
+    <link rel="next" title="VisitModelCell" href="VisitModelCell.html" />
     <link rel="prev" title="VisitModelIntra" href="VisitModelIntra.html" />
 
 	<!-- frame blocking -->
@@ -96,17 +96,17 @@
 <li class="toctree-l4"><a class="reference internal" href="RigidDihedral.html">RigidDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="DontVisitModel.html">DontVisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCutoffOuter.html">VisitModelCutoffOuter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">VisitModelIntraMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 </ul>
 </li>
 </ul>
@@ -232,6 +232,17 @@
 <dd><p>Intra-particle interactions are computed here. this does not include bonded interaction energies, but “inter”-like models such as lennard jones but between sites in the same particle (e.g., long chains).</p>
 <p>In this implementation, a map for each particle type is precomputed. For a given pair of site indices, the map returns true if the intra interaction is included. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>exclude_bonds: if true, exclude intra interactions between bonded sites (default: false).</p></li>
+<li><p>exclude_angles: if true, exclude intra interactions between the two extremes of the angle sites (e.g, exclude AC of &lt;ABC) (default: false).</p></li>
+<li><p>exclude_dihedrals: if true, exclude intra interactions between the two extremes of the dihedral sites (e.g, exclude AD of &lt;ABCD) (default: false).</p></li>
+<li><p>dihedral_weight: if &gt; 0, multiply intramolecular interactions for the 1-4 dihedral sites by this weight (default: -1). For example, CHARMM and OPLS may set this weight to 1/2. If exclude_dihedral is true, this weight cannot be &gt; 0.</p></li>
+</ul>
+</p>
+<p>By default, all interactions are included except with self and there is no dihedral weight. </p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst18VisitModelIntraMap10precomputeEP13Configuration">
@@ -246,17 +257,6 @@
 </dd></dl>
 
 </div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>exclude_bonds: if true, exclude intra interactions between bonded sites (default: false).</p></li>
-<li><p>exclude_angles: if true, exclude intra interactions between the two extremes of the angle sites (e.g, exclude AC of &lt;ABC) (default: false).</p></li>
-<li><p>exclude_dihedrals: if true, exclude intra interactions between the two extremes of the dihedral sites (e.g, exclude AD of &lt;ABCD) (default: false).</p></li>
-<li><p>dihedral_weight: if &gt; 0, multiply intramolecular interactions for the 1-4 dihedral sites by this weight (default: -1). For example, CHARMM and OPLS may set this weight to 1/2. If exclude_dihedral is true, this weight cannot be &gt; 0.</p></li>
-</ul>
-</p>
-<p>By default, all interactions are included except with self and there is no dihedral weight. </p>
-</div>
 </dd></dl>
 
 </section>
@@ -266,7 +266,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="VisitModelIntra.html" class="btn btn-neutral float-left" title="VisitModelIntra" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../monte_carlo/README.html" class="btn btn-neutral float-right" title="Monte Carlo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="VisitModelCell.html" class="btn btn-neutral float-right" title="VisitModelCell" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

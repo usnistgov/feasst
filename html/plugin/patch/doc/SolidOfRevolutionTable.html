@@ -29,7 +29,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Mayer" href="../../mayer/README.html" />
+    <link rel="next" title="TwoParticleContactObjective" href="TwoParticleContactObjective.html" />
     <link rel="prev" title="Spherocylinder" href="Spherocylinder.html" />
 
 	<!-- frame blocking -->
@@ -81,13 +81,13 @@
 <li class="toctree-l3"><a class="reference internal" href="MoviePatch.html">MoviePatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileVMDSpherocylinder.html">FileVMDSpherocylinder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="MovieSpherocylinder.html">MovieSpherocylinder</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TwoParticleContactObjective.html">TwoParticleContactObjective</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitModelInnerPatch.html">VisitModelInnerPatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Spherocylinder.html">Spherocylinder</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">SolidOfRevolutionTable</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst22SolidOfRevolutionTableE"><code class="docutils literal notranslate"><span class="pre">SolidOfRevolutionTable</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="TwoParticleContactObjective.html">TwoParticleContactObjective</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -235,6 +235,14 @@
 <p>In order to obtain the orientation given thetai, thetaj, psi and d: -place two particles on the origin with axes of rotation along the z-axis -rotate the first particle by an angle phi = pi/2 - thetai about the y axis (toward the x-axis) -rotate the second particle by an angle phi = pi/2- thetaj about the y axis (toward the negative x-axis) -rotate the second particle by an angle psi about the x-axis -translate the second particle by a distance, d along the x-axis</p>
 <p>If using superballs, only the z-exponent, a3 can be different from a1=a2. In this case, the reference position has the axis of revolution along the z-axis. Therefore, when thetai = PI/2, the particle is in the ‘reference’ orientation. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>table_file: table file with format described above.</p></li>
+<li><p>ignore_energy: do not read the energy table (default: false). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst22SolidOfRevolutionTable15is_energy_tableERKNSt6vectorINSt6vectorINSt10shared_ptrI7Table4DEEEEEE">
@@ -242,14 +250,6 @@
 <dd><p>Return true if there is an energy table. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>table_file: table file with format described above.</p></li>
-<li><p>ignore_energy: do not read the energy table (default: false). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 
@@ -260,7 +260,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Spherocylinder.html" class="btn btn-neutral float-left" title="Spherocylinder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../mayer/README.html" class="btn btn-neutral float-right" title="Mayer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="TwoParticleContactObjective.html" class="btn btn-neutral float-right" title="TwoParticleContactObjective" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -216,6 +216,18 @@ and include the factorial division.</p>
 </div>
 </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>trials_per_cycle: define a cycle as a number of trials (as measured by number of calls to is_accepted) default: 1e9.</p></li>
+<li><p>intra_potential: index of intramolecular potential that will be used to select the move. Ignore if -1 (default: -1).</p></li>
+<li><p>num_beta_taylor: number of derivatives of second virial ratio with respect to beta. (default: 0).</p></li>
+<li><p>training_file: if not empty, file name to write training data (default: empty).</p></li>
+<li><p>training_per_write: write every this many sets of data (default: 1e4).</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> arguments. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst13MayerSampling10precomputeEP6System">
@@ -279,18 +291,6 @@ and include the factorial division.</p>
 <dd><p>Return a human-readable output of all data (not as brief as status). </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>trials_per_cycle: define a cycle as a number of trials (as measured by number of calls to is_accepted) default: 1e9.</p></li>
-<li><p>intra_potential: index of intramolecular potential that will be used to select the move. Ignore if -1 (default: -1).</p></li>
-<li><p>num_beta_taylor: number of derivatives of second virial ratio with respect to beta. (default: 0).</p></li>
-<li><p>training_file: if not empty, file name to write training data (default: empty).</p></li>
-<li><p>training_per_write: write every this many sets of data (default: 1e4).</p></li>
-<li><p><a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> arguments. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

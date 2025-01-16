@@ -214,6 +214,15 @@
 <dd><p>The macrostate is the statistical mechanical variable to which we apply bias using flat-histogram methods. Thus, for example, in the grand canonical ensemble with a single component, the macrostate is the number of particles. To apply the flat histogram methods, the macrostate is be broken into a contiguous series of “bins”. </p>
 <p>Subclassed by <a class="reference internal" href="../../beta_expanded/doc/MacrostateBeta_arguments.html#classfeasst_1_1MacrostateBeta"><span class="std std-ref">feasst::MacrostateBeta</span></a>, <a class="reference internal" href="MacrostateEnergy_arguments.html#classfeasst_1_1MacrostateEnergy"><span class="std std-ref">feasst::MacrostateEnergy</span></a>, <a class="reference internal" href="../../model_expanded/doc/MacrostateModel_arguments.html#classfeasst_1_1MacrostateModel"><span class="std std-ref">feasst::MacrostateModel</span></a>, <a class="reference internal" href="../../morph/doc/MacrostateMorph_arguments.html#classfeasst_1_1MacrostateMorph"><span class="std std-ref">feasst::MacrostateMorph</span></a>, <a class="reference internal" href="MacrostateNumParticles_arguments.html#classfeasst_1_1MacrostateNumParticles"><span class="std std-ref">feasst::MacrostateNumParticles</span></a>, <a class="reference internal" href="MacrostatePosition_arguments.html#classfeasst_1_1MacrostatePosition"><span class="std std-ref">feasst::MacrostatePosition</span></a></p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>soft_macro_max : optionally, set a soft maximum (default: last histogram bin). These soft limits may be changed during a simulation. Note that this max is a macrostate value, not an integer bin index.</p></li>
+<li><p>soft_macro_min : minimum as described above (default: same as histogram). This argument also requires the use of soft_macro_max.</p></li>
+<li><p><a class="reference internal" href="../../math/doc/Histogram_arguments.html#classfeasst_1_1Histogram"><span class="std std-ref">Histogram</span></a> arguments. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10Macrostate10MacrostateERK9Histogram7argtype">
@@ -275,15 +284,6 @@
 <dd><p>Return whether the current system macrostate is within permissible range given by the input histogram. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>soft_macro_max : optionally, set a soft maximum (default: last histogram bin). These soft limits may be changed during a simulation. Note that this max is a macrostate value, not an integer bin index.</p></li>
-<li><p>soft_macro_min : minimum as described above (default: same as histogram). This argument also requires the use of soft_macro_max.</p></li>
-<li><p><a class="reference internal" href="../../math/doc/Histogram_arguments.html#classfeasst_1_1Histogram"><span class="std std-ref">Histogram</span></a> arguments. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

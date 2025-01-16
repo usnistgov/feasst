@@ -77,7 +77,6 @@
 <li class="toctree-l3"><a class="reference internal" href="CheckPhysicality.html">CheckPhysicality</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Chirality2D.html">Chirality2D</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Density.html">Density</a></li>
@@ -106,6 +105,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="PairDistributionInner.html">PairDistributionInner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -230,6 +230,15 @@
 <p>The ordering of the columns may change at any time. Thus, do not assume a particular order when analyzing the log file. Instead, use the headers to specify columns. For example, the pandas module in python is ideal for this task.</p>
 <p>By default, the first number printed for a <a class="reference internal" href="../../monte_carlo/doc/Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a> is its <a class="reference internal" href="../../monte_carlo/doc/Trial.html#classfeasst_1_1Trial_1ac2a26211b3e582196cb3ba53df6c3de5"><span class="std std-ref">Trial::acceptance</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>max_precision: use maximum precision if true (default: false).</p></li>
+<li><p>include_bonds: if true, print bond energies (default: true).</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst3Log6headerERK10MonteCarlo">
@@ -249,15 +258,6 @@
 <dd><p>Perform write action. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>max_precision: use maximum precision if true (default: false).</p></li>
-<li><p>include_bonds: if true, print bond energies (default: true).</p></li>
-<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

@@ -79,7 +79,6 @@
 <li class="toctree-l3"><a class="reference internal" href="CheckPhysicality.html">CheckPhysicality</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Chirality2D.html">Chirality2D</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Density.html">Density</a></li>
@@ -108,6 +107,7 @@
 <li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html">ReadConfigFromFile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairDistributionInner.html">PairDistributionInner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -233,6 +233,13 @@
 <p>The outputed standard deviation of the mean uses the largest possible block averages.</p>
 <p>To improve numerical stability, a slight modification is made to the ensemble average. For small volume changes, the ensemble average is very close to unity. Thus, the implemented ensemble average is subtracted from unity, but then later added back when computing the pressure. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>delta_volume: ghost volume change (default: 1e-4). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst16GhostTrialVolume6headerERK10MonteCarlo">
@@ -258,13 +265,6 @@
 <dd><p>Perform write. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>delta_volume: ghost volume change (default: 1e-4). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

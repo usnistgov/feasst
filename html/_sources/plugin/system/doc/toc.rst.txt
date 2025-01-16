@@ -26,14 +26,14 @@
    RigidDihedral
    SynchronizeData
    EnergyMap
-   System
    ThermoParams
    VisitModel
    LongRangeCorrections
    DontVisitModel
    VisitModelBond
-   VisitModelCell
    VisitModelCutoffOuter
    VisitModelInner
    VisitModelIntra
    VisitModelIntraMap
+   VisitModelCell
+   System

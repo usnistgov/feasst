@@ -96,17 +96,17 @@
 <li class="toctree-l4"><a class="reference internal" href="RigidDihedral.html">RigidDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="DontVisitModel.html">DontVisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCutoffOuter.html">VisitModelCutoffOuter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 </ul>
 </li>
 </ul>
@@ -230,6 +230,21 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst9PotentialE">
 <span class="target" id="classfeasst_1_1Potential"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Potential</span></span></span><a class="headerlink" href="#_CPPv4N6feasst9PotentialE" title="Link to this definition"></a><br /></dt>
 <dd><p>A potential represents both the model and the method used to compute the model (e.g., <a class="reference internal" href="VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>) for a given <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>. A potential also allows customization of the model parameters templated but separate from those in the <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>group_index: set the index of the group in the configuration which contributes to this potential (default: 0, representing entire config).</p></li>
+<li><p>group: name of group defined within system (default: “”). Cannot be used with group_index.</p></li>
+<li><p>cell_index: set the index of the cell, only used with <a class="reference internal" href="VisitModelCell_arguments.html#classfeasst_1_1VisitModelCell"><span class="std std-ref">VisitModelCell</span></a>. This also overrides group_index.</p></li>
+<li><p>prevent_cache: set this to true in order to prevent the use of cache (default: False)</p></li>
+<li><p>table_size: set size of tabular potential (default: 0). Do not use table if size &lt;= 0.</p></li>
+<li><p>table_hard_sphere_threshold: If using a table above, set the <a class="reference internal" href="ModelTwoBodyTable_arguments.html#classfeasst_1_1ModelTwoBodyTable"><span class="std std-ref">ModelTwoBodyTable</span></a> hard_sphere_threshold (default: 0.85).</p></li>
+<li><p>[parameter]/[i]/[j]: as described in <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> arguments.</p></li>
+<li><p><a class="reference internal" href="Model_arguments.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a>: derived class <a class="reference internal" href="Model_arguments.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a> name (default: <a class="reference internal" href="ModelEmpty_arguments.html#classfeasst_1_1ModelEmpty"><span class="std std-ref">ModelEmpty</span></a>).</p></li>
+<li><p><a class="reference internal" href="VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>: derived class <a class="reference internal" href="VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a> name (default: <a class="reference internal" href="VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>). </p></li>
+</ul>
+</p>
+</div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -399,21 +414,6 @@
 <dd><p>Deserialize. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>group_index: set the index of the group in the configuration which contributes to this potential (default: 0, representing entire config).</p></li>
-<li><p>group: name of group defined within system (default: “”). Cannot be used with group_index.</p></li>
-<li><p>cell_index: set the index of the cell, only used with <a class="reference internal" href="VisitModelCell_arguments.html#classfeasst_1_1VisitModelCell"><span class="std std-ref">VisitModelCell</span></a>. This also overrides group_index.</p></li>
-<li><p>prevent_cache: set this to true in order to prevent the use of cache (default: False)</p></li>
-<li><p>table_size: set size of tabular potential (default: 0). Do not use table if size &lt;= 0.</p></li>
-<li><p>table_hard_sphere_threshold: If using a table above, set the <a class="reference internal" href="ModelTwoBodyTable_arguments.html#classfeasst_1_1ModelTwoBodyTable"><span class="std std-ref">ModelTwoBodyTable</span></a> hard_sphere_threshold (default: 0.85).</p></li>
-<li><p>[parameter]/[i]/[j]: as described in <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> arguments.</p></li>
-<li><p><a class="reference internal" href="Model_arguments.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a>: derived class <a class="reference internal" href="Model_arguments.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a> name (default: <a class="reference internal" href="ModelEmpty_arguments.html#classfeasst_1_1ModelEmpty"><span class="std std-ref">ModelEmpty</span></a>).</p></li>
-<li><p><a class="reference internal" href="VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>: derived class <a class="reference internal" href="VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a> name (default: <a class="reference internal" href="VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

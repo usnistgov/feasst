@@ -21,7 +21,9 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# FEASST version: v0.19.0-104-gc3a7e003a2-dirty-user/newtutorials\n",
+      "# Usage: ./fst < file.txt\n",
+      "FEASST version 0.25.6\n",
+      "MonteCarlo\n",
       "Configuration add_particles_of_type0 2 cubic_side_length 1e100 cutoff0_1 1.122462048309373 cutoff1_1 1.122462048309373 first_particle_index 0 group0 first particle_type0 /home/user/feasst/particle/trimer_0.4L.fstprt  \n",
       "Potential Model LennardJonesForceShift  \n",
       "RefPotential Model HardSphere sigma0 1 sigma1 0  \n",
@@ -29,11 +31,11 @@
       "MayerSampling  \n",
       "TrialTranslate group first new_only true reference_index 0 tunable_param 1  \n",
       "TrialRotate new_only true reference_index 0 tunable_param 40  \n",
-      "CriteriaWriter output_file b2.txt trials_per 1e4  \n",
-      "Log output_file tmp/trib.txt trials_per 1e4  \n",
-      "Movie output_file tmp/trib.xyz trials_per 1e4  \n",
+      "CriteriaWriter output_file b2.txt trials_per_write 1e4  \n",
+      "Log output_file tmp/trib.txt trials_per_write 1e4  \n",
+      "Movie output_file tmp/trib.xyz trials_per_write 1e4  \n",
       "Run num_trials 1e6  \n",
-      "# initializing random number generator with seed: 1653572226\n",
+      "# initializing random number generator with seed: 1734453542\n",
       " \n",
       " exit: 0\n"
      ]
@@ -68,60 +70,28 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 3,
    "metadata": {},
    "outputs": [
-    {
-     "name": "stderr",
-     "output_type": "stream",
-     "text": [
-      "test (__main__.TestMayerSamplingTrimer) ... "
-     ]
-    },
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "{'second_virial_ratio': -0.0067179, 'second_virial_ratio_block_stdev': 0.0132613}\n"
+      "{'second_virial_ratio': -0.022655, 'second_virial_ratio_block_stdev': 0.015516}\n"
      ]
-    },
-    {
-     "name": "stderr",
-     "output_type": "stream",
-     "text": [
-      "ok\n",
-      "\n",
-      "----------------------------------------------------------------------\n",
-      "Ran 1 test in 0.001s\n",
-      "\n",
-      "OK\n"
-     ]
-    },
-    {
-     "data": {
-      "text/plain": [
-       "<unittest.main.TestProgram at 0x7f0df8193eb0>"
-      ]
-     },
-     "execution_count": 2,
-     "metadata": {},
-     "output_type": "execute_result"
     }
    ],
    "source": [
     "import math\n",
-    "import unittest\n",
-    "class TestMayerSamplingTrimer(unittest.TestCase):\n",
-    "    def test(self):\n",
-    "        with open(\"b2.txt\") as f:\n",
-    "            firstline = f.readline().rstrip()\n",
-    "            #print(firstline)\n",
-    "            b2=eval(firstline)\n",
-    "            #b2={\"second_virial_ratio\": -0.0166853, \"second_virial_ratio_block_stdev\": 0.0159632}\n",
-    "            print(b2)\n",
+    "import numpy as np\n",
+    "with open(\"b2.txt\") as f:\n",
+    "    firstline = f.readline().rstrip()\n",
+    "    #print(firstline)\n",
+    "    b2=eval(firstline)\n",
+    "    #b2={\"second_virial_ratio\": -0.0166853, \"second_virial_ratio_block_stdev\": 0.0159632}\n",
+    "    print(b2)\n",
     "# print(mayer.mayer().str())\n",
-    "            self.assertAlmostEqual(0, b2['second_virial_ratio'], delta=4*b2['second_virial_ratio_block_stdev'])\n",
-    "unittest.main(argv=[''], verbosity=2, exit=False)"
+    "    assert np.abs(b2['second_virial_ratio']) < 4*b2['second_virial_ratio_block_stdev']"
    ]
   },
   {
@@ -148,7 +118,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.9.18"
+   "version": "3.12.6"
   }
  },
  "nbformat": 4,

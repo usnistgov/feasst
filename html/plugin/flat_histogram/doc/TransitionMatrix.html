@@ -241,6 +241,21 @@ of chemical potential.</p>
 </div>
 </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> arguments.</p></li>
+<li><p>min_visits: A sweep is performed when all macrostates are visited by another macrostate this number of times (default: 100).</p></li>
+<li><p>average_visits: A sweep is performed when macrostates are visited by another macrostate more than this average number of times (default: 0).</p></li>
+<li><p>min_sweeps: Number of sweeps required for completion.</p></li>
+<li><p>reset_sweeps: The ‘phase’ counter increments from 0 to 1 when reset_sweeps are completed (default: -1 [counter will never increment])</p></li>
+<li><p><p>new_sweep: if set to 1, use new sweep definition of “the minimum number</p>
+<p>of accepted transitions for each possible” (default: 0).</p>
+</p></li>
+<li><p>widom: if true, also store a <a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> without the minimum(1,P) term typical of <a class="reference internal" href="../../monte_carlo/doc/Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> acceptance (default: false). This allows direct calculation of the chemical potential </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst16TransitionMatrix6updateEKiKiKdKbKbRK10Macrostate">
@@ -290,21 +305,6 @@ of chemical potential.</p>
 <dd><p>Perform an infrequent update to the bias. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p><a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> arguments.</p></li>
-<li><p>min_visits: A sweep is performed when all macrostates are visited by another macrostate this number of times (default: 100).</p></li>
-<li><p>average_visits: A sweep is performed when macrostates are visited by another macrostate more than this average number of times (default: 0).</p></li>
-<li><p>min_sweeps: Number of sweeps required for completion.</p></li>
-<li><p>reset_sweeps: The ‘phase’ counter increments from 0 to 1 when reset_sweeps are completed (default: -1 [counter will never increment])</p></li>
-<li><p><p>new_sweep: if set to 1, use new sweep definition of “the minimum number</p>
-<p>of accepted transitions for each possible” (default: 0).</p>
-</p></li>
-<li><p>widom: if true, also store a <a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> without the minimum(1,P) term typical of <a class="reference internal" href="../../monte_carlo/doc/Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> acceptance (default: false). This allows direct calculation of the chemical potential </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

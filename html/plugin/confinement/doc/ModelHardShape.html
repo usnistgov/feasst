@@ -206,6 +206,14 @@
 <span class="target" id="classfeasst_1_1ModelHardShape"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelHardShape</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody"><span class="n"><span class="pre">ModelOneBody</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../shape/doc/Shape.html#_CPPv4N6feasst12ShapedEntityE" title="feasst::ShapedEntity"><span class="n"><span class="pre">ShapedEntity</span></span></a><a class="headerlink" href="#_CPPv4N6feasst14ModelHardShapeE" title="Link to this definition"></a><br /></dt>
 <dd><p>Create a cavity of a given shape, where the potential energy outside of the shape is infinite. Optionally set the cavity to false (default: true) to model a hard shape. Shapes are not subject to periodic boundaries, but interact with wrapped site positions. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>Same arguments as <a class="reference internal" href="../../shape/doc/ShapeFile_arguments.html#classfeasst_1_1ShapeFile"><span class="std std-ref">ShapeFile</span></a>.</p></li>
+<li><p>cavity: if true, the potential outside the shape is infinite. if false, the potential inside the shape is infinite (default: true). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst14ModelHardShape6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams">
@@ -219,14 +227,6 @@
 <dd><p>Output a serialized version of the existing model. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>Same arguments as <a class="reference internal" href="../../shape/doc/ShapeFile_arguments.html#classfeasst_1_1ShapeFile"><span class="std std-ref">ShapeFile</span></a>.</p></li>
-<li><p>cavity: if true, the potential outside the shape is infinite. if false, the potential inside the shape is infinite (default: true). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

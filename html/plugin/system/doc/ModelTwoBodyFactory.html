@@ -96,17 +96,17 @@
 <li class="toctree-l4"><a class="reference internal" href="RigidDihedral.html">RigidDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="DontVisitModel.html">DontVisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCutoffOuter.html">VisitModelCutoffOuter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 </ul>
 </li>
 </ul>
@@ -232,6 +232,14 @@
 <dd><p>Contains a collection of two body models. This allows the visitor to consider multiple two body models for each pairwise interaction. </p>
 <p>Subclassed by <a class="reference internal" href="../../model_expanded/doc/ModelExpanded_arguments.html#classfeasst_1_1ModelExpanded"><span class="std std-ref">feasst::ModelExpanded</span></a></p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>model[i]: add the i-th model. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
+<li><p>model_file: if not empty, file name that lists the <a class="reference internal" href="ModelTwoBody_arguments.html#classfeasst_1_1ModelTwoBody"><span class="std std-ref">ModelTwoBody</span></a> (default: empty). The first line is simply <a class="reference internal" href="ModelTwoBodyFactory_arguments.html#classfeasst_1_1ModelTwoBodyFactory"><span class="std std-ref">ModelTwoBodyFactory</span></a>. The second line is empty. The remaining lines are for creating each <a class="reference internal" href="ModelTwoBody_arguments.html#classfeasst_1_1ModelTwoBody"><span class="std std-ref">ModelTwoBody</span></a>. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst19ModelTwoBodyFactory3addENSt6vectorINSt10shared_ptrI12ModelTwoBodyEEEE">
@@ -269,14 +277,6 @@
 <dd><p>Output a serialized version of the existing model. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>model[i]: add the i-th model. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
-<li><p>model_file: if not empty, file name that lists the <a class="reference internal" href="ModelTwoBody_arguments.html#classfeasst_1_1ModelTwoBody"><span class="std std-ref">ModelTwoBody</span></a> (default: empty). The first line is simply <a class="reference internal" href="ModelTwoBodyFactory_arguments.html#classfeasst_1_1ModelTwoBodyFactory"><span class="std std-ref">ModelTwoBodyFactory</span></a>. The second line is empty. The remaining lines are for creating each <a class="reference internal" href="ModelTwoBody_arguments.html#classfeasst_1_1ModelTwoBody"><span class="std std-ref">ModelTwoBody</span></a>. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

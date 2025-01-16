@@ -73,7 +73,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Action.html">Action</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
@@ -109,6 +108,7 @@
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -253,6 +253,16 @@
 <span class="target" id="classfeasst_1_1TrialSelect"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialSelect</span></span></span><a class="headerlink" href="#_CPPv4N6feasst11TrialSelectE" title="Link to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="../../configuration/doc/Select_arguments.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> the mobile particles and sites that are to be perturbed via trials. Store the original position in mobile_original for reverting. Also store the ‘anchor’ particles and sites which are not mobile but may be required to complete the perturbation (e.g., bonds). </p>
 <p>Subclassed by <a class="reference internal" href="../../cluster/doc/SelectCluster_arguments.html#classfeasst_1_1SelectCluster"><span class="std std-ref">feasst::SelectCluster</span></a>, <a class="reference internal" href="../../beta_expanded/doc/SelectNothing_arguments.html#classfeasst_1_1SelectNothing"><span class="std std-ref">feasst::SelectNothing</span></a>, <a class="reference internal" href="../../cluster/doc/SelectParticleAVB_arguments.html#classfeasst_1_1SelectParticleAVB"><span class="std std-ref">feasst::SelectParticleAVB</span></a>, <a class="reference internal" href="../../cluster/doc/SelectParticleAVBDivalent_arguments.html#classfeasst_1_1SelectParticleAVBDivalent"><span class="std std-ref">feasst::SelectParticleAVBDivalent</span></a>, <a class="reference internal" href="../../chain/doc/SelectParticlePivot_arguments.html#classfeasst_1_1SelectParticlePivot"><span class="std std-ref">feasst::SelectParticlePivot</span></a>, <a class="reference internal" href="../../chain/doc/SelectPerturbed_arguments.html#classfeasst_1_1SelectPerturbed"><span class="std std-ref">feasst::SelectPerturbed</span></a>, <a class="reference internal" href="../../chain/doc/SelectSiteOfType_arguments.html#classfeasst_1_1SelectSiteOfType"><span class="std std-ref">feasst::SelectSiteOfType</span></a>, <a class="reference internal" href="../../chain/doc/SelectTwoSites_arguments.html#classfeasst_1_1SelectTwoSites"><span class="std std-ref">feasst::SelectTwoSites</span></a>, <a class="reference internal" href="TrialSelectAll_arguments.html#classfeasst_1_1TrialSelectAll"><span class="std std-ref">feasst::TrialSelectAll</span></a>, <a class="reference internal" href="TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">feasst::TrialSelectBond</span></a>, <a class="reference internal" href="TrialSelectParticle_arguments.html#classfeasst_1_1TrialSelectParticle"><span class="std std-ref">feasst::TrialSelectParticle</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>group_index: index of group defined within system (default: 0).</p></li>
+<li><p>group: name of group defined within system (default: “”).</p></li>
+<li><p>particle_type: type of particle in configuration (default: -1)</p></li>
+<li><p>configuration_index: index of configuration (default: 0). </p></li>
+</ul>
+</p>
+</div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -454,16 +464,6 @@
 <dd><p>Return true if all sites in mobile are isotropic. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>group_index: index of group defined within system (default: 0).</p></li>
-<li><p>group: name of group defined within system (default: “”).</p></li>
-<li><p>particle_type: type of particle in configuration (default: -1)</p></li>
-<li><p>configuration_index: index of configuration (default: 0). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

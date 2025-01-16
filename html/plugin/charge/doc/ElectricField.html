@@ -95,11 +95,11 @@
 <li class="toctree-l4"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ewald.html">Ewald</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CheckNetCharge.html">CheckNetCharge</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SlabCorrection.html">SlabCorrection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 </ul>
 </li>
 </ul>
@@ -215,6 +215,14 @@
 <p><span class="math notranslate nohighlight">\(U_{ext}(x) = -q E x\)</span></p>
 <p>where <span class="math notranslate nohighlight">\(q\)</span> is the charge of a site, <span class="math notranslate nohighlight">\(E\)</span> is the electric field and <span class="math notranslate nohighlight">\(x\)</span> is the position along a given dimension. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>dimension: direction of the electric field (default: 0).</p></li>
+<li><p>field_strength: external electric field strength in force per charge. The units are assumed to be Volts/Angstrom, where charge is electron charge and energy is in kJ/mol. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst13ElectricField10precomputeERK11ModelParams">
@@ -234,14 +242,6 @@
 <dd><p>Output a serialized version of the existing model. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>dimension: direction of the electric field (default: 0).</p></li>
-<li><p>field_strength: external electric field strength in force per charge. The units are assumed to be Volts/Angstrom, where charge is electron charge and energy is in kJ/mol. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

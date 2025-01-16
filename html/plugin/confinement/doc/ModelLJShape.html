@@ -211,6 +211,18 @@
 <p><span class="math notranslate nohighlight">\(U_{LJ}^{CS}(r) = \left\{ \begin{array}{lr} U_{LJ}(r) - U_{LJ}(r_c) &amp; : r &lt; r_c \\ 0 &amp; : r \ge r_c \end{array} \right. \)</span></p>
 <p>where <span class="math notranslate nohighlight">\(r\)</span> is the nearest distance of the site to the confinement. Note that the potential is cut and shifted to zero at the cut off distance, <span class="math notranslate nohighlight">\(r_c\)</span>. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="../../shape/doc/ShapeFile_arguments.html#classfeasst_1_1ShapeFile"><span class="std std-ref">ShapeFile</span></a> arguments.</p></li>
+<li><p>alpha: set the exponent (default: 3.).</p></li>
+<li><p>delta: set the delta parameter (default: 0.).</p></li>
+<li><p>disable_shift: disable shifting of the potential to zero (default: false).</p></li>
+<li><p>wall_sigma: If != 0 (default: 0), use Lorentz-Berthelot mixing rules between this wall sigma and the fluid sigma. Otherwise, the sigma for each site type may be set with the argument Potential::sigma[i].</p></li>
+<li><p>wall_epsilon: If != 0 (default: 0), use a slighly modified version of Lorentz-Berthelot mixing rules between this wall epsilon and the fluid. To account for negative epsilon (attractions), the mixing rule is sign(wall_epsilon)sqrt(|wall_epsilon|*fluid_epsilon). Otherwise, the epsilon for each site type may be set with the argument Potential::epsilon[i]. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst12ModelLJShape10precomputeERK11ModelParams">
@@ -242,18 +254,6 @@
 <dd><p>Output a serialized version of the existing model. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p><a class="reference internal" href="../../shape/doc/ShapeFile_arguments.html#classfeasst_1_1ShapeFile"><span class="std std-ref">ShapeFile</span></a> arguments.</p></li>
-<li><p>alpha: set the exponent (default: 3.).</p></li>
-<li><p>delta: set the delta parameter (default: 0.).</p></li>
-<li><p>disable_shift: disable shifting of the potential to zero (default: false).</p></li>
-<li><p>wall_sigma: If != 0 (default: 0), use Lorentz-Berthelot mixing rules between this wall sigma and the fluid sigma. Otherwise, the sigma for each site type may be set with the argument Potential::sigma[i].</p></li>
-<li><p>wall_epsilon: If != 0 (default: 0), use a slighly modified version of Lorentz-Berthelot mixing rules between this wall epsilon and the fluid. To account for negative epsilon (attractions), the mixing rule is sign(wall_epsilon)sqrt(|wall_epsilon|*fluid_epsilon). Otherwise, the epsilon for each site type may be set with the argument Potential::epsilon[i]. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

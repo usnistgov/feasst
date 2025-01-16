@@ -229,6 +229,13 @@
 <span class="target" id="classfeasst_1_1SelectParticlePivot"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SelectParticlePivot</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect"><span class="n"><span class="pre">TrialSelect</span></span></a><a class="headerlink" href="#_CPPv4N6feasst19SelectParticlePivotE" title="Link to this definition"></a><br /></dt>
 <dd><p>Randomly selection a whole particle of given type to pivot. Exclude the pivot site from the mobile selection for optimized energy calc. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>pivot_site: set the site index in selection with which to use as the pivot for rotation (default: 0). </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst19SelectParticlePivot10precomputeEP6System">
@@ -240,20 +247,8 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst19SelectParticlePivot6selectERK6SelectP6SystemP6Random">
 <span class="target" id="classfeasst_1_1SelectParticlePivot_1a2d4a5a53158b45266c57fe46b25ebaf6"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">select</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">perturbed</span></span>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">system</span></span>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">random</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst19SelectParticlePivot6selectERK6SelectP6SystemP6Random" title="Link to this definition"></a><br /></dt>
 <dd><p>Perform the selection as implemented in the derived class. Return false if the selection cannot be made. Otherwise, return true. </p>
-<dl class="field-list simple">
-<dt class="field-odd">param perturbed<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Perturbed is included to allow chaining of selection based on previous. </p>
-</dd>
-</dl>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>pivot_site: set the site index in selection with which to use as the pivot for rotation (default: 0). </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

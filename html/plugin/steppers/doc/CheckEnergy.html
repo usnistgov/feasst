@@ -82,7 +82,6 @@
 <li class="toctree-l3"><a class="reference internal" href="CheckPhysicality.html">CheckPhysicality</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Chirality2D.html">Chirality2D</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Density.html">Density</a></li>
@@ -108,6 +107,7 @@
 <li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html">ReadConfigFromFile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairDistributionInner.html">PairDistributionInner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -238,15 +238,6 @@
 <p>Otherwise, the differences about zero to numerical precision would almost always fail the test.</p>
 <p>Although this class does not change the <a class="reference internal" href="../../system/doc/System_arguments.html#classfeasst_1_1System"><span class="std std-ref">System</span></a> beyond the specified tolerance, the energy is recomputed and therefore the class is a <a class="reference internal" href="../../monte_carlo/doc/Modify_arguments.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a>, not an <a class="reference internal" href="../../monte_carlo/doc/Analyze_arguments.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst11CheckEnergy6updateEP10MonteCarlo">
-<span class="target" id="classfeasst_1_1CheckEnergy_1ab6aac31b9b17e2ffc1a5b4309fcd1041"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">mc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11CheckEnergy6updateEP10MonteCarlo" title="Link to this definition"></a><br /></dt>
-<dd><p>Perform update. </p>
-</dd></dl>
-
-</div>
-<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
 <p><ul class="simple">
 <li><p>tolerance: absolute difference between running energy and recomputed energy (default: 1e-10).</p></li>
@@ -254,6 +245,15 @@
 <li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
 </ul>
 </p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst11CheckEnergy6updateEP10MonteCarlo">
+<span class="target" id="classfeasst_1_1CheckEnergy_1ab6aac31b9b17e2ffc1a5b4309fcd1041"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">mc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11CheckEnergy6updateEP10MonteCarlo" title="Link to this definition"></a><br /></dt>
+<dd><p>Perform update. </p>
+</dd></dl>
+
 </div>
 </dd></dl>
 

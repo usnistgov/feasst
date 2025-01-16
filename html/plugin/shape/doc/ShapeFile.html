@@ -210,6 +210,13 @@
 <span class="target" id="classfeasst_1_1ShapeFile"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ShapeFile</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape"><span class="n"><span class="pre">Shape</span></span></a><a class="headerlink" href="#_CPPv4N6feasst9ShapeFileE" title="Link to this definition"></a><br /></dt>
 <dd><p>Build a <a class="reference internal" href="Shape_arguments.html#classfeasst_1_1Shape"><span class="std std-ref">Shape</span></a> using a file with the following syntax. The first line describes a <a class="reference internal" href="Shape_arguments.html#classfeasst_1_1Shape"><span class="std std-ref">Shape</span></a> by first listing its class_name, then its arguments, space-separated. The following lines then begin with either “union” or “intersect” and then another shape description as described for the first line. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>shape_file: name of the file which describes the shape. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst9ShapeFile9is_insideERK8Position">
@@ -229,13 +236,6 @@
 <dd><p>Return the distance from the point to the nearest point on the surface. The distance is negative if the point is inside of the shape and positive if it is outside. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>shape_file: name of the file which describes the shape. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

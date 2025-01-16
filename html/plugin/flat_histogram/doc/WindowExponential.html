@@ -219,6 +219,15 @@
 <p>The given formula is continuous and not rounded. Instead, use <a class="reference internal" href="Window.html#classfeasst_1_1Window_1acc6d597e1a924887647ce655f891cc34"><span class="std std-ref">Window::boundaries</span></a> for handling rounding and overlap. For example, 4 windows over a macrostate range of [0, 200], <span class="math notranslate nohighlight">\(\alpha=2\)</span>, results in the following segments: [0, 100.00, 141.42, 173.21, 200].</p>
 <p>The choice of alpha can affect the efficiency of the simulation, depending on the relative speed of the convergence of the low macrostates compared to the higher macrostates. If the lower macrostate windows are converging slower, then alpha should be decreased. If the higher macrostate simulations are converging slower, then alpha may need to be increased. The choice of alpha is dependent on the system, conditions and convergence criteria. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>alpha: exponential factor (default: 1.5).</p></li>
+<li><p>min[i]: minimum macrostate value of the i-th window (default: None), The “[i]” is to be substituted for an integer 0, 1, 2, … This allows the user to override alpha at the smaller windows.</p></li>
+<li><p><a class="reference internal" href="Window_arguments.html#classfeasst_1_1Window"><span class="std std-ref">Window</span></a> arguments. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst17WindowExponential7minimumEv">
@@ -232,15 +241,6 @@
 <dd><p>Return the continuous, segmented boundaries of the range. This should be return num + 1 boundaries, to include global min and max. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>alpha: exponential factor (default: 1.5).</p></li>
-<li><p>min[i]: minimum macrostate value of the i-th window (default: None), The “[i]” is to be substituted for an integer 0, 1, 2, … This allows the user to override alpha at the smaller windows.</p></li>
-<li><p><a class="reference internal" href="Window_arguments.html#classfeasst_1_1Window"><span class="std std-ref">Window</span></a> arguments. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

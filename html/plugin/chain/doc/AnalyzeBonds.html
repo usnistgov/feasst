@@ -229,6 +229,19 @@
 <span class="target" id="classfeasst_1_1AnalyzeBonds"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AnalyzeBonds</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze"><span class="n"><span class="pre">Analyze</span></span></a><a class="headerlink" href="#_CPPv4N6feasst12AnalyzeBondsE" title="Link to this definition"></a><br /></dt>
 <dd><p>Compute the distribution and moments of each type of bond and angle. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>bond_bin_width: bin width for bond histogram (default: 1).</p></li>
+<li><p>bond_bin_center: center of first bin in bond histogram (default: 0).</p></li>
+<li><p>angle_bin_width: bin width for angle histogram in units of radians. (default: 0.01).</p></li>
+<li><p>angle_bin_center: center of first bin in angle histogram (default: 0).</p></li>
+<li><p>dihedral_bin_width: bin width for dihedral histogram in units of radians. (default: 0.01).</p></li>
+<li><p>dihedral_bin_center: center of first bin in dihedral histogram (default: 0).</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst12AnalyzeBonds6updateERK10MonteCarlo">
@@ -284,19 +297,6 @@
 <dd><p>Perform write action. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>bond_bin_width: bin width for bond histogram (default: 1).</p></li>
-<li><p>bond_bin_center: center of first bin in bond histogram (default: 0).</p></li>
-<li><p>angle_bin_width: bin width for angle histogram in units of radians. (default: 0.01).</p></li>
-<li><p>angle_bin_center: center of first bin in angle histogram (default: 0).</p></li>
-<li><p>dihedral_bin_width: bin width for dihedral histogram in units of radians. (default: 0.01).</p></li>
-<li><p>dihedral_bin_center: center of first bin in dihedral histogram (default: 0).</p></li>
-<li><p><a class="reference internal" href="../../monte_carlo/doc/Stepper_arguments.html#classfeasst_1_1Stepper"><span class="std std-ref">Stepper</span></a> arguments. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

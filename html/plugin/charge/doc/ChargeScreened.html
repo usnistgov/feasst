@@ -95,11 +95,11 @@
 <li class="toctree-l4"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ewald.html">Ewald</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CheckNetCharge.html">CheckNetCharge</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SlabCorrection.html">SlabCorrection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 </ul>
 </li>
 </ul>
@@ -221,6 +221,14 @@
 </p>
 <p>Avoid <a class="reference internal" href="Coulomb_arguments.html#classfeasst_1_1Coulomb"><span class="std std-ref">Coulomb</span></a> explosion by returning a large number when <span class="math notranslate nohighlight">\(r\)</span> is near zero. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>hard_sphere_threshold: return NEAR_INFINITY when distance is less than this threshold (default: 0.2).</p></li>
+<li><p>erfc_table_size: size of forward-difference-interpolated tabular potential (default: 0). Disable table if this value is less than or equal to zero. This table does not depend on site type, so may use less memory than the generate Potential::table_size. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst14ChargeScreened10precomputeERK11ModelParams">
@@ -240,14 +248,6 @@
 <dd><p>Output a serialized version of the existing model. </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>hard_sphere_threshold: return NEAR_INFINITY when distance is less than this threshold (default: 0.2).</p></li>
-<li><p>erfc_table_size: size of forward-difference-interpolated tabular potential (default: 0). Disable table if this value is less than or equal to zero. This table does not depend on site type, so may use less memory than the generate Potential::table_size. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

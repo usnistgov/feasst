@@ -27,8 +27,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="VisitModelCutoffOuter" href="VisitModelCutoffOuter.html" />
-    <link rel="prev" title="VisitModelBond" href="VisitModelBond.html" />
+    <link rel="next" title="System" href="System.html" />
+    <link rel="prev" title="VisitModelIntraMap" href="VisitModelIntraMap.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -96,17 +96,17 @@
 <li class="toctree-l4"><a class="reference internal" href="RigidDihedral.html">RigidDihedral</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ThermoParams.html">ThermoParams</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="DontVisitModel.html">DontVisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCutoffOuter.html">VisitModelCutoffOuter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntraMap.html">VisitModelIntraMap</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">VisitModelCell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 </ul>
 </li>
 </ul>
@@ -231,6 +231,16 @@
 <span class="target" id="classfeasst_1_1VisitModelCell"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VisitModelCell</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel"><span class="n"><span class="pre">VisitModel</span></span></a><a class="headerlink" href="#_CPPv4N6feasst14VisitModelCellE" title="Link to this definition"></a><br /></dt>
 <dd><p>Compute many-body inter-particle interactions using a cell list. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>min_length: build cell list with given minimum distance between cells as a floating point number (default: “max_cutoff”). If “max_sigma” then use the largest mixed sigma value. If “max_cutoff” then use the largest mixed cutoff value.</p></li>
+<li><p>cell_group_index: compute cells only in given group index (default: 0).</p></li>
+<li><p>cell_group: as above, but use the name of the group, not the index. Do not use at the same time as cell_group_index (default: “”).</p></li>
+<li><p><a class="reference internal" href="VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a> arguments. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst14VisitModelCell14VisitModelCellENSt10shared_ptrI15VisitModelInnerEE7argtype">
@@ -269,16 +279,6 @@
 </dd></dl>
 
 </div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>min_length: build cell list with given minimum distance between cells as a floating point number (default: “max_cutoff”). If “max_sigma” then use the largest mixed sigma value. If “max_cutoff” then use the largest mixed cutoff value.</p></li>
-<li><p>cell_group_index: compute cells only in given group index (default: 0).</p></li>
-<li><p>cell_group: as above, but use the name of the group, not the index. Do not use at the same time as cell_group_index (default: “”).</p></li>
-<li><p><a class="reference internal" href="VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a> arguments. </p></li>
-</ul>
-</p>
-</div>
 </dd></dl>
 
 </section>
@@ -287,8 +287,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="VisitModelBond.html" class="btn btn-neutral float-left" title="VisitModelBond" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="VisitModelCutoffOuter.html" class="btn btn-neutral float-right" title="VisitModelCutoffOuter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="VisitModelIntraMap.html" class="btn btn-neutral float-left" title="VisitModelIntraMap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="System.html" class="btn btn-neutral float-right" title="System" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

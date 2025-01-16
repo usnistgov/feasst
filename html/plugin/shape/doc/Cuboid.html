@@ -210,6 +210,15 @@
 <span class="target" id="classfeasst_1_1Cuboid"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Cuboid</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape"><span class="n"><span class="pre">Shape</span></span></a><a class="headerlink" href="#_CPPv4N6feasst6CuboidE" title="Link to this definition"></a><br /></dt>
 <dd><p>A cuboid is given by a center point and side lengths in each dimension. Not fully implemented. Implement as the intersection of 3 perpendicular slabs </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<p><ul class="simple">
+<li><p>cubic_side_length: side length of cube.</p></li>
+<li><p>side_length: set the unique key for the side_length positions. Thus, arguments of “key[i]” are expected to follow. The “[i]” is to be substituted for integer dimensions 0, 1, 2, … The “[i]” are also expected to be in order, starting from 0. Cannot be used in conjunction with cubic_side_length.</p></li>
+<li><p>center: set the unique key for the center positions. Thus, arguments of “key[i]” are expected to follow. The “[i]” is to be substituted for integer dimensions 0, 1, 2, … The default value is 0 up to the same dimensions as (cubic_)side_length. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Cuboid16nearest_distanceERK8Position">
@@ -229,15 +238,6 @@
 <dd><p>Return the volume (if implemented). </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<p><ul class="simple">
-<li><p>cubic_side_length: side length of cube.</p></li>
-<li><p>side_length: set the unique key for the side_length positions. Thus, arguments of “key[i]” are expected to follow. The “[i]” is to be substituted for integer dimensions 0, 1, 2, … The “[i]” are also expected to be in order, starting from 0. Cannot be used in conjunction with cubic_side_length.</p></li>
-<li><p>center: set the unique key for the center positions. Thus, arguments of “key[i]” are expected to follow. The “[i]” is to be substituted for integer dimensions 0, 1, 2, … The default value is 0 up to the same dimensions as (cubic_)side_length. </p></li>
-</ul>
-</p>
 </div>
 </dd></dl>
 

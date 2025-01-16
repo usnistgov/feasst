@@ -73,7 +73,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Action.html">Action</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
@@ -109,6 +108,7 @@
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
@@ -256,6 +256,20 @@
 <p>value *= 1 + percent_change*(actual - target)</p>
 <p>where actual is the average trial acceptance and target is the target trial acceptance. The relationship between the target and the parameter is assumed by the sign of percent_change. By default, the precent_change = 1, which leads to an inverse relationship between the parameter value and the trial acceptance. For example, a maximum displacement parameter with an actual acceptance of 32% and a target acceptance of 25% would be increased by 7% in an attempt to bring the acceptance down to the target value. </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst7Tunable7TunableE7argtype">
+<span class="target" id="classfeasst_1_1Tunable_1a3f90a8e0f2527b0e2bb2911db8bce666"></span><span class="sig-name descname"><span class="n"><span class="pre">Tunable</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Tunable7TunableE7argtype" title="Link to this definition"></a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>tunable_param: initial value of the tunable parameter (default: 0.1).</p></li>
+<li><p>tunable_target_acceptance: optionally set target acceptance (default: 0.25).</p></li>
+<li><p>tunable_percent_change: optionally set the percent change (default: 1). </p></li>
+</ul>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst7Tunable15set_min_and_maxEKdKd">
@@ -333,20 +347,6 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst7Tunable7TunableERNSt7istreamE">
 <span class="target" id="classfeasst_1_1Tunable_1afd88f5bbd7f631c9ef18bc55942b36c2"></span><span class="sig-name descname"><span class="n"><span class="pre">Tunable</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">istream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">istr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Tunable7TunableERNSt7istreamE" title="Link to this definition"></a><br /></dt>
 <dd><p>Construct from serialization. </p>
-</dd></dl>
-
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst7Tunable7TunableE7argtype">
-<span class="target" id="classfeasst_1_1Tunable_1a3f90a8e0f2527b0e2bb2911db8bce666"></span><span class="sig-name descname"><span class="n"><span class="pre">Tunable</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Tunable7TunableE7argtype" title="Link to this definition"></a><br /></dt>
-<dd><p>args:<ul class="simple">
-<li><p>tunable_param: initial value of the tunable parameter (default: 0.1).</p></li>
-<li><p>tunable_target_acceptance: optionally set target acceptance (default: 0.25).</p></li>
-<li><p>tunable_percent_change: optionally set the percent change (default: 1). </p></li>
-</ul>
-</p>
 </dd></dl>
 
 </div>
