@@ -109,7 +109,7 @@ void TrialSelectParticle::ghost_particle(Configuration * config,
   const Select * exclude,
   Select * select) {
   ASSERT(static_cast<int>(config->ghosts().size()) > particle_type(),
-    "type not recognized");
+    "type:" << particle_type() << " not recognized");
   // if no ghosts, create one
   DEBUG("particle_type: " << particle_type());
   DEBUG("nump " << config->num_particles());

@@ -28,15 +28,15 @@ TEST(LennardJonesForceShift, serialize) {
       {"hard_sphere_threshold", "0.3"}});
   shift->precompute(config->model_params());
   std::shared_ptr<Model> model2 = test_serialize<LennardJonesForceShift, Model>(*shift,
-    "LennardJonesForceShift 2094 1 0 2 3 763 0.089999999999999997 713 12 -1 0 -1 1.0594630943592953 923 energy_at_cutoff 4795 2 0 0 2 2 -2.6332331818264547e-06 0 2 0 0 2 2 1 1 2 1 1 energy_deriv_at_cutoff 4795 2 0 0 2 2 3.1598766187506022e-06 0 2 0 0 2 2 1 1 2 1 1 1 ");
+    "LennardJonesForceShift 2094 1 0 2 3 763 0.089999999999999997 714 12 -1 -1 1.0594630943592953 923 energy_at_cutoff 4795 2 0 0 2 2 -2.6332331818264547e-06 0 2 0 0 2 2 1 1 2 1 1 energy_deriv_at_cutoff 4795 2 0 0 2 2 3.1598766187506022e-06 0 2 0 0 2 2 1 1 2 1 1 1 ");
 }
 
 TEST(LennardJonesForceShift, analytical_lambda) {
   auto config = MakeConfiguration({{"particle_type0", "../plugin/models/particle/ljlambda.fstprt"}});
-  auto model = MakeLennardJonesForceShift({{"lambda", "true"}});
+  auto model = MakeLennardJonesForceShift();
   model->precompute(config->model_params());
   EXPECT_NEAR(-0.002739720872119390 - -0.001087390195827500 - -0.5*0.5*0.003726165748658701, model->energy(2.5*2.5, 0, 0, config->model_params()), NEAR_ZERO);
   EXPECT_NEAR(NEAR_ZERO, model->energy(3*3, 0, 0, config->model_params()), NEAR_ZERO);
-
 }
+
 }  // namespace feasst

@@ -54,7 +54,8 @@ std::shared_ptr<T2> test_serialize(T1 object,
   }
   std::shared_ptr<T2> object2 = object.deserialize(ss);
   object2->serialize(ss2);
-  // DEBUG(ss.str());
+  //INFO("ss " << ss.str());
+  //INFO("ss2 " << ss2.str());
   if (compare) {
     EXPECT_EQ(ss.str(), ss2.str());
   }

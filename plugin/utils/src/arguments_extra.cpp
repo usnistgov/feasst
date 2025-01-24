@@ -48,6 +48,9 @@ std::pair<std::string, argtype> parse_line(const std::string line,
           value.replace(0, 7, install_dir());
         }
       }
+      ASSERT(args.find(minor) == args.end(), "All arguments must be unique, but"
+        << " the following argument of " << major << " was already used: "
+        << minor);
       args[minor] = value;
     }
     ++num_pairs;

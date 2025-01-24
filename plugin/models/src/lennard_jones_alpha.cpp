@@ -12,8 +12,8 @@ LennardJonesAlpha::LennardJonesAlpha(argtype args) : LennardJonesAlpha(&args) {
 LennardJonesAlpha::LennardJonesAlpha(argtype * args) : LennardJones(args) {
   class_name_ = "LennardJonesAlpha";
   alpha_ = dble("alpha", args, 6);
-  lambda_ = boolean("lambda", args, false);
   two_raised_inv_alpha_ = std::pow(2, 1./alpha_);
+  DEBUG("two_raised_inv_alpha_ " << two_raised_inv_alpha_);
 }
 
 FEASST_MAPPER(LennardJonesAlpha,);
@@ -26,20 +26,22 @@ void LennardJonesAlpha::serialize(std::ostream& ostr) const {
 void LennardJonesAlpha::serialize_lennard_jones_alpha_(
     std::ostream& ostr) const {
   serialize_lennard_jones_(ostr);
-  feasst_serialize_version(713, ostr);
+  feasst_serialize_version(714, ostr);
   feasst_serialize(alpha_, ostr);
   feasst_serialize(delta_sigma_index_, ostr);
-  feasst_serialize(lambda_, ostr);
   feasst_serialize(lambda_index_, ostr);
   feasst_serialize(two_raised_inv_alpha_, ostr);
 }
 
 LennardJonesAlpha::LennardJonesAlpha(std::istream& istr) : LennardJones(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(713 == version, version);
+  ASSERT(version >= 713 && version <= 714, version);
   feasst_deserialize(&alpha_, istr);
   feasst_deserialize(&delta_sigma_index_, istr);
-  feasst_deserialize(&lambda_, istr);
+  if (version < 714) {
+    double lambda;
+    feasst_deserialize(&lambda, istr);
+  }
   feasst_deserialize(&lambda_index_, istr);
   feasst_deserialize(&two_raised_inv_alpha_, istr);
 }
@@ -48,9 +50,7 @@ void LennardJonesAlpha::precompute(const ModelParams& existing) {
   Model::precompute(existing);
   delta_sigma_index_ = existing.index("delta_sigma");
   lambda_index_ = existing.index("lambda");
-  TRACE("lambda_index_ " << lambda_index_);
-  ASSERT(!lambda_ || lambda_index_ != -1, "lambda: " << lambda_ <<
-    " is enabled, but its index is: " << lambda_index_);
+  DEBUG("lambda_index_ " << lambda_index_);
 }
 
 double LennardJonesAlpha::energy(
@@ -81,8 +81,8 @@ double LennardJonesAlpha::energy(
   }
   const double rinv_alpha = std::pow(rinv2, 0.5*alpha_);
   const double en = 4.*epsilon*rinv_alpha*(rinv_alpha - 1.);
-  TRACE("lambda? " << lambda_);
-  if (!lambda_) {
+  TRACE("lambda_index? " << lambda_index_);
+  if (lambda_index_ == -1) {
     return en;
   } else {
     const double lambda = model_params.select(lambda_index_).mixed_values()[type1][type2];
@@ -115,7 +115,7 @@ double LennardJonesAlpha::du_dr(
     (-2*std::pow(rinv, 2*alpha() + 1)
       + std::pow(rinv, alpha() + 1));
   const double rmin = two_raised_inv_alpha_*(delta_sigma + sigma) - delta_sigma;
-  if (!lambda_ || distance <= rmin) {
+  if (lambda_index_ == -1 || distance <= rmin) {
     return dudr;
   } else {
     const double lambda = model_params.select(lambda_index_).mixed_values()[type1][type2];

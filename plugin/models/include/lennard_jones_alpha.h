@@ -51,7 +51,6 @@ class LennardJonesAlpha : public LennardJones {
   //@{
   /** @name Arguments
     - alpha: set the value of \f$\alpha\f$ (default: 6).
-    - lambda: enable "lambda" potentials (default: false)
    */
   explicit LennardJonesAlpha(argtype args = argtype());
   explicit LennardJonesAlpha(argtype * args);
@@ -107,7 +106,6 @@ class LennardJonesAlpha : public LennardJones {
  private:
   double alpha_;
   int delta_sigma_index_ = -1;
-  bool lambda_;
   int lambda_index_ = -1;
   double two_raised_inv_alpha_;
 };

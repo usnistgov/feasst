@@ -45,12 +45,12 @@ TEST(LennardJonesAlpha, serialize) {
   auto model = MakeLennardJonesAlpha({{"alpha", "12"},
                                       {"hard_sphere_threshold", "0.3"}});
   model->precompute(config.model_params());
-  std::shared_ptr<Model> model2 = test_serialize<LennardJonesAlpha, Model>(*model, "LennardJonesAlpha 2094 1 0 2 -1 763 0.089999999999999997 713 12 -1 0 -1 1.0594630943592953 ");
+  std::shared_ptr<Model> model2 = test_serialize<LennardJonesAlpha, Model>(*model, "LennardJonesAlpha 2094 1 0 2 -1 763 0.089999999999999997 714 12 -1 -1 1.0594630943592953 ");
 }
 
 TEST(LennardJonesAlpha, analytical_lambda) {
   auto config = MakeConfiguration({{"particle_type0", "../plugin/models/particle/ljlambda.fstprt"}});
-  auto model = MakeLennardJonesAlpha({{"lambda", "true"}});
+  auto model = MakeLennardJonesAlpha();
   model->precompute(config->model_params());
   //EXPECT_NEAR(en(3), model->energy(3.*3., 0, 0, config.model_params()), NEAR_ZERO);
   EXPECT_NEAR(-0.002739720872119390, model->energy(2.5*2.5, 0, 0, config->model_params()), NEAR_ZERO);

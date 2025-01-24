@@ -25,10 +25,10 @@ Criteria::Criteria(argtype * args) {
   data_.get_int_1D()->resize(2);
   *num_cycles_() = 0;
   *num_attempt_since_last_cycle_() = 0;
-  if (used("num_cycles_to_complete", *args)) {
-    WARN("num_cycles_to_complete is deprecated. " <<
+  if (used("num_iterations_to_complete", *args)) {
+    WARN("num_iterations_to_complete is deprecated. " <<
          "use cycles_to_complete.");
-    cycles_to_complete_ = integer("num_cycles_to_complete", args);
+    cycles_to_complete_ = integer("num_iterations_to_complete", args);
   } else {
     cycles_to_complete_ = integer("cycles_to_complete", args, 20);
   }

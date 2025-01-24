@@ -393,3 +393,5 @@ To Do List
 * Enable DCCB with Gibbs (transfer issue, or all cb ?)- ACtually, it seems to be cell lists that are the problem (the ref potential)
 * fstprt files use label strings instead of numbers (document this, 0-O, 1-H for spce, etc)
 * pip install feasst
+* In class documentation, link to tutorials that use the class
+* automatically determine, every time trial is added, determine which molecules are excluded from weight_per_num_fraction

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Testing angles and branches &mdash; FEASST 0.25.6 documentation</title>
+  <title>Testing angles and branches &mdash; FEASST 0.25.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -18,7 +18,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=b72c10c5"></script>
+        <script src="../../../_static/documentation_options.js?v=135494dc"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -58,7 +58,7 @@
             FEASST
           </a>
               <div class="version">
-                0.25.6
+                0.25.7
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -290,7 +290,7 @@
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;potential&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Potential Model HardSphere&quot;</span>
         <span class="k">if</span> <span class="s1">&#39;intra&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;intra&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">params</span><span class="p">[</span><span class="s1">&#39;potential&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="s2">&quot;Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true&quot;</span>
+                <span class="n">params</span><span class="p">[</span><span class="s1">&#39;potential&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;.fstprt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
             <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">4 sites</span>
@@ -512,10 +512,10 @@
 <div class="highlight"><pre>
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 647906855
-# initializing random number generator with seed: 647906855
+RandomMT19937 seed 988346547
+# initializing random number generator with seed: 988346547
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 floppy_angle.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -566,10 +566,10 @@ Run num_trials 1000000.0
 <div class="highlight"><pre>
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 460314496
-# initializing random number generator with seed: 460314496
+RandomMT19937 seed 274557138
+# initializing random number generator with seed: 274557138
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 floppy_dihedral.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -621,10 +621,10 @@ Run num_trials 1000000.0
 <div class="highlight"><pre>
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 931707174
-# initializing random number generator with seed: 931707174
+RandomMT19937 seed 483222537
+# initializing random number generator with seed: 483222537
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 /home/user/feasst/particle/propane.fstprt
 Potential Model LennardJones
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -676,10 +676,10 @@ Run num_trials 1000000.0
 <div class="highlight"><pre>
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 207057294
-# initializing random number generator with seed: 207057294
+RandomMT19937 seed 207945904
+# initializing random number generator with seed: 207945904
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 /home/user/feasst/particle/2-methylpropane.fstprt
 Potential Model LennardJones
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -741,10 +741,10 @@ Run num_trials 1000000.0
 <div class="highlight"><pre>
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 265806426
-# initializing random number generator with seed: 265806426
+RandomMT19937 seed 896704062
+# initializing random number generator with seed: 896704062
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk0i0.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -760,11 +760,12 @@ Run num_trials 100000.0
  exit: 0
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 510260368
-# initializing random number generator with seed: 510260368
+RandomMT19937 seed 271668650
+# initializing random number generator with seed: 271668650
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk0i1.fstprt
+Potential Model HardSphere
 Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true
 ThermoParams beta 0.4009078501424201 chemical_potential 1
 Metropolis
@@ -779,10 +780,10 @@ Run num_trials 100000.0
  exit: 0
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 708636432
-# initializing random number generator with seed: 708636432
+RandomMT19937 seed 127090057
+# initializing random number generator with seed: 127090057
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk0i0.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -798,11 +799,12 @@ Run num_trials 100000.0
  exit: 0
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 297622198
-# initializing random number generator with seed: 297622198
+RandomMT19937 seed 380212077
+# initializing random number generator with seed: 380212077
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk0i1.fstprt
+Potential Model HardSphere
 Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true
 ThermoParams beta 0.4009078501424201 chemical_potential 1
 Metropolis
@@ -817,10 +819,10 @@ Run num_trials 100000.0
  exit: 0
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 719569029
-# initializing random number generator with seed: 719569029
+RandomMT19937 seed 656848250
+# initializing random number generator with seed: 656848250
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk0i0.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -836,11 +838,12 @@ Run num_trials 100000.0
  exit: 0
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 486850217
-# initializing random number generator with seed: 486850217
+RandomMT19937 seed 200276816
+# initializing random number generator with seed: 200276816
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk0i1.fstprt
+Potential Model HardSphere
 Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true
 ThermoParams beta 0.4009078501424201 chemical_potential 1
 Metropolis
@@ -855,10 +858,10 @@ Run num_trials 100000.0
  exit: 0
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 987140515
-# initializing random number generator with seed: 987140515
+RandomMT19937 seed 357067766
+# initializing random number generator with seed: 357067766
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i0.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -874,11 +877,12 @@ Run num_trials 100000.0
  exit: 0
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 940498430
-# initializing random number generator with seed: 940498430
+RandomMT19937 seed 768781311
+# initializing random number generator with seed: 768781311
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i1.fstprt
+Potential Model HardSphere
 Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true
 ThermoParams beta 0.4009078501424201 chemical_potential 1
 Metropolis
@@ -893,10 +897,10 @@ Run num_trials 100000.0
  exit: 0
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 499402325
-# initializing random number generator with seed: 499402325
+RandomMT19937 seed 242408106
+# initializing random number generator with seed: 242408106
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i0.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -912,11 +916,12 @@ Run num_trials 100000.0
  exit: 0
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 846179957
-# initializing random number generator with seed: 846179957
+RandomMT19937 seed 757206765
+# initializing random number generator with seed: 757206765
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i1.fstprt
+Potential Model HardSphere
 Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true
 ThermoParams beta 0.4009078501424201 chemical_potential 1
 Metropolis
@@ -931,10 +936,10 @@ Run num_trials 100000.0
  exit: 0
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 584307228
-# initializing random number generator with seed: 584307228
+RandomMT19937 seed 510557574
+# initializing random number generator with seed: 510557574
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i0.fstprt
 Potential Model HardSphere
 ThermoParams beta 0.4009078501424201 chemical_potential 1
@@ -950,11 +955,12 @@ Run num_trials 100000.0
  exit: 0
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 530290532
-# initializing random number generator with seed: 530290532
+RandomMT19937 seed 109114662
+# initializing random number generator with seed: 109114662
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i1.fstprt
+Potential Model HardSphere
 Potential Model HardSphere VisitModel VisitModelIntraMap exclude_bonds true
 ThermoParams beta 0.4009078501424201 chemical_potential 1
 Metropolis
@@ -1025,10 +1031,10 @@ Run num_trials 100000.0
 <div class="highlight"><pre>
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 791301673
-# initializing random number generator with seed: 791301673
+RandomMT19937 seed 802165530
+# initializing random number generator with seed: 802165530
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i0.fstprt
 Potential Model IdealGas
 ThermoParams beta 0.4009078501424201 chemical_potential -25
@@ -1045,10 +1051,10 @@ Run num_trials 1000000.0
  exit: 0
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 59659645
-# initializing random number generator with seed: 59659645
+RandomMT19937 seed 194396328
+# initializing random number generator with seed: 194396328
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i0.fstprt
 Potential Model IdealGas
 ThermoParams beta 0.4009078501424201 chemical_potential -25
@@ -1065,10 +1071,10 @@ Run num_trials 1000000.0
  exit: 0
 running
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.7
 MonteCarlo
-RandomMT19937 seed 296180358
-# initializing random number generator with seed: 296180358
+RandomMT19937 seed 496822562
+# initializing random number generator with seed: 496822562
 Configuration add_particles_of_type0 1 cubic_side_length 30 particle_type0 branchk10i0.fstprt
 Potential Model IdealGas
 ThermoParams beta 0.4009078501424201 chemical_potential -25

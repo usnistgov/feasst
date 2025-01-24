@@ -7,9 +7,9 @@ FEASST requires C++14 and CMake, and is compiled with the following BASH command
 
     # [apt/yum/dnf/brew] install g++ cmake; or find in "module avail"
     cd $HOME # replace this with your preference throughout
-    curl -OL https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.6.tar.gz
-    tar -xf v0.25.6.tar.gz
-    mkdir feasst-0.25.6/build; cd $_
+    curl -OL https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.7.tar.gz
+    tar -xf v0.25.7.tar.gz
+    mkdir feasst-0.25.7/build; cd $_
     cmake ..
     make install -j$(nproc)
     # Optional Python packages used in tutorials. Virtual environment recommended:
@@ -25,7 +25,7 @@ Input a text file to the compiled executable.
 
 .. code-block:: bash
 
-    $HOME/feasst-0.25.6/build/bin/fst < $HOME/feasst-0.25.6/tutorial/example.txt
+    $HOME/feasst-0.25.7/build/bin/fst < $HOME/feasst-0.25.7/tutorial/example.txt
 
 The following text input file is explained in detail in the first :doc:`tutorial <tutorial/tutorial>`.
 

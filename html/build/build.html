@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How to compile &mdash; FEASST 0.25.6 documentation</title>
+  <title>How to compile &mdash; FEASST 0.25.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -17,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=b72c10c5"></script>
+        <script src="../_static/documentation_options.js?v=135494dc"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -53,7 +53,7 @@
             FEASST
           </a>
               <div class="version">
-                0.25.6
+                0.25.7
               </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -147,9 +147,9 @@
 <p>FEASST requires C++14 and CMake, and is compiled with the following BASH commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># [apt/yum/dnf/brew] install g++ cmake; or find in &quot;module avail&quot;</span>
 <span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span><span class="w"> </span><span class="c1"># replace this with your preference throughout</span>
-curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.6.tar.gz
-tar<span class="w"> </span>-xf<span class="w"> </span>v0.25.6.tar.gz
-mkdir<span class="w"> </span>feasst-0.25.6/build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span>
+curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.7.tar.gz
+tar<span class="w"> </span>-xf<span class="w"> </span>v0.25.7.tar.gz
+mkdir<span class="w"> </span>feasst-0.25.7/build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span>
 cmake<span class="w"> </span>..
 make<span class="w"> </span>install<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span>
 <span class="c1"># Optional Python packages used in tutorials. Virtual environment recommended:</span>
@@ -163,7 +163,7 @@ xdg-open<span class="w"> </span>../html/index.html
 <section id="how-to-run-a-simulation">
 <h1>How to run a simulation<a class="headerlink" href="#how-to-run-a-simulation" title="Link to this heading"></a></h1>
 <p>Input a text file to the compiled executable.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst-0.25.6/build/bin/fst<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$HOME</span>/feasst-0.25.6/tutorial/example.txt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst-0.25.7/build/bin/fst<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$HOME</span>/feasst-0.25.7/tutorial/example.txt
 </pre></div>
 </div>
 <p>The following text input file is explained in detail in the first <span class="xref std std-doc">tutorial</span>.</p>

@@ -342,6 +342,10 @@ Below is a list of all notable changes made to the text interface.
 Backwards incompatibility should remain for deprecated interface on minor version changes.
 Renamed arguments are shown as Class::old_argument->new_argument.
 
+v0.25.6 to v0.25.7
+-----------------------
+* LennardJonesAlpha::lambda fixed.
+
 v0.25.4 to v0.25.5
 -----------------------
 

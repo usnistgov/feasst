@@ -105,6 +105,9 @@ double LongRangeCorrections::energy_(
   DEBUG("sigma: " << sigma);
   const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
   DEBUG("cutoff: " << cutoff);
+  if (std::abs(cutoff) < NEAR_ZERO || std::abs(epsilon) < NEAR_ZERO) {
+    return 0;
+  }
   if (mie_lambda_r_index_ == -1 || mie_lambda_a_index_ == -1) {
     const double prefactor = epsilon*(8./3.)*PI*std::pow(sigma, 3)*
       ((1./3.)*std::pow(sigma/cutoff, 9) - std::pow(sigma/cutoff, 3));

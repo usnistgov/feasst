@@ -20,7 +20,7 @@
      "output_type": "stream",
      "text": [
       "# Usage: ./fst < file.txt\n",
-      "FEASST version 0.25.6\n",
+      "FEASST version 0.25.7\n",
       "MonteCarlo\n",
       "Configuration delta_sigma 0.5 particle_type0 /home/user/feasst/plugin/models/particle/ljdelta.fstprt xyz_file two.xyz  \n",
       "Potential Model LennardJonesAlpha alpha 12  \n",
@@ -28,7 +28,7 @@
       "Metropolis  \n",
       "Log clear_file true max_precision true output_file lj.csv  \n",
       "Run num_trials 1  \n",
-      "#Warn 0 [plugin/monte_carlo/src/monte_carlo.cpp:744] No Trials to attempt.\n"
+      "#Warn 0 [plugin/monte_carlo/src/monte_carlo.cpp:743] No Trials to attempt.\n"
      ]
     }
    ],
@@ -68,8 +68,51 @@
     "enlj = 4*((params[\"displacement\"]+0.5)**(-24) - (params[\"displacement\"]+0.5)**(-12))\n",
     "\n",
     "# Compare the analytical results with the FEASST computed energies.\n",
-    "assert np.abs(enlj - df['LennardJonesAlpha'][0]) < 12\n",
-    "assert np.abs(enlj - df['energy'][0]) < 12"
+    "assert np.abs(enlj - df['LennardJonesAlpha'][0]) < 10**-12\n",
+    "assert np.abs(enlj - df['energy'][0]) < 10**-12"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "7752ff68-1287-41ca-be73-33f775d4fe6c",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "# Usage: ./fst < file.txt\n",
+      "FEASST version 0.25.7\n",
+      "MonteCarlo\n",
+      "Configuration particle_type0 /home/user/feasst/plugin/models/particle/ljlambda.fstprt xyz_file two.xyz  \n",
+      "Potential Model LennardJonesAlpha alpha 12  \n",
+      "ThermoParams beta 1000000  \n",
+      "Metropolis  \n",
+      "Log clear_file true max_precision true output_file lj.csv  \n",
+      "Run num_trials 1  \n",
+      "#Warn 0 [plugin/monte_carlo/src/monte_carlo.cpp:743] No Trials to attempt.\n"
+     ]
+    }
+   ],
+   "source": [
+    "\"\"\"Similar to above, but with the lambda parameter\"\"\"\n",
+    "params = {\"displacement\": 1.2345}\n",
+    "with open(\"two.xyz\", \"w\") as myfile: myfile.write(\n",
+    "\"\"\"2\n",
+    "-1 8 8 8\n",
+    "0 0 0 0\n",
+    "1 0 0 {displacement}\"\"\".format(**params))\n",
+    "run_fst({\"config_params\": \"particle_type0 /feasst/plugin/models/particle/ljlambda.fstprt xyz_file two.xyz\"})\n",
+    "df = pd.read_csv('lj.csv')\n",
+    "assert 2 == df['num_particles_of_type0'][0]\n",
+    "\n",
+    "# compute the expected analytical LJ energy\n",
+    "enlj = 2*((params[\"displacement\"]+0.5)**(-24) - (params[\"displacement\"]+0.5)**(-12))\n",
+    "\n",
+    "# Compare the analytical results with the FEASST computed energies.\n",
+    "assert np.abs(enlj - df['LennardJonesAlpha'][0]) < 10**-12\n",
+    "assert np.abs(enlj - df['energy'][0]) < 10**-12"
    ]
   },
   {
@@ -97,7 +140,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.12.6"
+   "version": "3.12.5"
   }
  },
  "nbformat": 4,

@@ -126,6 +126,9 @@ std::string PairDistribution::write(MonteCarlo * mc) {
   std::stringstream ss;
   ss << header(*mc);
   const Configuration& config = configuration(mc->system());
+  if (num_updates_ <= 0) {
+    return ss.str();
+  }
   const grtype& rad = radial(config);
   const std::vector<std::vector<Histogram> >& hr = intra_.radial_;
   //ASSERT(static_cast<int>(rad.size()) == hr[0][0].size(), "err");
