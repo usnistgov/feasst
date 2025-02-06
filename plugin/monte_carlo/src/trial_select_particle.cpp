@@ -102,6 +102,7 @@ int TrialSelectParticle::random_particle(const Configuration& config,
   } else {
     select->clear();
   }
+  DEBUG("selected " << mobile().str());
   return num - num_excluded;
 }
 

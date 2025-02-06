@@ -10,6 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pyfeasst import fstio
 from pyfeasst import physical_constants
+from pyfeasst import macrostate_distribution
 
 def parse():
     """ Parse arguments from command line or change their default values. """
@@ -58,24 +59,30 @@ def parse():
     params['hours_terminate'] = 0.95*params['hours_terminate'] - 0.05 # terminate FEASST before SLURM
     params['hours_terminate'] *= params['procs_per_node'] # real time -> cpu time
     params['hours_checkpoint'] *= params['procs_per_node']
-    params['num_sims'] = params['num_nodes']
-    params['procs_per_sim'] = params['procs_per_node']
+    params['procs_per_sim'] = 1
+    params['num_sims'] = params['num_nodes']*params['procs_per_node']
     params['alpha'] = 6.87098396396261/params['cubic_side_length']
     params['mu'] = params['beta_mu']/params['beta']
     params['charge_plus'] = 1./np.sqrt(1.602176634E-19**2/(4*np.pi*8.8541878128E-12*1e3/1e10/6.02214076E+23))
     params['charge_minus'] = -params['charge_plus']
     params['dccb_cut'] = params['cubic_side_length']/int(params['cubic_side_length']/params['dccb_cut']) # maximize inside box
+    params['minimums'] = [params['min_particles']]
+    params['windows'] = macrostate_distribution.window_exponential(
+        alpha=1, minimums=params['minimums'], maximum=params['max_particles'],
+        number=params['num_sims'], overlap=1, min_size=3)
     return params, args
+
+def sim_node_dependent_params(params):
+    """ Define parameters that are dependent on the sim or node. """
+    params['min_particles'] = params['windows'][params['sim']][0]
+    params['max_particles'] = params['windows'][params['sim']][1]
+    params['sim_start'] = 0
+    params['sim_end'] = params['num_sims'] - 1
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
     with open(script_file, 'w', encoding='utf-8') as myfile:
-        myfile.write("""
-# first, initialize multiple clones into windows
-CollectionMatrixSplice hours_per {hours_checkpoint} ln_prob_file {prefix}n{node}_lnpi.txt min_window_size -1
-WindowExponential maximum {max_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 1 min_size 3
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-
+        myfile.write("""MonteCarlo
 RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {plus} particle_type1 {minus} cutoff 4.891304347826090 charge0 {charge_plus} charge1 {charge_minus}
 Potential VisitModel Ewald alpha {alpha} kmax_squared 38
@@ -86,32 +93,39 @@ ThermoParams beta {beta} chemical_potential0 {mu} chemical_potential1 {mu}
 Metropolis
 TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
 CheckEnergy trials_per_update {tpc} decimal_places 4
+Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # gcmc initialization and nvt equilibration
 TrialAddMultiple particle_type0 0 particle_type1 1 reference_index 0
-Log trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_eq.txt
+Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.csv
 Tune
-Run until_num_particles [soft_macro_min] particle_type 0
+Run until_num_particles {min_particles} particle_type 0
 Remove name TrialAddMultiple
 Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
 Run until complete
 Remove name0 Tune name1 Log
 
 # gcmc tm production
-FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} particle_type 0 soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
-Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
+FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} particle_type 0 \
+    Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
 TrialTransferMultiple weight 2 particle_type0 0 particle_type1 1 reference_index 0 num_steps 8
-Log            trials_per_write {tpc} output_file {prefix}n{node}s[sim_index].txt
-Movie          trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_eq.xyz stop_after_cycle 1
-Movie          trials_per_write {tpc} output_file {prefix}n{node}s[sim_index].xyz start_after_cycle 1
-Tune           trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_cycle 1
-Energy         trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_cycle 1
-CriteriaWriter trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_crit.txt
+Log            trials_per_write {tpc} output_file {prefix}n{node}s{sim}.csv
+Movie          trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.xyz stop_after_cycle 1
+Movie          trials_per_write {tpc} output_file {prefix}n{node}s{sim}.xyz start_after_cycle 1
+Tune           trials_per_write {tpc} output_file {prefix}n{node}s{sim}_tune.csv multistate true stop_after_cycle 1
+Energy         trials_per_write {tpc} output_file {prefix}n{node}s{sim}_en.csv multistate true start_after_cycle 1
+CriteriaWriter trials_per_write {tpc} output_file {prefix}n{node}s{sim}_crit.csv
 CriteriaUpdater trials_per_update 1e5
+Run until complete
+
+# continue until all simulations on the node are complete
+WriteFileAndCheck sim {sim} sim_start {sim_start} sim_end {sim_end} file_prefix {prefix}n{node}s file_suffix _finished.txt output_file {prefix}n{node}_terminate.txt
+Run until_file_exists {prefix}n{node}_terminate.txt
 """.format(**params))
 
 def post_process(params):
-    lnpi = pd.read_csv(params['prefix']+'n0_lnpi.txt')
+    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
+    lnpi = lnpi.dataframe()
     lnpi = lnpi[:3] # cut down to three rows
     lnpi['ln_prob'] -= np.log(sum(np.exp(lnpi['ln_prob'])))  # renormalize
     lnpi['ln_prob_prev'] = [-1.2994315780357, -1.08646312498868, -0.941850889679828]
@@ -119,7 +133,7 @@ def post_process(params):
     diverged = lnpi[lnpi.ln_prob-lnpi.ln_prob_prev > 5*lnpi.ln_prob_prev_stdev]
     print(diverged)
     assert len(diverged) == 0
-    energy = pd.read_csv(params['prefix']+'n0s0_en.txt')
+    energy = pd.read_csv(params['prefix']+'n0s0_en.csv')
     energy = energy[:3]
     energy['prev'] = [0, -0.939408, -2.02625]
     energy['prev_stdev'] = [1e-14, 0.02, 0.04]
@@ -130,7 +144,7 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=None,
+                          sim_node_dependent_params=sim_node_dependent_params,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
                           queue_function=fstio.slurm_single_node,

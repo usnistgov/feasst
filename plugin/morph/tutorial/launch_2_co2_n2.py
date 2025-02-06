@@ -10,68 +10,76 @@ from pyfeasst import fstio
 from pyfeasst import macrostate_distribution
 from pyfeasst import physical_constants
 
-# Parse arguments from command line or change their default values.
-PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
-                    help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt0', type=str, default='/feasst/particle/co2.fstprt',
-                    help='FEASST particle definition of the first particle.')
-PARSER.add_argument('--fstprt1', type=str, default='/feasst/particle/n2.fstprt',
-                    help='FEASST particle definition of the second particle.')
-PARSER.add_argument('--temperature', type=float, default=300, help='temperature in Kelvin')
-PARSER.add_argument('--mu0', type=float, default=-15.24, help='chemical potential')
-PARSER.add_argument('--mu1', type=float, default=-15.24, help='chemical potential')
-PARSER.add_argument('--mu_init', type=float, default=10, help='initial chemical potential')
-PARSER.add_argument('--num_particles', type=int, default=10, help='total number of particles')
-PARSER.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
-PARSER.add_argument('--min_sweeps', type=int, default=1e2,
-                    help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
-PARSER.add_argument('--cubic_side_length', type=float, default=30,
-                    help='cubic periodic boundary length')
-PARSER.add_argument('--tpc', type=int, default=int(1e6), help='trials per cycle')
-PARSER.add_argument('--equilibration_cycles', type=int, default=0,
-                    help='number of cycles for equilibration')
-PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
-PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
-PARSER.add_argument('--procs_per_node', type=int, default=2, help='number of processors')
-PARSER.add_argument('--run_type', '-r', type=int, default=0,
-                    help='0: run, 1: submit to queue, 2: post-process')
-PARSER.add_argument('--seed', type=int, default=-1,
-                    help='Random number generator seed. If -1, assign random seed to each sim.')
-PARSER.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
-PARSER.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
-PARSER.add_argument('--scratch', type=str, default=None,
-                    help='Optionally write scheduled job to scratch/logname/jobid.')
-PARSER.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
-PARSER.add_argument('--node', type=int, default=0, help='node ID')
-PARSER.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
-PARSER.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
+def parse():
+    """ Parse arguments from command line or change their default values. """
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('--feasst_install', type=str, default='../../../build/',
+                        help='FEASST install directory (e.g., the path to build)')
+    parser.add_argument('--fstprt0', type=str, default='/feasst/particle/co2.fstprt',
+                        help='FEASST particle definition of the first particle.')
+    parser.add_argument('--fstprt1', type=str, default='/feasst/particle/n2.fstprt',
+                        help='FEASST particle definition of the second particle.')
+    parser.add_argument('--temperature', type=float, default=300, help='temperature in Kelvin')
+    parser.add_argument('--mu0', type=float, default=-15.24, help='chemical potential')
+    parser.add_argument('--mu1', type=float, default=-15.24, help='chemical potential')
+    parser.add_argument('--mu_init', type=float, default=10, help='initial chemical potential')
+    parser.add_argument('--num_particles', type=int, default=10, help='total number of particles')
+    parser.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
+    parser.add_argument('--min_sweeps', type=int, default=1e2,
+                        help='Minimum number of sweeps defined in https://dx.doi.org/10.1063/1.4918557')
+    parser.add_argument('--cubic_side_length', type=float, default=30,
+                        help='cubic periodic boundary length')
+    parser.add_argument('--tpc', type=int, default=int(1e6), help='trials per cycle')
+    parser.add_argument('--equilibration_cycles', type=int, default=0,
+                        help='number of cycles for equilibration')
+    parser.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
+    parser.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
+    parser.add_argument('--procs_per_node', type=int, default=2, help='number of processors')
+    parser.add_argument('--run_type', '-r', type=int, default=0,
+                        help='0: run, 1: submit to queue, 2: post-process')
+    parser.add_argument('--seed', type=int, default=-1,
+                        help='Random number generator seed. If -1, assign random seed to each sim.')
+    parser.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
+    parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
+    parser.add_argument('--scratch', type=str, default=None,
+                        help='Optionally write scheduled job to scratch/logname/jobid.')
+    parser.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
+    parser.add_argument('--node', type=int, default=0, help='node ID')
+    parser.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
+    parser.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
-# Convert arguments into a parameter dictionary, and add argument-dependent parameters.
-ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
-assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
-PARAMS = vars(ARGS)
-PARAMS['script'] = __file__
-PARAMS['prefix'] = 'co2n2_'
-PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
-PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
-PARAMS['hours_terminate'] = 0.95*PARAMS['hours_terminate'] - 0.05 # terminate FEASST before SLURM
-PARAMS['hours_terminate'] *= PARAMS['procs_per_node'] # real time -> cpu time
-PARAMS['hours_checkpoint'] *= PARAMS['procs_per_node']
-PARAMS['num_sims'] = PARAMS['num_nodes']
-PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
-PARAMS['ewald_alpha'] = 5.6/PARAMS['cubic_side_length']
-PARAMS['beta'] = 1./(PARAMS['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
+    # Convert arguments into a parameter dictionary, and add argument-dependent parameters.
+    args, unknown_args = parser.parse_known_args()
+    assert len(unknown_args) == 0, 'An unknown argument was included: '+str(unknown_args)
+    params = vars(args)
+    params['script'] = __file__
+    params['prefix'] = 'co2n2_'
+    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
+    params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
+    params['hours_terminate'] = 0.95*params['hours_terminate'] - 0.05 # terminate FEASST before SLURM
+    params['hours_terminate'] *= params['procs_per_node'] # real time -> cpu time
+    params['hours_checkpoint'] *= params['procs_per_node']
+    params['procs_per_sim'] = 1
+    params['num_sims'] = params['num_nodes']*params['procs_per_node']
+    params['ewald_alpha'] = 5.6/params['cubic_side_length']
+    params['beta'] = 1./(params['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
+    params['windows'] = macrostate_distribution.window_exponential(
+        alpha=1.1, minimums=[params['min_particles']], maximum=params['num_particles'],
+        number=params['num_sims'], overlap=1, min_size=5)
+    return params, args
+
+def sim_node_dependent_params(params):
+    """ Define parameters that are dependent on the sim or node. """
+    params['min_particles'] = params['windows'][params['sim']][0]
+    params['max_particles'] = params['windows'][params['sim']][1]
+    params['sim_start'] = 0
+    params['sim_end'] = params['num_sims'] - 1
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
-# first, initialize multiple clones into windows
-CollectionMatrixSplice hours_per {hours_checkpoint} ln_prob_file {prefix}n{node}_lnpi.txt min_window_size -1
-WindowExponential maximum {num_particles} minimum {min_particles} num {procs_per_node} overlap 0 alpha 1.1 min_size 5
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-
+MonteCarlo
 RandomMT19937 seed {seed}
 Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt0} particle_type1 {fstprt1}
 Potential VisitModel Ewald alpha {ewald_alpha} kmax_squared 38
@@ -84,12 +92,13 @@ Metropolis
 TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25
 CheckEnergy trials_per_update {tpc} tolerance 1e-4
+Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
-Log trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_eq.txt
+Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.csv
 Tune
-Run until_num_particles [soft_macro_min]
+Run until_num_particles {min_particles}
 Remove name TrialAdd
 TrialAdd particle_type 1
 Run until_num_particles {num_particles}
@@ -100,28 +109,34 @@ Run until complete
 Remove name0 Tune name1 Log
 
 # gcmc tm production
-FlatHistogram Macrostate MacrostateNumParticles particle_type 0 width 1 max {num_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
-Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
+FlatHistogram Macrostate MacrostateNumParticles particle_type 0 width 1 max {max_particles} min {min_particles} \
+    Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
 TrialMorph particle_type0 0 particle_type_morph0 1
 TrialMorph particle_type0 1 particle_type_morph0 0
-Log trials_per_write {tpc} output_file {prefix}n{node}s[sim_index].txt
-Movie trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_eq.xyz stop_after_cycle 1
-Movie trials_per_write {tpc} output_file {prefix}n{node}s[sim_index].xyz start_after_cycle 1
-Tune trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_cycle 1
-Energy trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_cycle 1
+Log            trials_per_write {tpc} output_file {prefix}n{node}s{sim}.csv
+Movie          trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.xyz stop_after_cycle 1
+Movie          trials_per_write {tpc} output_file {prefix}n{node}s{sim}.xyz start_after_cycle 1
+Tune           trials_per_write {tpc} output_file {prefix}n{node}s{sim}_tune.csv multistate true stop_after_cycle 1
+Energy         trials_per_write {tpc} output_file {prefix}n{node}s{sim}_en.csv multistate true start_after_cycle 1
+CriteriaWriter trials_per_write {tpc} output_file {prefix}n{node}s{sim:03d}_crit.csv
 CriteriaUpdater trials_per_update 1e5
-CriteriaWriter trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_crit.txt
+Run until complete
+
+# continue until all simulations on the node are complete
+WriteFileAndCheck sim {sim} sim_start {sim_start} sim_end {sim_end} file_prefix {prefix}n{node}s file_suffix _finished.txt output_file {prefix}n{node}_terminate.txt
+Run until_file_exists {prefix}n{node}_terminate.txt
 """.format(**params))
 
 def post_process(params):
-    lnpi = macrostate_distribution.MacrostateDistribution(file_name=params['prefix']+'n0_lnpi.txt')
+    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
     #lnpi.plot(show=True)
     assert np.abs(5.137717334901432 - lnpi.average_macrostate()) < 0.5
 
 if __name__ == '__main__':
-    fstio.run_simulations(params=PARAMS,
-                          sim_node_dependent_params=None,
+    parameters, arguments = parse()
+    fstio.run_simulations(params=parameters,
+                          sim_node_dependent_params=sim_node_dependent_params,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
                           queue_function=fstio.slurm_single_node,
-                          args=ARGS)
+                          args=arguments)

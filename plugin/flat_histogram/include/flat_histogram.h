@@ -91,7 +91,7 @@ class FlatHistogram : public Criteria {
   // HWH hackish implementation for prefetch
   // Revert changes from previous trial.
   void revert_(const bool accepted, const bool endpoint,
-               const double ln_prob) override;
+               const double ln_prob, const std::vector<int>& updated) override;
   // HWH rename: delete
   void finalize(const Acceptance& acceptance) override;
   void revert(const Acceptance& acceptance) override { finalize(acceptance); }

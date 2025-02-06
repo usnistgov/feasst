@@ -144,10 +144,14 @@ void Criteria::set_expanded_state(const int state, const int num) {
   num_expanded_states_ = num;
 }
 
-void Criteria::revert_(const bool accepted, const bool endpoint, const double ln_prob) {
+void Criteria::revert_(const bool accepted, const bool endpoint, const double ln_prob, const std::vector<int>& updated) {
   if (accepted) {
-    (*current_energy_())[0] = previous_energy_;
-    (*current_energy_profile_())[0] = previous_energy_profile_;
+    for (int conf = 0; conf < static_cast<int>(updated.size()); ++conf) {
+      if (updated[conf] == 1) {
+        (*current_energy_())[conf] = previous_energy_[conf];
+        (*current_energy_profile_())[conf] = previous_energy_profile_[conf];
+      }
+    }
   }
 }
 
@@ -250,10 +254,12 @@ void Criteria::set_current_energy(const double energy, const int config) {
   if (config == static_cast<int>(current_energy_()->size())) {
     current_energy_()->resize(config + 1);
   }
-  previous_energy_ = current_energy(config);
+  if (config >= static_cast<int>(previous_energy_.size())) {
+    previous_energy_.resize(config + 1);
+  }
+  previous_energy_[config] = current_energy(config);
   (*current_energy_())[config] = energy;
-  DEBUG("setting current energy: " << current_energy(config));
-  DEBUG("previous " << previous_energy_);
+  DEBUG("previous " << feasst_str(previous_energy_));
 }
 
 void Criteria::set_current_energy_profile(const std::vector<double>& energy,
@@ -261,8 +267,12 @@ void Criteria::set_current_energy_profile(const std::vector<double>& energy,
   if (config == static_cast<int>(current_energy_profile_()->size())) {
     current_energy_profile_()->resize(config + 1);
   }
-  previous_energy_profile_ = current_energy_profile(config);
+  if (config >= static_cast<int>(previous_energy_profile_.size())) {
+    previous_energy_profile_.resize(config + 1);
+  }
+  previous_energy_profile_[config] = current_energy_profile(config);
   (*current_energy_profile_())[config] = energy;
+  DEBUG("previous profile conf" << config << " " << feasst_str(previous_energy_profile_[config]));
 }
 
 /// Return whether constraints are statisfied.
@@ -326,6 +336,10 @@ void Criteria::initialize(System * system) {
   }
   precompute(system);
   update_state(*system, Acceptance());
+}
+
+void Criteria::synchronize_(const Criteria& criteria) {
+  data_ = criteria.data();
 }
 
 }  // namespace feasst

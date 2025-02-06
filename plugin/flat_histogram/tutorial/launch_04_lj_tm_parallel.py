@@ -2,6 +2,9 @@
 Flat-histogram simulation of single-site Lennard Jones particles in the grand canonical ensemble.
 The default temperature is above the critical point.
 
+This simulation parallelizes by dividing the number of particle ranges into different windows, and later combining
+the results into a single macrostate distribution.
+
 A common question is "how long does a flat histogram simulation take to finish?"
 This tutorially usually finishes in less than an hour with the default parameters.
 Because flat histogram is an iterative convergence process, the best way we have to measure its completion is the number of "sweeps" as defined in https://dx.doi.org/10.1063/1.4918557 .
@@ -17,6 +20,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from pyfeasst import fstio
+from pyfeasst import macrostate_distribution
 
 def parse(fstprt='/feasst/particle/lj.fstprt',
           beta=1./1.5,
@@ -80,8 +84,8 @@ def parse(fstprt='/feasst/particle/lj.fstprt',
     params['hours_terminate'] = 0.95*params['hours_terminate'] - 0.05 # terminate FEASST before SLURM
     params['hours_terminate'] *= params['procs_per_node'] # real time -> cpu time
     params['hours_checkpoint'] *= params['procs_per_node']
-    params['num_sims'] = params['num_nodes']
-    params['procs_per_sim'] = params['procs_per_node']
+    params['procs_per_sim'] = 1
+    params['num_sims'] = params['procs_per_node']*params['num_nodes']
     params['mu'] = params['beta_mu']/params['beta']
     params['system'] = """Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
 Potential Model LennardJones
@@ -91,70 +95,86 @@ Potential VisitModel LongRangeCorrections""".format(**params)
     params['init_trials'] = "TrialAdd particle_type 0"
     params['init_remove'] = "Remove name TrialAdd"
     params['min_particles_second_window'] = ""
+    params['minimums'] = [params['min_particles']]
+    if params['num_nodes'] == 1:
+        params['windows'] = macrostate_distribution.window_exponential(
+            alpha=params['window_alpha'], minimums=params['minimums'], maximum=params['max_particles'],
+            number=params['num_sims'], overlap=1, min_size=params['min_window_size'])
     return params, args
+
+def sim_node_dependent_params(params):
+    """ Define parameters that are dependent on the sim or node. """
+    params['min_particles'] = params['windows'][params['sim']][0]
+    params['max_particles'] = params['windows'][params['sim']][1]
+    params['sim_start'] = 0
+    params['sim_end'] = params['num_sims'] - 1
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
-# first, initialize multiple clones into windows
-CollectionMatrixSplice hours_per {hours_checkpoint} ln_prob_file {prefix}n{node}_lnpi.txt min_window_size -1
-WindowExponential maximum {max_particles} min0 {min_particles} {min_particles_second_window} num {procs_per_node} overlap 0 alpha {window_alpha} min_size {min_window_size}
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-
+MonteCarlo
 RandomMT19937 seed {seed}
 {system}
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 {nvt_trials}
 CheckEnergy trials_per_update {tpc} decimal_places 4
+Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # gcmc initialization and nvt equilibration
 {init_trials}
-Log trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_eq.txt
+Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.csv
 Tune
-Run until_num_particles [soft_macro_min]
+Run until_num_particles {min_particles}
 {init_remove}
-ThermoParams beta {beta} chemical_potential {mu}
+ThermoParams beta {beta} chemical_potential0 {mu}
 Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
 Run until complete
 Remove name0 Tune name1 Log
 
 # gcmc tm production
-FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] \
-Bias WLTM min_sweeps {min_sweeps} min_flatness {min_flatness} collect_flatness {collect_flatness} min_collect_sweeps 1
+FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} \
+    Bias WLTM min_sweeps {min_sweeps} min_flatness {min_flatness} collect_flatness {collect_flatness} min_collect_sweeps 1
 {muvt_trials}
 #To print xyz for each macrostate in separate files, add the following arguments to the "Movie" lines below: multistate true multistate_aggregate false
-Movie           trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_eq.xyz stop_after_cycle 1
-Movie           trials_per_write {tpc} output_file {prefix}n{node}s[sim_index].xyz start_after_cycle 1
-Log             trials_per_write {tpc} output_file {prefix}n{node}s[sim_index].txt
-Tune            trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_tune.txt multistate true stop_after_cycle 1
-Energy          trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_en.txt multistate true start_after_cycle 1
-HeatCapacity    trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_cv.txt multistate true start_after_cycle 1
-CriteriaWriter  trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_crit.txt
-ProfileCPU      trials_per_write {tpc} output_file {prefix}n{node}s[sim_index]_profile.csv
+Movie           trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.xyz stop_after_cycle 1
+Movie           trials_per_write {tpc} output_file {prefix}n{node}s{sim}.xyz start_after_cycle 1
+Log             trials_per_write {tpc} output_file {prefix}n{node}s{sim}.csv
+Tune            trials_per_write {tpc} output_file {prefix}n{node}s{sim}_tune.csv multistate true stop_after_cycle 1
+Energy          trials_per_write {tpc} output_file {prefix}n{node}s{sim}_en.csv multistate true start_after_cycle 1
+HeatCapacity    trials_per_write {tpc} output_file {prefix}n{node}s{sim}_cv.csv multistate true start_after_cycle 1
+ProfileCPU      trials_per_write {tpc} output_file {prefix}n{node}s{sim}_profile.csv
+CriteriaWriter  trials_per_write {tpc} output_file {prefix}n{node}s{sim:03d}_crit.csv
 CriteriaUpdater trials_per_update 1e5
+Run until complete
+
+# continue until all simulations on the node are complete
+WriteFileAndCheck sim {sim} sim_start {sim_start} sim_end {sim_end} file_prefix {prefix}n{node}s file_suffix _finished.txt output_file {prefix}n{node}_terminate.txt
+Run until_file_exists {prefix}n{node}_terminate.txt
 """.format(**params))
 
 def post_process(params):
-    """ Skip the following checks if temperature is not 1.5 """
+    """ Skip the following checks if temperature is not the default 1.5 """
     if np.abs(params['beta'] - 1./1.5) > 1e-5:
         return
-    lnpi=pd.read_csv(params['prefix']+'n0_lnpi.txt')
-    gce_av_num_particles = (np.exp(lnpi["ln_prob"]) * lnpi["state"]).sum()
+    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
+    gce_av_num_particles = lnpi.average_macrostate()
+    #print('gce_av_num_particles', gce_av_num_particles)
     assert np.abs(gce_av_num_particles - 310.4179421879679) < 0.5
     srsw = pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat150.csv')
-    plt.plot(lnpi['state'], lnpi['ln_prob'], label='FEASST')
+    plt.plot(lnpi.dataframe()['state'], lnpi.dataframe()['ln_prob'], label='FEASST')
     plt.plot(srsw['N'], srsw['lnPI'], linestyle='dashed', label='SRSW')
     plt.xlabel('number of particles', fontsize=16)
     plt.ylabel('ln probability', fontsize=16)
     plt.legend(fontsize=16)
     #plt.savefig(params['prefix']+'_lnpi.png', bbox_inches='tight', transparent='True')
+    #plt.show()
 
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=None,
+                          sim_node_dependent_params=sim_node_dependent_params,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
                           queue_function=fstio.slurm_single_node,

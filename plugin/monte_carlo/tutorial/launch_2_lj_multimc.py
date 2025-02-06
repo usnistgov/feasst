@@ -76,28 +76,30 @@ CheckEnergy trials_per_update {tpc} decimal_places 4
 
 # gcmc initialization
 TrialAdd particle_type 0
-Log trials_per_write {tpc} output_file {prefix}{sim}_init.txt
+Log trials_per_write {tpc} output_file {prefix}{sim}_init.csv
 Tune
 Run until_num_particles {num_particles}
-Remove name0 TrialAdd name1 Log
+Remove name0 TrialAdd name1 Log name2 Tune
 
 # npt equilibration
 ThermoParams beta {beta} pressure {pressure}
 Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
-TrialVolume weight 0.1 tunable_param 0.2 tunable_target_acceptance 0.5
-Log     trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
+TrialVolume weight 0.005 tunable_param 0.2 tunable_target_acceptance 0.5
+Tune    trials_per_tune 20
+Log     trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
 Movie   trials_per_write {tpc} output_file {prefix}{sim}_eq.xyz
-Density trials_per_write {tpc} output_file {prefix}{sim}_density_eq.txt
+Density trials_per_write {tpc} output_file {prefix}{sim}_density_eq.csv
 Run until complete
 Remove name0 Tune name1 Log name2 Movie name3 Density
 
 # npt production
 Metropolis trials_per_cycle {tpc} cycles_to_complete {production}
-Log     trials_per_write {tpc} output_file {prefix}{sim}.txt
-Movie   trials_per_write {tpc} output_file {prefix}{sim}.xyz
-Energy  trials_per_write {tpc} output_file {prefix}{sim}_en.txt
-Density trials_per_write {tpc} output_file {prefix}{sim}_density.txt
-Volume  trials_per_write {tpc} output_file {prefix}{sim}_volume.txt
+Log        trials_per_write {tpc} output_file {prefix}{sim}.csv
+Movie      trials_per_write {tpc} output_file {prefix}{sim}.xyz
+Energy     trials_per_write {tpc} output_file {prefix}{sim}_en.csv
+Density    trials_per_write {tpc} output_file {prefix}{sim}_density.csv
+Volume     trials_per_write {tpc} output_file {prefix}{sim}_volume.csv
+ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_cpu.csv
 Run until complete
 """.format(**params)
 
@@ -109,12 +111,12 @@ def post_process(params):
     ens = np.zeros(shape=(params['num_sims'], 2))
     rhos = np.zeros(shape=(params['num_sims'], 2))
     for sim in range(params['num_sims']):
-        log = pd.read_csv(params['prefix']+str(sim)+'.txt')
+        log = pd.read_csv(params['prefix']+str(sim)+'.csv')
         assert int(log['num_particles_of_type0'][0]) == params['num_particles']
-        energy = pd.read_csv(params['prefix']+str(sim)+'_en.txt')
+        energy = pd.read_csv(params['prefix']+str(sim)+'_en.csv')
         ens[sim] = np.array([energy['average'][0],
                              energy['block_stdev'][0]])/params['num_particles']
-        density = pd.read_csv(params['prefix']+str(sim)+'_density.txt')
+        density = pd.read_csv(params['prefix']+str(sim)+'_density.csv')
         print('density', density)
         rhos[sim] = np.array([density['average'][0],
                               density['block_stdev'][0]])

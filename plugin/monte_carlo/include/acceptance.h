@@ -46,6 +46,7 @@ class Acceptance {
 
   /// Return 1 if this conf has updated energy.
   int updated(const int conf = 0) const;
+  const std::vector<int>& updtd() const { return updated_; }
 
   /// Return the energy of the new configuration.
   double energy_new(const int config = 0) const;

@@ -45,7 +45,7 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=None,
+                          sim_node_dependent_params=launch_04_lj_tm_parallel.sim_node_dependent_params,
                           write_feasst_script=launch_04_lj_tm_parallel.write_feasst_script,
                           post_process=post_process,
                           queue_function=fstio.slurm_single_node,

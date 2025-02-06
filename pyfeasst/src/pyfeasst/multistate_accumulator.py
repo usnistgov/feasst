@@ -38,13 +38,14 @@ def splice_by_max_column(prefix, suffix, column='moment0', crit_prefix=None, cri
                 spliced = pd.read_csv(filename)
             else:
                 addition = pd.read_csv(filename)
+                #print('addition', addition, 'column', column, 'spliced', spliced)
                 newer = addition[addition[column] > spliced[column]]
                 if len(newer) > 0:
                     spliced.loc[newer['state'].values[0]: newer['state'].values[-1]] = newer
     else:
         rows = list()
         for filename in sorted(Path('.').rglob(crit_prefix+'*'+crit_suffix)):
-            print('filename', filename)
+            #print('filename', filename)
             with open(filename, 'r') as file1:
                 lines = file1.readlines()
             exec('iprm={' + lines[0][1:] + '}', globals())
@@ -113,6 +114,31 @@ def splice_by_node(prefix, suffix, num_nodes, extra_overlap=0):
         #     data.drop([cname], inplace=True, axis=1)
         block += 1
     return data
+
+def splice(prefix, suffix, stop, start=0, extra_overlap=0):
+    """
+    Use splice to combine pandas csv files with matching prefix + index + suffix, where index
+    goes from start to stop.
+    Then drop 1+extra_overlap at the beginning of each index != 0.
+
+    >>> import numpy as np
+    >>> from pyfeasst import multistate_accumulator
+    >>> spliced = multistate_accumulator.splice(prefix='../../tests/ljn0s', suffix='_en.csv', stop=2)
+    >>> round(float(np.average(spliced['average'])), 8)
+    -2.91222716
+    """
+    frames = list()
+    for index in range(start, stop + 1):
+        #print('index', index)
+        fname = prefix + str(index) + suffix
+        df = pd.read_csv(fname)
+        if index != start:
+            df.drop(df.head(1 + extra_overlap).index, inplace=True)
+        #print('df', df)
+        frames.append(df)
+    combined = pd.concat(frames)
+    combined.reset_index(inplace=True)
+    return combined
 
 if __name__ == "__main__":
     import doctest

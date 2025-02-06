@@ -250,7 +250,7 @@ EndCopy
 # Initialize dual-cut configuration bias reference potential in the liquid but not in the vapor
 RefPotential reference_index 1 configuration_index 0 VisitModel DontVisitModel
 RefPotential reference_index 1 configuration_index 1 Model LennardJones VisitModel VisitModelCell cutoff {dccb_cut} min_length {dccb_cut}
-ThermoParams beta {beta} chemical_potential 10
+ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
 CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 30
 TrialTranslate weight 0.5 tunable_param 1 configuration_index 1

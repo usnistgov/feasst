@@ -19,8 +19,8 @@
 #include "monte_carlo/include/trial_stage.h"
 #include "prefetch/include/prefetch.h"
 
-// use this to make prefetch serial and simply debugging
-#define DEBUG_SERIAL_MODE_5324634
+// use this to make prefetch serial and simplify debugging
+// #define DEBUG_SERIAL_MODE_5324634
 
 namespace feasst {
 
@@ -148,8 +148,8 @@ void Prefetch::attempt_(
       for (proc_id = 0; proc_id < num_threads_; ++proc_id) {
       #endif // _OPENMP
 
-      double previous_energy = criteria().current_energy();
-      DEBUG("previous_energy " << previous_energy);
+      //double previous_energy = criteria().current_energy();
+      //DEBUG("previous_energy " << previous_energy);
 
       #ifdef DEBUG_SERIAL_MODE_5324634
       #pragma omp critical
@@ -275,6 +275,7 @@ void Prefetch::attempt_(
                       pool->auto_rejected(), pool->ln_prob());
         }
       }
+
 
       #ifdef DEBUG_SERIAL_MODE_5324634
       }
@@ -462,21 +463,25 @@ void Prefetch::attempt_(
       DEBUG("periodically check that all threads are equal");
       if (trials_since_check_ >= trials_per_check_ && proc_id > 0) {
         trials_since_check_ = 0;
-        const double energy = criteria().current_energy();
-        DEBUG("check that the current energy of all threads and main are the same: " << energy);
         const double tolerance = 1e-8;
         const MonteCarlo& mcc = *clone_(proc_id);
-        const double diff = mcc.criteria().current_energy() - energy;
-        ASSERT(std::abs(diff) <= tolerance, "diff: " << diff);
-        ASSERT(system().configuration().is_equal(mcc.system().configuration(), tolerance), "configs not equal thread" << proc_id);
+        for (int conf = 0; conf < system().num_configurations(); ++conf) {
+          DEBUG("conf " << conf);
+          const double energy = criteria().current_energy(conf);
+          DEBUG("check that the current energy of all threads and main are the same: " << energy);
+          const double diff = mcc.criteria().current_energy(conf) - energy;
+          ASSERT(std::abs(diff) <= tolerance, "diff: " << diff);
+          DEBUG("check that conf:" << conf << " on proc_id: " << proc_id << " is equal to the first proc");
+          ASSERT(system().configuration(conf).is_equal(mcc.system().configuration(conf), tolerance), "configs not equal thread" << proc_id);
+        }
         ASSERT(trials().is_equal(mcc.trials()), "trials not equal thread" << proc_id);
         ASSERT(criteria().is_equal(mcc.criteria(), tolerance), "criteria not equal: " << proc_id);
 
-        // periodically equate all clones to first thread to prevent drift
-//        std::stringstream clone_ss;
-//        MonteCarlo::serialize(clone_ss);
-//        pool_[proc_id].mc = MonteCarlo(clone_ss);
-//        clone_(proc_id)->seed_random(rand());  // HWH not thread safe // HWH consider setting RNG to previous seeds manually
+          // periodically equate all clones to first thread to prevent drift
+  //        std::stringstream clone_ss;
+  //        MonteCarlo::serialize(clone_ss);
+  //        pool_[proc_id].mc = MonteCarlo(clone_ss);
+  //        clone_(proc_id)->seed_random(rand());  // HWH not thread safe // HWH consider setting RNG to previous seeds manually
       }
 
       #ifdef DEBUG_SERIAL_MODE_5324634

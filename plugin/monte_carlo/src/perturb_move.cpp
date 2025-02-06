@@ -30,7 +30,7 @@ void PerturbMove::revert(System * system) {
     Configuration* config = system->get_configuration(iconf);
     config->update_positions(revert_select()->mobile_original(),
       // don't wrap if reverting
-      false);
+      true);
     DEBUG("mobile orig " << revert_select()->mobile_original().str());
     DEBUG("mobile orig is anisotropic " << revert_select()->mobile_original().is_anisotropic());
     //system->revert(revert_select()->mobile_original());

@@ -31,7 +31,9 @@ def parse(temperature=350):
     params['script'] = __file__
     params['prefix'] = 'trappe'
     params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
-    params['min_particles_second_window'] = "min1 17"
+    params['windows'] = macrostate_distribution.window_exponential(
+        alpha=params['window_alpha'], minimums=[params['min_particles'], 17], maximum=params['max_particles'],
+        number=params['num_sims'], overlap=1, min_size=params['min_window_size'])
     params['cutoff'] = 12
     params['dccb_cut'] = 4.
     params['dccb_cut'] = params['cubic_side_length']/int(params['cubic_side_length']/params['dccb_cut']) # maximize inside box
@@ -128,7 +130,8 @@ def write_grow_file(filename, params, gce):
                 f.write("\n")
 
 def post_process(params):
-    lnp = macrostate_distribution.splice_collection_matrix(prefix='trappen0s', suffix='_crit.txt', use_soft=True)
+    #lnp = macrostate_distribution.splice_collection_matrix(prefix='trappen0s', suffix='_crit.txt', use_soft=True)
+    lnp = macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False).dataframe()
     assert np.abs(lnp.ln_prob()[1] - lnp.ln_prob()[0] - 5.86440399999992) < 0.1
     assert np.abs(lnp.ln_prob()[2] - lnp.ln_prob()[1] - 5.22683300000017) < 0.1
     # equilibrium test below was abandoned to reduce max_particles for faster convergence
@@ -148,7 +151,7 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=None,
+                          sim_node_dependent_params=launch_04_lj_tm_parallel.sim_node_dependent_params,
                           write_feasst_script=launch_04_lj_tm_parallel.write_feasst_script,
                           post_process=post_process,
                           queue_function=fstio.slurm_single_node,

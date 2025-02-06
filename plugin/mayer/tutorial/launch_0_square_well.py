@@ -26,49 +26,51 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pyfeasst import fstio
 
-# Parse arguments from command line or change their default values.
-PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
-                    help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/atom.fstprt',
-                    help='FEASST particle definition')
-PARSER.add_argument('--reference_sigma', type=float, default=1,
-                    help='reference potential is a hard sphere unit diameter which is also the size of the inner hard sphere in the square well.')
-PARSER.add_argument('--cutoff', type=float, default=3,
-                    help='the square well attractive interaction cutoff distance between centers')
-PARSER.add_argument('--beta', type=float, default=1./2., help='the inverse temperature')
-PARSER.add_argument('--tpc', type=int, default=int(1e4), help='trials per cycle')
-PARSER.add_argument('--equilibration_cycles', type=int, default=int(1e1),
-                    help='number of cycles for equilibration')
-PARSER.add_argument('--production_cycles', type=int, default=int(1e2),
-                    help='number of cycles for production')
-PARSER.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
-PARSER.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
-PARSER.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
-PARSER.add_argument('--run_type', '-r', type=int, default=0,
-                    help='0: run, 1: submit to queue, 2: post-process')
-PARSER.add_argument('--seed', type=int, default=-1,
-                    help='Random number generator seed. If -1, assign random seed to each sim.')
-PARSER.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
-PARSER.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
-PARSER.add_argument('--scratch', type=str, default=None,
-                    help='Optionally write scheduled job to scratch/logname/jobid.')
-PARSER.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
-PARSER.add_argument('--node', type=int, default=0, help='node ID')
-PARSER.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
-PARSER.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
+def parse():
+    """ Parse arguments from command line or change their default values. """
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('--feasst_install', type=str, default='../../../build/',
+                        help='FEASST install directory (e.g., the path to build)')
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/atom.fstprt',
+                        help='FEASST particle definition')
+    parser.add_argument('--reference_sigma', type=float, default=1,
+                        help='reference potential is a hard sphere unit diameter which is also the size of the inner hard sphere in the square well.')
+    parser.add_argument('--cutoff', type=float, default=3,
+                        help='the square well attractive interaction cutoff distance between centers')
+    parser.add_argument('--beta', type=float, default=1./2., help='the inverse temperature')
+    parser.add_argument('--tpc', type=int, default=int(1e4), help='trials per cycle')
+    parser.add_argument('--equilibration_cycles', type=int, default=int(1e1),
+                        help='number of cycles for equilibration')
+    parser.add_argument('--production_cycles', type=int, default=int(1e2),
+                        help='number of cycles for production')
+    parser.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
+    parser.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
+    parser.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
+    parser.add_argument('--run_type', '-r', type=int, default=0,
+                        help='0: run, 1: submit to queue, 2: post-process')
+    parser.add_argument('--seed', type=int, default=-1,
+                        help='Random number generator seed. If -1, assign random seed to each sim.')
+    parser.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
+    parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
+    parser.add_argument('--scratch', type=str, default=None,
+                        help='Optionally write scheduled job to scratch/logname/jobid.')
+    parser.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
+    parser.add_argument('--node', type=int, default=0, help='node ID')
+    parser.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
+    parser.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
-# Convert arguments into a parameter dictionary, and add argument-dependent parameters.
-ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
-assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
-PARAMS = vars(ARGS)
-PARAMS['script'] = __file__
-PARAMS['prefix'] = 'sqw'
-PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
-PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
-PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate before queue
-PARAMS['procs_per_sim'] = 1
-PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
+    # Convert arguments into a parameter dictionary, and add argument-dependent parameters.
+    args, unknown_args = parser.parse_known_args()
+    assert len(unknown_args) == 0, 'An unknown argument was included: '+str(unknown_args)
+    params = vars(args)
+    params['script'] = __file__
+    params['prefix'] = 'sqw'
+    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
+    params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
+    params['hours_terminate'] = 0.99*params['hours_terminate'] - 0.0333 # terminate before queue
+    params['procs_per_sim'] = 1
+    params['num_sims'] = params['num_nodes']*params['procs_per_node']
+    return params, args
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -119,9 +121,10 @@ def post_process(params):
     assert np.abs(np.mean(b2s) - b2reduced_analytical) < 5*np.std(b2s)
 
 if __name__ == '__main__':
-    fstio.run_simulations(params=PARAMS,
+    parameters, arguments = parse()
+    fstio.run_simulations(params=parameters,
                           sim_node_dependent_params=None,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
                           queue_function=fstio.slurm_single_node,
-                          args=ARGS)
+                          args=arguments)

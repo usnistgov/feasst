@@ -90,8 +90,6 @@ void GibbsInitialize::initialize(MonteCarlo * mc) {
     << system.num_configurations());
   high_dens_config_ = dens_config_index_(true, system);
   low_dens_config_ = dens_config_index_(false, system);
-  low_dens_ = std::make_unique<Accumulator>();
-  high_dens_ = std::make_unique<Accumulator>();
   DEBUG("done initializing");
 }
 
@@ -108,10 +106,18 @@ void GibbsInitialize::update(MonteCarlo * mc) {
   const int num_low = lowd_conf.num_particles();
   const int num_high = highd_conf.num_particles();
   DEBUG("obtaining ensemble averages of the densities");
+  if (!low_dens_) {
+    low_dens_ = std::make_unique<Accumulator>();
+  }
+  if (!high_dens_) {
+    high_dens_ = std::make_unique<Accumulator>();
+  }
   if (updates_since_adjust_ >= updates_density_equil_) {
     low_dens_->accumulate(static_cast<double>(num_low)/vol_low);
     high_dens_->accumulate(static_cast<double>(num_high)/vol_high);
   }
+  DEBUG("updates_since_adjust_ " << updates_since_adjust_);
+  DEBUG("updates_per_adjust_ " << updates_per_adjust_);
   if (updates_since_adjust_ >= updates_per_adjust_) {
     INFO("Begin adjustment process. Checking if tolerances reached.");
     INFO("Estimated low and high densities: " << low_dens_->average() << " "

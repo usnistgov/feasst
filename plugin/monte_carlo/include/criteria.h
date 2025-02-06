@@ -165,13 +165,13 @@ class Criteria {
   // HWH hackish interface for prefetch
   // Revert changes from previous trial.
   virtual void revert_(const bool accepted, const bool endpoint,
-                       const double ln_prob);
+                       const double ln_prob, const std::vector<int>& updated);
   // Imitate a trial rejection (used in FlatHistogram).
   virtual void imitate_trial_rejection_(const double ln_prob,
     const int state_old,
     const int state_new,
     const bool endpoint) {}
-  void synchronize_(const Criteria& criteria) { data_ = criteria.data(); }
+  void synchronize_(const Criteria& criteria);
   const SynchronizeData& data() const { return data_; }
 
   // HWH hackish adjust_bounds interface. See CollectionMatrixSplice.
@@ -216,8 +216,8 @@ class Criteria {
   void check_num_cycles_(const int trials_per_cycle);
 
  private:
-  double previous_energy_ = 0.;
-  std::vector<double> previous_energy_profile_;
+  std::vector<double> previous_energy_;
+  std::vector<std::vector<double> > previous_energy_profile_;
   int phase_ = 0;
   int expanded_state_;
   int num_expanded_states_;

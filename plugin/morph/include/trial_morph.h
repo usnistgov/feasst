@@ -20,7 +20,8 @@ class TrialMorph : public Trial {
   //@{
   /** @name Arguments
     - particle_type[i]: type of particle that will be morphed.
-      The [i] is to be substituted for an integer 0, 1, 2, ...
+      The [i] represents each of the particles being morphed, and
+      is to be substituted for an integer starting with 0, 1, 2, ...
     - particle_type_morph[i]: type of particle to morph into.
       The [i] is to be substituted for an integer 0, 1, 2, ...
       Each [i] should have a corresponding particle_type[i] argument.

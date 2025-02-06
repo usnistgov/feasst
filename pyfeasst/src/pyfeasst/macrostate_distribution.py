@@ -306,12 +306,17 @@ class MacrostateDistribution:
         self.reweight(delta_beta_mu_equilibrium, inplace=True)
         return delta_beta_mu_equilibrium
 
-def splice(windows, extra_overlap=0):
+def splice(windows, extra_overlap=0, shift=True):
     """
     Return a MacrostateDistribution that is spliced together from multiple MacrostateDistribution.
     Each MacrostateDistribution must overlap by atleast one macrostate with its neighbor.
     If macrostates overlap by more than one (extra_overlap), simply drop the
     macrostates in the upper MacrostateDistribution.
+
+    :param list windows: a list of MacrostateDistribution
+    :param int extra_overlap: overlap beyond the required one overlap.
+    :param boolean shift: shift macrostate values to be continuous (e.g., if each window macrostate
+      starts at 0, then shift should be true).
 
     >>> from pyfeasst import macrostate_distribution
     >>> lnpis=list()
@@ -339,12 +344,13 @@ def splice(windows, extra_overlap=0):
             max_minimum_smoothing = lnpi.minimum_smoothing()
         if index != 0:
             prev_last_index = len(windows[index-1].ln_prob()) - 1
-            shift = windows[index-1].ln_prob().values[prev_last_index-extra_overlap] - \
+            mshift = windows[index-1].ln_prob().values[prev_last_index-extra_overlap] - \
                     lnpi.ln_prob().values[0]
-            lnpi.set_ln_prob(lnpi.ln_prob() + shift)
+            lnpi.set_ln_prob(lnpi.ln_prob() + mshift)
             for _ in range(1 + extra_overlap):
                 lnpi.set_dataframe(lnpi.dataframe().iloc[1:, :], normalize=False)
-            lnpi.set_macrostates(lnpi.macrostates() + windows[index-1].macrostates().values[-1])
+            if shift:
+                lnpi.set_macrostates(lnpi.macrostates() + windows[index-1].macrostates().values[-1])
         macros.append(lnpi.dataframe())
     macros_concat = pd.concat(macros)
     macros_concat.reset_index(inplace=True)
@@ -353,7 +359,7 @@ def splice(windows, extra_overlap=0):
     combined.set_minimum_smoothing(max_minimum_smoothing)
     return combined
 
-def splice_files(prefix, suffix, ln_prob_header=None, extra_overlap=0):
+def splice_files(prefix, suffix, ln_prob_header=None, extra_overlap=0, shift=True):
     """
     As above, Return a MacrostateDistribution that is spliced together.
     But this time, provide the prefix and suffix of the filenames and search the files.
@@ -374,7 +380,10 @@ def splice_files(prefix, suffix, ln_prob_header=None, extra_overlap=0):
             lnpis.append(MacrostateDistribution(file_name=filename))
         else:
             lnpis.append(MacrostateDistribution(file_name=filename, ln_prob_header=ln_prob_header))
-    return splice(lnpis, extra_overlap)
+    if len(lnpis) < 1:
+        print('No files found that match', str(prefix+'*'+suffix))
+        assert False
+    return splice(windows=lnpis, extra_overlap=extra_overlap, shift=shift)
 
 def read_appended(file_name, num_states):
     """
@@ -438,6 +447,49 @@ def splice_collection_matrix(prefix, suffix, use_soft=False):
     df.loc[0, 'delta_ln_prob'] = float('nan')
     lnp.set_dataframe(df)
     return lnp
+
+def window_exponential(maximum, minimums=[0], alpha=1.5, number=-1, overlap=1, min_size=1):
+    """
+    Generate windows for macrostates of flat histogram simulations.
+    The variables and windowing are as described in the FEASST WindowExponential class.
+
+    >>> from pyfeasst import macrostate_distribution
+    >>> macrostate_distribution.window_exponential(alpha=2.25, maximum=20, number=2)
+    [[0, 15], [15, 20]]
+    """
+    assert number > 0
+    assert len(minimums) > 0
+    if overlap < 0:
+        print('overlap:', overlap, 'must be >= 0')
+    if number > maximum - minimums[0] + 1:
+        print('The number of windows:', number, 'is more than the macrostate range.',
+              'max:', maximum, 'min:', minimums[0])
+        assert False
+    segment = [None]*(number+1)
+    num_partial = len(minimums)
+    segment[number] = maximum
+    if num_partial == 1:
+        segment[0] = minimums[0]
+        last_partial_seg = segment[0]
+    else:
+        for index, value in enumerate(minimums):
+            segment[index] = value
+        last_partial_seg = segment[num_partial-1]
+    diff = (maximum**alpha - last_partial_seg**alpha)/float(number)
+    for index in range(num_partial, number):
+        segment[index] = ((segment[index-1]**alpha)+diff)**(1./alpha)
+    boundaries = np.zeros((number, 2)).tolist()
+    for index in range(0, number):
+        if index == 0:
+            boundaries[index][0] = minimums[0]
+        else:
+            boundaries[index][0] = round(segment[index] - overlap + 1)
+        boundaries[index][1] = round(segment[index + 1])
+    for bound in boundaries:
+        size = bound[1] - bound[0] + 1
+        if size < min_size:
+            print('size:', size, 'is less than the mininum size:', min_size)
+    return boundaries
 
 if __name__ == "__main__":
     import doctest

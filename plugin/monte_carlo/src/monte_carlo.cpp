@@ -733,7 +733,7 @@ void MonteCarlo::revert_(const int trial_index,
     const double ln_prob) {
   trial_factory_->revert(trial_index, accepted, auto_reject, system_.get(), criteria_.get());
   DEBUG("reverting " << criteria_->current_energy());
-  criteria_->revert_(accepted, endpoint, ln_prob);
+  criteria_->revert_(accepted, endpoint, ln_prob, trial_factory_->trial(trial_index).accept().updtd());
 }
 
 void MonteCarlo::attempt_(int num_trials,
@@ -811,7 +811,7 @@ void MonteCarlo::run_until_file_exists(const std::string& file_name) {
   if (!file_name.empty()) {
     while (!file_exists(file_name)) {
       DEBUG("here");
-      attempt_(1e2, trial_factory_.get(), random_.get());
+      attempt_(1e3, trial_factory_.get(), random_.get());
     }
     write_checkpoint();
     write_to_file();

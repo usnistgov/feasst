@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from pyfeasst import fstio
+from pyfeasst import macrostate_distribution
 import launch_04_lj_tm_parallel
 
 def parse():
@@ -36,7 +37,8 @@ TrialRotate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25"""
     return params, args
 
 def post_process(params):
-    lnpi = pd.read_csv(params['prefix']+'n0_lnpi.txt')
+    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
+    lnpi=lnpi.dataframe()
     lnpi = lnpi[:6] # cut down to six rows
     lnpi['ln_prob'] -= np.log(sum(np.exp(lnpi['ln_prob'])))  # renormalize
     lnpi['ln_prob_prev'] = [-15.9976474469475, -11.9104563420586,  -8.48324267323538, -5.42988602574393, -2.64984051640555, -0.07824246342703]
@@ -44,7 +46,7 @@ def post_process(params):
     diverged = lnpi[lnpi.ln_prob-lnpi.ln_prob_prev > 6*lnpi.ln_prob_prev_stdev]
     print(diverged)
     assert len(diverged) == 0
-    energy = pd.read_csv(params['prefix']+'n0s00_en.txt')
+    energy = pd.read_csv(params['prefix']+'n0s0_en.csv')
     energy = energy[:6]
     energy['prev'] = [0, 0, -0.038758392176564, -0.116517384264731, -0.232665619265520, -0.387804181572135]
     diverged = energy[energy.average - energy.prev > 10*energy.block_stdev]
@@ -54,7 +56,7 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=None,
+                          sim_node_dependent_params=launch_04_lj_tm_parallel.sim_node_dependent_params,
                           write_feasst_script=launch_04_lj_tm_parallel.write_feasst_script,
                           post_process=post_process,
                           queue_function=fstio.slurm_single_node,

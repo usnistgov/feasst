@@ -74,7 +74,7 @@ particle_type 0 weight 0.1 angle true mobile_site 1 anchor_site 0 anchor_site2 2
     return params, args
 
 def post_process(params):
-    lnp = macrostate_distribution.splice_collection_matrix(prefix=params['prefix']+'n0s', suffix='_crit.txt', use_soft=True)
+    lnp = macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
 #    lnp.reweight(-0.75, inplace=True)
 #    delta_beta_mu = lnp.equilibrium(delta_beta_mu_guess=0.01)
 #    #print(delta_beta_mu)
@@ -94,7 +94,7 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=None,
+                          sim_node_dependent_params=launch_04_lj_tm_parallel.sim_node_dependent_params,
                           write_feasst_script=launch_04_lj_tm_parallel.write_feasst_script,
                           post_process=post_process,
                           queue_function=fstio.slurm_single_node,

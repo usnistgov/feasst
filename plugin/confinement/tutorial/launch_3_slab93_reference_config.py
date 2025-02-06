@@ -9,51 +9,53 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pyfeasst import fstio
 
-# Parse arguments from command line or change their default values.
-PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
-                    help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
-                    help='FEASST particle definition')
-PARSER.add_argument('--xy_side_length', type=float, default=9,
-                    help='periodic boundary length in x and y (confined z)')
-PARSER.add_argument('--z_side_length', type=float, default=6,
-                    help='boundary length in z')
-PARSER.add_argument('--z_particle_position', type=float, default=2.5,
-                    help='boundary length in z')
-PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
-PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
-PARSER.add_argument('--run_type', '-r', type=int, default=0,
-                    help='0: run, 1: submit to queue, 2: post-process')
-PARSER.add_argument('--seed', type=int, default=-1,
-                    help='Random number generator seed. If -1, assign random seed to each sim.')
-PARSER.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
-PARSER.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
-PARSER.add_argument('--scratch', type=str, default=None,
-                    help='Optionally write scheduled job to scratch/logname/jobid.')
-PARSER.add_argument('--node', type=int, default=0, help='node ID')
-PARSER.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
-PARSER.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
+def parse():
+    """ Parse arguments from command line or change their default values. """
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('--feasst_install', type=str, default='../../../build/',
+                        help='FEASST install directory (e.g., the path to build)')
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
+                        help='FEASST particle definition')
+    parser.add_argument('--xy_side_length', type=float, default=9,
+                        help='periodic boundary length in x and y (confined z)')
+    parser.add_argument('--z_side_length', type=float, default=6,
+                        help='boundary length in z')
+    parser.add_argument('--z_particle_position', type=float, default=2.5,
+                        help='boundary length in z')
+    parser.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
+    parser.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
+    parser.add_argument('--run_type', '-r', type=int, default=0,
+                        help='0: run, 1: submit to queue, 2: post-process')
+    parser.add_argument('--seed', type=int, default=-1,
+                        help='Random number generator seed. If -1, assign random seed to each sim.')
+    parser.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
+    parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
+    parser.add_argument('--scratch', type=str, default=None,
+                        help='Optionally write scheduled job to scratch/logname/jobid.')
+    parser.add_argument('--node', type=int, default=0, help='node ID')
+    parser.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
+    parser.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
-# Convert arguments into a parameter dictionary, and add argument-dependent parameters.
-ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
-assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
-PARAMS = vars(ARGS)
-PARAMS['script'] = __file__
-PARAMS['prefix'] = 'slab_ref_config'
-PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
-PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
-PARAMS['hours_terminate'] = 0.95*PARAMS['hours_terminate'] - 0.05 # terminate FEASST before SLURM
-PARAMS['hours_terminate'] *= PARAMS['procs_per_node'] # real time -> cpu time
-PARAMS['num_sims'] = PARAMS['num_nodes']
-PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
-PARAMS['half_z_side_length'] = PARAMS['z_side_length']/2.
-with open(PARAMS['prefix']+'_shape_file.txt', 'w') as file1:
-    file1.write("""Slab dimension 2 bound0 -{half_z_side_length} bound1 {half_z_side_length}""".format(**PARAMS))
-with open(PARAMS['prefix']+'.xyz', 'w') as file1:
-    file1.write("""1
--1 8 8 8 0 0 0
-0 0 0 {z_particle_position}""".format(**PARAMS))
+    # Convert arguments into a parameter dictionary, and add argument-dependent parameters.
+    args, unknown_args = parser.parse_known_args()
+    assert len(unknown_args) == 0, 'An unknown argument was included: '+str(unknown_args)
+    params = vars(args)
+    params['script'] = __file__
+    params['prefix'] = 'slab_ref_config'
+    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
+    params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
+    params['hours_terminate'] = 0.95*params['hours_terminate'] - 0.05 # terminate FEASST before SLURM
+    params['hours_terminate'] *= params['procs_per_node'] # real time -> cpu time
+    params['num_sims'] = params['num_nodes']
+    params['procs_per_sim'] = params['procs_per_node']
+    params['half_z_side_length'] = params['z_side_length']/2.
+    with open(params['prefix']+'_shape_file.txt', 'w') as file1:
+        file1.write("""Slab dimension 2 bound0 -{half_z_side_length} bound1 {half_z_side_length}""".format(**params))
+    with open(params['prefix']+'.xyz', 'w') as file1:
+        file1.write("""1
+    -1 8 8 8 0 0 0
+    0 0 0 {z_particle_position}""".format(**params))
+    return params, args
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -88,9 +90,10 @@ def post_process(params):
     assert np.abs(en_expected - df['energy'][0]) < 1e-15
 
 if __name__ == '__main__':
-    fstio.run_simulations(params=PARAMS,
+    parameters, arguments = parse()
+    fstio.run_simulations(params=parameters,
                           sim_node_dependent_params=None,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
                           queue_function=fstio.slurm_single_node,
-                          args=ARGS)
+                          args=arguments)

@@ -139,7 +139,7 @@ class TrialGrow : public TrialFactoryNamed {
  public:
   TrialGrow() : TrialFactoryNamed() {}
   /// list of arguments, one for each stage.
-  TrialGrow(std::vector<argtype> args);
+  explicit TrialGrow(std::vector<argtype> args);
   virtual ~TrialGrow() {}
 
  protected:

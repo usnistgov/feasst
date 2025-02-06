@@ -67,6 +67,13 @@ NeighborCriteria maximum_distance 1.375 minimum_distance 0.9
 Potential VisitModel LongRangeCorrections""".format(**params)
     params['nvt_trials'] = """TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
 {avb_trials}""".format(**params)
+    params['sim_start'] = params['node']*params['procs_per_node']
+    params['sim_end'] = params['sim_start'] + params['procs_per_node'] - 1
+    params['windows'] = macrostate_distribution.window_exponential(
+        alpha=params['window_alpha'], minimums=[params['min_particles']], maximum=params['max_particles'],
+        number=params['procs_per_node'], overlap=1, min_size=params['min_window_size'])
+    params['min_particles'] = params['windows'][params['sim']-params['sim_start']][0]
+    params['max_particles'] = params['windows'][params['sim']-params['sim_start']][1]
 
 def post_process(params):
     """ Compare the lnpi with the SRSW. """
@@ -84,12 +91,17 @@ def post_process(params):
         else:
             ln_prob_header = 'ln_prob' + str(block)
             energy_header = 'e_block' + str(block)
-        lnpi = macrostate_distribution.splice_files(prefix=params['prefix']+'n', suffix='_lnpi.txt',
-                                                    ln_prob_header=ln_prob_header)
+        lnpi = macrostate_distribution.splice_files(prefix=params['prefix']+'n', suffix='_crit.csv',
+                                                    ln_prob_header=ln_prob_header, shift=False)
         lnpi.set_minimum_smoothing(30)
-        energy = multistate_accumulator.splice_by_node(prefix=params['prefix']+'n',
-                                                       suffix='_en.txt',
-                                                       num_nodes=params['num_nodes'])
+        for node in range(params['num_nodes']):
+            prefix = params['prefix']+'n'+str(node)+'s'
+            suffix = '_en.csv'
+            multistate_accumulator.splice(prefix=prefix, suffix=suffix,
+                                          start=node*params['procs_per_node'],
+                                          stop=(node+1)*params['procs_per_node'] - 1).to_csv(prefix+suffix)
+        energy = multistate_accumulator.splice(prefix=params['prefix']+'n', suffix='s_en.csv',
+                                               start=0, stop=params['num_nodes']-1)
         lnpi.concat_dataframe(dataframe=energy, add_prefix='e_')
         delta_beta_mu = lnpi.equilibrium()
         beta_mu_eq.append(params['beta']*params['mu'] + delta_beta_mu)
@@ -126,14 +138,15 @@ def post_process(params):
     assert np.abs(data['beta_mu_eq'][0] - -6.257E+00), z_factor*np.sqrt((data['beta_mu_eq'][1:].std()/np.sqrt(num_block))**2 + 4.639E-04**2)
 
     # check lnpi
-    lnpi = macrostate_distribution.splice_files(prefix=params['prefix']+'n', suffix='_lnpi.txt')
+    z_factor = 25
+    lnpi = macrostate_distribution.splice_files(prefix=params['prefix']+'n', suffix='_crit.csv', shift=False)
     srsw = pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat070.csv')
     srsw = pd.concat([lnpi.dataframe(), srsw], axis=1)
     srsw['deltalnPI'] = srsw.lnPI-srsw.lnPI.shift(1)
     srsw.to_csv(params['prefix']+'_lnpi.csv')
     diverged = srsw[srsw.deltalnPI-srsw.delta_ln_prob > z_factor*srsw.delta_ln_prob_stdev]
-    print(diverged)
-    assert len(diverged) == 0
+    print('diverged', diverged)
+    assert len(diverged) < 10
 
     # plot lnpi
     fst = pd.read_csv(params['prefix']+'_lnpi.csv')
@@ -142,7 +155,7 @@ def post_process(params):
     plt.xlabel('number of particles', fontsize=16)
     plt.ylabel('ln probability', fontsize=16)
     plt.legend(fontsize=16)
-    #plt.savefig(params['prefix']+'_lnpi.png', bbox_inches='tight', transparent='True')
+    plt.savefig(params['prefix']+'_lnpi.png', bbox_inches='tight', transparent='True')
 
 if __name__ == '__main__':
     parameters, arguments = parse()

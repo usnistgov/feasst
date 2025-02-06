@@ -75,12 +75,13 @@ TrialAdd particle_type 0
 Log trials_per_write {tpc} output_file {prefix}{sim}_init.txt
 Tune
 Run until_num_particles {num_particles}
-Remove name0 TrialAdd name1 Log
+Remove name0 TrialAdd name1 Log name2 Tune
 
 # npt equilibration
 ThermoParams beta {beta} pressure {pressure}
 Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
 TrialVolume weight 0.005 tunable_param 0.2 tunable_target_acceptance 0.5
+Tune trials_per_tune 20
 Log     trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
 Movie   trials_per_write {tpc} output_file {prefix}{sim}_eq.xyz
 Density trials_per_write {tpc} output_file {prefix}{sim}_density_eq.txt

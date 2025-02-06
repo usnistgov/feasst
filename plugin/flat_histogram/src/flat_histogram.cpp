@@ -149,8 +149,8 @@ void FlatHistogram::finalize(const Acceptance& acceptance) {
                 *macrostate_);
 }
 
-void FlatHistogram::revert_(const bool accepted, const bool endpoint, const double ln_prob) {
-  Criteria::revert_(accepted, endpoint, ln_prob);
+void FlatHistogram::revert_(const bool accepted, const bool endpoint, const double ln_prob, const std::vector<int>& updated) {
+  Criteria::revert_(accepted, endpoint, ln_prob, updated);
 //  if (!accepted) {
 //    bias_->update_or_revert(macrostate_old_,
 //                            macrostate_new_,

@@ -12,80 +12,82 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pyfeasst import fstio
 
-# Parse arguments from command line or change their default values.
-PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
-    help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
-    help='FEASST particle definition')
-PARSER.add_argument('--beta', type=float, default=1./0.9, help='inverse temperature')
-PARSER.add_argument('--num_particles', type=int, default=500, help='number of particles')
-PARSER.add_argument('--rho_lower', type=float, default=1e-3, help='lowest number density')
-PARSER.add_argument('--rho_upper', type=float, default=9e-3, help='highest number density')
-PARSER.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
-PARSER.add_argument('--equilibration_cycles', type=int, default=int(1e1),
-    help='number of cycles for equilibration')
-PARSER.add_argument('--production_cycles', type=int, default=int(1e3),
-    help='number of cycles for production')
-PARSER.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
-PARSER.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
-PARSER.add_argument('--procs_per_node', type=int, default=5, help='number of processors')
-PARSER.add_argument('--table_file', type=str, default='lj_table.txt', help='table file name')
-PARSER.add_argument('--plot_table', type=int, default=0, help='0: no plot, 1: plot')
-PARSER.add_argument('--num_z', type=int, default=int(1e3), help='number of table elements')
-PARSER.add_argument('--inner', type=float, default=0.75, help='As described in TablePotential')
-PARSER.add_argument('--cutoff', type=float, default=3, help='potential cutoff distance')
-PARSER.add_argument('--run_type', '-r', type=int, default=0,
-    help='0: run, 1: submit to queue, 2: post-process')
-PARSER.add_argument('--seed', type=int, default=-1,
-    help='Random number generator seed. If -1, assign random seed to each sim.')
-PARSER.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
-PARSER.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
-PARSER.add_argument('--scratch', type=str, default=None,
-    help='Optionally write scheduled job to scratch/logname/jobid.')
-PARSER.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
-PARSER.add_argument('--node', type=int, default=0, help='node ID')
-PARSER.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
-PARSER.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
+def parse():
+    """ Parse arguments from command line or change their default values. """
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('--feasst_install', type=str, default='../../../build/',
+        help='FEASST install directory (e.g., the path to build)')
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
+        help='FEASST particle definition')
+    parser.add_argument('--beta', type=float, default=1./0.9, help='inverse temperature')
+    parser.add_argument('--num_particles', type=int, default=500, help='number of particles')
+    parser.add_argument('--rho_lower', type=float, default=1e-3, help='lowest number density')
+    parser.add_argument('--rho_upper', type=float, default=9e-3, help='highest number density')
+    parser.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
+    parser.add_argument('--equilibration_cycles', type=int, default=int(1e1),
+        help='number of cycles for equilibration')
+    parser.add_argument('--production_cycles', type=int, default=int(1e3),
+        help='number of cycles for production')
+    parser.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
+    parser.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
+    parser.add_argument('--procs_per_node', type=int, default=5, help='number of processors')
+    parser.add_argument('--table_file', type=str, default='lj_table.txt', help='table file name')
+    parser.add_argument('--plot_table', type=int, default=0, help='0: no plot, 1: plot')
+    parser.add_argument('--num_z', type=int, default=int(1e3), help='number of table elements')
+    parser.add_argument('--inner', type=float, default=0.75, help='As described in TablePotential')
+    parser.add_argument('--cutoff', type=float, default=3, help='potential cutoff distance')
+    parser.add_argument('--run_type', '-r', type=int, default=0,
+        help='0: run, 1: submit to queue, 2: post-process')
+    parser.add_argument('--seed', type=int, default=-1,
+        help='Random number generator seed. If -1, assign random seed to each sim.')
+    parser.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
+    parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
+    parser.add_argument('--scratch', type=str, default=None,
+        help='Optionally write scheduled job to scratch/logname/jobid.')
+    parser.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
+    parser.add_argument('--node', type=int, default=0, help='node ID')
+    parser.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
+    parser.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
-# Convert arguments into a parameter dictionary, and add argument-dependent parameters.
-ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
-assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
-PARAMS = vars(ARGS)
-PARAMS['script'] = __file__
-PARAMS['prefix'] = 'lj'
-PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
-PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
-PARAMS['hours_terminate'] = 0.99*PARAMS['hours_terminate'] - 0.0333 # terminate before queue
-PARAMS['procs_per_sim'] = 1
-PARAMS['num_sims'] = PARAMS['num_nodes']*PARAMS['procs_per_node']
-PARAMS['rhos'] = np.linspace(PARAMS['rho_lower'], PARAMS['rho_upper'], num=PARAMS['num_sims'])
-PARAMS['cubic_side_lengths'] = np.power(PARAMS['num_particles']/PARAMS['rhos'], 1./3.).tolist()
-PARAMS['rhos'] = PARAMS['rhos'].tolist()
-PARAMS['gamma'] = -2 # as described in TablePotential
+    # Convert arguments into a parameter dictionary, and add argument-dependent parameters.
+    args, unknown_args = parser.parse_known_args()
+    assert len(unknown_args) == 0, 'An unknown argument was included: '+str(unknown_args)
+    params = vars(args)
+    params['script'] = __file__
+    params['prefix'] = 'lj'
+    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
+    params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
+    params['hours_terminate'] = 0.99*params['hours_terminate'] - 0.0333 # terminate before queue
+    params['procs_per_sim'] = 1
+    params['num_sims'] = params['num_nodes']*params['procs_per_node']
+    params['rhos'] = np.linspace(params['rho_lower'], params['rho_upper'], num=params['num_sims'])
+    params['cubic_side_lengths'] = np.power(params['num_particles']/params['rhos'], 1./3.).tolist()
+    params['rhos'] = params['rhos'].tolist()
+    params['gamma'] = -2 # as described in TablePotential
+    generate_table(params)
+    if args.plot_table == 1:
+        # check the energy interpolated from the table against the analytical value
+        dists = np.arange(0.97, params['cutoff'], 0.01)
+        ens = list()
+        for dist in dists:
+            params['displacement_test'] = dist
+            run_en()
+            df = pd.read_csv('lj.csv')
+            ens.append(df['TablePotential'].values[0])
+        import matplotlib.pyplot as plt
+        plt.plot(dists, ens, label='table')
+        plt.plot(dists, user_potential(dists), color='black', linestyle='dotted', label='analytical')
+        plt.xlabel('r', fontsize=16)
+        plt.ylabel('U', fontsize=16)
+        plt.legend(fontsize=16)
+        plt.show()
+    return params, args
+
 def sim_node_dependent_params(params):
     params['cubic_side_length'] = params['cubic_side_lengths'][params['sim']]
 
 def user_potential(distance):
     return 4*(distance**-12 - distance**-6)
-
-def generate_table(PARAMS):
-    assert PARAMS['num_z'] > 1
-    dz = 1./(PARAMS['num_z'] - 1)
-    rhg = PARAMS['inner']**PARAMS['gamma']
-    rcg = PARAMS['cutoff']**PARAMS['gamma']
-    with open(PARAMS['table_file'], 'w') as file1:
-        file1.write("""site_types 1 0\ninner {inner}\nnum_z {num_z}\n""".format(**PARAMS))
-        #file1.write("""site_types 1 0\ngamma {gamma}\ninner {inner}\nnum_z {num_z}\n""".format(**PARAMS))
-        for z in np.arange(0, 1 + dz/2, dz):
-            if z == 0:
-                distance = PARAMS['inner']
-            else:
-                distance = (z*(rcg - rhg) + rhg)**(1./PARAMS['gamma'])
-            en = user_potential(distance)
-            #print('distance', distance, 'en', en)
-            file1.write(str(en) + " ")
-generate_table(PARAMS)
 
 def run_en():
     """
@@ -96,7 +98,7 @@ def run_en():
 """2
 -1 8 8 8
 0 0 0 0
-1 0 0 {displacement_test}""".format(**PARAMS))
+1 0 0 {displacement_test}""".format(**params))
     with open("launch.txt", "w") as myfile: myfile.write("""
 MonteCarlo
 RandomMT19937 seed time
@@ -107,26 +109,26 @@ ThermoParams beta 1000000
 Metropolis
 Log output_file lj.csv max_precision true clear_file true
 Run num_trials 1
-""".format(**PARAMS))
-    syscode = subprocess.call(PARAMS['feasst_install']+"bin/fst < launch.txt > launch.log", shell=True, executable='/bin/bash')
+""".format(**params))
+    syscode = subprocess.call(params['feasst_install']+"bin/fst < launch.txt > launch.log", shell=True, executable='/bin/bash')
     if syscode > 0: sys.exit(1)
 
-if ARGS.plot_table == 1:
-    # check the energy interpolated from the table against the analytical value
-    dists = np.arange(0.97, PARAMS['cutoff'], 0.01)
-    ens = list()
-    for dist in dists:
-        PARAMS['displacement_test'] = dist
-        run_en()
-        df = pd.read_csv('lj.csv')
-        ens.append(df['TablePotential'].values[0])
-    import matplotlib.pyplot as plt
-    plt.plot(dists, ens, label='table')
-    plt.plot(dists, user_potential(dists), color='black', linestyle='dotted', label='analytical')
-    plt.xlabel('r', fontsize=16)
-    plt.ylabel('U', fontsize=16)
-    plt.legend(fontsize=16)
-    plt.show()
+def generate_table(params):
+    assert params['num_z'] > 1
+    dz = 1./(params['num_z'] - 1)
+    rhg = params['inner']**params['gamma']
+    rcg = params['cutoff']**params['gamma']
+    with open(params['table_file'], 'w') as file1:
+        file1.write("""site_types 1 0\ninner {inner}\nnum_z {num_z}\n""".format(**params))
+        #file1.write("""site_types 1 0\ngamma {gamma}\ninner {inner}\nnum_z {num_z}\n""".format(**params))
+        for z in np.arange(0, 1 + dz/2, dz):
+            if z == 0:
+                distance = params['inner']
+            else:
+                distance = (z*(rcg - rhg) + rhg)**(1./params['gamma'])
+            en = user_potential(distance)
+            #print('distance', distance, 'en', en)
+            file1.write(str(en) + " ")
 
 # write fst script to run a simulation
 def write_feasst_script(params, script_file):
@@ -190,9 +192,10 @@ def post_process(params):
             assert np.abs(diff) < 10*np.sqrt(ens[sim][1]**2 + en_stds_srsw[sim]**2)
 
 if __name__ == '__main__':
-    fstio.run_simulations(params=PARAMS,
+    parameters, arguments = parse()
+    fstio.run_simulations(params=parameters,
                           sim_node_dependent_params=sim_node_dependent_params,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
                           queue_function=fstio.slurm_single_node,
-                          args=ARGS)
+                          args=arguments)

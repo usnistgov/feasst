@@ -34,7 +34,8 @@ Potential Model HardSphere VisitModel VisitModelCell min_length 1""".format(**pa
 
 def post_process(params):
     # compare to EOS in SRSW: https://www.nist.gov/mml/csd/chemical-informatics-research-group/hard-sphere-thermodynamic-and-transport-properties
-    lnpi = macrostate_distribution.MacrostateDistribution(file_name=params['prefix']+'n0_lnpi.txt')
+    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
+    #lnpi = macrostate_distribution.MacrostateDistribution(file_name=params['prefix']+'n0_lnpi.txt')
     volume = 8**3
     srsw = pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat_hs.csv')
     srsw = srsw[:6]
@@ -62,7 +63,7 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=None,
+                          sim_node_dependent_params=launch_04_lj_tm_parallel.sim_node_dependent_params,
                           write_feasst_script=launch_04_lj_tm_parallel.write_feasst_script,
                           post_process=post_process,
                           queue_function=fstio.slurm_single_node,

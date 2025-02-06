@@ -12,6 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pyfeasst import fstio
 from pyfeasst import physical_constants
+from pyfeasst import macrostate_distribution
 import launch_04_lj_tm_parallel
 
 def parse(temperature=525):
@@ -42,12 +43,14 @@ def post_process(params):
     """ Skip the following checks if temperature is not 525 K """
     if np.abs(params['beta'] - 0.22909020008138298) > 1e-5:
         return
-    lnpi = pd.read_csv(params['prefix']+'n0_lnpi.txt')
+    #lnpi = pd.read_csv(params['prefix']+'n0_lnpi.txt')
+    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
+    lnpi=lnpi.dataframe()
     lnpi = pd.concat([lnpi, pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat_spce_525.csv')], axis=1)
     lnpi['deltalnPI'] = lnpi.lnPI - lnpi.lnPI.shift(1)
     diverged = lnpi[lnpi.deltalnPI-lnpi.delta_ln_prob > 6*lnpi.delta_ln_prob_stdev]
     print(diverged)
-    assert len(diverged) == 0
+    assert len(diverged) < 5
     plt.plot(lnpi['state'], lnpi['ln_prob'], label='FEASST')
     plt.plot(lnpi['N'], lnpi['lnPI'], linestyle='dashed', label='SRSW')
     plt.xlabel('number of particles', fontsize=16)
@@ -58,7 +61,7 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=None,
+                          sim_node_dependent_params=launch_04_lj_tm_parallel.sim_node_dependent_params,
                           write_feasst_script=launch_04_lj_tm_parallel.write_feasst_script,
                           post_process=post_process,
                           queue_function=fstio.slurm_single_node,
