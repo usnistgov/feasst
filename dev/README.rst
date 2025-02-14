@@ -200,7 +200,7 @@ add the following to your sphinx conf.py
   breathe_projects = {"FEASST":"../xml"}
   breathe_domain_by_extension = {"h" : "cc"}
 
-pip install sphinx_rtd_theme nbsphinx
+pip install sphinx_rtd_theme nbsphinx sphinxcontrib-bibtex
 
 run sphinx: make html
 

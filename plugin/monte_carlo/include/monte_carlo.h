@@ -280,7 +280,8 @@ class MonteCarlo {
   virtual void run_until_complete();
 
   /// Attempt Monte Carlo trials until the given file name exists.
-  virtual void run_until_file_exists(const std::string& file_name);
+  virtual void run_until_file_exists(const std::string& file_name,
+    const int trials_per_file_check);
 
   /// Set the Criteria::cycles_to_complete.
   void set_cycles_to_complete(const int num);

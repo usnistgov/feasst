@@ -27,6 +27,8 @@ class Run : public Action {
     - until_file_exists: run until the given file name exists.
       Afterward, write all Analyze and Modify.
       If empty, skip (default: empty).
+    - trials_per_file_check: run this many trials between file checks to reduce
+      load on the file system (default: 1e5).
 
     Arguments are completed in the order listed.
    */
@@ -56,6 +58,7 @@ class Run : public Action {
   double for_hours_;
   bool until_criteria_complete_;
   std::string until_file_exists_;
+  int trials_per_file_check_;
 };
 
 inline std::shared_ptr<Run> MakeRun(argtype args = argtype()) {

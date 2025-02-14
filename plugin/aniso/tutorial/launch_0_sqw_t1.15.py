@@ -98,8 +98,6 @@ def parse():
     params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
     params['hours_terminate'] = 0.95*params['hours_terminate'] - 0.05 # terminate FEASST before SLURM
-    params['hours_terminate'] *= params['procs_per_node'] # real time -> cpu time
-    params['hours_checkpoint'] *= params['procs_per_node']
     params['procs_per_sim'] = 1
     params['num_sims'] = params['num_nodes']*params['procs_per_node']
     generate_table(num_orientations_per_pi=args.num_orientations_per_pi,
@@ -161,7 +159,7 @@ Run until complete
 
 # continue until all simulations on the node are complete
 WriteFileAndCheck sim {sim} sim_start {sim_start} sim_end {sim_end} file_prefix {prefix}n{node}s file_suffix _finished.txt output_file {prefix}n{node}_terminate.txt
-Run until_file_exists {prefix}n{node}_terminate.txt
+Run until_file_exists {prefix}n{node}_terminate.txt trials_per_file_check {tpc}
 """.format(**params))
 
 def post_process(params):

@@ -7,7 +7,7 @@ namespace feasst {
 
 // Test that the model is serializable and remembers custom parameters.
 TEST(ModelExample, serialize) {
-  auto example = MakeModelExample({{"num_discretized_steps", "10"}});
+  auto example = std::make_shared<ModelExample>(argtype({{"num_discretized_steps", "10"}}));
   auto example_serialized = test_serialize(*example);
   EXPECT_EQ(10, example_serialized.num_discretized_steps());
 }

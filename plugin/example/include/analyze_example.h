@@ -81,11 +81,6 @@ class AnalyzeExample : public Analyze {
   std::vector<std::unique_ptr<Accumulator> > center_;
 };
 
-inline std::shared_ptr<AnalyzeExample> MakeAnalyzeExample(
-    argtype args = argtype()) {
-  return std::make_shared<AnalyzeExample>(args);
-}
-
 }  // namespace feasst
 
 #endif  // FEASST_STEPPERS_ANALYZE_EXAMPLE_H_

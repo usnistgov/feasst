@@ -1,3 +1,6 @@
+# If running the executable results in the error that a shared object file cannot be found,
+# export LD_LIBRARY_PATH=/path/to/feasst/build/
+
 cmake_minimum_required(VERSION 3.5)
 project (FEASST_APP)
 set(CMAKE_CXX_STANDARD 14)

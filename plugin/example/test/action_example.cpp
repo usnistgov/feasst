@@ -6,7 +6,7 @@
 namespace feasst {
 
 TEST(ActionExample, serialize) {
-  auto action = MakeActionExample();
+  auto action = std::make_shared<ActionExample>();
   auto action2 = test_serialize<ActionExample, Action>(*action);
 }
 

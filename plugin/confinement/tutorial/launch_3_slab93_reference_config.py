@@ -45,7 +45,6 @@ def parse():
     params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
     params['hours_terminate'] = 0.95*params['hours_terminate'] - 0.05 # terminate FEASST before SLURM
-    params['hours_terminate'] *= params['procs_per_node'] # real time -> cpu time
     params['num_sims'] = params['num_nodes']
     params['procs_per_sim'] = params['procs_per_node']
     params['half_z_side_length'] = params['z_side_length']/2.

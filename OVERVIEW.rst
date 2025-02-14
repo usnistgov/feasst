@@ -73,7 +73,7 @@ Modern software
 * Checkpoint files to save, restart and analyze simulations
 
 Troubleshooting install
-------------------------
+================================================================================
 
 Please :doc:`/CONTACT` us if you run into an issue not listed below.
 

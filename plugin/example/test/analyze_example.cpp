@@ -8,7 +8,7 @@
 namespace feasst {
 
 TEST(AnalyzeExample, serialize) {
-  auto obj = MakeAnalyzeExample({{"output_file", "tmp"}});
+  auto obj = std::make_shared<AnalyzeExample>(argtype({{"output_file", "tmp"}}));
   auto obj2 = test_serialize_unique(*obj);
 }
 

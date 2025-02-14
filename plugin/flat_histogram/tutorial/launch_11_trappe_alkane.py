@@ -26,7 +26,7 @@ def parse(temperature=350):
           collect_flatness=18,
           min_flatness=22,
           hours_checkpoint=0.2,
-          hours_terminate=1,
+          hours_terminate=2,
           min_window_size=3)
     params['script'] = __file__
     params['prefix'] = 'trappe'
@@ -131,7 +131,7 @@ def write_grow_file(filename, params, gce):
 
 def post_process(params):
     #lnp = macrostate_distribution.splice_collection_matrix(prefix='trappen0s', suffix='_crit.txt', use_soft=True)
-    lnp = macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False).dataframe()
+    lnp = macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
     assert np.abs(lnp.ln_prob()[1] - lnp.ln_prob()[0] - 5.86440399999992) < 0.1
     assert np.abs(lnp.ln_prob()[2] - lnp.ln_prob()[1] - 5.22683300000017) < 0.1
     # equilibrium test below was abandoned to reduce max_particles for faster convergence

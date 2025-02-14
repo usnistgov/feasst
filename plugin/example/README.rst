@@ -25,7 +25,7 @@ Specifically, these are the steps required to copy and rename an existing class 
 4. (optional) Change the serialization version found in two places in the cpp
    file from the current 5023 to something else (in both places).
 
-This process can be used on any class in FEASST, not just the ones in the example plugin.
+This process can be used on many FEASST classes, not just the ones in the example plugin.
 Get started by reading /path/to/feasst/plugin/example/model_example.h
 
 In addition, use the example plugin as a template to create new plugins with the following steps:

@@ -29,8 +29,11 @@ void PerturbMove::revert(System * system) {
     const int iconf = revert_select()->configuration_index();
     Configuration* config = system->get_configuration(iconf);
     config->update_positions(revert_select()->mobile_original(),
-      // don't wrap if reverting
-      true);
+      // HWH: no_wrap optional argument
+      // At first, one may think positions should not wrap when reverted.
+      // But TrialRigidCluster moves require wrapping.
+      // Gibbs Prefetch threads diverge when wrapping.
+      false);
     DEBUG("mobile orig " << revert_select()->mobile_original().str());
     DEBUG("mobile orig is anisotropic " << revert_select()->mobile_original().is_anisotropic());
     //system->revert(revert_select()->mobile_original());

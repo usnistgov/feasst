@@ -2,7 +2,7 @@
 .. toctree::
 
    ComputeBeta
-   MacrostateBeta
-   PerturbBeta
    SelectNothing
+   PerturbBeta
    TrialBeta
+   MacrostateBeta

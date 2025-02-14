@@ -54,6 +54,7 @@ for flag in "Error" "error" "Assert"; do
 done
 
 echo "********** cpplib **********" >> summary.log
+export LD_LIBRARY_PATH="$PWD:$LD_LIBRARY_PATH"
 pushd ../tutorial/
   mkdir build; cd $_
   cmake .. >> log.txt 2>&1

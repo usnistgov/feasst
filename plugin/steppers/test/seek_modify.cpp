@@ -15,25 +15,26 @@
 namespace feasst {
 
 TEST(SeekModify, seek) {
-  MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../particle/lj.fstprt"}}));
-  mc.add(MakePotential(MakeLennardJones()));
-  mc.add(MakePotential(MakeLongRangeCorrections()));
-  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
-  mc.set(MakeMetropolis());
-  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-//  mc.add(MakeLogAndMovie({{"trials_per_write", str(1e4)}, {"output_file", "tmp/lj"}}));
-  mc.add(MakeCheckEnergy({{"trials_per_update", str(1e4)}, {"tolerance", str(1e-9)}}));
-  mc.add(MakeTune());
-  mc.add(MakeTune());
-  mc.add(MakeWallClockLimit({{"max_hours", "1e-9"}}));
-  EXPECT_EQ(0, SeekModify().index("CheckEnergy", mc)[0]);
-  EXPECT_EQ(-1, SeekModify().index("CheckEnergy", mc)[1]);
-  EXPECT_EQ(1, SeekModify().index("Tune", mc)[0]);
-  EXPECT_EQ(-1, SeekModify().index("Tune", mc)[1]);
-  EXPECT_EQ(-1, SeekModify().index("MagicalUnicorn", mc)[0]);
-  EXPECT_EQ(-1, SeekModify().index("MagicalUnicorn", mc)[0]);
+  auto mc = MakeMonteCarlo({{
+    {"Configuration", {{"cubic_side_length", "8"},
+                       {"particle_type0", "../particle/lj.fstprt"}}},
+    {"Potential", {{"Model", "LennardJones"}}},
+    {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
+    {"ThermoParams", {{"beta", "1.2"}, {"chemical_potential", "1."}}},
+    {"Metropolis", {{}}},
+    {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},
+  //  {"LogAndMovie({{"trials_per_write", str(1e4)}, {"output_file", "tmp/lj"}}},
+    {"CheckEnergy", {{"trials_per_update", str(1e4)}, {"tolerance", str(1e-9)}}},
+    {"Tune", {{}}},
+    {"Tune", {{}}},
+    {"WallClockLimit", {{"max_hours", "1e-9"}}},
+  }}, true);
+  EXPECT_EQ(0, SeekModify().index("CheckEnergy", *mc)[0]);
+  EXPECT_EQ(-1, SeekModify().index("CheckEnergy", *mc)[1]);
+  EXPECT_EQ(1, SeekModify().index("Tune", *mc)[0]);
+  EXPECT_EQ(-1, SeekModify().index("Tune", *mc)[1]);
+  EXPECT_EQ(-1, SeekModify().index("MagicalUnicorn", *mc)[0]);
+  EXPECT_EQ(-1, SeekModify().index("MagicalUnicorn", *mc)[0]);
 }
 
 }  // namespace feasst

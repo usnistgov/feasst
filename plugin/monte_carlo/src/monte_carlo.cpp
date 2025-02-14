@@ -807,11 +807,12 @@ void MonteCarlo::run_until_complete_(TrialFactory * trial_factory,
   write_to_file();
 }
 
-void MonteCarlo::run_until_file_exists(const std::string& file_name) {
+void MonteCarlo::run_until_file_exists(const std::string& file_name,
+    const int trials_per_file_check) {
   if (!file_name.empty()) {
     while (!file_exists(file_name)) {
       DEBUG("here");
-      attempt_(1e3, trial_factory_.get(), random_.get());
+      attempt_(trials_per_file_check, trial_factory_.get(), random_.get());
     }
     write_checkpoint();
     write_to_file();

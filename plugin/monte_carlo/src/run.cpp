@@ -20,6 +20,7 @@ Run::Run(argtype * args) {
     until_criteria_complete_ = true;
   }
   until_file_exists_ = str("until_file_exists", args, "");
+  trials_per_file_check_ = integer("trials_per_file_check", args, 1e5);
   class_name_ = "Run";
 }
 Run::Run(argtype args) : Run(&args) {
@@ -41,6 +42,7 @@ Run::Run(std::istream& istr) : Action(istr) {
   feasst_deserialize(&until_criteria_complete_, istr);
   if (version >= 3856) {
     feasst_deserialize(&until_file_exists_, istr);
+    feasst_deserialize(&trials_per_file_check_, istr);
   }
 }
 
@@ -55,6 +57,7 @@ void Run::serialize(std::ostream& ostr) const {
   feasst_serialize(for_hours_, ostr);
   feasst_serialize(until_criteria_complete_, ostr);
   feasst_serialize(until_file_exists_, ostr);
+  feasst_serialize(trials_per_file_check_, ostr);
 }
 
 void Run::run(MonteCarlo * mc) {
@@ -66,7 +69,7 @@ void Run::run(MonteCarlo * mc) {
   if (until_criteria_complete_) {
     mc->run_until_complete();
   }
-  mc->run_until_file_exists(until_file_exists_);
+  mc->run_until_file_exists(until_file_exists_, trials_per_file_check_);
 }
 
 }  // namespace feasst

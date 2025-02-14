@@ -9,6 +9,7 @@ Installation proceeds as follows:
 .. code-block:: bash
 
     sudo [brew/apt/yum/dnf] install python3-dev pybind11
+    # for Ubuntu, sudo apt install pybind11-dev
     # for Rocky, sudo dnf install python3.12-devel.x86_64
     # for Rocky, sudo dnf --enablerepo=devel install python3.12-pybind11
     # or similar
