@@ -1,28 +1,26 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fstio &mdash; FEASST 0.25.7 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+  <title>fstio &mdash; FEASST 0.25.8 0.25.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=135494dc"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script src="../_static/leave_notice.js?v=db0899f3"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=fb4e371e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+      <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+      <script src="../_static/leave_notice.js?v=db0899f3"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -49,11 +47,8 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            FEASST
+            FEASST 0.25.8
           </a>
-              <div class="version">
-                0.25.7
-              </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../OVERVIEW.html">Overview</a></li>
@@ -76,7 +71,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">FEASST</a>
+          <a href="../index.html">FEASST 0.25.8</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -146,22 +141,22 @@
 <span class="sd">This module provides some utility input / output functions for use with the FEASST simulation program.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="c1">#import socket</span>
-<span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
-<span class="kn">import</span> <span class="nn">multiprocessing</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">repeat</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">repeat</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 <div class="viewcode-block" id="dict_to_argparse">
 <a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.dict_to_argparse">[docs]</a>
-<span class="k">def</span> <span class="nf">dict_to_argparse</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dict_to_argparse</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a dictionary to a string that argparse may read from command line</span>
 
@@ -181,7 +176,7 @@
 
 <div class="viewcode-block" id="vector3d_to_list">
 <a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.vector3d_to_list">[docs]</a>
-<span class="k">def</span> <span class="nf">vector3d_to_list</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">vector3d_to_list</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a swig stl vector to python list</span>
 
@@ -203,7 +198,7 @@
 
 <div class="viewcode-block" id="read_checkpoint">
 <a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.read_checkpoint">[docs]</a>
-<span class="k">def</span> <span class="nf">read_checkpoint</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_checkpoint</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return contents of checkpoint file as a string</span>
 
@@ -220,7 +215,7 @@
 
 <div class="viewcode-block" id="all_sims_complete">
 <a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.all_sims_complete">[docs]</a>
-<span class="k">def</span> <span class="nf">all_sims_complete</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">num_sims</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">all_sims_complete</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">num_sims</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read filename and see if all sim ID&#39;s from [0, num_sims-1] are present (e.g., complete).</span>
 <span class="sd">    If no file is present, also consider the simulation incomplete.</span>
@@ -250,7 +245,7 @@
 
 <div class="viewcode-block" id="slurm_single_node">
 <a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.slurm_single_node">[docs]</a>
-<span class="k">def</span> <span class="nf">slurm_single_node</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">slurm_single_node</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write slurm script to fill one node.</span>
 
@@ -317,7 +312,7 @@
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span></div>
 
 
-<span class="k">def</span> <span class="nf">server</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">server</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">):</span>
     <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">54321</span>
     <span class="k">if</span> <span class="s1">&#39;buffer_size&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
@@ -332,14 +327,14 @@
         <span class="n">syscode</span> <span class="o">=</span> <span class="n">seed_param_write_run</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">],</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">syscode</span>
 
-<span class="k">def</span> <span class="nf">reseed</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">reseed</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
     <span class="c1">#print(&#39;reseeding?&#39;, &#39;seed&#39; in params)</span>
     <span class="k">if</span> <span class="s1">&#39;seed&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">params</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e9</span><span class="p">))</span>
             <span class="c1">#print(&#39;reseeding&#39;, params[&#39;seed&#39;])</span>
 
-<span class="k">def</span> <span class="nf">seed_param_write_run</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">seed_param_write_run</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">):</span>
     <span class="n">reseed</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">sim_node_dependent_params</span><span class="p">:</span>
         <span class="n">sim_node_dependent_params</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
@@ -352,7 +347,7 @@
 
 <div class="viewcode-block" id="run_single">
 <a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.run_single">[docs]</a>
-<span class="k">def</span> <span class="nf">run_single</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">,</span> <span class="n">post_process</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_single</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">,</span> <span class="n">post_process</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Run a single simulation. If all simulations are complete, run PostProcess. &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">queue_task</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span>
@@ -378,7 +373,7 @@
 
 <div class="viewcode-block" id="split">
 <a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.split">[docs]</a>
-<span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    From https://stackoverflow.com/questions/2130016/splitting-a-list-into-n-parts-of-approximately-equal-length</span>
 
@@ -390,7 +385,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">m</span><span class="p">):(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span></div>
 
 
-<span class="k">def</span> <span class="nf">read_write_params</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_write_params</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
     <span class="c1">#print(&#39;queue id&#39;, args.queue_id)</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">queue_id</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="c1"># if run from queue</span>
         <span class="c1">#print(&#39;args.queue_task&#39;, args.queue_task)</span>
@@ -405,7 +400,7 @@
 
 <div class="viewcode-block" id="run_simulations">
 <a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.run_simulations">[docs]</a>
-<span class="k">def</span> <span class="nf">run_simulations</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">queue_function</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">post_process</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_simulations</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">queue_function</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">post_process</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run a simulation either locally in the shell or queue on HPC nodes</span>
 
@@ -502,7 +497,7 @@
 
 <div class="viewcode-block" id="combine_tables_two_rigid_body">
 <a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.combine_tables_two_rigid_body">[docs]</a>
-<span class="k">def</span> <span class="nf">combine_tables_two_rigid_body</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">num_procs</span><span class="p">,</span> <span class="n">num_header_lines</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">combine_tables_two_rigid_body</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">num_procs</span><span class="p">,</span> <span class="n">num_header_lines</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Combine table files generated in parallel by TableTwoRigidBody3D.&quot;&quot;&quot;</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">proc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_procs</span><span class="p">):</span>
@@ -549,7 +544,7 @@
 <span class="c1">#    return sock</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">doctest</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">doctest</span>
     <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
 </pre></div>
 

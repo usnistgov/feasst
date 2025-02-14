@@ -1,34 +1,34 @@
 
 .. toctree::
 
+   Chirality2D
+   CriteriaWriter
    Check
-   CheckEnergy
+   AnalyzeData
+   Movie
+   WallClockLimit
+   NumParticles
+   CPUTime
+   ProfileCPU
    CheckPhysicality
    CheckProperties
-   Chirality2D
-   CriteriaUpdater
-   CriteriaWriter
-   Density
-   DensityProfile
-   Energy
-   ExtensiveMoments
-   GhostTrialVolume
-   HeatCapacity
-   IncrementPhase
-   MeanSquaredDisplacement
-   Movie
-   NumParticles
-   ProfileCPU
-   ProfileTrials
-   Scattering
-   AnalyzeData
    SeekModify
-   Tune
-   Volume
-   WallClockLimit
-   WrapParticles
-   WriteStepper
    ReadConfigFromFile
+   WrapParticles
+   IncrementPhase
+   Tune
+   CriteriaUpdater
+   GhostTrialVolume
+   CheckEnergy
+   WriteStepper
    Log
    PairDistributionInner
-   CPUTime
+   DensityProfile
+   Volume
+   HeatCapacity
+   ExtensiveMoments
+   MeanSquaredDisplacement
+   Energy
+   Density
+   ProfileTrials
+   Scattering
