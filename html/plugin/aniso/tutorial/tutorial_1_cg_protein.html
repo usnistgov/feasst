@@ -1,29 +1,27 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CG simulation of a protein using anisotropic precomputed potentials &mdash; FEASST 0.25.7 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+  <title>CG simulation of a protein using anisotropic precomputed potentials &mdash; FEASST 0.25.8 0.25.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=135494dc"></script>
-        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=fb4e371e"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+      <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+      <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -52,11 +50,8 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST
+            FEASST 0.25.8
           </a>
-              <div class="version">
-                0.25.7
-              </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../OVERVIEW.html">Overview</a></li>
@@ -140,7 +135,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST</a>
+          <a href="../../../index.html">FEASST 0.25.8</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -225,14 +220,14 @@
 <span class="sd">After this step, the next script after_1_contact is called in post_process.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">os.path</span>
-<span class="kn">import</span> <span class="nn">argparse</span>
-<span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">fstio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">fstio</span>
 
-<span class="k">def</span> <span class="nf">parse</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Parse arguments for this and following scripts &quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentDefaultsHelpFormatter</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--feasst_install&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;../../../build/&#39;</span><span class="p">,</span>
@@ -286,7 +281,7 @@
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--fstprt&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;/feasst/plugin/aniso/particle/aniso_tabular.fstprt&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;fstprt file&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span>
 
-<span class="k">def</span> <span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Write fst script for a single simulation with keys of params {} enclosed. &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
         <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
@@ -305,7 +300,7 @@
 <span class="s2">TabulateTwoRigidBody3D num_orientations_per_pi </span><span class="si">{num_orientations_per_pi}</span><span class="s2"> output_orientation_file </span><span class="si">{prefix}{num_orientations_per_pi}</span><span class="s2">_ij.txt</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
-<span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Check the final file length and then launch the next step. &quot;&quot;&quot;</span>
     <span class="n">nk</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_orientations_per_pi&#39;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">ij</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]:</span>
@@ -355,15 +350,15 @@
 <span class="sd">orientations.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">os.path</span>
-<span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">fstio</span>
-<span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">coarse_grain_pdb</span>
-<span class="kn">from</span> <span class="nn">launch_1_cg_protein</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">fstio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">coarse_grain_pdb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_1_cg_protein</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
 
-<span class="k">def</span> <span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Write fst script for a single simulation with keys of params {} enclosed. &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
         <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
@@ -374,7 +369,7 @@
 <span class="s2">TabulateTwoRigidBody3D proc </span><span class="si">{sim}</span><span class="s2"> num_proc </span><span class="si">{num_sims}</span><span class="s2"> input_orientation_file </span><span class="si">{orientation_file}</span><span class="s2"> num_z -1 output_table_file </span><span class="si">{prefix}{sim}</span><span class="s2">.txt </span><span class="si">{contact_xyz_file}</span><span class="s2"> contact_xyz_index </span><span class="si">{contact_xyz_index}</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
-<span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Combining table files, checking length and then launching the next step &quot;&quot;&quot;</span>
     <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="s1">&#39;sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">])</span> <span class="c1"># without this command, combine doesn&#39;t read all tables?</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span><span class="si">{prefix}</span><span class="s1">.txt&#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)):</span>
@@ -439,16 +434,16 @@
 <span class="sd">Each atom is modeled as a hard sphere with an LJ and screened charge interation computed over a number of orientations.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">os.path</span>
-<span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">fstio</span>
-<span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">physical_constants</span>
-<span class="kn">from</span> <span class="nn">launch_1_cg_protein</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">fstio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">physical_constants</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_1_cg_protein</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
 
-<span class="k">def</span> <span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Write fst script for a single simulation with keys of params {} enclosed. &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
         <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
@@ -464,7 +459,7 @@
 <span class="s2">TabulateTwoRigidBody3D proc </span><span class="si">{sim}</span><span class="s2"> num_proc </span><span class="si">{num_sims}</span><span class="s2"> input_orientation_file </span><span class="si">{orientation_file}</span><span class="s2"> num_z </span><span class="si">{num_z}</span><span class="s2"> smoothing_distance </span><span class="si">{smoothing_distance}</span><span class="s2"> input_table_file </span><span class="si">{contact_file}</span><span class="s2"> output_table_file </span><span class="si">{prefix}{sim}</span><span class="s2">.txt gamma </span><span class="si">{gamma}</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
-<span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Combine tables, check their length and launch the next step &quot;&quot;&quot;</span>
     <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="s1">&#39;sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;15&#39;</span><span class="p">])</span> <span class="c1"># without this command, combine doesn&#39;t read all tables?</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span><span class="si">{prefix}</span><span class="s1">.txt&#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)):</span>
@@ -528,15 +523,15 @@
 <span class="sd">Compute the second virial coefficient using coarse-grained models.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">accumulator</span>
-<span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">fstio</span>
-<span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">physical_constants</span>
-<span class="kn">from</span> <span class="nn">launch_1_cg_protein</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">accumulator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">fstio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">physical_constants</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_1_cg_protein</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
 
-<span class="k">def</span> <span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Write fst script for a single simulation with keys of params {} enclosed. &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
         <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
@@ -565,7 +560,7 @@
 <span class="s2">Run until complete</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
-<span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Compute statistics and output B2 value in appropriate units. &quot;&quot;&quot;</span>
     <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="s1">&#39;sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">])</span> <span class="c1"># without this command, combine doesn&#39;t read all tables?</span>
     <span class="n">b2acc</span> <span class="o">=</span> <span class="n">accumulator</span><span class="o">.</span><span class="n">Accumulator</span><span class="p">()</span>

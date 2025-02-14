@@ -1,12 +1,12 @@
 
 .. toctree::
 
-   CheckConstantVolume
-   ComputeGibbsParticleTransfer
    CopyNextLine
-   EndCopy
    GibbsInitialize
-   CopyFollowingLines
-   TrialGibbsVolumeTransfer
    TrialGibbsParticleTransfer
+   CopyFollowingLines
+   ComputeGibbsParticleTransfer
    ComputeGibbsVolumeTransfer
+   TrialGibbsVolumeTransfer
+   CheckConstantVolume
+   EndCopy

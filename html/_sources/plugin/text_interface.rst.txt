@@ -321,6 +321,7 @@ Flat Histogram
    flat_histogram/doc/Window_arguments
    flat_histogram/doc/WindowExponential_arguments
    flat_histogram/doc/WindowCustom_arguments
+   flat_histogram/doc/WriteFileAndCheck_arguments
 
 Gibbs Ensemble
 ===================
@@ -338,9 +339,13 @@ Simulate multiple :cpp:class:`Configuration <feasst::Configuration>` s and trans
 Change Log
 ================
 
-Below is a list of all notable changes made to the text interface.
+Below is a list text interface changes that may affect older scripts.
 Backwards incompatibility should remain for deprecated interface on minor version changes.
 Renamed arguments are shown as Class::old_argument->new_argument.
+
+v0.25.6 to v0.25.7
+-----------------------
+* LennardJonesAlpha::lambda fixed.
 
 v0.25.4 to v0.25.5
 -----------------------

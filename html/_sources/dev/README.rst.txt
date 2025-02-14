@@ -200,7 +200,7 @@ add the following to your sphinx conf.py
   breathe_projects = {"FEASST":"../xml"}
   breathe_domain_by_extension = {"h" : "cc"}
 
-pip install sphinx_rtd_theme nbsphinx
+pip install sphinx_rtd_theme nbsphinx sphinxcontrib-bibtex
 
 run sphinx: make html
 
@@ -390,8 +390,13 @@ To Do List
 * Have the tests override hours checkpoint , etc so that users don't have bad values
 * Maybe make some kind of class that factories out the creation of analyze and modify (e.g., all using the same trials_per_iteration, file name prefixes, etc)
 * Remove CollectionMatrixSplice from tutorials?
-* Enable DCCB with Gibbs (transfer issue, or all cb ?)- ACtually, it seems to be cell lists that are the problem (the ref potential)
 * fstprt files use label strings instead of numbers (document this, 0-O, 1-H for spce, etc)
 * pip install feasst
 * In class documentation, link to tutorials that use the class
 * automatically determine, every time trial is added, determine which molecules are excluded from weight_per_num_fraction
+* set cross interactions in fstprt files??
+num_cross 2
+
+0 1 sigma 0.7
+1 2 sigma 0.5
+* remove min_size/min_window_size from window_exponential/tutorials

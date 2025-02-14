@@ -1,29 +1,27 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grand Canonical Flat Histogram Simulation of RPM &mdash; FEASST 0.25.7 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+  <title>Grand Canonical Flat Histogram Simulation of RPM &mdash; FEASST 0.25.8 0.25.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=135494dc"></script>
-        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=fb4e371e"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+      <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+      <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -52,11 +50,8 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST
+            FEASST 0.25.8
           </a>
-              <div class="version">
-                0.25.7
-              </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../OVERVIEW.html">Overview</a></li>
@@ -140,7 +135,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST</a>
+          <a href="../../../index.html">FEASST 0.25.8</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -215,14 +210,15 @@
 <span class="sd">The results are are compared with https://doi.org/10.1063/1.5123683</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">argparse</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">fstio</span>
-<span class="kn">from</span> <span class="nn">pyfeasst</span> <span class="kn">import</span> <span class="n">physical_constants</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">fstio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">physical_constants</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">macrostate_distribution</span>
 
-<span class="k">def</span> <span class="nf">parse</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Parse arguments from command line or change their default values. &quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentDefaultsHelpFormatter</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--feasst_install&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;../../../build/&#39;</span><span class="p">,</span>
@@ -267,26 +263,30 @@
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_id_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span> <span class="s1">&#39;_sim_ids.txt&#39;</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;minutes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span> <span class="c1"># minutes allocated on queue</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.95</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.05</span> <span class="c1"># terminate FEASST before SLURM</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span> <span class="c1"># real time -&gt; cpu time</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_checkpoint&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sims&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_sim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_sim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sims&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">6.87098396396261</span><span class="o">/</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;cubic_side_length&#39;</span><span class="p">]</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;beta_mu&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;charge_plus&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.602176634E-19</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mf">8.8541878128E-12</span><span class="o">*</span><span class="mf">1e3</span><span class="o">/</span><span class="mf">1e10</span><span class="o">/</span><span class="mf">6.02214076E+23</span><span class="p">))</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;charge_minus&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;charge_plus&#39;</span><span class="p">]</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;dccb_cut&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cubic_side_length&#39;</span><span class="p">]</span><span class="o">/</span><span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;cubic_side_length&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;dccb_cut&#39;</span><span class="p">])</span> <span class="c1"># maximize inside box</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;minimums&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;min_particles&#39;</span><span class="p">]]</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;windows&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">window_exponential</span><span class="p">(</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">minimums</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;minimums&#39;</span><span class="p">],</span> <span class="n">maximum</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;max_particles&#39;</span><span class="p">],</span>
+        <span class="n">number</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sims&#39;</span><span class="p">],</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">min_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span>
 
-<span class="k">def</span> <span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sim_node_dependent_params</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Define parameters that are dependent on the sim or node. &quot;&quot;&quot;</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;min_particles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;windows&#39;</span><span class="p">][</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;max_particles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;windows&#39;</span><span class="p">][</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sims&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Write fst script for a single simulation with keys of params {} enclosed. &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
-        <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2"># first, initialize multiple clones into windows</span>
-<span class="s2">CollectionMatrixSplice hours_per </span><span class="si">{hours_checkpoint}</span><span class="s2"> ln_prob_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">_lnpi.txt min_window_size -1</span>
-<span class="s2">WindowExponential maximum </span><span class="si">{max_particles}</span><span class="s2"> minimum </span><span class="si">{min_particles}</span><span class="s2"> num </span><span class="si">{procs_per_node}</span><span class="s2"> overlap 0 alpha 1 min_size 3</span>
-<span class="s2">Checkpoint checkpoint_file </span><span class="si">{prefix}{sim}</span><span class="s2">_checkpoint.fst num_hours </span><span class="si">{hours_checkpoint}</span><span class="s2"> num_hours_terminate </span><span class="si">{hours_terminate}</span>
-
+        <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;MonteCarlo</span>
 <span class="s2">RandomMT19937 seed </span><span class="si">{seed}</span>
 <span class="s2">Configuration cubic_side_length </span><span class="si">{cubic_side_length}</span><span class="s2"> particle_type0 </span><span class="si">{plus}</span><span class="s2"> particle_type1 </span><span class="si">{minus}</span><span class="s2"> cutoff 4.891304347826090 charge0 </span><span class="si">{charge_plus}</span><span class="s2"> charge1 </span><span class="si">{charge_minus}</span>
 <span class="s2">Potential VisitModel Ewald alpha </span><span class="si">{alpha}</span><span class="s2"> kmax_squared 38</span>
@@ -297,32 +297,39 @@
 <span class="s2">Metropolis</span>
 <span class="s2">TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25</span>
 <span class="s2">CheckEnergy trials_per_update </span><span class="si">{tpc}</span><span class="s2"> decimal_places 4</span>
+<span class="s2">Checkpoint checkpoint_file </span><span class="si">{prefix}{sim}</span><span class="s2">_checkpoint.fst num_hours </span><span class="si">{hours_checkpoint}</span><span class="s2"> num_hours_terminate </span><span class="si">{hours_terminate}</span>
 
 <span class="s2"># gcmc initialization and nvt equilibration</span>
 <span class="s2">TrialAddMultiple particle_type0 0 particle_type1 1 reference_index 0</span>
-<span class="s2">Log trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_eq.txt</span>
+<span class="s2">Log trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s</span><span class="si">{sim}</span><span class="s2">_eq.csv</span>
 <span class="s2">Tune</span>
-<span class="s2">Run until_num_particles [soft_macro_min] particle_type 0</span>
+<span class="s2">Run until_num_particles </span><span class="si">{min_particles}</span><span class="s2"> particle_type 0</span>
 <span class="s2">Remove name TrialAddMultiple</span>
 <span class="s2">Metropolis trials_per_cycle </span><span class="si">{tpc}</span><span class="s2"> cycles_to_complete </span><span class="si">{equilibration}</span>
 <span class="s2">Run until complete</span>
 <span class="s2">Remove name0 Tune name1 Log</span>
 
 <span class="s2"># gcmc tm production</span>
-<span class="s2">FlatHistogram Macrostate MacrostateNumParticles width 1 max </span><span class="si">{max_particles}</span><span class="s2"> min </span><span class="si">{min_particles}</span><span class="s2"> particle_type 0 soft_macro_max [soft_macro_max] soft_macro_min [soft_macro_min] </span><span class="se">\</span>
-<span class="s2">Bias WLTM min_sweeps </span><span class="si">{min_sweeps}</span><span class="s2"> min_flatness 25 collect_flatness 20 min_collect_sweeps 1</span>
+<span class="s2">FlatHistogram Macrostate MacrostateNumParticles width 1 max </span><span class="si">{max_particles}</span><span class="s2"> min </span><span class="si">{min_particles}</span><span class="s2"> particle_type 0 </span><span class="se">\</span>
+<span class="s2">    Bias WLTM min_sweeps </span><span class="si">{min_sweeps}</span><span class="s2"> min_flatness 25 collect_flatness 20 min_collect_sweeps 1</span>
 <span class="s2">TrialTransferMultiple weight 2 particle_type0 0 particle_type1 1 reference_index 0 num_steps 8</span>
-<span class="s2">Log            trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index].txt</span>
-<span class="s2">Movie          trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_eq.xyz stop_after_cycle 1</span>
-<span class="s2">Movie          trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index].xyz start_after_cycle 1</span>
-<span class="s2">Tune           trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_tune.txt multistate true stop_after_cycle 1</span>
-<span class="s2">Energy         trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_en.txt multistate true start_after_cycle 1</span>
-<span class="s2">CriteriaWriter trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s[sim_index]_crit.txt</span>
+<span class="s2">Log            trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s</span><span class="si">{sim}</span><span class="s2">.csv</span>
+<span class="s2">Movie          trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s</span><span class="si">{sim}</span><span class="s2">_eq.xyz stop_after_cycle 1</span>
+<span class="s2">Movie          trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s</span><span class="si">{sim}</span><span class="s2">.xyz start_after_cycle 1</span>
+<span class="s2">Tune           trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s</span><span class="si">{sim}</span><span class="s2">_tune.csv multistate true stop_after_cycle 1</span>
+<span class="s2">Energy         trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s</span><span class="si">{sim}</span><span class="s2">_en.csv multistate true start_after_cycle 1</span>
+<span class="s2">CriteriaWriter trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s</span><span class="si">{sim}</span><span class="s2">_crit.csv</span>
 <span class="s2">CriteriaUpdater trials_per_update 1e5</span>
+<span class="s2">Run until complete</span>
+
+<span class="s2"># continue until all simulations on the node are complete</span>
+<span class="s2">WriteFileAndCheck sim </span><span class="si">{sim}</span><span class="s2"> sim_start </span><span class="si">{sim_start}</span><span class="s2"> sim_end </span><span class="si">{sim_end}</span><span class="s2"> file_prefix </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">s file_suffix _finished.txt output_file </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">_terminate.txt</span>
+<span class="s2">Run until_file_exists </span><span class="si">{prefix}</span><span class="s2">n</span><span class="si">{node}</span><span class="s2">_terminate.txt trials_per_file_check </span><span class="si">{tpc}</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
-<span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
-    <span class="n">lnpi</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;n0_lnpi.txt&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">lnpi</span><span class="o">=</span><span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">splice_files</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;n0s&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;_crit.csv&#39;</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">lnpi</span> <span class="o">=</span> <span class="n">lnpi</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()</span>
     <span class="n">lnpi</span> <span class="o">=</span> <span class="n">lnpi</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="c1"># cut down to three rows</span>
     <span class="n">lnpi</span><span class="p">[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">lnpi</span><span class="p">[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">])))</span>  <span class="c1"># renormalize</span>
     <span class="n">lnpi</span><span class="p">[</span><span class="s1">&#39;ln_prob_prev&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.2994315780357</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.08646312498868</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.941850889679828</span><span class="p">]</span>
@@ -330,7 +337,7 @@
     <span class="n">diverged</span> <span class="o">=</span> <span class="n">lnpi</span><span class="p">[</span><span class="n">lnpi</span><span class="o">.</span><span class="n">ln_prob</span><span class="o">-</span><span class="n">lnpi</span><span class="o">.</span><span class="n">ln_prob_prev</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="o">*</span><span class="n">lnpi</span><span class="o">.</span><span class="n">ln_prob_prev_stdev</span><span class="p">]</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">diverged</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">diverged</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-    <span class="n">energy</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;n0s0_en.txt&#39;</span><span class="p">)</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;n0s0_en.csv&#39;</span><span class="p">)</span>
     <span class="n">energy</span> <span class="o">=</span> <span class="n">energy</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
     <span class="n">energy</span><span class="p">[</span><span class="s1">&#39;prev&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.939408</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.02625</span><span class="p">]</span>
     <span class="n">energy</span><span class="p">[</span><span class="s1">&#39;prev_stdev&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-14</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">]</span>
@@ -341,7 +348,7 @@
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">parameters</span><span class="p">,</span> <span class="n">arguments</span> <span class="o">=</span> <span class="n">parse</span><span class="p">()</span>
     <span class="n">fstio</span><span class="o">.</span><span class="n">run_simulations</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
-                          <span class="n">sim_node_dependent_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">sim_node_dependent_params</span><span class="o">=</span><span class="n">sim_node_dependent_params</span><span class="p">,</span>
                           <span class="n">write_feasst_script</span><span class="o">=</span><span class="n">write_feasst_script</span><span class="p">,</span>
                           <span class="n">post_process</span><span class="o">=</span><span class="n">post_process</span><span class="p">,</span>
                           <span class="n">queue_function</span><span class="o">=</span><span class="n">fstio</span><span class="o">.</span><span class="n">slurm_single_node</span><span class="p">,</span>

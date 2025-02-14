@@ -8,6 +8,7 @@ An example usage of the C++ interface is shown in $HOME/feasst/tutorial/tutorial
 
     # Compile FEASST normally, ending with the command: make install.
     # Set CMAKE_PREFIX_PATH in $HOME/feasst/tutorial/CMakeLists.txt
+    # cd /path/to/feasst/tutorial/
     mkdir build; cd &_
     cmake ..
     make
