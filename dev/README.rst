@@ -400,3 +400,4 @@ num_cross 2
 0 1 sigma 0.7
 1 2 sigma 0.5
 * remove min_size/min_window_size from window_exponential/tutorials
+* make a gui/software/script that walks through the building of a FEASST input file.

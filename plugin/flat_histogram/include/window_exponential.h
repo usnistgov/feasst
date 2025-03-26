@@ -34,10 +34,8 @@ typedef std::map<std::string, std::string> argtype;
   The choice of alpha can affect the efficiency of the simulation, depending on
   the relative speed of the convergence of the low macrostates compared to the
   higher macrostates.
-  If the lower macrostate windows are converging slower, then alpha should be
-  decreased.
-  If the higher macrostate simulations are converging slower, then alpha may
-  need to be increased.
+  If lower macrostates converge slower, then decrease alpha.
+  If higher macrostates converge slower, then increase alpha.
   The choice of alpha is dependent on the system, conditions and convergence
   criteria.
  */

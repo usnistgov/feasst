@@ -13,9 +13,9 @@ typedef std::map<std::string, std::string> argtype;
 
 /**
   Intra-particle interactions are computed here.
-  this does not include bonded interaction energies, but "inter"-like models
-  such as lennard jones but between sites in the same particle (e.g., long
-  chains).
+  This does not include bonded interaction energies, but "inter"-like models
+  such as LennardJones interactions between sites in the same particle
+  (e.g., chains).
  */
 class VisitModelIntra : public VisitModel {
  public:

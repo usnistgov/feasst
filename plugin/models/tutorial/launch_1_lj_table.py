@@ -35,6 +35,7 @@ def parse():
     parser.add_argument('--plot_table', type=int, default=0, help='0: no plot, 1: plot')
     parser.add_argument('--num_z', type=int, default=int(1e3), help='number of table elements')
     parser.add_argument('--inner', type=float, default=0.75, help='As described in TablePotential')
+    parser.add_argument('--gamma', type=int, default=-2, help='As described in TablePotential')
     parser.add_argument('--cutoff', type=float, default=3, help='potential cutoff distance')
     parser.add_argument('--run_type', '-r', type=int, default=0,
         help='0: run, 1: submit to queue, 2: post-process')
@@ -63,15 +64,14 @@ def parse():
     params['rhos'] = np.linspace(params['rho_lower'], params['rho_upper'], num=params['num_sims'])
     params['cubic_side_lengths'] = np.power(params['num_particles']/params['rhos'], 1./3.).tolist()
     params['rhos'] = params['rhos'].tolist()
-    params['gamma'] = -2 # as described in TablePotential
     generate_table(params)
     if args.plot_table == 1:
         # check the energy interpolated from the table against the analytical value
-        dists = np.arange(0.97, params['cutoff'], 0.01)
+        dists = np.arange(params['inner'], params['cutoff'], 0.01)
         ens = list()
         for dist in dists:
             params['displacement_test'] = dist
-            run_en()
+            run_en(params)
             df = pd.read_csv('lj.csv')
             ens.append(df['TablePotential'].values[0])
         import matplotlib.pyplot as plt
@@ -89,7 +89,7 @@ def sim_node_dependent_params(params):
 def user_potential(distance):
     return 4*(distance**-12 - distance**-6)
 
-def run_en():
+def run_en(params):
     """
     Run a feasst simulation to obtain the energy between two particles as a
     function of sepration distance (params['displacement_test'])
@@ -119,12 +119,12 @@ def generate_table(params):
     rhg = params['inner']**params['gamma']
     rcg = params['cutoff']**params['gamma']
     with open(params['table_file'], 'w') as file1:
-        file1.write("""site_types 1 0\ninner {inner}\nnum_z {num_z}\n""".format(**params))
-        #file1.write("""site_types 1 0\ngamma {gamma}\ninner {inner}\nnum_z {num_z}\n""".format(**params))
+        file1.write("""site_types 1 0\ngamma {gamma}\ninner {inner}\nnum_z {num_z}\n""".format(**params))
         for z in np.arange(0, 1 + dz/2, dz):
             if z == 0:
                 distance = params['inner']
             else:
+                #print(z, rcg, rhg, z*(rcg-rhg)+rhg)
                 distance = (z*(rcg - rhg) + rhg)**(1./params['gamma'])
             en = user_potential(distance)
             #print('distance', distance, 'en', en)

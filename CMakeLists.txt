@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.5)
 project (FEASST)
 set (CMAKE_CXX_STANDARD 14)
 cmake_policy(SET CMP0042 NEW) # removes warning about macosx_rpath
-set(FEASST_VERSION 0.25.8)
+set(FEASST_VERSION 0.25.9)
 
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
@@ -421,8 +421,8 @@ if (USE_SPHINX)
     @ONLY)
 
   configure_file(
-    "${CMAKE_SOURCE_DIR}/dev/sphinx/build.rst.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/build.rst"
+    "${CMAKE_SOURCE_DIR}/dev/sphinx/README.rst.in"
+    "${CMAKE_SOURCE_DIR}/README.rst"
     @ONLY)
 
   # copy favicon, leave notice and extended layout

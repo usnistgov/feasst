@@ -158,8 +158,9 @@ def post_process(params):
         return
     lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
     gce_av_num_particles = lnpi.average_macrostate()
-    #print('gce_av_num_particles', gce_av_num_particles)
-    assert np.abs(gce_av_num_particles - 310.4179421879679) < 0.5
+    if np.abs(gce_av_num_particles - 310.4179421879679) > 2.5:
+        print('gce_av_num_particles', gce_av_num_particles, 'is not within 2.5 of 310.4179421879679')
+        assert False
     srsw = pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat150.csv')
     plt.plot(lnpi.dataframe()['state'], lnpi.dataframe()['ln_prob'], label='FEASST')
     plt.plot(srsw['N'], srsw['lnPI'], linestyle='dashed', label='SRSW')

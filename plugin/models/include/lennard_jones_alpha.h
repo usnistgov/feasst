@@ -30,10 +30,11 @@ typedef std::map<std::string, std::string> argtype;
   Thus, \f$\sigma_r = \sigma + \Delta_\sigma\f$ determines the well width and shape of the potential,
   while \f$\sigma\f$ determines the excluded volume by shifting the potential right or left.
 
-  An additional option is the use of a "lambda" potential which decouples the
-  attractive and repulsive portions of the LJ potential to allow for a modified
-  well-depth or even a shoulder, as shown in
-  Fig. 1 of https://doi.org/10.1039/C7SM01005B
+  The Ashbaugh-Hatch model described in https://dx.doi.org/10.1021/ja802124e
+  is also available with the site-specific "lambda" ModelParam in the fstprt file.
+  The lambda parameter decouples the attractive and repulsive portions of the
+  LJ potential to allow for a modified well-depth or a repulsive shoulder, as
+  shown in Fig. 1 of https://doi.org/10.1039/C7SM01005B
   and also described in https://dx.doi.org/10.1021/ja802124e.
 
   \f$ U^\lambda = \left\{
@@ -44,7 +45,12 @@ typedef std::map<std::string, std::string> argtype;
   \right. \f$
 
   where \f$r_m = (\sigma + \Delta_\sigma)2^{1/\alpha}-\Delta_\sigma\f$ is the minimum.
-  The lambda parameter is also a site-specific ModelParam in the fstprt file.
+  The lambda parameter is a site-specific ModelParam in the fstprt file, just like epsilon or sigma.
+\rst
+References: :footcite:p:`ashbaugh_natively_2008`
+
+.. footbibliography::
+\endrst
  */
 class LennardJonesAlpha : public LennardJones {
  public:

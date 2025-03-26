@@ -14,13 +14,16 @@ typedef std::map<std::string, std::string> argtype;
 
 /**
   Intra-particle interactions are computed here.
-  this does not include bonded interaction energies, but "inter"-like models
-  such as lennard jones but between sites in the same particle (e.g., long
-  chains).
+  As described in VisitModelIntra, this does not include bonded interaction
+  energies, and only includes "inter"-like interactions.
 
-  In this implementation, a map for each particle type is precomputed.
-  For a given pair of site indices, the map returns true if the intra
-  interaction is included.
+  In this implementation, a map for each particle type is precomputed based
+  on whether the "inter"-like interaction should be excluded due to the presence
+  of a bond, angle or dihedral.
+  In addition, dihedral interactions may be weighted.
+  By default, all interactions are included except with self and there is no
+  dihedral weight, so the user must specific if bonds, angles or dihedrals are
+  to be excluded.
  */
 class VisitModelIntraMap : public VisitModel {
  public:
@@ -36,9 +39,6 @@ class VisitModelIntraMap : public VisitModel {
       1-4 dihedral sites by this weight (default: -1).
       For example, CHARMM and OPLS may set this weight to 1/2.
       If exclude_dihedral is true, this weight cannot be > 0.
-
-    By default, all interactions are included except with self and there is no
-    dihedral weight.
    */
   explicit VisitModelIntraMap(argtype args = argtype());
   explicit VisitModelIntraMap(argtype * args);

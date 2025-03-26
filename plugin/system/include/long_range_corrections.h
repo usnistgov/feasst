@@ -33,7 +33,7 @@ class Configuration;
   If a selection of sites are to be deleted, the energetic contribution of the
   selection may be computed as:
 
-  \f$U_{with} - U_{without} \propto n_i n_j - (n_i-n_i^s)(n_j-n_j^2)\f$
+  \f$U_{with} - U_{without} \propto n_i n_j - (n_i-n_i^s)(n_j-n_j^s)\f$
 
   \f$U_{with} - U_{without} \propto n_i^s n_j + n_i n_j^s - n_i^s n_j^s\f$
 

@@ -15,6 +15,7 @@ WriteStepper::WriteStepper(argtype * args) {
   class_name_ = "WriteStepper";
   analyze_name_ = str("analyze_name", args, "");
   modify_name_ = str("modify_name", args, "");
+  all_ = boolean("all", args, false);
 }
 WriteStepper::WriteStepper(argtype args) : WriteStepper(&args) {
   feasst_check_all_used(args);
@@ -24,17 +25,21 @@ FEASST_MAPPER(WriteStepper,);
 
 WriteStepper::WriteStepper(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 7461, "mismatch version: " << version);
+  ASSERT(version >= 7461 && version <= 7462, "mismatch version: " << version);
   feasst_deserialize(&analyze_name_, istr);
   feasst_deserialize(&modify_name_, istr);
+  if (version >= 7462) {
+    feasst_deserialize(&all_, istr);
+  }
 }
 
 void WriteStepper::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_action_(ostr);
-  feasst_serialize_version(7461, ostr);
+  feasst_serialize_version(7462, ostr);
   feasst_serialize(analyze_name_, ostr);
   feasst_serialize(modify_name_, ostr);
+  feasst_serialize(all_, ostr);
 }
 
 void WriteStepper::run(MonteCarlo * mc) {
@@ -49,6 +54,9 @@ void WriteStepper::run(MonteCarlo * mc) {
     ASSERT(index[0] != -1, "modify_name:" << modify_name_ <<
       " was not found. Is it an analyze?");
     mc->get_modify_factory()->get_modify(index[0])->write_to_file(mc);
+  }
+  if (all_) {
+    mc->write_to_file();
   }
 }
 

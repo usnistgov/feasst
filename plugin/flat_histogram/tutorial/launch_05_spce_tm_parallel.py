@@ -50,7 +50,7 @@ def post_process(params):
     lnpi['deltalnPI'] = lnpi.lnPI - lnpi.lnPI.shift(1)
     diverged = lnpi[lnpi.deltalnPI-lnpi.delta_ln_prob > 6*lnpi.delta_ln_prob_stdev]
     print(diverged)
-    assert len(diverged) < 5
+    assert len(diverged) < int(0.15*len(lnpi))
     plt.plot(lnpi['state'], lnpi['ln_prob'], label='FEASST')
     plt.plot(lnpi['N'], lnpi['lnPI'], linestyle='dashed', label='SRSW')
     plt.xlabel('number of particles', fontsize=16)

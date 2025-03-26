@@ -22,6 +22,7 @@ class WriteStepper : public Action {
       If empty, do nothing (default: empty).
     - modify_name: The Modify::class_name() to print to file (default: empty).
       If empty, do nothing (default: empty).
+    - all: If true, write all steppers. If false, do nothing (default: false).
    */
   explicit WriteStepper(argtype args = argtype());
   explicit WriteStepper(argtype * args);
@@ -44,6 +45,7 @@ class WriteStepper : public Action {
  private:
   std::string analyze_name_;
   std::string modify_name_;
+  bool all_;
 };
 
 inline std::shared_ptr<WriteStepper> MakeWriteStepper(argtype args = argtype()) {

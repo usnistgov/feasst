@@ -28,13 +28,17 @@ SlabCorrection::SlabCorrection(argtype args) : SlabCorrection(&args) {
 void SlabCorrection::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_(ostr);
-  feasst_serialize_version(2096, ostr);
+  feasst_serialize_version(2097, ostr);
+  feasst_serialize(dimension_, ostr);
   //feasst_serialize(conversion_factor_, ostr);
 }
 
 SlabCorrection::SlabCorrection(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 2096, "unrecognized verison: " << version);
+  ASSERT(version >= 2096 && version <= 2097, "unrecognized verison: " << version);
+  if (version >= 2097) {
+    feasst_deserialize(&dimension_, istr);
+  }
   //feasst_deserialize(&conversion_factor_, istr);
 }
 
@@ -46,8 +50,10 @@ class SumDipole : public LoopConfigOneBody {
       const Configuration& config,
       const LoopDescriptor& data) override {
     const int type = site.type();
-    dipole_ += config.model_params().select(charge_index_).value(type)*
-               site.position().coord(dim_);
+    const double q = config.model_params().select(charge_index_).value(type);
+    const double r = site.position().coord(dim_);
+    dipole_ += q*r;
+    DEBUG("type " << type << " q " << q << " r " << r << " dipole " << dipole_);
   }
   double dipole() const { return dipole_; }
  private:
@@ -116,13 +122,17 @@ void SlabCorrection::compute(ModelOneBody * model,
   // compute the dipole of the selection
   double sel_dipole = 0;
   for (int sel_part = 0; sel_part < selection.num_particles(); ++sel_part) {
+    DEBUG("sel_part " << sel_part);
     const int part_index = selection.particle_index(sel_part);
     const Particle& part = config->select_particle(part_index);
     for (int site_index : selection.site_indices(sel_part)) {
+      DEBUG("site_index " << site_index);
       const Site& site = part.site(site_index);
       if (site.is_physical()) {
-        sel_dipole += model_params.select(charge_index()).value(site.type())*
-                      site.position().coord(dimension_);
+        const double q = model_params.select(charge_index()).value(site.type());
+        DEBUG("charge " << q);
+        DEBUG("position " << site.position().str());
+        sel_dipole += q*site.position().coord(dimension_);
       }
     }
   }

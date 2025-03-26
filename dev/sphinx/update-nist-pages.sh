@@ -2,9 +2,9 @@
 
 # For preparing a new release:
 # bump version number
-# Check /feasst/dev/analyze_public_interface.py
+# Check /feasst/dev/tools/analyze_public_interface.py
 # CMakeLists.txt:
-# - check version, check -DEV=ON, depend.py
+# - check version, check -DEV=ON, /feasst/dev/tools/depend.py
 # update html and nist-pages
 # run nightly test
 # tag commit

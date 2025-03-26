@@ -13,6 +13,7 @@ namespace feasst {
   then its arguments, space-separated.
   The following lines then begin with either "union" or "intersect" and then
   another shape description as described for the first line.
+  A union or intersect is as described in ShapeUnion and ShapeIntersect.
  */
 class ShapeFile : public Shape {
  public:

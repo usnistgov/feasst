@@ -4,7 +4,7 @@
 FEASST: Free Energy and Advanced Sampling Simulation Toolkit
 ###############################################################################
 
-.. include:: OVERVIEW.rst
+.. include:: README.rst
 
 Contents:
 
@@ -13,7 +13,7 @@ Contents:
 
 .. toctree::
 
-   OVERVIEW
+   README
    tutorial/README
    plugin/text_interface
    particle/README

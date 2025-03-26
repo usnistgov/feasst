@@ -80,7 +80,7 @@ def parse():
                         help='0: run, 1: submit to queue, 2: post-process')
     parser.add_argument('--seed', type=int, default=-1,
                         help='Random number generator seed. If -1, assign random seed to each sim.')
-    parser.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
+    parser.add_argument('--max_restarts', type=int, default=1, help='Number of restarts in queue')
     parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
     parser.add_argument('--scratch', type=str, default=None,
                         help='Optionally write scheduled job to scratch/logname/jobid.')
@@ -106,7 +106,7 @@ def parse():
     params['minimums'] = [params['min_particles']]
     if params['num_nodes'] == 1:
         params['windows'] = macrostate_distribution.window_exponential(
-            alpha=2.25, minimums=params['minimums'], maximum=params['max_particles'],
+            alpha=2.0, minimums=params['minimums'], maximum=params['max_particles'],
             number=params['num_sims'], overlap=1, min_size=5)
     return params, args
 

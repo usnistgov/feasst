@@ -667,6 +667,7 @@ MonteCarlo::MonteCarlo(std::istream& istr) {
   feasst_deserialize(trial_factory_, istr);
   feasst_deserialize(analyze_factory_, istr);
   feasst_deserialize(modify_factory_, istr);
+  // HWH: set check energy every trial for testing: modify_factory_->get_modify(0)->set_trials_per_update(1);
   // HWH for unknown reasons, this function template does not work.
   //feasst_deserialize(checkpoint_, istr);
   { int existing;

@@ -16,10 +16,14 @@ typedef std::map<std::string, std::string> argtype;
 
   For an isotropic site, the radial distance, r, between the centers is scaled as
   \f$z=[(r^\gamma - r_h^\gamma)/(r_c^\gamma - r_h^\gamma)]\f$
-  which varies from z=0 at the hard contact distance, r_h, to z=1 at the cutoff, r_c.
+  which varies from z=0 at the hard contact distance, \f$r_h\f$, to \f$z=1\f$ at
+  the cutoff, \f$r_c\f$.
   A stretching parameter, \f$\gamma\f$, increases the resolution at shorter
   distances when negative.
-  This implementation is currently hard coded for \f$\gamma=-2\f$ which avoids sqrt.
+
+  The default value of \f$\gamma=-2\f$ avoids the expensive sqrt operation, but
+  can also be problematic if \f$r_h \approx 0\f$.
+  For \f$r_h \approx 0\f$, \f$\gamma=1\f$ may be more appropriate.
 
   Interpolation uses Table1D::forward_difference_interpolation.
 
@@ -39,9 +43,11 @@ typedef std::map<std::string, std::string> argtype;
 
   For each pair of site types, i <= j, a table is given by the following lines.
 
-  1. "inner [value]" is the inner hard cutoff distance.
-  2. "num_z [value]" is the number of energy values along the z parameter.
-  3. The last line is num_z space-separated values of the potential
+  1. "gamma [value]" is the optional stretching exponential.
+     If this line is not provided, then the default value of -2 is used.
+  2. "inner [value]" is the inner hard cutoff distance.
+  3. "num_z [value]" is the number of energy values along the z parameter.
+  4. The last line is num_z space-separated values of the potential
      energy uniformly in the z range of [0, 1].
  */
 class TablePotential : public ModelTwoBody {
@@ -81,11 +87,11 @@ class TablePotential : public ModelTwoBody {
   std::vector<std::vector<double> > cutoff_g_;
   std::vector<int> site_types_;
   std::vector<int> t2index_;
-  //std::vector<std::vector<double> > gamma_;
+  std::vector<std::vector<double> > gamma_;
   std::vector<std::vector<Table1D> > energy_table_;
-  const double gamma_ = -2;
 
   void read_table_(const std::string table_file);
+  void read_inner_(const int itype, const int jtype, const std::string& description, const double value, std::ifstream& file);
 };
 
 inline std::shared_ptr<TablePotential> MakeTablePotential(
