@@ -1,32 +1,18 @@
 Contact
-================================================================================
+###########
 
 Project lead
---------------------------------------------------------------------------------
+**************
 
 Harold Wickes Hatch
 
 https://www.nist.gov/people/harold-wickes-hatch
 
-harold.hatch@nist.gov
-
-GitHub Discussion
---------------------------------------------------------------------------------
-
-https://github.com/usnistgov/feasst/discussions
-
-Google Group
---------------------------------------------------------------------------------
-
-https://list.nist.gov/feasst
-
-GitHub Issues
---------------------------------------------------------------------------------
-
-https://github.com/usnistgov/feasst/issues
+Messages about FEASST are preferred in `GitHub discussion <https://github.com/usnistgov/feasst/discussions>`_, `GitHub issues <https://github.com/usnistgov/feasst/issues>`_ or `Google group <https://list.nist.gov/feasst>`_, if possible, so that all users can see the questions and answers.
+The following email is also an option: harold.hatch@nist.gov.
 
 Bug reporting
---------------------------------------------------------------------------------
+**************
 
 Any and all bug reports are greatly appreciated in order to improve FEASST.
 

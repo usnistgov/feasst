@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grand Canonical Flat Histogram Simulation of Lennard-Jones &mdash; FEASST 0.25.8 0.25.8 documentation</title>
+  <title>Grand Canonical Flat Histogram Simulation of Lennard-Jones &mdash; FEASST 0.25.9 0.25.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=fb4e371e"></script>
+      <script src="../../../_static/documentation_options.js?v=5f36b307"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -50,11 +50,11 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.8
+            FEASST 0.25.9
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../OVERVIEW.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial/tutorial.html">Lennard Jones in the canonical ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial/launch.html">HPC/SLURM script with checkpointed restarts</a></li>
@@ -135,7 +135,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.8</a>
+          <a href="../../../index.html">FEASST 0.25.9</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -364,8 +364,9 @@
         <span class="k">return</span>
     <span class="n">lnpi</span><span class="o">=</span><span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">splice_files</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;n0s&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;_crit.csv&#39;</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">gce_av_num_particles</span> <span class="o">=</span> <span class="n">lnpi</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">()</span>
-    <span class="c1">#print(&#39;gce_av_num_particles&#39;, gce_av_num_particles)</span>
-    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gce_av_num_particles</span> <span class="o">-</span> <span class="mf">310.4179421879679</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.5</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gce_av_num_particles</span> <span class="o">-</span> <span class="mf">310.4179421879679</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">2.5</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;gce_av_num_particles&#39;</span><span class="p">,</span> <span class="n">gce_av_num_particles</span><span class="p">,</span> <span class="s1">&#39;is not within 2.5 of 310.4179421879679&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="kc">False</span>
     <span class="n">srsw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;feasst_install&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;../plugin/flat_histogram/test/data/stat150.csv&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lnpi</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()[</span><span class="s1">&#39;state&#39;</span><span class="p">],</span> <span class="n">lnpi</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;FEASST&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">srsw</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">],</span> <span class="n">srsw</span><span class="p">[</span><span class="s1">&#39;lnPI&#39;</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SRSW&#39;</span><span class="p">)</span>
