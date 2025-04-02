@@ -37,12 +37,13 @@ VisitModelCell::VisitModelCell(std::shared_ptr<VisitModelInner> inner,
   set_inner(inner);
 }
 
+// This slow implementation which constructs a new position is const required
+// for use in Check
 int VisitModelCell::cell_id(const Domain& domain,
                             const Position& position) const {
-  Position pos = position;
-  domain.wrap(&pos);
-  pos.divide(domain.side_lengths());
-  return cells_->id(pos.coord());
+  Position scaled = position;
+  domain.cartesian2scaled_wrap(position, &scaled);
+  return cells_->id(scaled.coord());
 }
 
 // HWH note if there are problems with scaled coordinates here, it probably
@@ -51,16 +52,11 @@ int VisitModelCell::cell_id(const Domain& domain,
 // into this issue.
 int VisitModelCell::cell_id_opt_(const Domain& domain,
                                  const Position& position) {
-//  Position scaled(position);
-//  DEBUG("scaled before wrap " << scaled.str() << " pos " << position.str() <<
-//    " box " << side_lengths().str());
   init_relative_(domain);
-  domain.wrap_opt(position, *origin_, relative_.get(), pbc_.get(), &opt_r2_);
-  //wrap(&scaled);
-  DEBUG("relative_ after wrap " << relative_->str() << " pos " << position.str());
-  relative_->divide(domain.side_lengths());
-  DEBUG("relative_ " << relative_->str() << " pos " << position.str());
-  return cells_->id(relative_->coord());
+  Position * scaled = relative_.get();
+  domain.cartesian2scaled_wrap(position, scaled);
+  const int cellid = cells_->id(scaled->coord());
+  return cellid;
 }
 
 double VisitModelCell::min_len_(const Configuration& config) const {
@@ -72,7 +68,11 @@ double VisitModelCell::min_len_(const Configuration& config) const {
   } else {
     min_length = str_to_double(min_length_);
   }
-  return min_length;
+  // increase min_length to account for triclinic cells
+  const double factor = config.domain().min_side_length() /
+                        config.domain().inscribed_sphere_diameter();
+  DEBUG("factor " << factor << " new min_length " << factor*min_length);
+  return factor*min_length;
 }
 
 void VisitModelCell::precompute(Configuration * config) {
@@ -80,7 +80,8 @@ void VisitModelCell::precompute(Configuration * config) {
   VisitModel::precompute(config);
   ASSERT(config->domain().side_lengths().size() > 0,
     "cannot define cells before domain sides");
-  ASSERT(!config->domain().is_tilted(), "implement triclinic");
+  // ASSERT(!config->domain().is_tilted(), "implement triclinic");
+  // This error check was moved to MonteCarlo::add(Potential)
   if (!group_.empty()) {
     group_index_ = config->group_index(group_);
   }

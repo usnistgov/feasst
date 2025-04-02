@@ -8,6 +8,7 @@
 #include "utils/include/timer_rdtsc.h"
 #include "configuration/include/neighbor_criteria.h"
 #include "configuration/include/configuration.h"
+#include "configuration/include/domain.h"
 #include "system/include/system.h"
 #include "system/include/visit_model.h"
 #include "system/include/potential.h"
@@ -358,10 +359,22 @@ void MonteCarlo::add(std::shared_ptr<Configuration> config) {
   ASSERT(!criteria_set_, "add config before criteria");
 }
 
+void MonteCarlo::potential_check_(const Potential& pot, const int config) {
+  // Check that if the Domain is tilted, then the cell list is only used in an
+  // OptPotential to catch possible errors.
+  if (pot.visit_model().class_name() == "VisitModelCell") {
+    if (system_->configuration(config).domain().is_tilted()) {
+      WARN("OptPotential with VisitModelCell is recommended to catch possible "
+        << " errors if the Configuration/Domain is triclinic");
+    }
+  }
+}
+
 void MonteCarlo::add(std::shared_ptr<Potential> potential, const int config) {
   ASSERT(!criteria_set_, "add potential before criteria");
   ASSERT(config_set_ || system_set_, "config:" << config_set_ <<
     " or system:" << system_set_ << " must be set before adding a potential");
+  potential_check_(*potential.get(), config);
   system_->add(potential, config);
   system_->precompute();
   potential_set_ = true;
@@ -370,6 +383,9 @@ void MonteCarlo::add(std::shared_ptr<Potential> potential, const int config) {
 void MonteCarlo::set(const int index, std::shared_ptr<Potential> potential) {
   // ASSERT(!criteria_set_, "add potential before criteria");
   ASSERT(potential_set_ || system_set_, "add potential before setting one");
+  const int config = 0;
+  ASSERT(system_->num_configurations() <= 1, "not implemented");
+  potential_check_(*potential.get(), config);
   system_->set_unoptimized(index, potential);
   system_->precompute();
 }
@@ -930,8 +946,9 @@ std::string MonteCarlo::serialize() const {
 
 const Configuration& MonteCarlo::configuration(const int index) const {
   return system_->configuration(index); }
-void MonteCarlo::add_to_optimized(std::shared_ptr<Potential> potential) {
-  system_->add_to_optimized(potential); }
+void MonteCarlo::add_to_optimized(std::shared_ptr<Potential> potential,
+    const int config) {
+  system_->add_to_optimized(potential, config); }
 void MonteCarlo::add_to_reference(std::shared_ptr<Potential> potential,
     const int index, const int config) {
   system_->add_to_reference(potential, index, config); }

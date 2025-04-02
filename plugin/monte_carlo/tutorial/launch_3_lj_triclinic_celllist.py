@@ -1,5 +1,7 @@
 """
-Isothermal-isobaric ensemble Monte Carlo simulation of Lennard Jones particles.
+Canonical ensemble Monte Carlo simulation of Lennard Jones particles in a triclinic domain with cell lists.
+VisitModelCell is not optimized for triclinic domains, so a larger min_length must be used.
+If min_length is too small, then the CheckEnergy will find the error.
 """
 
 import argparse
@@ -13,11 +15,9 @@ def parse():
                         help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
                         help='FEASST particle definition')
-    parser.add_argument('--beta', type=float, default=1./0.9, help='inverse temperature')
+    parser.add_argument('--beta', type=float, default=1./1.5, help='inverse temperature')
     parser.add_argument('--num_particles', type=int, default=500, help='number of particles')
-    parser.add_argument('--pressures', type=json.loads, default='{"pressure":[8.9429E-04, 2.6485E-03, 4.3569E-03, 6.0193E-03, 7.6363E-03]}',
-                        help='dictionary with a list of pressures to simulate')
-    parser.add_argument('--initial_cubic_side_length', type=int, default=20, help='cubic periodic boundary length')
+    parser.add_argument('--cubic_side_length', type=float, default=20, help='cubic periodic boundary length')
     parser.add_argument('--tpc', type=int, default=int(1e4), help='trials per cycle')
     parser.add_argument('--equilibration', type=int, default=int(1e1), help='number of cycles for equilibraiton')
     parser.add_argument('--production', type=int, default=int(1e2), help='number of cycles for production')
@@ -41,18 +41,17 @@ def parse():
     assert len(unknown_args) == 0, 'An unknown argument was included: '+str(unknown_args)
     params = vars(args)
     params['script'] = __file__
-    params['prefix'] = 'lj'
+    params['prefix'] = 'triclinic'
     params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
     params['hours_terminate'] = 0.99*params['hours_terminate'] - 0.0333 # terminate before queue
-    params['procs_per_node'] = len(params['pressures']['pressure'])
+    params['procs_per_node'] = 1
     params['procs_per_sim'] = 1
     params['num_sims'] = params['num_nodes']*params['procs_per_node']
     return params, args
 
 def sim_node_dependent_params(params):
     """ Set parameters that depent upon the sim or node here. """
-    params['pressure'] = params['pressures']['pressure'][params['sim']]
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -60,12 +59,14 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length {initial_cubic_side_length} particle_type0 {fstprt}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} xy 5 xz 5 yz 5
 Potential Model LennardJones
+OptPotential Model LennardJones VisitModel VisitModelCell min_length 3
 Potential VisitModel LongRangeCorrections
+OptPotential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential -1
 Metropolis
-TrialTranslate weight 1 tunable_param 2 tunable_target_acceptance 0.2
+TrialTranslate weight 1 tunable_param 2 tunable_target_acceptance 2
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 CheckEnergy trials_per_update {tpc} decimal_places 4
 
@@ -76,52 +77,26 @@ Tune
 Run until_num_particles {num_particles}
 Remove name0 TrialAdd name1 Log name2 Tune
 
-# npt equilibration
-ThermoParams beta {beta} pressure {pressure}
+# nvt equilibration
+ThermoParams beta {beta}
 Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
-TrialVolume weight 0.005 tunable_param 0.2 tunable_target_acceptance 0.5
 Tune trials_per_tune 20
 Log     trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
 Movie   trials_per_write {tpc} output_file {prefix}{sim}_eq.xyz
-Density trials_per_write {tpc} output_file {prefix}{sim}_density_eq.csv
 Run until complete
-Remove name0 Tune name1 Log name2 Movie name3 Density
+Remove name0 Tune name1 Log name2 Movie
 
-# npt production
+# nvt production
 Metropolis trials_per_cycle {tpc} cycles_to_complete {production}
 Log        trials_per_write {tpc} output_file {prefix}{sim}.csv
 Movie      trials_per_write {tpc} output_file {prefix}{sim}.xyz
 Energy     trials_per_write {tpc} output_file {prefix}{sim}_en.csv
-Density    trials_per_write {tpc} output_file {prefix}{sim}_density.csv
-Volume     trials_per_write {tpc} output_file {prefix}{sim}_volume.csv
 ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_profile.csv
 Run until complete
 """.format(**params))
 
 def post_process(params):
-    """ Plot energy and compare with https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm """
-    import numpy as np
-    import pandas as pd
-    import matplotlib.pyplot as plt
-    ens = np.zeros(shape=(params['num_sims'], 2))
-    rhos = np.zeros(shape=(params['num_sims'], 2))
-    for sim in range(params['num_sims']):
-        log = pd.read_csv(params['prefix']+str(sim)+'.txt')
-        assert int(log['num_particles_of_type0'][0]) == params['num_particles']
-        energy = pd.read_csv(params['prefix']+str(sim)+'_en.csv')
-        ens[sim] = np.array([energy['average'][0],
-                             energy['block_stdev'][0]])/params['num_particles']
-        density = pd.read_csv(params['prefix']+str(sim)+'_density.csv')
-        print('density', density)
-        rhos[sim] = np.array([density['average'][0],
-                              density['block_stdev'][0]])
-        print('rhos[sim]', rhos[sim])
-    # data from https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm
-    #rhos_srsw = [0.001, 0.003, 0.005, 0.007, 0.009]
-    print('rhos', rhos)
-    #ens_srsw = [-9.9165E-03, -2.9787E-02]
-    ens_srsw = [-9.9165E-03, -2.9787E-02, -4.9771E-02, -6.9805E-02, -8.9936E-02]
-    en_stds_srsw = [1.89E-05, 3.21E-05]
+    """ place holder """
 
 if __name__ == '__main__':
     parameters, arguments = parse()

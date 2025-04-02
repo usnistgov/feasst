@@ -119,7 +119,8 @@ class MonteCarlo {
   void set(const int index, std::shared_ptr<Potential> potential);
 
   /// Add potential to optimized.
-  void add_to_optimized(std::shared_ptr<Potential> potential);
+  void add_to_optimized(std::shared_ptr<Potential> potential,
+      const int config = 0);
 
   /// Add potential to reference.
   void add_to_reference(std::shared_ptr<Potential> potential,
@@ -386,6 +387,7 @@ class MonteCarlo {
 
   void record_next_arg_(arglist * args);
   bool duplicate_stepper_output_file_(const std::string output_file);
+  void potential_check_(const Potential& pot, const int config);
 };
 
 inline std::shared_ptr<MonteCarlo> MakeMonteCarlo() {

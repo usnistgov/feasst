@@ -17,6 +17,7 @@ typedef std::map<std::string, std::string> argtype;
   - particle_type: type of particle in Configuration (always required).
   - site: site index in particle_type to transfer/regrow (always required).
   - weight: weight of selection of this trial (default: see Trial).
+  - weight_per_number_fraction: see Trial.
   - transfer: if true, create add and remove trial with equal weight
     (default: false).
   - gibbs_transfer: if true, create two trials which transfer particles between

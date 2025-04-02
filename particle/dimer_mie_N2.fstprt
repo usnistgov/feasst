@@ -1,0 +1,24 @@
+# LAMMPS-inspired data file
+
+2 sites
+1 bonds
+
+1 site types
+1 bond types
+
+Site Properties
+
+0 sigma 2.9550 epsilon 49.590 cutoff 12.0 mie_lambda_r 10.109 mie_lambda_a 6.0
+
+Sites
+
+0 0 0.0  0.0 0.0
+1 0 2.0685 0.0 0.0
+
+Bond Properties
+
+0 RigidBond length 2.0685 delta 0.00001
+
+Bonds
+
+0 0 0 1

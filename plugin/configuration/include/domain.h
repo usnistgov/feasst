@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include "math/include/position.h"
+#include "math/include/matrix.h"
 
 namespace feasst {
 
@@ -32,29 +33,79 @@ class Random;
   In two-dimensions, this reduces to a parallelogram.
 
   The triclinic periodic cell is defined by a vector for each dimension.
-  This implementation is only valid for the following two- or three-dimensions.
+  This implementation is only valid for two- or three-dimensions.
 
   For the first  (i.e., "x"):
 
-  \f$ \vec{l_x} = {l_x, 0, 0}   \f$
+  \f$ \vec{l}_x = \{l_x, 0, 0\}   \f$
 
   For the second (i.e., "y"):
 
-  \f$ \vec{l_y} = {xy, l_y, 0}  \f$
+  \f$ \vec{l}_y = \{xy, l_y, 0\}  \f$
 
   For the third  (i.e., "z"):
 
-  \f$ \vec{l_z} = {xz, yz, l_z} \f$
+  \f$ \vec{l}_z = \{xz, yz, l_z\} \f$
 
   Thus, the angle, \f$\alpha\f$, between the "x" and "y" vectors is given by
 
-  \f$ |l_x| |l_y| \cos\alpha = \vec{l_x} \cdot \vec{l_y}\f$.
+  \f$ |l_x| |l_y| \cos\alpha = \vec{l}_x \cdot \vec{l}_y\f$.
+
+  Scaled coordinates, \f$\vec{s}\f$, defined in the range of [0, 1] in each
+  dimension, are related to the Cartesian coordinates, \f$\vec{x}\f$,
+  via the matrix, \f$ \mathbf{H}=[\vec{l}_x,\vec{l}_y,\vec{l}_z] \f$, as follows:
+
+  \f$ \vec{x} = \mathbf{H} \vec{s} \f$
+
+  \f$ \vec{s} = \mathbf{H}^{-1} \vec{x} \f$
+
+  \f$ \mathbf{H} = \begin{bmatrix} lx & xy & xz\\ 0 & ly & yz\\ 0 & 0 & lz \end{bmatrix} \f$
+
+  \f$ \mathbf{H}^{-1} = \begin{bmatrix} 1/lx & -\frac{xy}{lx* ly} & \frac{xy* yz - xz* ly}{lx* ly* lz}\\ 0 & 1/ly & -\frac{yz}{ly* lz}\\ 0 & 0 & 1/lz \end{bmatrix} \f$
 
   For more information, see LAMMPS:
   https://docs.lammps.org/Howto_triclinic.html
 
-  Another good resource is the inner workings of Monte Carlo codes
+  Another good resource is Section 4.1 of
   https://doi.org/10.1080/08927022.2013.819102
+
+  Periodic boundaries conditions are applied in scalar coordinates as
+
+  \f$ \vec{s}' = \vec{s} - \mathrm{rint}(\vec{s}) \f$
+
+  where rint rounds a real number to the nearest integer.
+
+  By comparison, the angles \f$ \alpha, \beta, \gamma \f$ and scalar boundary
+  lengths \f$ a, b, c \f$ are related to the above variables as follows:
+
+  \f$ lx = a \f$
+
+  \f$ ly = b \cos(\gamma) \f$
+
+  \f$ lz = c \sqrt{1-\cos(\beta)^2-\eta} \f$
+
+  \f$ \eta = \frac{\cos(\alpha) - \cos(\gamma)\cos(\beta)}{\sin(\gamma)} \f$
+
+  \f$ xy = ly \cos(\gamma) \f$
+
+  \f$ xz = c \cos(\beta) \f$
+
+  \f$ yz = c \eta \f$
+
+  Or in the other direction
+
+  \f$ a = lx\f$
+
+  \f$ b^2 = ly^2 + xy^2 \f$
+
+  \f$ c^2 = lz^2 + xz^2 + yz^2 \f$
+
+  \f$ \cos(\alpha) = \frac{xy*xz + ly*yz}{b*c}\f$
+
+  \f$ \cos(\beta) = xz/c\f$
+
+  \f$ \cos(\gamma) = xy/b\f$
+
 */
 class Domain {
  public:
@@ -121,6 +172,18 @@ class Domain {
   /// Return the volume.
   double volume() const;
 
+  /// Return the matrix to multiply scaled coordinates to obtain Cartesian
+  const Matrix& h() const { return h_; }
+
+  /// Return the matrix to multiply Cartesian coordinates to obtain scaled
+  const Matrix& h_inv() const { return h_inv_; }
+
+  /// Return the scaled coordinates, s, given cartesian cordinates, x.
+  void cartesian2scaled(const Position& cartesian, Position * scaled) const;
+
+  /// Same as above, but wrap the scaled coordinates.
+  void cartesian2scaled_wrap(const Position& cartesian, Position * scaled) const;
+
   /// Return the shift necessary to wrap the position.
   /// This is an unoptimized version.
   Position shift(const Position& position) const;
@@ -184,6 +247,7 @@ class Domain {
   double xy_, xz_, yz_;
   bool is_tilted_ = false;
   std::vector<bool> periodic_;
+  Matrix h_, h_inv_; // Section 4.1 of https://doi.org/10.1080/08927022.2013.819102
 
   /// used for optimized pbc
   Position opt_origin_, opt_rel_, opt_pbc_;
@@ -193,6 +257,7 @@ class Domain {
   void set_xy_(const double yz);
   void set_xz_(const double yz);
   void set_yz_(const double yz);
+  void update_h_();
 };
 
 inline std::shared_ptr<Domain> MakeDomain(argtype args = argtype()) {

@@ -28,11 +28,11 @@
    Potential
    Model
    ModelTwoBody
-   IdealGas
    ModelTwoBodyTable
-   ModelTwoBodyFactory
    LennardJones
+   ModelTwoBodyFactory
    HardSphere
+   IdealGas
    ModelThreeBody
    ModelOneBody
    ModelEmpty

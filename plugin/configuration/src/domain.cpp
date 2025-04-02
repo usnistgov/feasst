@@ -48,6 +48,7 @@ Domain::Domain(argtype * args) {
       if (!boolean(key.str(), args)) disable(dim);
     }
   }
+  update_h_();
 }
 Domain::Domain(argtype args) : Domain(&args) {
   feasst_check_all_used(args);
@@ -55,6 +56,7 @@ Domain::Domain(argtype args) : Domain(&args) {
 
 Domain& Domain::set_cubic(const double box_length) {
   set_side_lengths(Position().set_vector({box_length, box_length, box_length}));
+  update_h_();
   return *this;
 }
 
@@ -74,16 +76,19 @@ void Domain::set_side_lengths(const Position& side_lengths) {
   ASSERT(static_cast<int>(periodic_.size()) ==
          static_cast<int>(side_lengths_.size()), "size error");
   resize_opt_(side_lengths_.dimension());
+  update_h_();
 }
 
 void Domain::set_side_length(const int dimension, const double length) {
   side_lengths_.set_coord(dimension, length);
+  update_h_();
 }
 
 void Domain::add_side_length(const double length) {
   side_lengths_.push_back(length);
   periodic_.push_back(true);
   resize_opt_(side_lengths_.dimension());
+  update_h_();
 }
 
 void Domain::set_xy_(const double xy) {
@@ -91,6 +96,7 @@ void Domain::set_xy_(const double xy) {
   if (std::abs(xy_) > NEAR_ZERO) {
     is_tilted_ = true;
   }
+  update_h_();
 }
 
 void Domain::set_xz_(const double xz) {
@@ -98,6 +104,7 @@ void Domain::set_xz_(const double xz) {
   if (std::abs(xz_) > NEAR_ZERO) {
     is_tilted_ = true;
   }
+  update_h_();
 }
 
 void Domain::set_yz_(const double yz) {
@@ -105,6 +112,7 @@ void Domain::set_yz_(const double yz) {
   if (std::abs(yz_) > NEAR_ZERO) {
     is_tilted_ = true;
   }
+  update_h_();
 }
 
 double Domain::volume() const {
@@ -128,7 +136,18 @@ Position Domain::shift(const Position& position) const {
 }
 
 const Position& Domain::shift_opt(const Position& position) {
-  wrap_opt(position, opt_origin_, &opt_rel_, &opt_pbc_, &opt_r2_);
+  if (is_tilted_) {
+    DEBUG("position " << position.str());
+    DEBUG("h_inv " << h_inv_.str());
+    h_inv_.multiply(position, &opt_pbc_);
+    for (int dim = 0; dim < dimension(); ++dim) {
+      const double val = opt_pbc_.coord(dim);
+      opt_pbc_.set_coord(dim, val - std::rint(val));
+    }
+    h_.multiply(opt_pbc_, &opt_rel_);
+  } else {
+    wrap_opt(position, opt_origin_, &opt_rel_, &opt_pbc_, &opt_r2_);
+  }
   opt_rel_.subtract(position);
   return opt_rel_;
 }
@@ -250,7 +269,7 @@ std::string Domain::status() const {
 }
 
 void Domain::serialize(std::ostream& sstr) const {
-  feasst_serialize_version(841, sstr);
+  feasst_serialize_version(842, sstr);
   feasst_serialize_fstobj(side_lengths_, sstr);
   feasst_serialize(xy_, sstr);
   feasst_serialize(xz_, sstr);
@@ -261,7 +280,7 @@ void Domain::serialize(std::ostream& sstr) const {
 
 Domain::Domain(std::istream& sstr) {
   const int version = feasst_deserialize_version(sstr);
-  ASSERT(version == 841, "version mismatch: " << version);
+  ASSERT(version >= 841 && version <= 842, "version mismatch: " << version);
   feasst_deserialize_fstobj(&side_lengths_, sstr);
   feasst_deserialize(&xy_, sstr);
   feasst_deserialize(&xz_, sstr);
@@ -269,6 +288,7 @@ Domain::Domain(std::istream& sstr) {
   feasst_deserialize(&is_tilted_, sstr);
   feasst_deserialize(&periodic_, sstr);
   resize_opt_(side_lengths_.dimension());
+  update_h_();
 }
 
 void Domain::wrap_opt(const Position& pos1,
@@ -351,6 +371,64 @@ void Domain::wrap_triclinic_opt(const Position& pos1,
   const double dxv0 = (*dxv)[0];
   const double dxv1 = (*dxv)[1];
   *r2 += dxv0*dxv0 + dxv1*dxv1;
+}
+
+void Domain::update_h_() {
+  DEBUG("dim " << dimension());
+  if (dimension() == 2) {
+    const double lx = side_lengths_.coord(0);
+    const double ly = side_lengths_.coord(1);
+    h_.set_size(2, 2);
+    h_.set_value(0, 0, lx);
+    h_.set_value(0, 1, xy_);
+    h_.set_value(1, 0, 0.);
+    h_.set_value(1, 1, ly);
+    h_inv_.set_size(2, 2);
+    h_inv_.set_value(0, 0, 1./lx);
+    h_inv_.set_value(0, 1, -xy_/lx/ly);
+    h_inv_.set_value(1, 0, 0.);
+    h_inv_.set_value(1, 1, 1./ly);
+  } else if (dimension() == 3) {
+    const double lx = side_lengths_.coord(0);
+    const double ly = side_lengths_.coord(1);
+    const double lz = side_lengths_.coord(2);
+    h_.set_size(3, 3);
+    h_.set_value(0, 0, lx);
+    h_.set_value(0, 1, xy_);
+    h_.set_value(0, 2, xz_);
+    h_.set_value(1, 0, 0.);
+    h_.set_value(1, 1, ly);
+    h_.set_value(1, 2, yz_);
+    h_.set_value(2, 0, 0.);
+    h_.set_value(2, 1, 0.);
+    h_.set_value(2, 2, lz);
+    h_inv_.set_size(3, 3);
+    h_inv_.set_value(0, 0, 1./lx);
+    h_inv_.set_value(0, 1, -xy_/lx/ly);
+    h_inv_.set_value(0, 2, (xy_*yz_ - xz_*ly)/lx/ly/lz);
+    h_inv_.set_value(1, 0, 0.);
+    h_inv_.set_value(1, 1, 1./ly);
+    h_inv_.set_value(1, 2, -yz_/ly/lz);
+    h_inv_.set_value(2, 0, 0.);
+    h_inv_.set_value(2, 1, 0.);
+    h_inv_.set_value(2, 2, 1./lz);
+    DEBUG("h rows " << h_.num_rows());
+    DEBUG("h columns " << h_.num_columns());
+  }
+  DEBUG("h " << h_.str());
+  DEBUG("h_inv " << h_inv_.str());
+}
+
+void Domain::cartesian2scaled(const Position& cartesian, Position * scaled) const {
+  h_inv_.multiply(cartesian, scaled);
+}
+
+void Domain::cartesian2scaled_wrap(const Position& cartesian, Position * scaled) const {
+  cartesian2scaled(cartesian, scaled);
+  for (int dim = 0; dim < dimension(); ++dim) {
+    const double val = scaled->coord(dim);
+    scaled->set_coord(dim, val - std::rint(val));
+  }
 }
 
 }  // namespace feasst

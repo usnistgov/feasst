@@ -16,6 +16,11 @@ typedef std::map<std::string, std::string> argtype;
 
 /**
   Compute many-body inter-particle interactions using a cell list.
+
+  For a triclinic domain, the minimum cell length is increased by the ratio
+  of the minimum side length by the maximum inscribed sphere.
+  Use of OptPotential in such a case is recommended to catch possible errors
+  with this assumption.
  */
 class VisitModelCell : public VisitModel {
  public:
