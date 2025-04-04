@@ -66,7 +66,7 @@ bool is_found_in(const std::string& str, const std::string& substr) {
   return false;
 }
 
-int str_to_int(const std::string& str) {
+int str_to_int(const std::string& str, const bool fatal) {
   std::stringstream errmsg;
   int intVal = -1;
   errmsg << str << " was " << "expected to be an integer.";
@@ -80,7 +80,11 @@ int str_to_int(const std::string& str) {
   try {
     intVal = stoi(str);
   } catch (...) {
-    FATAL(errmsg.str());
+    if (fatal) {
+      FATAL(errmsg.str());
+    } else {
+      return -1;
+    }
   }
   const double dble = stod(str);
   ASSERT(std::abs(dble - static_cast<double>(intVal)) < 1e-14,

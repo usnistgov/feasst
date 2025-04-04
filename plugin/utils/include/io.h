@@ -82,7 +82,9 @@ bool is_found_in(const std::string& str, const std::string& substr);
 bool replace(const std::string& from, const std::string& to, std::string * str);
 
 /// Convert a string to an integer.
-int str_to_int(const std::string& str);
+int str_to_int(const std::string& str,
+  /// Return a FATAL error if impossible. Otherwise, return -1.
+  const bool fatal = true);
 
 /// Convert a string to an double.
 double str_to_double(const std::string& str);

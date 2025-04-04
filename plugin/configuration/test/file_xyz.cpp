@@ -46,4 +46,23 @@ TEST(FileXYZ, load_frame) {
   EXPECT_EQ(config->particle(0).site(1).position().coord(2), 1);
 }
 
+TEST(FileXYZ, multicomponent) {
+  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.fstprt"},
+                                   {"particle_type1", "../particle/spce.fstprt"},
+                                   {"xyz_file", "../plugin/configuration/test/data/multicomponent.xyz"}});
+  EXPECT_EQ(config->num_particles(), 3);
+  EXPECT_EQ(config->particle(0).type(), 0);
+  EXPECT_EQ(config->particle(1).type(), 1);
+  EXPECT_EQ(config->particle(2).type(), 0);
+}
+
+TEST(FileXYZ, multicomponent_failure) {
+  TRY(
+    auto config = MakeConfiguration({{"particle_type0", "../particle/lj.fstprt"},
+                                     {"particle_type1", "../particle/spce.fstprt"},
+                                     {"xyz_file", "../plugin/configuration/test/data/multicomponent2.xyz"}});
+    CATCH_PHRASE("not given in integers");
+  );
+}
+
 }  // namespace feasst

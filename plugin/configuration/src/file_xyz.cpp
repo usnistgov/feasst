@@ -54,32 +54,19 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file,
   position.set_vector(coord);
   DEBUG("coord " << feasst::feasst_str(coord) << " pos " << position.str());
   config->set_side_lengths(position);
-  // ASSERT(config->num_sites() == num_sites, "site mismatch");
-  if (config->num_sites() == 0) {
-    ASSERT(config->num_particle_types() > 0, "try adding particle type " <<
-      "before loading the configuration");
-    ASSERT(config->num_particle_types() == 1,
-      "If more than one particle type, add particles in the specific order " <<
-      "before reading the XYZ file (e.g., as Configuration " <<
-      "add_particles_of_type0 [n0] add_particles_of_type1 [n1] ...)");
-    const int site_per_part = config->particle_types().particle(0).num_sites();
-    ASSERT(num_sites % site_per_part == 0, "assumed particle type to load " <<
-      "xyz file is incompatible with number of sites:" << num_sites <<
-      ". site_per_part:" << site_per_part);
-    for (int index = 0; index < num_sites/site_per_part; ++index) {
-      config->add_particle_of_type(0);
-    }
-  }
 
-  /// read the coordinates into a 2d vector
+  /// read the site types and coordinates (eulers optional)
+  std::vector<int> site_types;
+  site_types.resize(num_sites);
   std::vector<std::vector<double> > coords, eulers;
   coords.resize(num_sites, std::vector<double>(config->dimension()));
   eulers.resize(num_sites, std::vector<double>(config->dimension()));
   for (int i = 0; i < num_sites; ++i) {
     std::getline(xyz_file, line);
     std::istringstream iss(line);
-    std::string tmp;
-    iss >> tmp;
+    std::string type;
+    iss >> type;
+    site_types[i] = str_to_int(type, false); // Read -1 if string
     for (int dim = 0; dim < config->dimension(); ++dim) {
       iss >> coords[i][dim];
     }
@@ -93,29 +80,42 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file,
     }
   }
 
-  // update the number of particles
-  if (num_sites != config->num_sites()) {
-    DEBUG("update number of particles");
-    const int particle_type = 0;
-    INFO("config->num_sites() " << config->num_sites());
-    INFO("config->num_particle_types() " << config->num_particle_types());
-    ASSERT(config->num_particle_types() == 1, "assumes 1 particle type");
-    if (num_sites < config->num_sites()) {
-      int spi = config->num_particles() - 1;
-      Select sel;
-      sel.add_particle(config->particle_type(particle_type), 0);
-      while (num_sites < config->num_sites()) {
-        ASSERT(spi >= 0, "error");
-        sel.set_particle(0, config->selection_of_all().particle_index(spi));
-        config->remove_particle(sel);
-        --spi;
+  // if no particles are present, attempt to add particles in order based on
+  // site types. Otherwise, check that the number of sites match expectations.
+  if (config->num_sites() == 0 && num_sites > 0) {
+    const int npt = config->num_particle_types();
+    if (npt == 1) {
+      const int num_sites_in_particle = config->particle_type(0).num_sites();
+      ASSERT(num_sites % num_sites_in_particle == 0, "The number of sites in "
+        << "the XYZ file: " << num_sites << " is not divisible by the number "
+        << "of sites in the particle: " << num_sites_in_particle);
+      for (int i = 0; i < num_sites/num_sites_in_particle; ++i) {
+        config->add_particle_of_type(0);
       }
     } else {
-      while (num_sites > config->num_sites()) {
-        config->add_particle_of_type(particle_type);
-        ASSERT(config->num_sites() < 1e20, "infinite loop?");
+      int particle_index = 0;
+      int read_sites = 0;
+      while (read_sites < num_sites) {
+        const int st = site_types[read_sites];
+        ASSERT(st != -1, "Trying to determine the order of particles in an "
+          << "XYZ file that is apparently multicomponent, but the site types "
+          << "were not given in integers so FEASST cannot determine the "
+          << "appropriate order.");
+        const int pt = config->site_type_to_particle_type(st);
+        ASSERT(pt < npt,
+          "unrecognized particle type " << pt << " for site of type " << st);
+        config->add_particle_of_type(pt);
+        read_sites += config->particle(pt).num_sites();
       }
+      ASSERT(read_sites == num_sites,
+        "read_sites: " << read_sites << " num_sites: " << num_sites);
     }
+  } else {
+    ASSERT(num_sites == config->num_sites(), "The number of sites in the XYZ "
+      << "file: " << num_sites << " do not match the number of sites in the "
+      << "Configuration: " << config->num_sites() << ". Please either start "
+      << "with an empty Configuration or add the expected number of particles "
+      << "in the same order as present in the XYZ file.");
   }
 
   if (euler_) {
