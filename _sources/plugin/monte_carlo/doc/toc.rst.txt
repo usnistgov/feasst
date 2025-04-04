@@ -19,8 +19,9 @@
    RemoveModify
    RefPotential
    RemoveAnalyze
-   WriteCheckpoint
    ConvertToRefPotential
+   WriteCheckpoint
+   OptPotential
    TrialComputeMove
    TrialSelect
    TrialSelectBond

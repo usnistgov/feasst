@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Domain &mdash; FEASST 0.25.9 0.25.9 documentation</title>
+  <title>Domain &mdash; FEASST 0.25.10 0.25.10 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=5f36b307"></script>
+      <script src="../../../_static/documentation_options.js?v=759965ef"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -52,7 +52,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.9
+            FEASST 0.25.10
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -131,7 +131,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.9</a>
+          <a href="../../../index.html">FEASST 0.25.10</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -212,17 +212,40 @@
 <p>By default, periodicity in each dimension is enabled when the side lengths are set.</p>
 <p>A cuboid-shaped domain may have unique side lengths but the angles between the edges of the domain are fixed at ninety degrees. In two-dimensions, the cuboid reduces to a rectangle.</p>
 <p>A triclinic-shaped domain is similar to cuboid-shaped except that the angles between the boundaries may different from ninety degrees. In two-dimensions, this reduces to a parallelogram.</p>
-<p>The triclinic periodic cell is defined by a vector for each dimension. This implementation is only valid for the following two- or three-dimensions.</p>
+<p>The triclinic periodic cell is defined by a vector for each dimension. This implementation is only valid for two- or three-dimensions.</p>
 <p>For the first (i.e., “x”):</p>
-<p><span class="math notranslate nohighlight">\( \vec{l_x} = {l_x, 0, 0} \)</span></p>
+<p><span class="math notranslate nohighlight">\( \vec{l}_x = \{l_x, 0, 0\} \)</span></p>
 <p>For the second (i.e., “y”):</p>
-<p><span class="math notranslate nohighlight">\( \vec{l_y} = {xy, l_y, 0} \)</span></p>
+<p><span class="math notranslate nohighlight">\( \vec{l}_y = \{xy, l_y, 0\} \)</span></p>
 <p>For the third (i.e., “z”):</p>
-<p><span class="math notranslate nohighlight">\( \vec{l_z} = {xz, yz, l_z} \)</span></p>
+<p><span class="math notranslate nohighlight">\( \vec{l}_z = \{xz, yz, l_z\} \)</span></p>
 <p>Thus, the angle, <span class="math notranslate nohighlight">\(\alpha\)</span>, between the “x” and “y” vectors is given by</p>
-<p><span class="math notranslate nohighlight">\( |l_x| |l_y| \cos\alpha = \vec{l_x} \cdot \vec{l_y}\)</span>.</p>
+<p><span class="math notranslate nohighlight">\( |l_x| |l_y| \cos\alpha = \vec{l}_x \cdot \vec{l}_y\)</span>.</p>
+<p>Scaled coordinates, <span class="math notranslate nohighlight">\(\vec{s}\)</span>, defined in the range of [0, 1] in each dimension, are related to the Cartesian coordinates, <span class="math notranslate nohighlight">\(\vec{x}\)</span>, via the matrix, <span class="math notranslate nohighlight">\( \mathbf{H}=[\vec{l}_x,\vec{l}_y,\vec{l}_z] \)</span>, as follows:</p>
+<p><span class="math notranslate nohighlight">\( \vec{x} = \mathbf{H} \vec{s} \)</span></p>
+<p><span class="math notranslate nohighlight">\( \vec{s} = \mathbf{H}^{-1} \vec{x} \)</span></p>
+<p><span class="math notranslate nohighlight">\( \mathbf{H} = \begin{bmatrix} lx &amp; xy &amp; xz\\ 0 &amp; ly &amp; yz\\ 0 &amp; 0 &amp; lz \end{bmatrix} \)</span></p>
+<p><span class="math notranslate nohighlight">\( \mathbf{H}^{-1} = \begin{bmatrix} 1/lx &amp; -\frac{xy}{lx* ly} &amp; \frac{xy* yz - xz* ly}{lx* ly* lz}\\ 0 &amp; 1/ly &amp; -\frac{yz}{ly* lz}\\ 0 &amp; 0 &amp; 1/lz \end{bmatrix} \)</span></p>
 <p>For more information, see LAMMPS: <a class="reference external" href="https://docs.lammps.org/Howto_triclinic.html">https://docs.lammps.org/Howto_triclinic.html</a></p>
-<p>Another good resource is the inner workings of Monte Carlo codes <a class="reference external" href="https://doi.org/10.1080/08927022.2013.819102">https://doi.org/10.1080/08927022.2013.819102</a></p>
+<p>Another good resource is Section 4.1 of <a class="reference external" href="https://doi.org/10.1080/08927022.2013.819102">https://doi.org/10.1080/08927022.2013.819102</a></p>
+<p>Periodic boundaries conditions are applied in scalar coordinates as</p>
+<p><span class="math notranslate nohighlight">\( \vec{s}' = \vec{s} - \mathrm{rint}(\vec{s}) \)</span></p>
+<p>where rint rounds a real number to the nearest integer.</p>
+<p>By comparison, the angles <span class="math notranslate nohighlight">\( \alpha, \beta, \gamma \)</span> and scalar boundary lengths <span class="math notranslate nohighlight">\( a, b, c \)</span> are related to the above variables as follows:</p>
+<p><span class="math notranslate nohighlight">\( lx = a \)</span></p>
+<p><span class="math notranslate nohighlight">\( ly = b \cos(\gamma) \)</span></p>
+<p><span class="math notranslate nohighlight">\( lz = c \sqrt{1-\cos(\beta)^2-\eta} \)</span></p>
+<p><span class="math notranslate nohighlight">\( \eta = \frac{\cos(\alpha) - \cos(\gamma)\cos(\beta)}{\sin(\gamma)} \)</span></p>
+<p><span class="math notranslate nohighlight">\( xy = ly \cos(\gamma) \)</span></p>
+<p><span class="math notranslate nohighlight">\( xz = c \cos(\beta) \)</span></p>
+<p><span class="math notranslate nohighlight">\( yz = c \eta \)</span></p>
+<p>Or in the other direction</p>
+<p><span class="math notranslate nohighlight">\( a = lx\)</span></p>
+<p><span class="math notranslate nohighlight">\( b^2 = ly^2 + xy^2 \)</span></p>
+<p><span class="math notranslate nohighlight">\( c^2 = lz^2 + xz^2 + yz^2 \)</span></p>
+<p><span class="math notranslate nohighlight">\( \cos(\alpha) = \frac{xy*xz + ly*yz}{b*c}\)</span></p>
+<p><span class="math notranslate nohighlight">\( \cos(\beta) = xz/c\)</span></p>
+<p><span class="math notranslate nohighlight">\( \cos(\gamma) = xy/b\)</span></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -307,6 +330,30 @@
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Domain6volumeEv">
 <span class="target" id="classfeasst_1_1Domain_1a393109e1c5808d0526c5c4f2773abe5b"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">volume</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Domain6volumeEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the volume. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Domain1hEv">
+<span class="target" id="classfeasst_1_1Domain_1ae84a15ba93cd40cf13060aa3ee10826b"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Matrix.html#_CPPv4N6feasst6MatrixE" title="feasst::Matrix"><span class="n"><span class="pre">Matrix</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">h</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Domain1hEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Return the matrix to multiply scaled coordinates to obtain Cartesian. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Domain5h_invEv">
+<span class="target" id="classfeasst_1_1Domain_1af61f75623d1ce027580bcd8ce09a15ec"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Matrix.html#_CPPv4N6feasst6MatrixE" title="feasst::Matrix"><span class="n"><span class="pre">Matrix</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">h_inv</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Domain5h_invEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Return the matrix to multiply Cartesian coordinates to obtain scaled. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Domain16cartesian2scaledERK8PositionP8Position">
+<span class="target" id="classfeasst_1_1Domain_1addee1a1183f1ef4df9d9b1d062ce6c6e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cartesian2scaled</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cartesian</span></span>, <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">scaled</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Domain16cartesian2scaledERK8PositionP8Position" title="Link to this definition"></a><br /></dt>
+<dd><p>Return the scaled coordinates, s, given cartesian cordinates, x. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst6Domain21cartesian2scaled_wrapERK8PositionP8Position">
+<span class="target" id="classfeasst_1_1Domain_1a74eda5fc111787e2e3c4835467ea7c85"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cartesian2scaled_wrap</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cartesian</span></span>, <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">scaled</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst6Domain21cartesian2scaled_wrapERK8PositionP8Position" title="Link to this definition"></a><br /></dt>
+<dd><p>Same as above, but wrap the scaled coordinates. </p>
 </dd></dl>
 
 <dl class="cpp function">

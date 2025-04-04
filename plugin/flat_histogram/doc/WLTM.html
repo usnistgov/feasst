@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WLTM &mdash; FEASST 0.25.9 0.25.9 documentation</title>
+  <title>WLTM &mdash; FEASST 0.25.10 0.25.10 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=5f36b307"></script>
+      <script src="../../../_static/documentation_options.js?v=759965ef"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -50,7 +50,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.9
+            FEASST 0.25.10
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -131,7 +131,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.9</a>
+          <a href="../../../index.html">FEASST 0.25.10</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -207,7 +207,30 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst4WLTME">
 <span class="target" id="classfeasst_1_1WLTM"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">WLTM</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias"><span class="n"><span class="pre">Bias</span></span></a><a class="headerlink" href="#_CPPv4N6feasst4WLTME" title="Link to this definition"></a><br /></dt>
-<dd><p>Begin with <a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> and end with <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>. See <a class="reference external" href="https://doi.org/10.1063/1.1615966">https://doi.org/10.1063/1.1615966</a> and <a class="reference external" href="https://doi.org/10.1063/1.4884124">https://doi.org/10.1063/1.4884124</a></p>
+<dd><p>Begin with WangLandau and end with TransitionMatrix.<a class="footnote-reference brackets" href="#footcite-shell-improved-2003" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>
+For the benefits of using WangLandau for initialization and
+TransitionMatrix for production convergence, see the Appendix of Shen and Siderius<a class="footnote-reference brackets" href="#footcite-shen-elucidating-2014" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p>
+<p><a class="reference internal" href="WLTM_arguments.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a> operates in the follow three stages.</p>
+<p><ol class="arabic simple">
+<li><p><a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> only. With <a class="reference internal" href="../../steppers/doc/CriteriaWriter_arguments.html#classfeasst_1_1CriteriaWriter"><span class="std std-ref">CriteriaWriter</span></a>, <a class="reference internal" href="WLTM_arguments.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a> writes both <a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> and <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>. At this stage, the <a class="reference internal" href="LnProbability_arguments.html#classfeasst_1_1LnProbability"><span class="std std-ref">LnProbability</span></a> from <a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> appears as ln_prob. Because <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> has not been used yet, the bias appears as all zeros with the header of ln_prob_tm.</p></li>
+<li><p>When the <a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> flatness reaches collect_flatness, the CollectrionMatrix begins to update with each trial move, but the bias is still based off of <a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a>.</p></li>
+<li><p>When the <a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> flatness reaches min_flatness, and the number of <a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> sweeps is greater than min_collect_sweeps, then the bias switches to <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>. Writh <a class="reference internal" href="../../steppers/doc/CriteriaWriter_arguments.html#classfeasst_1_1CriteriaWriter"><span class="std std-ref">CriteriaWriter</span></a>, the <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> <a class="reference internal" href="LnProbability_arguments.html#classfeasst_1_1LnProbability"><span class="std std-ref">LnProbability</span></a> appears as ln_prob, while the <a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> bias appears as ln_prob_wl.</p></li>
+</ol>
+</p>
+<p><p>References:</p>
+<div class="docutils container" id="id3">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-shell-improved-2003" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>M. Scott Shell, Pablo G. Debenedetti, and Athanassios Z. Panagiotopoulos. An improved Monte Carlo method for direct calculation of the density of states. <em>The Journal of Chemical Physics</em>, 119(18):9406–9411, November 2003. <a class="reference external" href="https://doi.org/10.1063/1.1615966">doi:10.1063/1.1615966</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-shen-elucidating-2014" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Vincent K. Shen and Daniel W. Siderius. Elucidating the effects of adsorbent flexibility on fluid adsorption using simple models and flat-histogram sampling methods. <em>The Journal of Chemical Physics</em>, 140(24):244106, June 2014. <a class="reference external" href="https://doi.org/10.1063/1.4884124">doi:10.1063/1.4884124</a>.</p>
+</aside>
+</aside>
+</div>
+</p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -252,7 +275,7 @@
 <p><ul class="simple">
 <li><p><a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> arguments.</p></li>
 <li><p><a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> arguments.</p></li>
-<li><p>collect_flatness: Begin populating the collection matrix when Wang-Landau has completed this many flatness checks. Note that populating the collection matrix does not necessarily mean that the collection matrix is used to compute the bias.</p></li>
+<li><p>collect_flatness: Begin populating the <a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> when <a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> has completed this many flatness checks. Note that populating the <a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> does not necessarily mean that the <a class="reference internal" href="CollectionMatrix_arguments.html#classfeasst_1_1CollectionMatrix"><span class="std std-ref">CollectionMatrix</span></a> is used to compute the <a class="reference internal" href="Bias_arguments.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a>.</p></li>
 <li><p>min_collect_sweeps: In addition to WangLandau::min_flatness, do not use <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> as bias until it has this minimum number of sweeps. If -1, do nothing (default: -1). </p></li>
 </ul>
 </p>
