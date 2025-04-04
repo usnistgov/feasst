@@ -93,4 +93,10 @@ double Bias::ln_bias(const int bin_new, const int bin_old) const {
   return ln_prob().value(bin_old) - ln_prob().value(bin_new);
 }
 
+std::string Bias::write_per_bin_header(const std::string& append) const {
+  std::stringstream ss;
+  ss << "ln_prob" << append << ",delta_ln_prob" << append;
+  return ss.str();
+}
+
 }  // namespace feasst

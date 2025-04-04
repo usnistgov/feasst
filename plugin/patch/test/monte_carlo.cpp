@@ -38,7 +38,7 @@ std::unique_ptr<MonteCarlo> patchmc(const int min, const int max) {
   const double patch_angle_degrees = 2*std::asin(std::sqrt(chi/2))*180/PI;
   const std::string trials_per = "1e5";
   auto mc = MakeMonteCarlo({{
-    {"RandomMT19937", {{"seed", "time"}}},
+    {"RandomMT19937", {{"seed", "123"}}},
     {"Configuration", {{"cubic_side_length", "8"},
       {"patch_angle1", str(patch_angle_degrees)},
       {"particle_type0", install_dir() + "/plugin/patch/particle/two_patch_linear.fstprt"},

@@ -30,8 +30,20 @@ void AngleSquareWell::serialize(std::ostream& ostr) const {
 }
 
 double AngleSquareWell::energy(const double radians, const Bond& angle) const {
-  const double minimum = degrees_to_radians(angle.property("minimum"));
-  const double maximum = degrees_to_radians(angle.property("maximum"));
+  double minimum;
+  if (angle.has_property("minimum")) {
+    minimum = degrees_to_radians(angle.property("minimum"));
+    // WARN("AngleSquareWell minimum is deprecated. Use min_degrees.");
+  } else {
+    minimum = degrees_to_radians(angle.property("min_degrees"));
+  }
+  double maximum;
+  if (angle.has_property("maximum")) {
+    maximum = degrees_to_radians(angle.property("maximum"));
+    // WARN("AngleSquareWell maximum is deprecated. Use max_degrees.");
+  } else {
+    maximum = degrees_to_radians(angle.property("max_degrees"));
+  }
   TRACE("radians " << radians);
   ASSERT(!std::isnan(radians), "radians is nan");
   if (radians < minimum || radians > maximum) {

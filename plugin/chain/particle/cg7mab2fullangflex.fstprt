@@ -79,12 +79,12 @@ Bonds
 
 Angle Properties
 
-0 AngleSquareWell minimum 0.0 maximum 180.0
-1 AngleSquareWell minimum 0.0 maximum 180.0
-2 AngleSquareWell minimum 0.0 maximum 180.0
-3 AngleSquareWell minimum 98.770311717551300000 maximum 180.0
-4 AngleSquareWell minimum 84.330508349490500000 maximum 180.0
-5 AngleSquareWell minimum 70.457290162886000000 maximum 180.0
+0 AngleSquareWell min_degrees 0.0 max_degrees 180.0
+1 AngleSquareWell min_degrees 0.0 max_degrees 180.0
+2 AngleSquareWell min_degrees 0.0 max_degrees 180.0
+3 AngleSquareWell min_degrees 98.770311717551300000 max_degrees 180.0
+4 AngleSquareWell min_degrees 84.330508349490500000 max_degrees 180.0
+5 AngleSquareWell min_degrees 70.457290162886000000 max_degrees 180.0
 
 Angles
 

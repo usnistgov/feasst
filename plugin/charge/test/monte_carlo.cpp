@@ -155,7 +155,7 @@ TEST(MonteCarlo, spce_NVT_BENCHMARK_LONG) {
 
 TEST(MonteCarlo, rpm) {
   MonteCarlo mc;
-  mc.set(MakeRandomMT19937({{"seed", "time"}}));
+  mc.set(MakeRandomMT19937());
   //mc.set(MakeRandomMT19937({{"seed", "123"}})); WARN("temporary");
   mc.set(rpm({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"cubic_side_length", "20"}}));
   //mc.set(rpm({{"cubic_side_length", "20"}, {"kmax_squared", "3"}})); WARN("temp");

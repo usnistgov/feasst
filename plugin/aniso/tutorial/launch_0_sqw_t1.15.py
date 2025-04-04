@@ -57,7 +57,7 @@ def parse():
                         help='FEASST particle definition')
     parser.add_argument('--cutoff', type=float, default=1.5, help='square well cutoff')
     parser.add_argument('--dccb_cut', type=float, default=1, help='DCCB cutoff')
-    parser.add_argument('--num_orientations_per_pi', type=int, default=3,
+    parser.add_argument('--num_orientations_per_pi', type=int, default=2,
                         help='number of orientations per 90 degrees in each table angle')
     parser.add_argument('--num_z', type=int, default=2, help='number of distances in table')
     parser.add_argument('--table_file', type=str, default='dat.txt', help='table file name')
@@ -106,7 +106,7 @@ def parse():
     params['minimums'] = [params['min_particles']]
     if params['num_nodes'] == 1:
         params['windows'] = macrostate_distribution.window_exponential(
-            alpha=2.0, minimums=params['minimums'], maximum=params['max_particles'],
+            alpha=2.25, minimums=params['minimums'], maximum=params['max_particles'],
             number=params['num_sims'], overlap=1, min_size=5)
     return params, args
 

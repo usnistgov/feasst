@@ -121,7 +121,7 @@ std::string FlatHistogram::write() const {
      << "\"soft_max\":" << macrostate_->soft_max();
   ss << std::endl;
   ss << "state,"
-     << bias_->write_per_bin_header()
+     << bias_->write_per_bin_header("")
      << std::endl;
   const Histogram& hist = macrostate_->histogram();
   for (int bin = 0; bin < hist.size(); ++bin) {

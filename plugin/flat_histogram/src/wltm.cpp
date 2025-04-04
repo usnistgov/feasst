@@ -34,6 +34,13 @@ bool WLTM::is_wl_bias_(const Macrostate& macro) const {
   return false;
 }
 
+bool WLTM::is_cm_update_() const {
+  if (wang_landau_->num_flatness() >= collect_flatness_) {
+    return true;
+  }
+  return false;
+}
+
 void WLTM::update(
     const int macrostate_old,
     const int macrostate_new,
@@ -42,8 +49,8 @@ void WLTM::update(
     const bool is_endpoint,
     const Macrostate& macro) {
   DEBUG("num_flatness " << wang_landau_->num_flatness());
-  const bool is_wl_bias = is_wl_bias_(macro);
-  if (is_wl_bias) {
+  is_wl_bias_at_update_ = is_wl_bias_(macro);
+  if (is_wl_bias_at_update_) {
     DEBUG("wl update");
     wang_landau_->update(macrostate_old, macrostate_new,
       ln_metropolis_prob, is_accepted, is_endpoint, macro);
@@ -53,12 +60,11 @@ void WLTM::update(
       increment_phase();
     }
   }
-  if (wang_landau_->num_flatness() >= collect_flatness_) {
-    DEBUG("tm update");
+  if (is_cm_update_()) {
     transition_matrix_->update(macrostate_old, macrostate_new,
       ln_metropolis_prob, is_accepted, is_endpoint, macro);
   }
-  if (!is_wl_bias && transition_matrix_->is_complete()) {
+  if (!is_wl_bias_at_update_ && transition_matrix_->is_complete()) {
     set_complete_();
   }
 }
@@ -80,7 +86,7 @@ void WLTM::infrequent_update(const Macrostate& macro) {
   if (is_wl_bias_(macro)) {
     wang_landau_->infrequent_update(macro);
   }
-  if (wang_landau_->num_flatness() >= collect_flatness_) {
+  if (is_cm_update_()) {
     transition_matrix_->infrequent_update(macro);
   }
 }
@@ -93,10 +99,16 @@ std::string WLTM::write() const {
   return ss.str();
 }
 
-std::string WLTM::write_per_bin_header() const {
+std::string WLTM::write_per_bin_header(const std::string& append) const {
+  std::string wl_app = "", tm_app = "";
+  if (!is_wl_bias_at_update_) {
+    wl_app = "_wl";
+  } else {
+    tm_app = "_tm";
+  }
   std::stringstream ss;
-  ss << wang_landau_->write_per_bin_header() << ",";
-  ss << transition_matrix_->write_per_bin_header();
+  ss << wang_landau_->write_per_bin_header(wl_app) << ",";
+  ss << transition_matrix_->write_per_bin_header(tm_app);
   return ss.str();
 }
 

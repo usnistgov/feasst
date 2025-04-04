@@ -18,6 +18,11 @@ typedef std::map<std::string, std::string> argtype;
 /**
   Bias for flat histogram Monte Carlo.
   Assumes a one-dimensional macrostate.
+
+  CriteriaWriter outputs the following as a row for each Macrostate:
+  - "ln_prob" the LnProbability.
+  - "delta_ln_prob" the change in LnProbability from the previous Macrostate
+    (e.g., ln_prob(state) - ln_prob(state - 1), so the lowest state is NaN).
  */
 class Bias {
  public:
@@ -51,8 +56,7 @@ class Bias {
 
   virtual std::string write_per_bin(const int bin) const;
 
-  virtual std::string write_per_bin_header() const {
-    return std::string("ln_prob,delta_ln_prob"); }
+  virtual std::string write_per_bin_header(const std::string& append) const;
 
   /// Return the simulation phase index used to differentiate production
   /// and initialization, etc.

@@ -12,9 +12,23 @@ namespace feasst {
 class LnProbability;
 
 /**
-  Wang Landau flat histogram bias.
-  https://doi.org/10.1103/PhysRevLett.86.2050
-  https://doi.org/10.1063/1.1615966
+\rst
+Wang-Landau flat histogram bias.\ :footcite:p:`wang_efficient_2001`
+\endrst
+
+  CriteriaWriter outputs the following:
+  - num_flatness: The number of times the visited states histogram was found
+    to be flat.
+  - rows for each Macrostate with the following:
+    - "visited" the number of times a state has been visited since the last
+      time this visited states histogram was reset after it was deemed to be
+      sufficiently flat.
+
+\rst
+References:
+
+.. footbibliography::
+\endrst
  */
 class WangLandau : public Bias {
  public:
@@ -57,7 +71,7 @@ class WangLandau : public Bias {
   void infrequent_update(const Macrostate& macro) override;
   std::string write() const override;
   std::string write_per_bin(const int bin) const override;
-  std::string write_per_bin_header() const override;
+  std::string write_per_bin_header(const std::string& append) const override;
   void set_ln_prob(const LnProbability& ln_prob) override;
   const int num_flatness() const { return num_flatness_; }
   std::shared_ptr<Bias> create(std::istream& istr) const override {
@@ -76,8 +90,6 @@ class WangLandau : public Bias {
   double flatness_threshold_ = 0;
   int min_visit_per_macro_;
 
-  /// Count of the number of times a state has been visited since the last time
-  /// this histogram was reset after it was deemed to be sufficiently flat.
   std::vector<int> visited_states_;
 
   /// Number of times the visited states histogram was found to be flat.

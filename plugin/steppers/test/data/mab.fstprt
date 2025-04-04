@@ -58,7 +58,7 @@ Bonds
 
 Angle Properties
 
-0 AngleSquareWell minimum 70 maximum 180
+0 AngleSquareWell min_degrees 70 max_degrees 180
 
 Angles
 

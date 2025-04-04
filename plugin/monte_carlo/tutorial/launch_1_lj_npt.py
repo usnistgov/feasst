@@ -106,7 +106,7 @@ def post_process(params):
     ens = np.zeros(shape=(params['num_sims'], 2))
     rhos = np.zeros(shape=(params['num_sims'], 2))
     for sim in range(params['num_sims']):
-        log = pd.read_csv(params['prefix']+str(sim)+'.txt')
+        log = pd.read_csv(params['prefix']+str(sim)+'.csv')
         assert int(log['num_particles_of_type0'][0]) == params['num_particles']
         energy = pd.read_csv(params['prefix']+str(sim)+'_en.csv')
         ens[sim] = np.array([energy['average'][0],

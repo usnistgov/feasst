@@ -19,7 +19,7 @@ Bond Properties
 
 Angle Properties
 
-0 AngleSquareWell minimum 0.0 maximum 180.0
+0 AngleSquareWell min_degrees 0.0 max_degrees 180.0
 
 Sites
 

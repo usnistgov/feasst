@@ -145,7 +145,7 @@ void CollectionMatrixSplice::write(const std::string& file_name) const {
     if (file.good()) {
       auto tm = MakeTransitionMatrix({{"min_sweeps", "0"}});
       tm->set_cm(collection_matrix());
-      file << "state," << tm->write_per_bin_header() << std::endl;
+      file << "state," << tm->write_per_bin_header("") << std::endl;
       for (int bin = 0; bin < static_cast<int>(tm->cm().matrix().size()); ++bin) {
         file << bin << "," << tm->write_per_bin(bin) << std::endl;
       }

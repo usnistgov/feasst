@@ -73,9 +73,9 @@ std::string WangLandau::write() const {
   return ss.str();
 }
 
-std::string WangLandau::write_per_bin_header() const {
+std::string WangLandau::write_per_bin_header(const std::string& append) const {
   std::stringstream ss;
-  ss << Bias::write_per_bin_header() << ",visited";
+  ss << Bias::write_per_bin_header(append) << ",visited";
   return ss.str();
 }
 

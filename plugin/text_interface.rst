@@ -299,6 +299,7 @@ Actions
    monte_carlo/doc/WriteCheckpoint_arguments
    monte_carlo/doc/WriteModelParams_arguments
    monte_carlo/doc/RefPotential_arguments
+   monte_carlo/doc/OptPotential_arguments
    steppers/doc/WriteStepper_arguments
    example/doc/ActionExample_arguments
 
@@ -343,6 +344,12 @@ Change Log
 Below is a list text interface changes that may affect older scripts.
 Backwards incompatibility should remain for deprecated interface on minor version changes.
 Renamed arguments are shown as Class::old_argument->new_argument.
+
+v0.25.9 to v0.25.10
+-----------------------
+* AngleSquareWell::minimum->min_degrees
+* AngleSquareWell::maximum->max_degrees
+* Random::seed, deprecated "time" and "default" options.
 
 v0.25.6 to v0.25.7
 -----------------------

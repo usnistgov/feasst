@@ -13,19 +13,46 @@ class WangLandau;
 class TransitionMatrix;
 
 /**
-  Begin with WangLandau and end with TransitionMatrix.
-  See https://doi.org/10.1063/1.1615966 and https://doi.org/10.1063/1.4884124
- */
+\rst
+Begin with WangLandau and end with TransitionMatrix.\ :footcite:p:`shell_improved_2003`
+For the benefits of using WangLandau for initialization and
+TransitionMatrix for production convergence, see the Appendix of :footcite:t:`shen_elucidating_2014`.
+\endrst
+
+  WLTM operates in the follow three stages.
+
+  1. WangLandau only.
+     With CriteriaWriter, WLTM writes both WangLandau and TransitionMatrix.
+     At this stage, the LnProbability from WangLandau appears as ln_prob.
+     Because TransitionMatrix has not been used yet, the bias appears as all
+     zeros with the header of ln_prob_tm.
+
+  2. When the WangLandau flatness reaches collect_flatness, the
+     CollectrionMatrix begins to update with each trial move, but the bias is
+     still based off of WangLandau.
+
+  3. When the WangLandau flatness reaches min_flatness, and the number of
+     CollectionMatrix sweeps is greater than min_collect_sweeps, then the bias
+     switches to TransitionMatrix.
+     Writh CriteriaWriter, the TransitionMatrix LnProbability appears as
+     ln_prob, while the WangLandau bias appears as ln_prob_wl.
+
+\rst
+References:
+
+.. footbibliography::
+\endrst
+*/
 class WLTM : public Bias {
  public:
   //@{
   /** @name Arguments
     - WangLandau arguments.
     - TransitionMatrix arguments.
-    - collect_flatness: Begin populating the collection matrix when Wang-Landau
+    - collect_flatness: Begin populating the CollectionMatrix when WangLandau
       has completed this many flatness checks.
-      Note that populating the collection matrix does not necessarily mean that
-      the collection matrix is used to compute the bias.
+      Note that populating the CollectionMatrix does not necessarily mean that
+      the CollectionMatrix is used to compute the Bias.
     - min_collect_sweeps: In addition to WangLandau::min_flatness, do not use
       TransitionMatrix as bias until it has this minimum number of sweeps.
       If -1, do nothing (default: -1).
@@ -56,7 +83,7 @@ class WLTM : public Bias {
   void infrequent_update(const Macrostate& macro) override;
   std::string write() const override;
   std::string write_per_bin(const int bin) const override;
-  std::string write_per_bin_header() const override;
+  std::string write_per_bin_header(const std::string& append) const override;
   void set_ln_prob(const LnProbability& ln_prob) override;
 
   // HWH hackish interface. See CollectionMatrixSplice::adjust_bounds.
@@ -82,6 +109,10 @@ class WLTM : public Bias {
   std::unique_ptr<TransitionMatrix> transition_matrix_;
 
   bool is_wl_bias_(const Macrostate& macro) const;
+  bool is_cm_update_() const;
+
+  // temporary and not serialized
+  bool is_wl_bias_at_update_ = false;
 };
 
 inline std::shared_ptr<WLTM> MakeWLTM(argtype args = argtype()) {

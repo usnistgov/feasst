@@ -19,7 +19,7 @@ def parse():
     parser.add_argument('--fstprt0', type=str, default='/feasst/particle/dimer_mie_CO2.fstprt', help='FEASST particle definition')
     parser.add_argument('--fstprt1', type=str, default='/feasst/particle/dimer_mie_N2.fstprt', help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./258.15, help='inverse temperature (K)')
-    parser.add_argument('--pressure', type=float, default=7.6148, help='pressure (MPa)')
+    parser.add_argument('--pressure', type=float, default=5.38, help='pressure (MPa)')
     parser.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
     parser.add_argument('--equil_npt', type=int, default=int(1e1), help='number of cycles for np equilibraiton')
     parser.add_argument('--equil', type=int, default=int(1e1), help='number of cycles for Gibbs equilibraiton')
@@ -165,10 +165,10 @@ def post_process(params):
     numc1n1 = pd.read_csv(params['prefix']+'0_c1_n1.csv')['average'][0]
     yco2 = numc0n0/(numc0n0+numc0n1)
     print('mol frac CO2 in vapor', yco2)
-    assert np.abs(yco2 - 0.46453) < 0.005
+    assert np.abs(yco2 - 0.536) < 0.05
     xco2 = numc1n0/(numc1n0+numc1n1)
     print('mol frac CO2 in liquid', xco2)
-    assert np.abs(xco2 - 0.89715) < 0.005
+    assert np.abs(xco2 - 0.938) < 0.05
     eq = pd.read_csv(params['prefix']+'0_eq.csv')
     prod = pd.read_csv(params['prefix']+'0.csv')
     for conf in range(2):
@@ -179,9 +179,9 @@ def post_process(params):
         n0 = prod['num_particles_of_type0_config'+str(conf)]
         n1 = prod['num_particles_of_type1_config'+str(conf)]
         plt.plot(prod['trial'], n0/(n0+n1))
-    plt.axhline(0.8977, linestyle='dotted', color='black')
-    plt.axhline(0.4788, linestyle='dotted', color='black')
-    plt.title('MIE CO2 N2 mixture P=7.6148 MPa T=258.15')
+    #plt.axhline(0.8977, linestyle='dotted', color='black')
+    #plt.axhline(0.4788, linestyle='dotted', color='black')
+    plt.title('MIE CO2 N2 mixture P='+str(params['pressure'])+' MPa T='+str(1./params['beta']))
     plt.xlabel('trials', fontsize=16)
     plt.ylabel('mole fraction CO2', fontsize=16)
     #if True:

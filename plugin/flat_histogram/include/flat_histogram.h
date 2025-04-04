@@ -23,6 +23,13 @@ typedef std::map<std::string, std::string> argtype;
   to recover the free energy of the system as a function of the give macrostate.
 
   The Macrostate must be defined before the bias.
+
+  CriteriaWriter outputs the following:
+  - Criteria base class output.
+  - Bias derived class output.
+  - soft_min and soft_max, the current bounds of the macrostate.
+  - rows of each Macrostate, given by "state," followed by Bias derived class-
+    specific information for each Macrostate.
  */
 class FlatHistogram : public Criteria {
  public:

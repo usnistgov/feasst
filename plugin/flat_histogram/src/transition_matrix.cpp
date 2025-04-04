@@ -109,9 +109,9 @@ std::string TransitionMatrix::write() const {
   return ss.str();
 }
 
-std::string TransitionMatrix::write_per_bin_header() const {
+std::string TransitionMatrix::write_per_bin_header(const std::string& append) const {
   std::stringstream ss;
-  ss << Bias::write_per_bin_header() << ",";
+  ss << Bias::write_per_bin_header(append) << ",";
   ss << "visits0,visits1,";
   ss << collection_->write_per_bin_header();
   if (widom_) {

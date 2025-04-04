@@ -21,8 +21,10 @@ void Random::parse_seed_(argtype * args) {
   if (used("seed", *args)) {
     const std::string seed_str = str("seed", args);
     if (seed_str == "time") {
+      WARN("Random argument \"time\" is deprecated and will be removed.");
       seed_by_time();
     } else if (seed_str == "default") {
+      WARN("Random argument \"default\" is deprecated and will be removed.");
       seed();
     } else {
       seed(str_to_int(seed_str));

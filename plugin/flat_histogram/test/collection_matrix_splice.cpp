@@ -34,7 +34,6 @@ std::unique_ptr<MonteCarlo> monte_carlo2(const int thread, const int min, const 
   DEBUG("max " << max);
   const int trials_per = 1e2;
   auto mc = std::make_unique<MonteCarlo>();
-  mc->set(MakeRandomMT19937({{"seed", "time"}}));
   //mc->set(MakeRandomMT19937({{"seed", "123"}}));
   //mc->set(MakeRandomMT19937({{"seed", "1646430438"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},

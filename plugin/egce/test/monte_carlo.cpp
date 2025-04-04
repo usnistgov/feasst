@@ -205,7 +205,7 @@ std::unique_ptr<MonteCarlo> dival_egce(
   const double temperature = 0.25;
   const double beta_mu = -7.94;
   auto mc = std::make_unique<MonteCarlo>();
-  mc->set(MakeRandomMT19937({{"seed", "time"}}));
+  mc->set(MakeRandomMT19937());
   mc->set(rpm({
     {"delta", "0.3"},
     {"charge_ratio", "2"},
@@ -335,7 +335,6 @@ TEST(MonteCarlo, rpm_egce_avb_divalent_LONG) {
   const int min = 1;
   auto mc = dival_egce(min);
   mc->add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
-  mc->set(MakeRandomMT19937({{"seed", "time"}}));
   mc->set(1, MakePotential(MakeModelTwoBodyFactory(MakeHardSphere(),
                                                   MakeChargeScreened()),
                           MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
@@ -367,7 +366,6 @@ TEST(MonteCarlo, rpm_egce_divalent_avb_and_not) {
   const int min = 0, max = 15, trials_per = 1e3;
   auto mc = dival_egce(min, max, trials_per);
   mc->add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
-  mc->set(MakeRandomMT19937({{"seed", "time"}}));
   mc->set(1, MakePotential(MakeModelTwoBodyFactory(MakeHardSphere(),
                                                   MakeChargeScreened()),
                           MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));

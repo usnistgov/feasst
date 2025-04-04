@@ -16,28 +16,41 @@ class LnProbability;
 /**
 \rst
 Transition matrix\ :footcite:p:`errington_direct_2003` flat histogram bias
-may be used to compute phase behavior in the grand canonical ensemble.
+may be used to compute phase behavior in the grand canonical ensemble in both
+bulk and confined system, including
+flexibility.\ :footcite:p:`shen_elucidating_2014`
+\endrst
 
-Elucidating the effects of adsorbent flexibility on fluid adsorption using
-simple models and flat-histogram sampling methods.
-https://doi.org/10.1063/1.4884124
+  A count of all accepted transitions between macrostates is used for a newly
+  developed sweep metric.
 
-A count of all accepted transitions between macrostates is used for a newly
-developed sweep metric.
+  Note that transitions to macrostates that have not yet been sampled are
+  unbiased.
+  This can lead to long initialization times, depending on your choice of the
+  chemical potential.
+  For example, if a simulation begins with zero particles and attempts a
+  particle insertion, this insertion is unlikely to be accepted if the chemical
+  potential is very low (favoring less particles).
+  This can lead to very low initialization times.
+  This issue can be overcome with the use of WLTM, which instead uses
+  Wang-Landau to initialize the transition matrix.
+  This makes WLTM efficiency less sensitive than TransitionMatrix to the choice
+  of chemical potential.
 
-Note that transitions to macrostates that have not yet been sampled are
-unbiased.
-This can lead to long initialization times, depending on your choice of the
-chemical potential.
-For example, if a simulation begins with zero particles and attempts a
-particle insertion, this insertion is unlikely to be accepted if the chemical
-potential is very low (favoring less particles).
-This can lead to very low initialization times.
-This issue can be overcome with the use of WLTM, which instead uses
-Wang-Landau to initialize the transition matrix.
-This makes WLTM efficiency less sensitive than TransitionMatrix to the choice
-of chemical potential.
+  CriteriaWriter outputs the following:
+  - num_sweeps: A sweep is used as a convergence metric to guage how long a
+    simulation has run.
+    A sweep is performed when all macrostates
+    are visited by another macrostate this number of times.
+    Or, see new_sweep for an alternative definition.
+  - rows for each Macrostate with the following:
+    - visits0: the number of times a trial was accepted to transition into
+      this Macrostate from a higher Macrostate.
+    - visits1: the number of times a trial was accepted to transition into
+      this Macrostate from a lower Macrostate.
+    - CollectionMatrix data.
 
+\rst
 References:
 
 .. footbibliography::
@@ -91,7 +104,7 @@ class TransitionMatrix : public Bias {
   void resize(const Histogram& histogram) override;
   std::string write() const override;
   std::string write_per_bin(const int bin) const override;
-  std::string write_per_bin_header() const override;
+  std::string write_per_bin_header(const std::string& append) const override;
   void set_ln_prob(const LnProbability& ln_prob) override;
   void infrequent_update(const Macrostate& macro) override;
   bool is_equal(const TransitionMatrix& transition_matrix,

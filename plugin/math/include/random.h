@@ -26,12 +26,8 @@ class Random {
   //@{
   /** @name Arguments
     - seed: Provide an integer to seed the random number generator.
-      If the string "time" is provided, then use the time and date to generate
-      the seed.
       If no seed is provided, but random numbers are requested, then
       the time will be used to generate a seed.
-      If the string "default" is provided, then use the default integer
-      included in Random::seed().
    */
   explicit Random(argtype * args);
 

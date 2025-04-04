@@ -29,7 +29,7 @@ def parse(particle_type0='/feasst/particle/dimer_mie_CO2.fstprt',
           particle_type1='/feasst/particle/dimer_mie_N2.fstprt',
           beta=1./258.15,
           beta_mu0=-3,
-          beta_delta_mu=-1,
+          beta_delta_mu=0.244046,
           beta_init=1/400,
           min_sweeps=5,
           cubic_side_length=24,
@@ -123,6 +123,9 @@ TrialTranslate weight_per_number_fraction 0.5 particle_type 0 tunable_param 0.2
 TrialTranslate weight_per_number_fraction 0.5 particle_type 1 tunable_param 0.2
 TrialParticlePivot weight_per_number_fraction 0.5 particle_type 0 tunable_param 0.5
 TrialParticlePivot weight_per_number_fraction 0.5 particle_type 1 tunable_param 0.5
+# The following semigrand particle type changes only help sampling if the excluded volumes of the two particles are similar (and particles are rigid)
+TrialMorph weight 0.5 particle_type0 0 particle_type_morph0 1
+TrialMorph weight 0.5 particle_type0 1 particle_type_morph0 0
 CheckEnergy trials_per_update {tpc} decimal_places 4
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
@@ -186,18 +189,18 @@ def post_process(params):
         num0 = phase.ensemble_average('num0_average')
         print('num0', num0)
         if index == 0:
-            assert np.abs(n_gce - 15.2) < 4
+            assert np.abs(n_gce - 25.9) < 4
             pressure = -phase.ln_prob()[0]/params['beta']/params['cubic_side_length']**3
             print('pressure(K/Ang^3)', pressure)
             # convert pressure in K/Ang^3 to MPa
             # K/Ang^3 (1e30 A^3 / m^3)(Pa m^3/J)(MPa/1e6/Pa)(kB J/K)
             pres_conv = 1e30/1e6*physical_constants.BoltzmannConstant().value()
             print('pressure(MPa)', pressure*pres_conv)
-            assert np.abs(pressure*pres_conv - 3.185) < 0.4
-            assert np.abs(num0 - 11.97) < 4
+            assert np.abs(pressure*pres_conv - 5.38) < 0.4
+            assert np.abs(num0 - 14.15) < 4
         else:
-            assert np.abs(n_gce - 187) < 4
-            assert np.abs(num0 - 185.3) < 4
+            assert np.abs(n_gce - 186.8) < 4
+            assert np.abs(num0 - 180.8) < 4
         #plt.plot(phase.dataframe()['num0_average'])
         #plt.show()
         print('mole frac0', num0/n_gce)

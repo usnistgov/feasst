@@ -33,6 +33,26 @@ typedef std::map<std::string, std::string> argtype;
   The second is the state change as follows:
     - 0: macrostate decrease
     - 1: macrostate increase
+
+\rst
+Block standard deviations are computed as described in :footcite:t:`hatch_efficiency_2023`
+\endrst
+
+  CriteriaWriter outputs the following for each Macrostate:
+  - ln_prob[i]: where [i] is an integer for each block starting with zero.
+    These block ln_prob can be used to compute statistic uncertainty.
+  - delta_ln_probl_stdev: the standard deviations of the mean computed from the block ln_prob[i]
+  - P_down: The probability to transition to a lower Macrostate.
+  - P_up The probability to transition to a higher Macrostate.
+  - n_trials: the number of trials collected for P_down.
+  - P_down_block_std: The block standard deviation of the mean for P_down.
+  - P_up_block_std: The block standard deviation of the mean for P_up.
+
+\rst
+References:
+
+.. footbibliography::
+\endrst
  */
 class CollectionMatrix {
  public:
