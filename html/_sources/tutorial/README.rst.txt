@@ -51,6 +51,7 @@ Others:
    ../plugin/aniso/tutorial/tutorial*
    ../plugin/fftw/tutorial/tutorial*
    ../plugin/morph/tutorial/tutorial*
+   ../plugin/gibbs/tutorial/tutorial*
    ../plugin/netcdf/tutorial/tutorial*
 
 Text file interface

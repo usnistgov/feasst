@@ -7,19 +7,18 @@ Developers and contributors of FEASST may consider the following guidelines in o
 Branch policies
 =======================
 
-Branches in Git are extremely useful for working on different features within the same code base and then merging them into a final product or release.
-
-Using and naming branches in a way that is consistent may simplify this process.
+Branches in Git allow simultaneous work on different features within the same code base, and merging into a final product or release.
+Consistent branch naming simplifies this process.
 
 Main branch
 --------------------------------------------------------------------------------
 
 This is the release branch.
-This branch may only merge with develop and hotfix branches.
+This branch merges with develop and hotfix branches.
 
 * `GTEST: Unittest C++`_ and all tests pass
 * `Valgrind: Find memory leaks`_
-* `GCOV and LCOV: Test coverage`_ which must be >85%
+* `GCOV and LCOV: Test coverage`_
 * `cpplint and pylint: Clean up styling`_
 * SWIG and Python unittested
 * `Document`_ new features
@@ -29,25 +28,23 @@ Develop branch
 --------------------------------------------------------------------------------
 
 This is the development branch.
-
 Tested and complete implementation of new features are added here.
 
 * Code must compile and gtests pass successfully
-* Consider feature compatibility with swig python interface
-* When merging into this branch, use --squash to add the entire feature with a single commit.
-  Alternatively, you could also rebase your private branch.
+* When merging into this branch, --squash to add the entire feature with a single commit.
+  The feature branch can be saved by the developer as complete_feature_commit for future reference.
+  Alternatively, you could rebase your private branch.
 
 Hotfix branch
 --------------------------------------------------------------------------------
 
 The hotfix branch is for implementation of bug fixes to the main branch.
-After merging with main and develop, they are deleted.
 
 Feature branches
 --------------------------------------------------------------------------------
 
 These branches are for the development of new features.
-These branch names must begin with characters which identify the main developer of the feature (e..g, username/feature)
+These branch names begin with the main developer identity (e..g, username/feature)
 The main developer sets the branch policy.
 
 Dead (dead_*) branches
@@ -56,8 +53,8 @@ Dead (dead_*) branches
 These branches may record an incomplete attempt of a feature that may be relevant in the future.
 These branch names must begin with the characters "dead".
 
-* No rules. Code may not compile.
-  HINT: rename branches with "git branch -m <newname>"
+* Code may not compile.
+  Rename branches with "git branch -m <newname>"
 
 Pull requests
 --------------------------------------------------------------------------------
@@ -72,12 +69,12 @@ To create a pull request:
 * submit the "testmerge" branch in the pull request.
 * You can keep your "user/feature" branch with more fine-grain commits for your own purposes or later testing if an issue is discovered. I often rename these "complete_feature_[commit]" after merging to develop where the commit is 6-10 of the first characters of the squash merge commit (for later record).
 
-Try to copy the style of existing commits in the main branch. This means reducing the number of commits in a pull request (e.g., consider a git merge), and to keep the commit descriptions in a similar style as existing commits. For example, the description should be a single sentence that is general and not redundant information from what you see when you click on the details of the commit. Basically, the commit description should be a single line and very succinct (e.g., the classes or plugins changed).
+Try to copy the style of existing commits in the main branch. This means reducing the number of commits in a pull request (e.g., consider a git merge), and describe commits in a similar style as existing commits. For example, the description should be a single sentence that is general and not redundant. The commit description should be concise (e.g., the classes or plugins changed or added).
 
 For lead developers to incorporate the pull request into feasst
 - git fetch usnistgov pull/ID/head:BRANCHNAME
 - git checkout BRANCHNAME
-- [make local changes. Can "git commit --amend"]
+- [make local changes if required. Can "git commit --amend"]
 - If authorship is missing after a squash merge, use git commit --amend --author="My Nick my.adress@email.com"
 - git push usnistgov BRANCHNAME
 
@@ -87,7 +84,7 @@ Tools
 GTEST: Unittest C++
 --------------------------------------------------------------------------------
 
-The main branch requires GTEST coverage for all cpp plugins in plugin/name/test.
+The main branch requires GTEST coverage for all cpp plugins in "plugin/[name]/test."
 
 .. code-block:: bash
 
@@ -104,11 +101,11 @@ GDB or LLDB: Debugging
 --------------------------------------------------------------------------------
 
 gdb (or lldb on macOS) is especially useful for identifying segfaults via backtraces.
-The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.
+The -g flag in compilation is required for correct line numbers in the gdb output.
 Often, the optimization flags (e.g., -O3) can obfuscate the backtrace.
-If that is the case, recompile without optimization (using cmake).
+If that is the case, recompile without optimization (using CMakeLists.txt).
 
-In bash
+In BASH
 
 .. code-block:: bash
 
@@ -130,19 +127,14 @@ gdb can also be used with python as
    gdb python
    r [python script] [optional flags]
 
-* use 'gdb catch throw' or 'lldb break set -E C++' to backtrace exceptions
-
-* use gdb as a profiler by ctrl c in the middle and backtrace: https://stackoverflow.com/a/378024
-* use gdb as a parallel profiler: http://poormansprofiler.org/
+* backtrace exceptions with 'gdb catch throw' or 'lldb break set -E C++'
+* profile by running a long simulation, pause in the middle with ctrl c, then backtrace
 
 Valgrind: Find memory leaks
 --------------------------------------------------------------------------------
 
-Valgrind helps to detect memory management bugs.
-
-http://valgrind.org/
-
-For example, to run Valgrind on a particular test and output to text file
+Valgrind detects memory issues.
+For example, to run Valgrind on a particular test and output to text file in BASH
 
 .. code-block:: bash
 
@@ -151,16 +143,15 @@ For example, to run Valgrind on a particular test and output to text file
 * For uninitialized value errors, try --track-origins=yes
 * For leaks, try --leak-check=full --show-leak-kinds=all
 * Don't use profiler for leak checks. OMP causes "leaks" O.K.
-* For suppress false-positives (e.g., gomp or gsl), use --gen-suppressions=all to generate suppression files
+* Suppress false-positives (e.g., gomp or gsl) with --gen-suppressions=all to generate suppression files
 
 GCOV and LCOV: Test coverage
 --------------------------------------------------------------------------------
 
 GCC compilers allow testing of coverage with gcov and lcov for visualization.
 
-* Code: currently implemented with Travis CI and CodeCov and available online.
-  See .travis.yml for example of how to use lcov
-* Use GCOV with CMake: cmake -DUSE_GCOV .
+* Code: Travis CI and CodeCov and available online.
+* Use GCOV with CMake: cmake -DUSE_GCOV -DUSE_GTEST=ON ..
   Note: this disables optimization, so don't use it for production simulations.
 * make coverage
 * Open coverage/index.html in your browser.
@@ -169,15 +160,15 @@ GCC compilers allow testing of coverage with gcov and lcov for visualization.
 CCACHE: Speed up compilation time
 --------------------------------------------------------------------------------
 
-Something as trivial as changing a comment in a header file can lead to a massive recompile of the entire source.
-Your previous compile is remembered by ccache, leading to near instant recompilation in the above example.
+Changing a comment in a header file can lead to a massive recompile of the entire source.
+If your previous compile is ccache'd, recompilation after adding a comment is near instantaneous.
 
 cpplint and pylint: Clean up styling
 --------------------------------------------------------------------------------
 
 https://google.github.io/styleguide/cppguide.html
 
-https://github.com/google/styleguide/tree/gh-pages/cpplint
+https://github.com/cpplint/cpplint
 
 Document
 ================================================================================
@@ -231,8 +222,15 @@ For Ubuntu 22, I had to comment out lines 713-714 of ~/.pyenv/feasst/lib/python3
 Sphinx bibtex
 ----------------
 
-Add references in header file documentation as \rst\ :footcite:p:`bibtex_name`\endrst
+Add references in header file documentation as \ :footcite:p:`bibtex_name`\endrst or :footcite:t: to include author name.
 and update the bibtex in /feasst/dev/sphinx/refs.bib
+
+References in comment blocks must begin in the \rst environment and end with
+
+References:
+
+.. footbibliography::
+\endrst
 
 Pip notes
 -------------------------
@@ -245,9 +243,8 @@ Style
 Reference guides for C++
 --------------------------------------------------------------------------------
 
-* http://www.cplusplus.com/
+* https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
 * https://google.github.io/styleguide/cppguide.html
-* http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
 
 Naming
 --------------------------------------------------------------------------------
@@ -257,9 +254,7 @@ Naming
 * private_member_names\_ end with an underscore
 * function_names are also lower case with underscores
 * bools syntax: is_[accepted.., etc]
-* MACROS and CONSTANTS are all upper case.
-* Avoid MACROS and CONSTANTS.
-* use "and", "or" instead of "&&", "||" (HWH: change this to follow Google?)
+* MACROS and CONSTANTS are all upper case. (avoid MACROS and CONSTANTS).
 
 Functions
 --------------------------------------------------------------------------------
@@ -280,7 +275,6 @@ Classes
 Loops and if
 --------------------------------------------------------------------------------
 
-* use of "for (auto element : container) { ... }" is dangerous
 * for simple loops over containers, use "for (element : container)"
 * for loops where you need the index, use:
   for (int index = 0; index < static_cast<int>(container.size()); ++index)
@@ -288,7 +282,7 @@ Loops and if
 Auto
 --------------------------------------------------------------------------------
 
-* only use auto when the type is clear such as auto var = std::make_shared<..>.
+* use auto when the type is clear such as auto var = std::make_shared<..>.
 
 Arguments
 --------------------------------------------------------------------------------
@@ -301,20 +295,17 @@ Arguments
 Serialization
 --------------------------------------------------------------------------------
 
-* guided by https://isocpp.org/wiki/faq/serialization
-* For inheritance hierarchy, a static deserialize_map is used to relate class
-  name to template.
-* Each object serializes a version that can be used for checks and backwards
-  compatibility.
+* See https://isocpp.org/wiki/faq/serialization
+* For inheritance hierarchy, a static deserialize_map is used to relate class name to template.
+* Each object serializes a version that can be used for checks and backwards compatibility.
 * utils_io.h contains many function templates for serialization.
-* In particular, feasst_deserialize_fstdr() needs to be fixed.
-* Don't forget to serialize (private) member data in new implementations.
-* To compare differences between two serializations, paste into file and using "s/ /\r/g"
+* Serialize (private) member data
+* To compare differences between two serializations, paste into a file and vim/sed "s/ /\r/g"
 
 File output
 --------------------------------------------------------------------------------
 
-* comma-separated values (CSV) are the preferred format (e.g., comma deliminter)
+* comma-separated values (CSV) are preferred over space-separated.
 
 For quick reference
 ================================================================================
@@ -342,11 +333,9 @@ To Do List
 * force precompute when reinitializing system, criteria, etc in MonteCarlo
 * MonteCarlo subclass Simulation
 * add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects
-* VisitModels may prefer to update select properties (e.g., cell, eik)
+* VisitModel may prefer to update select properties (e.g., cell, eik)
 * Rename TrialSelect->SelectTrial, TrialCompute->ComputeTrial. Rename Compute->Decide?.
-* Somehow, trial_growth_expanded.h doesn't include debug.h but can compile with ASSERT
 * Speed up RNG by maintaining int_distribution like dis_double
-* Make a CachedRandom and CachedPotential for prefetch and avoid if statements that could slow down serial simulations.
 * add orientation argument to shapes with internal coordinate transformation
 * Sort selection_of_all, or impose sorting in Select::add_particles. Currently, this leads to issues.
 * Rename xyz files, and/or document more cleary (second line in xyz).
@@ -355,49 +344,34 @@ To Do List
 * Optimize TrialRemove for new_only by not computing interactions with neighbors
 * Tunable implementation of configurational bias. When param is 0, rebuilds/renormalizes particles to prevent drift in bond lengths/angles.
 * (repeat) regrow but within near existing, for 'free dof, e.g. azimuthal in  angle, sphere in bond, etc'
-* Rename Movie->XYZ
-* Rename Stepper?
+* Rename Movie->PrintXYZ
 * Patch custom model params not present in mc.configuration().model_params (affects FileXYZPatch).
 * early rejection scheme: https://doi.org/10.1080/00268976.2014.897392
-* get rid of 'time' and 'default' values for Random seed argument.
 * Windows with non-integer macrostates?
 * For unknown reasons, VisitModelOuterCutoff had energy issues with RPM
 * Add TrialParticlePivot to TrialGrow (randomly orients particle about site). Or, more generally, say num_steps=-1 combines stages into one.
-* better support compressed trajectory formats: xtc, dcd, etc
-* Wrap triclinic particles for Movie. See: https://github.com/lammps/lammps/blob/develop/src/domain.cpp#L1232-L1322
+* Support compressed trajectory formats: xtc, dcd, etc
 * Implement Jeff's parallel method via CollectionMatrixSplice that allows exchange of window ranges with overlapping simulations
-* Similarly, implement a non-OMP fh parallelization. Maybe that should be the first example before OMP communication? Only problem, keep windows running until last one converges?
-* Update Translate tunable maximum when volume changes..?
-* tutorials which segfault on restart dont report errors in automated tests
+* Update Translate tunable maximum when volume changes
 * Move Trial checks so that they can be applied to GhostTrialGrow
-* Make Criteria[Updater,Writer] part of FlatHistogram keywords?
 * Restart Prefetch. Does Run::num_trials work properly?
-* optimize Ewald::update_wave_vector for NPT (less clear,push_back).
+* optimize Ewald::update_wave_vector for NPT
 * Reduce size of Checkpoint files for cell/neighbor lists (re-compute instead of checkpointing them). Also large tables.
 * Represent relative rigid bodies as screw motion: https://en.wikipedia.org/wiki/Screw_theory
-* Allow mixing rules input in fstprt files (either as manual input i-j or selection of mixing rules from list, or both).
-* Depreciate and update AngleSquareWell::min/max to min_degrees/max_degrees
 * Ewald mod k2max like LAMMPS
-* Add 1/2 factor in AngleHarmonic
 * Add precompute for BondFourBody, ThreeBody, etc, to speed up? But different dihedrals have different coefficients.
-* Add option to not serialize neighbor lists to reduce checkpoint size.
 * Allow one script to contain multiple MonteCarlo, CollectionMatrixSplice, Prefetch in any order? (checkpointing is difficult)
 * When trials start, check to see if there is a trial that uses weight_per_number_fraction but there are fixed particles (or, see if there are weight_per_number for all types unless excluded?)
 * Add a FAQ for sim questions, such as, an overview of various table potential options, etc.
 * Optimize BondVisitor that uses deserialize_map and strings in inner loop
 * Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).
-* In v0.26, Remove ConvertToRefPotential, ProfileTrials, RemoveModify, RemoveAnalyze, RemoveTrial, Run::until_criteria_complete, Criteria/Stepper::iteration
-* Have the tests override hours checkpoint , etc so that users don't have bad values
-* Maybe make some kind of class that factories out the creation of analyze and modify (e.g., all using the same trials_per_iteration, file name prefixes, etc)
-* Remove CollectionMatrixSplice from tutorials?
+* Have the tests override hours checkpoint, etc so that users don't have bad values
+* Reduce input text file with class that factories the creation of analyze and modify (e.g., all using the same trials_per_iteration, file name prefixes, etc)
 * fstprt files use label strings instead of numbers (document this, 0-O, 1-H for spce, etc)
 * pip install feasst
 * In class documentation, link to tutorials that use the class
-* automatically determine, every time trial is added, determine which molecules are excluded from weight_per_num_fraction
-* set cross interactions in fstprt files??
-num_cross 2
-
-0 1 sigma 0.7
-1 2 sigma 0.5
-* remove min_size/min_window_size from window_exponential/tutorials
+* Every time trial is added, determine which molecules are excluded from weight_per_num_fraction
 * make a gui/software/script that walks through the building of a FEASST input file.
+* For 0.26, Remove Random::[time, default] arguments
+* For 0.26, Remove ConvertToRefPotential, ProfileTrials, RemoveModify, RemoveAnalyze, RemoveTrial, Run::until_criteria_complete, Criteria/Stepper::iteration
+* For 0.26, Depreciate and update AngleSquareWell::min/max to min_degrees/max_degrees

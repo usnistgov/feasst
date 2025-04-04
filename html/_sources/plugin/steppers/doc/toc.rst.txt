@@ -12,14 +12,14 @@
    ProfileCPU
    CheckPhysicality
    CheckProperties
-   SeekModify
-   ReadConfigFromFile
-   WrapParticles
    IncrementPhase
-   Tune
+   SeekModify
    CriteriaUpdater
-   GhostTrialVolume
+   ReadConfigFromFile
    CheckEnergy
+   WrapParticles
+   GhostTrialVolume
+   Tune
    WriteStepper
    Log
    PairDistributionInner

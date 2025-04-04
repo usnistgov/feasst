@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WangLandau &mdash; FEASST 0.25.9 0.25.9 documentation</title>
+  <title>WangLandau &mdash; FEASST 0.25.10 0.25.10 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=5f36b307"></script>
+      <script src="../../../_static/documentation_options.js?v=759965ef"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -50,7 +50,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.9
+            FEASST 0.25.10
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -131,7 +131,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.9</a>
+          <a href="../../../index.html">FEASST 0.25.10</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -207,7 +207,25 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10WangLandauE">
 <span class="target" id="classfeasst_1_1WangLandau"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">WangLandau</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias"><span class="n"><span class="pre">Bias</span></span></a><a class="headerlink" href="#_CPPv4N6feasst10WangLandauE" title="Link to this definition"></a><br /></dt>
-<dd><p>Wang Landau flat histogram bias. <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.86.2050">https://doi.org/10.1103/PhysRevLett.86.2050</a> <a class="reference external" href="https://doi.org/10.1063/1.1615966">https://doi.org/10.1063/1.1615966</a></p>
+<dd><p>Wang-Landau flat histogram bias.<a class="footnote-reference brackets" href="#footcite-wang-efficient-2001" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+<p><a class="reference internal" href="../../steppers/doc/CriteriaWriter_arguments.html#classfeasst_1_1CriteriaWriter"><span class="std std-ref">CriteriaWriter</span></a> outputs the following:<ul class="simple">
+<li><p>num_flatness: The number of times the visited states histogram was found to be flat.</p></li>
+<li><p>rows for each <a class="reference internal" href="Macrostate_arguments.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a> with the following:<ul>
+<li><p>”visited” the number of times a state has been visited since the last time this visited states histogram was reset after it was deemed to be sufficiently flat.</p></li>
+</ul>
+</p></li>
+</ul>
+</p>
+<p><p>References:</p>
+<div class="docutils container" id="id2">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-wang-efficient-2001" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Fugao Wang and D. P. Landau. Efficient, Multiple-Range Random Walk Algorithm to Calculate the Density of States. <em>Physical Review Letters</em>, 86(10):2050–2053, March 2001. <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.86.2050">doi:10.1103/PhysRevLett.86.2050</a>.</p>
+</aside>
+</aside>
+</div>
+</p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">

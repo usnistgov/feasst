@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bias &mdash; FEASST 0.25.9 0.25.9 documentation</title>
+  <title>Bias &mdash; FEASST 0.25.10 0.25.10 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=5f36b307"></script>
+      <script src="../../../_static/documentation_options.js?v=759965ef"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -48,7 +48,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.9
+            FEASST 0.25.10
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -72,7 +72,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.9</a>
+          <a href="../../../index.html">FEASST 0.25.10</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -142,7 +142,12 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst4BiasE">
 <span class="target" id="classfeasst_1_1Bias"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Bias</span></span></span><br /></dt>
-<dd><p><a class="reference internal" href="#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a> for flat histogram Monte Carlo. Assumes a one-dimensional macrostate. </p>
+<dd><p><a class="reference internal" href="#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a> for flat histogram Monte Carlo. Assumes a one-dimensional macrostate.</p>
+<p><a class="reference internal" href="../../steppers/doc/CriteriaWriter_arguments.html#classfeasst_1_1CriteriaWriter"><span class="std std-ref">CriteriaWriter</span></a> outputs the following as a row for each <a class="reference internal" href="Macrostate_arguments.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a>:<ul class="simple">
+<li><p>”ln_prob” the <a class="reference internal" href="LnProbability_arguments.html#classfeasst_1_1LnProbability"><span class="std std-ref">LnProbability</span></a>.</p></li>
+<li><p>”delta_ln_prob” the change in <a class="reference internal" href="LnProbability_arguments.html#classfeasst_1_1LnProbability"><span class="std std-ref">LnProbability</span></a> from the previous <a class="reference internal" href="Macrostate_arguments.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a> (e.g., ln_prob(state) - ln_prob(state - 1), so the lowest state is NaN). </p></li>
+</ul>
+</p>
 <p>Subclassed by <a class="reference internal" href="TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">feasst::TransitionMatrix</span></a>, <a class="reference internal" href="WLTM_arguments.html#classfeasst_1_1WLTM"><span class="std std-ref">feasst::WLTM</span></a>, <a class="reference internal" href="WangLandau_arguments.html#classfeasst_1_1WangLandau"><span class="std std-ref">feasst::WangLandau</span></a></p>
 </dd></dl>
 
