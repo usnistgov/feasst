@@ -27,16 +27,17 @@ class Potential {
  public:
   //@{
   /** @name Arguments
-    - group_index: set the index of the group in the configuration which
-      contributes to this potential (default: 0, representing entire config).
-    - group: name of group defined within system (default: "").
+    - configuration_index: index of Configuration in System (default: 0).
+    - group_index: set the index of the Group in the Configuration which
+      contributes to this Potential (default: 0, representing entire config).
+    - group: name of Group defined within System (default: "").
       Cannot be used with group_index.
     - cell_index: set the index of the cell, only used with VisitModelCell.
       This also overrides group_index.
     - prevent_cache: set this to true in order to prevent the use of cache
-      (default: False)
-    - table_size: set size of tabular potential (default: 0).
-      Do not use table if size <= 0.
+      (default: false)
+    - table_size: set size of ModelTwoBodyTable (default: 0).
+      Do not use if size <= 0.
     - table_hard_sphere_threshold: If using a table above, set the
       ModelTwoBodyTable hard_sphere_threshold (default: 0.85).
     - [parameter]/[i]/[j]: as described in Configuration arguments.

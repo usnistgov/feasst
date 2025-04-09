@@ -12,8 +12,7 @@ typedef std::map<std::string, std::string> argtype;
 
 /**
   Attempt to change the volume.
-  Not currently fully implemented or tested for many cases, including Ewald
-  or VisitModelCell, etc.
+  See <a href="../tutorial/tutorial_1_lj_npt.html">this tutorial</a> for an example.
  */
 class TrialVolume : public Trial {
  public:

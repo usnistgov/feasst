@@ -20,19 +20,24 @@ typedef std::map<std::string, std::string> argtype;
   Tabulate two-body models and interpolate their interactions during the
   simulation.
   Scale distances,r, by the parameter z, which has more resolution at lower r.
-  \f$z=[(1/r^2 - 1/r_h2)/(1/r_c^2 - 1/r_h^2)]\f$
+  \f$z=[(1/r^2 - 1/r_h^2)/(1/r_c^2 - 1/r_h^2)]\f$
   Because there is a higher resolution at lower r, it is best if the
   hard_sphere_threshold parameter is tuned well for the specific model.
  */
 class ModelTwoBodyTable : public ModelTwoBody {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - hard_sphere_threshold: when r < threshold*sigma, return NEAR_INFINITY
       (default: 0.85).
    */
   explicit ModelTwoBodyTable(argtype args = argtype());
   explicit ModelTwoBodyTable(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   void precompute(const ModelParams& existing) override;
 
@@ -77,6 +82,7 @@ class ModelTwoBodyTable : public ModelTwoBody {
   explicit ModelTwoBodyTable(std::istream& istr);
   virtual ~ModelTwoBodyTable();
 
+  //@}
  protected:
   void serialize_model_two_body_table_(std::ostream& ostr) const;
 

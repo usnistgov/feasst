@@ -46,6 +46,8 @@ typedef std::map<std::string, std::string> argtype;
 
   where \f$r_m = (\sigma + \Delta_\sigma)2^{1/\alpha}-\Delta_\sigma\f$ is the minimum.
   The lambda parameter is a site-specific ModelParam in the fstprt file, just like epsilon or sigma.
+
+  See <a href="../tutorial/tutorial_0_ref_configs.html">this tutorial</a> for an example.
 \rst
 References: :footcite:p:`ashbaugh_natively_2008`
 

@@ -28,6 +28,7 @@ class Log : public AnalyzeWriteOnly {
   //@{
   /** @name Arguments
     - max_precision: use maximum precision if true (default: false).
+      See <a href="../../monte_carlo/tutorial/tutorial_0_ref_configs.html">this tutorial</a> for an example.
     - include_bonds: if true, print bond energies (default: true).
     - Stepper arguments.
    */

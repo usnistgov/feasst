@@ -29,14 +29,14 @@ class Table6D;
 typedef std::map<std::string, std::string> argtype;
 
 /**
-  A Configuration contains both the particles and the spatial Domain/boundaries.
+  A Configuration contains both Particle s and the spatial Domain (boundaries).
 
   For the particles, this includes both the pool of particles which may
   exist (referred to as particle types) in addition to the particles which
   physically exist (referred to as particles).
   The same is true for site types and sites.
 
-  Groups of different particle/site types and other metrics may be defined.
+  Groups of different Particle and Site types and other metrics may be defined.
   These groups then define a selection which can be used to distinguish subsets
   of the configuration (e.g., types of particles).
   This selection may be further reduced to single particles.
@@ -59,6 +59,7 @@ class Configuration {
     - particle_type[i]: add the i-th type of particle.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
       If only one particle type, the "[i]" is optional.
+      See FileParticle.
     - add_particles_of_type[i]: add this many of i-th type particles.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
     - xyz_file: optionally load FileXYZ if not empty (default: empty).

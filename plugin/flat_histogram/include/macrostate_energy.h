@@ -7,17 +7,13 @@
 
 namespace feasst {
 
-// HWH
 /**
   Defines the macrostate to be the total potential energy of the system.
-  WARNING: this class has not been tested at all.
  */
 class MacrostateEnergy : public Macrostate {
  public:
   //@{
   /** @name Arguments
-    - particle_type: number of particles of type. If -1 (default), count all
-      types.
     - Macrostate arguments.
   */
   explicit MacrostateEnergy(argtype args = argtype());

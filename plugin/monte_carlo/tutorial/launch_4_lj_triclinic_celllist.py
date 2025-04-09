@@ -1,7 +1,7 @@
 """
 Canonical ensemble Monte Carlo simulation of Lennard Jones particles in a triclinic domain with cell lists.
-VisitModelCell is not optimized for triclinic domains, so a larger min_length must be used.
-If min_length is too small, then the CheckEnergy will find the error.
+VisitModelCell in triclinic domains increases min_length by the ratio of shorted length to largest inscribed sphere.
+If min_length is too small to ensure all interactions are in neighboring cells, then the CheckEnergy will produce an error if OptPotential is used and not equivalent to the given Potential.
 """
 
 import argparse

@@ -1,5 +1,4 @@
 """
-Note: this tutorial is still in development and TrialVolume hasn't been rigorously tested.
 Isothermal-isobaric ensemble Monte Carlo simulation of SPC/E particles.
 """
 

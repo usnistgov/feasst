@@ -24,6 +24,7 @@ class Run : public Action {
     - for_hours: run for this many CPU hours (default: -1 e.g., None).
     - until: if "complete", run until Criteria is complete (default: empty).
       Afterward, write all Analyze and Modify.
+      See <a href="../../../plugin/flat_histogram/tutorial/tutorial_01_lj_gcmc.html">this tutorial</a>.
     - until_file_exists: run until the given file name exists.
       Afterward, write all Analyze and Modify.
       If empty, skip (default: empty).

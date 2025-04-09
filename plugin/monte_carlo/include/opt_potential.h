@@ -9,13 +9,13 @@
 namespace feasst {
 
 /**
-  Add an optimized potential.
+  CheckEnergy ensures this optimized Potential returns the same energy as an optimized Potential.
+  See <a href="../../monte_carlo/tutorial/tutorial_4_lj_triclinic_celllist.html">this tutorial</a> for an example of testing VisitModelCell.
  */
 class OptPotential : public Action {
  public:
   //@{
   /** @name Arguments
-    - configuration_index: index of configuration potential (default: 0).
     - Potential arguments.
    */
   explicit OptPotential(argtype args = argtype());

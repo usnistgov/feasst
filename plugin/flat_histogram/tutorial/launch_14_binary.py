@@ -114,7 +114,8 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {particle_type0} particle_type1 {particle_type1}
+Configuration cubic_side_length {cubic_side_length} particle_type0 {particle_type0} particle_type1 {particle_type1} \
+    sigma0_1 2.9216 epsilon0_1 121.5 mie_lambda_r0_1 20.27 mie_lambda_a0_1 5.48294
 Potential Model Mie table_size 1e4
 Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta_init} chemical_potential0 {mu0} chemical_potential1 {mu1}
@@ -172,7 +173,7 @@ def post_process(params):
     lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
     #lnpi.reweight(delta_beta_mu=-4.5, inplace=True)
     num0 = multistate_accumulator.splice(prefix=params['prefix']+'n0s', suffix='_num0.csv',
-                                         start=0, stop=31)#params['procs_per_node']-1)
+                                         start=0, stop=params['procs_per_node']-1)
     #num0.to_csv('num0.csv')
     #plt.plot(num0['average'])
     #plt.show()
@@ -189,7 +190,7 @@ def post_process(params):
         num0 = phase.ensemble_average('num0_average')
         print('num0', num0)
         if index == 0:
-            assert np.abs(n_gce - 25.9) < 4
+            assert np.abs(n_gce - 27) < 4
             pressure = -phase.ln_prob()[0]/params['beta']/params['cubic_side_length']**3
             print('pressure(K/Ang^3)', pressure)
             # convert pressure in K/Ang^3 to MPa
@@ -197,10 +198,10 @@ def post_process(params):
             pres_conv = 1e30/1e6*physical_constants.BoltzmannConstant().value()
             print('pressure(MPa)', pressure*pres_conv)
             assert np.abs(pressure*pres_conv - 5.38) < 0.4
-            assert np.abs(num0 - 14.15) < 4
+            assert np.abs(num0 - 14.8) < 4
         else:
-            assert np.abs(n_gce - 186.8) < 4
-            assert np.abs(num0 - 180.8) < 4
+            assert np.abs(n_gce - 183.8) < 4
+            assert np.abs(num0 - 172.8) < 4
         #plt.plot(phase.dataframe()['num0_average'])
         #plt.show()
         print('mole frac0', num0/n_gce)

@@ -32,6 +32,8 @@ namespace feasst {
   \f$\vec{v} = 2\pi\vec{b}\times\vec{c}/V\f$
 
   \f$\vec{w} = 2\pi\vec{b}\times\vec{c}/V\f$
+
+  See <a href="../tutorial/tutorial_0_spce_ref_config.html">this tutorial</a> for an example.
  */
 class Ewald : public VisitModel {
  public:

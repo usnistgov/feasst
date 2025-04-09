@@ -73,8 +73,8 @@ def parse():
     parser.add_argument('--tpc', type=int, default=int(1e6), help='trials per cycle')
     parser.add_argument('--equilibration_cycles', type=int, default=0,
                         help='number of cycles for equilibration')
-    parser.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
-    parser.add_argument('--hours_terminate', type=float, default=0.3, help='hours until termination')
+    parser.add_argument('--hours_checkpoint', type=float, default=0.2, help='hours per checkpoint')
+    parser.add_argument('--hours_terminate', type=float, default=0.5, help='hours until termination')
     parser.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')

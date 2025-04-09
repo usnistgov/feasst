@@ -15,14 +15,14 @@ class Site;
 
 typedef std::map<std::string, std::string> argtype;
 
+// HWH In the future, other metrics may be used, such as position-based, etc.
 /**
   Define groups based on particle and site types.
-  In the future, other metrics may be used, such as position-based ones, etc.
  */
 class Group : public PropertiedEntity {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - prepend: expect all other arguments to have this prepended with underscore.
       For example, if prepend==water, the following argument would expect
       "water_site_type0" (default: empty).
@@ -40,6 +40,11 @@ class Group : public PropertiedEntity {
    */
   explicit Group(argtype args = argtype());
   explicit Group(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
 
   /// Return the list of site types in the group.
   const std::vector<int> site_types() const { return site_types_; }
@@ -71,6 +76,7 @@ class Group : public PropertiedEntity {
   void serialize(std::ostream& ostr) const;
   explicit Group(std::istream& istr);
 
+  //@}
  private:
   /// If no types or indices are listed, do not screen by types or indices.
   std::vector<int> site_types_;
