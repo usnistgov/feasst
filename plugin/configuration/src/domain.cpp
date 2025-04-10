@@ -431,4 +431,24 @@ void Domain::cartesian2scaled_wrap(const Position& cartesian, Position * scaled)
   }
 }
 
+bool Domain::is_minimum_image_for_cutoff(const double cutoff) const {
+  DEBUG("checking if cutoff " << cutoff << " follows minimum image.");
+  if (is_tilted()) {
+    // titled domains do not check for periodicity
+    if (cutoff - NEAR_ZERO > 0.5*inscribed_sphere_diameter()) {
+      return false;
+    }
+  } else {
+    for (int dim = 0; dim < dimension(); ++dim) {
+      DEBUG("dim " << dim << " periodic " << periodic(dim));
+      if (periodic(dim)) {
+        if (cutoff - NEAR_ZERO > 0.5*side_length(dim)) {
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+}
+
 }  // namespace feasst
