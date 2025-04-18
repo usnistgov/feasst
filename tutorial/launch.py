@@ -28,7 +28,7 @@ def parse():
     parser.add_argument('--tpc', type=int, default=int(1e4), help='trials per cycle')
     parser.add_argument('--equilibration', type=int, default=int(1e1), help='number of cycles for equilibraiton')
     parser.add_argument('--production', type=int, default=int(1e1), help='number of cycles for production')
-    parser.add_argument('--hours_checkpoint', type=float, default=0.1, help='hours per checkpoint')
+    parser.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
     parser.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
     parser.add_argument('--procs_per_node', type=int, default=5, help='number of processors')
     parser.add_argument('--run_type', '-r', type=int, default=0,
@@ -53,7 +53,7 @@ def parse():
     params['script'] = __file__
     params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
-    params['hours_terminate'] = 0.99*params['hours_terminate'] - 0.0333 # terminate before queue
+    params['hours_terminate'] = 0.98*params['hours_terminate'] - 0.0333 # terminate before queue
     params['procs_per_sim'] = 1
     params['num_sims'] = params['num_nodes']*params['procs_per_node']
     params['densities'] = np.linspace(params['density_lower'], params['density_upper'],

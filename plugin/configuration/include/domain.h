@@ -210,6 +210,10 @@ class Domain {
   /// Return the largest possible diameter of a sphere inscribed inside domain.
   double inscribed_sphere_diameter() const;
 
+  /// Return true if the given cutoff follows the minimum image convention in
+  /// the periodic boundaries.
+  bool is_minimum_image_for_cutoff(const double cutoff) const;
+
   // HWH implement check
 
   bool is_tilted() const { return is_tilted_; }

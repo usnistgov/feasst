@@ -125,4 +125,19 @@ TEST(Domain, inscribed_sphere_diameter) {
   EXPECT_DOUBLE_EQ(domain->inscribed_sphere_diameter(), 31.17691453623979);
 }
 
+TEST(Domain, is_minimum_image_for_cutoff) {
+  auto domain = MakeDomain({
+    {"side_length0", "3"},
+    {"side_length1", "4"},
+    {"side_length2", "5"}});
+  EXPECT_TRUE (domain->is_minimum_image_for_cutoff(1.5));
+  EXPECT_FALSE(domain->is_minimum_image_for_cutoff(1.5001));
+  auto domain2 = MakeDomain({
+    {"side_length0", "3"}, {"periodic0", "false"},
+    {"side_length1", "4"},
+    {"side_length2", "5"}});
+  EXPECT_TRUE (domain2->is_minimum_image_for_cutoff(2.0));
+  EXPECT_FALSE(domain2->is_minimum_image_for_cutoff(2.0001));
+}
+
 }  // namespace feasst

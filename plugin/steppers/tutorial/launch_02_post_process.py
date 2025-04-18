@@ -20,7 +20,7 @@ def parse():
                         help='FEASST particle definition')
     parser.add_argument('--xyz_file', type=str, default='post_process.xyz',
                         help='The xyz file to read configurations')
-    parser.add_argument('--hours_checkpoint', type=float, default=0.2, help='hours per checkpoint')
+    parser.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
     parser.add_argument('--hours_terminate', type=float, default=1., help='hours until termination')
     parser.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
     parser.add_argument('--run_type', '-r', type=int, default=0,

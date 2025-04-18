@@ -195,10 +195,11 @@ bool Potential::does_cutoff_fit_domain(const Configuration& config,
     "Domain must be 2 or 3 dimensions. Please initialize Domain::side_length.");
   const ModelParams& params = model_params(config);
   const double max_cutoff = maximum(params.select("cutoff").values());
-  const double half_min_side = 0.5*config.domain().inscribed_sphere_diameter();
-  if (max_cutoff - NEAR_ZERO > half_min_side) {
+  //const double half_min_side = 0.5*config.domain().inscribed_sphere_diameter();
+  //if (max_cutoff - NEAR_ZERO > half_min_side) {
+  if (!config.domain().is_minimum_image_for_cutoff(max_cutoff)) {
     ASSERT(!fatal, "The maximum cutoff: " << max_cutoff <<
-      " is greater than half the minimum side length: " << half_min_side);
+      " is greater than half of a periodic side length");
     return false;
   }
   return true;

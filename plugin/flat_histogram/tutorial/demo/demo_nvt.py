@@ -30,7 +30,7 @@ PARSER.add_argument('--cubic_side_length', type=float, default=8,
 PARSER.add_argument('--tpc', type=int, default=int(1e4), help='trials per cycle')
 PARSER.add_argument('--equilibration', type=int, default=1e2, help='number of cycles for equilibration')
 PARSER.add_argument('--production', type=int, default=1e3, help='number of cycles for production')
-PARSER.add_argument('--hours_checkpoint', type=float, default=0.02, help='hours per checkpoint')
+PARSER.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
 PARSER.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
 PARSER.add_argument('--prefix', type=str, default='lj', help='prefix for all output file names')

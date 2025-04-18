@@ -22,7 +22,7 @@ def parse():
     parser.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
     parser.add_argument('--equilibration', type=int, default=int(1e0), help='number of cycles for equilibration')
     parser.add_argument('--production', type=int, default=int(1e1), help='number of cycles for production')
-    parser.add_argument('--hours_checkpoint', type=float, default=0.2, help='hours per checkpoint')
+    parser.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
     parser.add_argument('--hours_terminate', type=float, default=1., help='hours until termination')
     parser.add_argument('--procs_per_node', type=int, default=1, help='number of processors')
     parser.add_argument('--run_type', '-r', type=int, default=0,
