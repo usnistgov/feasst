@@ -47,7 +47,6 @@ double LennardJones::energy(
   TRACE("squared_distance " << squared_distance);
   TRACE("type1 " << type1);
   TRACE("type2 " << type2);
-  ASSERT(sigma_index() != -1, "err");
   const double sigma = model_params.select(sigma_index()).mixed_values()[type1][type2];
   TRACE("sigma " << sigma);
   const double sigma_squared = sigma*sigma;

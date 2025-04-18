@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <map>
+#include "math/include/position.h"
 #include "system/include/synchronize_data.h"
 
 namespace feasst {
@@ -16,9 +17,13 @@ class ModelParams;
 class ModelOneBody;
 class ModelTwoBody;
 class ModelThreeBody;
-class Position;
 class Select;
 class VisitModelInner;
+
+struct pair3body {
+  int site1, site2, part1, part2;
+  Position rel;
+};
 
 typedef std::map<std::string, std::string> argtype;
 
@@ -83,6 +88,12 @@ class VisitModel {
       const ModelParams& model_params,
       Configuration * config,
       const int group_index = 0);
+  virtual void compute(
+      ModelThreeBody * model,
+      const ModelParams& model_params,
+      const Select& selection,
+      Configuration * config,
+      const int group_index = 0);
 
   // If model parameters are not given, then obtain them from the configuration.
   void compute(
@@ -105,6 +116,11 @@ class VisitModel {
       const int group_index = 0);
   void compute(
       ModelThreeBody * model,
+      Configuration * config,
+      const int group_index = 0);
+  void compute(
+      ModelThreeBody * model,
+      const Select& selection,
       Configuration * config,
       const int group_index = 0);
 
@@ -176,7 +192,7 @@ class VisitModel {
   std::shared_ptr<VisitModel> deserialize(std::istream& istr);
   std::shared_ptr<VisitModel> factory(const std::string name, argtype * args);
   explicit VisitModel(std::istream& istr);
-  virtual ~VisitModel() {}
+  virtual ~VisitModel();
 
   //@}
  protected:
@@ -192,6 +208,16 @@ class VisitModel {
 
   SynchronizeData data_;  // all data is copied at synchronization
   SynchronizeData manual_data_;  // data is manually copied
+
+  // Three body list of pairs
+  std::vector<pair3body> pairs_;
+  void record_pair_(const int part1_index, const int site1_index, const int part2_index, const int site2_index, const Position& rel, int * num_pair, VisitModelInner * inner);
+  void pair_pair_(const int num_pair,
+    ModelThreeBody * model,
+    const ModelParams& model_params,
+    Configuration * config,
+    const Select * sel);
+  bool find_in_pair3body(const int ipart, const int isite, const int num_pair);
 
  private:
   double energy_ = 0.;

@@ -34,6 +34,7 @@ void VisitModelIntra::compute(
   zero_energy();
   const Domain& domain = config->domain();
   init_relative_(domain);
+  VisitModelInner * inner = get_inner_();
   for (int sp1index = 0;
        sp1index < static_cast<int>(selection.particle_indices().size());
        ++sp1index) {
@@ -90,7 +91,7 @@ void VisitModelIntra::compute(
           if ( (include || std::abs(site1_index - site2_index) > intra_cut_) &&
                (!exclude) ) {
             TRACE("sites: " << site1_index << " " << site2_index);
-            get_inner_()->compute(part1_index, site1_index, part1_index,
+            inner->compute(part1_index, site1_index, part1_index,
               site2_index, config, model_params, model, false, relative_.get(),
               pbc_.get());
           }
@@ -98,7 +99,7 @@ void VisitModelIntra::compute(
       }
     }
   }
-  set_energy(inner().energy());
+  set_energy(inner->energy());
 }
 
 VisitModelIntra::VisitModelIntra(std::istream& istr) : VisitModel(istr) {

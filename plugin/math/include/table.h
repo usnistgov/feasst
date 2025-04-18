@@ -81,7 +81,7 @@ class Table1D : public Table {
   std::string serialize() const;
   Table1D deserialize(const std::string str);
 
-  virtual ~Table1D() {}
+  virtual ~Table1D();
 
  private:
   std::vector<double> data_;

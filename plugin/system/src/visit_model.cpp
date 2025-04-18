@@ -12,8 +12,10 @@
 #include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/model_params.h"
-#include "system/include/model_two_body.h"
 #include "system/include/model_one_body.h"
+#include "system/include/model_two_body.h"
+#include "system/include/model_three_body.h"
+#include "system/include/ideal_gas.h"
 #include "system/include/visit_model_inner.h"
 #include "system/include/visit_model.h"
 
@@ -35,6 +37,8 @@ VisitModel::VisitModel(argtype * args) {
 VisitModel::VisitModel(argtype args) : VisitModel(&args) {
   feasst_check_all_used(args);
 }
+VisitModel::~VisitModel() {}
+
 void VisitModel::compute(
     ModelOneBody * model,
     const ModelParams& model_params,
@@ -110,7 +114,8 @@ void VisitModel::compute(
     Configuration * config,
     const int group_index) {
   TRACE("VisitModel for TwoBody entire config");
-  TRACE("VisitModelInner: " << get_inner_()->class_name());
+  VisitModelInner * inner = get_inner_();
+  TRACE("VisitModelInner: " << inner->class_name());
   zero_energy();
   const Domain& domain = config->domain();
   init_relative_(domain);
@@ -128,18 +133,18 @@ void VisitModel::compute(
       const int part2_index = selection.particle_index(select2_index);
       for (int site1_index : selection.site_indices(select1_index)) {
         for (int site2_index : selection.site_indices(select2_index)) {
-          get_inner_()->compute(part1_index, site1_index, part2_index,
+          inner->compute(part1_index, site1_index, part2_index,
             site2_index, config, model_params, model, false, relative_.get(), pbc_.get());
-          if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
-            set_energy(inner().energy());
+          if ((energy_cutoff_ != -1) && (inner->energy() > energy_cutoff_)) {
+            set_energy(inner->energy());
             return;
           }
         }
       }
     }
   }
-  TRACE("computed en: " << inner().energy());
-  set_energy(inner().energy());
+  TRACE("computed en: " << inner->energy());
+  set_energy(inner->energy());
 }
 
 void VisitModel::compute(
@@ -149,6 +154,7 @@ void VisitModel::compute(
     Configuration * config,
     const int group_index) {
   DEBUG("visiting model");
+  VisitModelInner * inner = get_inner_();
   zero_energy();
   const Domain& domain = config->domain();
   init_relative_(domain);
@@ -162,9 +168,9 @@ void VisitModel::compute(
   // If possible, query energy map of old configuration instead of pair loop
   if (is_old_config) {
     if (selection.num_particles() == 1) {
-      if (get_inner_()->is_energy_map_queryable()) {
-        get_inner_()->query_ixn(selection);
-        set_energy(inner().energy());
+      if (inner->is_energy_map_queryable()) {
+        inner->query_ixn(selection);
+        set_energy(inner->energy());
         return;
       }
     }
@@ -189,13 +195,13 @@ void VisitModel::compute(
             for (const int site2_index : select_all.site_indices(select2_index)) {
               TRACE("index: " << part1_index << " " << part2_index << " " <<
                     site1_index << " " << site2_index);
-              get_inner_()->compute(part1_index, site1_index,
+              inner->compute(part1_index, site1_index,
                                     part2_index, site2_index,
                                     config, model_params, model,
                                     is_old_config,
                                     relative_.get(), pbc_.get());
-              if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
-                set_energy(inner().energy());
+              if ((energy_cutoff_ != -1) && (inner->energy() > energy_cutoff_)) {
+                set_energy(inner->energy());
                 return;
               }
             }
@@ -230,13 +236,13 @@ void VisitModel::compute(
             for (const int site2_index : select_all.site_indices(select2_index)) {
               TRACE("index: " << part1_index << " " << part2_index << " " <<
                     site1_index << " " << site2_index);
-              get_inner_()->compute(part1_index, site1_index,
+              inner->compute(part1_index, site1_index,
                                     part2_index, site2_index,
                                     config, model_params, model,
                                     is_old_config,
                                     relative_.get(), pbc_.get());
-              if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
-                set_energy(inner().energy());
+              if ((energy_cutoff_ != -1) && (inner->energy() > energy_cutoff_)) {
+                set_energy(inner->energy());
                 return;
               }
             }
@@ -249,7 +255,7 @@ void VisitModel::compute(
     compute_between_selection(model, model_params, selection,
       config, is_old_config, relative_.get(), pbc_.get());
   }
-  set_energy(inner().energy());
+  set_energy(inner->energy());
 }
 
 void VisitModel::compute_between_selection(
@@ -260,6 +266,7 @@ void VisitModel::compute_between_selection(
   const bool is_old_config,
   Position * relative,
   Position * pbc) {
+  VisitModelInner * inner = get_inner_();
   for (int select1_index = 0;
        select1_index < selection.num_particles() - 1;
        ++select1_index) {
@@ -278,13 +285,13 @@ void VisitModel::compute_between_selection(
           for (const int site2_index : selection.site_indices(select2_index)) {
             TRACE("index: " << part1_index << " " << part2_index << " " <<
                   site1_index << " " << site2_index);
-            get_inner_()->compute(part1_index, site1_index,
+            inner->compute(part1_index, site1_index,
                                   part2_index, site2_index,
                                   config, model_params, model,
                                   is_old_config,
                                   relative_.get(), pbc_.get());
-            if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
-              set_energy(inner().energy());
+            if ((energy_cutoff_ != -1) && (inner->energy() > energy_cutoff_)) {
+              set_energy(inner->energy());
               return;
             }
           }
@@ -376,12 +383,237 @@ VisitModel::VisitModel(std::istream& istr) {
   feasst_deserialize_fstobj(&manual_data_, istr);
 }
 
+void VisitModel::record_pair_(const int part1_index, const int site1_index, const int part2_index, const int site2_index, const Position& rel, int * num_pair, VisitModelInner * inner) {
+  if (inner->interacted()) {
+    if (*num_pair >= static_cast<int>(pairs_.size())) {
+      pairs_.resize(pairs_.size() + 1);
+      pairs_[*num_pair] = pair3body();
+    }
+    pair3body * pair = &(pairs_[*num_pair]);
+    pair->part1 = part1_index;
+    pair->site1 = site1_index;
+    pair->part2 = part2_index;
+    pair->site2 = site2_index;
+    pair->rel = rel;
+    (*num_pair) = *num_pair + 1;
+  }
+}
+
 void VisitModel::compute(
     ModelThreeBody * model,
     const ModelParams& model_params,
     Configuration * config,
     const int group_index) {
-  FATAL("not implemented");
+  DEBUG("VisitModel for ThreeBody entire config");
+  VisitModelInner * inner = get_inner_();
+  ModelTwoBody * two_body = model->get_two_body();
+  DEBUG("VisitModelInner: " << inner->class_name());
+  zero_energy();
+  const Domain& domain = config->domain();
+  init_relative_(domain);
+  const Select& selection = config->group_select(group_index);
+  int num_pair = 0;
+  for (int select1_index = 0;
+       select1_index < selection.num_particles() - 1;
+       ++select1_index) {
+    const int part1_index = selection.particle_index(select1_index);
+    DEBUG("part1_index " << part1_index);
+    for (int site1_index : selection.site_indices(select1_index)) {
+      DEBUG("site1_index " << site1_index);
+      for (int select2_index = select1_index + 1;
+           select2_index < selection.num_particles();
+           ++select2_index) {
+        const int part2_index = selection.particle_index(select2_index);
+        DEBUG("part2_index " << part2_index);
+        for (int site2_index : selection.site_indices(select2_index)) {
+          DEBUG("site2_index " << site2_index);
+          inner->compute(part1_index, site1_index, part2_index,
+            site2_index, config, model_params, two_body, false, relative_.get(), pbc_.get());
+          record_pair_(part1_index, site1_index, part2_index, site2_index, *relative_, &num_pair, inner);
+        }
+      }
+    }
+  }
+  pair_pair_(num_pair, model, model_params, config, NULL);
+  DEBUG("computed en: " << inner->energy());
+  set_energy(inner->energy());
+}
+
+void VisitModel::pair_pair_(const int num_pair,
+    ModelThreeBody * model,
+    const ModelParams& model_params,
+    Configuration * config,
+    const Select * sel) {
+  VisitModelInner * inner = get_inner_();
+  Position flip;
+  DEBUG("num_pair " << num_pair);
+  int part1, part2, part3;
+  int site1, site2, site3;
+  // loop through pairs of pairs to compute three body interactions
+  for (int pair1 = 0; pair1 < num_pair - 1; ++pair1) {
+    const pair3body& p1 = pairs_[pair1];
+    const int part1_index = p1.part1;
+    const int site1_index = p1.site1;
+    const int part2_index = p1.part2;
+    const int site2_index = p1.site2;
+    DEBUG("pair1 " << pair1 << " p2 " << part2_index << " s2 " << site2_index);
+    const Position * r12 = &(p1.rel);
+    for (int pair2 = pair1 + 1; pair2 < num_pair; ++pair2) {
+      const pair3body& p2 = pairs_[pair2];
+      const int part11_index = p2.part1;
+      const int site11_index = p2.site1;
+      const int part22_index = p2.part2;
+      const int site22_index = p2.site2;
+      //DEBUG("pair2 " << pair2 << "p3 " << part3_index << " s3 " << site3_index);
+      const Position * r13 = &(p2.rel);
+      part1 = -1;
+      const Position * r12t = const_cast<const Position *>(r12);
+      const Position * r13t = const_cast<const Position *>(r13);
+      // the order matters for the angle
+      if ((part11_index == part1_index) && (site11_index == site1_index)) {
+        part1 = part1_index;
+        site1 = site1_index;
+        part2 = part2_index;
+        site2 = site2_index;
+        part3 = part22_index;
+        site3 = site22_index;
+      } else if ((part22_index == part1_index) && (site22_index == site1_index)) {
+        part1 = part1_index;
+        site1 = site1_index;
+        part2 = part2_index;
+        site2 = site2_index;
+        part3 = part11_index;
+        site3 = site11_index;
+        flip = *r13;
+        flip.multiply(-1);
+        r13t = const_cast<const Position *>(&flip);
+      } else if ((part11_index == part2_index) && (site11_index == site2_index)) {
+        part1 = part2_index;
+        site1 = site2_index;
+        part2 = part1_index;
+        site2 = site1_index;
+        part3 = part22_index;
+        site3 = site22_index;
+        flip = *r12;
+        flip.multiply(-1);
+        r12t = const_cast<const Position *>(&flip);
+      } else if ((part22_index == part2_index) && (site22_index == site2_index)) {
+        part1 = part2_index;
+        site1 = site2_index;
+        part2 = part1_index;
+        site2 = site1_index;
+        part3 = part11_index;
+        site3 = site11_index;
+      }
+      if (part1 != -1) {
+        if (!sel) {
+          inner->compute3body(part1, site1, part2,
+            site2, part3, site3, *r12t, *r13t,
+            config, model_params, model, false);
+        } else {
+          // If select provided, check that atleast one site is in selection
+          // assumes one particle in selection
+          if (part1 == sel->particle_index(0) ||
+              part2 == sel->particle_index(0) ||
+              part3 == sel->particle_index(0)) {
+            inner->compute3body(part1, site1, part2,
+              site2, part3, site3, *r12t, *r13t,
+              config, model_params, model, false);
+          }
+        }
+      }
+    }
+  }
+}
+
+bool VisitModel::find_in_pair3body(const int ipart, const int isite, const int num_pair) {
+  if (num_pair == 0) return false;
+  for (int i = 0; i < num_pair; ++i) {
+    const pair3body& p = pairs_[i];
+    if (p.part2 == ipart &&
+        p.site2 == isite) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/*
+ * Looping through a selection to find all 3 body interactions requires
+ * 1. finding all pairs with selection
+ * 2. finding all pairs of those paired with selection
+ * 3. computing 3 body interactions
+ */
+void VisitModel::compute(
+    ModelThreeBody * model,
+    const ModelParams& model_params,
+    const Select& selection,
+    Configuration * config,
+    const int group_index) {
+  DEBUG("VisitModel for ThreeBody of selection");
+  IdealGas ideal_gas;
+  VisitModelInner * inner = get_inner_();
+  ModelTwoBody * two_body = model->get_two_body();
+  zero_energy();
+  const Domain& domain = config->domain();
+  init_relative_(domain);
+  const Select& select_all = config->group_select(group_index);
+  if (selection.num_particles() == 1) {
+    ASSERT(selection.num_sites() == 1, "pair_pair_ sel search assumes 1 site");
+    int num_pair = 0;
+    for (int select1_index = 0;
+         select1_index < selection.num_particles();
+         ++select1_index) {
+      const int part1_index = selection.particle_index(select1_index);
+      DEBUG("part1_index " << part1_index);
+      for (int site1_index : selection.site_indices(select1_index)) {
+        DEBUG("site1_index " << site1_index);
+        for (int select2_index = 0;
+             select2_index < select_all.num_particles();
+             ++select2_index) {
+          const int part2_index = select_all.particle_index(select2_index);
+          DEBUG("part2_index " << part2_index);
+          if (part1_index != part2_index) {
+            for (const int site2_index : select_all.site_indices(select2_index)) {
+              DEBUG("site2_index " << site2_index);
+              inner->compute(part1_index, site1_index, part2_index,
+                site2_index, config, model_params, two_body, false, relative_.get(), pbc_.get());
+              record_pair_(part1_index, site1_index, part2_index, site2_index, *relative_, &num_pair, inner);
+              // now find all pairs of those paired with the pair
+              // unless 3 was already found as a neighbor of 1
+              if (inner->interacted()) {
+                for (int select3_index = 0;
+                     select3_index < select_all.num_particles();
+                     ++select3_index) {
+                  const int part3_index = select_all.particle_index(select3_index);
+                  DEBUG("part3_index " << part3_index);
+                  if ((part3_index != part1_index) &&
+                      (part3_index != part2_index)) {
+                    for (const int site3_index : select_all.site_indices(select3_index)) {
+                      DEBUG("site3_index " << site3_index);
+                      // check if 3 was already found as a neighbor of 1
+                      if (!find_in_pair3body(part3_index, site3_index, num_pair)) {
+                        inner->compute(part3_index, site3_index, part2_index,
+                          site2_index, config, model_params, &ideal_gas, false, relative_.get(), pbc_.get());
+                        record_pair_(part3_index, site3_index, part2_index, site2_index, *relative_, &num_pair, inner);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    pair_pair_(num_pair, model, model_params, config, &selection);
+  } else if (selection.num_particles() == select_all.num_particles()) {
+    compute(model, model_params, config, group_index);
+  } else {
+    FATAL("not implemented");
+  }
+  DEBUG("computed en: " << inner->energy());
+  set_energy(inner->energy());
 }
 
 void VisitModel::init_relative_(const Domain& domain) {
@@ -439,6 +671,15 @@ void VisitModel::compute(
   compute(model, model_params, config, group_index);
 }
 
+void VisitModel::compute(
+    ModelThreeBody * model,
+    const Select& selection,
+    Configuration * config,
+    const int group_index) {
+  const ModelParams& model_params = config->model_params();
+  compute(model, model_params, selection, config, group_index);
+}
+
 void VisitModel::synchronize_(const VisitModel& visit,
     const Select& perturbed) {
   data_ = visit.data();
@@ -467,7 +708,7 @@ void VisitModel::zero_energy() {
 }
 
 void VisitModel::revert(const Select& select) { inner_->revert(select); }
-  
+
 void VisitModel::finalize(const Select& select, Configuration * config) {
   inner_->finalize(select);
 }

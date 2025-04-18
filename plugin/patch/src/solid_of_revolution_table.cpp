@@ -212,6 +212,7 @@ void SolidOfRevolutionTable::compute(
     Position * pbc,
     const double weight) {
   TRACE("*** SolidOfRevolutionTable ***");
+  set_interacted(0);
   const Particle& part1 = config->select_particle(part1_index);
   const Site& site1 = part1.site(site1_index);
   const Particle& part2 = config->select_particle(part2_index);

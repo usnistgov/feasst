@@ -1,9 +1,13 @@
 #include "utils/include/serialize_extra.h"
 #include "utils/include/arguments.h"
+#include "math/include/position.h"
 #include "configuration/include/model_params.h"
 #include "system/include/model.h"
 
 namespace feasst {
+
+Model::Model() { class_name_ = "Model"; }
+Model::~Model() {}
 
 std::map<std::string, std::shared_ptr<Model> >& Model::deserialize_map() {
   static std::map<std::string, std::shared_ptr<Model> >* ans =
@@ -26,6 +30,16 @@ double Model::energy(
   const double squared_distance,
   const int type1,
   const int type2,
+  const ModelParams& model_params) { FATAL("not implemented"); }
+
+double Model::energy3body(
+  const Position& r12,
+  const Position& r13,
+  const double squared_distance12,
+  const double squared_distance13,
+  const int type1,
+  const int type2,
+  const int type3,
   const ModelParams& model_params) { FATAL("not implemented"); }
 
 void Model::serialize(std::ostream& ostr) const { FATAL("not implemented"); }

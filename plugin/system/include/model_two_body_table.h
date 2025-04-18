@@ -57,13 +57,11 @@ class ModelTwoBodyTable : public ModelTwoBody {
   /// Tabulate an existing model.
   void set(const ModelParams& model_params,
     const int size,  /// size of table
-    const int num_types,
     Model * model);
 
   /// Same as above, but with a shared_ptr model.
   void set(const ModelParams& model_params,
     const int size,  /// size of table
-    const int num_types,
     std::shared_ptr<Model> model);
 
   /// Return the tabular potential.

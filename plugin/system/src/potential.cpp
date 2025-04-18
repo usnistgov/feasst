@@ -250,9 +250,9 @@ void Potential::precompute(Configuration * config) {
     table->precompute(config->model_params());
     table->set(model_params(*config),
       table_size_,
-      config->num_site_types(),
       model_);
     model_ = table;
+    // set table size to zero to prevent recomputing
     table_size_ = 0;
   }
 

@@ -5,6 +5,7 @@
 #include "configuration/include/domain.h"
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
+#include "system/include/visit_model.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/pair_distribution.h"
 
@@ -14,7 +15,8 @@ FEASST_MAPPER(PairDistributionInner,);
 
 PairDistributionInner::PairDistributionInner() {
   class_name_ = "PairDistributionInner";
-}
+}  
+PairDistributionInner::~PairDistributionInner() {}
 
 void PairDistributionInner::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

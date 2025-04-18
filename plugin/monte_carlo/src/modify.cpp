@@ -8,6 +8,8 @@
 
 namespace feasst {
 
+Modify::~Modify() {}
+
 std::map<std::string, std::shared_ptr<Modify> >& Modify::deserialize_map() {
   static std::map<std::string, std::shared_ptr<Modify> >* ans =
      new std::map<std::string, std::shared_ptr<Modify> >();

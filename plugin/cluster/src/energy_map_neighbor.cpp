@@ -390,7 +390,7 @@ void EnergyMapNeighbor::finalize(const Select& select) {
   sort_map_new_();
   size_map_();
 
-  if (select.trial_state() == -1 || select.trial_state() == 1) {
+  if (select.trial_state() == -1 || select.trial_state() == 1 || select.trial_state() == 4) {
     remove_from_map_nvt_(select);
     add_to_map_nvt_();
   } else if (select.trial_state() == 2) {

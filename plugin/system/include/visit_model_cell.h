@@ -73,6 +73,17 @@ class VisitModelCell : public VisitModel {
       const Select& selection,
       Configuration * config,
       const int group_index) override;
+  void compute(
+      ModelThreeBody * model,
+      const ModelParams& model_params,
+      Configuration * config,
+      const int group_index) override;
+  void compute(
+      ModelThreeBody * model,
+      const ModelParams& model_params,
+      const Select& selection,
+      Configuration * config,
+      const int group_index) override;
 
   void finalize(const Select& select, Configuration * config) override;
 

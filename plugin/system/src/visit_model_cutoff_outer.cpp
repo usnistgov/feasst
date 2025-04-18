@@ -42,6 +42,7 @@ void VisitModelCutoffOuter::compute(
   init_relative_(domain);
   const Select& select_all = config->group_select(group_index);
   bool is_old_config = false;
+  VisitModelInner * inner = get_inner_();
   if (selection.trial_state() == 0 ||
       selection.trial_state() == 2) {
     is_old_config = true;
@@ -50,9 +51,9 @@ void VisitModelCutoffOuter::compute(
   // If possible, query energy map of old configuration instead of pair loop
   if (is_old_config) {
     if (selection.num_particles() == 1) {
-      if (get_inner_()->is_energy_map_queryable()) {
-        get_inner_()->query_ixn(selection);
-        set_energy(inner().energy());
+      if (inner->is_energy_map_queryable()) {
+        inner->query_ixn(selection);
+        set_energy(inner->energy());
         return;
       }
     }
@@ -72,20 +73,20 @@ void VisitModelCutoffOuter::compute(
            ++select2_index) {
         const int part2_index = select_all.particle_index(select2_index);
         if (part1_index != part2_index) {
-          get_inner_()->set_skip_particle(false);
+          inner->set_skip_particle(false);
           for (const int site1_index : selection.site_indices(select1_index)) {
             TRACE("site1_index " << site1_index);
             for (const int site2_index : select_all.site_indices(select2_index)) {
               TRACE("index: " << part1_index << " " << part2_index << " " <<
                     site1_index << " " << site2_index);
-              if (!inner().skip_particle()) {
-                get_inner_()->compute(part1_index, site1_index,
+              if (!inner->skip_particle()) {
+                inner->compute(part1_index, site1_index,
                                       part2_index, site2_index,
                                       config, model_params, model,
                                       is_old_config,
                                       relative_.get(), pbc_.get());
-                if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
-                  set_energy(inner().energy());
+                if ((energy_cutoff_ != -1) && (inner->energy() > energy_cutoff_)) {
+                  set_energy(inner->energy());
                   return;
                 }
               }
@@ -114,20 +115,20 @@ void VisitModelCutoffOuter::compute(
           TRACE("part1_index " << part1_index << " s " <<
                 selection.particle_indices().size() << " " <<
                 selection.site_indices().size());
-          get_inner_()->set_skip_particle(false);
+          inner->set_skip_particle(false);
           for (const int site1_index : selection.site_indices(select1_index)) {
             TRACE("site1_index " << site1_index);
             for (const int site2_index : select_all.site_indices(select2_index)) {
               TRACE("index: " << part1_index << " " << part2_index << " " <<
                     site1_index << " " << site2_index);
-              if (!inner().skip_particle()) {
-                get_inner_()->compute(part1_index, site1_index,
+              if (!inner->skip_particle()) {
+                inner->compute(part1_index, site1_index,
                                       part2_index, site2_index,
                                       config, model_params, model,
                                       is_old_config,
                                       relative_.get(), pbc_.get());
-                if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
-                  set_energy(inner().energy());
+                if ((energy_cutoff_ != -1) && (inner->energy() > energy_cutoff_)) {
+                  set_energy(inner->energy());
                   return;
                 }
               }
@@ -141,7 +142,7 @@ void VisitModelCutoffOuter::compute(
     compute_between_selection(model, model_params, selection,
       config, is_old_config, relative_.get(), pbc_.get());
   }
-  set_energy(inner().energy());
+  set_energy(inner->energy());
 }
 
 void VisitModelCutoffOuter::compute_between_selection(
@@ -152,6 +153,7 @@ void VisitModelCutoffOuter::compute_between_selection(
   const bool is_old_config,
   Position * relative,
   Position * pbc) {
+  VisitModelInner * inner = get_inner_();
   for (int select1_index = 0;
        select1_index < selection.num_particles() - 1;
        ++select1_index) {
@@ -165,20 +167,20 @@ void VisitModelCutoffOuter::compute_between_selection(
       const int part2_index = selection.particle_index(select2_index);
       if (part1_index != part2_index) {
         TRACE("sel2 " << select2_index << " part2_index " << part2_index);
-        get_inner_()->set_skip_particle(false);
+        inner->set_skip_particle(false);
         for (const int site1_index : selection.site_indices(select1_index)) {
           TRACE("site1_index " << site1_index);
           for (const int site2_index : selection.site_indices(select2_index)) {
             TRACE("index: " << part1_index << " " << part2_index << " " <<
                   site1_index << " " << site2_index);
-            if (!inner().skip_particle()) {
-              get_inner_()->compute(part1_index, site1_index,
+            if (!inner->skip_particle()) {
+              inner->compute(part1_index, site1_index,
                                     part2_index, site2_index,
                                     config, model_params, model,
                                     is_old_config,
                                     relative_.get(), pbc_.get());
-              if ((energy_cutoff_ != -1) && (inner().energy() > energy_cutoff_)) {
-                set_energy(inner().energy());
+              if ((energy_cutoff_ != -1) && (inner->energy() > energy_cutoff_)) {
+                set_energy(inner->energy());
                 return;
               }
             }

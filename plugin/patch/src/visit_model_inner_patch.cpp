@@ -30,6 +30,7 @@ void VisitModelInnerPatch::compute(
     Position * relative,
     Position * pbc,
     const double weight) {
+  set_interacted(0);
   TRACE("part1_index " << part1_index);
   TRACE("part2_index " << part2_index);
   TRACE("site1_index " << site1_index);

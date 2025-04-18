@@ -8,14 +8,14 @@
    DihedralTraPPE
    DihedralHarmonic
    AngleHarmonic
+   F3C
+   Yukawa
+   Mie
    LennardJonesAlpha
    LennardJonesCutShift
    LennardJonesForceShift
-   F3C
-   TwoBodyAlpha
-   Jagla
-   SquareWell
    TwoBodyTable
-   Mie
-   Yukawa
+   SquareWell
+   Jagla
+   TwoBodyAlpha
    TablePotential

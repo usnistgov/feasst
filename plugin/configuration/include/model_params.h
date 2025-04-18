@@ -165,10 +165,10 @@ class Sigma : public ModelParam {
   The cut off parameter is named "cutoff" in LMP-like data file Site Properties.
   The cut off parameter has the default mixing rule:
 
-  \f$ r^c_{ij} = \left\{
+  \f$ r_{c,ij} = \left\{
     \begin{array}{lr}
-      0 & : r^c_i r^c_j = 0 \\
-      0.5(r^c_i + r^c_j) & : r^c_ir^c_j \neq 0
+      0 & : r_{c,i} r_{c,j} = 0 \\
+      0.5(r_{c,i} + r_{c,j}) & : r_{c,i}r_{c,j} \neq 0
     \end{array}
   \right. \f$
  */

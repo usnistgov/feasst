@@ -150,6 +150,7 @@ def write_cpp(plugin_dir, deps, include_plugin):
             ['steppers', "Tune"],
             ['fftw', "ScatteringFFTW"],
             ['netcdf', "FileNETCDF"],
+            ['many_body', "StillingerWeber"],
         ]
         for plugin_class in plugin_classes:
             if plugin_class[0] in include_plugin:

@@ -29,7 +29,7 @@ class PairDistributionInner : public ModelTwoBody {
     return std::make_shared<PairDistributionInner>(istr); }
   void serialize(std::ostream& ostr) const override;
   explicit PairDistributionInner(std::istream& istr);
-  virtual ~PairDistributionInner() {}
+  virtual ~PairDistributionInner();
 
  protected:
   void serialize_pair_distribution_inner_(std::ostream& ostr) const;

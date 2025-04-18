@@ -10,7 +10,7 @@ class VisitModel;
 
 class ModelTwoBody : public Model {
  public:
-  ModelTwoBody() {}
+  ModelTwoBody();
 
   double compute(
     const ModelParams& model_params,
@@ -57,7 +57,7 @@ class ModelTwoBody : public Model {
     VisitModel * visitor) override;
 
   int num_body() const override { return 2; }
-  virtual ~ModelTwoBody() {}
+  virtual ~ModelTwoBody();
   explicit ModelTwoBody(std::istream& istr) : Model(istr) {}
 };
 

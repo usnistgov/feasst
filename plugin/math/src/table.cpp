@@ -31,6 +31,7 @@ Table1D::Table1D(argtype * args) : Table() {
   data_.resize(num, dble("default_value", args, 0.));
   calc_d_();
 }
+Table1D::~Table1D() {}
 
 double Table1D::linear_interpolation(const double value0) const {
   const int n0 = num();

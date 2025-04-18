@@ -12,6 +12,7 @@ class Configuration;
 class EnergyMap;
 class ModelParams;
 class ModelTwoBody;
+class ModelThreeBody;
 class Position;
 class Select;
 
@@ -37,6 +38,21 @@ class VisitModelInner {
     const bool is_old_config,
     Position * relative,
     Position * pbc,
+    const double weight = 1.);
+
+  virtual void compute3body(
+    const int part1_index,
+    const int site1_index,
+    const int part2_index,
+    const int site2_index,
+    const int part3_index,
+    const int site3_index,
+    const Position& r12,
+    const Position& r13,
+    const Configuration * config,
+    const ModelParams& model_params,
+    ModelThreeBody * model,
+    const bool is_old_config,
     const double weight = 1.);
 
   virtual void precompute(Configuration * config);
@@ -85,6 +101,10 @@ class VisitModelInner {
   void set_skip_particle(const bool skip) { skip_particle_ = skip; }
   bool skip_particle() const { return skip_particle_; }
 
+  /// Return true if update_interaction was called after compute
+  int interacted() const { return interacted_; }
+  void set_interacted(const int ixn) { interacted_ = ixn; }
+
   // serialize
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
@@ -109,6 +129,7 @@ class VisitModelInner {
   int cutoff_index_ = -1;
   int cutoff_outer_index_ = -1;
   std::shared_ptr<EnergyMap> energy_map_;
+  int interacted_;
 
   // temporariy and not serialized
   bool skip_particle_ = false;

@@ -10,13 +10,14 @@ namespace feasst {
 
 typedef std::map<std::string, std::string> argtype;
 class ModelParams;
+class Position;
 class Select;
 class Configuration;
 class VisitModel;
 
 class Model {
  public:
-  Model() { class_name_ = "Model"; }
+  Model();
 
   /// Visit the model over the entire configuration.
   virtual double compute(
@@ -65,7 +66,7 @@ class Model {
     const Select& selection,
     Configuration * config,
     VisitModel * visitor) = 0;
-  virtual ~Model() {}
+  virtual ~Model();
 
   /// Return the number of bodies in the model (e.g., two-body/pairwise = 2).
   virtual int num_body() const = 0;
@@ -95,6 +96,16 @@ class Model {
       const double squared_distance,
       const int type1,
       const int type2,
+      const ModelParams& model_params);
+
+  virtual double energy3body(
+      const Position& r12,
+      const Position& r13,
+      const double squared_distance12,
+      const double squared_distance13,
+      const int type1,
+      const int type2,
+      const int type3,
       const ModelParams& model_params);
 
   const std::string& class_name() const { return class_name_; }

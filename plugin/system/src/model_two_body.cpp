@@ -3,6 +3,9 @@
 
 namespace feasst {
 
+ModelTwoBody::ModelTwoBody() {}
+ModelTwoBody::~ModelTwoBody() {}
+
 double ModelTwoBody::compute(
     const ModelParams& model_params,
     const int group_index,

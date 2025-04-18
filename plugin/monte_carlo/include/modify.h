@@ -50,7 +50,7 @@ class Modify : public Stepper {
   std::shared_ptr<Modify> deserialize(std::istream& istr);
   std::shared_ptr<Modify> factory(const std::string name, argtype * args);
   explicit Modify(std::istream& istr) : Stepper(istr) {}
-  virtual ~Modify() {}
+  virtual ~Modify();
 
   // HWH only used by ModifyFactory
   void check_update_(MonteCarlo * mc);

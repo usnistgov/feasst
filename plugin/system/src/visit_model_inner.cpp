@@ -10,6 +10,7 @@
 #include "configuration/include/configuration.h"
 #include "system/include/energy_map.h"
 #include "system/include/model_two_body.h"
+#include "system/include/model_three_body.h"
 #include "system/include/visit_model_inner.h"
 
 namespace feasst {
@@ -45,8 +46,9 @@ void VisitModelInner::compute(
     Position * pbc,
     const double weight) {
   TRACE("VisitModelInner");
+  interacted_ = 0;
 //  if (is_old_config && is_energy_map_queryable()) {
-//    DEBUG("using old map");
+//    TRACE("using old map");
 //    query_ixn(part1_index, site1_index, part2_index, site2_index);
 //    return;
 //  }
@@ -63,6 +65,7 @@ void VisitModelInner::compute(
       const int type2 = site2.type();
       const double cutoff = model_params.select(cutoff_index()).mixed_values()[type1][type2];
       TRACE("cutoff " << cutoff);
+      TRACE("cutoff^2 " << cutoff*cutoff);
       TRACE("squared_distance_ " << squared_distance_);
       TRACE("indices " << part1_index << " " << site1_index << " " <<
           part2_index << " " << site2_index);
@@ -72,7 +75,7 @@ void VisitModelInner::compute(
         update_ixn(energy, part1_index, site1_index, type1, part2_index,
                    site2_index, type2, squared_distance_, pbc, is_old_config,
                    *config);
-        TRACE("energy " << energy_ << " " << energy);
+        TRACE("energy " << energy_ << " " << energy << " interacted " << interacted_);
       } else {
         // if distance is greater than cutoff+outer, then skip the entire
         // particle.
@@ -187,6 +190,7 @@ void VisitModelInner::update_ixn(
     energy_map_->update(energy, part1_index, site1_index, site1_type,
       part2_index, site2_index, site2_type, squared_distance, pbc, config);
   }
+  interacted_ = 1;
 }
 
 void VisitModelInner::clear_ixn(
@@ -231,6 +235,51 @@ void VisitModelInner::check(const Configuration& config) const {
 void VisitModelInner::synchronize_(const VisitModelInner& inner, const Select& perturbed) {
   if (energy_map_) {
     energy_map_->synchronize_(inner.energy_map(), perturbed);
+  }
+}
+
+void VisitModelInner::compute3body(
+    const int part1_index,
+    const int site1_index,
+    const int part2_index,
+    const int site2_index,
+    const int part3_index,
+    const int site3_index,
+    const Position& r12,
+    const Position& r13,
+    const Configuration * config,
+    const ModelParams& model_params,
+    ModelThreeBody * model,
+    const bool is_old_config,
+    const double weight) {
+  TRACE("VisitModelInner::compute3body p1 " << part1_index << " s1 " << site1_index << " p2 " << part2_index << " s2 " << site2_index << " p3 " << part3_index << " s3 " << site3_index);
+  const Particle& part1 = config->select_particle(part1_index);
+  const Site& site1 = part1.site(site1_index);
+  if (site1.is_physical()) {
+    const Particle& part2 = config->select_particle(part2_index);
+    const Site& site2 = part2.site(site2_index);
+    if (site2.is_physical()) {
+      const Particle& part3 = config->select_particle(part3_index);
+      const Site& site3 = part3.site(site3_index);
+      if (site3.is_physical()) {
+        const int type1 = site1.type();
+        const int type2 = site2.type();
+        const int type3 = site3.type();
+        const double cutoff12 = model_params.select(cutoff_index()).mixed_values()[type1][type2];
+        const double squared_distance12 = r12.squared_distance();
+        if (squared_distance12 <= cutoff12*cutoff12) {
+          const double cutoff13 = model_params.select(cutoff_index()).mixed_values()[type1][type3];
+          const double squared_distance13 = r13.squared_distance();
+          if (squared_distance13 <= cutoff13*cutoff13) {
+            const double energy = weight*model->energy3body(r12, r13,
+              squared_distance12, squared_distance13, type1, type2, type3,
+              model_params);
+            energy_ += energy;
+            TRACE("energy " << energy_ << " " << energy);
+          }
+        }
+      }
+    }
   }
 }
 

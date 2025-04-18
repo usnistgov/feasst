@@ -93,7 +93,6 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file,
         config->add_particle_of_type(0);
       }
     } else {
-      int particle_index = 0;
       int read_sites = 0;
       while (read_sites < num_sites) {
         const int st = site_types[read_sites];

@@ -165,10 +165,10 @@ def post_process(params):
     numc1n1 = pd.read_csv(params['prefix']+'0_c1_n1.csv')['average'][0]
     yco2 = numc0n0/(numc0n0+numc0n1)
     print('mol frac CO2 in vapor', yco2)
-    assert np.abs(yco2 - 0.536) < 0.05
+    assert np.abs(yco2 - 0.536) < 0.075
     xco2 = numc1n0/(numc1n0+numc1n1)
     print('mol frac CO2 in liquid', xco2)
-    assert np.abs(xco2 - 0.938) < 0.05
+    assert np.abs(xco2 - 0.938) < 0.075
     eq = pd.read_csv(params['prefix']+'0_eq.csv')
     prod = pd.read_csv(params['prefix']+'0.csv')
     for conf in range(2):

@@ -7,6 +7,9 @@
 #include "configuration/include/domain.h"
 #include "configuration/include/model_params.h"
 #include "configuration/include/configuration.h"
+#include "system/include/ideal_gas.h"
+#include "system/include/model_two_body.h"
+#include "system/include/model_three_body.h"
 #include "system/include/cells.h"
 #include "system/include/visit_model_inner.h"
 #include "system/include/visit_model_cell.h"
@@ -135,6 +138,7 @@ void VisitModelCell::compute(
   zero_energy();
   const Domain& domain = config->domain();
   ASSERT(group_index == group_index_, "not equivalent");
+  VisitModelInner * inner = get_inner_();
   init_relative_(domain);
 
   /*
@@ -165,11 +169,11 @@ void VisitModelCell::compute(
             if (part1_index != part2_index) {
               for (int site1_index : select1.site_indices(select1_index)) {
                 for (int site2_index : select2.site_indices(select2_index)) {
-                  get_inner_()->compute(part1_index, site1_index, part2_index,
+                  inner->compute(part1_index, site1_index, part2_index,
                                         site2_index, config, model_params,
                                         model, false, relative_.get(), pbc_.get());
-                  if ((energy_cutoff() != -1) && (inner().energy() > energy_cutoff())) {
-                    set_energy(inner().energy());
+                  if ((energy_cutoff() != -1) && (inner->energy() > energy_cutoff())) {
+                    set_energy(inner->energy());
                     return;
                   }
                 }
@@ -195,11 +199,11 @@ void VisitModelCell::compute(
         if (part1_index != part2_index) {
           for (int site1_index : select.site_indices(select1_index)) {
             for (int site2_index : select.site_indices(select2_index)) {
-              get_inner_()->compute(part1_index, site1_index, part2_index,
+              inner->compute(part1_index, site1_index, part2_index,
                                     site2_index, config, model_params, model,
                                     false, relative_.get(), pbc_.get());
-              if ((energy_cutoff() != -1) && (inner().energy() > energy_cutoff())) {
-                set_energy(inner().energy());
+              if ((energy_cutoff() != -1) && (inner->energy() > energy_cutoff())) {
+                set_energy(inner->energy());
                 return;
               }
             }
@@ -208,7 +212,7 @@ void VisitModelCell::compute(
       }
     }
   }
-  set_energy(inner().energy());
+  set_energy(inner->energy());
 }
 
 void VisitModelCell::compute(
@@ -222,6 +226,7 @@ void VisitModelCell::compute(
   const Domain& domain = config->domain();
   ASSERT(group_index == group_index_, "not equivalent");
   init_relative_(domain);
+  VisitModelInner * inner = get_inner_();
 
   // If only one particle in selection, simply exclude part1==part2
   DEBUG("num particles in selection " << selection.num_particles());
@@ -246,11 +251,11 @@ void VisitModelCell::compute(
               for (int site2_index : cell2_parts.site_indices(select2_index)) {
                 TRACE("index: " << part1_index << " " << part2_index << " " <<
                      site1_index << " " << site2_index);
-                get_inner_()->compute(part1_index, site1_index, part2_index,
+                inner->compute(part1_index, site1_index, part2_index,
                                       site2_index, config, model_params, model,
                                       false, relative_.get(), pbc_.get());
-                if ((energy_cutoff() != -1) && (inner().energy() > energy_cutoff())) {
-                  set_energy(inner().energy());
+                if ((energy_cutoff() != -1) && (inner->energy() > energy_cutoff())) {
+                  set_energy(inner->energy());
                   return;
                 }
               }
@@ -283,11 +288,11 @@ void VisitModelCell::compute(
               for (int site2_index : cell2_parts.site_indices(select2_index)) {
                 TRACE("index: " << part1_index << " " << part2_index << " " <<
                      site1_index << " " << site2_index);
-                get_inner_()->compute(part1_index, site1_index, part2_index,
+                inner->compute(part1_index, site1_index, part2_index,
                                       site2_index, config, model_params, model,
                                       false, relative_.get(), pbc_.get());
-                if ((energy_cutoff() != -1) && (inner().energy() > energy_cutoff())) {
-                  set_energy(inner().energy());
+                if ((energy_cutoff() != -1) && (inner->energy() > energy_cutoff())) {
+                  set_energy(inner->energy());
                   return;
                 }
               }
@@ -301,7 +306,185 @@ void VisitModelCell::compute(
     compute_between_selection(model, model_params, selection,
       config, false, relative_.get(), pbc_.get());
   }
-  set_energy(inner().energy());
+  set_energy(inner->energy());
+}
+
+void VisitModelCell::compute(
+    ModelThreeBody * model,
+    const ModelParams& model_params,
+    Configuration * config,
+    const int group_index) {
+  DEBUG("VisitModelCell ThreeBody whole config");
+  zero_energy();
+  const Domain& domain = config->domain();
+  ASSERT(group_index == group_index_, "not equivalent");
+  VisitModelInner * inner = get_inner_();
+  ModelTwoBody * two_body = model->get_two_body();
+  init_relative_(domain);
+  int num_pair = 0;
+
+  // loop through neighboring cells where cell1 < cell2 only
+  for (int cell1 = 0; cell1 < cells_->num_total(); ++cell1) {
+    const Select& select1 = cells_->particles()[cell1];
+    for (int cell2 : cells_->neighbor()[cell1]) {
+      if (cell1 < cell2) {
+        const Select& select2 = cells_->particles()[cell2];
+        for (int select1_index = 0;
+             select1_index < select1.num_particles();
+             ++select1_index) {
+          const int part1_index = select1.particle_index(select1_index);
+          for (int select2_index = 0;
+               select2_index < select2.num_particles();
+               ++select2_index) {
+            const int part2_index = select2.particle_index(select2_index);
+            if (part1_index != part2_index) {
+              for (int site1_index : select1.site_indices(select1_index)) {
+                for (int site2_index : select2.site_indices(select2_index)) {
+                  inner->compute(part1_index, site1_index, part2_index,
+                                 site2_index, config, model_params,
+                                 two_body, false, relative_.get(), pbc_.get());
+                  record_pair_(part1_index, site1_index, part2_index, site2_index, *relative_, &num_pair, inner);
+                  if ((energy_cutoff() != -1) && (inner->energy() > energy_cutoff())) {
+                    set_energy(inner->energy());
+                    return;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // loop through the same cell only
+  for (int cell1 = 0; cell1 < cells_->num_total(); ++cell1) {
+    const Select& select = cells_->particles()[cell1];
+    for (int select1_index = 0;
+         select1_index < select.num_particles() - 1;
+         ++select1_index) {
+      const int part1_index = select.particle_index(select1_index);
+      for (int select2_index = select1_index + 1;
+           select2_index < select.num_particles();
+           ++select2_index) {
+        const int part2_index = select.particle_index(select2_index);
+        if (part1_index != part2_index) {
+          for (int site1_index : select.site_indices(select1_index)) {
+            for (int site2_index : select.site_indices(select2_index)) {
+              inner->compute(part1_index, site1_index, part2_index,
+                             site2_index, config, model_params, two_body,
+                             false, relative_.get(), pbc_.get());
+              record_pair_(part1_index, site1_index, part2_index, site2_index, *relative_, &num_pair, inner);
+              if ((energy_cutoff() != -1) && (inner->energy() > energy_cutoff())) {
+                set_energy(inner->energy());
+                return;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  pair_pair_(num_pair, model, model_params, config, NULL);
+  DEBUG("computed en: " << inner->energy());
+  set_energy(inner->energy());
+}
+
+void VisitModelCell::compute(
+    ModelThreeBody * model,
+    const ModelParams& model_params,
+    const Select& selection,
+    Configuration * config,
+    const int group_index) {
+  DEBUG("VisitModelCell ThreeBody selection");
+  IdealGas ideal_gas;
+  VisitModelInner * inner = get_inner_();
+  ModelTwoBody * two_body = model->get_two_body();
+  zero_energy();
+  const Domain& domain = config->domain();
+  ASSERT(group_index == group_index_, "not equivalent");
+  init_relative_(domain);
+  const Select& select_all = config->group_select(group_index);
+
+  // HWH: To optimize query from EnergyMapNeighbor:
+  // EnergyMapNeighbor stored squared distance, not vector separation
+  // 1. "old" config can use EnergyMapNeighbor to build pairs_, but pair_pair_ remains the same
+  // 2. "new" config can use EnergyMapNeighbor only for site3, and pair_pair_ remains
+  // 3. pair_pair_ may be further optimized if EnergyMap stores vector separations.
+  //    Then there would be less need to store pairs_ in VisitModel (no need in old config, and new config use new)
+  //    pair_pair_ alternative must be implemented in EnergyMapNeighbor derived class
+
+  // If only one particle in selection, simply exclude part1==part2
+  DEBUG("num particles in selection " << selection.num_particles());
+  if (selection.num_particles() == 1) {
+    ASSERT(selection.num_sites() == 1, "pair_pair_ sel search assumes 1 site");
+    int num_pair = 0;
+    for (int select1_index = 0;
+         select1_index < selection.num_particles();
+         ++select1_index) {
+      const int part1_index = selection.particle_index(select1_index);
+      const Particle& part1 = config->select_particle(part1_index);
+      for (int site1_index : selection.site_indices(select1_index)) {
+        const Site& site1 = part1.site(site1_index);
+        const int cell1_index = cell_id_opt_(domain, site1.position());
+        for (int cell2_index : cells_->neighbor()[cell1_index]) {
+          const Select& cell2_parts = cells_->particles()[cell2_index];
+          for (int select2_index = 0;
+               select2_index < cell2_parts.num_particles();
+               ++select2_index) {
+            const int part2_index = cell2_parts.particle_index(select2_index);
+            if (part1_index != part2_index) {
+              TRACE("indices " <<
+                    feasst_str(cell2_parts.site_indices(select2_index)));
+              for (int site2_index : cell2_parts.site_indices(select2_index)) {
+                TRACE("index: " << part1_index << " " << part2_index << " " <<
+                     site1_index << " " << site2_index);
+                inner->compute(part1_index, site1_index, part2_index,
+                               site2_index, config, model_params, two_body,
+                               false, relative_.get(), pbc_.get());
+                record_pair_(part1_index, site1_index, part2_index, site2_index, *relative_, &num_pair, inner);
+                if ((energy_cutoff() != -1) && (inner->energy() > energy_cutoff())) {
+                  set_energy(inner->energy());
+                  return;
+                }
+
+                // now find all pairs of those paired with the pair
+                if (inner->interacted()) {
+                  for (int cell3_index : cells_->neighbor()[cell2_index]) {
+                    const Select& cell3_parts = cells_->particles()[cell3_index];
+                    for (int select3_index = 0;
+                         select3_index < cell3_parts.num_particles();
+                         ++select3_index) {
+                      const int part3_index = cell3_parts.particle_index(select3_index);
+                      DEBUG("part3_index " << part3_index);
+                      if ((part3_index != part1_index) &&
+                          (part3_index != part2_index)) {
+                        for (const int site3_index : cell3_parts.site_indices(select3_index)) {
+                          DEBUG("site3_index " << site3_index);
+                          // check if 3 was already found as a neighbor of 1
+                          if (!find_in_pair3body(part3_index, site3_index, num_pair)) {
+                            inner->compute(part3_index, site3_index, part2_index,
+                              site2_index, config, model_params, &ideal_gas, false, relative_.get(), pbc_.get());
+                            record_pair_(part3_index, site3_index, part2_index, site2_index, *relative_, &num_pair, inner);
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    pair_pair_(num_pair, model, model_params, config, &selection);
+  } else if (selection.num_particles() == select_all.num_particles()) {
+    compute(model, model_params, config, group_index);
+  } else {
+    FATAL("not implemented");
+  }
+  set_energy(inner->energy());
 }
 
 void VisitModelCell::position_tracker_(const Select& select,

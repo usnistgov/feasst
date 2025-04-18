@@ -61,8 +61,8 @@ void ModelTwoBodyTable::set(std::shared_ptr<Table1D> table,
 
 void ModelTwoBodyTable::set(const ModelParams& model_params,
     const int size,
-    const int num_types,
     Model * model) {
+  const int num_types = model_params.size();
   resize(num_types);
   DEBUG("finding sigma");
   const ModelParam& sig = model_params.select("sigma");
@@ -91,9 +91,8 @@ void ModelTwoBodyTable::set(const ModelParams& model_params,
 
 void ModelTwoBodyTable::set(const ModelParams& model_params,
     const int size,
-    const int num_types,
     std::shared_ptr<Model> model) {
-  set(model_params, size, num_types, model.get());
+  set(model_params, size, model.get());
 }
 
 void ModelTwoBodyTable::serialize(std::ostream& ostr) const {
@@ -152,16 +151,19 @@ double ModelTwoBodyTable::energy(
   TRACE("table? " << table_[type1][type2]);
   if (1./squared_distance > rhg) {
     return NEAR_INFINITY;
-  } else if (table_[type1][type2]) {
-    const double rcg = cutoff_inv_sq_->mixed_value(type1, type2);
-    TRACE("rcg " << rcg);
-    const double z = (1./squared_distance - rhg)/(rcg - rhg);
-    TRACE("z " << z);
-    const double en = table_[type1][type2]->linear_interpolation(z);
-    TRACE("en " << en);
-    return en;
   } else {
-    return 0.;
+    const Table1D * table = table_[type1][type2].get();
+    if (table) {
+      const double rcg = cutoff_inv_sq_->mixed_value(type1, type2);
+      TRACE("rcg " << rcg);
+      const double z = (1./squared_distance - rhg)/(rcg - rhg);
+      TRACE("z " << z);
+      const double en = table->linear_interpolation(z);
+      TRACE("en " << en);
+      return en;
+    } else {
+      return 0.;
+    }
   }
 }
 

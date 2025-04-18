@@ -27,6 +27,7 @@ void VisitModelBond::compute(
     const int group_index) {
   TRACE("intra particle energy_of_selection");
   ASSERT(group_index == 0, "need to implement site1 loop filtering particles by group");
+  VisitModelInner * inner = get_inner_();
   zero_energy();
   const Domain& domain = config->domain();
   init_relative_(domain);
@@ -50,7 +51,7 @@ void VisitModelBond::compute(
         }
       }
       if (!exclude) {
-        get_inner_()->compute(part_index, site0, part_index, site1,
+        inner->compute(part_index, site0, part_index, site1,
           config, model_params, model, false, relative_.get(), pbc_.get());
       }
     }
@@ -58,17 +59,17 @@ void VisitModelBond::compute(
       const int site0 = angle.site_indices().front();
       const int site2 = angle.site_indices().back();
       TRACE("sites " << site0 << " " << site2);
-      get_inner_()->compute(part_index, site0, part_index, site2,
+      inner->compute(part_index, site0, part_index, site2,
         config, model_params, model, false, relative_.get(), pbc_.get());
     }
     // force inclusion of new bond
     if (selection.new_bond()) {
-      get_inner_()->compute(part_index, selection.site_index(0, 0),
+      inner->compute(part_index, selection.site_index(0, 0),
                             part_index, selection.new_bond()->site_index(0, 0),
         config, model_params, model, false, relative_.get(), pbc_.get());
     }
   }
-  set_energy(inner().energy());
+  set_energy(inner->energy());
 }
 
 VisitModelBond::VisitModelBond(std::istream& istr) : VisitModel(istr) {
