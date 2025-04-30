@@ -90,7 +90,7 @@ Metropolis
 TrialTranslate weight 1 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialAVB2 weight 0.1 particle_type 0
 TrialAVB4 weight 0.1 particle_type 0
-CheckEnergy trials_per_update {tpc} tolerance 1e-4
+CheckEnergy trials_per_update {tpc} decimal_places 4
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # write the pore xyz for visualization

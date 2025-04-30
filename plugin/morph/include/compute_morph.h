@@ -1,6 +1,6 @@
 
-#ifndef FEASST_GROWTH_EXPANDED_COMPUTE_MORPH_H_
-#define FEASST_GROWTH_EXPANDED_COMPUTE_MORPH_H_
+#ifndef FEASST_MORPH_COMPUTE_MORPH_H_
+#define FEASST_MORPH_COMPUTE_MORPH_H_
 
 #include <memory>
 #include <vector>
@@ -132,4 +132,4 @@ inline std::shared_ptr<ComputeMorph> MakeComputeMorph() {
 }
 }  // namespace feasst
 
-#endif  // FEASST_GROWTH_EXPANDED_COMPUTE_MORPH_H_
+#endif  // FEASST_MORPH_COMPUTE_MORPH_H_

@@ -74,14 +74,13 @@ def parse():
         for index, temp in enumerate(params['dictionary_input'][part]['temp']):
             params['particles'].append(part)
             params['temperatures'].append(temp)
+            params['num_sitess'].append(fstio.num_sites_in_fstprt(part, params['feasst_install']))
             if "ethane" in part:
                 params['molecular_weight'].append(30.07)
-                params['num_sitess'].append(2)
             elif "n-butane" in part:
                 params['molecular_weight'].append(58.12)
-                params['num_sitess'].append(4)
             else:
-                print("input new num_sites and molecular weight for particle", part)
+                print("input molecular weight for", part)
                 assert False
             frac_vapor = 0.15
             num_part = params['dictionary_input'][part]['num_particles'][index]
@@ -223,7 +222,7 @@ def write_grow_file(filename, params,
                         num_grow = trial_type - 1
                         if params['num_sites'] - site < num_grow:
                             if params['num_sites'] - site == num_grow - 1:
-                                f.write('particle_type 0 weight '+str(2/(trial_type-2))+' ')
+                                f.write('particle_type 0 weight '+str(1/(trial_type-2))+' configuration_index '+str(conf)+' ')
                             if site == 1:
                                 f.write(bond)
                             elif site == 2:

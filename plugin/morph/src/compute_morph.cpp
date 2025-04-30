@@ -27,58 +27,61 @@ void ComputeMorph::perturb_and_acceptance(
   compute_rosenbluth(1, criteria, system, acceptance, stages, random);
   for (TrialStage * stage : *stages) stage->mid_stage(system);
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
-  DEBUG("old: " << criteria->current_energy() << " " << acceptance->energy_old());
-  DEBUG("new: " << acceptance->energy_new());
-  DEBUG("energy change: " << acceptance->energy_new() - acceptance->energy_old());
-  const double delta_energy = acceptance->energy_new() - acceptance->energy_old();
-  acceptance->set_energy_new(criteria->current_energy() + delta_energy);
-  acceptance->add_to_energy_profile_new(criteria->current_energy_profile());
-  acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old());
-  const Configuration& config = system->configuration();
+  if (!acceptance->reject()) {
+    ASSERT(system->num_configurations() == 1, "not implemented for multiple configs");
+    DEBUG("old: " << criteria->current_energy() << " " << acceptance->energy_old());
+    DEBUG("new: " << acceptance->energy_new());
+    DEBUG("energy change: " << acceptance->energy_new() - acceptance->energy_old());
+    const double delta_energy = acceptance->energy_new() - acceptance->energy_old();
+    acceptance->set_energy_new(criteria->current_energy() + delta_energy);
+    acceptance->add_to_energy_profile_new(criteria->current_energy_profile());
+    acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old());
+    const Configuration& config = system->configuration();
 
-  // initialize delta_
-  const int num_ptypes = config.num_particle_types();
-  if (static_cast<int>(delta_top_.size()) < num_ptypes) {
-    delta_top_.resize(num_ptypes);
-    delta_bottom_.resize(num_ptypes);
-  }
-  std::fill(delta_bottom_.begin(), delta_bottom_.end(), 0);
-
-  /// HWH rederive acceptance using number of particles already morphed to/from arrays
-
-  // Metropolis
-  const int num_stages = static_cast<int>(stages->size());
-  for (int istage = 0; istage < num_stages; ++istage) {
-  //for (const TrialStage * stage : *stages) {
-    const TrialStage * stage = (*stages)[istage];
-    const TrialSelect& select = stage->trial_select();
-    const int particle_index = select.mobile().particle_index(0);
-    const int particle_type = select.particle_type();
-    const int particle_type_morph = config.select_particle(particle_index).type();
-
-    ++delta_bottom_[particle_type];
-    --delta_bottom_[particle_type_morph];
-
-    std::fill(delta_top_.begin(), delta_top_.end(), 0);
-    for (int jstage = istage; jstage < num_stages; ++jstage) {
-      const TrialSelect& jselect = (*stages)[jstage]->trial_select();
-      const int particle_jindex = jselect.mobile().particle_index(0);
-      const int particle_jtype = jselect.particle_type();
-      const int particle_jtype_morph = config.select_particle(particle_jindex).type();
-      ++delta_top_[particle_jtype];
-      --delta_top_[particle_jtype_morph];
+    // initialize delta_
+    const int num_ptypes = config.num_particle_types();
+    if (static_cast<int>(delta_top_.size()) < num_ptypes) {
+      delta_top_.resize(num_ptypes);
+      delta_bottom_.resize(num_ptypes);
     }
+    std::fill(delta_bottom_.begin(), delta_bottom_.end(), 0);
 
-    const double num_type = config.num_particles_of_type(particle_type);
-    const double num_type_morph = config.num_particles_of_type(particle_type_morph);
-    ASSERT(particle_type != particle_type_morph, "err");
-    DEBUG("betamu " << system->thermo_params().beta_mu(particle_type));
-    acceptance->add_to_ln_metropolis_prob(
-      std::log((num_type + delta_top_[particle_type])/(
-                num_type_morph + 1 + delta_bottom_[particle_type_morph]))
-      - system->thermo_params().beta_mu(particle_type)
-      + system->thermo_params().beta_mu(particle_type_morph)
-    );
+    /// HWH rederive acceptance using number of particles already morphed to/from arrays
+
+    // Metropolis
+    const int num_stages = static_cast<int>(stages->size());
+    for (int istage = 0; istage < num_stages; ++istage) {
+    //for (const TrialStage * stage : *stages) {
+      const TrialStage * stage = (*stages)[istage];
+      const TrialSelect& select = stage->trial_select();
+      const int particle_index = select.mobile().particle_index(0);
+      const int particle_type = select.particle_type();
+      const int particle_type_morph = config.select_particle(particle_index).type();
+
+      ++delta_bottom_[particle_type];
+      --delta_bottom_[particle_type_morph];
+
+      std::fill(delta_top_.begin(), delta_top_.end(), 0);
+      for (int jstage = istage; jstage < num_stages; ++jstage) {
+        const TrialSelect& jselect = (*stages)[jstage]->trial_select();
+        const int particle_jindex = jselect.mobile().particle_index(0);
+        const int particle_jtype = jselect.particle_type();
+        const int particle_jtype_morph = config.select_particle(particle_jindex).type();
+        ++delta_top_[particle_jtype];
+        --delta_top_[particle_jtype_morph];
+      }
+
+      const double num_type = config.num_particles_of_type(particle_type);
+      const double num_type_morph = config.num_particles_of_type(particle_type_morph);
+      ASSERT(particle_type != particle_type_morph, "err");
+      DEBUG("betamu " << system->thermo_params().beta_mu(particle_type));
+      acceptance->add_to_ln_metropolis_prob(
+        std::log((num_type + delta_top_[particle_type])/(
+                  num_type_morph + 1 + delta_bottom_[particle_type_morph]))
+        - system->thermo_params().beta_mu(particle_type)
+        + system->thermo_params().beta_mu(particle_type_morph)
+      );
+    }
   }
 }
 

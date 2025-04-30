@@ -33,38 +33,41 @@ void ComputeAddMultiple::perturb_and_acceptance(
     Random * random) {
   DEBUG("ComputeAddMultiple");
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
-  acceptance->add_to_energy_new(criteria->current_energy());
-  //acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
-  acceptance->add_to_energy_profile_new(criteria->current_energy_profile());
-  acceptance->add_to_macrostate_shift(shift_);
-  acceptance->set_macrostate_shift_type(-1);  // disable constraints with multi-particles
-  DEBUG("deltaE " << MAX_PRECISION << acceptance->energy_new());
-  const Configuration& config = system->configuration();
-  const double volume = config.domain().volume();
+  if (!acceptance->reject()) {
+    ASSERT(system->num_configurations() == 1, "not implemented for multiple configs");
+    acceptance->add_to_energy_new(criteria->current_energy());
+    //acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
+    acceptance->add_to_energy_profile_new(criteria->current_energy_profile());
+    acceptance->add_to_macrostate_shift(shift_);
+    acceptance->set_macrostate_shift_type(-1);  // disable constraints with multi-particles
+    DEBUG("deltaE " << MAX_PRECISION << acceptance->energy_new());
+    const Configuration& config = system->configuration();
+    const double volume = config.domain().volume();
 
-  // initialize delta_
-  const int num_ptypes = config.num_particle_types();
-  if (static_cast<int>(delta_.size()) < num_ptypes) delta_.resize(num_ptypes);
-  std::fill(delta_.begin(), delta_.end(), 0);
+    // initialize delta_
+    const int num_ptypes = config.num_particle_types();
+    if (static_cast<int>(delta_.size()) < num_ptypes) delta_.resize(num_ptypes);
+    std::fill(delta_.begin(), delta_.end(), 0);
 
-  DEBUG(config.num_particles());
-  DEBUG(feasst_str(delta_));
+    DEBUG(config.num_particles());
+    DEBUG(feasst_str(delta_));
 
-  // Metropolis
-  for (const TrialStage * stage : *stages) {
-    DEBUG("stage");
-    const TrialSelect& select = stage->trial_select();
-    const int particle_index = select.mobile().particle_index(0);
-    const int particle_type = config.select_particle(particle_index).type();
-    const int num_pt = config.num_particles_of_type(particle_type);
-    ++delta_[particle_type];
-    const double prob = 1./static_cast<double>(num_pt + delta_[particle_type]);
-    DEBUG("volume " << volume << " prob " << prob <<
-      " betamu " << system->thermo_params().beta_mu(particle_type));
-    acceptance->add_to_ln_metropolis_prob(
-      std::log(volume*prob)
-      + system->thermo_params().beta_mu(particle_type)
-    );
+    // Metropolis
+    for (const TrialStage * stage : *stages) {
+      DEBUG("stage");
+      const TrialSelect& select = stage->trial_select();
+      const int particle_index = select.mobile().particle_index(0);
+      const int particle_type = config.select_particle(particle_index).type();
+      const int num_pt = config.num_particles_of_type(particle_type);
+      ++delta_[particle_type];
+      const double prob = 1./static_cast<double>(num_pt + delta_[particle_type]);
+      DEBUG("volume " << volume << " prob " << prob <<
+        " betamu " << system->thermo_params().beta_mu(particle_type));
+      acceptance->add_to_ln_metropolis_prob(
+        std::log(volume*prob)
+        + system->thermo_params().beta_mu(particle_type)
+      );
+    }
   }
 }
 

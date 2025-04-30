@@ -25,8 +25,8 @@ def parse(temperature=350):
           window_alpha=1.5,
           collect_flatness=18,
           min_flatness=22,
-          hours_checkpoint=0.2,
-          hours_terminate=2,
+          hours_checkpoint=1,
+          hours_terminate=5*24,
           min_window_size=3)
     params['script'] = __file__
     params['prefix'] = 'trappe'
@@ -37,14 +37,13 @@ def parse(temperature=350):
     params['cutoff'] = 12
     params['dccb_cut'] = 4.
     params['dccb_cut'] = params['cubic_side_length']/int(params['cubic_side_length']/params['dccb_cut']) # maximize inside box
+    params['num_sites'] = fstio.num_sites_in_fstprt(params['fstprt'], params['feasst_install'])
     if 'n-butane' in params['fstprt']:
-        params['num_sites'] = 4
         params['molecular_weight'] = 58.12
     elif 'n-octane' in params['fstprt']:
-        params['num_sites'] = 8
         params['molecular_weight'] = 114.23
     else:
-        assert False, "input new num_sites and molecular_weight into PARMS"
+        assert False, "input new molecular_weight into params"
     params['last_site'] = params['num_sites'] - 1
     params['system'] = """Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} cutoff {cutoff}
 Potential Model LennardJones

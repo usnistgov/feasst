@@ -104,7 +104,7 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file,
         ASSERT(pt < npt,
           "unrecognized particle type " << pt << " for site of type " << st);
         config->add_particle_of_type(pt);
-        read_sites += config->particle(pt).num_sites();
+        read_sites += config->particle_type(pt).num_sites();
       }
       ASSERT(read_sites == num_sites,
         "read_sites: " << read_sites << " num_sites: " << num_sites);

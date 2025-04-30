@@ -1,5 +1,6 @@
 #include "utils/include/serialize.h"
 #include "configuration/include/select.h"
+#include "system/include/system.h"
 #include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/trial_stage.h"
@@ -22,12 +23,14 @@ void ComputeMoveCluster::perturb_and_acceptance(
     Random * random) {
   DEBUG("ComputeMoveCluster");
   compute_rosenbluth(1, criteria, system, acceptance, stages, random);
-  ASSERT(stages->size() == 1, "assumes 1 stage");
-  const TrialSelect& csel = (*stages)[0]->trial_select();
-  const int size_old = csel.mobile().num_particles();
-  DEBUG("size_old " << size_old);
-  for (TrialStage * stage : *stages) stage->mid_stage(system);
-  compute_rosenbluth(0, criteria, system, acceptance, stages, random);
+  if (!acceptance->reject()) {
+    ASSERT(system->num_configurations() == 1, "not implemented for multiple configs");
+    ASSERT(stages->size() == 1, "assumes 1 stage");
+    const TrialSelect& csel = (*stages)[0]->trial_select();
+    const int size_old = csel.mobile().num_particles();
+    DEBUG("size_old " << size_old);
+    for (TrialStage * stage : *stages) stage->mid_stage(system);
+    compute_rosenbluth(0, criteria, system, acceptance, stages, random);
 
 //  //Use this test to check cluster constraints are working.
 //  /** Compute new cluster and require the same cluster size to ensure detailed
@@ -58,13 +61,14 @@ void ComputeMoveCluster::perturb_and_acceptance(
 //    //ASSERT(size_old == size_new, "detailed balance");
 //  }
 
-  DEBUG("old: " << criteria->current_energy() << " " << acceptance->energy_old());
-  DEBUG("new: " << acceptance->energy_new());
-  DEBUG("energy change: " << acceptance->energy_new() - acceptance->energy_old());
-  const double delta_energy = acceptance->energy_new() - acceptance->energy_old();
-  acceptance->set_energy_new(criteria->current_energy() + delta_energy);
-  acceptance->add_to_energy_profile_new(criteria->current_energy_profile());
-  acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old());
+    DEBUG("old: " << criteria->current_energy() << " " << acceptance->energy_old());
+    DEBUG("new: " << acceptance->energy_new());
+    DEBUG("energy change: " << acceptance->energy_new() - acceptance->energy_old());
+    const double delta_energy = acceptance->energy_new() - acceptance->energy_old();
+    acceptance->set_energy_new(criteria->current_energy() + delta_energy);
+    acceptance->add_to_energy_profile_new(criteria->current_energy_profile());
+    acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old());
+  }
 }
 
 std::shared_ptr<TrialCompute> ComputeMoveCluster::create(std::istream& istr) const {

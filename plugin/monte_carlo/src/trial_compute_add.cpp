@@ -2,6 +2,7 @@
 #include "utils/include/io.h"
 #include "utils/include/serialize.h"
 #include "utils/include/arguments.h"
+#include "math/include/random.h"
 #include "configuration/include/select.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/configuration.h"
@@ -33,29 +34,31 @@ void TrialComputeAdd::perturb_and_acceptance(
     Random * random) {
   DEBUG("TrialComputeAdd");
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
-  const int iconf = stages->front()->select().configuration_index();
-  acceptance->add_to_energy_new(criteria->current_energy(iconf), iconf);
-  //acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
-  acceptance->add_to_energy_profile_new(criteria->current_energy_profile(iconf), iconf);
-  acceptance->add_to_macrostate_shift(1, iconf);
-  DEBUG("iconf " << iconf);
-  DEBUG("old energy " << criteria->current_energy(iconf));
-  DEBUG("new energy " << acceptance->energy_new(iconf));
-  DEBUG("old energy profile " << feasst_str(criteria->current_energy_profile(iconf)));
-  DEBUG("new energy profile " << feasst_str(acceptance->energy_profile_new(iconf)));
-  { // Metropolis
-    const Configuration& config = system->configuration(iconf);
-    const double volume = config.domain().volume();
-    const TrialSelect& select = (*stages)[0]->trial_select();
-    const int particle_index = select.mobile().particle_index(0);
-    const int particle_type = config.select_particle(particle_index).type();
-    acceptance->set_macrostate_shift_type(particle_type, iconf);
-    const double prob = 1./(config.num_particles_of_type(particle_type) + 1);
-    DEBUG("volume " << volume << " prob " << prob << " betamu " << system->thermo_params().beta_mu(particle_type));
-    acceptance->add_to_ln_metropolis_prob(
-      std::log(volume*prob)
-      + system->thermo_params().beta_mu(particle_type)
-    );
+  if (!acceptance->reject()) {
+    const int iconf = stages->front()->select().configuration_index();
+    acceptance->add_to_energy_new(criteria->current_energy(iconf), iconf);
+    //acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
+    acceptance->add_to_energy_profile_new(criteria->current_energy_profile(iconf), iconf);
+    acceptance->add_to_macrostate_shift(1, iconf);
+    DEBUG("iconf " << iconf);
+    DEBUG("old energy " << criteria->current_energy(iconf));
+    DEBUG("new energy " << acceptance->energy_new(iconf));
+    DEBUG("old energy profile " << feasst_str(criteria->current_energy_profile(iconf)));
+    DEBUG("new energy profile " << feasst_str(acceptance->energy_profile_new(iconf)));
+    { // Metropolis
+      const Configuration& config = system->configuration(iconf);
+      const double volume = config.domain().volume();
+      const TrialSelect& select = (*stages)[0]->trial_select();
+      const int particle_index = select.mobile().particle_index(0);
+      const int particle_type = config.select_particle(particle_index).type();
+      acceptance->set_macrostate_shift_type(particle_type, iconf);
+      const double prob = 1./(config.num_particles_of_type(particle_type) + 1);
+      DEBUG("volume " << volume << " prob " << prob << " betamu " << system->thermo_params().beta_mu(particle_type));
+      acceptance->add_to_ln_metropolis_prob(
+        std::log(volume*prob)
+        + system->thermo_params().beta_mu(particle_type)
+      );
+    }
   }
 }
 

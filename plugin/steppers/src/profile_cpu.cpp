@@ -96,7 +96,7 @@ std::string ProfileCPU::write(const MonteCarlo& mc) {
   if (modify_timer) {
     const std::vector<double>& modify_times = modify_timer->percents();
     for (const double time : modify_times) {
-      ss << time*mc_times[1]/100. << ",";
+      ss << time*mc_times[2]/100. << ",";
     }
   }
   ss << std::endl;

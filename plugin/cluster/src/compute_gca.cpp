@@ -24,6 +24,7 @@ void ComputeGCA::perturb_and_acceptance(
   // update stage selection and recursively 'compute rosenblut'
   // determine energy change from rejection list
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
+  ASSERT(system->num_configurations() == 1, "not implemented for multiple configs");
 
   DEBUG("old: " << criteria->current_energy() << " " << acceptance->energy_old());
   DEBUG("new: " << acceptance->energy_new());

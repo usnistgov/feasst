@@ -63,61 +63,64 @@ void ComputeGibbsParticleTransfer::perturb_and_acceptance(
   compute_rosenbluth(1, criteria, system, acceptance, &del_stages, random);
   compute_rosenbluth(0, criteria, system, acceptance, &add_stages, random);
 
-  // del
-  acceptance->set_energy_new(criteria->current_energy(config_del) - acceptance->energy_old(config_del), config_del);
-  acceptance->set_energy_profile_new(criteria->current_energy_profile(config_del), config_del);
-  acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old(config_del), config_del);
-  acceptance->add_to_macrostate_shift(-1, config_del);
+  if (!acceptance->reject()) {
 
-  DEBUG("energy contribution of config " << config_del << " particle to be deleted: " << acceptance->energy_old(config_del));
+    // del
+    acceptance->set_energy_new(criteria->current_energy(config_del) - acceptance->energy_old(config_del), config_del);
+    acceptance->set_energy_profile_new(criteria->current_energy_profile(config_del), config_del);
+    acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old(config_del), config_del);
+    acceptance->add_to_macrostate_shift(-1, config_del);
 
-  // add
-  acceptance->add_to_energy_new(criteria->current_energy(config_add), config_add);
-  acceptance->add_to_energy_profile_new(criteria->current_energy_profile(config_add), config_add);
-  acceptance->add_to_macrostate_shift(1, config_add);
+    DEBUG("energy contribution of config " << config_del << " particle to be deleted: " << acceptance->energy_old(config_del));
 
-  DEBUG("energy contribution of config " << config_add << " particle to be added: " << acceptance->energy_new(config_add));
+    // add
+    acceptance->add_to_energy_new(criteria->current_energy(config_add), config_add);
+    acceptance->add_to_energy_profile_new(criteria->current_energy_profile(config_add), config_add);
+    acceptance->add_to_macrostate_shift(1, config_add);
 
-  DEBUG("en 0 current " << MAX_PRECISION << criteria->current_energy(0));
-  DEBUG("en 0 new " << MAX_PRECISION << acceptance->energy_new(0));
-  DEBUG("en 0 old acc " << MAX_PRECISION << acceptance->energy_old(0));
-  DEBUG("en 1 current " << MAX_PRECISION << criteria->current_energy(1));
-  DEBUG("en 1 new " << MAX_PRECISION << acceptance->energy_new(1));
-  //DEBUG("en 1 old acc " << MAX_PRECISION << acceptance->energy_old(1));
+    DEBUG("energy contribution of config " << config_add << " particle to be added: " << acceptance->energy_new(config_add));
 
-  DEBUG("lnmet " << acceptance->ln_metropolis_prob());
-//  DEBUG("en 0 old " << criteria->current_energy(0));
-//  DEBUG("en 0 new " << MAX_PRECISION << acceptance->energy_new(0));
-//  DEBUG("en 0 old acc " << MAX_PRECISION << acceptance->energy_old(0));
-//  DEBUG("en 1 old " << criteria->current_energy(1));
-//  DEBUG("en 1 new " << MAX_PRECISION << acceptance->energy_new(1));
-//  DEBUG("en 1 old acc " << MAX_PRECISION << acceptance->energy_old(1));
-  { // Metropolis
-    const Configuration& conf_add = system->configuration(config_add);
-    const Configuration& conf_del = system->configuration(config_del);
-    const TrialSelect& select_add = (*stages)[0]->select();
-    //const TrialSelect& select_del = (*stages)[1]->select();
-    const int particle_add = select_add.mobile().particle_index(0);
-    //const int particle_del = select_del.mobile().particle_index(0);
-    const int particle_type = conf_add.select_particle(particle_add).type();
-    acceptance->set_macrostate_shift_type(particle_type, config_add);
-    acceptance->set_macrostate_shift_type(particle_type, config_del);
-//    DEBUG("lnselprob " << std::log(select.probability()));
-//    DEBUG("lnmet " << acceptance->ln_metropolis_prob());
-    const int num_particles_from_add = conf_add.num_particles_of_type(particle_type);
-    const int num_particles_from_del = conf_del.num_particles_of_type(particle_type);
-    DEBUG("num_particles_from_add " << num_particles_from_add);
-    DEBUG("num_particles_from_del " << num_particles_from_del);
-    const double vol_from_add = conf_add.domain().volume();
-    const double vol_from_del = conf_del.domain().volume();
-    DEBUG("vol_from_add " << vol_from_add);
-    DEBUG("vol_from_del " << vol_from_del);
-    acceptance->add_to_ln_metropolis_prob(
-      std::log(num_particles_from_del/static_cast<double>(num_particles_from_add+1)*
-        vol_from_add/vol_from_del)
-      //std::log(select.probability())
-    );
+    DEBUG("en 0 current " << MAX_PRECISION << criteria->current_energy(0));
+    DEBUG("en 0 new " << MAX_PRECISION << acceptance->energy_new(0));
+    DEBUG("en 0 old acc " << MAX_PRECISION << acceptance->energy_old(0));
+    DEBUG("en 1 current " << MAX_PRECISION << criteria->current_energy(1));
+    DEBUG("en 1 new " << MAX_PRECISION << acceptance->energy_new(1));
+    //DEBUG("en 1 old acc " << MAX_PRECISION << acceptance->energy_old(1));
+
     DEBUG("lnmet " << acceptance->ln_metropolis_prob());
+  //  DEBUG("en 0 old " << criteria->current_energy(0));
+  //  DEBUG("en 0 new " << MAX_PRECISION << acceptance->energy_new(0));
+  //  DEBUG("en 0 old acc " << MAX_PRECISION << acceptance->energy_old(0));
+  //  DEBUG("en 1 old " << criteria->current_energy(1));
+  //  DEBUG("en 1 new " << MAX_PRECISION << acceptance->energy_new(1));
+  //  DEBUG("en 1 old acc " << MAX_PRECISION << acceptance->energy_old(1));
+    { // Metropolis
+      const Configuration& conf_add = system->configuration(config_add);
+      const Configuration& conf_del = system->configuration(config_del);
+      const TrialSelect& select_add = (*stages)[0]->select();
+      //const TrialSelect& select_del = (*stages)[1]->select();
+      const int particle_add = select_add.mobile().particle_index(0);
+      //const int particle_del = select_del.mobile().particle_index(0);
+      const int particle_type = conf_add.select_particle(particle_add).type();
+      acceptance->set_macrostate_shift_type(particle_type, config_add);
+      acceptance->set_macrostate_shift_type(particle_type, config_del);
+  //    DEBUG("lnselprob " << std::log(select.probability()));
+  //    DEBUG("lnmet " << acceptance->ln_metropolis_prob());
+      const int num_particles_from_add = conf_add.num_particles_of_type(particle_type);
+      const int num_particles_from_del = conf_del.num_particles_of_type(particle_type);
+      DEBUG("num_particles_from_add " << num_particles_from_add);
+      DEBUG("num_particles_from_del " << num_particles_from_del);
+      const double vol_from_add = conf_add.domain().volume();
+      const double vol_from_del = conf_del.domain().volume();
+      DEBUG("vol_from_add " << vol_from_add);
+      DEBUG("vol_from_del " << vol_from_del);
+      acceptance->add_to_ln_metropolis_prob(
+        std::log(num_particles_from_del/static_cast<double>(num_particles_from_add+1)*
+          vol_from_add/vol_from_del)
+        //std::log(select.probability())
+      );
+      DEBUG("lnmet " << acceptance->ln_metropolis_prob());
+    }
   }
 }
 

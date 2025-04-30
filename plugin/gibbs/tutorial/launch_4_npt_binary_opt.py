@@ -1,6 +1,5 @@
 """
-Gibbs ensemble simulation of a binary mixture of CO2 and N2 using SAFT-based MIE models.
-https://doi.org/10.1021/acs.jpcb.5c00536
+And optimized version of tutorial 3 using TrialGrow
 """
 
 import os
@@ -46,7 +45,7 @@ def parse():
     assert len(unknown_args) == 0, 'An unknown argument was included: '+str(unknown_args)
     params = vars(args)
     params['script'] = __file__
-    params['prefix'] = 'binary'
+    params['prefix'] = 'opt'
     params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
     params['hours_terminate'] = 0.99*params['hours_terminate'] - 0.0333 # terminate before queue
@@ -55,10 +54,70 @@ def parse():
     # convert pressure in MPa to K/Ang^3
     # MPa(1e6 Pa/MPa)(J/m^3/Pa)(m^3/1e30/A^3)(K/kB/J)
     params['pressure'] = params['pressure']/1e24/physical_constants.BoltzmannConstant().value()
+    params['dccb_cut'] = 3.5 # cutoff for dual-cut cb in liquid
+    params['num_dccb'] = 4   # number of cb steps per site in liquid
+    params['config_particle_def'] = """particle_type0 {fstprt0} particle_type1 {fstprt1} sigma0_1 2.9216 epsilon0_1 121.5 mie_lambda_r0_1 20.27 mie_lambda_a0_1 5.48294""".format(**params)
     return params, args
 
 def sim_node_dependent_params(params):
     """ Set parameters that depent upon the sim or node here. """
+    sim = params['sim']
+    for ptype, fstprt in enumerate([params['fstprt0'], params['fstprt1']]):
+        params['ptype'] = ptype
+        prepend = filename=params['prefix']+str(sim)+"_p"+str(ptype)
+        params['num_sites'] = fstio.num_sites_in_fstprt(fstprt, params['feasst_install'])
+        write_grow_file(prepend+"_c0_grow_canonical.txt", params=params, gce=0, conf=0)
+        write_grow_file(prepend+"_c0_grow_add.txt", params=params, gce=1, conf=0)
+        write_grow_file(prepend+"_c1_grow_canonical.txt", params=params, gce=0, conf=1)
+        write_grow_file(prepend+"_c1_grow_add.txt", params=params, gce=1, conf=1)
+        write_grow_file(prepend+"_grow_gibbs.txt", params=params, gce=2, conf=0, conf2=1)
+
+# write TrialGrowFile to include grand canonical ensemble growth and canonica ensemble reptations
+def write_grow_file(filename, params,
+                    gce, # 0: canonical moves, 1: add only for box fill, 2: gibbs transfer
+                    conf, conf2=-1): # the second conf is for gibbs transfer only
+    params['conf'] = conf
+    params['conf2'] = conf2
+    params['ref'] = 0
+    params['num_steps'] = 1
+    if gce == 2 or conf == 1:
+        # use DCCB in config 1 (liquid) or with transfers
+        params['ref'] = 1
+        params['num_steps'] = params['num_dccb']
+    with open(filename, 'w') as f:
+        f.write("TrialGrowFile\n\n")
+        for inv in [True, False]:
+            for trial_type in range(3+int(params['num_sites']/2)): # 0: reptate, 1: full regrow, 2+: partial regrow
+                for site in range(params['num_sites']):
+                    for i in range(4):
+                        sign = -1
+                        if trial_type == 0 and site != params['num_sites'] - 1:
+                            sign = 1
+                        params['site'+str(i)] = site + sign*i
+                        if inv:
+                            params['site'+str(i)] = params['num_sites'] - site - 1 - sign*i
+                    bond = """bond true mobile_site {site0} anchor_site {site1} num_steps {num_steps} reference_index {ref}\n""".format(**params)
+
+                    # full regrowth insertion/deletion
+                    if trial_type == 1 and (gce == 1 or gce == 2):
+                        if site == 0:
+                            if gce == 2:
+                                f.write("""particle_type {ptype} configuration_index {conf} configuration_index2 {conf2} weight 1 gibbs_transfer true site {site0} num_steps {num_steps} reference_index {ref} print_num_accepted true\n""".format(**params))
+                            elif gce == 1:
+                                f.write("""particle_type {ptype} configuration_index {conf} weight 1 add true site {site0} num_steps {num_steps} reference_index {ref}\n""".format(**params))
+                        else:
+                            f.write(bond)
+
+                    # partial regrow
+                    if not gce and trial_type > 1:
+                        num_grow = trial_type - 1
+                        if params['num_sites'] - site < num_grow:
+                            if params['num_sites'] - site == num_grow - 1:
+                                f.write('particle_type '+str(params['ptype'])+' weight '+str(1./(trial_type-2))+' configuration_index '+str(conf)+' ')
+                            if site == 1 or site == 2 or site != 0:
+                                f.write(bond)
+
+                f.write("\n")
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -66,13 +125,15 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length 55 particle_type0 {fstprt0} particle_type1 {fstprt1} sigma0_1 2.9216 epsilon0_1 121.5 mie_lambda_r0_1 20.27 mie_lambda_a0_1 5.48294
-Configuration cubic_side_length 32 particle_type0 {fstprt0} particle_type1 {fstprt1} sigma0_1 2.9216 epsilon0_1 121.5 mie_lambda_r0_1 20.27 mie_lambda_a0_1 5.48294
+Configuration cubic_side_length 55 {config_particle_def}
+Configuration cubic_side_length 32 {config_particle_def}
 CopyFollowingLines for_num_configurations 2
     Potential Model Mie table_size 1e4
     Potential VisitModel LongRangeCorrections
-    RefPotential VisitModel DontVisitModel
+    RefPotential reference_index 0 VisitModel DontVisitModel
 EndCopy
+RefPotential reference_index 1 configuration_index 0 VisitModel DontVisitModel
+RefPotential reference_index 1 configuration_index 1 Model Mie table_size 1e4 VisitModel VisitModelCell cutoff {dccb_cut} min_length {dccb_cut}
 ThermoParams beta {beta} chemical_potential0 5 chemical_potential1 5 pressure {pressure}
 Metropolis
 CopyFollowingLines for_num_configurations 2
@@ -81,6 +142,10 @@ CopyFollowingLines for_num_configurations 2
     TrialParticlePivot weight_per_number_fraction 0.5 particle_type 0 tunable_param 0.5
     TrialParticlePivot weight_per_number_fraction 0.5 particle_type 1 tunable_param 0.5
 EndCopy
+TrialGrowFile grow_file {prefix}{sim}_p0_c0_grow_canonical.txt
+TrialGrowFile grow_file {prefix}{sim}_p0_c1_grow_canonical.txt
+TrialGrowFile grow_file {prefix}{sim}_p1_c0_grow_canonical.txt
+TrialGrowFile grow_file {prefix}{sim}_p1_c1_grow_canonical.txt
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # fill both boxes with particles
@@ -88,23 +153,24 @@ Log trials_per_write {tpc} output_file {prefix}{sim}_fill.csv
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_fill.xyz
 Movie trials_per_write {tpc} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
 Tune
-TrialAdd particle_type 0 configuration_index 0
+TrialGrowFile grow_file {prefix}{sim}_p0_c0_grow_add.txt
 Run until_num_particles 240 particle_type 0 configuration_index 0
-Remove name TrialAdd
-TrialAdd particle_type 1 configuration_index 0
+Remove name_contains add
+TrialGrowFile grow_file {prefix}{sim}_p1_c0_grow_add.txt
 Run until_num_particles 260 particle_type 1 configuration_index 0
-Remove name TrialAdd
-TrialAdd particle_type 0 configuration_index 1
+Remove name_contains add
+TrialGrowFile grow_file {prefix}{sim}_p0_c1_grow_add.txt
 Run until_num_particles 450 particle_type 0 configuration_index 1
-Remove name TrialAdd
-TrialAdd particle_type 1 configuration_index 1
+Remove name_contains add
+TrialGrowFile grow_file {prefix}{sim}_p1_c1_grow_add.txt
 Run until_num_particles 50 particle_type 1 configuration_index 1
-Remove name0 Tune name1 TrialAdd name2 Log name3 Movie name4 Movie
+Remove name_contains add
+Remove name0 Tune name1 Log name2 Movie name3 Movie
 
 # npt equilibrate both boxes
 Metropolis trials_per_cycle {tpc} cycles_to_complete {equil_npt}
 CopyFollowingLines for_num_configurations 2 replace_with_index [config]
-    TrialVolume weight 0.005 tunable_param 0.2 tunable_target_acceptance 0.5
+    TrialVolume weight 0.005 tunable_param 0.2 tunable_target_acceptance 0.5 reference_index 0
     Movie trials_per_write {tpc} output_file {prefix}{sim}_c[config]_npt.xyz
 EndCopy
 Log trials_per_write {tpc} output_file {prefix}{sim}_npt.csv
@@ -118,8 +184,8 @@ Remove name0 Tune name1 Log name2 Movie name3 Movie name4 ProfileCPU
 
 # Gibbs equilibration
 Metropolis trials_per_cycle {tpc} cycles_to_complete {equil}
-TrialGibbsParticleTransfer weight 0.5 particle_type 0 reference_index 0 print_num_accepted true
-TrialGibbsParticleTransfer weight 0.5 particle_type 1 reference_index 0 print_num_accepted true
+TrialGrowFile grow_file {prefix}{sim}_p0_grow_gibbs.txt
+TrialGrowFile grow_file {prefix}{sim}_p1_grow_gibbs.txt
 Log trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
 CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
 Movie trials_per_write {tpc} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
@@ -138,7 +204,6 @@ CopyFollowingLines for_num_configurations 2 replace_with_index [config]
     NumParticles trials_per_write {tpc} output_file {prefix}{sim}_c[config]_n0.csv particle_type 0
     NumParticles trials_per_write {tpc} output_file {prefix}{sim}_c[config]_n1.csv particle_type 1
 EndCopy
-#GhostTrialVolume trials_per_write {tpc} output_file {prefix}{sim}_pressure.csv trials_per_update 1e3
 ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_profile.csv
 CPUTime    trials_per_write {tpc} output_file {prefix}{sim}_cpu.csv
 Run until complete

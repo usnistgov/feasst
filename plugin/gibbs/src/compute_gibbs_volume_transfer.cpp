@@ -38,31 +38,33 @@ void ComputeGibbsVolumeTransfer::perturb_and_acceptance(
   DEBUG("volume_old_add " << volume_old_add);
   DEBUG("volume_old_del " << volume_old_del);
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
-  for (int iconf : {config_add, config_del}) {
-    acceptance->set_energy_new(acceptance->energy_new(iconf), iconf);
-    acceptance->set_energy_profile_new(acceptance->energy_profile_new(iconf), iconf);
+  if (!acceptance->reject()) {
+    for (int iconf : {config_add, config_del}) {
+      acceptance->set_energy_new(acceptance->energy_new(iconf), iconf);
+      acceptance->set_energy_profile_new(acceptance->energy_profile_new(iconf), iconf);
+    }
+    DEBUG("en 0 current " << MAX_PRECISION << criteria->current_energy(0));
+    DEBUG("en 0 new " << MAX_PRECISION << acceptance->energy_new(0));
+    DEBUG("en 1 current " << MAX_PRECISION << criteria->current_energy(1));
+    DEBUG("en 1 new " << MAX_PRECISION << acceptance->energy_new(1));
+    const double volume_new_add = conf_add.domain().volume();
+    const double volume_new_del = conf_del.domain().volume();
+    DEBUG("volume_new_add " << volume_new_add);
+    DEBUG("volume_new_del " << volume_new_del);
+    if (volume_old_add == volume_new_add) acceptance->set_reject(true);
+    if (volume_old_del == volume_new_del) acceptance->set_reject(true);
+    const int num_particles_from_add = conf_add.num_particles();
+    const int num_particles_from_del = conf_del.num_particles();
+    const ThermoParams& thermo = system->thermo_params();
+    acceptance->add_to_ln_metropolis_prob(
+      + num_particles_from_add*std::log(volume_new_add/volume_old_add)
+      + num_particles_from_del*std::log(volume_new_del/volume_old_del)
+      // manually add the energy of the old configurations
+      // this is an optimization to avoid recomputing the old energy
+      + thermo.beta()*criteria->current_energy(config_add)
+      + thermo.beta()*criteria->current_energy(config_del)
+    );
   }
-  DEBUG("en 0 current " << MAX_PRECISION << criteria->current_energy(0));
-  DEBUG("en 0 new " << MAX_PRECISION << acceptance->energy_new(0));
-  DEBUG("en 1 current " << MAX_PRECISION << criteria->current_energy(1));
-  DEBUG("en 1 new " << MAX_PRECISION << acceptance->energy_new(1));
-  const double volume_new_add = conf_add.domain().volume();
-  const double volume_new_del = conf_del.domain().volume();
-  DEBUG("volume_new_add " << volume_new_add);
-  DEBUG("volume_new_del " << volume_new_del);
-  if (volume_old_add == volume_new_add) acceptance->set_reject(true);
-  if (volume_old_del == volume_new_del) acceptance->set_reject(true);
-  const int num_particles_from_add = conf_add.num_particles();
-  const int num_particles_from_del = conf_del.num_particles();
-  const ThermoParams& thermo = system->thermo_params();
-  acceptance->add_to_ln_metropolis_prob(
-    + num_particles_from_add*std::log(volume_new_add/volume_old_add)
-    + num_particles_from_del*std::log(volume_new_del/volume_old_del)
-    // manually add the energy of the old configurations
-    // this is an optimization to avoid recomputing the old energy
-    + thermo.beta()*criteria->current_energy(config_add)
-    + thermo.beta()*criteria->current_energy(config_del)
-  );
 }
 
 std::shared_ptr<TrialCompute> ComputeGibbsVolumeTransfer::create(std::istream& istr) const {

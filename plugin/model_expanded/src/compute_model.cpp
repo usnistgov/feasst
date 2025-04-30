@@ -17,15 +17,18 @@ void ComputeModel::perturb_and_acceptance(
     Random * random) {
   DEBUG("ComputeModel");
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
-  acceptance->set_energy_new(acceptance->energy_new());
-  acceptance->set_energy_profile_new(acceptance->energy_profile_new());
-  DEBUG("new energy " << acceptance->energy_new());
-  const ThermoParams& thermo = system->thermo_params();
-  acceptance->add_to_ln_metropolis_prob(
-    // manually add the energy of the old configuration
-    // this is an optimization to avoid recomputing the old energy
-    + thermo.beta()*criteria->current_energy()
-  );
+  if (!acceptance->reject()) {
+    ASSERT(system->num_configurations() == 1, "not implemented for multiple configs");
+    acceptance->set_energy_new(acceptance->energy_new());
+    acceptance->set_energy_profile_new(acceptance->energy_profile_new());
+    DEBUG("new energy " << acceptance->energy_new());
+    const ThermoParams& thermo = system->thermo_params();
+    acceptance->add_to_ln_metropolis_prob(
+      // manually add the energy of the old configuration
+      // this is an optimization to avoid recomputing the old energy
+      + thermo.beta()*criteria->current_energy()
+    );
+  }
 }
 
 std::shared_ptr<TrialCompute> ComputeModel::create(std::istream& istr) const {

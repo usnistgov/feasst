@@ -54,18 +54,25 @@ AnalyzeBonds::AnalyzeBonds(std::istream& istr) : Analyze(istr) {
 }
 
 void AnalyzeBonds::initialize(MonteCarlo * mc) {
+  DEBUG("initializing AnalyzeBonds");
   const Configuration& config = mc->system().configuration();
   for (int btype = 0; btype < config.num_bond_types(); ++btype) {
-    bond_.push_back(Accumulator());
-    if (btype != 0) bond_hist_.push_back(bond_hist_[0]);
+    if (static_cast<int>(bond_.size()) != config.num_bond_types()) {
+      bond_.push_back(Accumulator());
+      if (btype != 0) bond_hist_.push_back(bond_hist_[0]);
+    }
   }
   for (int atype = 0; atype < config.num_angle_types(); ++atype) {
-    angle_.push_back(Accumulator());
-    if (atype != 0) angle_hist_.push_back(angle_hist_[0]);
+    if (static_cast<int>(angle_.size()) != config.num_angle_types()) {
+      angle_.push_back(Accumulator());
+      if (atype != 0) angle_hist_.push_back(angle_hist_[0]);
+    }
   }
   for (int dtype = 0; dtype < config.num_dihedral_types(); ++dtype) {
-    dihedral_.push_back(Accumulator());
-    if (dtype != 0) dihedral_hist_.push_back(dihedral_hist_[0]);
+    if (static_cast<int>(dihedral_.size()) != config.num_dihedral_types()) {
+      dihedral_.push_back(Accumulator());
+      if (dtype != 0) dihedral_hist_.push_back(dihedral_hist_[0]);
+    }
   }
 }
 
@@ -106,7 +113,10 @@ void AnalyzeBonds::update(const MonteCarlo& mc) {
 std::string AnalyzeBonds::write(const MonteCarlo& mc) {
   std::stringstream ss;
   for (int type = 0; type < static_cast<int>(bond_.size()); ++type) {
+    DEBUG("type " << type);
+    DEBUG("bond size " << bond_.size());
     ss << "# bond: " << type << ": "  << bond_[type].str() << std::endl;
+    DEBUG("bond hist size " << bond_hist_.size());
     ss << "# bond hist: " << type << ": " << bond_hist_[type].str() << std::endl;
   }
   for (int type = 0; type < static_cast<int>(angle_.size()); ++type) {

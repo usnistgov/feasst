@@ -1,6 +1,6 @@
 
-#ifndef FEASST_GROWTH_EXPANDED_TRIAL_MORPH_EXPANDED_H_
-#define FEASST_GROWTH_EXPANDED_TRIAL_MORPH_EXPANDED_H_
+#ifndef FEASST_MORPH_TRIAL_MORPH_EXPANDED_H_
+#define FEASST_MORPH_TRIAL_MORPH_EXPANDED_H_
 
 #include <vector>
 #include <string>
@@ -64,4 +64,4 @@ inline std::shared_ptr<TrialMorphExpanded> MakeTrialMorphExpanded(
 
 }  // namespace feasst
 
-#endif  // FEASST_GROWTH_EXPANDED_TRIAL_MORPH_EXPANDED_H_
+#endif  // FEASST_MORPH_TRIAL_MORPH_EXPANDED_H_

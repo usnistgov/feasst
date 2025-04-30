@@ -25,7 +25,7 @@ def parse():
           cubic_side_length=8,
           max_particles=475,
           window_alpha=1.5,
-          hours_checkpoint=0.1,
+          hours_checkpoint=1,
           hours_terminate=5*24,
           num_nodes=2,
           collect_flatness=18,

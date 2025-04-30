@@ -1,6 +1,6 @@
 
-#ifndef FEASST_GROWTH_EXPANDED_PERTURB_PARTICLE_TYPE_H_
-#define FEASST_GROWTH_EXPANDED_PERTURB_PARTICLE_TYPE_H_
+#ifndef FEASST_MORPH_PERTURB_PARTICLE_TYPE_H_
+#define FEASST_MORPH_PERTURB_PARTICLE_TYPE_H_
 
 #include "monte_carlo/include/perturb.h"
 #include "monte_carlo/include/perturb_rotate.h"
@@ -65,4 +65,4 @@ inline std::shared_ptr<PerturbParticleType> MakePerturbParticleType(
 
 }  // namespace feasst
 
-#endif  // FEASST_GROWTH_EXPANDED_PERTURB_PARTICLE_TYPE_H_
+#endif  // FEASST_MORPH_PERTURB_PARTICLE_TYPE_H_

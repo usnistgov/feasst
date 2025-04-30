@@ -377,6 +377,46 @@ def combine_tables_two_rigid_body(prefix, suffix, num_procs, num_header_lines=6)
 #            assert attempts < max_attempts, "Could not connect to port."
 #    return sock
 
+def num_sites_in_fstprt(fstprt_file, feasst_install=""):
+    """
+    Return the integer number of sites in a fstprt file
+
+    :param str fstprt_file:
+        The name of the fstprt file which describes a particle.
+    :param str feasst_install:
+        An option to provide the path to the feasst build directory in order to convert a
+        fstprt_file which begins with the characters '/feasst' to the feasst directory.
+
+    >>> from pyfeasst import fstio
+    >>> fstio.num_sites_in_fstprt('../../../particle/lj.fstprt')
+    1
+    >>> fstio.num_sites_in_fstprt('../../../particle/n-butane.fstprt')
+    4
+    >>> fstio.num_sites_in_fstprt('/feasst/particle/n-butane.fstprt', '../../../build/')
+    4
+    """
+    if fstprt_file[:7] == '/feasst':
+        if feasst_install == "":
+            print('feasst_install:', feasst_install, 'should be used given as the path to the',
+                  'feasst build directory in order to convert /feasst in the fstprt_file')
+        fstprt_file = feasst_install + '..' + fstprt_file[7:]
+    else:
+        if feasst_install != "":
+            print('feasst_install:', feasst_install, 'should only be used if the fstprt_file',
+                  fstprt_file, 'beings with /feasst')
+            assert False
+    with open(fstprt_file, 'r') as file1:
+        lines = file1.read().splitlines()
+    for line in lines:
+        #print('line', line)
+        values = line.split()
+        #print('values', values)
+        if len(values) > 1:
+            if values[1] == 'sites':
+                return int(values[0])
+    print('reached the end of file without finding number of sites', fstprt_file)
+    assert False
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()

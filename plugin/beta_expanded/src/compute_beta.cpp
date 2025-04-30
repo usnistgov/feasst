@@ -21,11 +21,14 @@ void ComputeBeta::perturb_and_acceptance(
   DEBUG("ComputeBeta");
   const double beta_old = system->thermo_params().beta();
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
-  const double beta_new = system->thermo_params().beta();
-  acceptance->set_energy_new(criteria->current_energy());
-  acceptance->set_energy_profile_new(criteria->current_energy_profile());
-  acceptance->add_to_ln_metropolis_prob(
-    -(beta_new - beta_old)*criteria->current_energy());
+  if (!acceptance->reject()) {
+    ASSERT(system->num_configurations() == 1, "not implemented for multiple configs");
+    const double beta_new = system->thermo_params().beta();
+    acceptance->set_energy_new(criteria->current_energy());
+    acceptance->set_energy_profile_new(criteria->current_energy_profile());
+    acceptance->add_to_ln_metropolis_prob(
+      -(beta_new - beta_old)*criteria->current_energy());
+  }
 }
 
 std::shared_ptr<TrialCompute> ComputeBeta::create(std::istream& istr) const {

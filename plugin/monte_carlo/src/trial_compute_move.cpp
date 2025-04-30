@@ -29,19 +29,22 @@ void TrialComputeMove::perturb_and_acceptance(
   for (TrialStage * stage : *stages) stage->mid_stage(system);
   DEBUG("New");
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
-  const int config = stages->front()->select().configuration_index();
-  DEBUG("config " << config);
-  DEBUG("current en: " << criteria->current_energy(config));
-  DEBUG("old en: " << acceptance->energy_old(config));
-  DEBUG("new en: " << acceptance->energy_new(config));
-  DEBUG("energy change: " << acceptance->energy_new(config) - acceptance->energy_old(config));
-  if ((*stages)[0]->is_new_only()) {
-    //acceptance->set_energy_new(acceptance->energy_new());
-  } else {
-    const double delta_energy = acceptance->energy_new(config) - acceptance->energy_old(config);
-    acceptance->set_energy_new(criteria->current_energy(config) + delta_energy, config);
-    acceptance->add_to_energy_profile_new(criteria->current_energy_profile(config), config);
-    acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old(config), config);
+  DEBUG("reject? " << acceptance->reject());
+  if (!acceptance->reject()) {
+    const int config = stages->front()->select().configuration_index();
+    DEBUG("config " << config);
+    DEBUG("current en: " << criteria->current_energy(config));
+    DEBUG("old en: " << acceptance->energy_old(config));
+    DEBUG("new en: " << acceptance->energy_new(config));
+    DEBUG("energy change: " << acceptance->energy_new(config) - acceptance->energy_old(config));
+    if ((*stages)[0]->is_new_only()) {
+      //acceptance->set_energy_new(acceptance->energy_new());
+    } else {
+      const double delta_energy = acceptance->energy_new(config) - acceptance->energy_old(config);
+      acceptance->set_energy_new(criteria->current_energy(config) + delta_energy, config);
+      acceptance->add_to_energy_profile_new(criteria->current_energy_profile(config), config);
+      acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old(config), config);
+    }
   }
 }
 

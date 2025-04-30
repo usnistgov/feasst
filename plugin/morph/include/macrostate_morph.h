@@ -1,6 +1,6 @@
 
-#ifndef FEASST_GROWTH_EXPANDED_MACROSTATE_MORPH_H_
-#define FEASST_GROWTH_EXPANDED_MACROSTATE_MORPH_H_
+#ifndef FEASST_MORPH_MACROSTATE_MORPH_H_
+#define FEASST_MORPH_MACROSTATE_MORPH_H_
 
 #include "math/include/matrix.h"
 #include "monte_carlo/include/constrain_num_particles.h"
@@ -70,4 +70,4 @@ inline std::shared_ptr<MacrostateMorph> MakeMacrostateMorph(
 
 }  // namespace feasst
 
-#endif  // FEASST_GROWTH_EXPANDED_MACROSTATE_MORPH_H_
+#endif  // FEASST_MORPH_MACROSTATE_MORPH_H_
