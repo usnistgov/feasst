@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST 0.25.10 0.25.10 documentation</title>
+  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST 0.25.11 0.25.11 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,19 +15,20 @@
     <link rel="shortcut icon" href="_static/favicon.ico"/>
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=759965ef"></script>
+      <script src="_static/documentation_options.js?v=d1e1e1f6"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
       <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-      <script src="_static/leave_notice.js?v=db0899f3"></script>
+      <script src="_static/leave_notice.js?v=3dcabf29"></script>
+      <script src="_static/redirect_alert.js?v=e1b45f61"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Overview" href="README.html" />
+    <link rel="next" title="Overview" href="README_html.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -51,11 +52,11 @@
           
           
           <a href="#" class="icon icon-home">
-            FEASST 0.25.10
+            FEASST 0.25.11
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="README.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README_html.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particle/README.html">Particle files and units</a></li>
@@ -75,7 +76,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">FEASST 0.25.10</a>
+          <a href="#">FEASST 0.25.11</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -147,78 +148,63 @@
 <p>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free and open-source software to conduct molecular- and particle-based simulations with Monte Carlo methods.
 New users can start with the <a class="reference external" href="https://pages.nist.gov/feasst/">website</a> (<a class="reference external" href="https://doi.org/10.18434/M3S095">DOI</a>), <a class="reference external" href="https://doi.org/10.1063/5.0224283">manuscript</a>, <a class="reference external" href="https://github.com/usnistgov/feasst/discussions">GitHub discussion</a> and a <a class="reference external" href="https://www.nist.gov/video/how-use-feasst-0255-monte-carlo-molecular-simulation-software">five minute video</a>.
 Support FEASST with a <a class="reference external" href="https://github.com/usnistgov/feasst">GitHub</a> star or <a class="reference external" href="https://doi.org/10.1063/5.0224283">manuscript</a> citation!</p>
-<section id="features">
-<h3>Features<a class="headerlink" href="#features" title="Link to this heading"></a></h3>
+<section id="features-in-version-0-25-11">
+<h3>Features in version 0.25.11<a class="headerlink" href="#features-in-version-0-25-11" title="Link to this heading"></a></h3>
 <a class="reference external image-reference" href="https://pages.nist.gov/feasst"><img alt="_images/feasst.png" class="align-right" src="_images/feasst.png" />
 </a>
-<p>The features available in the <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> are summarized as follows:</p>
+<p>The <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> includes:</p>
 <p>Monte Carlo simulation techniques</p>
 <ul class="simple">
-<li><p>Metropolis</p></li>
-<li><p>Wang-Landau</p></li>
-<li><p>Transition-matrix</p></li>
-<li><p>Mayer-sampling</p></li>
+<li><p><a class="reference external" href="tutorial/tutorial.html">Metropolis</a> and <a class="reference external" href="plugin/mayer/README.html">Mayer-sampling</a></p></li>
+<li><p><a class="reference external" href="plugin/flat_histogram/README.html">Flat Histogram</a> Wang-Landau and transition-matrix</p></li>
 </ul>
 <p>Thermodynamic ensembles</p>
 <ul class="simple">
-<li><p>Microcanonical ensemble</p></li>
-<li><p>Canonical ensemble</p></li>
-<li><p>Grand-canonical ensemble</p></li>
-<li><p>Temperature and growth expanded ensembles</p></li>
-<li><p>Gibbs ensemble</p></li>
+<li><p><a class="reference external" href="plugin/flat_histogram/doc/MacrostateEnergy_arguments.html">Microcanonical</a>, <a class="reference external" href="tutorial/tutorial.html">canonical</a>, (<a class="reference external" href="plugin/morph/README.html">semi</a>-) <a class="reference external" href="plugin/flat_histogram/tutorial/tutorial_01_lj_gcmc.html">grand canonical</a></p></li>
+<li><p><a class="reference external" href="plugin/monte_carlo/tutorial/tutorial_1_lj_npt.html">Isothermal-isobaric</a>, <a class="reference external" href="plugin/gibbs/README.html">Gibbs</a> and <a class="reference external" href="plugin/beta_expanded/README.html">temperature</a> expanded</p></li>
 </ul>
 <p>Interaction potentials</p>
 <ul class="simple">
-<li><p>Lennard-Jones and Mie with cut/force shift and corrections</p></li>
-<li><p>Hard spheres and square wells</p></li>
-<li><p>Patchy and anisotropic particles</p></li>
-<li><p>Yukawa and charged interactions</p></li>
-<li><p>Ewald summation and 2D slab correction</p></li>
-<li><p>Bonds, angles and dihedrals</p></li>
-<li><p>TraPPE small molecules and n-alkanes</p></li>
-<li><p>Slab, cylindrical and spherical confinement</p></li>
-<li><p>Cell list and neighbor list</p></li>
+<li><p><a class="reference external" href="tutorial/tutorial.html">Lennard-Jones</a> and <a class="reference external" href="plugin/flat_histogram/tutorial/tutorial_14_binary.html">Mie</a> with <a class="reference external" href="plugin/models/doc/LennardJonesCutShift_arguments.html">cut/force shift</a> and <a class="reference external" href="plugin/system/doc/LongRangeCorrections_arguments.html">corrections</a>, <a class="reference external" href="plugin/flat_histogram/tutorial/tutorial_07_hs_tm_parallel.html">hard sphere</a> and <a class="reference external" href="plugin/models/doc/SquareWell_arguments.html">square well</a></p></li>
+<li><p><a class="reference external" href="plugin/charge/tutorial/tutorial_1_spce_nvt.html">Ewald</a> summation, 2D <a class="reference external" href="plugin/charge/doc/SlabCorrection_arguments.html">slab correction</a>, <a class="reference external" href="plugin/models/doc/Yukawa_arguments.html">Yukawa</a>, <a class="reference external" href="plugin/charge/doc/Coulomb_arguments.html">Coulomb</a> and <a class="reference external" href="plugin/models/tutorial/tutorial_1_lj_table.html">custom tabulated interactions</a></p></li>
+<li><p><a class="reference external" href="plugin/monte_carlo/tutorial/tutorial_4_lj_triclinic_celllist.html">Cell list</a>, <a class="reference external" href="plugin/flat_histogram/tutorial/tutorial_08_trimer_tm_parallel.html">neighbor list</a>, <a class="reference external" href="particle/README.html#bond-angle-and-dihedral-properties">bonds, angles and dihedrals</a>, <a class="reference external" href="plugin/flat_histogram/tutorial/tutorial_11_trappe_alkane.html">TraPPE small molecules and alkanes</a></p></li>
+<li><p><a class="reference external" href="plugin/flat_histogram/tutorial/tutorial_09_kf_tm_parallel.html">Kern-Frenkel patches</a>, <a class="reference external" href="plugin/patch/tutorial/tutorial_1_spherocylinders.html">Spherocylinders</a> and <a class="reference external" href="plugin/aniso/README.html">precomputed anisotropic particles</a></p></li>
+<li><p>Confinement with <a class="reference external" href="plugin/confinement/tutorial/tutorial_2_co2_zif8.html">fixed sites</a>, <a class="reference external" href="plugin/shape/doc/Slab_arguments.html">slabs</a>, <a class="reference external" href="plugin/shape/doc/SlabSine_arguments.html">sine waves</a>, <a class="reference external" href="plugin/shape/doc/Cylinder_arguments.html">cylinders</a>, <a class="reference external" href="plugin/shape/doc/Sphere_arguments.html">spheres</a>, <a class="reference external" href="plugin/shape/doc/Supertoroid_arguments.html">ellipsoids and supertoroids</a></p></li>
 </ul>
 <p>Monte Carlo trials</p>
 <ul class="simple">
-<li><p>Translation, rotation, crankshaft and pivot</p></li>
-<li><p>Rigid cluster rotation and translation</p></li>
-<li><p>Configurational bias transfers and partial regrowth</p></li>
-<li><p>Dual-cut configurational bias</p></li>
-<li><p>Aggregation volume bias</p></li>
-<li><p>Reptation</p></li>
-<li><p>Branches</p></li>
+<li><p><a class="reference external" href="plugin/monte_carlo/doc/TrialTranslate_arguments.html">Translation</a>, <a class="reference external" href="plugin/chain/doc/TrialParticlePivot_arguments.html">rotation</a>, <a class="reference external" href="plugin/chain/doc/TrialCrankshaft_arguments.html">crankshaft</a>, <a class="reference external" href="plugin/chain/doc/TrialPivot_arguments.html">pivot</a>, <a class="reference external" href="plugin/cluster/doc/TrialRigidCluster_arguments.html">rigid cluster rotation and translation</a></p></li>
+<li><p><a class="reference external" href="plugin/chain/doc/TrialGrow_arguments.html">Configurational bias transfers, partial regrowth, reptation and Jacobian-Gaussian branches</a></p></li>
+<li><p><a class="reference external" href="plugin/monte_carlo/doc/TrialStage_arguments.html">Dual-cut configurational bias</a>, <a class="reference external" href="plugin/cluster/doc/TrialAVB2_arguments.html">aggregation volume bias</a></p></li>
 </ul>
-<p>Modern software</p>
+<p>Convenient usage</p>
 <ul class="simple">
-<li><p>Interface as text input, C++ or Python module</p></li>
-<li><p>Server interface to C++ or Python clients</p></li>
-<li><p>OpenMP parallelization and prefetching</p></li>
-<li><p>Checkpoint files to save, restart and analyze simulations</p></li>
+<li><p>Interface as <a class="reference external" href="tutorial/tutorial.html">text input</a>, <a class="reference external" href="plugin/README.html">C++ library</a>, <a class="reference external" href="python/README.html">Python module</a> and <a class="reference internal" href="plugin/server/README.html"><span class="doc">client-server C++ or Python</span></a></p></li>
+<li><p><a class="reference external" href="plugin/flat_histogram/doc/CollectionMatrixSplice_arguments.html">OpenMP parallelization</a> and <a class="reference external" href="plugin/prefetch/README.html">prefetching</a>, and save and restart with <a class="reference external" href="plugin/utils/doc/Checkpoint_arguments.html">checkpoint</a> files</p></li>
 </ul>
 </section>
 <section id="how-to-compile">
 <h3>How to compile<a class="headerlink" href="#how-to-compile" title="Link to this heading"></a></h3>
-<p>FEASST requires C++14 and CMake, and is compiled with the following BASH commands:</p>
+<p>FEASST requires C++14 and <a class="reference external" href="https://cmake.org/">CMake</a>, and is compiled with the following Bash commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># [apt/yum/dnf/brew] install g++ cmake curl tar. On HPC, try &quot;module avail/load&quot;</span>
 <span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span><span class="w"> </span><span class="c1"># replace this with your preference throughout</span>
-curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.10.tar.gz<span class="w"> </span><span class="c1"># download</span>
-tar<span class="w"> </span>-xf<span class="w"> </span>v0.25.10.tar.gz<span class="w">           </span><span class="c1"># uncompress</span>
-mkdir<span class="w"> </span>feasst-0.25.10/build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span><span class="w"> </span><span class="c1"># out-of-source build</span>
+curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.11.tar.gz<span class="w"> </span><span class="c1"># download</span>
+tar<span class="w"> </span>-xf<span class="w"> </span>v0.25.11.tar.gz<span class="w">           </span><span class="c1"># uncompress</span>
+mkdir<span class="w"> </span>feasst-0.25.11/build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span><span class="w"> </span><span class="c1"># out-of-source build</span>
 cmake<span class="w"> </span>..<span class="w">                         </span><span class="c1"># find prerequisites</span>
 make<span class="w"> </span>install<span class="w"> </span>-j<span class="w"> </span><span class="m">4</span><span class="w">                </span><span class="c1"># compile on 4 threads</span>
 <span class="c1"># Optional Python packages used in tutorials. Virtual environment recommended:</span>
 <span class="c1"># https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments</span>
 pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>matplotlib<span class="w"> </span>pandas<span class="w"> </span>scipy<span class="w"> </span>../pyfeasst<span class="w"> </span><span class="c1"># ../ ensures pyfeasst matches feasst</span>
 <span class="c1"># Because online documentation changes with verison, open local version documentation.</span>
-xdg-open<span class="w"> </span>../html/index.html<span class="w">      </span><span class="c1"># on macOS, replace &quot;xdg-open&quot; with &quot;open&quot;</span>
+open<span class="w"> </span>../html/index.html
 </pre></div>
 </div>
 </section>
 <section id="how-to-run-a-simulation">
 <h3>How to run a simulation<a class="headerlink" href="#how-to-run-a-simulation" title="Link to this heading"></a></h3>
 <p>Input a text file to the compiled executable.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst-0.25.10/build/bin/fst<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$HOME</span>/feasst-0.25.10/tutorial/example.txt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst-0.25.11/build/bin/fst<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$HOME</span>/feasst-0.25.11/tutorial/example.txt
 </pre></div>
 </div>
 <p>The following text input file is explained in detail in the first <a class="reference internal" href="tutorial/tutorial.html"><span class="doc">tutorial</span></a>.</p>
@@ -303,12 +289,11 @@ Try the command cmake3 instead of cmake.</p>
 </ul>
 <section id="contact">
 <h5>Contact<a class="headerlink" href="#contact" title="Link to this heading"></a></h5>
+<p>Messages about FEASST are preferred in <a class="reference external" href="https://github.com/usnistgov/feasst/discussions">GitHub discussion</a>, <a class="reference external" href="https://github.com/usnistgov/feasst/issues">GitHub issues</a> or <a class="reference external" href="https://list.nist.gov/feasst">Google group</a>, if possible, so that all users can see the questions and answers.</p>
 <section id="project-lead">
 <h6>Project lead<a class="headerlink" href="#project-lead" title="Link to this heading"></a></h6>
 <p>Harold Wickes Hatch</p>
 <p><a class="reference external" href="https://www.nist.gov/people/harold-wickes-hatch">https://www.nist.gov/people/harold-wickes-hatch</a></p>
-<p>Messages about FEASST are preferred in <a class="reference external" href="https://github.com/usnistgov/feasst/discussions">GitHub discussion</a>, <a class="reference external" href="https://github.com/usnistgov/feasst/issues">GitHub issues</a> or <a class="reference external" href="https://list.nist.gov/feasst">Google group</a>, if possible, so that all users can see the questions and answers.
-The following email is also an option: <a class="reference external" href="mailto:harold&#46;hatch&#37;&#52;&#48;nist&#46;gov">harold<span>&#46;</span>hatch<span>&#64;</span>nist<span>&#46;</span>gov</a>.</p>
 </section>
 <section id="bug-reporting">
 <h6>Bug reporting<a class="headerlink" href="#bug-reporting" title="Link to this heading"></a></h6>
@@ -341,36 +326,39 @@ The following email is also an option: <a class="reference external" href="mailt
 <img alt="_images/feasst.png" class="align-right" src="_images/feasst.png" />
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="README.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="README.html#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#how-to-compile">How to compile</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#how-to-run-a-simulation">How to run a simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#how-to-learn-more">How to learn more</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#troubleshooting-install">Troubleshooting install</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="README.html#ubuntu-18-20-22-24-and-rocky-8-and-9">Ubuntu 18, 20, 22, 24 and Rocky 8 and 9</a></li>
-<li class="toctree-l3"><a class="reference internal" href="README.html#ubuntu-16">Ubuntu 16</a></li>
-<li class="toctree-l3"><a class="reference internal" href="README.html#centos-7">CentOS 7</a></li>
-<li class="toctree-l3"><a class="reference internal" href="README.html#cray-nersc-cori">Cray (NERSC CORI)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="README.html#macos-mojave">macOS Mojave</a></li>
-<li class="toctree-l3"><a class="reference internal" href="README.html#windows-10">Windows 10</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="README.html#contact">Contact</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="README.html#project-lead">Project lead</a></li>
-<li class="toctree-l5"><a class="reference internal" href="README.html#bug-reporting">Bug reporting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README_html.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README_html.html#features-in-version-0-25-11">Features in version 0.25.11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README_html.html#how-to-compile">How to compile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README_html.html#how-to-run-a-simulation">How to run a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README_html.html#how-to-learn-more">How to learn more</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README_html.html#troubleshooting-install">Troubleshooting install</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="README_html.html#ubuntu-18-20-22-24-and-rocky-8-and-9">Ubuntu 18, 20, 22, 24 and Rocky 8 and 9</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README_html.html#ubuntu-16">Ubuntu 16</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README_html.html#centos-7">CentOS 7</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README_html.html#cray-nersc-cori">Cray (NERSC CORI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README_html.html#macos-mojave">macOS Mojave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README_html.html#windows-10">Windows 10</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="README_html.html#contact">Contact</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="README_html.html#project-lead">Project lead</a></li>
+<li class="toctree-l5"><a class="reference internal" href="README_html.html#bug-reporting">Bug reporting</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#disclaimer">Disclaimer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README_html.html#disclaimer">Disclaimer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README_html.html#license">License</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html">Lennard Jones in the canonical ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/launch.html">HPC/SLURM script with checkpointed restarts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_0_ref_configs.html">Lennard Jones potential test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_1_lj_npt.html">Isothermal-Isobaric (NPT) ensemble simulation of Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_2_lj_multimc.html">Multiple Monte Carlo simulations in a single script</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_3_modify_restart.html">Modify a checkpoint file during restarting to run longer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_4_lj_triclinic_celllist.html">OptPotential with cell lists in a triclinic unit cell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/charge/tutorial/tutorial_0_spce_ref_config.html">Reference configuration of SPC/E water in non-cuboid domain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/charge/tutorial/tutorial_1_spce_nvt.html">Average energy of a bulk SPC/E fluid in the canonical ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/models/tutorial/tutorial_0_ref_configs.html">Lennard Jones Alpha potential test</a></li>
@@ -1327,7 +1315,7 @@ The following email is also an option: <a class="reference external" href="mailt
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/io.html#_CPPv4N6feasst6feasst10num_spacesEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">feasst::num_spaces()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/io.html#_CPPv4N6feasst6feasst11is_found_inERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">feasst::is_found_in()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/io.html#_CPPv4N6feasst6feasst7replaceERKNSt6stringERKNSt6stringEPNSt6stringE"><code class="docutils literal notranslate"><span class="pre">feasst::replace()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/io.html#_CPPv4N6feasst6feasst10str_to_intERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">feasst::str_to_int()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/io.html#_CPPv4N6feasst6feasst10str_to_intERKNSt6stringEKb"><code class="docutils literal notranslate"><span class="pre">feasst::str_to_int()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/io.html#_CPPv4N6feasst6feasst13str_to_doubleERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">feasst::str_to_double()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/io.html#_CPPv4N6feasst6feasst11str_to_boolERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">feasst::str_to_bool()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/io.html#_CPPv4N6feasst6feasst16sized_int_to_strEKiKi"><code class="docutils literal notranslate"><span class="pre">feasst::sized_int_to_str()</span></code></a></li>
@@ -2249,7 +2237,6 @@ The following email is also an option: <a class="reference external" href="mailt
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/Group.html">Group</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/Group.html#_CPPv4N6feasst5GroupE"><code class="docutils literal notranslate"><span class="pre">Group</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Group.html#_CPPv4N6feasst5Group5GroupE7argtype"><code class="docutils literal notranslate"><span class="pre">Group()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Group.html#_CPPv4NK6feasst5Group10site_typesEv"><code class="docutils literal notranslate"><span class="pre">site_types()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Group.html#_CPPv4NK6feasst5Group14particle_typesEv"><code class="docutils literal notranslate"><span class="pre">particle_types()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Group.html#_CPPv4NK6feasst5Group10is_dynamicEv"><code class="docutils literal notranslate"><span class="pre">is_dynamic()</span></code></a></li>
@@ -2291,6 +2278,7 @@ The following email is also an option: <a class="reference external" href="mailt
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Domain.html#_CPPv4NK6feasst6Domain15min_side_lengthEv"><code class="docutils literal notranslate"><span class="pre">min_side_length()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Domain.html#_CPPv4NK6feasst6Domain15max_side_lengthEv"><code class="docutils literal notranslate"><span class="pre">max_side_length()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Domain.html#_CPPv4NK6feasst6Domain25inscribed_sphere_diameterEv"><code class="docutils literal notranslate"><span class="pre">inscribed_sphere_diameter()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Domain.html#_CPPv4NK6feasst6Domain27is_minimum_image_for_cutoffEKd"><code class="docutils literal notranslate"><span class="pre">is_minimum_image_for_cutoff()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Domain.html#_CPPv4NK6feasst6Domain6unwrapEKiKiP8Position"><code class="docutils literal notranslate"><span class="pre">unwrap()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Domain.html#_CPPv4NK6feasst6Domain13status_headerEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">status_header()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Domain.html#_CPPv4NK6feasst6Domain6statusEv"><code class="docutils literal notranslate"><span class="pre">status()</span></code></a></li>
@@ -2525,7 +2513,10 @@ The following email is also an option: <a class="reference external" href="mailt
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelInner.html">VisitModelInner</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModelInner.html#_CPPv4N6feasst15VisitModelInnerE"><code class="docutils literal notranslate"><span class="pre">VisitModelInner</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModelInner.html#_CPPv4N6feasst15VisitModelInnerE"><code class="docutils literal notranslate"><span class="pre">VisitModelInner</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelInner.html#_CPPv4NK6feasst15VisitModelInner10interactedEv"><code class="docutils literal notranslate"><span class="pre">interacted()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/SynchronizeData.html">SynchronizeData</a><ul>
@@ -2678,68 +2669,6 @@ The following email is also an option: <a class="reference external" href="mailt
 <li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/RigidDihedral.html#_CPPv4N6feasst13RigidDihedralE"><code class="docutils literal notranslate"><span class="pre">RigidDihedral</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModel.html">VisitModel</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4N6feasst10VisitModelE"><code class="docutils literal notranslate"><span class="pre">VisitModel</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4NK6feasst10VisitModel6energyEv"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4N6feasst10VisitModel10set_energyEKd"><code class="docutils literal notranslate"><span class="pre">set_energy()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4N6feasst10VisitModel16increment_energyEKd"><code class="docutils literal notranslate"><span class="pre">increment_energy()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4N6feasst10VisitModel12check_energyEP5ModelP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">check_energy()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4N6feasst10VisitModel13change_volumeEKdKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4NK6feasst10VisitModel13epsilon_indexEv"><code class="docutils literal notranslate"><span class="pre">epsilon_index()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4NK6feasst10VisitModel11sigma_indexEv"><code class="docutils literal notranslate"><span class="pre">sigma_index()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4NK6feasst10VisitModel12cutoff_indexEv"><code class="docutils literal notranslate"><span class="pre">cutoff_index()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4NK6feasst10VisitModel12charge_indexEv"><code class="docutils literal notranslate"><span class="pre">charge_index()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelIntra.html">VisitModelIntra</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModelIntra.html#_CPPv4N6feasst15VisitModelIntraE"><code class="docutils literal notranslate"><span class="pre">VisitModelIntra</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelCutoffOuter.html">VisitModelCutoffOuter</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModelCutoffOuter.html#_CPPv4N6feasst21VisitModelCutoffOuterE"><code class="docutils literal notranslate"><span class="pre">VisitModelCutoffOuter</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCutoffOuter.html#_CPPv4N6feasst21VisitModelCutoffOuter21VisitModelCutoffOuterE7argtype"><code class="docutils literal notranslate"><span class="pre">VisitModelCutoffOuter()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCutoffOuter.html#_CPPv4N6feasst21VisitModelCutoffOuter21VisitModelCutoffOuterENSt10shared_ptrI15VisitModelInnerEE7argtype"><code class="docutils literal notranslate"><span class="pre">VisitModelCutoffOuter()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections.html">LongRangeCorrections</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections.html#_CPPv4N6feasst20LongRangeCorrectionsE"><code class="docutils literal notranslate"><span class="pre">LongRangeCorrections</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections.html#_CPPv4N6feasst20LongRangeCorrections10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/DontVisitModel.html">DontVisitModel</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/DontVisitModel.html#_CPPv4N6feasst14DontVisitModelE"><code class="docutils literal notranslate"><span class="pre">DontVisitModel</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelBond.html">VisitModelBond</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModelBond.html#_CPPv4N6feasst14VisitModelBondE"><code class="docutils literal notranslate"><span class="pre">VisitModelBond</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html">VisitModelCell</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCellE"><code class="docutils literal notranslate"><span class="pre">VisitModelCell</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell14VisitModelCellENSt10shared_ptrI15VisitModelInnerEE7argtype"><code class="docutils literal notranslate"><span class="pre">VisitModelCell()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4NK6feasst14VisitModelCell5cellsEv"><code class="docutils literal notranslate"><span class="pre">cells()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4NK6feasst14VisitModelCell7cell_idERK6DomainRK8Position"><code class="docutils literal notranslate"><span class="pre">cell_id()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell12cell_id_opt_ERK6DomainRK8Position"><code class="docutils literal notranslate"><span class="pre">cell_id_opt_()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell13change_volumeEKdKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelIntraMap.html">VisitModelIntraMap</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModelIntraMap.html#_CPPv4N6feasst18VisitModelIntraMapE"><code class="docutils literal notranslate"><span class="pre">VisitModelIntraMap</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelIntraMap.html#_CPPv4N6feasst18VisitModelIntraMap10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelIntraMap.html#_CPPv4N6feasst18VisitModelIntraMap11include_mapEKiKiKi"><code class="docutils literal notranslate"><span class="pre">include_map()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/BondThreeBody.html">BondThreeBody</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/BondThreeBody.html#_CPPv4N6feasst13BondThreeBodyE"><code class="docutils literal notranslate"><span class="pre">BondThreeBody</span></code></a><ul>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/BondThreeBody.html#_CPPv4NK6feasst13BondThreeBody6energyERK8PositionRK8PositionRK8PositionRK4Bond"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
@@ -2831,12 +2760,11 @@ The following email is also an option: <a class="reference external" href="mailt
 </li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html">ModelTwoBodyTable</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTableE"><code class="docutils literal notranslate"><span class="pre">ModelTwoBodyTable</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable17ModelTwoBodyTableE7argtype"><code class="docutils literal notranslate"><span class="pre">ModelTwoBodyTable()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable6resizeEKi"><code class="docutils literal notranslate"><span class="pre">resize()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable3setENSt10shared_ptrI7Table1DEEKiKi"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable3setERK11ModelParamsKiKiP5Model"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable3setERK11ModelParamsKiKiNSt10shared_ptrI5ModelEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable3setERK11ModelParamsKiP5Model"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable3setERK11ModelParamsKiNSt10shared_ptrI5ModelEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html#_CPPv4NK6feasst17ModelTwoBodyTable5tableEKiKi"><code class="docutils literal notranslate"><span class="pre">table()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyTable.html#_CPPv4NK6feasst17ModelTwoBodyTable9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
@@ -2881,6 +2809,8 @@ The following email is also an option: <a class="reference external" href="mailt
 <li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/ModelThreeBody.html#_CPPv4N6feasst14ModelThreeBodyE"><code class="docutils literal notranslate"><span class="pre">ModelThreeBody</span></code></a><ul>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelThreeBody.html#_CPPv4N6feasst14ModelThreeBody7computeERK11ModelParamsKiP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelThreeBody.html#_CPPv4N6feasst14ModelThreeBody7computeERK11ModelParamsP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelThreeBody.html#_CPPv4N6feasst14ModelThreeBody7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelThreeBody.html#_CPPv4N6feasst14ModelThreeBody7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelThreeBody.html#_CPPv4NK6feasst14ModelThreeBody8num_bodyEv"><code class="docutils literal notranslate"><span class="pre">num_body()</span></code></a></li>
 </ul>
 </li>
@@ -2905,6 +2835,68 @@ The following email is also an option: <a class="reference external" href="mailt
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/ModelEmpty.html#_CPPv4NK6feasst10ModelEmpty9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModel.html">VisitModel</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4N6feasst10VisitModelE"><code class="docutils literal notranslate"><span class="pre">VisitModel</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4NK6feasst10VisitModel6energyEv"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4N6feasst10VisitModel10set_energyEKd"><code class="docutils literal notranslate"><span class="pre">set_energy()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4N6feasst10VisitModel16increment_energyEKd"><code class="docutils literal notranslate"><span class="pre">increment_energy()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4N6feasst10VisitModel12check_energyEP5ModelP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">check_energy()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4N6feasst10VisitModel13change_volumeEKdKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4NK6feasst10VisitModel13epsilon_indexEv"><code class="docutils literal notranslate"><span class="pre">epsilon_index()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4NK6feasst10VisitModel11sigma_indexEv"><code class="docutils literal notranslate"><span class="pre">sigma_index()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4NK6feasst10VisitModel12cutoff_indexEv"><code class="docutils literal notranslate"><span class="pre">cutoff_index()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModel.html#_CPPv4NK6feasst10VisitModel12charge_indexEv"><code class="docutils literal notranslate"><span class="pre">charge_index()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelIntraMap.html">VisitModelIntraMap</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModelIntraMap.html#_CPPv4N6feasst18VisitModelIntraMapE"><code class="docutils literal notranslate"><span class="pre">VisitModelIntraMap</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelIntraMap.html#_CPPv4N6feasst18VisitModelIntraMap10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelIntraMap.html#_CPPv4N6feasst18VisitModelIntraMap11include_mapEKiKiKi"><code class="docutils literal notranslate"><span class="pre">include_map()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html">VisitModelCell</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCellE"><code class="docutils literal notranslate"><span class="pre">VisitModelCell</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell14VisitModelCellENSt10shared_ptrI15VisitModelInnerEE7argtype"><code class="docutils literal notranslate"><span class="pre">VisitModelCell()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4NK6feasst14VisitModelCell5cellsEv"><code class="docutils literal notranslate"><span class="pre">cells()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4NK6feasst14VisitModelCell7cell_idERK6DomainRK8Position"><code class="docutils literal notranslate"><span class="pre">cell_id()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell12cell_id_opt_ERK6DomainRK8Position"><code class="docutils literal notranslate"><span class="pre">cell_id_opt_()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell13change_volumeEKdKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelIntra.html">VisitModelIntra</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModelIntra.html#_CPPv4N6feasst15VisitModelIntraE"><code class="docutils literal notranslate"><span class="pre">VisitModelIntra</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelBond.html">VisitModelBond</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModelBond.html#_CPPv4N6feasst14VisitModelBondE"><code class="docutils literal notranslate"><span class="pre">VisitModelBond</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelCutoffOuter.html">VisitModelCutoffOuter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/VisitModelCutoffOuter.html#_CPPv4N6feasst21VisitModelCutoffOuterE"><code class="docutils literal notranslate"><span class="pre">VisitModelCutoffOuter</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCutoffOuter.html#_CPPv4N6feasst21VisitModelCutoffOuter21VisitModelCutoffOuterE7argtype"><code class="docutils literal notranslate"><span class="pre">VisitModelCutoffOuter()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/VisitModelCutoffOuter.html#_CPPv4N6feasst21VisitModelCutoffOuter21VisitModelCutoffOuterENSt10shared_ptrI15VisitModelInnerEE7argtype"><code class="docutils literal notranslate"><span class="pre">VisitModelCutoffOuter()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections.html">LongRangeCorrections</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections.html#_CPPv4N6feasst20LongRangeCorrectionsE"><code class="docutils literal notranslate"><span class="pre">LongRangeCorrections</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections.html#_CPPv4N6feasst20LongRangeCorrections10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/DontVisitModel.html">DontVisitModel</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/system/doc/DontVisitModel.html#_CPPv4N6feasst14DontVisitModelE"><code class="docutils literal notranslate"><span class="pre">DontVisitModel</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/Cells.html">Cells</a><ul>
@@ -2933,7 +2925,10 @@ The following email is also an option: <a class="reference external" href="mailt
 <li class="toctree-l2"><a class="reference internal" href="plugin/monte_carlo/README.html">Monte Carlo</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/README.html#tutorial">Tutorial</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_0_ref_configs.html">Lennard Jones potential test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_1_lj_npt.html">Isothermal-Isobaric (NPT) ensemble simulation of Lennard-Jones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_2_lj_multimc.html">Multiple Monte Carlo simulations in a single script</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_3_modify_restart.html">Modify a checkpoint file during restarting to run longer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_4_lj_triclinic_celllist.html">OptPotential with cell lists in a triclinic unit cell</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -4454,7 +4449,8 @@ The following email is also an option: <a class="reference external" href="mailt
 </li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/patch/README.html#tutorial">Tutorial</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="plugin/patch/README.html#tutorial">Tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/patch/tutorial/tutorial_1_spherocylinders.html">Spherocylinders</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -4937,10 +4933,6 @@ The following email is also an option: <a class="reference external" href="mailt
 </li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/Background.html">Background</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/confinement/doc/Background.html#_CPPv4N6feasst10BackgroundE"><code class="docutils literal notranslate"><span class="pre">Background</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelSquareWellShape.html">ModelSquareWellShape</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/confinement/doc/ModelSquareWellShape.html#_CPPv4N6feasst20ModelSquareWellShapeE"><code class="docutils literal notranslate"><span class="pre">ModelSquareWellShape</span></code></a><ul>
 <li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelSquareWellShape.html#_CPPv4N6feasst20ModelSquareWellShape6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
@@ -4967,6 +4959,10 @@ The following email is also an option: <a class="reference external" href="mailt
 </ul>
 </li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/confinement/doc/ModelLJShape.html#_CPPv4N6feasst26ModelLJShapeEnergyAtCutoffE"><code class="docutils literal notranslate"><span class="pre">ModelLJShapeEnergyAtCutoff</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/Background.html">Background</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/confinement/doc/Background.html#_CPPv4N6feasst10BackgroundE"><code class="docutils literal notranslate"><span class="pre">Background</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1DHard.html">ModelTableCart1DHard</a><ul>
@@ -5056,49 +5052,6 @@ The following email is also an option: <a class="reference external" href="mailt
 </li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/Ewald.html">Ewald</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4N6feasst5EwaldE"><code class="docutils literal notranslate"><span class="pre">Ewald</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4N6feasst5Ewald21tolerance_to_alpha_ksEKdRK13ConfigurationPdPiPiPi"><code class="docutils literal notranslate"><span class="pre">tolerance_to_alpha_ks()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald19update_wave_vectorsERK13ConfigurationKdPNSt6vectorIdEEPNSt6vectorIiEEPdPdPdPdPdPd"><code class="docutils literal notranslate"><span class="pre">update_wave_vectors()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald22update_struct_fact_eikERK6SelectRK13ConfigurationRKNSt6vectorIdEERKNSt6vectorIiEEKdKdKdKdKdKdPNSt6vectorIdEEPNSt6vectorIdEEPNSt6vectorINSt6vectorINSt6vectorIdEEEEEE"><code class="docutils literal notranslate"><span class="pre">update_struct_fact_eik()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4N6feasst5Ewald10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4N6feasst5Ewald13change_volumeEKdKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald8wave_numEKiKi"><code class="docutils literal notranslate"><span class="pre">wave_num()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald14wave_prefactorEv"><code class="docutils literal notranslate"><span class="pre">wave_prefactor()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald6num_kxEv"><code class="docutils literal notranslate"><span class="pre">num_kx()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald6num_kyEv"><code class="docutils literal notranslate"><span class="pre">num_ky()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald6num_kzEv"><code class="docutils literal notranslate"><span class="pre">num_kz()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald5kxmaxEv"><code class="docutils literal notranslate"><span class="pre">kxmax()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald5kymaxEv"><code class="docutils literal notranslate"><span class="pre">kymax()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald5kzmaxEv"><code class="docutils literal notranslate"><span class="pre">kzmax()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald12kmax_squaredEv"><code class="docutils literal notranslate"><span class="pre">kmax_squared()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald3eikEv"><code class="docutils literal notranslate"><span class="pre">eik()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald16struct_fact_realEKi"><code class="docutils literal notranslate"><span class="pre">struct_fact_real()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald16struct_fact_imagEKi"><code class="docutils literal notranslate"><span class="pre">struct_fact_imag()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald16struct_fact_imagEv"><code class="docutils literal notranslate"><span class="pre">struct_fact_imag()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald10net_chargeERK13Configuration"><code class="docutils literal notranslate"><span class="pre">net_charge()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/CheckNetCharge.html">CheckNetCharge</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/charge/doc/CheckNetCharge.html#_CPPv4N6feasst14CheckNetChargeE"><code class="docutils literal notranslate"><span class="pre">CheckNetCharge</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/CheckNetCharge.html#_CPPv4N6feasst14CheckNetCharge6updateERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/SlabCorrection.html">SlabCorrection</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/charge/doc/SlabCorrection.html#_CPPv4N6feasst14SlabCorrectionE"><code class="docutils literal notranslate"><span class="pre">SlabCorrection</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/SlabCorrection.html#_CPPv4NK6feasst14SlabCorrection10net_dipoleERK13Configuration"><code class="docutils literal notranslate"><span class="pre">net_dipole()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/SlabCorrection.html#_CPPv4N6feasst14SlabCorrection7computeEP12ModelOneBodyRK11ModelParamsP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/SlabCorrection.html#_CPPv4N6feasst14SlabCorrection7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/Coulomb.html">Coulomb</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/charge/doc/Coulomb.html#_CPPv4N6feasst7CoulombE"><code class="docutils literal notranslate"><span class="pre">Coulomb</span></code></a><ul>
 <li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Coulomb.html#_CPPv4N6feasst7Coulomb10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
@@ -5146,6 +5099,49 @@ The following email is also an option: <a class="reference external" href="mailt
 <li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/ChargeSelf.html#_CPPv4N6feasst10ChargeSelf6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/ChargeSelf.html#_CPPv4N6feasst10ChargeSelf10precomputeERK11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/ChargeSelf.html#_CPPv4NK6feasst10ChargeSelf9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/Ewald.html">Ewald</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4N6feasst5EwaldE"><code class="docutils literal notranslate"><span class="pre">Ewald</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4N6feasst5Ewald21tolerance_to_alpha_ksEKdRK13ConfigurationPdPiPiPi"><code class="docutils literal notranslate"><span class="pre">tolerance_to_alpha_ks()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald19update_wave_vectorsERK13ConfigurationKdPNSt6vectorIdEEPNSt6vectorIiEEPdPdPdPdPdPd"><code class="docutils literal notranslate"><span class="pre">update_wave_vectors()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald22update_struct_fact_eikERK6SelectRK13ConfigurationRKNSt6vectorIdEERKNSt6vectorIiEEKdKdKdKdKdKdPNSt6vectorIdEEPNSt6vectorIdEEPNSt6vectorINSt6vectorINSt6vectorIdEEEEEE"><code class="docutils literal notranslate"><span class="pre">update_struct_fact_eik()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4N6feasst5Ewald10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4N6feasst5Ewald13change_volumeEKdKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald8wave_numEKiKi"><code class="docutils literal notranslate"><span class="pre">wave_num()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald14wave_prefactorEv"><code class="docutils literal notranslate"><span class="pre">wave_prefactor()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald6num_kxEv"><code class="docutils literal notranslate"><span class="pre">num_kx()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald6num_kyEv"><code class="docutils literal notranslate"><span class="pre">num_ky()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald6num_kzEv"><code class="docutils literal notranslate"><span class="pre">num_kz()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald5kxmaxEv"><code class="docutils literal notranslate"><span class="pre">kxmax()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald5kymaxEv"><code class="docutils literal notranslate"><span class="pre">kymax()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald5kzmaxEv"><code class="docutils literal notranslate"><span class="pre">kzmax()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald12kmax_squaredEv"><code class="docutils literal notranslate"><span class="pre">kmax_squared()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald3eikEv"><code class="docutils literal notranslate"><span class="pre">eik()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald16struct_fact_realEKi"><code class="docutils literal notranslate"><span class="pre">struct_fact_real()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald16struct_fact_imagEKi"><code class="docutils literal notranslate"><span class="pre">struct_fact_imag()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald16struct_fact_imagEv"><code class="docutils literal notranslate"><span class="pre">struct_fact_imag()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald10net_chargeERK13Configuration"><code class="docutils literal notranslate"><span class="pre">net_charge()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/CheckNetCharge.html">CheckNetCharge</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/charge/doc/CheckNetCharge.html#_CPPv4N6feasst14CheckNetChargeE"><code class="docutils literal notranslate"><span class="pre">CheckNetCharge</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/CheckNetCharge.html#_CPPv4N6feasst14CheckNetCharge6updateERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/charge/doc/SlabCorrection.html">SlabCorrection</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/charge/doc/SlabCorrection.html#_CPPv4N6feasst14SlabCorrectionE"><code class="docutils literal notranslate"><span class="pre">SlabCorrection</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/SlabCorrection.html#_CPPv4NK6feasst14SlabCorrection10net_dipoleERK13Configuration"><code class="docutils literal notranslate"><span class="pre">net_dipole()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/SlabCorrection.html#_CPPv4N6feasst14SlabCorrection7computeEP12ModelOneBodyRK11ModelParamsP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/charge/doc/SlabCorrection.html#_CPPv4N6feasst14SlabCorrection7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -5887,6 +5883,7 @@ The following email is also an option: <a class="reference external" href="mailt
 <li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.split"><code class="docutils literal notranslate"><span class="pre">split()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.run_simulations"><code class="docutils literal notranslate"><span class="pre">run_simulations()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.combine_tables_two_rigid_body"><code class="docutils literal notranslate"><span class="pre">combine_tables_two_rigid_body()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.num_sites_in_fstprt"><code class="docutils literal notranslate"><span class="pre">num_sites_in_fstprt()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pyfeasst/docs/source/fstplot.html">fstplot</a><ul>
@@ -6082,7 +6079,7 @@ The following email is also an option: <a class="reference external" href="mailt
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="README.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="README_html.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,29 +1,28 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>README &mdash; FEASST v0.25.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+  <title>Overview &mdash; FEASST 0.25.11 0.25.11 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
 
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=e07783d4"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script src="_static/leave_notice.js?v=db0899f3"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d1e1e1f6"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+      <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+      <script src="_static/leave_notice.js?v=3dcabf29"></script>
+      <script src="_static/redirect_alert.js?v=e1b45f61"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -52,35 +51,25 @@
           
           
           <a href="index.html" class="icon icon-home">
-            FEASST
+            FEASST 0.25.11
           </a>
-              <div class="version">
-                v0.25.2
-              </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">README</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#features-in-version-0-25-11">Features in version 0.25.11</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-compile">How to compile</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#basic-simulation-example">Basic simulation example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#how-to-get-started">How to get started</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#troubleshooting-install">Troubleshooting install</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#ubuntu-18-20-22-24-and-rocky-8-and-9">Ubuntu 18, 20, 22, 24 and Rocky 8 and 9</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ubuntu-16">Ubuntu 16</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#centos-7">CentOS 7</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cray-nersc-cori">Cray (NERSC CORI)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#macos-mojave">macOS Mojave</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#windows-10">Windows 10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-run-a-simulation">How to run a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-learn-more">How to learn more</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting-install">Troubleshooting install</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ubuntu-18-20-22-24-and-rocky-8-and-9">Ubuntu 18, 20, 22, 24 and Rocky 8 and 9</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ubuntu-16">Ubuntu 16</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#centos-7">CentOS 7</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cray-nersc-cori">Cray (NERSC CORI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#macos-mojave">macOS Mojave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#windows-10">Windows 10</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#contact">Contact</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#documentation-for-a-specific-version-of-feasst">Documentation for a specific version of FEASST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#contact">Contact</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#project-lead">Project lead</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#email-list">Email list</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#issue-tracker">Issue tracker</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#bug-reporting">Bug reporting</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
@@ -95,9 +84,9 @@
 <li class="toctree-l1"><a class="reference internal" href="pyfeasst/README.html">pyfeasst</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CITATION.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev/sphinx/CITATION.html">Citation</a></li>
 </ul>
 
         </div>
@@ -106,7 +95,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">FEASST</a>
+          <a href="index.html">FEASST 0.25.11</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -154,7 +143,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>README</li>
+      <li>Overview</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -171,119 +160,100 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="readme">
-<h1>README<a class="headerlink" href="#readme" title="Link to this heading"></a></h1>
-<p>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
-open-source, public domain software to conduct molecular and particle-based
-simulations with Monte Carlo methods.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Manuscript: <a class="reference external" href="https://doi.org/10.6028/jres.123.004">https://doi.org/10.6028/jres.123.004</a></p>
-<p>Website: <a class="reference external" href="https://pages.nist.gov/feasst/">https://pages.nist.gov/feasst/</a></p>
-<p>Website DOI: <a class="reference external" href="https://doi.org/10.18434/M3S095">https://doi.org/10.18434/M3S095</a></p>
-<p>Code repository: <a class="reference external" href="https://github.com/usnistgov/feasst">https://github.com/usnistgov/feasst</a></p>
-<p>Discussion list: <a class="reference external" href="https://groups.google.com/a/list.nist.gov/d/forum/feasst">https://groups.google.com/a/list.nist.gov/d/forum/feasst</a></p>
-</div>
-<section id="features">
-<h2>Features<a class="headerlink" href="#features" title="Link to this heading"></a></h2>
-<a class="reference external image-reference" href="https://pages.nist.gov/feasst"><img alt="_images/feasst.png" class="align-right" src="_images/feasst.png" /></a>
-<p>The features available in the <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> are summarized as follows:</p>
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h1>
+<p>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free and open-source software to conduct molecular- and particle-based simulations with Monte Carlo methods.
+New users can start with the <a class="reference external" href="https://pages.nist.gov/feasst/">website</a> (<a class="reference external" href="https://doi.org/10.18434/M3S095">DOI</a>), <a class="reference external" href="https://doi.org/10.1063/5.0224283">manuscript</a>, <a class="reference external" href="https://github.com/usnistgov/feasst/discussions">GitHub discussion</a> and a <a class="reference external" href="https://www.nist.gov/video/how-use-feasst-0255-monte-carlo-molecular-simulation-software">five minute video</a>.
+Support FEASST with a <a class="reference external" href="https://github.com/usnistgov/feasst">GitHub</a> star or <a class="reference external" href="https://doi.org/10.1063/5.0224283">manuscript</a> citation!</p>
+<section id="features-in-version-0-25-11">
+<h2>Features in version 0.25.11<a class="headerlink" href="#features-in-version-0-25-11" title="Link to this heading"></a></h2>
+<a class="reference external image-reference" href="https://pages.nist.gov/feasst"><img alt="_images/feasst.png" class="align-right" src="_images/feasst.png" />
+</a>
+<p>The <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> includes:</p>
 <p>Monte Carlo simulation techniques</p>
 <ul class="simple">
-<li><p>Metropolis</p></li>
-<li><p>Wang-Landau</p></li>
-<li><p>Transition-matrix</p></li>
-<li><p>Mayer-sampling</p></li>
+<li><p><a class="reference external" href="tutorial/tutorial.html">Metropolis</a> and <a class="reference external" href="plugin/mayer/README.html">Mayer-sampling</a></p></li>
+<li><p><a class="reference external" href="plugin/flat_histogram/README.html">Flat Histogram</a> Wang-Landau and transition-matrix</p></li>
 </ul>
 <p>Thermodynamic ensembles</p>
 <ul class="simple">
-<li><p>Microcanonical ensemble</p></li>
-<li><p>Canonical ensemble</p></li>
-<li><p>Grand-canonical ensemble</p></li>
-<li><p>Temperature and growth expanded ensembles</p></li>
-<li><p>Gibbs ensemble</p></li>
+<li><p><a class="reference external" href="plugin/flat_histogram/doc/MacrostateEnergy_arguments.html">Microcanonical</a>, <a class="reference external" href="tutorial/tutorial.html">canonical</a>, (<a class="reference external" href="plugin/morph/README.html">semi</a>-) <a class="reference external" href="plugin/flat_histogram/tutorial/tutorial_01_lj_gcmc.html">grand canonical</a></p></li>
+<li><p><a class="reference external" href="plugin/monte_carlo/tutorial/tutorial_1_lj_npt.html">Isothermal-isobaric</a>, <a class="reference external" href="plugin/gibbs/README.html">Gibbs</a> and <a class="reference external" href="plugin/beta_expanded/README.html">temperature</a> expanded</p></li>
 </ul>
 <p>Interaction potentials</p>
 <ul class="simple">
-<li><p>Lennard-Jones and Mie with cut/force shift and corrections</p></li>
-<li><p>Hard spheres and square wells</p></li>
-<li><p>Patchy and anisotropic particles</p></li>
-<li><p>Yukawa and charged interactions</p></li>
-<li><p>Ewald summation and 2D slab correction</p></li>
-<li><p>Bonds, angles and dihedrals</p></li>
-<li><p>TraPPE small molecules and n-alkanes</p></li>
-<li><p>Slab, cylindrical and spherical confinement</p></li>
-<li><p>Cell list and neighbor list</p></li>
+<li><p><a class="reference external" href="tutorial/tutorial.html">Lennard-Jones</a> and <a class="reference external" href="plugin/flat_histogram/tutorial/tutorial_14_binary.html">Mie</a> with <a class="reference external" href="plugin/models/doc/LennardJonesCutShift_arguments.html">cut/force shift</a> and <a class="reference external" href="plugin/system/doc/LongRangeCorrections_arguments.html">corrections</a>, <a class="reference external" href="plugin/flat_histogram/tutorial/tutorial_07_hs_tm_parallel.html">hard sphere</a> and <a class="reference external" href="plugin/models/doc/SquareWell_arguments.html">square well</a></p></li>
+<li><p><a class="reference external" href="plugin/charge/tutorial/tutorial_1_spce_nvt.html">Ewald</a> summation, 2D <a class="reference external" href="plugin/charge/doc/SlabCorrection_arguments.html">slab correction</a>, <a class="reference external" href="plugin/models/doc/Yukawa_arguments.html">Yukawa</a>, <a class="reference external" href="plugin/charge/doc/Coulomb_arguments.html">Coulomb</a> and <a class="reference external" href="plugin/models/tutorial/tutorial_1_lj_table.html">custom tabulated interactions</a></p></li>
+<li><p><a class="reference external" href="plugin/monte_carlo/tutorial/tutorial_4_lj_triclinic_celllist.html">Cell list</a>, <a class="reference external" href="plugin/flat_histogram/tutorial/tutorial_08_trimer_tm_parallel.html">neighbor list</a>, <a class="reference external" href="particle/README.html#bond-angle-and-dihedral-properties">bonds, angles and dihedrals</a>, <a class="reference external" href="plugin/flat_histogram/tutorial/tutorial_11_trappe_alkane.html">TraPPE small molecules and alkanes</a></p></li>
+<li><p><a class="reference external" href="plugin/flat_histogram/tutorial/tutorial_09_kf_tm_parallel.html">Kern-Frenkel patches</a>, <a class="reference external" href="plugin/patch/tutorial/tutorial_1_spherocylinders.html">Spherocylinders</a> and <a class="reference external" href="plugin/aniso/README.html">precomputed anisotropic particles</a></p></li>
+<li><p>Confinement with <a class="reference external" href="plugin/confinement/tutorial/tutorial_2_co2_zif8.html">fixed sites</a>, <a class="reference external" href="plugin/shape/doc/Slab_arguments.html">slabs</a>, <a class="reference external" href="plugin/shape/doc/SlabSine_arguments.html">sine waves</a>, <a class="reference external" href="plugin/shape/doc/Cylinder_arguments.html">cylinders</a>, <a class="reference external" href="plugin/shape/doc/Sphere_arguments.html">spheres</a>, <a class="reference external" href="plugin/shape/doc/Supertoroid_arguments.html">ellipsoids and supertoroids</a></p></li>
 </ul>
 <p>Monte Carlo trials</p>
 <ul class="simple">
-<li><p>Translation, rotation, crankshaft and pivot</p></li>
-<li><p>Rigid cluster rotation and translation</p></li>
-<li><p>Configurational bias transfers and partial regrowth</p></li>
-<li><p>Dual-cut configurational bias</p></li>
-<li><p>Aggregation volume bias</p></li>
-<li><p>Reptation</p></li>
-<li><p>Branches</p></li>
+<li><p><a class="reference external" href="plugin/monte_carlo/doc/TrialTranslate_arguments.html">Translation</a>, <a class="reference external" href="plugin/chain/doc/TrialParticlePivot_arguments.html">rotation</a>, <a class="reference external" href="plugin/chain/doc/TrialCrankshaft_arguments.html">crankshaft</a>, <a class="reference external" href="plugin/chain/doc/TrialPivot_arguments.html">pivot</a>, <a class="reference external" href="plugin/cluster/doc/TrialRigidCluster_arguments.html">rigid cluster rotation and translation</a></p></li>
+<li><p><a class="reference external" href="plugin/chain/doc/TrialGrow_arguments.html">Configurational bias transfers, partial regrowth, reptation and Jacobian-Gaussian branches</a></p></li>
+<li><p><a class="reference external" href="plugin/monte_carlo/doc/TrialStage_arguments.html">Dual-cut configurational bias</a>, <a class="reference external" href="plugin/cluster/doc/TrialAVB2_arguments.html">aggregation volume bias</a></p></li>
 </ul>
-<p>Modern software</p>
+<p>Convenient usage</p>
 <ul class="simple">
-<li><p>Interface as text input, C++ or Python module</p></li>
-<li><p>Server interface to C++ or Python clients</p></li>
-<li><p>OpenMP parallelization and prefetching</p></li>
-<li><p>Checkpoint files to save, restart and analyze simulations</p></li>
+<li><p>Interface as <a class="reference external" href="tutorial/tutorial.html">text input</a>, <a class="reference external" href="plugin/README.html">C++ library</a>, <a class="reference external" href="python/README.html">Python module</a> and <a class="reference internal" href="plugin/server/README.html"><span class="doc">client-server C++ or Python</span></a></p></li>
+<li><p><a class="reference external" href="plugin/flat_histogram/doc/CollectionMatrixSplice_arguments.html">OpenMP parallelization</a> and <a class="reference external" href="plugin/prefetch/README.html">prefetching</a>, and save and restart with <a class="reference external" href="plugin/utils/doc/Checkpoint_arguments.html">checkpoint</a> files</p></li>
 </ul>
 </section>
 <section id="how-to-compile">
 <h2>How to compile<a class="headerlink" href="#how-to-compile" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#[apt/yum/dnf/brew] install g++ cmake git python3</span>
+<p>FEASST requires C++14 and <a class="reference external" href="https://cmake.org/">CMake</a>, and is compiled with the following Bash commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># [apt/yum/dnf/brew] install g++ cmake curl tar. On HPC, try &quot;module avail/load&quot;</span>
 <span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span><span class="w"> </span><span class="c1"># replace this with your preference throughout</span>
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/usnistgov/feasst.git
-mkdir<span class="w"> </span>feasst/build
-<span class="nb">cd</span><span class="w"> </span>feasst/build
-cmake<span class="w"> </span>..
-make<span class="w"> </span>install<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span>
-<span class="c1"># optional python packages for feasst tutorials</span>
-pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>matplotlib<span class="w"> </span>pandas<span class="w"> </span>scipy<span class="w"> </span>../pyfeasst
+curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.11.tar.gz<span class="w"> </span><span class="c1"># download</span>
+tar<span class="w"> </span>-xf<span class="w"> </span>v0.25.11.tar.gz<span class="w">           </span><span class="c1"># uncompress</span>
+mkdir<span class="w"> </span>feasst-0.25.11/build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span><span class="w"> </span><span class="c1"># out-of-source build</span>
+cmake<span class="w"> </span>..<span class="w">                         </span><span class="c1"># find prerequisites</span>
+make<span class="w"> </span>install<span class="w"> </span>-j<span class="w"> </span><span class="m">4</span><span class="w">                </span><span class="c1"># compile on 4 threads</span>
+<span class="c1"># Optional Python packages used in tutorials. Virtual environment recommended:</span>
+<span class="c1"># https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments</span>
+pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>matplotlib<span class="w"> </span>pandas<span class="w"> </span>scipy<span class="w"> </span>../pyfeasst<span class="w"> </span><span class="c1"># ../ ensures pyfeasst matches feasst</span>
+<span class="c1"># Because online documentation changes with verison, open local version documentation.</span>
+open<span class="w"> </span>../html/index.html
 </pre></div>
 </div>
-<p>FEASST requires a C++14 compiler, CMake and Python3, while git is optional.
-The executables <code class="docutils literal notranslate"><span class="pre">fst</span></code> and <code class="docutils literal notranslate"><span class="pre">rst</span></code> should appear in <code class="docutils literal notranslate"><span class="pre">$HOME/feasst/build/bin/</span></code>.
-Text input files are run using <code class="docutils literal notranslate"><span class="pre">fst</span> <span class="pre">&lt;</span> <span class="pre">input.txt</span></code> and simulations are restarted using <code class="docutils literal notranslate"><span class="pre">rst</span> <span class="pre">checkpoint.txt</span></code>.
-For pyfeasst, provide pip a path to the specific pyfeasst directory in feasst to ensure the versions match (e.g., do not leave out the “../”).</p>
 </section>
-<section id="basic-simulation-example">
-<h2>Basic simulation example<a class="headerlink" href="#basic-simulation-example" title="Link to this heading"></a></h2>
+<section id="how-to-run-a-simulation">
+<h2>How to run a simulation<a class="headerlink" href="#how-to-run-a-simulation" title="Link to this heading"></a></h2>
+<p>Input a text file to the compiled executable.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst-0.25.11/build/bin/fst<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$HOME</span>/feasst-0.25.11/tutorial/example.txt
+</pre></div>
+</div>
 <p>The following text input file is explained in detail in the first <a class="reference internal" href="tutorial/tutorial.html"><span class="doc">tutorial</span></a>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is a text input file located at $HOME/feasst/tutorial/example.txt.</span>
-<span class="c1"># Comments begin with the # symbol.</span>
-<span class="c1"># Usage: $HOME/feasst/build/bin/fst &lt; $HOME/feasst/tutorial/example.txt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Comments begin with the # symbol.</span>
+<span class="c1"># Usage: ./fst &lt; example.txt</span>
 <span class="n">MonteCarlo</span>
 <span class="n">RandomMT19937</span> <span class="n">seed</span> <span class="mi">1572362164</span>
 <span class="n">Configuration</span> <span class="n">cubic_side_length</span> <span class="mf">55.0321208149104</span> <span class="n">particle_type0</span> <span class="o">/</span><span class="n">feasst</span><span class="o">/</span><span class="n">particle</span><span class="o">/</span><span class="n">lj</span><span class="o">.</span><span class="n">fstprt</span>
-<span class="n">Potential</span> <span class="n">Model</span> <span class="n">LennardJones</span> <span class="n">VisitModel</span> <span class="n">VisitModelCell</span> <span class="n">min_length</span> <span class="n">max_cutoff</span>
+<span class="n">Potential</span> <span class="n">Model</span> <span class="n">LennardJones</span> <span class="n">VisitModel</span> <span class="n">VisitModelCell</span>
 <span class="n">Potential</span> <span class="n">VisitModel</span> <span class="n">LongRangeCorrections</span>
 <span class="n">ThermoParams</span> <span class="n">beta</span> <span class="mf">1.111111111111111</span> <span class="n">chemical_potential0</span> <span class="o">-</span><span class="mi">1</span>
 <span class="n">Metropolis</span>
 <span class="n">TrialTranslate</span> <span class="n">weight</span> <span class="mi">1</span> <span class="n">tunable_param</span> <span class="mi">2</span>
 <span class="n">Tune</span>
-<span class="n">CheckEnergy</span> <span class="n">trials_per_update</span> <span class="mf">1e4</span> <span class="n">tolerance</span> <span class="mf">1e-8</span>
+<span class="n">CheckEnergy</span> <span class="n">trials_per_update</span> <span class="mf">1e4</span> <span class="n">decimal_places</span> <span class="mi">8</span>
 <span class="n">TrialAdd</span> <span class="n">weight</span> <span class="mi">2</span> <span class="n">particle_type</span> <span class="mi">0</span>
 <span class="n">Run</span> <span class="n">until_num_particles</span> <span class="mi">500</span>
-<span class="n">RemoveTrial</span> <span class="n">name</span> <span class="n">TrialAdd</span>
+<span class="n">Remove</span> <span class="n">name</span> <span class="n">TrialAdd</span>
 <span class="n">Run</span> <span class="n">num_trials</span> <span class="mf">1e5</span>
-<span class="n">RemoveModify</span> <span class="n">name</span> <span class="n">Tune</span>
-<span class="n">Log</span> <span class="n">trials_per_write</span> <span class="mf">1e4</span> <span class="n">output_file</span> <span class="n">lj</span><span class="o">.</span><span class="n">csv</span>
+<span class="n">Remove</span> <span class="n">name</span> <span class="n">Tune</span>
+<span class="n">Log</span>    <span class="n">trials_per_write</span> <span class="mf">1e4</span> <span class="n">output_file</span> <span class="n">lj</span><span class="o">.</span><span class="n">csv</span>
 <span class="n">Energy</span> <span class="n">trials_per_write</span> <span class="mf">1e4</span> <span class="n">output_file</span> <span class="n">lj_en</span><span class="o">.</span><span class="n">csv</span>
-<span class="n">Movie</span> <span class="n">trials_per_write</span> <span class="mf">1e4</span> <span class="n">output_file</span> <span class="n">lj</span><span class="o">.</span><span class="n">xyz</span>
-<span class="n">Metropolis</span> <span class="n">num_trials_per_iteration</span> <span class="mf">1e4</span> <span class="n">num_iterations_to_complete</span> <span class="mf">1e2</span>
-<span class="n">Run</span> <span class="n">until_criteria_complete</span> <span class="n">true</span>
+<span class="n">Movie</span>  <span class="n">trials_per_write</span> <span class="mf">1e4</span> <span class="n">output_file</span> <span class="n">lj</span><span class="o">.</span><span class="n">xyz</span>
+<span class="n">Metropolis</span> <span class="n">trials_per_cycle</span> <span class="mf">1e4</span> <span class="n">cycles_to_complete</span> <span class="mf">1e2</span>
+<span class="n">Run</span> <span class="n">until</span> <span class="n">complete</span>
 </pre></div>
 </div>
 </section>
-<section id="how-to-get-started">
-<h2>How to get started<a class="headerlink" href="#how-to-get-started" title="Link to this heading"></a></h2>
+<section id="how-to-learn-more">
+<h2>How to learn more<a class="headerlink" href="#how-to-learn-more" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>Complete the <a class="reference internal" href="tutorial/tutorial.html"><span class="doc">first</span></a> and <a class="reference internal" href="tutorial/launch.html"><span class="doc">second tutorial</span></a>.</p>
+<li><p>Review the <a class="reference internal" href="tutorial/tutorial.html"><span class="doc">first</span></a> and <a class="reference internal" href="tutorial/launch.html"><span class="doc">second tutorial</span></a>.</p>
 <ul>
 <li><p>Copy/paste or use the URL to find the code (e.g., <a class="reference external" href="https://pages.nist.gov/feasst/tutorial/launch.html">https://pages.nist.gov/feasst/tutorial/launch.html</a> is <code class="docutils literal notranslate"><span class="pre">$HOME/feasst/tutorial/launch.py</span></code>).</p></li>
 <li><p>See <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">launch.py</span> <span class="pre">--help</span></code> (e.g., adjust <code class="docutils literal notranslate"><span class="pre">--feasst_install</span></code> or <code class="docutils literal notranslate"><span class="pre">--hours_terminate</span></code>).</p></li>
@@ -291,82 +261,59 @@ For pyfeasst, provide pip a path to the specific pyfeasst directory in feasst to
 </li>
 <li><p>Find <a class="reference internal" href="tutorial/README.html"><span class="doc">Tutorials</span></a> that are closest to what you would like to accomplish.</p></li>
 <li><p>Reproduce the expected result of those <a class="reference internal" href="tutorial/README.html"><span class="doc">Tutorials</span></a>.</p></li>
-<li><p>To modify the tutorial to accomplish your goals, refer to the <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> documentation.</p></li>
-<li><p>Compare the energy of a <a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_0_ref_configs.html"><span class="doc">reference configuration</span></a> with a trusted source.</p></li>
+<li><p>To modify <a class="reference internal" href="tutorial/README.html"><span class="doc">Tutorials</span></a> to accomplish your goals, refer to the <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> documentation.</p></li>
+<li><p>Compare the energy of a <a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_0_ref_configs.html"><span class="doc">reference configuration</span></a> with a trusted source to ensure the model, <a class="reference internal" href="particle/README.html"><span class="doc">Particle files and units</span></a> return an expected result.</p></li>
+<li><p><a class="reference internal" href="CONTACT.html"><span class="doc">Contact</span></a> us.</p></li>
 </ul>
+</section>
 <section id="troubleshooting-install">
-<h3>Troubleshooting install<a class="headerlink" href="#troubleshooting-install" title="Link to this heading"></a></h3>
+<h2>Troubleshooting install<a class="headerlink" href="#troubleshooting-install" title="Link to this heading"></a></h2>
 <p>Please <a class="reference internal" href="CONTACT.html"><span class="doc">Contact</span></a> us if you run into an issue not listed below.</p>
 <section id="ubuntu-18-20-22-24-and-rocky-8-and-9">
-<h4>Ubuntu 18, 20, 22, 24 and Rocky 8 and 9<a class="headerlink" href="#ubuntu-18-20-22-24-and-rocky-8-and-9" title="Link to this heading"></a></h4>
+<h3>Ubuntu 18, 20, 22, 24 and Rocky 8 and 9<a class="headerlink" href="#ubuntu-18-20-22-24-and-rocky-8-and-9" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>We are not aware of any install issues with these OS.</p></li>
 </ul>
 </section>
 <section id="ubuntu-16">
-<h4>Ubuntu 16<a class="headerlink" href="#ubuntu-16" title="Link to this heading"></a></h4>
+<h3>Ubuntu 16<a class="headerlink" href="#ubuntu-16" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Update to CMake 3 (<a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a>)</p></li>
 </ul>
 </section>
 <section id="centos-7">
-<h4>CentOS 7<a class="headerlink" href="#centos-7" title="Link to this heading"></a></h4>
+<h3>CentOS 7<a class="headerlink" href="#centos-7" title="Link to this heading"></a></h3>
 <p>CMake version is usually too old.
 Try the command cmake3 instead of cmake.</p>
 </section>
 <section id="cray-nersc-cori">
-<h4>Cray (NERSC CORI)<a class="headerlink" href="#cray-nersc-cori" title="Link to this heading"></a></h4>
+<h3>Cray (NERSC CORI)<a class="headerlink" href="#cray-nersc-cori" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>OpenMP functions may not work unless the cray programming environment is disabled.</p></li>
 </ul>
 </section>
 <section id="macos-mojave">
-<h4>macOS Mojave<a class="headerlink" href="#macos-mojave" title="Link to this heading"></a></h4>
+<h3>macOS Mojave<a class="headerlink" href="#macos-mojave" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>for omp, try brew install libomp</p></li>
 </ul>
 </section>
 <section id="windows-10">
-<h4>Windows 10<a class="headerlink" href="#windows-10" title="Link to this heading"></a></h4>
+<h3>Windows 10<a class="headerlink" href="#windows-10" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Install Windows subsystem for Linux (Ubuntu 16)</p></li>
 <li><p>See Ubuntu 16</p></li>
 </ul>
-</section>
-</section>
-</section>
-<section id="documentation-for-a-specific-version-of-feasst">
-<h2>Documentation for a specific version of FEASST<a class="headerlink" href="#documentation-for-a-specific-version-of-feasst" title="Link to this heading"></a></h2>
-<p>You can access the documentation of a specific version of FEASST as follows.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/usnistgov/feasst.git
-<span class="nb">cd</span><span class="w"> </span>feasst
-git<span class="w"> </span>checkout<span class="w"> </span>nist-pages
-git<span class="w"> </span>log
-<span class="c1"># find the commit of your version from git log</span>
-<span class="c1"># (e.g., 0.19.0 is a50b4fe943832f012373f23658a9497990d70d21)</span>
-git<span class="w"> </span>checkout<span class="w"> </span>a50b4fe943832f012373f23658a9497990d70d21
-google-chrome<span class="w"> </span>index.html
-</pre></div>
-</div>
-</section>
 <section id="contact">
-<h2>Contact<a class="headerlink" href="#contact" title="Link to this heading"></a></h2>
+<h4>Contact<a class="headerlink" href="#contact" title="Link to this heading"></a></h4>
+<p>Messages about FEASST are preferred in <a class="reference external" href="https://github.com/usnistgov/feasst/discussions">GitHub discussion</a>, <a class="reference external" href="https://github.com/usnistgov/feasst/issues">GitHub issues</a> or <a class="reference external" href="https://list.nist.gov/feasst">Google group</a>, if possible, so that all users can see the questions and answers.</p>
 <section id="project-lead">
-<h3>Project lead<a class="headerlink" href="#project-lead" title="Link to this heading"></a></h3>
+<h5>Project lead<a class="headerlink" href="#project-lead" title="Link to this heading"></a></h5>
 <p>Harold Wickes Hatch</p>
 <p><a class="reference external" href="https://www.nist.gov/people/harold-wickes-hatch">https://www.nist.gov/people/harold-wickes-hatch</a></p>
-<p><a class="reference external" href="mailto:harold&#46;hatch&#37;&#52;&#48;nist&#46;gov">harold<span>&#46;</span>hatch<span>&#64;</span>nist<span>&#46;</span>gov</a></p>
-</section>
-<section id="email-list">
-<h3>Email list<a class="headerlink" href="#email-list" title="Link to this heading"></a></h3>
-<p><a class="reference external" href="https://list.nist.gov/feasst">https://list.nist.gov/feasst</a></p>
-</section>
-<section id="issue-tracker">
-<h3>Issue tracker<a class="headerlink" href="#issue-tracker" title="Link to this heading"></a></h3>
-<p><a class="reference external" href="https://github.com/usnistgov/feasst/issues">https://github.com/usnistgov/feasst/issues</a></p>
 </section>
 <section id="bug-reporting">
-<h3>Bug reporting<a class="headerlink" href="#bug-reporting" title="Link to this heading"></a></h3>
+<h5>Bug reporting<a class="headerlink" href="#bug-reporting" title="Link to this heading"></a></h5>
 <p>Any and all bug reports are greatly appreciated in order to improve FEASST.</p>
 <p>The following checklist is recommended to improve reproducibility so that I can get back to you more quickly.</p>
 <ul class="simple">
@@ -376,6 +323,8 @@ google-chrome<span class="w"> </span>index.html
 <li><p>Provide the user code (e.g., input text file, C++ with int main() or .py file).</p></li>
 <li><p>For installation errors, include the output of the “cmake ..” command on an empty build directory.</p></li>
 </ul>
+</section>
+</section>
 </section>
 </section>
 <section id="disclaimer">

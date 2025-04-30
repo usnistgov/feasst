@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LennardJonesAlpha &mdash; FEASST 0.25.10 0.25.10 documentation</title>
+  <title>LennardJonesAlpha &mdash; FEASST 0.25.11 0.25.11 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,12 +15,13 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=759965ef"></script>
+      <script src="../../../_static/documentation_options.js?v=d1e1e1f6"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
       <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-      <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
+      <script src="../../../_static/leave_notice.js?v=3dcabf29"></script>
+      <script src="../../../_static/redirect_alert.js?v=e1b45f61"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -52,11 +53,11 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.10
+            FEASST 0.25.11
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
@@ -137,7 +138,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.10</a>
+          <a href="../../../index.html">FEASST 0.25.11</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -222,7 +223,8 @@
 <p>Thus, <span class="math notranslate nohighlight">\(\sigma_r = \sigma + \Delta_\sigma\)</span> determines the well width and shape of the potential, while <span class="math notranslate nohighlight">\(\sigma\)</span> determines the excluded volume by shifting the potential right or left.</p>
 <p>The Ashbaugh-Hatch model described in <a class="reference external" href="https://dx.doi.org/10.1021/ja802124e">https://dx.doi.org/10.1021/ja802124e</a> is also available with the site-specific “lambda” <a class="reference internal" href="../../configuration/doc/ModelParam_arguments.html#classfeasst_1_1ModelParam"><span class="std std-ref">ModelParam</span></a> in the fstprt file. The lambda parameter decouples the attractive and repulsive portions of the LJ potential to allow for a modified well-depth or a repulsive shoulder, as shown in Fig. 1 of <a class="reference external" href="https://doi.org/10.1039/C7SM01005B">https://doi.org/10.1039/C7SM01005B</a> and also described in <a class="reference external" href="https://dx.doi.org/10.1021/ja802124e">https://dx.doi.org/10.1021/ja802124e</a>.</p>
 <p><span class="math notranslate nohighlight">\( U^\lambda = \left\{ \begin{array}{lr} U_{LJ} + \epsilon(1 - \lambda_{ij}) &amp; r \le r_m \\ \lambda_{ij}U_{LJ} &amp; r &gt; r_m \end{array} \right. \)</span></p>
-<p>where <span class="math notranslate nohighlight">\(r_m = (\sigma + \Delta_\sigma)2^{1/\alpha}-\Delta_\sigma\)</span> is the minimum. The lambda parameter is a site-specific <a class="reference internal" href="../../configuration/doc/ModelParam_arguments.html#classfeasst_1_1ModelParam"><span class="std std-ref">ModelParam</span></a> in the fstprt file, just like epsilon or sigma. <p><p>References: <a class="footnote-reference brackets" href="#footcite-ashbaugh-natively-2008" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+<p>where <span class="math notranslate nohighlight">\(r_m = (\sigma + \Delta_\sigma)2^{1/\alpha}-\Delta_\sigma\)</span> is the minimum. The lambda parameter is a site-specific <a class="reference internal" href="../../configuration/doc/ModelParam_arguments.html#classfeasst_1_1ModelParam"><span class="std std-ref">ModelParam</span></a> in the fstprt file, just like epsilon or sigma.</p>
+<p>See <a class="reference external" href="../tutorial/tutorial_0_ref_configs.html">this tutorial</a> for an example. <p><p>References: <a class="footnote-reference brackets" href="#footcite-ashbaugh-natively-2008" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
 <div class="docutils container" id="id2">
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="footcite-ashbaugh-natively-2008" role="doc-footnote">

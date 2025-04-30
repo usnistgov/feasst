@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fstio &mdash; FEASST 0.25.10 0.25.10 documentation</title>
+  <title>fstio &mdash; FEASST 0.25.11 0.25.11 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -14,12 +14,13 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=759965ef"></script>
+      <script src="../_static/documentation_options.js?v=d1e1e1f6"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
       <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-      <script src="../_static/leave_notice.js?v=db0899f3"></script>
+      <script src="../_static/leave_notice.js?v=3dcabf29"></script>
+      <script src="../_static/redirect_alert.js?v=e1b45f61"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -47,11 +48,11 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            FEASST 0.25.10
+            FEASST 0.25.11
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../README.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README_html.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../particle/README.html">Particle files and units</a></li>
@@ -71,7 +72,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">FEASST 0.25.10</a>
+          <a href="../index.html">FEASST 0.25.11</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -542,6 +543,49 @@
 <span class="c1">#            attempts += 1</span>
 <span class="c1">#            assert attempts &lt; max_attempts, &quot;Could not connect to port.&quot;</span>
 <span class="c1">#    return sock</span>
+
+<div class="viewcode-block" id="num_sites_in_fstprt">
+<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.num_sites_in_fstprt">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">num_sites_in_fstprt</span><span class="p">(</span><span class="n">fstprt_file</span><span class="p">,</span> <span class="n">feasst_install</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the integer number of sites in a fstprt file</span>
+
+<span class="sd">    :param str fstprt_file:</span>
+<span class="sd">        The name of the fstprt file which describes a particle.</span>
+<span class="sd">    :param str feasst_install:</span>
+<span class="sd">        An option to provide the path to the feasst build directory in order to convert a</span>
+<span class="sd">        fstprt_file which begins with the characters &#39;/feasst&#39; to the feasst directory.</span>
+
+<span class="sd">    &gt;&gt;&gt; from pyfeasst import fstio</span>
+<span class="sd">    &gt;&gt;&gt; fstio.num_sites_in_fstprt(&#39;../../../particle/lj.fstprt&#39;)</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; fstio.num_sites_in_fstprt(&#39;../../../particle/n-butane.fstprt&#39;)</span>
+<span class="sd">    4</span>
+<span class="sd">    &gt;&gt;&gt; fstio.num_sites_in_fstprt(&#39;/feasst/particle/n-butane.fstprt&#39;, &#39;../../../build/&#39;)</span>
+<span class="sd">    4</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">fstprt_file</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;/feasst&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">feasst_install</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;feasst_install:&#39;</span><span class="p">,</span> <span class="n">feasst_install</span><span class="p">,</span> <span class="s1">&#39;should be used given as the path to the&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;feasst build directory in order to convert /feasst in the fstprt_file&#39;</span><span class="p">)</span>
+        <span class="n">fstprt_file</span> <span class="o">=</span> <span class="n">feasst_install</span> <span class="o">+</span> <span class="s1">&#39;..&#39;</span> <span class="o">+</span> <span class="n">fstprt_file</span><span class="p">[</span><span class="mi">7</span><span class="p">:]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">feasst_install</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;feasst_install:&#39;</span><span class="p">,</span> <span class="n">feasst_install</span><span class="p">,</span> <span class="s1">&#39;should only be used if the fstprt_file&#39;</span><span class="p">,</span>
+                  <span class="n">fstprt_file</span><span class="p">,</span> <span class="s1">&#39;beings with /feasst&#39;</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="kc">False</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fstprt_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="c1">#print(&#39;line&#39;, line)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="c1">#print(&#39;values&#39;, values)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;sites&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;reached the end of file without finding number of sites&#39;</span><span class="p">,</span> <span class="n">fstprt_file</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="kc">False</span></div>
+
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">doctest</span>

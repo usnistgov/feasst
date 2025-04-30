@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST 0.25.10 0.25.10 documentation</title>
+  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST 0.25.11 0.25.11 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -16,12 +16,13 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=759965ef"></script>
+      <script src="../../../_static/documentation_options.js?v=d1e1e1f6"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
       <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-      <script src="../../../_static/leave_notice.js?v=db0899f3"></script>
+      <script src="../../../_static/leave_notice.js?v=3dcabf29"></script>
+      <script src="../../../_static/redirect_alert.js?v=e1b45f61"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -53,16 +54,19 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.10
+            FEASST 0.25.11
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../README.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README_html.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../../tutorial/README.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial/tutorial.html">Lennard Jones in the canonical ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial/launch.html">HPC/SLURM script with checkpointed restarts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/tutorial/tutorial_0_ref_configs.html">Lennard Jones potential test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/tutorial/tutorial_1_lj_npt.html">Isothermal-Isobaric (NPT) ensemble simulation of Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/tutorial/tutorial_2_lj_multimc.html">Multiple Monte Carlo simulations in a single script</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/tutorial/tutorial_3_modify_restart.html">Modify a checkpoint file during restarting to run longer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/tutorial/tutorial_4_lj_triclinic_celllist.html">OptPotential with cell lists in a triclinic unit cell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/tutorial/tutorial_0_spce_ref_config.html">Reference configuration of SPC/E water in non-cuboid domain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../charge/tutorial/tutorial_1_spce_nvt.html">Average energy of a bulk SPC/E fluid in the canonical ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/tutorial/tutorial_0_ref_configs.html">Lennard Jones Alpha potential test</a></li>
@@ -142,7 +146,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.10</a>
+          <a href="../../../index.html">FEASST 0.25.11</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -211,9 +215,10 @@
              
   <section id="Grand-canonical-ensemble-transition-matrix-Monte-Carlo">
 <h1>Grand canonical ensemble transition-matrix Monte Carlo<a class="headerlink" href="#Grand-canonical-ensemble-transition-matrix-Monte-Carlo" title="Link to this heading"></a></h1>
-<p>In this example, flat histogram methods are employed for a small macrostate range from 0 to 5 particles. To begin, the system is initialized with the minimum number of particles by setting Metropolis acceptance criteria with favorable conditions for adding particles. The Metropolis criteria are then replaced with the flat histogram criteria. At this point, typical analysis from the previous tutorials are added. In addition, we also add checkpoint files, criteria status, and average energy of a
-given macrostate. Finally, the simulation is run until the requested number of cycles of the flat histogram algorithm are complete.</p>
-<p>A small macrostate range allows the simulation to run quickly with good sampling, and thus it is an ideal starting point to test the simulations. To begin, read the previous SRSW values from file for comparison.</p>
+<p>In this example, <a class="reference internal" href="../doc/FlatHistogram_arguments.html"><span class="doc">FlatHistogram</span></a> methods are employed for a small <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostate</span></a> range from 0 to 5 particles. To begin, the system is initialized with the minimum number of particles by setting <a class="reference internal" href="../../monte_carlo/doc/Metropolis_arguments.html"><span class="doc">Metropolis</span></a> acceptance <a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html"><span class="doc">Criteria</span></a> with favorable conditions for adding particles. The
+<a class="reference internal" href="../../monte_carlo/doc/Metropolis_arguments.html"><span class="doc">Metropolis</span></a> criteria are then replaced with <a class="reference internal" href="../doc/FlatHistogram_arguments.html"><span class="doc">FlatHistogram</span></a>. Typical analysis from the previous tutorials are added, and we add <a class="reference internal" href="../../utils/doc/Checkpoint_arguments.html"><span class="doc">Checkpoint</span></a> files, <a class="reference internal" href="../../steppers/doc/CriteriaUpdater_arguments.html"><span class="doc">CriteriaUpdater</span></a>, <a class="reference internal" href="../../steppers/doc/CriteriaWriter_arguments.html"><span class="doc">CriteriaWriter</span></a>, and average
+<a class="reference internal" href="../../steppers/doc/Energy_arguments.html"><span class="doc">Energy</span></a> of a given <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostate</span></a>. Finally, the simulation is run until the requested convergence criteria for the <a class="reference internal" href="../doc/FlatHistogram_arguments.html"><span class="doc">FlatHistogram</span></a> algorithm are <a class="reference internal" href="../../monte_carlo/doc/Run_arguments.html"><span class="doc">complete</span></a>.</p>
+<p>A small <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostate</span></a> range allows the simulation to run quickly with ample sampling, and thus it is an ideal starting point to test the simulations. To begin, read the previous <a class="reference external" href="https://www.nist.gov/programs-projects/nist-standard-reference-simulation-website">NIST SRSW</a> values <a class="reference external" href="https://mmlapps.nist.gov/srs/LJ_PURE/eostmmc.htm">for LJ</a> from file for comparison.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -319,7 +324,7 @@ given macrostate. Finally, the simulation is run until the requested number of c
 </table>
 </div></div>
 </div>
-<p>Run a short flat-histogram simulation to compare with these values</p>
+<p>Run a short <a class="reference internal" href="../doc/FlatHistogram_arguments.html"><span class="doc">FlatHistogram</span></a> simulation to compare with these <a class="reference external" href="https://mmlapps.nist.gov/srs/LJ_PURE/eostmmc.htm">NIST SRSW</a> values.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -360,9 +365,9 @@ given macrostate. Finally, the simulation is run until the requested number of c
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 # Usage: ./fst &lt; file.txt
-FEASST version 0.25.6
+FEASST version 0.25.11
 MonteCarlo
-Configuration cubic_side_length 8 particle_type0 /home/user/feasst/particle/lj.fstprt
+Configuration cubic_side_length 8 particle_type0 /home/hwh/feasst/particle/lj.fstprt
 Potential Model LennardJones
 Potential VisitModel LongRangeCorrections
 ThermoParams beta 0.6666666666666666 chemical_potential0 -2.352321
@@ -378,7 +383,7 @@ CriteriaWriter output_file lj_fh.txt trials_per_write 1e5
 Energy multistate true output_file lj_en.txt trials_per_update 1 trials_per_write 1e5
 Checkpoint checkpoint_file checkpoint.fst num_hours 0.0001
 Run until complete
-# initializing random number generator with seed: 1734453337
+# initializing random number generator with seed: 1744120344
 
  exit: 0
 </pre></div></div>
@@ -398,8 +403,8 @@ Run until complete
 <span class="nb">print</span><span class="p">(</span><span class="n">fh2</span><span class="p">[[</span><span class="s1">&#39;delta_ln_prob&#39;</span><span class="p">,</span> <span class="s1">&#39;delta_ln_prob_stdev&#39;</span><span class="p">]])</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="n">en</span><span class="p">[[</span><span class="s1">&#39;average&#39;</span><span class="p">,</span> <span class="s1">&#39;block_stdev&#39;</span><span class="p">]])</span>
 <span class="k">for</span> <span class="n">macro</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">fh2</span><span class="p">)):</span>
-    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fh</span><span class="p">[</span><span class="s2">&quot;delta_ln_prob&quot;</span><span class="p">][</span><span class="n">macro</span><span class="p">]</span> <span class="o">-</span> <span class="n">fh2</span><span class="p">[</span><span class="s2">&quot;delta_ln_prob&quot;</span><span class="p">][</span><span class="n">macro</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">*</span><span class="n">fh2</span><span class="p">[</span><span class="s2">&quot;delta_ln_prob_stdev&quot;</span><span class="p">][</span><span class="n">macro</span><span class="p">]</span>
-    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fh</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">][</span><span class="n">macro</span><span class="p">]</span> <span class="o">-</span> <span class="n">en</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">][</span><span class="n">macro</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">fh</span><span class="p">[</span><span class="s2">&quot;energystd&quot;</span><span class="p">][</span><span class="n">macro</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">en</span><span class="p">[</span><span class="s1">&#39;block_stdev&#39;</span><span class="p">][</span><span class="n">macro</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fh</span><span class="p">[</span><span class="s2">&quot;delta_ln_prob&quot;</span><span class="p">][</span><span class="n">macro</span><span class="p">]</span> <span class="o">-</span> <span class="n">fh2</span><span class="p">[</span><span class="s2">&quot;delta_ln_prob&quot;</span><span class="p">][</span><span class="n">macro</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="o">*</span><span class="n">fh2</span><span class="p">[</span><span class="s2">&quot;delta_ln_prob_stdev&quot;</span><span class="p">][</span><span class="n">macro</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fh</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">][</span><span class="n">macro</span><span class="p">]</span> <span class="o">-</span> <span class="n">en</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">][</span><span class="n">macro</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="n">fh</span><span class="p">[</span><span class="s2">&quot;energystd&quot;</span><span class="p">][</span><span class="n">macro</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">en</span><span class="p">[</span><span class="s1">&#39;block_stdev&#39;</span><span class="p">][</span><span class="n">macro</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -410,23 +415,24 @@ Run until complete
 <div class="highlight"><pre>
    delta_ln_prob  delta_ln_prob_stdev
 0            NaN             0.000000
-1        4.67327             0.001854
-2        3.98474             0.001643
-3        3.58667             0.001978
-4        3.31051             0.002104
-5        3.10046             0.001927
+1        4.67080             0.001936
+2        3.98881             0.001782
+3        3.59203             0.001857
+4        3.31280             0.001779
+5        3.09921             0.002264
 energy         average   block_stdev
-0  3.088249e-16  2.760036e-16
-1 -6.057400e-04  7.702391e-10
-2 -3.084554e-02  2.598340e-04
-3 -8.976461e-02  4.648479e-04
-4 -1.784771e-01  7.394942e-04
-5 -2.983848e-01  1.408980e-03
+0  7.401831e-17  3.657879e-16
+1 -6.057400e-04  7.702370e-10
+2 -3.077346e-02  1.917334e-04
+3 -8.983129e-02  5.428819e-04
+4 -1.793143e-01  6.927072e-04
+5 -2.975640e-01  1.246197e-03
 </pre></div></div>
 </div>
-<p>A number of files should also have been created. If the flat histogram method is sampling perfectly, the simulation performs a random walk along the macrostate. For larger ranges of macrostates, or for more difficult sampling cases, monitoring the macrostate can help you determine what conditions are preventing convergence. For example, a plot of the macrostate as a function of the number of attempts may look like the following:</p>
+<p>A number of files should also have been created. If the <a class="reference internal" href="../doc/FlatHistogram_arguments.html"><span class="doc">FlatHistogram</span></a> method is sampling perfectly, the simulation performs a random walk along the <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostate</span></a>. For larger ranges of <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostates</span></a>, or for more difficult sampling cases, monitoring the <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostate</span></a> can help you
+determine what conditions are preventing convergence. For example, the <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostate</span></a> as a function of the number of attempts may look like the following:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;lj.txt&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
@@ -434,7 +440,7 @@ energy         average   block_stdev
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -480,938 +486,201 @@ energy         average   block_stdev
       <td>5</td>
       <td>0.666667</td>
       <td>5</td>
-      <td>-8.727640e-02</td>
-      <td>-7.213290e-02</td>
-      <td>-1.514350e-02</td>
+      <td>-0.0358926</td>
+      <td>-0.0207491</td>
+      <td>-0.0151435</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>100000</td>
-      <td>0.924077</td>
-      <td>2.8307</td>
-      <td>0.043735</td>
-      <td>0.043833</td>
+      <td>0.927692</td>
+      <td>2.86117</td>
+      <td>0.0434881</td>
+      <td>0.0431646</td>
     </tr>
     <tr>
       <th>1</th>
       <td>512</td>
-      <td>5</td>
+      <td>2</td>
       <td>0.666667</td>
-      <td>5</td>
-      <td>-6.660980e-01</td>
-      <td>-6.509540e-01</td>
-      <td>-1.514350e-02</td>
+      <td>2</td>
+      <td>-0.00242296</td>
+      <td>1.33227e-15</td>
+      <td>-0.00242296</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>200000</td>
-      <td>0.938036</td>
-      <td>2.8307</td>
-      <td>0.381398</td>
-      <td>0.409809</td>
+      <td>0.945359</td>
+      <td>2.86117</td>
+      <td>0.374312</td>
+      <td>0.397731</td>
     </tr>
     <tr>
       <th>2</th>
       <td>512</td>
-      <td>3</td>
+      <td>2</td>
       <td>0.666667</td>
-      <td>3</td>
-      <td>-5.451660e-03</td>
-      <td>1.998400e-15</td>
-      <td>-5.451660e-03</td>
+      <td>2</td>
+      <td>-0.00242296</td>
+      <td>-1.94636e-15</td>
+      <td>-0.00242296</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>300000</td>
-      <td>0.944572</td>
-      <td>2.8307</td>
-      <td>0.523987</td>
-      <td>0.583411</td>
+      <td>0.950461</td>
+      <td>2.86117</td>
+      <td>0.519903</td>
+      <td>0.574258</td>
     </tr>
     <tr>
       <th>3</th>
       <td>512</td>
-      <td>5</td>
+      <td>4</td>
       <td>0.666667</td>
-      <td>5</td>
-      <td>-1.531790e-01</td>
-      <td>-1.380350e-01</td>
-      <td>-1.514350e-02</td>
+      <td>4</td>
+      <td>-0.627471</td>
+      <td>-0.617779</td>
+      <td>-0.00969184</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>400000</td>
-      <td>0.948249</td>
-      <td>2.8307</td>
-      <td>0.595659</td>
-      <td>0.675027</td>
+      <td>0.952717</td>
+      <td>2.86117</td>
+      <td>0.593767</td>
+      <td>0.668579</td>
     </tr>
     <tr>
       <th>4</th>
       <td>512</td>
-      <td>2</td>
+      <td>5</td>
       <td>0.666667</td>
-      <td>2</td>
-      <td>-2.422960e-03</td>
-      <td>4.718450e-16</td>
-      <td>-2.422960e-03</td>
+      <td>5</td>
+      <td>-0.0409858</td>
+      <td>-0.0258423</td>
+      <td>-0.0151435</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>500000</td>
-      <td>0.950444</td>
-      <td>2.8307</td>
-      <td>0.638244</td>
-      <td>0.731855</td>
+      <td>0.954323</td>
+      <td>2.86117</td>
+      <td>0.637489</td>
+      <td>0.726514</td>
     </tr>
     <tr>
-      <th>5</th>
-      <td>512</td>
-      <td>5</td>
-      <td>0.666667</td>
-      <td>5</td>
-      <td>-3.239200e-02</td>
-      <td>-1.724850e-02</td>
-      <td>-1.514350e-02</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>600000</td>
-      <td>0.952298</td>
-      <td>2.8307</td>
-      <td>0.667888</td>
-      <td>0.771003</td>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
-      <th>6</th>
-      <td>512</td>
-      <td>0</td>
-      <td>0.666667</td>
-      <td>0</td>
-      <td>1.253450e-15</td>
-      <td>-2.688820e-15</td>
-      <td>-1.626300e-18</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>700000</td>
-      <td>0.953237</td>
-      <td>2.8307</td>
-      <td>0.688676</td>
-      <td>0.798975</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>512</td>
-      <td>2</td>
-      <td>0.666667</td>
-      <td>2</td>
-      <td>-2.422960e-03</td>
-      <td>3.219650e-15</td>
-      <td>-2.422960e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>800000</td>
-      <td>0.953807</td>
-      <td>2.8307</td>
-      <td>0.704320</td>
-      <td>0.820270</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>512</td>
-      <td>0</td>
-      <td>0.666667</td>
-      <td>0</td>
-      <td>-7.241390e-16</td>
-      <td>-2.220450e-16</td>
-      <td>-1.626300e-18</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>900000</td>
-      <td>0.954429</td>
-      <td>2.8307</td>
-      <td>0.716680</td>
-      <td>0.837076</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>512</td>
-      <td>3</td>
-      <td>0.666667</td>
-      <td>3</td>
-      <td>-1.120650e-02</td>
-      <td>-5.754840e-03</td>
-      <td>-5.451660e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1000000</td>
-      <td>0.954842</td>
-      <td>2.8307</td>
-      <td>0.725920</td>
-      <td>0.850215</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>512</td>
-      <td>4</td>
-      <td>0.666667</td>
-      <td>4</td>
-      <td>-9.691840e-03</td>
-      <td>2.886580e-15</td>
-      <td>-9.691840e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1100000</td>
-      <td>0.955024</td>
-      <td>2.8307</td>
-      <td>0.733467</td>
-      <td>0.860974</td>
-    </tr>
-    <tr>
-      <th>11</th>
+      <th>100</th>
       <td>512</td>
       <td>1</td>
       <td>0.666667</td>
       <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>-2.334940e-15</td>
-      <td>-6.057400e-04</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1200000</td>
-      <td>0.955466</td>
-      <td>2.8307</td>
-      <td>0.739520</td>
-      <td>0.869937</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>512</td>
-      <td>5</td>
-      <td>0.666667</td>
-      <td>5</td>
-      <td>-8.527380e-02</td>
-      <td>-7.013030e-02</td>
-      <td>-1.514350e-02</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1300000</td>
-      <td>0.955814</td>
-      <td>2.8307</td>
-      <td>0.745075</td>
-      <td>0.877721</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>512</td>
-      <td>2</td>
-      <td>0.666667</td>
-      <td>2</td>
-      <td>-9.756310e-03</td>
-      <td>-7.333350e-03</td>
-      <td>-2.422960e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1400000</td>
-      <td>0.956228</td>
-      <td>2.8307</td>
-      <td>0.749894</td>
-      <td>0.884502</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>512</td>
-      <td>3</td>
-      <td>0.666667</td>
-      <td>3</td>
-      <td>-5.662650e-02</td>
-      <td>-5.117490e-02</td>
-      <td>-5.451660e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1500000</td>
-      <td>0.956297</td>
-      <td>2.8307</td>
-      <td>0.754505</td>
-      <td>0.890294</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>512</td>
-      <td>4</td>
-      <td>0.666667</td>
-      <td>4</td>
-      <td>-3.814060e-02</td>
-      <td>-2.844880e-02</td>
-      <td>-9.691840e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1600000</td>
-      <td>0.956405</td>
-      <td>2.8307</td>
-      <td>0.758184</td>
-      <td>0.895346</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>512</td>
-      <td>2</td>
-      <td>0.666667</td>
-      <td>2</td>
-      <td>-2.422960e-03</td>
-      <td>7.389920e-16</td>
-      <td>-2.422960e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1700000</td>
-      <td>0.956616</td>
-      <td>2.8307</td>
-      <td>0.761639</td>
-      <td>0.899923</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>512</td>
-      <td>4</td>
-      <td>0.666667</td>
-      <td>4</td>
-      <td>-1.019770e-01</td>
-      <td>-9.228510e-02</td>
-      <td>-9.691840e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1800000</td>
-      <td>0.956707</td>
-      <td>2.8307</td>
-      <td>0.764923</td>
-      <td>0.904027</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>512</td>
-      <td>5</td>
-      <td>0.666667</td>
-      <td>5</td>
-      <td>-3.698630e-01</td>
-      <td>-3.547200e-01</td>
-      <td>-1.514350e-02</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1900000</td>
-      <td>0.956772</td>
-      <td>2.8307</td>
-      <td>0.767428</td>
-      <td>0.907667</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>512</td>
-      <td>3</td>
-      <td>0.666667</td>
-      <td>3</td>
-      <td>-5.451660e-03</td>
-      <td>-6.106230e-16</td>
-      <td>-5.451660e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2000000</td>
-      <td>0.956990</td>
-      <td>2.8307</td>
-      <td>0.769773</td>
-      <td>0.910929</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>512</td>
-      <td>1</td>
-      <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>2.775560e-16</td>
-      <td>-6.057400e-04</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2100000</td>
-      <td>0.957077</td>
-      <td>2.8307</td>
-      <td>0.771947</td>
-      <td>0.913836</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>512</td>
-      <td>2</td>
-      <td>0.666667</td>
-      <td>2</td>
-      <td>-2.422960e-03</td>
-      <td>9.835880e-16</td>
-      <td>-2.422960e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2200000</td>
-      <td>0.957141</td>
-      <td>2.8307</td>
-      <td>0.774049</td>
-      <td>0.916467</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>512</td>
-      <td>2</td>
-      <td>0.666667</td>
-      <td>2</td>
-      <td>-2.422960e-03</td>
-      <td>1.873500e-15</td>
-      <td>-2.422960e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2300000</td>
-      <td>0.957214</td>
-      <td>2.8307</td>
-      <td>0.775511</td>
-      <td>0.918833</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>512</td>
-      <td>3</td>
-      <td>0.666667</td>
-      <td>3</td>
-      <td>-3.700370e-02</td>
-      <td>-3.155200e-02</td>
-      <td>-5.451660e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2400000</td>
-      <td>0.957412</td>
-      <td>2.8307</td>
-      <td>0.777015</td>
-      <td>0.921124</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>512</td>
-      <td>1</td>
-      <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>4.551910e-15</td>
-      <td>-6.057400e-04</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2500000</td>
-      <td>0.957494</td>
-      <td>2.8307</td>
-      <td>0.778547</td>
-      <td>0.923205</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>512</td>
-      <td>1</td>
-      <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>-1.627170e-15</td>
-      <td>-6.057400e-04</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2600000</td>
-      <td>0.957551</td>
-      <td>2.8307</td>
-      <td>0.779935</td>
-      <td>0.925131</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>512</td>
-      <td>0</td>
-      <td>0.666667</td>
-      <td>0</td>
-      <td>1.338450e-15</td>
-      <td>2.600350e-15</td>
-      <td>-2.493660e-18</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2700000</td>
-      <td>0.957652</td>
-      <td>2.8307</td>
-      <td>0.781218</td>
-      <td>0.926871</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>512</td>
-      <td>3</td>
-      <td>0.666667</td>
-      <td>3</td>
-      <td>-5.451660e-03</td>
-      <td>-2.584740e-16</td>
-      <td>-5.451660e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2800000</td>
-      <td>0.957703</td>
-      <td>2.8307</td>
-      <td>0.782535</td>
-      <td>0.928536</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>512</td>
-      <td>5</td>
-      <td>0.666667</td>
-      <td>5</td>
-      <td>-2.593190e-02</td>
-      <td>-1.078840e-02</td>
-      <td>-1.514350e-02</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2900000</td>
-      <td>0.957743</td>
-      <td>2.8307</td>
-      <td>0.783582</td>
-      <td>0.930116</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>512</td>
-      <td>2</td>
-      <td>0.666667</td>
-      <td>2</td>
-      <td>-2.422960e-03</td>
-      <td>1.429410e-15</td>
-      <td>-2.422960e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3000000</td>
-      <td>0.957779</td>
-      <td>2.8307</td>
-      <td>0.784585</td>
-      <td>0.931510</td>
-    </tr>
-    <tr>
-      <th>30</th>
-      <td>512</td>
-      <td>4</td>
-      <td>0.666667</td>
-      <td>4</td>
-      <td>-4.505520e-02</td>
-      <td>-3.536330e-02</td>
-      <td>-9.691840e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3100000</td>
-      <td>0.957820</td>
-      <td>2.8307</td>
-      <td>0.785502</td>
-      <td>0.932881</td>
-    </tr>
-    <tr>
-      <th>31</th>
-      <td>512</td>
-      <td>2</td>
-      <td>0.666667</td>
-      <td>2</td>
-      <td>-9.667050e-03</td>
-      <td>-7.244090e-03</td>
-      <td>-2.422960e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3200000</td>
-      <td>0.957943</td>
-      <td>2.8307</td>
-      <td>0.786385</td>
-      <td>0.934185</td>
-    </tr>
-    <tr>
-      <th>32</th>
-      <td>512</td>
-      <td>3</td>
-      <td>0.666667</td>
-      <td>3</td>
-      <td>-1.568780e-02</td>
-      <td>-1.023620e-02</td>
-      <td>-5.451660e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3300000</td>
-      <td>0.958010</td>
-      <td>2.8307</td>
-      <td>0.787228</td>
-      <td>0.935371</td>
-    </tr>
-    <tr>
-      <th>33</th>
-      <td>512</td>
-      <td>0</td>
-      <td>0.666667</td>
-      <td>0</td>
-      <td>-2.267070e-16</td>
-      <td>-6.938890e-16</td>
-      <td>-1.626300e-18</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3400000</td>
-      <td>0.958038</td>
-      <td>2.8307</td>
-      <td>0.787989</td>
-      <td>0.936441</td>
-    </tr>
-    <tr>
-      <th>34</th>
-      <td>512</td>
-      <td>1</td>
-      <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>-3.358420e-15</td>
-      <td>-6.057400e-04</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3500000</td>
-      <td>0.958033</td>
-      <td>2.8307</td>
-      <td>0.788530</td>
-      <td>0.937483</td>
-    </tr>
-    <tr>
-      <th>35</th>
-      <td>512</td>
-      <td>4</td>
-      <td>0.666667</td>
-      <td>4</td>
-      <td>-4.098840e-02</td>
-      <td>-3.129660e-02</td>
-      <td>-9.691840e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3600000</td>
-      <td>0.958076</td>
-      <td>2.8307</td>
-      <td>0.789012</td>
-      <td>0.938482</td>
-    </tr>
-    <tr>
-      <th>36</th>
-      <td>512</td>
-      <td>3</td>
-      <td>0.666667</td>
-      <td>3</td>
-      <td>-8.501100e-02</td>
-      <td>-7.955940e-02</td>
-      <td>-5.451660e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3700000</td>
-      <td>0.958123</td>
-      <td>2.8307</td>
-      <td>0.789606</td>
-      <td>0.939364</td>
-    </tr>
-    <tr>
-      <th>37</th>
-      <td>512</td>
-      <td>5</td>
-      <td>0.666667</td>
-      <td>5</td>
-      <td>-1.837850e-01</td>
-      <td>-1.686410e-01</td>
-      <td>-1.514350e-02</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3800000</td>
-      <td>0.958114</td>
-      <td>2.8307</td>
-      <td>0.790065</td>
-      <td>0.940242</td>
-    </tr>
-    <tr>
-      <th>38</th>
-      <td>512</td>
-      <td>2</td>
-      <td>0.666667</td>
-      <td>2</td>
-      <td>-2.422960e-03</td>
-      <td>-1.998400e-15</td>
-      <td>-2.422960e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3900000</td>
-      <td>0.958114</td>
-      <td>2.8307</td>
-      <td>0.790613</td>
-      <td>0.941117</td>
-    </tr>
-    <tr>
-      <th>39</th>
-      <td>512</td>
-      <td>3</td>
-      <td>0.666667</td>
-      <td>3</td>
-      <td>-2.511760e-02</td>
-      <td>-1.966590e-02</td>
-      <td>-5.451660e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>4000000</td>
-      <td>0.958199</td>
-      <td>2.8307</td>
-      <td>0.791004</td>
-      <td>0.941927</td>
-    </tr>
-    <tr>
-      <th>40</th>
-      <td>512</td>
-      <td>5</td>
-      <td>0.666667</td>
-      <td>5</td>
-      <td>-3.783440e-02</td>
-      <td>-2.269090e-02</td>
-      <td>-1.514350e-02</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>4100000</td>
-      <td>0.958259</td>
-      <td>2.8307</td>
-      <td>0.791509</td>
-      <td>0.942696</td>
-    </tr>
-    <tr>
-      <th>41</th>
-      <td>512</td>
-      <td>1</td>
-      <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>2.664540e-15</td>
-      <td>-6.057400e-04</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>4200000</td>
-      <td>0.958252</td>
-      <td>2.8307</td>
-      <td>0.792036</td>
-      <td>0.943417</td>
-    </tr>
-    <tr>
-      <th>42</th>
-      <td>512</td>
-      <td>5</td>
-      <td>0.666667</td>
-      <td>5</td>
-      <td>-3.251350e-01</td>
-      <td>-3.099920e-01</td>
-      <td>-1.514350e-02</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>4300000</td>
-      <td>0.958328</td>
-      <td>2.8307</td>
-      <td>0.792618</td>
-      <td>0.944160</td>
-    </tr>
-    <tr>
-      <th>43</th>
-      <td>512</td>
-      <td>3</td>
-      <td>0.666667</td>
-      <td>3</td>
-      <td>-2.186770e-02</td>
-      <td>-1.641610e-02</td>
-      <td>-5.451660e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>4400000</td>
-      <td>0.958334</td>
-      <td>2.8307</td>
-      <td>0.792951</td>
-      <td>0.944828</td>
-    </tr>
-    <tr>
-      <th>44</th>
-      <td>512</td>
-      <td>5</td>
-      <td>0.666667</td>
-      <td>5</td>
-      <td>-2.728280e-02</td>
-      <td>-1.213930e-02</td>
-      <td>-1.514350e-02</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>4500000</td>
-      <td>0.958397</td>
-      <td>2.8307</td>
-      <td>0.793361</td>
-      <td>0.945470</td>
-    </tr>
-    <tr>
-      <th>45</th>
-      <td>512</td>
-      <td>0</td>
-      <td>0.666667</td>
-      <td>0</td>
-      <td>-6.226570e-16</td>
-      <td>2.220450e-16</td>
-      <td>-1.626300e-18</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>4600000</td>
-      <td>0.958435</td>
-      <td>2.8307</td>
-      <td>0.793840</td>
-      <td>0.946083</td>
-    </tr>
-    <tr>
-      <th>46</th>
-      <td>512</td>
-      <td>3</td>
-      <td>0.666667</td>
-      <td>3</td>
-      <td>-5.451660e-03</td>
-      <td>4.288240e-15</td>
-      <td>-5.451660e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>4700000</td>
-      <td>0.958476</td>
-      <td>2.8307</td>
-      <td>0.794319</td>
-      <td>0.946665</td>
-    </tr>
-    <tr>
-      <th>47</th>
-      <td>512</td>
-      <td>3</td>
-      <td>0.666667</td>
-      <td>3</td>
-      <td>-2.734430e-02</td>
-      <td>-2.189260e-02</td>
-      <td>-5.451660e-03</td>
+      <td>-0.00060574</td>
+      <td>-5.54765e-15</td>
+      <td>-0.00060574</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>4800000</td>
-      <td>0.958556</td>
-      <td>2.8307</td>
-      <td>0.794731</td>
-      <td>0.947198</td>
+      <td>0.958891</td>
+      <td>2.81568</td>
+      <td>0.787615</td>
+      <td>0.93856</td>
     </tr>
     <tr>
-      <th>48</th>
+      <th>101</th>
       <td>512</td>
-      <td>0</td>
+      <td>2</td>
       <td>0.666667</td>
-      <td>0</td>
-      <td>1.319370e-15</td>
-      <td>5.287440e-15</td>
-      <td>-1.517880e-18</td>
+      <td>2</td>
+      <td>-0.00242296</td>
+      <td>-1.07553e-15</td>
+      <td>-0.00242296</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>4900000</td>
-      <td>0.958586</td>
-      <td>2.8307</td>
-      <td>0.795058</td>
-      <td>0.947702</td>
+      <td>0.958986</td>
+      <td>2.81568</td>
+      <td>0.78809</td>
+      <td>0.939261</td>
     </tr>
     <tr>
-      <th>49</th>
+      <th>102</th>
       <td>512</td>
       <td>4</td>
       <td>0.666667</td>
       <td>4</td>
-      <td>-9.691840e-03</td>
-      <td>-4.052310e-15</td>
-      <td>-9.691840e-03</td>
+      <td>-0.0742168</td>
+      <td>-0.0645249</td>
+      <td>-0.00969184</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>5000000</td>
-      <td>0.958608</td>
-      <td>2.8307</td>
-      <td>0.795381</td>
-      <td>0.948203</td>
+      <td>0.958993</td>
+      <td>2.81568</td>
+      <td>0.788526</td>
+      <td>0.939941</td>
     </tr>
     <tr>
-      <th>50</th>
+      <th>103</th>
       <td>512</td>
-      <td>4</td>
+      <td>3</td>
       <td>0.666667</td>
-      <td>4</td>
-      <td>-3.882760e-02</td>
-      <td>-2.913570e-02</td>
-      <td>-9.691840e-03</td>
+      <td>3</td>
+      <td>-0.112772</td>
+      <td>-0.10732</td>
+      <td>-0.00545166</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>5100000</td>
-      <td>0.958685</td>
-      <td>2.8307</td>
-      <td>0.795777</td>
-      <td>0.948669</td>
+      <td>0.959008</td>
+      <td>2.81568</td>
+      <td>0.788991</td>
+      <td>0.940624</td>
     </tr>
     <tr>
-      <th>51</th>
+      <th>104</th>
       <td>512</td>
-      <td>4</td>
+      <td>3</td>
       <td>0.666667</td>
-      <td>4</td>
-      <td>-3.882760e-02</td>
-      <td>-2.913570e-02</td>
-      <td>-9.691840e-03</td>
+      <td>3</td>
+      <td>-0.112772</td>
+      <td>-0.10732</td>
+      <td>-0.00545166</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>5100000</td>
-      <td>0.958685</td>
-      <td>2.8307</td>
-      <td>0.795777</td>
-      <td>0.948669</td>
+      <td>0.959008</td>
+      <td>2.81568</td>
+      <td>0.788991</td>
+      <td>0.940624</td>
     </tr>
   </tbody>
 </table>
+<p>105 rows × 15 columns</p>
 </div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
