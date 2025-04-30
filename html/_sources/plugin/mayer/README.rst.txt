@@ -2,7 +2,7 @@
 Mayer
 *********
 
-This is a plugin for Mayer-Sampling Monte Carlo.
+This is a plugin for Mayer-sampling Monte Carlo.
 
 .. toctree::
    :maxdepth: 1

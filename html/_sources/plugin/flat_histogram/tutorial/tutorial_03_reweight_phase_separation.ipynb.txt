@@ -6,10 +6,10 @@
    "source": [
     "# Analysis of a two-phase (phase separated) simulation\n",
     "\n",
-    "In this previous example, we analyzed a simulation conducted above the critical temperature.\n",
-    "In this tutorial, we now consider an LJ simulation with potentially two phases at $T^*=1.2$.\n",
+    "In this [previous tutorial](tutorial_02_reweight_supercritical.rst), we analyzed a simulation conducted above the critical temperature.\n",
+    "In this tutorial, we now consider an [LennardJones](../../system/doc/LennardJones_arguments.rst) simulation with two stable phases at $T^*=1.2$.\n",
     "\n",
-    "This tutorial uses data from the SRSW. For an example of running and analyzing a phase separated system, see tutorial 10 in the flat_histogram plugin."
+    "This tutorial uses data from the [NIST SRSW](https://www.nist.gov/programs-projects/nist-standard-reference-simulation-website). For an example of running and analyzing a phase separated system, see [tutorial 10](tutorial_10_wltm_lowt.rst) in the [flat_histogram plugin](../README.rst)."
    ]
   },
   {
@@ -22,9 +22,10 @@
     "import pandas as pd\n",
     "from pyfeasst import macrostate_distribution\n",
     "\n",
-    "srsw = macrostate_distribution.MacrostateDistribution(file_name=\"../test/data/stat120.csv\",\n",
-    "                                        macrostate_header=\"N\",\n",
-    "                                        ln_prob_header=\"lnPI\")\n",
+    "srsw = macrostate_distribution.MacrostateDistribution(\n",
+    "    file_name=\"../test/data/stat120.csv\",\n",
+    "    macrostate_header=\"N\",\n",
+    "    ln_prob_header=\"lnPI\")\n",
     "\n",
     "# Set show_plot to True to see the plots. Plots take up too much space in the git repo.\n",
     "show_plot = False\n",
@@ -108,9 +109,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Compare chemical potential and equilibrium properties with published results.\n",
-    "\n",
-    "https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-long-range"
+    "Compare chemical potential and equilibrium properties with [published results](https://www.nist.gov/mml/csd/chemical-informatics-research-group/sat-tmmc-liquid-vapor-coexistence-properties-long-range)."
    ]
   },
   {
@@ -177,5 +176,5 @@
   }
  },
  "nbformat": 4,
- "nbformat_minor": 2
+ "nbformat_minor": 4
 }

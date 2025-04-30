@@ -2,7 +2,7 @@
 Aniso
 *********
 
-This plugin is in development and not ready for public use.
+This plugin is in development.
 Anisotropic sites with tabular potentials.
 
 .. toctree::

@@ -14,14 +14,6 @@
    PotentialFactory
    System
    RigidDihedral
-   VisitModel
-   VisitModelIntra
-   VisitModelCutoffOuter
-   LongRangeCorrections
-   DontVisitModel
-   VisitModelBond
-   VisitModelCell
-   VisitModelIntraMap
    BondThreeBody
    RigidAngle
    AngleSquareWell
@@ -36,4 +28,12 @@
    ModelThreeBody
    ModelOneBody
    ModelEmpty
+   VisitModel
+   VisitModelIntraMap
+   VisitModelCell
+   VisitModelIntra
+   VisitModelBond
+   VisitModelCutoffOuter
+   LongRangeCorrections
+   DontVisitModel
    Cells

@@ -375,3 +375,5 @@ To Do List
 * For 0.26, Remove Random::[time, default] arguments
 * For 0.26, Remove ConvertToRefPotential, ProfileTrials, RemoveModify, RemoveAnalyze, RemoveTrial, Run::until_criteria_complete, Criteria/Stepper::iteration
 * For 0.26, Depreciate and update AngleSquareWell::min/max to min_degrees/max_degrees
+* For 0.26, https://github.com/usnistgov/feasst/issues/23
+* For 0.26, Remove serialization version checks grep "if (version >"

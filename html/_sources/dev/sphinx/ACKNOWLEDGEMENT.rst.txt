@@ -2,6 +2,7 @@ Acknowledgement
 ###############################################################
 
 While all criticism may be directed to the project lead, `Harold W. Hatch <../../CONTACT.html>`_, acknowledgements belong to the following people listed in alphabetical order of last name.
+Some commits have thanks to particular users who may have found something useful.
 
 For `contributing <https://github.com/usnistgov/feasst/graphs/contributors>`_, testing and discussion:
 
