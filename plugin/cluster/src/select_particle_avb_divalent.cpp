@@ -40,8 +40,9 @@ FEASST_MAPPER(SelectParticleAVBDivalent,
   argtype({{"ghost", "true"}, {"particle_type", "0"}}));
 
 bool SelectParticleAVBDivalent::select(const Select& perturbed,
-                               System * system,
-                               Random * random) {
+    System * system,
+    Random * random,
+    TrialSelect * previous_select) {
   const Configuration& config = system->configuration();
   ASSERT(perturbed.num_particles() >= 1, "first stage should have completed.");
   get_anchor()->set_particle(0, perturbed.particle_index(0));

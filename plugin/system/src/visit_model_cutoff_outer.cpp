@@ -41,22 +41,10 @@ void VisitModelCutoffOuter::compute(
   const Domain& domain = config->domain();
   init_relative_(domain);
   const Select& select_all = config->group_select(group_index);
-  bool is_old_config = false;
   VisitModelInner * inner = get_inner_();
-  if (selection.trial_state() == 0 ||
-      selection.trial_state() == 2) {
-    is_old_config = true;
-  }
-
-  // If possible, query energy map of old configuration instead of pair loop
-  if (is_old_config) {
-    if (selection.num_particles() == 1) {
-      if (inner->is_energy_map_queryable()) {
-        inner->query_ixn(selection);
-        set_energy(inner->energy());
-        return;
-      }
-    }
+  const bool is_old_config = is_old_config_(selection);
+  if (is_queryable_(selection, is_old_config, inner)) {
+    return;
   }
 
   // If only one particle in selection, simply exclude part1==part2

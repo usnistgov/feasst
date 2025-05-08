@@ -11,7 +11,9 @@
 namespace feasst {
 
 class Accumulator;
+class AveragePosition;
 class MonteCarlo;
+class VisitConfiguration;
 
 typedef std::map<std::string, std::string> argtype;
 
@@ -31,8 +33,7 @@ class AnalyzeExample : public Analyze {
  public:
   //@{
   /** @name Arguments
-    - group_index: index of group defined in Configuration
-      (default: 0, which is all existing sites).
+    - group: name of group defined in Configuration (default: all sites).
     - Stepper arguments.
 
     Note that Stepper, which is the Base class of Analyze, already contains
@@ -73,12 +74,17 @@ class AnalyzeExample : public Analyze {
   std::shared_ptr<Analyze> create(argtype * args) const override {
     return std::make_shared<AnalyzeExample>(args); }
   explicit AnalyzeExample(std::istream& istr);
-  ~AnalyzeExample();
+  virtual ~AnalyzeExample();
 
   //@}
  private:
-  int group_index_;
+  int group_index_ = 0;
   std::vector<std::unique_ptr<Accumulator> > center_;
+  std::unique_ptr<AveragePosition> loop_;
+  std::unique_ptr<VisitConfiguration> visit_;
+
+  // not serialized, assumes initialize is run atleast once
+  std::string group_;
 };
 
 }  // namespace feasst

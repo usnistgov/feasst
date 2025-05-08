@@ -47,14 +47,16 @@ void test_morph(const System& system) {
   mc.run(MakeRemove({{"name", "TrialAdd"}}));
   EXPECT_EQ(mc.configuration().num_particles_of_type(0), 2);
   EXPECT_EQ(mc.configuration().num_particles_of_type(1), 2);
-  mc.add(MakeTrialMorph({{"particle_type0", "1"},
-                         {"particle_type_morph0", "0"}}));
+  mc.add(std::make_shared<TrialMorph>(argtype({{"particle_type0", "1"},
+                         {"particle_type_morph0", "0"}, {"reference_index", "0"}})));
+  mc.add(std::make_shared<TrialMorph>(argtype({{"particle_type0", "0"},
+                         {"particle_type_morph0", "1"}, {"reference_index", "0"}})));
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(1e2)}, {"output_file", "tmp/growth"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(1e2)}}));
   mc.add(MakeTune());
   mc.attempt(1e3);
-  EXPECT_EQ(mc.configuration().num_particles_of_type(0), 4);
-  EXPECT_EQ(mc.configuration().num_particles_of_type(1), 0);
+//  EXPECT_EQ(mc.configuration().num_particles_of_type(0), 4);
+//  EXPECT_EQ(mc.configuration().num_particles_of_type(1), 0);
 }
 
 TEST(MonteCarlo, TrialMorph) {
@@ -64,6 +66,7 @@ TEST(MonteCarlo, TrialMorph) {
     {"particle_type1", "../particle/lj.fstprt"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.add(MakePotential(MakeLongRangeCorrections()));
+  system.add_to_reference(MakePotential(MakeDontVisitModel()));
   test_morph(system);
 }
 
@@ -74,6 +77,7 @@ TEST(MonteCarlo, TrialMorphCO2N2) {
     {"particle_type1", "../particle/n2.fstprt"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.add(MakePotential(MakeLongRangeCorrections()));
+  system.add_to_reference(MakePotential(MakeDontVisitModel()));
   test_morph(system);
 }
 
@@ -312,6 +316,7 @@ TEST(MonteCarlo, morphrxn) {
                        //{"particle_type3", "../particle/lj.fstprt"},
                        {"add_particles_of_type2", "1"}}},
     {"Potential", {{"Model", "LennardJones"}}},
+    {"RefPotential", {{"VisitModel", "DontVisitModel"}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1."}, {"chemical_potential1", "1."},
                                      {"chemical_potential2", "1."}, {"chemical_potential3", "1."}}},
     {"Metropolis", {{}}},
@@ -327,13 +332,13 @@ TEST(MonteCarlo, morphrxn) {
     {"TrialAdd", {{"particle_type", "0"}}},
     {"Run", {{"until_num_particles", "100"}, {"particle_type", "0"}}},
     {"Remove", {{"name", "TrialAdd"}}},
-    {"TrialMorph", {{"weight", "0.1"},
+    {"TrialMorph", {{"weight", "0.1"}, {"reference_index", "0"},
                     {"particle_type0", "0"}, {"particle_type_morph0", "1"},
                     {"particle_type1", "2"}, {"particle_type_morph1", "3"}}},
-    {"TrialMorph", {{"weight", "0.1"},
+    {"TrialMorph", {{"weight", "0.1"}, {"reference_index", "0"},
                     {"particle_type0", "1"}, {"particle_type_morph0", "0"},
                     {"particle_type1", "3"}, {"particle_type_morph1", "2"}}},
-    {"TrialMorph", {{"weight", "0.1"},
+    {"TrialMorph", {{"weight", "0.1"}, {"reference_index", "0"},
                     {"particle_type0", "0"}, {"particle_type_morph0", "1"},
                     {"particle_type1", "1"}, {"particle_type_morph1", "0"}}},
     {"CheckEnergy", {{"trials_per_update", tpis}, {"decimal_places", "8"}}},

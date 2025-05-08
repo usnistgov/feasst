@@ -30,8 +30,9 @@ void SelectParticlePivot::precompute(System * system) {
 }
 
 bool SelectParticlePivot::select(const Select& perturbed,
-                                 System* system,
-                                 Random * random) {
+    System* system,
+    Random * random,
+    TrialSelect * previous_select) {
   const Configuration& config = configuration(*system);
   const int num = config.num_particles(group_index());
   if (num <= 0) return false;

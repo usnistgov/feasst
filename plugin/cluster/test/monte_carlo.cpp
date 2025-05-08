@@ -20,7 +20,6 @@
 #include "steppers/include/log.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/tune.h"
-#include "steppers/include/check_energy.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/check_energy.h"

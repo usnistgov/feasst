@@ -68,7 +68,8 @@ class TrialSelectParticle : public TrialSelect {
 
   bool select(const Select& perturbed,
               System* system,
-              Random * random) override;
+              Random * random,
+              TrialSelect * previous_select) override;
 
   /// Select a particular particle by index.
   /// Note that this index ignores ghost particles.

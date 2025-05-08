@@ -301,6 +301,12 @@ class Select {
   /// Print the selection.
   std::string str(const bool pos = false) const;
 
+  /// Return true if sorted from lowest to highest particle index.
+  bool is_sorted() const;
+
+  /// Sort from lowest to highest particle index.
+  void sort();
+
   virtual void serialize(std::ostream& ostr) const;
   explicit Select(std::istream& istr);
   virtual ~Select() {}

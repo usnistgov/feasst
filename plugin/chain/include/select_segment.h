@@ -38,7 +38,8 @@ class SelectSegment : public TrialSelectParticle {
 
   bool select(const Select& perturbed,
     System* system,
-    Random * random) override;
+    Random * random,
+    TrialSelect * previous_select) override;
 
   std::shared_ptr<TrialSelect> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

@@ -46,9 +46,6 @@ class TrialMorph : public Trial {
   //@}
 };
 
-inline std::shared_ptr<TrialMorph> MakeTrialMorph(argtype args = argtype()) {
-  return std::make_shared<TrialMorph>(args); }
-
 }  // namespace feasst
 
 #endif  // FEASST_MORPH_TRIAL_MORPH_H_

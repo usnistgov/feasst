@@ -198,11 +198,16 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
   before_select(acceptance_.get(), criteria);
 
   // Perform selections. If one selection fails, do not continue selecting.
-  for (TrialStage * stage : stages_ptr_) {
+  //for (TrialStage * stage : stages_ptr_) {
+  TrialSelect * previous_select = NULL;
+  for (int stg = 0; stg < num_stages(); ++stg) {
+    TrialStage * stage = stages_ptr_[stg];
     stage->before_select();
-    DEBUG("selecting");
+    if (stg > 0) {
+      previous_select = stages_ptr_[stg - 1]->get_trial_select();
+    }
     if (!acceptance_->reject()) {
-      stage->select(system, acceptance_.get(), random);
+      stage->select(system, acceptance_.get(), random, previous_select);
     }
   }
   if (acceptance_->reject()) {

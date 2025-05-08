@@ -1,6 +1,6 @@
 
-#ifndef FEASST_MONTE_CARLO_COMPUTE_AVB4_H_
-#define FEASST_MONTE_CARLO_COMPUTE_AVB4_H_
+#ifndef FEASST_CLUSTER_COMPUTE_AVB4_H_
+#define FEASST_CLUSTER_COMPUTE_AVB4_H_
 
 #include <memory>
 #include <vector>
@@ -41,4 +41,4 @@ inline std::shared_ptr<ComputeAVB4> MakeComputeAVB4() {
 }
 }  // namespace feasst
 
-#endif  // FEASST_MONTE_CARLO_COMPUTE_AVB4_H_
+#endif  // FEASST_CLUSTER_COMPUTE_AVB4_H_

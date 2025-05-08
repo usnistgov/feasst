@@ -42,6 +42,7 @@ void PerturbParticleType::perturb(
   set_particle_type(system, select->mobile(), new_particle_type_);
   const int num_sites = select->mobile().num_sites();
   if (num_sites > 1) {
+    DEBUG("rotating because num_sites:" << num_sites << " >1");
     // use particle_type to set the coordinates, and randomly rotate them about the anchor.
     // then set to position of existing anchor
     const Configuration& config = system->configuration();
@@ -77,6 +78,7 @@ void PerturbParticleType::set_particle_type(
   const int particle_index = select.particle_index(0);
   const Configuration& config = system->configuration();
   old_particle_type_ = config.select_particle(particle_index).type();
+  DEBUG("changing particle type " << old_particle_type_ << " to " << type);
   system->get_configuration()->set_particle_type(type, select);
 }
 

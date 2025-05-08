@@ -18,8 +18,9 @@ TrialSelectAll::TrialSelectAll(argtype args) : TrialSelectAll(&args) {
 FEASST_MAPPER(TrialSelectAll,);
 
 bool TrialSelectAll::select(const Select& perturbed,
-                                 System* system,
-                                 Random * random) {
+                                  System* system,
+                                  Random * random,
+                                  TrialSelect * previous_select) {
   set_probability_(1.);
   const Configuration& config = configuration(*system);
   set_mobile(config.selection_of_all());

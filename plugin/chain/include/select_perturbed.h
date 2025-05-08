@@ -13,7 +13,10 @@ class SelectPerturbed : public TrialSelect {
  public:
   explicit SelectPerturbed(argtype args = argtype());
   explicit SelectPerturbed(argtype * args);
-  bool select(const Select& perturbed, System* system, Random * random) override;
+  bool select(const Select& perturbed,
+    System* system,
+    Random * random,
+    TrialSelect * previous_select) override;
   std::shared_ptr<TrialSelect> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit SelectPerturbed(std::istream& istr);

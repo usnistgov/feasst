@@ -90,4 +90,17 @@ TEST(Select, position) {
   Select sel2 = test_serialize(sel);
 }
 
+TEST(Select, sort) {
+  Select sel;
+  sel.add_site(1, 0);
+  sel.add_site(0, 0);
+  EXPECT_FALSE(sel.is_sorted());
+  sel.sort();
+  EXPECT_EQ(sel.particle_index(0), 0);
+  EXPECT_EQ(sel.particle_index(1), 1);
+  EXPECT_EQ(sel.site_index(0, 0), 0);
+  EXPECT_EQ(sel.site_index(1, 0), 0);
+  EXPECT_TRUE(sel.is_sorted());
+}
+
 }  // namespace feasst

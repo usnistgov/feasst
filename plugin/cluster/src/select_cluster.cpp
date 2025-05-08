@@ -75,8 +75,9 @@ std::vector<Select> SelectCluster::select_clusters(
 }
 
 bool SelectCluster::select(const Select& perturbed,
-                           System * system,
-                           Random * random) {
+    System * system,
+    Random * random,
+    TrialSelect * previous_select) {
   const Configuration& config = system->configuration();
   Select first_node;
   // HWH use TrialSelectParticle for optional group, particle type, etc.

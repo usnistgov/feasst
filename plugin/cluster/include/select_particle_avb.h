@@ -31,6 +31,7 @@ class SelectParticleAVB : public TrialSelect {
     - site: index of site on particle_type to put in AV of target site
       (default: 0).
     - grand_canonical: true if used for grand canonical, false otherwise.
+    - rxnavb: true if used for rxnavb, false otherwise (default: false).
     - inside: true if selecting in the AV, otherwise out (default: true).
       Not implemented for grand_canonical.
     - second_target: if true, set anchor to a second target particle
@@ -50,7 +51,8 @@ class SelectParticleAVB : public TrialSelect {
   void precompute(System * system) override;
   bool select(const Select& perturbed,
               System* system,
-              Random * random) override;
+              Random * random,
+              TrialSelect * previous_select) override;
 
   std::shared_ptr<TrialSelect> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
@@ -67,6 +69,7 @@ class SelectParticleAVB : public TrialSelect {
   bool grand_canonical_;
   bool inside_;
   bool is_second_target_;
+  bool rxnavb_;
   TrialSelectParticle select_target_;
   TrialSelectParticle select_mobile_;
 

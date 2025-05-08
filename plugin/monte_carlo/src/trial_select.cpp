@@ -205,7 +205,7 @@ void TrialSelect::replace_mobile(const Select& replacement,
     const int sp_index,
     const Configuration& config) {
   bool fast = mobile_->replace_indices(replacement.particle_index(sp_index),
-                                      replacement.site_indices(sp_index));
+                                       replacement.site_indices(sp_index));
   if (!fast) mobile_->resize_positions();
   mobile_->load_positions(config.particles());
 }
@@ -213,7 +213,8 @@ void TrialSelect::replace_mobile(const Select& replacement,
 bool TrialSelect::select(
     const Select& perturbed,
     System * system,
-    Random * random) {
+    Random * random,
+    TrialSelect * previous_select) {
   FATAL("not implemented");
 }
 
@@ -295,7 +296,7 @@ bool TrialSelect::sel(System * system, Random * random) {
   if (!empty_) {
     empty_ = std::make_shared<Select>();
   }
-  return select(*empty_, system, random);
+  return select(*empty_, system, random, NULL);
 }
 
 const std::map<std::string, std::shared_ptr<Accumulator> >& TrialSelect::printable() const {

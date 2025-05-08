@@ -93,7 +93,7 @@ TrialMorphExpanded::TrialMorphExpanded(
       add = false;
       add_previously = true;
     } else {
-      grow_.push_back(MakeTrialMorph(grow_args));
+      grow_.push_back(std::make_shared<TrialMorph>(grow_args));
       add_previously = false;
     }
     if (remove) {
@@ -102,7 +102,7 @@ TrialMorphExpanded::TrialMorphExpanded(
       shrink_.push_back(MakeTrialRemoveMultiple(shrink_args));
       remove = false;
     } else {
-      shrink_.push_back(MakeTrialMorph(shrink_args));
+      shrink_.push_back(std::make_shared<TrialMorph>(shrink_args));
     }
   }
   current_state_ = 0;

@@ -30,8 +30,14 @@ class NeighborCriteria {
     - maximum_distance: maximum separation distance (default: NEAR_INFINITY).
     - site_type0: consider only interactions between a specific site type.
       If -1, consider all sites (default: -1).
+      Otherwise, site_type1 must also be included.
     - site_type1: consider only interactions between a specific site type.
       If -1, consider all sites (default: -1).
+    - site_type0_alt: consider interactions between another specific site type.
+      If -1, ignore (default: -1).
+      Otherwise, site_type1_alt must also be included.
+    - site_type1_alt: consider interactions between another specific site type.
+      If -1, ignore (default: -1).
    */
   explicit NeighborCriteria(argtype args = argtype());
   explicit NeighborCriteria(argtype * args);
@@ -76,6 +82,8 @@ class NeighborCriteria {
   double maximum_distance_sq_;
   int site_type0_;
   int site_type1_;
+  int site_type0_alt_;
+  int site_type1_alt_;
 
   // temporary
   std::shared_ptr<Position> rel_, pbc_, origin_;

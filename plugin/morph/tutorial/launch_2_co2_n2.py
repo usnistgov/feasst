@@ -85,6 +85,7 @@ Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened er
 Potential Model ChargeScreenedIntra VisitModel VisitModelBond
 Potential Model ChargeSelf
 Potential VisitModel LongRangeCorrections
+RefPotential VisitModel DontVisitModel
 ThermoParams beta {beta} chemical_potential0 {mu_init} chemical_potential1 {mu_init}
 Metropolis
 TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
@@ -109,8 +110,8 @@ Remove name0 Tune name1 Log
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles particle_type 0 width 1 max {max_particles} min {min_particles} \
     Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
-TrialMorph particle_type0 0 particle_type_morph0 1
-TrialMorph particle_type0 1 particle_type_morph0 0
+TrialMorph particle_type0 0 particle_type_morph0 1 reference_index 0
+TrialMorph particle_type0 1 particle_type_morph0 0 reference_index 0
 Log            trials_per_write {tpc} output_file {prefix}n{node}s{sim}.csv
 Movie          trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.xyz stop_after_cycle 1
 Movie          trials_per_write {tpc} output_file {prefix}n{node}s{sim}.xyz start_after_cycle 1

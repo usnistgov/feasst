@@ -216,4 +216,10 @@ void Acceptance::set_macrostate_shift_type(const int type, const int config) {
   macrostate_shift_type_[config] += type;
 }
 
+void Acceptance::sort_perturbed() {
+  for (auto pert : perturbed_) {
+    pert->sort();
+  }
+}
+
 }  // namespace feasst

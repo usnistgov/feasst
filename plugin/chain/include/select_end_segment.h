@@ -35,7 +35,10 @@ class SelectEndSegment : public SelectSegment {
       /// If -1 (default), consider all possible lengths.
       bool * is_endpoint_beginning);
 
-  bool select(const Select& perturbed, System* system, Random * random) override;
+  bool select(const Select& perturbed,
+    System* system,
+    Random * random,
+    TrialSelect * previous_select) override;
 
   virtual void update_anchor(const bool is_endpoint_beginning,
     const System * system);

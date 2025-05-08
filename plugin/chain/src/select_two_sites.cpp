@@ -36,8 +36,9 @@ void SelectTwoSites::precompute(System * system) {
 }
 
 bool SelectTwoSites::select(const Select& perturbed,
-                             System * system,
-                             Random * random) {
+    System* system,
+    Random * random,
+    TrialSelect * previous_select) {
   Configuration * config = get_configuration(system);
   int particle_index = -1, particle_index2 = -1;
   if (perturbed.num_sites() > 0) {

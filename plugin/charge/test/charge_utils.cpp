@@ -10,6 +10,7 @@
 #include "system/include/visit_model_bond.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/visit_model_cell.h"
+#include "system/include/dont_visit_model.h"
 #include "system/include/visit_model_cutoff_outer.h"
 #include "system/include/model_two_body_table.h"
 #include "monte_carlo/include/metropolis.h"
@@ -112,6 +113,8 @@ System rpm(argtype args) {
     ref->set_model_param("cutoff", 0, dual_cut);
     ref->set_model_param("cutoff", 1, dual_cut);
     system.add_to_reference(ref);
+  } else {
+    system.add_to_reference(MakePotential(MakeDontVisitModel()));
   }
   feasst_check_all_used(args);
   return system;

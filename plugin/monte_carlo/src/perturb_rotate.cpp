@@ -42,7 +42,10 @@ void PerturbRotate::update_selection(const Position& pivot,
          ++site) {
       Position position = rotated->site_positions()[select_index][site];
       //rotation.rotate(pivot, &position);
+      DEBUG("site " << site);
+      DEBUG("old position " << position.str());
       rotation.rotate(pivot, &position, &vec2_);
+      DEBUG("new position " << position.str());
       rotated->set_site_position(select_index, site, position);
     }
   }

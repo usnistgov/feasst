@@ -164,7 +164,8 @@ void TrialSelectParticle::ghost_particle(Configuration * config,
 
 bool TrialSelectParticle::select(const Select& perturbed,
                                  System* system,
-                                 Random * random) {
+                                 Random * random,
+                                 TrialSelect * previous_select) {
   DEBUG("is_ghost " << is_ghost());
   DEBUG("selection from configuration " << configuration_index());
   Configuration * config = get_configuration(system);

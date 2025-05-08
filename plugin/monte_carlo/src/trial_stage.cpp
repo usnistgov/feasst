@@ -40,10 +40,11 @@ void TrialStage::before_select() {
 
 bool TrialStage::select(System * system,
     Acceptance * acceptance,
-    Random * random) {
+    Random * random,
+    TrialSelect * previous_select) {
   const int conf = select_->configuration_index();
   const bool is_selected = select_->select(acceptance->perturbed(conf),
-                                           system, random);
+                                           system, random, previous_select);
   DEBUG("is_selected " << is_selected);
   if (is_selected) {
     acceptance->add_to_perturbed(select_->mobile(), conf);
@@ -196,7 +197,7 @@ const Perturb& TrialStage::perturb() const {
 }
 
 void TrialStage::revert(System * system) { perturb_->revert(system); }
-  
+
 void TrialStage::finalize(System * system) { perturb_->finalize(system); }
 
 void TrialStage::tune(const double acceptance) { perturb_->tune(acceptance); }

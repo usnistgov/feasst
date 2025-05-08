@@ -31,7 +31,10 @@ void SelectPerturbed::serialize(std::ostream& ostr) const {
   feasst_serialize_version(607, ostr);
 }
 
-bool SelectPerturbed::select(const Select& perturbed, System* system, Random * random) {
+bool SelectPerturbed::select(const Select& perturbed,
+    System* system,
+    Random * random,
+    TrialSelect * previous_select) {
   if (perturbed.num_sites() == 0) return false;
   replace_mobile(perturbed, 0, configuration(*system));
   set_mobile_original(system);

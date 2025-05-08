@@ -121,6 +121,8 @@ class Acceptance {
   /// Set perturbed trial state.
   void set_perturbed_state(const int state, const int config = 0);
 
+  void sort_perturbed();
+
   /// Return the perturbed selection.
   const std::vector<std::shared_ptr<Select> >& perturbed() const { return perturbed_; }
   const Select& perturbed(const int config) const;

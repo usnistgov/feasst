@@ -38,7 +38,8 @@ void TrialSelectBond::precompute(System * system) {
 
 bool TrialSelectBond::select(const Select& perturbed,
                              System * system,
-                             Random * random) {
+                             Random * random,
+                             TrialSelect * previous_select) {
   Configuration * config = get_configuration(system);
   int particle_index = -1;
   if (perturbed.num_sites() > 0) {

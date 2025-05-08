@@ -2,6 +2,7 @@
 #include "utils/include/serialize_extra.h"
 #include "utils/include/io.h"
 #include "utils/include/arguments.h"
+#include "configuration/include/configuration.h"
 #include "system/include/thermo_params.h"
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
@@ -110,11 +111,17 @@ void TrialCompute::compute_rosenbluth(
     for (int conf = 0; conf < acceptance->num_configurations(); ++conf) {
       if (acceptance->updated(conf) == 1 && find_in_list(conf, configs_used)) {
         DEBUG("conf " << conf);
-        //ASSERT(acceptance->perturbed(conf).num_sites() > 0, "error");
-        if (acceptance->perturbed(conf).num_sites() > 0) {
-          DEBUG(acceptance->perturbed(conf).str());
-          DEBUG("state " << acceptance->perturbed(conf).trial_state());
-          const double en_full = system->perturbed_energy(acceptance->perturbed(conf), conf);
+        const Select& perturbed = acceptance->perturbed(conf);
+        //ASSERT(perturbed.num_sites() > 0, "error");
+        if (perturbed.num_sites() > 0) {
+          DEBUG(perturbed.str());
+          DEBUG("state " << perturbed.trial_state());
+          if (perturbed.trial_state() != 4) {
+            if (!perturbed.is_sorted()) {
+              acceptance->sort_perturbed();
+            }
+          }
+          const double en_full = system->perturbed_energy(perturbed, conf);
           const std::vector<double>& en_profile_full = system->stored_energy_profile(conf);
           DEBUG("en_full: " << en_full);
           DEBUG("en_profile_full: " << feasst_str(en_profile_full));

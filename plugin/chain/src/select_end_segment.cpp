@@ -98,7 +98,8 @@ bool SelectEndSegment::random_end_segment_in_particle(
 
 bool SelectEndSegment::select(const Select& perturbed,
     System* system,
-    Random * random) {
+    Random * random,
+    TrialSelect * previous_select) {
   bool is_endpoint_beginning;
   const bool is_found = random_end_segment_in_particle(
     configuration(*system),

@@ -69,7 +69,8 @@ class TrialSelect {
     /// Perturbed is included to allow chaining of selection based on previous.
     const Select& perturbed,
     System * system,
-    Random * random);
+    Random * random,
+    TrialSelect * previous_select);
 
   /// Same as above but with an empty perturbed.
   bool sel(System * system, Random * random);

@@ -221,12 +221,16 @@ void VisitModelCell::compute(
     const Select& selection,
     Configuration * config,
     const int group_index) {
-  DEBUG("visiting model");
+  DEBUG("VisitModelCell sel " << selection.str());
   zero_energy();
   const Domain& domain = config->domain();
   ASSERT(group_index == group_index_, "not equivalent");
   init_relative_(domain);
   VisitModelInner * inner = get_inner_();
+  const bool is_old_config = is_old_config_(selection);
+  if (is_queryable_(selection, is_old_config, inner)) {
+    return;
+  }
 
   // If only one particle in selection, simply exclude part1==part2
   DEBUG("num particles in selection " << selection.num_particles());
@@ -253,7 +257,7 @@ void VisitModelCell::compute(
                      site1_index << " " << site2_index);
                 inner->compute(part1_index, site1_index, part2_index,
                                       site2_index, config, model_params, model,
-                                      false, relative_.get(), pbc_.get());
+                                      is_old_config, relative_.get(), pbc_.get());
                 if ((energy_cutoff() != -1) && (inner->energy() > energy_cutoff())) {
                   set_energy(inner->energy());
                   return;
@@ -290,7 +294,7 @@ void VisitModelCell::compute(
                      site1_index << " " << site2_index);
                 inner->compute(part1_index, site1_index, part2_index,
                                       site2_index, config, model_params, model,
-                                      false, relative_.get(), pbc_.get());
+                                      is_old_config, relative_.get(), pbc_.get());
                 if ((energy_cutoff() != -1) && (inner->energy() > energy_cutoff())) {
                   set_energy(inner->energy());
                   return;
@@ -304,7 +308,7 @@ void VisitModelCell::compute(
 
     // In the second loop, compute interactions between different particles in select.
     compute_between_selection(model, model_params, selection,
-      config, false, relative_.get(), pbc_.get());
+      config, is_old_config, relative_.get(), pbc_.get());
   }
   set_energy(inner->energy());
 }
@@ -405,6 +409,7 @@ void VisitModelCell::compute(
   ASSERT(group_index == group_index_, "not equivalent");
   init_relative_(domain);
   const Select& select_all = config->group_select(group_index);
+  const bool is_old_config = is_old_config_(selection);
 
   // HWH: To optimize query from EnergyMapNeighbor:
   // EnergyMapNeighbor stored squared distance, not vector separation
@@ -441,7 +446,7 @@ void VisitModelCell::compute(
                      site1_index << " " << site2_index);
                 inner->compute(part1_index, site1_index, part2_index,
                                site2_index, config, model_params, two_body,
-                               false, relative_.get(), pbc_.get());
+                               is_old_config, relative_.get(), pbc_.get());
                 record_pair_(part1_index, site1_index, part2_index, site2_index, *relative_, &num_pair, inner);
                 if ((energy_cutoff() != -1) && (inner->energy() > energy_cutoff())) {
                   set_energy(inner->energy());

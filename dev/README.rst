@@ -332,7 +332,6 @@ To Do List
 * opt: when selecting from cpdf, use lnp instead of p?
 * force precompute when reinitializing system, criteria, etc in MonteCarlo
 * MonteCarlo subclass Simulation
-* add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects
 * VisitModel may prefer to update select properties (e.g., cell, eik)
 * Rename TrialSelect->SelectTrial, TrialCompute->ComputeTrial. Rename Compute->Decide?.
 * Speed up RNG by maintaining int_distribution like dis_double

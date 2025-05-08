@@ -186,6 +186,7 @@ void VisitModelInner::update_ixn(
     const bool is_old_config,
     const Configuration& config) {
   energy_ += energy;
+  DEBUG("is_old_config " << is_old_config);
   if (energy_map_ && !is_old_config) {
     energy_map_->update(energy, part1_index, site1_index, site1_type,
       part2_index, site2_index, site2_type, squared_distance, pbc, config);

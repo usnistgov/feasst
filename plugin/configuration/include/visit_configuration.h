@@ -25,9 +25,13 @@ class VisitConfiguration : public VisitParticles {
             LoopConfigOneBody * loop_config_one_body,
             const int group_index = 0);
 
+  /// Return the number of sites in the last loop
+  int num_sites() const { return num_sites_; }
+
   virtual ~VisitConfiguration() {}
  private:
   LoopDescriptor data_;
+  int num_sites_;
 };
 
 class LoopConfigOneBody {

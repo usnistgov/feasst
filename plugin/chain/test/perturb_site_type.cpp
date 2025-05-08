@@ -19,7 +19,7 @@ TEST(PerturbSiteType, serialize) {
   auto sel = MakeTrialSelectParticle({{"particle_type", "0"}, {"site", "1"}});
   sel->precompute(&sys);
   auto random = MakeRandomMT19937();
-  sel->select(Select(), &sys, random.get());
+  sel->select(Select(), &sys, random.get(), NULL);
   EXPECT_EQ(config.particle(0).site(1).type(), 0);
   morph->set_site_type(&sys, *sel, 1);
   EXPECT_EQ(config.particle(0).site(1).type(), 1);

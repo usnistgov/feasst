@@ -1,6 +1,6 @@
 
-#ifndef FEASST_MONTE_CARLO_COMPUTE_MOVE_CLUSTER_H_
-#define FEASST_MONTE_CARLO_COMPUTE_MOVE_CLUSTER_H_
+#ifndef FEASST_CLUSTER_COMPUTE_MOVE_CLUSTER_H_
+#define FEASST_CLUSTER_COMPUTE_MOVE_CLUSTER_H_
 
 #include <memory>
 #include <vector>
@@ -36,4 +36,4 @@ inline std::shared_ptr<ComputeMoveCluster> MakeComputeMoveCluster() {
 
 }  // namespace feasst
 
-#endif  // FEASST_MONTE_CARLO_COMPUTE_MOVE_CLUSTER_H_
+#endif  // FEASST_CLUSTER_COMPUTE_MOVE_CLUSTER_H_

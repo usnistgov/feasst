@@ -7,6 +7,7 @@
 #include "utils/include/checkpoint.h"
 #include "utils/include/timer_rdtsc.h"
 #include "configuration/include/neighbor_criteria.h"
+#include "configuration/include/particle.h"
 #include "configuration/include/configuration.h"
 #include "configuration/include/domain.h"
 #include "system/include/system.h"
@@ -17,6 +18,7 @@
 #include "monte_carlo/include/acceptance.h"
 #include "monte_carlo/include/rosenbluth.h"
 #include "monte_carlo/include/perturb.h"
+#include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/action.h"
 #include "monte_carlo/include/trial_factory.h"
@@ -454,6 +456,26 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
     if (trial->stage(0).is_new_only()) {
       if (trial->stage(0).perturb().class_name() == "PerturbRemove") {
         FATAL("PerturbRemove not implemented with new_only due to trial_state");
+      }
+    }
+  }
+
+  // Error check TrialMorph
+  if (trial->class_name() == "TrialMorph" || trial->class_name() == "TrialRXNAVBHalf") {
+    const int conf = trial->stage(0).select().configuration_index();
+    DEBUG("conf  " << conf);
+    for (int stage = 0; stage < trial->num_stages(); ++stage) {
+      if (trial->stage(stage).select().is_particle_type_set()) {
+        const int ptype = trial->stage(stage).select().particle_type();
+        DEBUG("ptype " << ptype);
+        const int num_sites = system_->configuration(conf).particle_type(ptype).num_sites();
+        DEBUG("num_sites " << num_sites);
+        if (num_sites > 1) {
+          DEBUG("ref " << trial->stage(stage).reference());
+          ASSERT(trial->stage(stage).reference() != -1,
+            "TrialMorph and TrialRXNAVB requires a reference_index argument when "
+            << "the number of sites:" << num_sites << " > 1");
+        }
       }
     }
   }

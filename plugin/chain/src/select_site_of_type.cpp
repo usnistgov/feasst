@@ -91,7 +91,8 @@ int SelectSiteOfType::random_site_in_particle(
 
 bool SelectSiteOfType::select(const Select& perturbed,
     System* system,
-    Random * random) {
+    Random * random,
+    TrialSelect * previous_select) {
   const int num = random_site_in_particle(
     configuration(*system),
     get_mobile(),

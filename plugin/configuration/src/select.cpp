@@ -472,4 +472,45 @@ bool Select::is_anisotropic() const {
   }
 }
 
+bool Select::is_sorted() const {
+  int last_index = -1;
+  for (int pindex : particle_indices_) {
+    if (pindex < last_index) {
+      return false;
+    }
+    last_index = pindex;
+  }
+  return true;
+}
+
+void Select::sort() {
+  int attempt = 0;
+  while (!is_sorted()) {
+    DEBUG("attempt " << attempt << " to sort " << str());
+    int last_index = -1;
+    for (int sel0 = 0; sel0 < num_particles(); ++sel0) {
+      const int pindex = particle_indices_[sel0];
+      if (pindex < last_index) {
+        // swap with the last index;
+        feasst_swap(&particle_indices_[sel0-1], &particle_indices_[sel0]);
+        feasst_swap(&site_indices_[sel0-1], &site_indices_[sel0]);
+        if (site_positions_.size() > 0) {
+          feasst_swap(&site_positions_[sel0-1], &site_positions_[sel0]);
+        }
+        if (site_properties_.size() > 0) {
+          feasst_swap(&site_properties_[sel0-1], &site_properties_[sel0]);
+        }
+        if (site_eulers_.size() > 0) {
+          feasst_swap(&site_eulers_[sel0-1], &site_eulers_[sel0]);
+        }
+        break;
+      }
+      last_index = pindex;
+    }
+    ++attempt;
+    DEBUG(attempt << " " << num_particles());
+    ASSERT(attempt < 1e99, "Sort needs to be optimized / corrected");
+  }
+}
+
 }  // namespace feasst

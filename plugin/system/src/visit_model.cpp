@@ -153,27 +153,15 @@ void VisitModel::compute(
     const Select& selection,
     Configuration * config,
     const int group_index) {
-  DEBUG("visiting model");
+  DEBUG("VistModel selection " << selection.str());
   VisitModelInner * inner = get_inner_();
   zero_energy();
   const Domain& domain = config->domain();
   init_relative_(domain);
   const Select& select_all = config->group_select(group_index);
-  bool is_old_config = false;
-  if (selection.trial_state() == 0 ||
-      selection.trial_state() == 2) {
-    is_old_config = true;
-  }
-
-  // If possible, query energy map of old configuration instead of pair loop
-  if (is_old_config) {
-    if (selection.num_particles() == 1) {
-      if (inner->is_energy_map_queryable()) {
-        inner->query_ixn(selection);
-        set_energy(inner->energy());
-        return;
-      }
-    }
+  const bool is_old_config = is_old_config_(selection);
+  if (is_queryable_(selection, is_old_config, inner)) {
+    return;
   }
 
   // If only one particle in selection, simply exclude part1==part2
@@ -259,13 +247,14 @@ void VisitModel::compute(
 }
 
 void VisitModel::compute_between_selection(
-  ModelTwoBody * model,
-  const ModelParams& model_params,
-  const Select& selection,
-  Configuration * config,
-  const bool is_old_config,
-  Position * relative,
-  Position * pbc) {
+    ModelTwoBody * model,
+    const ModelParams& model_params,
+    const Select& selection,
+    Configuration * config,
+    const bool is_old_config,
+    Position * relative,
+    Position * pbc) {
+  DEBUG("VisitModel computing between selection " << selection.str());
   VisitModelInner * inner = get_inner_();
   for (int select1_index = 0;
        select1_index < selection.num_particles() - 1;
@@ -722,6 +711,29 @@ VisitModelInner * VisitModel::get_inner_() const { return inner_.get(); }
 void VisitModel::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_(ostr);
+}
+
+bool VisitModel::is_old_config_(const Select& selection) const {
+  bool is_old_config = false;
+  if (selection.trial_state() == 0 ||
+      selection.trial_state() == 2) {
+    is_old_config = true;
+  }
+  DEBUG("is_old_config " << is_old_config);
+  return is_old_config;
+}
+
+bool VisitModel::is_queryable_(const Select& selection, const bool is_old_config, VisitModelInner * inner) {
+  if (is_old_config) {
+    if (selection.num_particles() == 1) {
+      if (inner->is_energy_map_queryable()) {
+        inner->query_ixn(selection);
+        set_energy(inner->energy());
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 }  // namespace feasst

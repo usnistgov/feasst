@@ -37,6 +37,8 @@ Potential Model ChargeSelf
 Potential VisitModel LongRangeCorrections""".format(**params)
     params['nvt_trials'] = """TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
 TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25"""
+    params['muvt_trials'] = """TrialTransfer weight 2 particle_type 0
+AnalyzeBonds trials_per_write {tpc} output_file {prefix}n{node}s{sim}_bonds.csv multistate true"""
     return params, args
 
 def post_process(params):

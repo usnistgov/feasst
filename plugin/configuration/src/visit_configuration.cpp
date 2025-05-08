@@ -9,6 +9,7 @@ namespace feasst {
 void VisitConfiguration::loop(const Configuration& config,
                               LoopConfigOneBody * loop,
                               const Select& select) {
+  num_sites_ = 0;
   for (int select_index = 0;
        select_index < select.num_particles();
        ++select_index) {
@@ -19,6 +20,7 @@ void VisitConfiguration::loop(const Configuration& config,
     for (int site_index : select.site_indices(select_index)) {
       const Site& site = part.sites()[site_index];
       if (site.is_physical()) {
+        ++num_sites_;
         data_.site_index = site_index;
         loop->work(site, config, data_);
       }

@@ -13,7 +13,7 @@ namespace feasst {
 FEASST_MAPPER(AnalyzeExample,);
 
 AnalyzeExample::AnalyzeExample(argtype * args) : Analyze(args) {
-  group_index_ = integer("group_index", args, 0);
+  group_ = str("group", args, "");
 }
 
 AnalyzeExample::AnalyzeExample(argtype args) : AnalyzeExample(&args) {
@@ -29,6 +29,9 @@ std::string AnalyzeExample::header(const MonteCarlo& mc) const {
 }
 
 void AnalyzeExample::initialize(MonteCarlo * mc) {
+  if (!group_.empty()) {
+    group_index_ = mc->configuration().group_index(group_);
+  }
   center_.resize(configuration(mc->system()).dimension());
   for (std::unique_ptr<Accumulator>& acc : center_) {
     acc = std::make_unique<Accumulator>();
@@ -41,21 +44,28 @@ void AnalyzeExample::initialize(MonteCarlo * mc) {
  */
 class AveragePosition : public LoopConfigOneBody {
  public:
-  explicit AveragePosition(Position * average) { average_ = average; }
+  AveragePosition() {}
   void work(const Site& site,
     const Configuration& config,
-    const LoopDescriptor& data) override { average_->add(site.position()); }
+    const LoopDescriptor& data) override { average_.add(site.position()); }
+  const Position& average() const { return average_; }
+  void zero_average(const int num_dimen) { average_.set_to_origin(num_dimen); }
  private:
-  Position * average_;
+  Position average_;
 };
 
 void AnalyzeExample::update(const MonteCarlo& mc) {
   const Configuration& config = configuration(mc.system());
-  Position average(config.dimension());
-  AveragePosition loop(&average);
-  VisitConfiguration().loop(config, &loop, group_index_);
-  for (int dim = 0; dim < config.dimension(); ++dim) {
-    center_[dim]->accumulate(average.coord(dim));
+  if (!loop_) {
+    loop_ = std::make_unique<AveragePosition>();
+    visit_ = std::make_unique<VisitConfiguration>();
+  }
+  loop_->zero_average(config.dimension());
+  visit_->loop(config, loop_.get(), group_index_);
+  if (visit_->num_sites() > 0) {
+    for (int dim = 0; dim < config.dimension(); ++dim) {
+      center_[dim]->accumulate(loop_->average().coord(dim));
+    }
   }
 }
 

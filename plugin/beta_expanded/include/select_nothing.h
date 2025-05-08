@@ -19,8 +19,9 @@ class SelectNothing : public TrialSelect {
   explicit SelectNothing(argtype * args);
 
   bool select(const Select& perturbed,
-              System * system,
-              Random * random) override { return true; }
+    System* system,
+    Random * random,
+    TrialSelect * previous_select) override { return true; }
 
   std::shared_ptr<TrialSelect> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

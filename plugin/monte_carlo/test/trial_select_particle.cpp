@@ -39,7 +39,7 @@ TEST(TrialSelectParticle, exclude_perturbed) {
   const int part1_index = sel1->mobile().particle_index(0);
   EXPECT_TRUE(part1_index == 0 || part1_index == 1);
   DEBUG(sel1->mobile().str());
-  sel2->select(sel1->mobile(), &system, ran.get());
+  sel2->select(sel1->mobile(), &system, ran.get(), NULL);
   if (part1_index == 0) {
     EXPECT_EQ(sel2->mobile().particle_index(0), 1);
   } else if (part1_index == 1) {
@@ -55,7 +55,7 @@ TEST(TrialSelectParticle, exclude_perturbed) {
   sel1->precompute(&system);
   sel1->sel(&system, ran.get());
   sel2->precompute(&system);
-  sel2->select(sel1->mobile(), &system, ran.get());
+  sel2->select(sel1->mobile(), &system, ran.get(), NULL);
   EXPECT_NE(sel1->mobile().particle_index(0), sel2->mobile().particle_index(0));
 }
 

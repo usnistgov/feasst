@@ -26,6 +26,7 @@ SelectParticleAVB::SelectParticleAVB(argtype * args) : TrialSelect(args) {
   grand_canonical_ = boolean("grand_canonical", args);
   inside_ = boolean("inside", args, true);
   is_second_target_ = boolean("second_target", args, false);
+  rxnavb_ = boolean("rxnavb", args, false);
 
   // initialize select_target_
   argtype target_args;
@@ -58,8 +59,9 @@ void SelectParticleAVB::precompute(System * system) {
 }
 
 bool SelectParticleAVB::select(const Select& perturbed,
-                               System * system,
-                               Random * random) {
+    System * system,
+    Random * random,
+    TrialSelect * previous_select) {
   const Configuration& config = system->configuration();
   if ( (is_ghost() && (config.num_particles() < 1)) ||
        (!is_ghost() && (config.num_particles() < 2)) ) {
@@ -99,6 +101,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
     &neighbors_);
   const int num_neighbors = static_cast<int>(neighbors_.num_sites());
   DEBUG("neighbors: " << neighbors_.str());
+  DEBUG("num_neighbors " << num_neighbors);
 
   // Initialize mobile
   int num_out = 0.;
@@ -110,8 +113,19 @@ bool SelectParticleAVB::select(const Select& perturbed,
         return false;
       }
     }
-    get_mobile()->set_particle(0,
-      random->const_element(neighbors_.particle_indices()));
+    const int pindex = random->const_element(neighbors_.particle_indices());
+    if (rxnavb_) {
+      const Particle& part = config.select_particle(pindex);
+      if (mobile().num_sites() != part.num_sites()) {
+        std::vector<int> sites(part.num_sites());
+        for (int site = 0; site < part.num_sites(); ++site) {
+          sites[site] = site;
+        }
+        get_mobile()->replace_indices(pindex, sites);
+        get_mobile()->resize_positions();
+      }
+    }
+    get_mobile()->set_particle(0, pindex);
     DEBUG("mobile " << mobile().str());
   } else if (!inside_) {
     // only select that is outside: AVB2 out->in
@@ -130,6 +144,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
   // precompute volume terms
   const double volume = config.domain().volume();
   const double volume_av = neighbor.volume(config.dimension());
+  DEBUG("volume_av " << volume_av);
   const double volume_out = volume - volume_av;
   ASSERT(volume_out > 0, "AV volume: " << volume_av << " is too large "
     << "for total volume: " << volume);
@@ -143,12 +158,15 @@ bool SelectParticleAVB::select(const Select& perturbed,
 
   // Assign the probabilities for acceptance criteria.
   // explicitly consider all valid combinations the following booleans:
-  // is_ghost, grand_canoical, inside and second_target.
-  // There are five valid combinations which represent GCE add, GCE rm,
-  // AVB2 in->out, AVB2 out->in and AVB4 in->in.
+  // is_ghost, grand_canoical, inside, second_target and rxnavb.
+  // There are six valid combinations which represent GCE add, GCE rm,
+  // AVB2 in->out, AVB2 out->in, AVB4 in->in, and rxnavb.
 
-  // GCE add
-  if (is_ghost() && grand_canonical_ && inside_ && !is_second_target_) {
+  if (rxnavb_) {
+    DEBUG("set_probability rxnavb");
+    set_probability_(static_cast<double>(num_neighbors));
+  } else if (is_ghost() && grand_canonical_ && inside_ && !is_second_target_) {
+    DEBUG("set_probability GCE add");
     select_mobile_.ghost_particle(
       system->get_configuration(), &empty_, get_mobile());
     DEBUG("num_neighbors " << num_neighbors);
@@ -162,17 +180,16 @@ bool SelectParticleAVB::select(const Select& perturbed,
         *static_cast<double>(num)/static_cast<double>(num + 1));
     }
 
-  // GCE remove
   } else if (!is_ghost() && grand_canonical_ && inside_ && !is_second_target_) {
+    DEBUG("set_probability GCE remove");
     set_probability_(static_cast<double>(num_neighbors)/volume_av);
     if (target_mobile_same_type_) {
       set_probability_(probability()
         *static_cast<double>(num)/static_cast<double>(num - 1));
     }
 
-  // AVB2 in->out
   } else if (!is_ghost() && !grand_canonical_ && inside_ && !is_second_target_) {
-    //DEBUG("AVB2 in->out");
+    DEBUG("set_probability AVB2 in->out");
     // compute num_out
     ASSERT(num_out == 0, "num_out from above should be zero");
     int num_tot_tmp;
@@ -190,15 +207,15 @@ bool SelectParticleAVB::select(const Select& perturbed,
       /static_cast<double>(num_out + 1)
       *volume_out/volume_av);
 
-  // AVB2 out->in
   } else if (!is_ghost() && !grand_canonical_ && !inside_ && !is_second_target_) {
+    DEBUG("set_probability AVB2 out->in");
     // ComputeAVB2 will add p_bias term
     set_probability_(static_cast<double>(num_out)
       /static_cast<double>(num_neighbors + 1)
       *volume_av/volume_out);
 
-  // AVB4 in->in
   } else if (!is_ghost() && !grand_canonical_ && inside_ && is_second_target_) {
+    DEBUG("set_probability AVB4 in->in");
     // obtain the number of neighbors in the second target
     map_(*system, neighbor_).neighbors(
       neighbor,
@@ -223,7 +240,6 @@ bool SelectParticleAVB::select(const Select& perturbed,
       /static_cast<double>(neighbors_.num_particles() +
                            mobile_not_in_both_targets_));
 
-  // invalid
   } else {
     FATAL("unrecognized combination of the is_ghost: " << is_ghost()
       << " grand_canonical: " << grand_canonical_ << " inside: " << inside_
@@ -248,12 +264,15 @@ std::shared_ptr<TrialSelect> SelectParticleAVB::create(std::istream& istr) const
 SelectParticleAVB::SelectParticleAVB(std::istream& istr)
   : TrialSelect(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(239 == version, "mismatch version: " << version);
+  ASSERT(version >= 239 && version >= 240, "mismatch version: " << version);
   feasst_deserialize(&neighbor_, istr);
   feasst_deserialize(&site_index_, istr);
   feasst_deserialize(&grand_canonical_, istr);
   feasst_deserialize(&inside_, istr);
   feasst_deserialize(&is_second_target_, istr);
+  if (version >= 240) {
+    feasst_deserialize(&rxnavb_, istr);
+  }
   feasst_deserialize_fstobj(&select_target_, istr);
   feasst_deserialize_fstobj(&select_mobile_, istr);
 }
@@ -261,12 +280,13 @@ SelectParticleAVB::SelectParticleAVB(std::istream& istr)
 void SelectParticleAVB::serialize_select_particle_avb_(
     std::ostream& ostr) const {
   serialize_trial_select_(ostr);
-  feasst_serialize_version(239, ostr);
+  feasst_serialize_version(240, ostr);
   feasst_serialize(neighbor_, ostr);
   feasst_serialize(site_index_, ostr);
   feasst_serialize(grand_canonical_, ostr);
   feasst_serialize(inside_, ostr);
   feasst_serialize(is_second_target_, ostr);
+  feasst_serialize(rxnavb_, ostr);
   feasst_serialize_fstobj(select_target_, ostr);
   feasst_serialize_fstobj(select_mobile_, ostr);
 }

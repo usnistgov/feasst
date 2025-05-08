@@ -218,6 +218,10 @@ class VisitModel {
     Configuration * config,
     const Select * sel);
   bool find_in_pair3body(const int ipart, const int isite, const int num_pair);
+  bool is_old_config_(const Select& selection) const;
+
+  // If possible, query energy map of old configuration instead of pair loop
+  bool is_queryable_(const Select& selection, const bool is_old_config, VisitModelInner * inner);
 
  private:
   double energy_ = 0.;
