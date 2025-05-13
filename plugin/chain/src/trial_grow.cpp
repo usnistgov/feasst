@@ -61,6 +61,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
   const std::string default_num_steps = str("default_num_steps", &(*args)[0], "1");
   const std::string default_reference_index = str("default_reference_index", &(*args)[0], "-1");
   const std::string default_new_only = str("default_new_only", &(*args)[0], "false");
+  bool reptate = false;
   // First, determine all trial types from args[0]
   std::vector<std::string> trial_types;
   std::vector<bool> trial_half_weight;
@@ -286,7 +287,8 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           perturb = std::make_shared<PerturbBranch>(&iargs);
         }
         if (boolean("reptate", &iargs, false)) {
-          FATAL("TrialGrow::reptate has an issue and should not be used.");
+          FATAL("reptations are disabled");
+          reptate = true; // later check if num_steps > 1
           ASSERT(used == 0, "cannot have more than one");
           ++used;
           select = MakeTrialSelectBond({
@@ -345,6 +347,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
         }
       }
       const std::string num_steps = str("num_steps", &iargs, default_num_steps);
+      ASSERT(!reptate || num_steps == "1", "reptate requires num_steps == 1");
       //ASSERT(trial_type != "translate" || num_steps == "1",
       //  "For " << trial_type << ", num_steps must be 1");
       argtype stage_args = {{"num_steps", num_steps},

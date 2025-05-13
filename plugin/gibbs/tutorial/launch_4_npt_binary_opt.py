@@ -9,11 +9,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pyfeasst import fstio
 from pyfeasst import physical_constants
+import launch_3_npt_binary
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+    parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt0', type=str, default='/feasst/particle/dimer_mie_CO2.fstprt', help='FEASST particle definition')
     parser.add_argument('--fstprt1', type=str, default='/feasst/particle/dimer_mie_N2.fstprt', help='FEASST particle definition')
@@ -63,61 +64,13 @@ def sim_node_dependent_params(params):
     """ Set parameters that depent upon the sim or node here. """
     sim = params['sim']
     for ptype, fstprt in enumerate([params['fstprt0'], params['fstprt1']]):
-        params['ptype'] = ptype
         prepend = filename=params['prefix']+str(sim)+"_p"+str(ptype)
         params['num_sites'] = fstio.num_sites_in_fstprt(fstprt, params['feasst_install'])
-        write_grow_file(prepend+"_c0_grow_canonical.txt", params=params, gce=0, conf=0)
-        write_grow_file(prepend+"_c0_grow_add.txt", params=params, gce=1, conf=0)
-        write_grow_file(prepend+"_c1_grow_canonical.txt", params=params, gce=0, conf=1)
-        write_grow_file(prepend+"_c1_grow_add.txt", params=params, gce=1, conf=1)
-        write_grow_file(prepend+"_grow_gibbs.txt", params=params, gce=2, conf=0, conf2=1)
-
-# write TrialGrowFile to include grand canonical ensemble growth and canonica ensemble reptations
-def write_grow_file(filename, params,
-                    gce, # 0: canonical moves, 1: add only for box fill, 2: gibbs transfer
-                    conf, conf2=-1): # the second conf is for gibbs transfer only
-    params['conf'] = conf
-    params['conf2'] = conf2
-    params['ref'] = 0
-    params['num_steps'] = 1
-    if gce == 2 or conf == 1:
-        # use DCCB in config 1 (liquid) or with transfers
-        params['ref'] = 1
-        params['num_steps'] = params['num_dccb']
-    with open(filename, 'w') as f:
-        f.write("TrialGrowFile\n\n")
-        for inv in [True, False]:
-            for trial_type in range(3+int(params['num_sites']/2)): # 0: reptate, 1: full regrow, 2+: partial regrow
-                for site in range(params['num_sites']):
-                    for i in range(4):
-                        sign = -1
-                        if trial_type == 0 and site != params['num_sites'] - 1:
-                            sign = 1
-                        params['site'+str(i)] = site + sign*i
-                        if inv:
-                            params['site'+str(i)] = params['num_sites'] - site - 1 - sign*i
-                    bond = """bond true mobile_site {site0} anchor_site {site1} num_steps {num_steps} reference_index {ref}\n""".format(**params)
-
-                    # full regrowth insertion/deletion
-                    if trial_type == 1 and (gce == 1 or gce == 2):
-                        if site == 0:
-                            if gce == 2:
-                                f.write("""particle_type {ptype} configuration_index {conf} configuration_index2 {conf2} weight 1 gibbs_transfer true site {site0} num_steps {num_steps} reference_index {ref} print_num_accepted true\n""".format(**params))
-                            elif gce == 1:
-                                f.write("""particle_type {ptype} configuration_index {conf} weight 1 add true site {site0} num_steps {num_steps} reference_index {ref}\n""".format(**params))
-                        else:
-                            f.write(bond)
-
-                    # partial regrow
-                    if not gce and trial_type > 1:
-                        num_grow = trial_type - 1
-                        if params['num_sites'] - site < num_grow:
-                            if params['num_sites'] - site == num_grow - 1:
-                                f.write('particle_type '+str(params['ptype'])+' weight '+str(1./(trial_type-2))+' configuration_index '+str(conf)+' ')
-                            if site == 1 or site == 2 or site != 0:
-                                f.write(bond)
-
-                f.write("\n")
+        fstio.write_linear_grow_file(prepend+"_c0_grow_canonical.txt", particle_type=ptype, num_sites=params['num_sites'], gce=0, conf=0, reference_index=0, num_steps=1)
+        fstio.write_linear_grow_file(prepend+"_c0_grow_add.txt", particle_type=ptype, num_sites=params['num_sites'], gce=2, conf=0, reference_index=0, num_steps=1)
+        fstio.write_linear_grow_file(prepend+"_c1_grow_canonical.txt", particle_type=ptype, num_sites=params['num_sites'], gce=0, conf=1, reference_index=1, num_steps=params['num_dccb'])
+        fstio.write_linear_grow_file(prepend+"_c1_grow_add.txt", particle_type=ptype, num_sites=params['num_sites'], gce=2, conf=1, reference_index=1, num_steps=params['num_dccb'])
+        fstio.write_linear_grow_file(prepend+"_grow_gibbs.txt", particle_type=ptype, num_sites=params['num_sites'], gce=3, conf=0, conf2=1, reference_index=1, num_steps=params['num_dccb'])
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -209,49 +162,8 @@ CPUTime    trials_per_write {tpc} output_file {prefix}{sim}_cpu.csv
 Run until complete
 """.format(**params))
 
-def compare(label, average, stdev, params, z_factor=5):
-    df = pd.read_csv(params['prefix']+"0_"+label+".csv")
-    df['diff'] = np.abs(df['average']-average)
-    df['tol'] = np.sqrt(df['block_stdev']**2+stdev**2)
-    print(label, df)
-    diverged = df[df['diff'] > z_factor*df['tol']]
-    if len(diverged) > 0:
-        print(diverged)
-    assert len(diverged) == 0
-
 def post_process(params):
-    z_factor = 12
-    rhov_rhol = [[0.00294, 0.0131], [0.0005, 0.005]] # [[avs], [stdevs]]
-    compare("c0_dens", rhov_rhol[0][0], rhov_rhol[1][0], params)
-    compare("c1_dens", rhov_rhol[0][1], rhov_rhol[1][1], params)
-    numc0n0 = pd.read_csv(params['prefix']+'0_c0_n0.csv')['average'][0]
-    numc0n1 = pd.read_csv(params['prefix']+'0_c0_n1.csv')['average'][0]
-    numc1n0 = pd.read_csv(params['prefix']+'0_c1_n0.csv')['average'][0]
-    numc1n1 = pd.read_csv(params['prefix']+'0_c1_n1.csv')['average'][0]
-    yco2 = numc0n0/(numc0n0+numc0n1)
-    print('mol frac CO2 in vapor', yco2)
-    assert np.abs(yco2 - 0.536) < 0.075
-    xco2 = numc1n0/(numc1n0+numc1n1)
-    print('mol frac CO2 in liquid', xco2)
-    assert np.abs(xco2 - 0.938) < 0.075
-    eq = pd.read_csv(params['prefix']+'0_eq.csv')
-    prod = pd.read_csv(params['prefix']+'0.csv')
-    for conf in range(2):
-        #plt.plot(eq['volume_config'+str(conf)])
-        n0eq = eq['num_particles_of_type0_config'+str(conf)]
-        n1eq = eq['num_particles_of_type1_config'+str(conf)]
-        plt.plot(eq['trial'], n0eq/(n0eq+n1eq))
-        n0 = prod['num_particles_of_type0_config'+str(conf)]
-        n1 = prod['num_particles_of_type1_config'+str(conf)]
-        plt.plot(prod['trial'], n0/(n0+n1))
-    #plt.axhline(0.8977, linestyle='dotted', color='black')
-    #plt.axhline(0.4788, linestyle='dotted', color='black')
-    plt.title('MIE CO2 N2 mixture P='+str(params['pressure'])+' MPa T='+str(1./params['beta']))
-    plt.xlabel('trials', fontsize=16)
-    plt.ylabel('mole fraction CO2', fontsize=16)
-    #if True:
-    if False:
-        plt.savefig('plot.png', bbox_inches='tight', transparent=True)
+    launch_3_npt_binary.post_process(params)
 
 if __name__ == '__main__':
     parameters, arguments = parse()

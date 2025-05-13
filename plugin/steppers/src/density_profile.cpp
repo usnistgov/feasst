@@ -51,22 +51,27 @@ std::string DensityProfile::header(const MonteCarlo& mc) const {
 
 class ComputeProfile : public LoopConfigOneBody {
  public:
-  ComputeProfile(const int dim, std::vector<Histogram> * hist)
-    : dim_(dim), hist_(hist) {}
+  ComputeProfile(const int dim, std::vector<Histogram> * hist, const Domain * domain)
+    : dim_(dim), hist_(hist), domain_(domain) {}
   void work(const Site& site,
       const Configuration& config,
       const LoopDescriptor& data) override {
-    (*hist_)[site.type()].add(site.position().coord(dim_));
+    domain_->wrap_opt(site.position(), &wrapped_, &scaled_);
+    (*hist_)[site.type()].add(wrapped_.coord(dim_));
+    //(*hist_)[site.type()].add(site.position().coord(dim_));
   }
  private:
   int dim_;
   std::vector<Histogram> * hist_;
+  const Domain * domain_;
+  Position wrapped_, scaled_;
 };
 
 void DensityProfile::update(const MonteCarlo& mc) {
   DEBUG("updating");
-  ComputeProfile comp(dimension_, &data_);
-  VisitConfiguration().loop(mc.system().configuration(), &comp);
+  const Configuration& config = configuration(mc.system());
+  ComputeProfile comp(dimension_, &data_, &config.domain());
+  VisitConfiguration().loop(config, &comp);
 }
 
 std::vector<std::vector<std::vector<double> > > DensityProfile::profile() const {

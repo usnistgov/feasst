@@ -8,7 +8,8 @@
 namespace feasst {
 
 /**
-  Density profile
+  Compute the Density as a function of distance, r, in a given dimension for
+  each site type.
  */
 class DensityProfile : public Analyze {
  public:
@@ -30,7 +31,7 @@ class DensityProfile : public Analyze {
   void initialize(MonteCarlo * mc) override;
   void update(const MonteCarlo& mc) override;
 
-  /// Return the profile for a given type.
+  /// Return the profile for a given site type.
   /// The first index is the bin.
   /// The second index is the type.
   /// The third index is 0 - r, 1 - value.
@@ -52,8 +53,6 @@ class DensityProfile : public Analyze {
  private:
   int dimension_;
   double dr_, center_;
-
-  // temporary and not serialized
   std::vector<Histogram> data_;
 };
 

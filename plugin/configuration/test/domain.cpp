@@ -76,6 +76,16 @@ TEST(Domain, wrap) {
   EXPECT_NEAR(6, shift.coord(1), NEAR_ZERO);
   EXPECT_NEAR(5, shift.coord(2), NEAR_ZERO);
 
+  // optimized wrap
+  Position wrapped, scaled;
+  domain->wrap_opt(pos, &wrapped, &scaled);
+  EXPECT_NEAR(2, wrapped.coord(0), NEAR_ZERO);
+  EXPECT_NEAR(1, wrapped.coord(1), NEAR_ZERO);
+  EXPECT_NEAR(0, wrapped.coord(2), NEAR_ZERO);
+  EXPECT_NEAR(0.36, scaled.coord(0), NEAR_ZERO);
+  EXPECT_NEAR(1/5.0, scaled.coord(1), NEAR_ZERO);
+  EXPECT_NEAR(0, scaled.coord(2), NEAR_ZERO);
+
   // serialize
   Domain domain2 = test_serialize(*domain);
   EXPECT_EQ(domain->volume(), domain2.volume());

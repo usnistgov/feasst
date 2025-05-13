@@ -14,7 +14,7 @@ from pyfeasst import physical_constants
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default=os.path.expanduser('~')+'/feasst/build/',
+    parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt0', type=str, default='/feasst/particle/dimer_mie_CO2.fstprt', help='FEASST particle definition')
     parser.add_argument('--fstprt1', type=str, default='/feasst/particle/dimer_mie_N2.fstprt', help='FEASST particle definition')

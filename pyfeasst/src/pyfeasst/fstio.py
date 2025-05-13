@@ -400,11 +400,12 @@ def num_sites_in_fstprt(fstprt_file, feasst_install=""):
             print('feasst_install:', feasst_install, 'should be used given as the path to the',
                   'feasst build directory in order to convert /feasst in the fstprt_file')
         fstprt_file = feasst_install + '..' + fstprt_file[7:]
-    else:
-        if feasst_install != "":
-            print('feasst_install:', feasst_install, 'should only be used if the fstprt_file',
-                  fstprt_file, 'beings with /feasst')
-            assert False
+#    else:
+#        if feasst_install != "":
+#            print('feasst_install:', feasst_install, 'should only be used if the fstprt_file',
+#                  fstprt_file, 'beings with /feasst. Because your fstprt file does not begin',
+#                  'with /feasst, simply remove the feasst_install argument in your Python script')
+#            assert False
     with open(fstprt_file, 'r') as file1:
         lines = file1.read().splitlines()
     for line in lines:
@@ -416,6 +417,164 @@ def num_sites_in_fstprt(fstprt_file, feasst_install=""):
                 return int(values[0])
     print('reached the end of file without finding number of sites', fstprt_file)
     assert False
+
+# For use in function below only
+def write_bond_(btype, file1, descript, num_steps_override=-1):
+    import copy
+    if num_steps_override > 0:
+        descript = copy.deepcopy(descript)
+        if num_steps_override > 1:
+            descript['num_steps'] = ' num_steps '+str(num_steps_override)
+        else:
+            descript['num_steps'] = ''
+    if btype == 'bond':
+        file1.write("""bond true mobile_site {site0} anchor_site {site1}{num_steps}{reference_index}\n""".format(**descript))
+    elif btype == 'angle':
+        file1.write("""angle true mobile_site {site0} anchor_site {site1} anchor_site2 {site2}{num_steps}{reference_index}\n""".format(**descript))
+    elif btype == 'dihedral':
+        file1.write("""dihedral true mobile_site {site0} anchor_site {site1} anchor_site2 {site2} anchor_site3 {site3}{num_steps}{reference_index}\n""".format(**descript))
+    else:
+        print('unrecognized bond type', btype)
+    return True
+
+def write_linear_grow_file(filename, num_sites, gce=0, reference_index=0, num_steps=4, base_weight=1, conf=0, conf2=-1, particle_type=0, angle=True, dihedral=True):
+    """
+    Write TrialGrowFile input files for linear chain particles.
+
+    :param str filename:
+        The name of the file to write the TrialGrowFile text.
+    :param int num_sites:
+        The number of sites in the linear chain particle.
+    :param int gce:
+        If 0, write only canonical ensemble trials.
+        If 1, write only grand canonical ensemble insertion and deletion trials.
+        If 2, write only grand canonical ensemble insertion trials
+        If 3, wirte only Gibbs particle transfer trials.
+    :param int reference_index:
+        The index of the reference potential to be used for dual-cut configurational bias.
+        If -1, do not use a reference potential.
+    :param int num_steps:
+        The number of steps to be used for (dual-cut) configurational bias.
+    :param float base_weight:
+        The weight used for determining the probability of attempting a trial.
+    :param int conf:
+        The configuration index for the trial (see System).
+    :param int conf2:
+        The second configuration index for the trial used with gibbs transfers only.
+    :param int particle_type:
+        Type of particle in configuration.
+    :param bool angle:
+        True if there are angle potentials present in the linear chain.
+    :param bool dihedral:
+        True if there are dihedral potentials present in the linear chain.
+
+    The weight for trial moves is the base weight, but reptations are divided by 4 and partial regrowth
+    weights are divided by the number of stages.
+
+    Reptations has been disabled because there is an issue with them.
+
+    >>> from pyfeasst import fstio
+    >>> fstio.write_linear_grow_file("grow_grand_canonical.txt", num_sites=3, gce=1, reference_index=0, num_steps=4)
+    >>> with open('grow_grand_canonical.txt') as file1:
+    ...     lines = file1.readlines()
+    >>> lines[0]
+    'TrialGrowFile\\n'
+    >>> lines[1]
+    '\\n'
+    >>> lines[2]
+    'particle_type 0 weight 1 transfer true site 2 num_steps 4 reference_index 0\\n'
+    """
+    descript = {'reference_index':'', 'num_steps':'', 'weight':base_weight, 'conf':'',
+                'particle_type':particle_type, 'conf2':conf2, 'rept_weight':base_weight/4.}
+    if reference_index >= 0:
+        descript['reference_index'] = ' reference_index '+str(reference_index)
+    if num_steps > 1:
+        descript['num_steps'] = ' num_steps '+str(num_steps)
+    if conf > 0:
+        descript['conf'] = ' configuration_index '+str(conf)
+    with open(filename, 'w') as file1:
+        file1.write("TrialGrowFile\n\n")
+        for inv in [True, False]:
+            for trial_type in range(3+int(num_sites/2)): # 0: reptate, 1: full regrow, 2+: partial regrow
+                wrote = False
+                for site in range(num_sites):
+                    for i in range(4): # build up to dihedrals
+                        sign = -1
+                        if trial_type == 0 and site != num_sites - 1:
+                            sign = 1
+                        descript['site'+str(i)] = site + sign*i
+                        if inv:
+                            descript['site'+str(i)] = num_sites - site - 1 - sign*i
+
+                    # full regrowth insertion/deletion
+                    if trial_type == 1 and gce > 0:
+                        if site == 0:
+                            if gce == 3:
+                                file1.write("""particle_type {particle_type}{conf} configuration_index2 {conf2} weight {weight} gibbs_transfer true site {site0}{num_steps}{reference_index} print_num_accepted true\n""".format(**descript))
+                            elif gce == 2:
+                                file1.write("""particle_type {particle_type} weight {weight} add true site {site0}{num_steps}{reference_index}{conf}\n""".format(**descript))
+                            elif gce == 1:
+                                file1.write("""particle_type {particle_type} weight {weight} transfer true site {site0}{num_steps}{reference_index}{conf}\n""".format(**descript))
+                            wrote = True
+                        elif site == 1:
+                            wrote = write_bond_('bond', file1, descript)
+                        elif site == 2:
+                            if angle:
+                                wrote = write_bond_('angle', file1, descript)
+                            else:
+                                wrote = write_bond_('bond', file1, descript)
+                        else:
+                            if dihedral:
+                                wrote = write_bond_('dihedral', file1, descript)
+                            else:
+                                wrote = write_bond_('bond', file1, descript)
+
+#                    # reptation (must have num_steps 1)
+#                    elif trial_type == 0 and gce == 0:
+#                        if site == num_sites - 1:
+#                            if num_sites == 2:
+#                                wrote = write_bond_('bond', file1, descript, num_steps_override=1)
+#                            elif num_sites == 3:
+#                                if angle:
+#                                    wrote = write_bond_('angle', file1, descript, num_steps_override=1)
+#                                else:
+#                                    wrote = write_bond_('bond', file1, descript, num_steps_override=1)
+#                            elif num_sites > 3:
+#                                if dihedral:
+#                                    wrote = write_bond_('dihedral', file1, descript, num_steps_override=1)
+#                                else:
+#                                    wrote = write_bond_('bond', file1, descript, num_steps_override=1)
+#                            else:
+#                                print('unrecognized num_sites', num_sites)
+#                                assert False
+#                        else:
+#                            if site == 0:
+#                                file1.write("""particle_type {particle_type} weight {rept_weight}{conf} """.format(**descript))
+#                            file1.write("""reptate true mobile_site {site0} anchor_site {site1}{reference_index}\n""".format(**descript))
+#                            wrote = True
+
+                    # partial regrow
+                    if gce == 0 and trial_type > 1:
+                        num_grow = trial_type - 1
+                        if num_sites - site < num_grow:
+                            if num_sites - site == num_grow - 1:
+                                file1.write('particle_type '+str(descript['particle_type'])+' weight '+str(descript['weight']/(trial_type-2))+descript['conf']+' ')
+                                wrote = True
+                            if site == 1:
+                                wrote = write_bond_('bond', file1, descript)
+                            elif site == 2:
+                                if angle:
+                                    wrote = write_bond_('angle', file1, descript)
+                                else:
+                                    wrote = write_bond_('bond', file1, descript)
+                            elif site != 0:
+                                if dihedral:
+                                    wrote = write_bond_('dihedral', file1, descript)
+                                else:
+                                    wrote = write_bond_('bond', file1, descript)
+
+                if wrote:
+                    file1.write("\n")
 
 if __name__ == "__main__":
     import doctest

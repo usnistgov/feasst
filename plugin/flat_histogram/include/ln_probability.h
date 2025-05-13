@@ -88,6 +88,10 @@ class LnProbability {
 
   bool is_equal(const LnProbability& ln_prob, const double tolerance) const;
 
+  /// Initialize from a file as described in
+  /// TransitionMatrixGuess::ln_prob_file and then normalize.
+  void read(const std::string& file_name);
+
   void serialize(std::ostream& ostr) const;
   explicit LnProbability(std::istream& istr);
 

@@ -465,7 +465,7 @@ def window_exponential(maximum, minimums=[0], alpha=1.5, number=-1, overlap=1, m
         print('The number of windows:', number, 'is more than the macrostate range.',
               'max:', maximum, 'min:', minimums[0])
         assert False
-    segment = [None]*(number+1)
+    segment = [None]*(number + 1)
     num_partial = len(minimums)
     segment[number] = maximum
     if num_partial == 1:
@@ -475,7 +475,7 @@ def window_exponential(maximum, minimums=[0], alpha=1.5, number=-1, overlap=1, m
         for index, value in enumerate(minimums):
             segment[index] = value
         last_partial_seg = segment[num_partial-1]
-    diff = (maximum**alpha - last_partial_seg**alpha)/float(number)
+    diff = (maximum**alpha - last_partial_seg**alpha)/float(number - num_partial + 1)
     for index in range(num_partial, number):
         segment[index] = ((segment[index-1]**alpha)+diff)**(1./alpha)
     boundaries = np.zeros((number, 2)).tolist()
@@ -490,6 +490,34 @@ def window_exponential(maximum, minimums=[0], alpha=1.5, number=-1, overlap=1, m
         if size < min_size:
             print('size:', size, 'is less than the mininum size:', min_size)
     return boundaries
+
+def split_ln_prob_file(filename, windows):
+    """
+    Split a LnProbability file into multiple windows.
+    
+    >>> from pyfeasst import macrostate_distribution
+    >>> macrostate_distribution.split_ln_prob_file(filename='../../tests/ln_prob_guess.csv', windows=[[0,180],[180,370]])
+    >>> import pandas as pd
+    >>> df = pd.read_csv('../../tests/ln_prob_guess.csv0', header=None)
+    >>> round(float(df[0][0]), 8)
+    -274.67636319
+    >>> round(float(df[0].iloc[-1]), 8)
+    -64.37837255
+    >>> df = pd.read_csv('../../tests/ln_prob_guess.csv1', header=None)
+    >>> round(float(df[0][0]), 8)
+    -64.37837255
+    >>> round(float(df[0].iloc[-1]), 8)
+    -30.87144323
+    """
+    with open(filename) as file1:
+        lines = file1.readlines()
+    # print('windows', windows)
+    for iwin, win in enumerate(windows):
+        # print('win', win)
+        with open(filename+str(iwin), 'w', encoding='utf-8') as file1:
+            for line in lines[win[0]:win[1]+1]:
+                # print(iwin, line)
+                file1.write(line)
 
 if __name__ == "__main__":
     import doctest

@@ -141,96 +141,13 @@ def sim_node_dependent_params(params):
     else:
         params['liquid_config'] = """xyz_file {xyz_liquid}""".format(**params)
         params['init_liquid'] = ''
-    write_grow_file(filename=params['prefix']+str(sim)+"_c0_grow_canonical.txt", params=params, gce=0, conf=0)
+    fstio.write_linear_grow_file(filename=params['prefix']+str(sim)+"_c0_grow_canonical.txt", num_sites=params['num_sites'], gce=0, conf=0, reference_index=0, num_steps=1)
     if params['xyz_vapor'] == '':
-        write_grow_file(filename=params['prefix']+str(sim)+"_c0_grow_add.txt", params=params, gce=1, conf=0)
-    write_grow_file(filename=params['prefix']+str(sim)+"_c1_grow_canonical.txt", params=params, gce=0, conf=1)
+        fstio.write_linear_grow_file(filename=params['prefix']+str(sim)+"_c0_grow_add.txt", num_sites=params['num_sites'], gce=2, conf=0, reference_index=0, num_steps=1)
+    fstio.write_linear_grow_file(filename=params['prefix']+str(sim)+"_c1_grow_canonical.txt", num_sites=params['num_sites'], gce=0, conf=1, reference_index=1, num_steps=4)
     if params['xyz_liquid'] == '':
-        write_grow_file(filename=params['prefix']+str(sim)+"_c1_grow_add.txt", params=params, gce=1, conf=1)
-    write_grow_file(filename=params['prefix']+str(sim)+"_grow_gibbs.txt", params=params, gce=2, conf=0, conf2=1)
-
-def write_partial(f, bond, angle, dihedral, params):
-    if params['num_sites'] == 2:
-        f.write(bond)
-    elif params['num_sites'] == 3:
-        f.write(angle)
-    elif params['num_sites'] > 3:
-        f.write(dihedral)
-    else:
-        print('unrecognized num_sites', params['num_sites'])
-        assert False
-
-# write TrialGrowFile to include grand canonical ensemble growth and canonica ensemble reptations
-def write_grow_file(filename, params,
-                    gce, # 0: canonical moves, 1: add only for box fill, 2: gibbs transfer
-                    conf, conf2=-1): # the second conf is for gibbs transfer only
-    params['conf'] = conf
-    params['conf2'] = conf2
-    params['ref'] = 0
-    params['num_steps'] = 1
-    if gce == 2 or conf == 1:
-        # use DCCB in config 1 (liquid) or with transfers
-        params['ref'] = 1
-        params['num_steps'] = params['num_dccb']
-    with open(filename, 'w') as f:
-        f.write("TrialGrowFile\n\n")
-        for inv in [True, False]:
-            for trial_type in range(3+int(params['num_sites']/2)): # 0: reptate, 1: full regrow, 2+: partial regrow
-                for site in range(params['num_sites']):
-                    for i in range(4):
-                        sign = -1
-                        if trial_type == 0 and site != params['num_sites'] - 1:
-                            sign = 1
-                        params['site'+str(i)] = site + sign*i
-                        if inv:
-                            params['site'+str(i)] = params['num_sites'] - site - 1 - sign*i
-                    bond = """bond true mobile_site {site0} anchor_site {site1} num_steps {num_steps} reference_index {ref}\n""".format(**params)
-                    angle = """angle true mobile_site {site0} anchor_site {site1} anchor_site2 {site2} num_steps {num_steps} reference_index {ref}\n""".format(**params)
-                    dihedral = """dihedral true mobile_site {site0} anchor_site {site1} anchor_site2 {site2} anchor_site3 {site3} num_steps {num_steps} reference_index {ref}\n""".format(**params)
-
-                    # full regrowth insertion/deletion
-                    if trial_type == 1 and (gce == 1 or gce == 2):
-                        if site == 0:
-                            if gce == 2:
-                                f.write("""particle_type 0 configuration_index {conf} configuration_index2 {conf2} weight 1 gibbs_transfer true site {site0} num_steps {num_steps} reference_index {ref} print_num_accepted true\n""".format(**params))
-                            elif gce == 1:
-                                f.write("""particle_type 0 configuration_index {conf} weight 1 add true site {site0} num_steps {num_steps} reference_index {ref}\n""".format(**params))
-                        elif site == 1:
-                            f.write(bond)
-                        elif site == 2:
-                            f.write(angle)
-                        else:
-                            f.write(dihedral)
-
-#                    # reptation. There seems to be a problem with reptation.
-#                    elif trial_type == 0 and gce == 0:
-#                        if site == params['num_sites'] - 1:
-#                            write_partial(f, bond, angle, dihedral, params)
-#                        else:
-#                            if site == 0:
-#                                f.write("""particle_type 0 configuration_index {conf} weight 0.25 """.format(**params))
-#                            f.write("""reptate true mobile_site {site0} anchor_site {site1} num_steps 1 reference_index {ref}\n""".format(**params))
-#
-#                    # partial regrow of the last site
-#                    if trial_type == 2 and gce == 0:
-#                        if site == 0:
-#                            f.write("""particle_type 0 configuration_index {conf} weight 0.25 """.format(**params))
-#                            write_partial(f, bond, angle, dihedral, params)
-
-                    # partial regrow
-                    if not gce and trial_type > 1:
-                        num_grow = trial_type - 1
-                        if params['num_sites'] - site < num_grow:
-                            if params['num_sites'] - site == num_grow - 1:
-                                f.write('particle_type 0 weight '+str(1/(trial_type-2))+' configuration_index '+str(conf)+' ')
-                            if site == 1:
-                                f.write(bond)
-                            elif site == 2:
-                                f.write(angle)
-                            elif site != 0:
-                                f.write(dihedral)
-
-                f.write("\n")
+        fstio.write_linear_grow_file(filename=params['prefix']+str(sim)+"_c1_grow_add.txt", num_sites=params['num_sites'], gce=2, conf=1, reference_index=1, num_steps=4)
+    fstio.write_linear_grow_file(filename=params['prefix']+str(sim)+"_grow_gibbs.txt", num_sites=params['num_sites'], gce=3, conf=0, conf2=1, reference_index=1, num_steps=4)
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """

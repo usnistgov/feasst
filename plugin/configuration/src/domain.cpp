@@ -451,4 +451,14 @@ bool Domain::is_minimum_image_for_cutoff(const double cutoff) const {
   return true;
 }
 
+void Domain::wrap_opt(const Position& unwrapped, Position * wrapped, Position * scaled) const {
+  for (Position * pos : {wrapped, scaled}) {
+    if (pos->size() != unwrapped.size()) {
+      pos->set_to_origin(unwrapped.size());
+    }
+  }
+  cartesian2scaled_wrap(unwrapped, scaled);
+  h_.multiply(*scaled, wrapped);
+}
+
 }  // namespace feasst

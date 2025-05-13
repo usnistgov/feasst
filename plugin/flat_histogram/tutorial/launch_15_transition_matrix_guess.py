@@ -1,19 +1,5 @@
 """
-Flat-histogram simulation of a binary mixture of CO2 and N2 using SAFT-based MIE models in the grand canonical ensemble.
-https://doi.org/10.1021/acs.jpcb.5c00536
-https://doi.org/10.1063/1.1844372
-https://doi.org/10.1063/1.2064628
-https://doi.org/10.1063/1.4966573
-https://doi.org/10.1063/1.4996759
-https://doi.org/10.1063/1.5006906
-
-In the postprocessing step, reweight in mu0 to find equilibrium between vapor and liquid.
-The chosen delta mu = mu1 - mu0 determines the resulting pressure.
-Simulations of various delta mu yeild the binary phase envelope for a given temperature.
-
-Each macrostate is an isochoric semigrand ensemble (instead of canonical in the single component case), but we are simulating with grand canonical ensemble sampling (e.g., insertions and deletions).
-Note that when computing mole fractions, <N_0>/<N_total> != <N_0/N_total>, where <...> is a isochoric semigrand ensemble average.
-Use gce ensemble averages of extensive quantities, not intensive quantities.
+Transition-Matrix simulation where the macrostate distribution is input as an initial guess.
 """
 
 import argparse
@@ -21,24 +7,20 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from pyfeasst import fstio
-from pyfeasst import physical_constants
 from pyfeasst import macrostate_distribution
-from pyfeasst import multistate_accumulator
 
-def parse(particle_type0='/feasst/particle/dimer_mie_CO2.fstprt',
-          particle_type1='/feasst/particle/dimer_mie_N2.fstprt',
-          beta=1./258.15,
-          beta_mu0=-3,
-          beta_delta_mu=0.244046,
-          beta_init=1/400,
-          min_sweeps=5,
-          cubic_side_length=24,
-          max_particles=215,
+def parse(fstprt='/feasst/particle/lj.fstprt',
+          beta=1./1.5,
+          beta_mu=-1.568214,
+          mu_init=10,
+          min_sweeps=1e2,
+          cubic_side_length=8,
+          max_particles=370,
           window_alpha=2.25,
           hours_checkpoint=1,
           hours_terminate=5*24,
           num_nodes=1,
-          min_window_size=3,
+          min_window_size=5,
           procs_per_node=32,
           tpc=int(1e6),
           collect_flatness=20,
@@ -47,12 +29,11 @@ def parse(particle_type0='/feasst/particle/dimer_mie_CO2.fstprt',
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--particle_type0', type=str, default=particle_type0, help='first component FEASST particle')
-    parser.add_argument('--particle_type1', type=str, default=particle_type1, help='second component FEASST particle')
-    parser.add_argument('--beta', type=float, default=beta, help='1/(Temperature in Kelvin)')
-    parser.add_argument('--beta_mu0', type=float, default=beta_mu0, help='chemical potential of first component')
-    parser.add_argument('--beta_delta_mu', type=float, default=beta_delta_mu, help='chemical potential of second component minus first')
-    parser.add_argument('--beta_init', type=float, default=beta_init, help='chemical potential to initialize number of particles')
+    parser.add_argument('--fstprt', type=str, default=fstprt, help='FEASST particle definition')
+    parser.add_argument('--ln_prob_file', type=str, default='../test/data/ln_prob_guess.csv', help='the file name of the initial guess of the macrostate distribution')
+    parser.add_argument('--beta', type=float, default=beta, help='1/(K_Boltzmann*Temperature)')
+    parser.add_argument('--beta_mu', type=float, default=beta_mu, help='chemical potential')
+    parser.add_argument('--mu_init', type=float, default=mu_init, help='chemical potential to initialize number of particles')
     parser.add_argument('--max_particles', type=int, default=max_particles, help='maximum number of particles')
     parser.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
     parser.add_argument('--window_alpha', type=int, default=window_alpha, help='as window_alpha increases, window size of large N decreases')
@@ -85,20 +66,27 @@ def parse(particle_type0='/feasst/particle/dimer_mie_CO2.fstprt',
     assert len(unknown_args) == 0, 'An unknown argument was included: '+str(unknown_args)
     params = vars(args)
     params['script'] = __file__
-    params['prefix'] = 'binary'
+    params['prefix'] = 'tmguess'
     params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
     params['hours_terminate'] = 0.95*params['hours_terminate'] - 0.05 # terminate FEASST before SLURM
     params['procs_per_sim'] = 1
     params['num_sims'] = params['procs_per_node']*params['num_nodes']
-    params['mu0'] = params['beta_mu0']/params['beta']
-    params['mu1'] = params['beta_delta_mu']/params['beta'] + params['mu0']
+    params['mu'] = params['beta_mu']/params['beta']
+    params['system'] = """Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
+Potential Model LennardJones
+Potential VisitModel LongRangeCorrections""".format(**params)
+    params['nvt_trials'] = "TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25"
+    params['muvt_trials'] = "TrialTransfer weight 2 particle_type 0"
+    params['init_trials'] = "TrialAdd particle_type 0"
+    params['init_remove'] = "Remove name TrialAdd"
     params['min_particles_second_window'] = ""
     params['minimums'] = [params['min_particles']]
     if params['num_nodes'] == 1:
         params['windows'] = macrostate_distribution.window_exponential(
             alpha=params['window_alpha'], minimums=params['minimums'], maximum=params['max_particles'],
             number=params['num_sims'], overlap=1, min_size=params['min_window_size'])
+        macrostate_distribution.split_ln_prob_file(params['ln_prob_file'], params['windows'])
     return params, args
 
 def sim_node_dependent_params(params):
@@ -114,49 +102,35 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {particle_type0} particle_type1 {particle_type1} \
-    sigma0_1 2.9216 epsilon0_1 121.5 mie_lambda_r0_1 20.27 mie_lambda_a0_1 5.48294
-Potential Model Mie table_size 1e4
-Potential VisitModel LongRangeCorrections
-RefPotential VisitModel DontVisitModel
-ThermoParams beta {beta_init} chemical_potential0 {mu0} chemical_potential1 {mu1}
+{system}
+ThermoParams beta {beta} chemical_potential0 {mu_init}
 Metropolis
-TrialTranslate weight_per_number_fraction 0.5 particle_type 0 tunable_param 0.2
-TrialTranslate weight_per_number_fraction 0.5 particle_type 1 tunable_param 0.2
-TrialParticlePivot weight_per_number_fraction 0.5 particle_type 0 tunable_param 0.5
-TrialParticlePivot weight_per_number_fraction 0.5 particle_type 1 tunable_param 0.5
-# The following semigrand particle type changes only help sampling if the excluded volumes of the two particles are similar (and particles are rigid)
-TrialMorph weight 0.5 particle_type0 0 particle_type_morph0 1 reference_index 0
-TrialMorph weight 0.5 particle_type0 1 particle_type_morph0 0 reference_index 0
+{nvt_trials}
 CheckEnergy trials_per_update {tpc} decimal_places 4
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # gcmc initialization and nvt equilibration
-TrialAdd particle_type 0
-TrialAdd particle_type 1
+{init_trials}
 Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.csv
 Tune
 Run until_num_particles {min_particles}
-Remove name TrialAdd
-Remove name TrialAdd
-ThermoParams beta {beta} chemical_potential0 {mu0} chemical_potential1 {mu1}
+{init_remove}
+ThermoParams beta {beta} chemical_potential0 {mu}
 Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
 Run until complete
 Remove name0 Tune name1 Log
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} \
-    Bias WLTM min_sweeps {min_sweeps} min_flatness {min_flatness} collect_flatness {collect_flatness} min_collect_sweeps 1
-TrialTransfer weight 2 particle_type 0
-TrialTransfer weight 2 particle_type 1
-NumParticles particle_type 0 multistate true trials_per_write {tpc} output_file {prefix}n{node}s{sim}_num0.csv start_after_cycle 1
+    Bias TransitionMatrixGuess min_sweeps {min_sweeps} ln_prob_file {ln_prob_file}{sim}
+{muvt_trials}
 #To print xyz for each macrostate in separate files, add the following arguments to the "Movie" lines below: multistate true multistate_aggregate false
 Movie           trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.xyz stop_after_cycle 1
 Movie           trials_per_write {tpc} output_file {prefix}n{node}s{sim}.xyz start_after_cycle 1
 Log             trials_per_write {tpc} output_file {prefix}n{node}s{sim}.csv
 Tune            trials_per_write {tpc} output_file {prefix}n{node}s{sim}_tune.csv multistate true stop_after_cycle 1
 Energy          trials_per_write {tpc} output_file {prefix}n{node}s{sim}_en.csv multistate true start_after_cycle 1
-#HeatCapacity    trials_per_write {tpc} output_file {prefix}n{node}s{sim}_cv.csv multistate true start_after_cycle 1
+HeatCapacity    trials_per_write {tpc} output_file {prefix}n{node}s{sim}_cv.csv multistate true start_after_cycle 1
 ProfileCPU      trials_per_write {tpc} output_file {prefix}n{node}s{sim}_profile.csv
 CriteriaWriter  trials_per_write {tpc} output_file {prefix}n{node}s{sim:03d}_crit.csv
 CriteriaUpdater trials_per_update 1e5
@@ -168,45 +142,17 @@ Run until_file_exists {prefix}n{node}_terminate.txt trials_per_file_check {tpc}
 """.format(**params))
 
 def post_process(params):
-    """ Skip the following checks if temperature is not the default """
-    if np.abs(params['beta'] - 1./258.15) > 1e-5:
+    """ Skip the following checks if temperature is not the default 1.5 """
+    if np.abs(params['beta'] - 1./1.5) > 1e-5:
         return
     lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
-    #lnpi.reweight(delta_beta_mu=-4.5, inplace=True)
-    num0 = multistate_accumulator.splice(prefix=params['prefix']+'n0s', suffix='_num0.csv',
-                                         start=0, stop=params['procs_per_node']-1)
-    #num0.to_csv('num0.csv')
-    #plt.plot(num0['average'])
-    #plt.show()
-    #print('num0', num0)
-    lnpi.concat_dataframe(dataframe=num0, add_prefix='num0_')
-    #lnpi.reweight(delta_beta_mu=-4.5, inplace=True)
-    #lnpi.plot(show=True) # show before reweighting to equilibrium
-    lnpi.equilibrium(delta_beta_mu_guess=-4.5)
-    #lnpi.plot(show=True)
-    for index, phase in enumerate(lnpi.split()):
-        print('##############\nphase/index', index, '\n##############')
-        n_gce = phase.average_macrostate()
-        print('n_gce', n_gce)
-        num0 = phase.ensemble_average('num0_average')
-        print('num0', num0)
-        if index == 0:
-            assert np.abs(n_gce - 27) < 4
-            pressure = -phase.ln_prob()[0]/params['beta']/params['cubic_side_length']**3
-            print('pressure(K/Ang^3)', pressure)
-            # convert pressure in K/Ang^3 to MPa
-            # K/Ang^3 (1e30 A^3 / m^3)(Pa m^3/J)(MPa/1e6/Pa)(kB J/K)
-            pres_conv = 1e30/1e6*physical_constants.BoltzmannConstant().value()
-            print('pressure(MPa)', pressure*pres_conv)
-            assert np.abs(pressure*pres_conv - 5.38) < 0.4
-            assert np.abs(num0 - 14.8) < 4
-        else:
-            assert np.abs(n_gce - 183.8) < 4
-            assert np.abs(num0 - 172.8) < 4
-        #plt.plot(phase.dataframe()['num0_average'])
-        #plt.show()
-        print('mole frac0', num0/n_gce)
+    gce_av_num_particles = lnpi.average_macrostate()
+    if np.abs(gce_av_num_particles - 310.4179421879679) > 2.5:
+        print('gce_av_num_particles', gce_av_num_particles, 'is not within 2.5 of 310.4179421879679')
+        assert False
+    srsw = pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat150.csv')
     plt.plot(lnpi.dataframe()['state'], lnpi.dataframe()['ln_prob'], label='FEASST')
+    plt.plot(srsw['N'], srsw['lnPI'], linestyle='dashed', label='SRSW')
     plt.xlabel('number of particles', fontsize=16)
     plt.ylabel('ln probability', fontsize=16)
     plt.legend(fontsize=16)

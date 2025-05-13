@@ -35,8 +35,7 @@ def parse(temperature=300):
     params['script'] = __file__
     params['prefix'] = 'spce_lowt'
     params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
-    params['dccb_cut_min'] = 0.9*3.165
-    params['dccb_cut'] = params['cubic_side_length']/int(params['cubic_side_length']/params['dccb_cut_min'])
+    params['dccb_cut'] = 0.75*3.165
     params['ewald_alpha'] = 5.6/params['cubic_side_length']
     params['num_particles_first_node'] = 180
 

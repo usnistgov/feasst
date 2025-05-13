@@ -1,5 +1,9 @@
 #include <cmath>
+#include <string>
+//#include <sstream>
+#include <iostream>
 #include "utils/include/utils.h"  // is_equal
+#include "utils/include/file.h"
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "math/include/constants.h"
@@ -112,6 +116,30 @@ std::vector<double> LnProbability::delta_values() const {
     dat[i] = delta(i);
   }
   return dat;
+}
+
+void LnProbability::read(const std::string& file_name) {
+  ASSERT(!file_name.empty(), "no file_name provided");
+  ASSERT(file_exists(file_name),
+    "file_name:" << file_name << " could not be found.");
+  auto file = std::make_shared<std::ifstream>();
+  file->open(file_name);
+  ASSERT(file->good(), "err");
+  std::string line;
+  std::getline(*file, line);
+  const int nMax = 1e9;
+  int i = 0;
+  values_.clear();
+  values_.push_back(str_to_double(line));
+  while ((i != nMax) && (!file->fail())) {
+    DEBUG("line: " << line);
+    std::getline(*file, line);
+    if (!line.empty()) {
+      values_.push_back(str_to_double(line));
+    }
+    ++i;
+  }
+  normalize();
 }
 
 }  // namespace feasst

@@ -65,7 +65,7 @@ PARAMS['ewald_alpha'] = 5.6/PARAMS['cubic_side_length_liquid']
 PARAMS['mu_init']=10
 
 
-# write TrialGrowFile to include grand canonical ensemble growth and canonica ensemble reptations
+# write TrialGrowFile to include grand canonical ensemble growth and canonical ensemble reptations
 def write_grow_file(filename, params,
                     gce, # 0: canonical moves, 1: add only for box fill, 2: gibbs transfer
                     conf, conf2=-1): # the second conf is for gibbs transfer only

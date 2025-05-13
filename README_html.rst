@@ -56,8 +56,8 @@ FEASST requires C++14 and `CMake <https://cmake.org/>`_, and is compiled with th
     curl -OL https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.11.tar.gz # download
     tar -xf v0.25.11.tar.gz           # uncompress
     mkdir feasst-0.25.11/build; cd $_ # out-of-source build
-    cmake ..                         # find prerequisites
-    make install -j 4                # compile on 4 threads
+    cmake ..                          # find prerequisites
+    make install -j 4                 # compile on 4 threads
     # Optional Python packages used in tutorials. Virtual environment recommended:
     # https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments
     pip install jupyter matplotlib pandas scipy ../pyfeasst # ../ ensures pyfeasst matches feasst

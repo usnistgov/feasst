@@ -218,6 +218,9 @@ class Domain {
 
   bool is_tilted() const { return is_tilted_; }
 
+  // Optimized domain wrap for single particle positions.
+  void wrap_opt(const Position& unwrapped, Position * wrapped, Position * scaled) const;
+
   // Optimized domain wrap for use in inner pair loops.
   // Not for typical users.
   void wrap_opt(const Position& pos1,

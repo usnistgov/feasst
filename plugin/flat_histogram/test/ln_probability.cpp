@@ -17,4 +17,12 @@ TEST(LnProbability, serialize) {
   LnProbability ln_prob2 = test_serialize(ln_prob, "885 5 1 0.5 0 0 0 ");
 }
 
+TEST(LnProbability, read) {
+  LnProbability ln_prob;
+  ln_prob.read("../plugin/flat_histogram/test/data/ln_prob_guess.csv");
+  EXPECT_EQ(ln_prob.size(), 371);
+  EXPECT_NEAR(ln_prob.value(0), -274.67636318545385, 8);
+  EXPECT_NEAR(ln_prob.value(370), -30.87144322878715, 8);
+}
+
 }  // namespace feasst

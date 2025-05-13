@@ -209,6 +209,9 @@ const Angle& Particle::angle(const int site_index1,
     const int site_index2,
     const int site_index3) const {
   DEBUG("sites " << site_index1 << " " << site_index2 << " " << site_index3);
+  ASSERT(site_index1 < static_cast<int>(angle_list_.size()), "site_index1: " <<
+    site_index1 << " >= number of angles: " << angle_list_.size() <<
+    ". Perhaps an angle needs to be defined in this particle.");
   for (const int angle_index : angle_list_[site_index1]) {
     const Angle& angle = Particle::angle(angle_index);
     if (find_in_list(site_index1, angle.site_indices())) {
