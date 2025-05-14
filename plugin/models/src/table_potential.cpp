@@ -114,10 +114,13 @@ void TablePotential::read_table_(const std::string file_name) {
 void TablePotential::precompute(const ModelParams& existing) {
   Model::precompute(existing);
   const ModelParam& cutoff = existing.select("cutoff");
-  t2index_.resize(existing.size());
+  t2index_.assign(existing.size(), -1);
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
     t2index_[type1] = t1;
+  }
+  for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
+    const int type1 = site_types_[t1];
     for (int t2 = 0; t2 < static_cast<int>(site_types_.size()); ++t2) {
       const int type2 = site_types_[t2];
       const double rc = cutoff.mixed_value(type1, type2);
