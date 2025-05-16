@@ -12,6 +12,7 @@
    CollectionMatrix
    MacrostateEnergy
    MacrostateNumParticles
+   TransitionMatrixGuess
    Ensemble
    FlatHistogram
    Window

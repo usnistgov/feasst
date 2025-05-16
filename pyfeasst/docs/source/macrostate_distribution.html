@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>macrostate_distribution &mdash; FEASST 0.25.11 0.25.11 documentation</title>
+  <title>macrostate_distribution &mdash; FEASST 0.25.12 0.25.12 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=d1e1e1f6"></script>
+      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.11
+            FEASST 0.25.12
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -94,6 +94,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#macrostate_distribution.read_appended"><code class="docutils literal notranslate"><span class="pre">read_appended()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#macrostate_distribution.splice_collection_matrix"><code class="docutils literal notranslate"><span class="pre">splice_collection_matrix()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#macrostate_distribution.window_exponential"><code class="docutils literal notranslate"><span class="pre">window_exponential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#macrostate_distribution.split_ln_prob_file"><code class="docutils literal notranslate"><span class="pre">split_ln_prob_file()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="multistate_accumulator.html">multistate_accumulator</a></li>
@@ -113,7 +114,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.11</a>
+          <a href="../../../index.html">FEASST 0.25.12</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -522,6 +523,27 @@ The variables and windowing are as described in the FEASST WindowExponential cla
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">macrostate_distribution</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">window_exponential</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">2.25</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="go">[[0, 15], [15, 20]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrostate_distribution.split_ln_prob_file">
+<span class="sig-prename descclassname"><span class="pre">macrostate_distribution.</span></span><span class="sig-name descname"><span class="pre">split_ln_prob_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windows</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#split_ln_prob_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.split_ln_prob_file" title="Link to this definition"></a></dt>
+<dd><p>Split a LnProbability file into multiple windows.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">macrostate_distribution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">split_ln_prob_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;../../tests/ln_prob_guess.csv&#39;</span><span class="p">,</span> <span class="n">windows</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">180</span><span class="p">],[</span><span class="mi">180</span><span class="p">,</span><span class="mi">370</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../tests/ln_prob_guess.csv0&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-274.67636319</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-64.37837255</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../tests/ln_prob_guess.csv1&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-64.37837255</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">8</span><span class="p">)</span>
+<span class="go">-30.87144323</span>
 </pre></div>
 </div>
 </dd></dl>
