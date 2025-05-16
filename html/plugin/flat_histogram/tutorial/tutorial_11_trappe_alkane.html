@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grand Canonical Flat Histogram Simulation of TraPPE alkanes &mdash; FEASST 0.25.11 0.25.11 documentation</title>
+  <title>Grand Canonical Flat Histogram Simulation of TraPPE alkanes &mdash; FEASST 0.25.12 0.25.12 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=d1e1e1f6"></script>
+      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.11
+            FEASST 0.25.12
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -89,6 +89,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Grand Canonical Flat Histogram Simulation of TraPPE alkanes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_12_1bin_vs_2bin.html">Efficiency of 1 or 2 bin Grand Canonical Flat Histogram Simulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_14_binary.html">Binary Flat Histogram Simulation of SAFT-based MIE CO2 and N2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_15_transition_matrix_guess.html">Transition Matrix Simulation with an input guess of the Macrostate distribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/tutorial/tutorial.html">Slab, cylindrical, spherical and mixed confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/tutorial/tutorial_1_wca_pore.html">Grand Canonical Flat Histogram Simulation of Lennard-Jones in a simple WCA porous network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/tutorial/tutorial_2_co2_zif8.html">Grand Canonical Flat Histogram Simulation of TraPPE CO2 in ZIF8</a></li>
@@ -143,7 +144,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.11</a>
+          <a href="../../../index.html">FEASST 0.25.12</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -256,8 +257,6 @@
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;molecular_weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">58.12</span>
     <span class="k">elif</span> <span class="s1">&#39;n-octane&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;fstprt&#39;</span><span class="p">]:</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;molecular_weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">114.23</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;input new molecular_weight into params&quot;</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;last_site&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Configuration cubic_side_length </span><span class="si">{cubic_side_length}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span><span class="s2"> cutoff </span><span class="si">{cutoff}</span>
 <span class="s2">Potential Model LennardJones</span>
@@ -268,83 +267,19 @@
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;nvt_trials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25</span>
 <span class="s2">TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25 pivot_site 0</span>
 <span class="s2">TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25 pivot_site </span><span class="si">{last_site}</span>
-<span class="s2">TrialGrowFile grow_file trappe_grow_canonical.txt&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;init_trials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;TrialGrowFile grow_file trappe_grow_grand_canonical.txt&quot;</span>
+<span class="s2">TrialGrowFile grow_file </span><span class="si">{prefix}</span><span class="s2">_grow_canonical.txt&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;init_trials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;TrialGrowFile grow_file </span><span class="si">{prefix}</span><span class="s2">_grow_grand_canonical.txt&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;init_remove&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Remove name_contains0 add name_contains1 remove&quot;</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;muvt_trials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;TrialGrowFile grow_file trappe_grow_grand_canonical.txt&quot;</span>
-    <span class="n">write_grow_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;trappe_grow_canonical.txt&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">gce</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">write_grow_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;trappe_grow_grand_canonical.txt&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">gce</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;muvt_trials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;TrialGrowFile grow_file </span><span class="si">{prefix}</span><span class="s2">_grow_grand_canonical.txt&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">fstio</span><span class="o">.</span><span class="n">write_linear_grow_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;_grow_canonical.txt&quot;</span><span class="p">,</span> <span class="n">num_sites</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">],</span> <span class="n">gce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">reference_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">base_weight</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">fstio</span><span class="o">.</span><span class="n">write_linear_grow_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;_grow_grand_canonical.txt&quot;</span><span class="p">,</span> <span class="n">num_sites</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">],</span> <span class="n">gce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">reference_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">base_weight</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">write_partial</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">bond</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">dihedral</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dihedral</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;unrecognized num_sites&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">])</span>
-        <span class="k">assert</span> <span class="kc">False</span>
-
-<span class="c1"># write TrialGrowFile to include grand canonical ensemble growth and canonica ensemble reptations</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">write_grow_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">gce</span><span class="p">):</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;TrialGrowFile</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">inv</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]:</span>
-            <span class="k">for</span> <span class="n">trial_type</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">)):</span> <span class="c1"># 0: reptate, 1: full regrow, 2+: partial regrow</span>
-            <span class="c1">#for trial_type in [0, 1, 2]: # 0: reptate, 1: full regrow, 2: partial regrow</span>
-                <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]):</span>
-                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
-                        <span class="n">sign</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-                        <span class="c1">#if (trial_type == 0 or trial_type == 2) and site != params[&#39;num_sites&#39;] - 1:</span>
-                        <span class="k">if</span> <span class="n">trial_type</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">site</span> <span class="o">!=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-                            <span class="n">sign</span> <span class="o">=</span> <span class="mi">1</span>
-                        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;site&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">site</span> <span class="o">+</span> <span class="n">sign</span><span class="o">*</span><span class="n">i</span>
-                        <span class="k">if</span> <span class="n">inv</span><span class="p">:</span>
-                            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;site&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">site</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">sign</span><span class="o">*</span><span class="n">i</span>
-                    <span class="n">bond</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;bond true mobile_site </span><span class="si">{site0}</span><span class="s2"> anchor_site </span><span class="si">{site1}</span><span class="s2"> num_steps 4 reference_index 0</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
-                    <span class="n">angle</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;angle true mobile_site </span><span class="si">{site0}</span><span class="s2"> anchor_site </span><span class="si">{site1}</span><span class="s2"> anchor_site2 </span><span class="si">{site2}</span><span class="s2"> num_steps 4 reference_index 0</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
-                    <span class="n">dihedral</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;dihedral true mobile_site </span><span class="si">{site0}</span><span class="s2"> anchor_site </span><span class="si">{site1}</span><span class="s2"> anchor_site2 </span><span class="si">{site2}</span><span class="s2"> anchor_site3 </span><span class="si">{site3}</span><span class="s2"> num_steps 4 reference_index 0</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
-
-                    <span class="c1"># full regrowth insertion/deletion</span>
-                    <span class="k">if</span> <span class="n">trial_type</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">gce</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">site</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;particle_type 0 weight 2 transfer true site </span><span class="si">{site0}</span><span class="s2"> num_steps 4 reference_index 0</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
-                        <span class="k">elif</span> <span class="n">site</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span>
-                        <span class="k">elif</span> <span class="n">site</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
-                        <span class="k">else</span><span class="p">:</span>
-                            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dihedral</span><span class="p">)</span>
-
-<span class="c1">#                    # reptation. There seems to be a problem with reptation.</span>
-<span class="c1">#                    elif trial_type == 0 and not gce:</span>
-<span class="c1">#                        if site == params[&#39;num_sites&#39;] - 1:</span>
-<span class="c1">#                            write_partial(f, bond, angle, dihedral, params)</span>
-<span class="c1">#                        else:</span>
-<span class="c1">#                            if site == 0:</span>
-<span class="c1">#                                f.write(&quot;&quot;&quot;particle_type 0 weight 2 &quot;&quot;&quot;)</span>
-<span class="c1">#                            f.write(&quot;&quot;&quot;reptate true mobile_site {site0} anchor_site {site1} num_steps 1 reference_index 0\n&quot;&quot;&quot;.format(**params))</span>
-
-                    <span class="c1"># partial regrow</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="n">gce</span> <span class="ow">and</span> <span class="n">trial_type</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                        <span class="n">num_grow</span> <span class="o">=</span> <span class="n">trial_type</span> <span class="o">-</span> <span class="mi">1</span>
-                        <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">site</span> <span class="o">&lt;</span> <span class="n">num_grow</span><span class="p">:</span>
-                            <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sites&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">site</span> <span class="o">==</span> <span class="n">num_grow</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-                                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;particle_type 0 weight &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="n">trial_type</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-                            <span class="k">if</span> <span class="n">site</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span>
-                            <span class="k">elif</span> <span class="n">site</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
-                            <span class="k">elif</span> <span class="n">site</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-                                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dihedral</span><span class="p">)</span>
-
-                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
 <span class="k">def</span><span class="w"> </span><span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
-    <span class="c1">#lnp = macrostate_distribution.splice_collection_matrix(prefix=&#39;trappen0s&#39;, suffix=&#39;_crit.txt&#39;, use_soft=True)</span>
+    <span class="c1">#lnp = macrostate_distribution.splice_collection_matrix(prefix=params[&#39;prefix&#39;]+&#39;n0s&#39;, suffix=&#39;_crit.txt&#39;, use_soft=True)</span>
     <span class="n">lnp</span> <span class="o">=</span> <span class="n">macrostate_distribution</span><span class="o">.</span><span class="n">splice_files</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;n0s&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;_crit.csv&#39;</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">lnp</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lnp</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">lnp</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">lnp</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lnp</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lnp</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">5.86440399999992</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
     <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lnp</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">lnp</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">5.22683300000017</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
     <span class="c1"># equilibrium test below was abandoned to reduce max_particles for faster convergence</span>

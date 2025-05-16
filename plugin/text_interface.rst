@@ -345,6 +345,11 @@ Below is a list text interface changes that may affect older scripts.
 Backwards incompatibility should remain for deprecated interface on minor version changes.
 Renamed arguments are shown as Class::old_argument->new_argument.
 
+v0.25.11 to v0.25.12
+-----------------------
+
+* TablePotential `bug fix <https://github.com/usnistgov/feasst/pull/25>`_ for site types not in table.
+
 v0.25.9 to v0.25.10
 -----------------------
 * AngleSquareWell::minimum->min_degrees

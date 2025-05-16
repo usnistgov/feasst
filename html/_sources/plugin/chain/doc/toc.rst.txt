@@ -17,6 +17,7 @@
    TrialCrankshaft
    TrialReptate
    TrialPivot
+   TrialReptateUnopt
    TrialGrow
    TrialGrowLinear
    TrialSwapSites

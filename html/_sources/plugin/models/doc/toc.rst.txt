@@ -11,11 +11,11 @@
    LennardJonesAlpha
    LennardJonesCutShift
    LennardJonesForceShift
-   F3C
    TwoBodyAlpha
    Jagla
    SquareWell
    TwoBodyTable
    Mie
    Yukawa
+   F3C
    TablePotential

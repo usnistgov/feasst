@@ -12,6 +12,10 @@ For `contributing <https://github.com/usnistgov/feasst/graphs/contributors>`_, t
   * Jacobian-Gaussian
   * :cpp:class:`TransitionMatrix <feasst::TransitionMatrix>`::reset_sweeps
 
+* Bartosz Mazur
+
+  * TablePotential fix https://github.com/usnistgov/feasst/pull/25
+
 For testing and discussion:
 
 * Dr. Marco A. Blanco
@@ -22,7 +26,6 @@ For testing and discussion:
 * Dr. Sally Jiao
 * Dr. Nathan Mahynski
 * Dr. Tiara Ann Maula
-* Bartosz Mazur
 * Gordon W. McCann
 * Dr. Christopher Rzepa
 * Samiha Sharlin

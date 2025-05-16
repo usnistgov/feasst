@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overview &mdash; FEASST 0.25.11 0.25.11 documentation</title>
+  <title>Overview &mdash; FEASST 0.25.12 0.25.12 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="_static/favicon.ico"/>
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=d1e1e1f6"></script>
+      <script src="_static/documentation_options.js?v=e6196b9c"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,12 +51,12 @@
           
           
           <a href="index.html" class="icon icon-home">
-            FEASST 0.25.11
+            FEASST 0.25.12
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#features-in-version-0-25-11">Features in version 0.25.11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#features-in-version-0-25-12">Features in version 0.25.12</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-compile">How to compile</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-run-a-simulation">How to run a simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-learn-more">How to learn more</a></li>
@@ -95,7 +95,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">FEASST 0.25.11</a>
+          <a href="index.html">FEASST 0.25.12</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -165,8 +165,8 @@
 <p>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free and open-source software to conduct molecular- and particle-based simulations with Monte Carlo methods.
 New users can start with the <a class="reference external" href="https://pages.nist.gov/feasst/">website</a> (<a class="reference external" href="https://doi.org/10.18434/M3S095">DOI</a>), <a class="reference external" href="https://doi.org/10.1063/5.0224283">manuscript</a>, <a class="reference external" href="https://github.com/usnistgov/feasst/discussions">GitHub discussion</a> and a <a class="reference external" href="https://www.nist.gov/video/how-use-feasst-0255-monte-carlo-molecular-simulation-software">five minute video</a>.
 Support FEASST with a <a class="reference external" href="https://github.com/usnistgov/feasst">GitHub</a> star or <a class="reference external" href="https://doi.org/10.1063/5.0224283">manuscript</a> citation!</p>
-<section id="features-in-version-0-25-11">
-<h2>Features in version 0.25.11<a class="headerlink" href="#features-in-version-0-25-11" title="Link to this heading"></a></h2>
+<section id="features-in-version-0-25-12">
+<h2>Features in version 0.25.12<a class="headerlink" href="#features-in-version-0-25-12" title="Link to this heading"></a></h2>
 <a class="reference external image-reference" href="https://pages.nist.gov/feasst"><img alt="_images/feasst.png" class="align-right" src="_images/feasst.png" />
 </a>
 <p>The <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> includes:</p>
@@ -205,11 +205,11 @@ Support FEASST with a <a class="reference external" href="https://github.com/usn
 <p>FEASST requires C++14 and <a class="reference external" href="https://cmake.org/">CMake</a>, and is compiled with the following Bash commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># [apt/yum/dnf/brew] install g++ cmake curl tar. On HPC, try &quot;module avail/load&quot;</span>
 <span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span><span class="w"> </span><span class="c1"># replace this with your preference throughout</span>
-curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.11.tar.gz<span class="w"> </span><span class="c1"># download</span>
-tar<span class="w"> </span>-xf<span class="w"> </span>v0.25.11.tar.gz<span class="w">           </span><span class="c1"># uncompress</span>
-mkdir<span class="w"> </span>feasst-0.25.11/build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span><span class="w"> </span><span class="c1"># out-of-source build</span>
-cmake<span class="w"> </span>..<span class="w">                         </span><span class="c1"># find prerequisites</span>
-make<span class="w"> </span>install<span class="w"> </span>-j<span class="w"> </span><span class="m">4</span><span class="w">                </span><span class="c1"># compile on 4 threads</span>
+curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.12.tar.gz<span class="w"> </span><span class="c1"># download</span>
+tar<span class="w"> </span>-xf<span class="w"> </span>v0.25.12.tar.gz<span class="w">           </span><span class="c1"># uncompress</span>
+mkdir<span class="w"> </span>feasst-0.25.12/build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span><span class="w"> </span><span class="c1"># out-of-source build</span>
+cmake<span class="w"> </span>..<span class="w">                          </span><span class="c1"># find prerequisites</span>
+make<span class="w"> </span>install<span class="w"> </span>-j<span class="w"> </span><span class="m">4</span><span class="w">                 </span><span class="c1"># compile on 4 threads</span>
 <span class="c1"># Optional Python packages used in tutorials. Virtual environment recommended:</span>
 <span class="c1"># https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments</span>
 pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>matplotlib<span class="w"> </span>pandas<span class="w"> </span>scipy<span class="w"> </span>../pyfeasst<span class="w"> </span><span class="c1"># ../ ensures pyfeasst matches feasst</span>
@@ -221,7 +221,7 @@ open<span class="w"> </span>../html/index.html
 <section id="how-to-run-a-simulation">
 <h2>How to run a simulation<a class="headerlink" href="#how-to-run-a-simulation" title="Link to this heading"></a></h2>
 <p>Input a text file to the compiled executable.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst-0.25.11/build/bin/fst<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$HOME</span>/feasst-0.25.11/tutorial/example.txt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst-0.25.12/build/bin/fst<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$HOME</span>/feasst-0.25.12/tutorial/example.txt
 </pre></div>
 </div>
 <p>The following text input file is explained in detail in the first <a class="reference internal" href="tutorial/tutorial.html"><span class="doc">tutorial</span></a>.</p>

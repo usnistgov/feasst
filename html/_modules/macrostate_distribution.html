@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>macrostate_distribution &mdash; FEASST 0.25.11 0.25.11 documentation</title>
+  <title>macrostate_distribution &mdash; FEASST 0.25.12 0.25.12 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -14,7 +14,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=d1e1e1f6"></script>
+      <script src="../_static/documentation_options.js?v=e6196b9c"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -48,7 +48,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            FEASST 0.25.11
+            FEASST 0.25.12
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -72,7 +72,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">FEASST 0.25.11</a>
+          <a href="../index.html">FEASST 0.25.12</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -679,7 +679,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The number of windows:&#39;</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="s1">&#39;is more than the macrostate range.&#39;</span><span class="p">,</span>
               <span class="s1">&#39;max:&#39;</span><span class="p">,</span> <span class="n">maximum</span><span class="p">,</span> <span class="s1">&#39;min:&#39;</span><span class="p">,</span> <span class="n">minimums</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">assert</span> <span class="kc">False</span>
-    <span class="n">segment</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">number</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">segment</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">num_partial</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">minimums</span><span class="p">)</span>
     <span class="n">segment</span><span class="p">[</span><span class="n">number</span><span class="p">]</span> <span class="o">=</span> <span class="n">maximum</span>
     <span class="k">if</span> <span class="n">num_partial</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -689,7 +689,8 @@
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">minimums</span><span class="p">):</span>
             <span class="n">segment</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="n">last_partial_seg</span> <span class="o">=</span> <span class="n">segment</span><span class="p">[</span><span class="n">num_partial</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">maximum</span><span class="o">**</span><span class="n">alpha</span> <span class="o">-</span> <span class="n">last_partial_seg</span><span class="o">**</span><span class="n">alpha</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">&gt;</span> <span class="n">num_partial</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">maximum</span><span class="o">**</span><span class="n">alpha</span> <span class="o">-</span> <span class="n">last_partial_seg</span><span class="o">**</span><span class="n">alpha</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="n">num_partial</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_partial</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
         <span class="n">segment</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">segment</span><span class="p">[</span><span class="n">index</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="n">alpha</span><span class="p">)</span><span class="o">+</span><span class="n">diff</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">alpha</span><span class="p">)</span>
     <span class="n">boundaries</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">number</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -704,6 +705,37 @@
         <span class="k">if</span> <span class="n">size</span> <span class="o">&lt;</span> <span class="n">min_size</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;size:&#39;</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="s1">&#39;is less than the mininum size:&#39;</span><span class="p">,</span> <span class="n">min_size</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">boundaries</span></div>
+
+
+<div class="viewcode-block" id="split_ln_prob_file">
+<a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.split_ln_prob_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">split_ln_prob_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">windows</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Split a LnProbability file into multiple windows.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
+<span class="sd">    &gt;&gt;&gt; macrostate_distribution.split_ln_prob_file(filename=&#39;../../tests/ln_prob_guess.csv&#39;, windows=[[0,180],[180,370]])</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.read_csv(&#39;../../tests/ln_prob_guess.csv0&#39;, header=None)</span>
+<span class="sd">    &gt;&gt;&gt; round(float(df[0][0]), 8)</span>
+<span class="sd">    -274.67636319</span>
+<span class="sd">    &gt;&gt;&gt; round(float(df[0].iloc[-1]), 8)</span>
+<span class="sd">    -64.37837255</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.read_csv(&#39;../../tests/ln_prob_guess.csv1&#39;, header=None)</span>
+<span class="sd">    &gt;&gt;&gt; round(float(df[0][0]), 8)</span>
+<span class="sd">    -64.37837255</span>
+<span class="sd">    &gt;&gt;&gt; round(float(df[0].iloc[-1]), 8)</span>
+<span class="sd">    -30.87144323</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="c1"># print(&#39;windows&#39;, windows)</span>
+    <span class="k">for</span> <span class="n">iwin</span><span class="p">,</span> <span class="n">win</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">windows</span><span class="p">):</span>
+        <span class="c1"># print(&#39;win&#39;, win)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">iwin</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">win</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">win</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="c1"># print(iwin, line)</span>
+                <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
