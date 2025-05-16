@@ -1,0 +1,10 @@
+TrialGrowFile
+
+particle_type 0 weight 2 regrow true site 2 num_steps 1 reference_index -1 print_num_accepted true
+bond true mobile_site 1 anchor_site 2 num_steps 1 reference_index -1
+bond true mobile_site 0 anchor_site 1 num_steps 1 reference_index -1
+
+particle_type 0 weight 2 regrow true site 0 num_steps 1 reference_index -1 print_num_accepted true
+bond true mobile_site 1 anchor_site 0 num_steps 1 reference_index -1
+bond true mobile_site 2 anchor_site 1 num_steps 1 reference_index -1
+

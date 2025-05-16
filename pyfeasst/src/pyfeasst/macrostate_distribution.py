@@ -475,7 +475,8 @@ def window_exponential(maximum, minimums=[0], alpha=1.5, number=-1, overlap=1, m
         for index, value in enumerate(minimums):
             segment[index] = value
         last_partial_seg = segment[num_partial-1]
-    diff = (maximum**alpha - last_partial_seg**alpha)/float(number - num_partial + 1)
+    if number > num_partial + 1:
+        diff = (maximum**alpha - last_partial_seg**alpha)/float(number - num_partial + 1)
     for index in range(num_partial, number):
         segment[index] = ((segment[index-1]**alpha)+diff)**(1./alpha)
     boundaries = np.zeros((number, 2)).tolist()

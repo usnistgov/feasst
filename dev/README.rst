@@ -371,9 +371,13 @@ To Do List
 * In class documentation, link to tutorials that use the class
 * Every time trial is added, determine which molecules are excluded from weight_per_num_fraction
 * make a gui/software/script that walks through the building of a FEASST input file.
+* Replace particle_index, reference_index, etc, with names (like groups have).. (same for sites in fstprt files)
 * For 0.26, Remove Random::[time, default] arguments
 * For 0.26, Remove ConvertToRefPotential, ProfileTrials, RemoveModify, RemoveAnalyze, RemoveTrial, Run::until_criteria_complete, Criteria/Stepper::iteration
 * For 0.26, Depreciate and update AngleSquareWell::min/max to min_degrees/max_degrees
 * For 0.26, https://github.com/usnistgov/feasst/issues/23
 * For 0.26, Remove serialization version checks grep "if (version >"
 * For 0.26, move pyfeasst.cd to pyfeasst.fstio
+* For 0.26, TrialMorph becomes TrialFactoryNamed with reverse and half weights
+* Move all .fstprt file extensions back to .txt so they can be easily read on mac/windows
+* Benchmark FEASST for use with podman or apptainer

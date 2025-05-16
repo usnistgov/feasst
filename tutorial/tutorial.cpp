@@ -13,7 +13,7 @@
 
 static feasst::ArgumentParse args(
   "Canonical ensemble Metropolis Monte Carlo simulation of Lennard Jones.", {
-  {"--seed", "random number generator seed", "time"},
+  {"--seed", "random number generator seed", "1234567"},
   {"--length", "cubic periodic boundary length", "8"},
   {"--num", "number of particles", "50"},
   {"--data", "LMP particle data file",
@@ -46,7 +46,7 @@ int main(int argc, char ** argv) {
 
   // nvt equilibration
   mc->begin({{
-    {"RemoveTrial", {{"name", "TrialAdd"}}},
+    {"Remove", {{"name", "TrialAdd"}}},
     {"ThermoParams", {{"beta", args.get("--beta")}}},
     {"CheckEnergy", {{"trials_per_update", "1e5"}, {"tolerance", "1e-8"}}},
     {"Tune", {{}}},

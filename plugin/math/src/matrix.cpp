@@ -3,6 +3,7 @@
 #include "math/include/matrix.h"
 #include "math/include/position.h"
 #include "utils/include/debug.h"
+#include "utils/include/utils.h" // resize
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
 #include "utils/include/io.h"
@@ -10,10 +11,7 @@
 namespace feasst {
 
 void Matrix::set_size(const int num_rows, const int num_columns) {
-  matrix_.resize(num_rows, std::vector<double>(num_columns));
-  for (std::vector<double> & row : matrix_) {
-    row.resize(num_columns);
-  }
+  resize(num_rows, num_columns, &matrix_);
 }
 
 void Matrix::set_value(const int row, const int column, const double value) {

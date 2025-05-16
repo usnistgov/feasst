@@ -194,6 +194,10 @@ void Particle::add_dihedral(const Dihedral& dihedral) {
 
 const Bond& Particle::bond(const int site_index1, const int site_index2) const {
   DEBUG("sites " << site_index1 << " " << site_index2);
+  ASSERT(site_index1 < num_sites(),
+    "site:" << site_index1 << " is > number of sites:" << num_sites());
+  ASSERT(site_index2 < num_sites(),
+    "site:" << site_index2 << " is > number of sites:" << num_sites());
   for (const int bond_index : bond_list_[site_index1]) {
     const Bond& bond = Particle::bond(bond_index);
     if ( (site_index1 == bond.site(0) && (site_index2 == bond.site(1))) ||

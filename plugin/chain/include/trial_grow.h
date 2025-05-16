@@ -54,8 +54,6 @@ typedef std::map<std::string, std::string> argtype;
     described in
     https://doi.org/10.1021/acs.jctc.7b00173
     is implemented here.
-  - reptate: if true, add TrialSelectBond and PerturbToAnchor.
-    Requires arguments described in TrialSelectBond.
   - position_swap: if true, add SelectTwoSites and PerturbPositionSwap.
     Requires arguments described in SelectTwoSites.
   - rigid_body_connector: if true, add TrialSelectBond and PerturbConnector.

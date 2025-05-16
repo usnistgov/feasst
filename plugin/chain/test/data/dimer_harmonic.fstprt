@@ -12,14 +12,13 @@ Site Properties
 
 Sites
 
-0 0 -0.5 0.0 0.0
-1 0 0.5 0.0 0.0
+0 0 0.0 0.0 0.0
+1 0 1.0 0.0 0.0
 
 Bond Properties
 
-0 BondHarmonic equilibrium_length 1.0 k_energy_per_length_sq 600
+0 BondHarmonic k_energy_per_length_sq 100 equilibrium_length 1
 
 Bonds
 
 0 0 0 1
-

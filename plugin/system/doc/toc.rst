@@ -22,9 +22,9 @@
    ModelTwoBody
    ModelTwoBodyTable
    LennardJones
-   ModelTwoBodyFactory
    HardSphere
    IdealGas
+   ModelTwoBodyFactory
    ModelThreeBody
    ModelOneBody
    ModelEmpty

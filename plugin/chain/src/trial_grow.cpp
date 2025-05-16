@@ -31,8 +31,6 @@
 #include "chain/include/perturb_pivot.h"
 #include "chain/include/select_segment.h"
 #include "chain/include/perturb_crankshaft.h"
-#include "chain/include/select_reptate.h"
-#include "chain/include/perturb_reptate.h"
 #include "chain/include/perturb_connector.h"
 #include "chain/include/perturb_distance_angle_connector.h"
 #include "chain/include/select_site_of_type.h"
@@ -61,7 +59,6 @@ void TrialGrow::build_(std::vector<argtype> * args) {
   const std::string default_num_steps = str("default_num_steps", &(*args)[0], "1");
   const std::string default_reference_index = str("default_reference_index", &(*args)[0], "-1");
   const std::string default_new_only = str("default_new_only", &(*args)[0], "false");
-  bool reptate = false;
   // First, determine all trial types from args[0]
   std::vector<std::string> trial_types;
   std::vector<bool> trial_half_weight;
@@ -286,19 +283,6 @@ void TrialGrow::build_(std::vector<argtype> * args) {
             {"anchor_site2", str("anchor_site2", &iargs)}});
           perturb = std::make_shared<PerturbBranch>(&iargs);
         }
-        if (boolean("reptate", &iargs, false)) {
-          FATAL("reptations are disabled");
-          reptate = true; // later check if num_steps > 1
-          ASSERT(used == 0, "cannot have more than one");
-          ++used;
-          select = MakeTrialSelectBond({
-            {"particle_type", particle_type},
-            {"configuration_index", configuration_index},
-            {"mobile_site", str("mobile_site", &iargs)},
-            {"anchor_site", str("anchor_site", &iargs)},
-            {"ignore_bond", "true"}});
-          perturb = std::make_shared<PerturbToAnchor>(&iargs);
-        }
         if (boolean("position_swap", &iargs, false)) {
           ASSERT(used == 0, "cannot have more than one");
           ++used;
@@ -332,7 +316,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           perturb = std::make_shared<PerturbDistanceAngleConnector>(&iargs);
         }
         ASSERT(used == 1, "args: " << str(iargs) <<
-          ". Requires one of bond, angle, dihedral, branch, reptate, etc");
+          ". Requires one of bond, angle, dihedral, branch, etc");
         if (!compute) {
           DEBUG("num_args " << num_args);
           // HWH: disable tunable trials until developed properly
@@ -347,7 +331,6 @@ void TrialGrow::build_(std::vector<argtype> * args) {
         }
       }
       const std::string num_steps = str("num_steps", &iargs, default_num_steps);
-      ASSERT(!reptate || num_steps == "1", "reptate requires num_steps == 1");
       //ASSERT(trial_type != "translate" || num_steps == "1",
       //  "For " << trial_type << ", num_steps must be 1");
       argtype stage_args = {{"num_steps", num_steps},

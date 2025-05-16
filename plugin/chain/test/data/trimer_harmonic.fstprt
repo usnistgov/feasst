@@ -2,11 +2,9 @@
 
 3 sites
 2 bonds
-1 angles
 
 1 site types
 1 bond types
-1 angle types
 
 Site Properties
 
@@ -20,18 +18,10 @@ Sites
 
 Bond Properties
 
-0 BondHarmonic equilibrium_length 1.0 k_energy_per_length_sq 600
+0 BondHarmonic k_energy_per_length_sq 100 equilibrium_length 1
 
 Bonds
 
 0 0 0 1
-1 0 1 2
-
-Angle Properties
-
-0 AngleHarmonic equilibrium_degrees 90.0 k_energy_per_radian_sq 60
-
-Angles
-
-0 0 0 1 2
+0 0 1 2
 

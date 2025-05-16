@@ -10,8 +10,8 @@ namespace feasst {
   Assumes the selection is one site, and the anchor is one site.
   Move the selected site to the same position as the anchor.
 
-  Note that this Perturb should always have 1 steps per stage,
-  as its placement is completely deterministic.
+  This Perturb should always have 1 steps per stage because its placement is
+  completely deterministic.
  */
 class PerturbToAnchor : public PerturbMove {
  public:

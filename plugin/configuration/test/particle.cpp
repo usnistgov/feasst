@@ -29,7 +29,7 @@ TEST(Particle, bond) {
   Particle chain = FileParticle().read("../particle/chain10.fstprt");
   TRY(
     chain.bond(9, 10);
-    CATCH_PHRASE("not found");
+    CATCH_PHRASE("site:10 is > number of sites");
   );
   EXPECT_EQ(0, chain.bond(9, 8).type());
   EXPECT_EQ(8, chain.bond_neighbors(9)[0]);

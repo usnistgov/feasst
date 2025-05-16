@@ -25,11 +25,11 @@ DensityProfile::DensityProfile(argtype args) : DensityProfile(&args) {
 }
 
 void DensityProfile::initialize(MonteCarlo * mc) {
-  const System& system = mc->system();
+  const Configuration& config = configuration(mc->system());
   DEBUG("init");
-  const int num_site_types = system.configuration().num_site_types();
+  const int num_site_types = config.num_site_types();
   data_.resize(num_site_types);
-  const double max_side = system.configuration().domain().max_side_length();
+  const double max_side = config.domain().max_side_length();
   for (int type = 0; type < num_site_types; ++type) {
     Histogram hist;
     hist.set_width_center(dr_, center_);
@@ -40,9 +40,10 @@ void DensityProfile::initialize(MonteCarlo * mc) {
 }
 
 std::string DensityProfile::header(const MonteCarlo& mc) const {
+  const Configuration& config = configuration(mc.system());
   std::stringstream ss;
   ss << "r,";
-  for (int type = 0; type < configuration(mc.system()).num_site_types(); ++type) {
+  for (int type = 0; type < config.num_site_types(); ++type) {
     ss << type << ",";
   }
   ss << std::endl;

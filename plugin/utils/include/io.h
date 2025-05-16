@@ -23,7 +23,7 @@ std::string feasst_str(const std::vector<T> &vec,
   const bool max_precision = false) {
   std::stringstream ss;
   if (max_precision) ss << MAX_PRECISION;
-  for (unsigned int i = 0; i < vec.size(); ++i) {
+  for (int i = 0; i < static_cast<int>(vec.size()); ++i) {
     ss << vec[i] << ",";
   }
   return ss.str();

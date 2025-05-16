@@ -350,4 +350,32 @@ TEST(MonteCarlo, morphrxn) {
   }}, true);
 }
 
+TEST(MonteCarlo, octane_01_fh_VERY_LONG) {
+  const std::string tpc = "1e4";
+  auto mc = MakeMonteCarlo({{
+    {"Configuration", {{"cubic_side_length", "45"}, {"particle_type0", "../particle/n-octane.fstprt"}}},
+    {"Potential", {{"Model", "LennardJones"}}},
+    {"Potential", {{"Model", "LennardJones"}, {"VisitModel", "VisitModelIntraMap"}, {"exclude_bonds", "true"}, {"exclude_angles", "true"}, {"exclude_dihedrals", "true"}}},
+    {"RefPotential", {{"VisitModel", "DontVisitModel"}}},
+    {"ThermoParams", {{"beta", "0.3436353001220744"}, {"chemical_potential0", "-17.460371498121805"}}},
+    {"FlatHistogram", {{"Macrostate", "MacrostateNumParticles"}, {"width", "1"}, {"max", "1"}, {"min", "0"},
+      {"Bias", "TransitionMatrix"}, {"min_sweeps", "1e2"}}},
+    {"TrialGrowFile", {{"grow_file", "../plugin/chain/test/data/trappe_grow_grand_canonical.txt"}}},
+    {"Energy", {{"trials_per_write", tpc}, {"output_file", "tmp/oct_en.txt"}, {"multistate", "true"}}},
+    {"Log", {{"trials_per_write", tpc}, {"output_file", "tmp/oct.txt"}}},
+    {"Movie", {{"trials_per_write", tpc}, {"output_file", "tmp/oct.xyz"}}},
+    {"CheckEnergy", {{"trials_per_update", tpc}, {"tolerance", str(1e-9)}}},
+    {"CriteriaUpdater", {{"trials_per_update", tpc}}},
+    {"CriteriaWriter", {{"trials_per_write", tpc}, {"output_file", "tmp/oct.csv"}}},
+    {"Tune", {{}}},
+    {"Run", {{"until", "complete"}}},
+  }}, true);
+  const LnProbability lnpi = FlatHistogram().flat_histogram(mc->criteria())->bias().ln_prob();
+  EXPECT_NEAR(lnpi.delta(1), 5.8699, 5*0.00749341);
+  const std::vector<std::shared_ptr<Analyze> >& en = mc->analyzers()[0]->analyzers();
+  EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-13);
+  EXPECT_NEAR(en[1]->accumulator().average(), 20.955607316224864, 5*0.061054957999540201);
+  EXPECT_GT(mc->trial(0).num_success(), 5e4);
+}
+
 }  // namespace feasst

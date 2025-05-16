@@ -75,6 +75,7 @@ void TrialStage::set_rosenbluth_energy_(const int step, System * system) {
     energy = system->reference_energy(select_->mobile(), reference_, select_->configuration_index());
   }
   const double excluded = select().exclude_energy();
+  DEBUG("excluded " << excluded);
   ASSERT(!std::isinf(energy), "energy: " << energy << " is inf.");
   ASSERT(!std::isnan(energy), "energy: " << energy << " is nan.");
   ASSERT(!std::isinf(excluded), "excluded: " << excluded << " is inf.");

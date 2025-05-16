@@ -77,7 +77,7 @@ TrialAVB2::TrialAVB2(argtype * args) : TrialFactoryNamed() {
   out2in_args.insert({"out_to_in", "true"});
   argtype * in2out_args = args;
   in2out_args->insert({"out_to_in", "false"});
-  auto trial_out2in = MakeTrialAVB2Half(out2in_args);
+  auto trial_out2in = std::make_shared<TrialAVB2Half>(out2in_args);
   trial_out2in->set_weight(trial_out2in->weight()/2.);
   add(trial_out2in);
   auto trial_in2out = std::make_shared<TrialAVB2Half>(in2out_args);

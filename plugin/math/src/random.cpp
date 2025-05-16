@@ -58,7 +58,7 @@ double Random::uniform() {
     ran = gen_uniform_();
     cache_->load(ran);
   }
-  DEBUG("ran: " << ran);
+  TRACE("ran: " << ran);
   return ran;
 }
 

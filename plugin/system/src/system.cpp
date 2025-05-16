@@ -131,22 +131,26 @@ PotentialFactory * System::potentials_(const int config) {
 }
 
 double System::energy(const int config) {
-  const double en = potentials_(config)->energy(configurations_[config].get());
+  Configuration * configuration = configurations_[config].get();
+  const double en = potentials_(config)->energy(configuration);
   finalize(config);
   ref_used_last_ = -1;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  bonds_[config]->compute_all(*configurations_[config]);
-  DEBUG("bond en " << bonds_[config]->energy());
-  return en + bonds_[config]->energy();
+  BondVisitor * bonds = bonds_[config].get();
+  bonds->compute_all(*configuration);
+  DEBUG("bond en " << bonds->energy());
+  return en + bonds->energy();
 }
 
 double System::perturbed_energy(const Select& select, const int config) {
   ref_used_last_ = -1;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  double en = potentials_(config)->select_energy(select, configurations_[config].get());
-  bonds_[config]->compute_all(select, *configurations_[config]);
-  const double bond_en = bonds_[config]->energy();
-  DEBUG("bond en " << bonds_[config]->energy());
+  Configuration * configuration = configurations_[config].get();
+  double en = potentials_(config)->select_energy(select, configuration);
+  BondVisitor * bonds = bonds_[config].get();
+  bonds->compute_all(select, *configuration);
+  const double bond_en = bonds->energy();
+  DEBUG("bond en " << bonds->energy());
   ASSERT(!std::isinf(en), "en: " << en << " is inf.");
   ASSERT(!std::isnan(en), "en: " << en << " is nan.");
   ASSERT(!std::isinf(bond_en), "bond_en: " << bond_en << " is inf.");
@@ -157,7 +161,14 @@ double System::perturbed_energy(const Select& select, const int config) {
 double System::reference_energy(const int ref, const int config) {
   ref_used_last_ = ref;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  return reference_(ref, config)->energy(configurations_[config].get());
+  Configuration * configuration = configurations_[config].get();
+  const double en = reference_(ref, config)->energy(configuration);
+  DEBUG("en " << en);
+  BondVisitor * bonds = bonds_[config].get();
+  bonds->compute_all(*configuration);
+  const double bond_en = bonds->energy();
+  DEBUG("bond_en " << bond_en);
+  return en + bond_en;
 }
 
 double System::reference_energy(const Select& select,
@@ -167,8 +178,14 @@ double System::reference_energy(const Select& select,
   DEBUG("ref_used_last_ " << ref_used_last_);
   ASSERT(ref < num_references(), "Asked for reference: " << ref <<
     ", but there are only " << num_references() << " RefPotentials.");
-  return reference_(ref, config)->select_energy(select,
-                                                configurations_[config].get());
+  Configuration * configuration = configurations_[config].get();
+  const double en = reference_(ref, config)->select_energy(select, configuration);
+  DEBUG("en " << en);
+  BondVisitor * bonds = bonds_[config].get();
+  bonds->compute_all(select, *configuration);
+  const double bond_en = bonds->energy();
+  DEBUG("bond_en " << bond_en);
+  return en + bond_en;
 }
 
 void System::serialize(std::ostream& sstr) const {

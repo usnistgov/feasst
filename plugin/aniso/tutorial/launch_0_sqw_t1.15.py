@@ -80,7 +80,7 @@ def parse():
                         help='0: run, 1: submit to queue, 2: post-process')
     parser.add_argument('--seed', type=int, default=-1,
                         help='Random number generator seed. If -1, assign random seed to each sim.')
-    parser.add_argument('--max_restarts', type=int, default=1, help='Number of restarts in queue')
+    parser.add_argument('--max_restarts', type=int, default=0, help='Number of restarts in queue')
     parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
     parser.add_argument('--scratch', type=str, default=None,
                         help='Optionally write scheduled job to scratch/logname/jobid.')

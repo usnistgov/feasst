@@ -251,7 +251,7 @@ class Domain {
   //@}
  protected:
   Position side_lengths_;
-  double xy_, xz_, yz_;
+  double xy_ = 0., xz_ = 0., yz_ = 0.;
   bool is_tilted_ = false;
   std::vector<bool> periodic_;
   Matrix h_, h_inv_; // Section 4.1 of https://doi.org/10.1080/08927022.2013.819102
