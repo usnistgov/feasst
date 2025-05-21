@@ -12,8 +12,9 @@ TEST(Criteria, current_energy) {
   System sys = two_particle_system();
   const double pe_expected = 4*(pow(1.25, -12) - pow(1.25, -6));
   EXPECT_NEAR(sys.energy(), pe_expected, NEAR_ZERO);
-  auto trans = MakeTrialTranslate({{"tunable_param", "0.1"}});
   Metropolis crit;
+  auto trans = MakeTrialTranslate({{"tunable_param", "0.1"}});
+  trans->precompute(&crit, &sys);
   crit.set_current_energy(sys.energy());
   crit.set_current_energy_profile({0.});
   crit.precompute(&sys);

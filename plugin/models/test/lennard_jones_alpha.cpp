@@ -5,7 +5,7 @@
 namespace feasst {
 
 TEST(LennardJonesAlpha, analytical) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.txt"}});
   auto model1 = std::make_shared<LennardJones>();
   auto model2 = std::make_shared<LennardJonesAlpha>();
   model1->precompute(config->model_params());
@@ -21,7 +21,7 @@ double en(const double distance) {
 
 TEST(LennardJonesAlpha, analytical_ref) {
   auto config = MakeConfiguration({
-    {"particle_type0", "../plugin/models/particle/ljdelta.fstprt"},
+    {"particle_type0", "../plugin/models/particle/ljdelta.txt"},
     {"delta_sigma", "0.5"}});
   auto model = MakeLennardJonesAlpha();
   model->precompute(config->model_params());
@@ -32,7 +32,7 @@ TEST(LennardJonesAlpha, analytical_ref) {
 
 TEST(LennardJonesAlpha, analytical_ref2) {
   auto config = MakeConfiguration({
-    {"particle_type0", "../plugin/models/particle/ljdelta.fstprt"},
+    {"particle_type0", "../plugin/models/particle/ljdelta.txt"},
     {"delta_sigma", "0.75"}});
   auto model = MakeLennardJonesAlpha();
   model->precompute(config->model_params());
@@ -41,7 +41,7 @@ TEST(LennardJonesAlpha, analytical_ref2) {
 
 TEST(LennardJonesAlpha, serialize) {
   Configuration config;
-  config.add_particle_type("../particle/lj.fstprt");
+  config.add_particle_type("../particle/lj.txt");
   auto model = MakeLennardJonesAlpha({{"alpha", "12"},
                                       {"hard_sphere_threshold", "0.3"}});
   model->precompute(config.model_params());
@@ -49,7 +49,7 @@ TEST(LennardJonesAlpha, serialize) {
 }
 
 TEST(LennardJonesAlpha, analytical_lambda) {
-  auto config = MakeConfiguration({{"particle_type0", "../plugin/models/particle/ljlambda.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../plugin/models/particle/ljlambda.txt"}});
   auto model = MakeLennardJonesAlpha();
   model->precompute(config->model_params());
   //EXPECT_NEAR(en(3), model->energy(3.*3., 0, 0, config.model_params()), NEAR_ZERO);

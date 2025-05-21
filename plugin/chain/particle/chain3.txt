@@ -1,0 +1,29 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095) of a linear flexible chain
+
+Site Properties
+
+0 epsilon 1 sigma 1 cutoff 3.0
+1 epsilon 1 sigma 1 cutoff 3.0
+
+Bond Properties
+
+0 RigidBond length 1.0 delta 0.0001
+
+Angle Properties
+
+0 AngleSquareWell min_degrees 0.0 max_degrees 180.0
+
+Sites
+
+0 0 0.0 0.0 0.0
+1 0 1.0 0.0 0.0
+2 1 2.0 0.0 0.0
+
+Bonds
+
+0 0 0 1
+1 0 1 2
+
+Angles
+
+0 0 0 1 2

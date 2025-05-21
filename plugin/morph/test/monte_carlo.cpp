@@ -62,8 +62,8 @@ void test_morph(const System& system) {
 TEST(MonteCarlo, TrialMorph) {
   System system;
   system.add(MakeConfiguration({{"cubic_side_length", "8"},
-    {"particle_type0", "../particle/lj.fstprt"},
-    {"particle_type1", "../particle/lj.fstprt"}}));
+    {"particle_type0", "../particle/lj.txt"},
+    {"particle_type1", "../particle/lj.txt"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.add(MakePotential(MakeLongRangeCorrections()));
   system.add_to_reference(MakePotential(MakeDontVisitModel()));
@@ -73,8 +73,8 @@ TEST(MonteCarlo, TrialMorph) {
 TEST(MonteCarlo, TrialMorphCO2N2) {
   System system;
   system.add(MakeConfiguration({{"cubic_side_length", "30"},
-    {"particle_type0", "../particle/co2.fstprt"},
-    {"particle_type1", "../particle/n2.fstprt"}}));
+    {"particle_type0", "../particle/co2.txt"},
+    {"particle_type1", "../particle/n2.txt"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.add(MakePotential(MakeLongRangeCorrections()));
   system.add_to_reference(MakePotential(MakeDontVisitModel()));
@@ -86,8 +86,8 @@ std::unique_ptr<MonteCarlo> test_morph_expanded_lj(
   const int max = 5) {
   auto mc = std::make_unique<MonteCarlo>();
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../particle/lj.fstprt"},
-                            {"particle_type1", "../particle/atom.fstprt"},
+                            {"particle_type0", "../particle/lj.txt"},
+                            {"particle_type1", "../particle/atom.txt"},
                             {"sigma1", "0.5"},
                             {"cutoff1", "1"},
                             {"add_particles_of_type0", "1"}}));
@@ -188,10 +188,10 @@ TEST(MonteCarlo, TrialMorph_RPM) {
 std::unique_ptr<MonteCarlo> test_morph_expanded(const std::string trials_per) {
   auto mc = std::make_unique<MonteCarlo>();
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../particle/lj.fstprt"},
-                            {"particle_type1", "../particle/lj.fstprt"},
-                            {"particle_type2", "../particle/lj.fstprt"},
-                            {"particle_type3", "../particle/lj.fstprt"},
+                            {"particle_type0", "../particle/lj.txt"},
+                            {"particle_type1", "../particle/lj.txt"},
+                            {"particle_type2", "../particle/lj.txt"},
+                            {"particle_type3", "../particle/lj.txt"},
                             {"add_particles_of_type0", "1"}}));
   mc->add(MakePotential(MakeLennardJones()));
   const std::vector<std::vector<int> > grow_sequence = {{1}, {2}, {3}, {0}};
@@ -259,10 +259,10 @@ TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "1234"}}));
   mc.add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../particle/lj.fstprt"},
-                            {"particle_type1", "../particle/lj.fstprt"},
-                            {"particle_type2", "../particle/lj.fstprt"},
-                            {"particle_type3", "../particle/lj.fstprt"}}));
+                            {"particle_type0", "../particle/lj.txt"},
+                            {"particle_type1", "../particle/lj.txt"},
+                            {"particle_type2", "../particle/lj.txt"},
+                            {"particle_type3", "../particle/lj.txt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};
@@ -306,14 +306,14 @@ TEST(MonteCarlo, morphrxn) {
   auto mc = MakeMonteCarlo({{
     {"RandomMT19937", {{"seed", "123"}}},
     {"Configuration", {{"cubic_side_length", "8"},
-                       {"particle_type0", "../plugin/morph/particle/trimer_to_tetramer.fstprt"}, // h2o
-                       {"particle_type1", "../particle/tetramer.fstprt"},                        // h30
-                       {"particle_type2", "../plugin/morph/particle/dimer_to_monomer.fstprt"},    // dimer should go to monomer
-                       {"particle_type3", "../plugin/morph/particle/monomer.fstprt"},
-                       //{"particle_type0", "../particle/lj.fstprt"},
-                       //{"particle_type1", "../particle/lj.fstprt"},
-                       //{"particle_type2", "../particle/lj.fstprt"},
-                       //{"particle_type3", "../particle/lj.fstprt"},
+                       {"particle_type0", "../plugin/morph/particle/trimer_to_tetramer.txt"}, // h2o
+                       {"particle_type1", "../particle/tetramer.txt"},                        // h30
+                       {"particle_type2", "../plugin/morph/particle/dimer_to_monomer.txt"},    // dimer should go to monomer
+                       {"particle_type3", "../plugin/morph/particle/monomer.txt"},
+                       //{"particle_type0", "../particle/lj.txt"},
+                       //{"particle_type1", "../particle/lj.txt"},
+                       //{"particle_type2", "../particle/lj.txt"},
+                       //{"particle_type3", "../particle/lj.txt"},
                        {"add_particles_of_type2", "1"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"RefPotential", {{"VisitModel", "DontVisitModel"}}},
@@ -353,7 +353,7 @@ TEST(MonteCarlo, morphrxn) {
 TEST(MonteCarlo, octane_01_fh_VERY_LONG) {
   const std::string tpc = "1e4";
   auto mc = MakeMonteCarlo({{
-    {"Configuration", {{"cubic_side_length", "45"}, {"particle_type0", "../particle/n-octane.fstprt"}}},
+    {"Configuration", {{"cubic_side_length", "45"}, {"particle_type0", "../particle/n-octane.txt"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"Potential", {{"Model", "LennardJones"}, {"VisitModel", "VisitModelIntraMap"}, {"exclude_bonds", "true"}, {"exclude_angles", "true"}, {"exclude_dihedrals", "true"}}},
     {"RefPotential", {{"VisitModel", "DontVisitModel"}}},

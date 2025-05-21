@@ -16,8 +16,8 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt0', type=str, default='/feasst/particle/dimer_mie_CO2.fstprt', help='FEASST particle definition')
-    parser.add_argument('--fstprt1', type=str, default='/feasst/particle/dimer_mie_N2.fstprt', help='FEASST particle definition')
+    parser.add_argument('--fstprt0', type=str, default='/feasst/particle/dimer_mie_CO2.txt', help='FEASST particle definition')
+    parser.add_argument('--fstprt1', type=str, default='/feasst/particle/dimer_mie_N2.txt', help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./258.15, help='inverse temperature (K)')
     parser.add_argument('--pressure', type=float, default=5.38, help='pressure (MPa)')
     parser.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')

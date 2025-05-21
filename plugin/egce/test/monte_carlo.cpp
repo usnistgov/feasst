@@ -444,10 +444,8 @@ TEST(MonteCarlo, rpm_divalent_morph_LONG) {
   { Configuration * config = mc->get_system()->get_configuration();
     const double q_plus = config->model_params().select("charge").value(0);
     const double q_minus = config->model_params().select("charge").value(1);
-    config->add_particle_type(install_dir() +
-      "/plugin/charge/particle/rpm_plus.fstprt", "0.5");
-    config->add_particle_type(install_dir() +
-      "/plugin/charge/particle/rpm_minus.fstprt", "0.5");
+    config->add_particle_type("../plugin/charge/particle/rpm_plus.txt", "0.5");
+    config->add_particle_type("../plugin/charge/particle/rpm_minus.txt", "0.5");
     config->set_model_param("charge", 2, 0.5*q_plus);
     config->set_model_param("charge", 3, 0.5*q_minus);
     config->set_model_param("cutoff", 2, 7.5);
@@ -513,7 +511,7 @@ double energy_av467(const int macro, const MonteCarlo& mc) {
 
 TEST(MonteCarlo, lj_fh_trial_grow_liquid_LONG) {
   MonteCarlo mc;
-  mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"}}));
+  mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.txt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell({{"min_length", "1"}})));

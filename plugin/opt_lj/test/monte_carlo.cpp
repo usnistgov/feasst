@@ -20,7 +20,7 @@ namespace feasst {
 TEST(MonteCarlo, NVT_opt_lj_BENCHMARK_LONG) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../particle/lj.fstprt"}}));
+                            {"particle_type0", "../particle/lj.txt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeLongRangeCorrections()));
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
@@ -30,7 +30,7 @@ TEST(MonteCarlo, NVT_opt_lj_BENCHMARK_LONG) {
   mc.add_to_optimized(MakePotential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
                                 MakeVisitModelOptLJ()));
  //                               MakeVisitModelOptLJ(MakeVisitModelInner(MakeEnergyMapAll()))));
-  mc.set(MakeRandomMT19937({{"seed", "default"}}));
+  mc.set(MakeRandomMT19937({{"seed", "1346867550"}}));
   mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
   mc.run(MakeRun({{"until_num_particles", "50"}}));
   mc.run(MakeRemove({{"name", "TrialAdd"}}));

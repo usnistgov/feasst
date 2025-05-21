@@ -13,7 +13,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    #parser.add_argument('--fstprt', type=str, default='/feasst/plugin/patch/particle/spherocylinder.fstprt',
+    #parser.add_argument('--fstprt', type=str, default='/feasst/plugin/patch/particle/spherocylinder.txt',
     #                    help='FEASST particle definition')
     parser.add_argument('--num_particles', type=int, default=100, help='number of particles')
     parser.add_argument('--small_cylinder_length', type=float, default=2, help='small cylinder length (distance between center of end caps)')
@@ -57,7 +57,7 @@ def parse():
     for size in ['small', 'large']:
         hard_spherocylinder(length=params[size+'_cylinder_length'],
                             diameter=params[size+'_cylinder_diameter'],
-                            file_name=params['prefix'] + '_' + size + '.fstprt')
+                            file_name=params['prefix'] + '_' + size + '.txt')
 
     # write initial config of two parallel large cylinders
     with open(params['prefix'] + '_init.xyz', 'w') as f:
@@ -77,8 +77,8 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {prefix}_small.fstprt \
-    particle_type1 {prefix}_large.fstprt \
+Configuration cubic_side_length {cubic_side_length} particle_type0 {prefix}_small.txt \
+    particle_type1 {prefix}_large.txt \
     group0 centers centers_site_type0 0 centers_site_type1 2 \
     add_particles_of_type1 2 xyz_file {prefix}_init.xyz
 Potential Model HardSphere VisitModelInner Spherocylinder group centers

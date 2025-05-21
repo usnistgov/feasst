@@ -6,7 +6,7 @@ The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free and 
 New users can start with the `website <https://pages.nist.gov/feasst/>`_ (`DOI <https://doi.org/10.18434/M3S095>`_), `manuscript <https://doi.org/10.1063/5.0224283>`_, `GitHub discussion <https://github.com/usnistgov/feasst/discussions>`_ and a `five minute video <https://www.nist.gov/video/how-use-feasst-0255-monte-carlo-molecular-simulation-software>`_.
 Support FEASST with a `GitHub <https://github.com/usnistgov/feasst>`_ star or `manuscript <https://doi.org/10.1063/5.0224283>`_ citation!
 
-Features in version 0.25.12
+Features in version 0.25.13
 ================================================================================
 
 .. image:: dev/sphinx/feasst.png
@@ -53,9 +53,9 @@ FEASST requires C++14 and `CMake <https://cmake.org/>`_, and is compiled with th
 
     # [apt/yum/dnf/brew] install g++ cmake curl tar. On HPC, try "module avail/load"
     cd $HOME # replace this with your preference throughout
-    curl -OL https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.12.tar.gz # download
-    tar -xf v0.25.12.tar.gz           # uncompress
-    mkdir feasst-0.25.12/build; cd $_ # out-of-source build
+    curl -OL https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.13.tar.gz # download
+    tar -xf v0.25.13.tar.gz           # uncompress
+    mkdir feasst-0.25.13/build; cd $_ # out-of-source build
     cmake ..                          # find prerequisites
     make install -j 4                 # compile on 4 threads
     # Optional Python packages used in tutorials. Virtual environment recommended:
@@ -71,7 +71,7 @@ Input a text file to the compiled executable.
 
 .. code-block:: bash
 
-    $HOME/feasst-0.25.12/build/bin/fst < $HOME/feasst-0.25.12/tutorial/example.txt
+    $HOME/feasst-0.25.13/build/bin/fst < $HOME/feasst-0.25.13/tutorial/example.txt
 
 The following text input file is explained in detail in the first :doc:`tutorial <tutorial/tutorial>`.
 

@@ -475,7 +475,7 @@ def window_exponential(maximum, minimums=[0], alpha=1.5, number=-1, overlap=1, m
         for index, value in enumerate(minimums):
             segment[index] = value
         last_partial_seg = segment[num_partial-1]
-    if number > num_partial + 1:
+    if number > num_partial - 1:
         diff = (maximum**alpha - last_partial_seg**alpha)/float(number - num_partial + 1)
     for index in range(num_partial, number):
         segment[index] = ((segment[index-1]**alpha)+diff)**(1./alpha)
@@ -495,7 +495,7 @@ def window_exponential(maximum, minimums=[0], alpha=1.5, number=-1, overlap=1, m
 def split_ln_prob_file(filename, windows):
     """
     Split a LnProbability file into multiple windows.
-    
+
     >>> from pyfeasst import macrostate_distribution
     >>> macrostate_distribution.split_ln_prob_file(filename='../../tests/ln_prob_guess.csv', windows=[[0,180],[180,370]])
     >>> import pandas as pd

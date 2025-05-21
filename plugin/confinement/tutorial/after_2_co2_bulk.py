@@ -16,7 +16,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fluid', type=str, default='/feasst/particle/co2.fstprt',
+    parser.add_argument('--fluid', type=str, default='/feasst/particle/co2.txt',
                         help='FEASST particle definition of a fluid particle / adsorbate.')
     parser.add_argument('--cutoff', type=float, default=15, help='site-site cutoff distance in Angstroms')
     parser.add_argument('--temperature', type=float, default=303, help='temperature in Kelvin')

@@ -3,6 +3,7 @@
 #include "utils/include/utils.h"
 #include "utils/include/serialize.h"
 #include "configuration/include/particle.h"
+#include "configuration/include/particle_factory.h"
 #include "configuration/include/group.h"
 
 namespace feasst {
@@ -17,13 +18,23 @@ Group::Group(argtype * args) : PropertiedEntity() {
   // if only one site type, allow drop the subscript
   start.assign(pre+"site_type");
   if (used(start, *args)) {
-    site_types_.push_back(integer(start, args));
+    site_type_names_.push_back(str(start, args));
+    try {
+      site_types_.push_back(std::stoi(site_type_names_.back()));
+    } catch (...) {
+      site_types_.push_back(-1);
+    }
   } else {
-    int type = site_types_.size();
+    int type = site_type_names_.size();
     std::stringstream key;
     key << start << type;
     while (used(key.str(), *args)) {
-      site_types_.push_back(integer(key.str(), args));
+      site_type_names_.push_back(str(key.str(), args));
+      try {
+        site_types_.push_back(std::stoi(site_type_names_.back()));
+      } catch (...) {
+        site_types_.push_back(-1);
+      }
       ++type;
       ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
       key.str("");
@@ -72,6 +83,13 @@ Group::Group(argtype * args) : PropertiedEntity() {
 }
 Group::Group(argtype args) : Group(&args) {
   feasst_check_all_used(args);
+}
+
+void Group::name_to_index(const ParticleFactory& unique_types) {
+  site_types_.clear();
+  for (const std::string& site_type_name : site_type_names_) {
+    site_types_.push_back(unique_types.site_type_name_to_index(site_type_name));
+  }
 }
 
 bool Group::is_empty() const {
@@ -149,8 +167,9 @@ std::vector<int> Group::site_indices(const Particle& particle) const {
 
 void Group::serialize(std::ostream& ostr) const {
   PropertiedEntity::serialize(ostr);
-  feasst_serialize_version(1035, ostr);
+  feasst_serialize_version(1036, ostr);
   feasst_serialize(site_types_, ostr);
+  feasst_serialize(site_type_names_, ostr);
   feasst_serialize(particle_types_, ostr);
   // feasst_serialize(site_indices_, ostr);
   feasst_serialize(particle_indices_, ostr);
@@ -159,8 +178,11 @@ void Group::serialize(std::ostream& ostr) const {
 
 Group::Group(std::istream& istr) : PropertiedEntity(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 1035, "unrecognized version: " << version);
+  ASSERT(version >= 1035 && version <= 1036, "unrecognized version: " << version);
   feasst_deserialize(&site_types_, istr);
+  if (version >= 1036) {
+    feasst_deserialize(&site_type_names_, istr);
+  }
   feasst_deserialize(&particle_types_, istr);
   // feasst_deserialize(&site_indices_, istr);
   feasst_deserialize(&particle_indices_, istr);

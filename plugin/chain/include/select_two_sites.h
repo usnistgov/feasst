@@ -18,8 +18,8 @@ class SelectTwoSites : public TrialSelect {
  public:
   //@{
   /** @name Arguments
-    - mobile_site: index of the mobile site.
-    - mobile_site2: index of the second mobile site.
+    - mobile_site: name of the mobile site.
+    - mobile_site2: name of the second mobile site.
     - particle_type2: type of particle for second site. If -1, use the same
       particle (default: -1).
    */
@@ -30,12 +30,6 @@ class SelectTwoSites : public TrialSelect {
   /** @name Public Functions
    */
   //@{
-
-  /// Return the mobile site.
-  int mobile_site() const { return mobile_site_; }
-
-  /// Return the second mobile site.
-  int mobile_site2() const { return mobile_site2_; }
 
   /// mobile is sized.
   void precompute(System * system) override;
@@ -55,9 +49,8 @@ class SelectTwoSites : public TrialSelect {
   void serialize_select_two_sites_(std::ostream& ostr) const;
 
  private:
-  int mobile_site_;
-  int mobile_site2_;
   int particle_type2_;
+  std::string mobile_site_name_, mobile_site2_name_;
 };
 
 inline std::shared_ptr<SelectTwoSites> MakeSelectTwoSites(

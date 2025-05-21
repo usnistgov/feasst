@@ -37,7 +37,7 @@ TEST(MonteCarlo, beta_expanded) {
   const std::string trials_per(str(1e4));
   auto mc = MakeMonteCarlo({{
     {"RandomMT19937", {{"seed", "123"}}},
-    {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"}}},
+    {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.txt"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
     {"ThermoParams", {{"beta", "1.2"}, {"chemical_potential", "1."}}},
@@ -68,7 +68,7 @@ TEST(MonteCarlo, beta_expanded) {
 
 //MonteCarlo sweeptest(const int min_sweeps, const int beta_num) {
 //  MonteCarlo mc;
-//  mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"}}));
+//  mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.txt"}}));
 //  mc.add(MakePotential(MakeDontVisitModel()));
 //  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
 //  const double beta_min = 0.8;

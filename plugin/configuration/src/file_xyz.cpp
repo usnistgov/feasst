@@ -140,7 +140,7 @@ PrinterXYZ::PrinterXYZ(std::shared_ptr<std::ofstream> file, const bool euler,
 void PrinterXYZ::work(const Site& site,
     const Configuration& config,
     const LoopDescriptor& data) {
-  (*file_.get()) << site.type() << " ";
+  (*file_.get()) << config.site_type_to_name(site.type()) << " ";
   (*file_.get()) << std::setprecision(num_places_);
   for (int dim = 0; dim < config.dimension(); ++dim) {
     (*file_.get()) << site.position().coord(dim) << " ";

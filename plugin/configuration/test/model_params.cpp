@@ -18,13 +18,13 @@ TEST(ModelParams, serialize) {
 
 TEST(ModelParams, size) {
   feasst::Configuration config;
-  config.add_particle_type("../particle/chain10.fstprt");
+  config.add_particle_type("../particle/chain10.txt");
   EXPECT_EQ(1, config.model_params().size());
 }
 
 TEST(ModelParams, max) {
   feasst::Configuration config;
-  config.add_particle_type("../particle/spce.fstprt");
+  config.add_particle_type("../particle/spce.txt");
   EXPECT_EQ(2, config.model_params().size());
   EXPECT_EQ(config.model_params().select("epsilon").mixed_max(), 0.650169581);
   EXPECT_EQ(config.model_params().select("charge").mixed_max(), 0.8476*0.8476);

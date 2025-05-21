@@ -58,8 +58,8 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 Configuration cubic_side_length {cubic_side_length} add_particles_of_type2 1 \
-  particle_type0 /feasst/particle/lj.fstprt particle_type1 /feasst/particle/lj.fstprt \
-  particle_type2 /feasst/particle/lj.fstprt particle_type3 /feasst/particle/lj.fstprt
+  particle_type0 /feasst/particle/lj.txt particle_type1 /feasst/particle/lj.txt \
+  particle_type2 /feasst/particle/lj.txt particle_type3 /feasst/particle/lj.txt
 Potential Model LennardJones
 Potential VisitModel LongRangeCorrections
 RefPotential VisitModel DontVisitModel

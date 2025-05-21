@@ -77,7 +77,7 @@ def parse():
         subprocess.check_call('pdb2pqr30 --titration-state-method=propka --with-ph='+str(params['pH'])+' --ff=PARSE '+domain+'.pdb '+domain+'.pqr --drop-water > '+domain+'.log 2>&1', shell=True, executable='/bin/bash')
         coarse_grain_pdb.write_fstprt(domain)
     if params['queue_id'] == -1:
-        with open(params['domain1']+'_with_ref.fstprt', 'r') as file1:
+        with open(params['domain1']+'_with_ref.txt', 'r') as file1:
             params['num_site_types'] = int(file1.readlines()[4].split(' ')[0])
     return params, args
 
@@ -87,7 +87,7 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {domain1}_with_ref.fstprt particle_type1 {domain2}_with_ref.fstprt \
+Configuration cubic_side_length {cubic_side_length} particle_type0 {domain1}_with_ref.txt particle_type1 {domain2}_with_ref.txt \
   add_particles_of_type0 1 add_particles_of_type1 1 \
   group0 mobile mobile_particle_type 1 \
   {cutoff_line}

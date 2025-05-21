@@ -6,7 +6,7 @@ namespace feasst {
 
 TEST(TwoBodyAlpha, serialize) {
   auto config = MakeConfiguration({
-    {"particle_type0", "../particle/lj.fstprt"},
+    {"particle_type0", "../particle/lj.txt"},
     {"sigma0", "2.5"},
     {"epsilon0", "3.7"}});
   auto model = MakeTwoBodyAlpha({

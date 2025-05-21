@@ -24,8 +24,8 @@ TEST(LongRangeCorrections, LRC) {
 
 TEST(LongRangeCorrections, many_types) {
   auto config = MakeConfiguration({{"cubic_side_length", "8.5"},
-    {"particle_type0", "../particle/atom.fstprt"},
-    {"particle_type1", "../particle/lj.fstprt"},
+    {"particle_type0", "../particle/atom.txt"},
+    {"particle_type1", "../particle/lj.txt"},
     {"add_particles_of_type0", "4"},
     {"add_particles_of_type1", "3"}});
   ModelEmpty empty;

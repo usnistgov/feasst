@@ -9,6 +9,7 @@ TEST(TrialSelectParticle, select) {
   System system = two_particle_system();
   EXPECT_EQ(2, system.configuration().num_particles());
   TrialSelectParticle select;
+  select.precompute(&system);
   int num_zero = 0;
   const int num_select = 1e2;
   RandomMT19937 random;

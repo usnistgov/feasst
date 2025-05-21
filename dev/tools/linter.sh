@@ -1,7 +1,11 @@
 #!/bin/bash
 
 #for f in *; do
+#for f in $(find . -name '*.fstprt'); do
 for f in $(find . -name '*.cpp' -o -name '*.h' -o -name '*.py' -o -name '*.dot' -o -name '*.ipynb'); do
+  echo $f
+  #git mv $f $(sed 's/\.fstprt/\.txt/g' <<< $f)
+  sed 's/\.fstprt/\.txt/g' $f > ttmp; mv ttmp $f
   #sed 's/get_vector(/coord(/g' $f > ttmp; mv ttmp $f
   #sed 's/get_//g' $f > ttmp; mv ttmp $f
   #sed 's/ "include/ "core\/include/' $f > ttmp; mv ttmp $f
@@ -19,7 +23,9 @@ for f in $(find . -name '*.cpp' -o -name '*.h' -o -name '*.py' -o -name '*.dot' 
   #rm $f/ttmp
   #sed 's/(Potential(/(MakePotential(/g' $f > ttmp; mv ttmp $f
   #sed 's/steps_per/trials_per/g' $f > ttmp; mv ttmp $f
-  sed 's/MakeCheckEnergy(/std::make_shared<CheckEnergy>(/g' $f > ttmp; mv ttmp $f
+  #sed 's/MakeCheckEnergy(/std::make_shared<CheckEnergy>(/g' $f > ttmp; mv ttmp $f
+  #sed 's/FEASST particle file/FEASST particle file \(https:\/\/doi.org\/10.18434\/M3S095)/' $f > ttmp; mv ttmp $f
+  #sed 's/LAMMPS-inspired data file/FEASST particle file \(https:\/\/doi.org\/10.18434\/M3S095)/' $f > ttmp; mv ttmp $f
   #sed 's/{"num_trials_per_iteration"/{"trials_per_cycle"/g' $f > ttmp; mv ttmp $f
   #sed 's/{{"until_criteria_complete", "true"}}/{{"until", "complete"}}/g' $f > ttmp; mv ttmp $f
   #sed 's/Run until_criteria_complete true/Run until complete/g' $f > ttmp; mv ttmp $f

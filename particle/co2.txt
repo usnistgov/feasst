@@ -1,0 +1,48 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+# TRAPPE CO2 http://trappe.oit.umn.edu/
+#
+#   O(1) - C(0) - O(2)
+#
+
+3 sites
+2 bonds
+1 angles
+
+2 site types
+1 bond types
+1 angle types
+
+Units
+
+length Angstrom
+energy kJ/mol
+charge elementary
+
+Site Properties
+
+C sigma 2.80 epsilon 0.2244904906901375 cutoff 14.0 charge  0.7  cutoff_outer 1.16
+O sigma 3.05 epsilon 0.6568425468341059 cutoff 14.0 charge -0.35 cutoff_outer 1.16
+
+Sites
+
+0 C  0    0 0
+1 O -1.16 0 0
+2 O  1.16 0 0
+
+Bond Properties
+
+CO RigidBond length 1.16 delta 0.0001
+
+Bonds
+
+0 CO 0 1
+1 CO 0 2
+
+Angle Properties
+
+OCO RigidAngle degrees 180.0 delta 0.01
+
+Angles
+
+0 OCO 1 0 2
+

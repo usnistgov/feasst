@@ -29,7 +29,7 @@ TEST(FileXYZ, load_spce) {
 
 TEST(FileXYZ, load_frame) {
   auto config = MakeConfiguration({{"particle_type0",
-                                    "../particle/dimer.fstprt"}});
+                                    "../particle/dimer.txt"}});
   std::ifstream xyz("../plugin/configuration/test/data/dimer4.xyz");
   FileXYZ fxyz;
   fxyz.load_frame(xyz, config.get());
@@ -47,19 +47,21 @@ TEST(FileXYZ, load_frame) {
 }
 
 TEST(FileXYZ, multicomponent) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.fstprt"},
-                                   {"particle_type1", "../particle/spce.fstprt"},
+  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.txt"},
+                                   {"particle_type1", "../particle/spce.txt"},
+                                   {"particle_type2", "../particle/lj.txt"},
                                    {"xyz_file", "../plugin/configuration/test/data/multicomponent.xyz"}});
   EXPECT_EQ(config->num_particles(), 3);
   EXPECT_EQ(config->particle(0).type(), 0);
   EXPECT_EQ(config->particle(1).type(), 1);
-  EXPECT_EQ(config->particle(2).type(), 0);
+  EXPECT_EQ(config->particle(2).type(), 2);
+  FileXYZ().write("tmp/print.xyz", *config);
 }
 
 TEST(FileXYZ, multicomponent_failure) {
   TRY(
-    auto config = MakeConfiguration({{"particle_type0", "../particle/lj.fstprt"},
-                                     {"particle_type1", "../particle/spce.fstprt"},
+    auto config = MakeConfiguration({{"particle_type0", "../particle/lj.txt"},
+                                     {"particle_type1", "../particle/spce.txt"},
                                      {"xyz_file", "../plugin/configuration/test/data/multicomponent2.xyz"}});
     CATCH_PHRASE("not given in integers");
   );

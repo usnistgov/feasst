@@ -30,7 +30,7 @@ TEST(SelectCluster, serialize) {
     System sys;
     {
       auto config = MakeConfiguration({{"cubic_side_length", "8"},
-        {"particle_type", "../particle/lj.fstprt"},
+        {"particle_type", "../particle/lj.txt"},
         {"add_particles_of_type0", "3"}});
       config->update_positions({{0, 0, 0},
                                {-1.25, 0, 0},
@@ -49,6 +49,7 @@ TEST(SelectCluster, serialize) {
     sys.finalize();
     sys.add(MakeNeighborCriteria());
     SelectCluster add;
+    add.precompute(&sys);
 
     // select all clusters
     { std::vector<Select> clusters = add.select_clusters(sys);

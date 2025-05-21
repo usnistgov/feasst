@@ -16,14 +16,13 @@ static feasst::ArgumentParse args(
   {"--seed", "random number generator seed", "1234567"},
   {"--length", "cubic periodic boundary length", "8"},
   {"--num", "number of particles", "50"},
-  {"--data", "LMP particle data file",
-    feasst::install_dir() + "/particle/lj.fstprt"},
+  {"--data", "FEASST particle file", "../../particle/lj.txt"},
   {"--beta", "inverse temperature", "1.2"},
   {"--trials", "number of Monte Carlo trials", "1e6"}});
 
 int main(int argc, char ** argv) {
-  std::cout << "#FEASST version: " << feasst::version() << std::endl
-            << args.parse(argc, argv) << std::endl;
+  std::cout << "FEASST version " << feasst::FEASST_VERSION << std::endl
+            << "# " << args.parse(argc, argv) << std::endl;
 
   // high temperature gcmc to generate initial configuration
   auto mc = feasst::MakeMonteCarlo({{

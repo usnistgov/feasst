@@ -26,7 +26,7 @@ class TrialSelectDihedral : public TrialSelectAngle {
  public:
   //@{
   /** @name Arguments
-    - anchor_site3 : index of third anchor site.
+    - anchor_site3 : name of third anchor site.
    */
   explicit TrialSelectDihedral(argtype args = argtype());
   explicit TrialSelectDihedral(argtype * args);
@@ -50,7 +50,7 @@ class TrialSelectDihedral : public TrialSelectAngle {
   void serialize_trial_select_dihedral_(std::ostream& ostr) const;
 
  private:
-  int anchor_site3_;
+  std::string anchor_site3_name_;
 };
 
 inline std::shared_ptr<TrialSelectDihedral> MakeTrialSelectDihedral(

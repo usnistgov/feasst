@@ -18,7 +18,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/atom.fstprt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/atom.txt',
                         help='FEASST particle definition')
     parser.add_argument('--reference_sigma', type=float, default=1,
                         help='reference potential is a hard sphere unit diameter which is also the size of the inner hard sphere in the square well.')

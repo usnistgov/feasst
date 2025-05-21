@@ -11,6 +11,7 @@
 namespace feasst {
 
 class Particle;
+class ParticleFactory;
 class Site;
 
 typedef std::map<std::string, std::string> argtype;
@@ -46,6 +47,10 @@ class Group : public PropertiedEntity {
    */
   //@{
 
+  /// Convert site type names to interger indexes for optimization.
+  /// Otherwise, assumes name is index (and index is -1 if stoi fails).
+  void name_to_index(const ParticleFactory& unique_types);
+
   /// Return the list of site types in the group.
   const std::vector<int> site_types() const { return site_types_; }
 
@@ -79,6 +84,7 @@ class Group : public PropertiedEntity {
   //@}
  private:
   /// If no types or indices are listed, do not screen by types or indices.
+  std::vector<std::string> site_type_names_;
   std::vector<int> site_types_;
   std::vector<int> particle_types_;
   // std::vector<int> site_indices_;

@@ -17,7 +17,7 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-Configuration cubic_side_length {initial_box} particle_type0 {domain1}.fstprt particle_type1 {domain2}.fstprt \
+Configuration cubic_side_length {initial_box} particle_type0 {domain1}.txt particle_type1 {domain2}.txt \
   add_particles_of_type0 1 add_particles_of_type1 1 cutoff {cutoff} \
   group0 fixed fixed_particle_type 0 group1 mobile mobile_particle_type 1
 Potential Model ModelTwoBodyFactory \

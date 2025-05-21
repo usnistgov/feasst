@@ -3,16 +3,9 @@
 #include <algorithm>
 #include "utils/include/io.h"
 #include "utils/include/debug.h"
+#include "utils/include/definitions.h"
 
 namespace feasst {
-
-std::string install_dir() {
-  return std::string(FEASST_DIR_);
-}
-
-std::string version() {
-  return std::string(FEASST_VERSION_);
-}
 
 // thanks to http://www.cplusplus.com/forum/beginner/87238/
 std::vector<std::string> split(const std::string str) {

@@ -16,8 +16,8 @@ TEST(TrialReptateUnopt, serialize) {
 
 //TEST(MonteCarlo, reptate) {
 //  auto mc = MakeMonteCarlo({{
-//    {"Configuration", {{"cubic_side_length", "30"}, {"particle_type1", "../particle/n-octane.fstprt"},
-//                       {"add_particles_of_type1", "1"}, {"particle_type0", "../particle/atom.fstprt"},
+//    {"Configuration", {{"cubic_side_length", "30"}, {"particle_type1", "../particle/n-octane.txt"},
+//                       {"add_particles_of_type1", "1"}, {"particle_type0", "../particle/atom.txt"},
 //                       {"sigma0", "4"}}},
 //    {"Potential", {{"Model", "LennardJones"}}},
 //    {"Potential", {{"Model", "LennardJones"}, {"VisitModel", "VisitModelIntra"}, {"intra_cut", "3"}}},
@@ -40,8 +40,8 @@ TEST(TrialReptateUnopt, serialize) {
 //  const std::string tpc = "1e4";
 //  auto mc = MakeMonteCarlo({{
 //    {"RandomMT19937", {{"seed", "123"}}},
-//    {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../plugin/chain/test/data/trimer_harmonic.fstprt"}, {"add_particles_of_type0", "1"}}},
-//    //{"Configuration", {{"cubic_side_length", "45"}, {"particle_type0", "../particle/n-octane.fstprt"}, {"add_particles_of_type0", "1"}}},
+//    {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../plugin/chain/test/data/trimer_harmonic.txt"}, {"add_particles_of_type0", "1"}}},
+//    //{"Configuration", {{"cubic_side_length", "45"}, {"particle_type0", "../particle/n-octane.txt"}, {"add_particles_of_type0", "1"}}},
 //    {"Potential", {{"Model", "LennardJones"}}},
 //    //{"Potential", {{"Model", "LennardJones"}, {"VisitModel", "VisitModelIntraMap"}, {"exclude_bonds", "true"}, {"exclude_angles", "true"}, {"exclude_dihedrals", "true"}}},
 //    {"RefPotential", {{"VisitModel", "DontVisitModel"}}},

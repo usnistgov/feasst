@@ -28,7 +28,7 @@ class TrialSelectAngle : public TrialSelectBond {
  public:
   //@{
   /** @name Arguments
-    - anchor_site2 : index of second anchor site.
+    - anchor_site2 : name of second anchor site.
     - TrialSelectBond arguments.
    */
   explicit TrialSelectAngle(argtype args = argtype());
@@ -40,7 +40,7 @@ class TrialSelectAngle : public TrialSelectBond {
   //@{
 
   /// Return the second anchor site.
-  int anchor_site2() const { return anchor_site2_; }
+  const std::string& anchor_site2_name() const { return anchor_site2_name_; }
 
   /// Same as TrialSelectBond, but also add the second anchor site, and add
   /// angle_type as an anchor property.
@@ -56,7 +56,7 @@ class TrialSelectAngle : public TrialSelectBond {
   void serialize_trial_select_angle_(std::ostream& ostr) const;
 
  private:
-  int anchor_site2_;
+  std::string anchor_site2_name_;
 };
 
 inline std::shared_ptr<TrialSelectAngle> MakeTrialSelectAngle(

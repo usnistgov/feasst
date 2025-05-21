@@ -11,7 +11,7 @@ class VisitModel;
 
 class ModelThreeBody : public Model {
  public:
-  ModelThreeBody() { class_name_ = "ModelThreeBody"; }
+  ModelThreeBody();
 
   double compute(
     const ModelParams& model_params,
@@ -62,8 +62,8 @@ class ModelThreeBody : public Model {
   ModelTwoBody * get_two_body() const;
   void set_two_body(std::unique_ptr<ModelTwoBody> two_body);
 
-  virtual ~ModelThreeBody() {}
-  explicit ModelThreeBody(std::istream& istr) : Model(istr) {}
+  virtual ~ModelThreeBody();
+  explicit ModelThreeBody(std::istream& istr);
 
  private:
   std::unique_ptr<ModelTwoBody> two_body_;

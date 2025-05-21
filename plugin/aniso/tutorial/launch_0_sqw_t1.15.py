@@ -53,7 +53,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/plugin/aniso/particle/aniso_tabular.fstprt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/plugin/aniso/particle/aniso_tabular.txt',
                         help='FEASST particle definition')
     parser.add_argument('--cutoff', type=float, default=1.5, help='square well cutoff')
     parser.add_argument('--dccb_cut', type=float, default=1, help='DCCB cutoff')

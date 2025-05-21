@@ -16,7 +16,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/plugin/chain/particle/cg7mab2.fstprt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/plugin/chain/particle/cg7mab2.txt',
                         help='FEASST particle definition')
     parser.add_argument('--reference_sigma', type=float, default=4.5,
                         help='reference potential is a hard sphere of this size at the hinge')
@@ -60,7 +60,7 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length 500 particle_type0 /feasst/plugin/chain/particle/cg7mab2.fstprt \
+Configuration cubic_side_length 500 particle_type0 /feasst/plugin/chain/particle/cg7mab2.txt \
     add_particles_of_type0 2 \
     group0 first first_particle_index 0
 Potential Model HardSphere

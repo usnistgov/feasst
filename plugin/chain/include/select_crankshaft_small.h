@@ -16,7 +16,7 @@ class SelectCrankshaftSmall : public TrialSelectParticle {
   //@{
   /** @name Arguments
     - site[i]: add the (i+1)-th mobile site, beginning with i=1,
-      where "site" is the first mobile site.
+      where "site" is the first mobile site name.
       The "[i]" is to be substituted for an integer 1, 2, 3 ...
     - anchor_site0: an anchor site to define rotation axis.
     - anchor_site1: a second, different anchor site to define rotation axis.
@@ -29,8 +29,7 @@ class SelectCrankshaftSmall : public TrialSelectParticle {
    */
   //@{
 
-  void precompute(System * system) override {
-    TrialSelectParticle::precompute(system); }
+  void precompute(System * system) override;
 
   bool select(const Select& perturbed,
     System* system,
@@ -47,6 +46,7 @@ class SelectCrankshaftSmall : public TrialSelectParticle {
   void serialize_select_crankshaft_small_(std::ostream& ostr) const;
 
  private:
+  std::vector<std::string> site_names_;
 };
 
 inline std::shared_ptr<SelectCrankshaftSmall> MakeSelectCrankshaftSmall(

@@ -14,7 +14,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/plugin/chain/particle/cg7mab2.fstprt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/plugin/chain/particle/cg7mab2.txt',
                         help='FEASST particle definition')
     parser.add_argument('--cubic_side_length', type=float, default=90,
                         help='cubic periodic boundary conditions')

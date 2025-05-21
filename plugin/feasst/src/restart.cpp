@@ -15,9 +15,9 @@ static feasst::ArgumentParse args("Restart from checkpoint file.", {
 });
 
 int main(int argc, char ** argv) {
-  std::cout << "#FEASST version: " << feasst::version() << std::endl
+  std::cout << "#FEASST version: " << feasst::FEASST_VERSION << std::endl
             << args.parse(argc, argv) << std::endl;
-  //std::cout << "# FEASST version: " << feasst::version() << std::endl;
+  //std::cout << "# FEASST version: " << feasst::FEASST_VERSION << std::endl;
   //ASSERT(argc == 2, "unrecognized number of arguments: " << argc);
   std::cout << "#DEPRECATION WARNING\n#Use: echo " <<
     "\"Restart [checkpoint_file]\" | /feasst/build/bin/fst" << std::endl;

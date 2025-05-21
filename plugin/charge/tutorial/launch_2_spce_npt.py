@@ -12,7 +12,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/spce.fstprt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/spce.txt',
                         help='FEASST particle definition')
     parser.add_argument('--temperature', type=float, default=500, help='temperature in Kelvin')
     parser.add_argument('--num_particles', type=int, default=500, help='number of particles')

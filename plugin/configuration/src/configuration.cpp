@@ -277,6 +277,7 @@ void Configuration::add(std::shared_ptr<Group> group, std::string name) {
     name.assign(ss.str());
   }
   Select group_select;
+  group->name_to_index(unique_types());
   group->add_property(name, 0.);
   group_select.set_group(group);
   init_selection_(&group_select);
@@ -775,7 +776,7 @@ std::string Configuration::status() const {
 
 void Configuration::serialize(std::ostream& ostr) const {
   feasst_serialize_version(7199, ostr);
-  feasst_serialize(version(), ostr);
+  feasst_serialize(std::string(FEASST_VERSION), ostr);
   feasst_serialize(particle_types_, ostr);
   feasst_serialize(unique_types_, ostr);
   feasst_serialize(particles_, ostr);
@@ -799,9 +800,9 @@ Configuration::Configuration(std::istream& istr) {
     "unrecognized config_version: " << config_version);
   std::string checkpoint_version;
   feasst_deserialize(&checkpoint_version, istr);
-  if (checkpoint_version != version()) {
+  if (checkpoint_version != FEASST_VERSION) {
     WARN("version of checkpoint: " << checkpoint_version << " is not the " <<
-         "same as current version: " << version());
+         "same as current version: " << FEASST_VERSION);
   }
 //  feasst_deserialize(particle_types_, istr);
 // HWH for unknown reasons, this function template does not work.
@@ -1024,26 +1025,11 @@ void Configuration::check_dimensions() const {
 }
 
 int Configuration::site_type_to_particle_type(const int site_type) const {
-  int particle_type = 0;
-  int prev = 0;
-  for (int site = 0; site <= site_type; ++site) {
-    const int num_sites = unique_types().particle(particle_type).num_sites();
-    if (site >= num_sites + prev) {
-      prev += num_sites;
-      ++particle_type;
-    }
-  }
-  return particle_type;
+  return unique_types().site_type_to_particle_type(site_type);
 }
 
 const Site& Configuration::unique_type(const int ptype, const int stype) const {
-  int prev_site_types = 0;
-  for (int pt = 0; pt < ptype; ++pt) {
-    prev_site_types += unique_type(pt).num_sites();
-  }
-  const int index = stype - prev_site_types;
-  ASSERT(index >= 0, "error");
-  return unique_type(ptype).site(index);
+  return unique_types().unique_type(ptype, stype);
 }
 
 std::vector<std::vector<int> >
@@ -1218,11 +1204,25 @@ const std::vector<std::shared_ptr<Select> >& Configuration::group_selects()
 }
 
 const Select& Configuration::group_select(const int index) const {
+  ASSERT(index < static_cast<int>(group_selects_.size()), "index:" << index
+    << " >= number of groups:" << group_selects_.size());
   return *group_selects_[index];
 }
 
 const Select& Configuration::selection_of_all() const {
   return *group_selects_[0];
+}
+
+const std::string& Configuration::site_type_to_name(const int site_type) const {
+  return unique_types().site_type_to_name(site_type);
+}
+
+int Configuration::site_name_to_index(const std::string& site_name) const {
+  return particle_types().site_name_to_index(site_name);
+}
+
+int Configuration::site_type_name_to_index(const std::string& site_type_name) const {
+  return unique_types().site_type_name_to_index(site_type_name);
 }
 
 }  // namespace feasst

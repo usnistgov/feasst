@@ -12,7 +12,7 @@ TEST(PerturbBranch, serialize) {
 TEST(PerturbBranch, tip4p) {
 //  System sys;
 //  sys.add(MakeConfiguration({{"cubic_side_length", "10"},
-//    {"particle_type", "../plugin/charge/particle/tip4p.fstprt"},
+//    {"particle_type", "../plugin/charge/particle/tip4p.txt"},
 //    {"add_particles_of_type0", "1"}}));
 //  sys.add(MakePotential(MakeHardSphere(), MakeDontVisitModel()));
 //  sys.precompute();
@@ -24,7 +24,7 @@ TEST(PerturbBranch, tip4p) {
 TEST(MonteCarlo, tip4p) {
   auto mc = MakeMonteCarlo({{
     //{"RandomMT19937", {{"seed", "123"}}},
-    {"Configuration", {{"particle_type0", "../plugin/charge/particle/tip4p.fstprt"},
+    {"Configuration", {{"particle_type0", "../plugin/charge/particle/tip4p.txt"},
       {"cubic_side_length", "20"}, {"add_particles_of_type0", "1"}}},
     {"Potential", {{"Model", "HardSphere"}, {"VisitModel", "DontVisitModel"}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "-1"}}},

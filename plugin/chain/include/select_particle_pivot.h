@@ -18,8 +18,8 @@ class SelectParticlePivot : public TrialSelect {
  public:
   //@{
   /** @name Arguments
-    - pivot_site: set the site index in selection with which to use as the
-      pivot for rotation (default: 0).
+    - pivot_site: the site name to use as the center of the rotation.
+      By default, the pivot site is the first site listed in the particle.
    */
   explicit SelectParticlePivot(argtype args = argtype());
   explicit SelectParticlePivot(argtype * args);
@@ -46,7 +46,8 @@ class SelectParticlePivot : public TrialSelect {
   void serialize_select_particle_pivot_(std::ostream& ostr) const;
 
  private:
-  int pivot_site_;
+  int pivot_site_ = 0;
+  std::string pivot_site_name_;
 };
 
 inline std::shared_ptr<SelectParticlePivot> MakeSelectParticlePivot(

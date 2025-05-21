@@ -22,22 +22,27 @@ SelectParticleAVBDivalent::SelectParticleAVBDivalent(argtype args)
   argtype mobile_args;
   mobile_args.insert({"load_coordinates", "true"});
   mobile_args.insert({"particle_type", str(particle_type())});
-  mobile_args.insert({"site", str("site_index", &args, "0")});
+  mobile_args.insert({"site", str("site_name", &args, "0")});
   mobile_args.insert({"ghost", str("ghost", &args)});
   select_mobile_ = TrialSelectParticle(mobile_args);
-  DEBUG(select_mobile_.particle_type());
-  get_mobile()->clear();
-  get_mobile()->add_site(0, select_mobile_.site());
-
-  get_anchor()->clear();
-  get_anchor()->add_site(0,
-    integer("target_site_index", &args, 0));
+  target_site_name_ = str("target_site_name", &args, "0");
   ASSERT(!used("group_index", args), "group not implemented with AVB");
   feasst_check_all_used(args);
 }
 
 FEASST_MAPPER(SelectParticleAVBDivalent,
   argtype({{"ghost", "true"}, {"particle_type", "0"}}));
+
+void SelectParticleAVBDivalent::precompute(System * system) {
+  TrialSelect::precompute(system);
+  select_mobile_.precompute(system);
+  const Configuration& config = configuration(*system);
+  DEBUG(select_mobile_.particle_type());
+  get_mobile()->clear();
+  get_mobile()->add_site(0, select_mobile_.site());
+  get_anchor()->clear();
+  get_anchor()->add_site(0, config.site_name_to_index(target_site_name_));
+}
 
 bool SelectParticleAVBDivalent::select(const Select& perturbed,
     System * system,
@@ -84,17 +89,21 @@ std::shared_ptr<TrialSelect> SelectParticleAVBDivalent::create(std::istream& ist
 SelectParticleAVBDivalent::SelectParticleAVBDivalent(std::istream& istr)
   : TrialSelect(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(2385 == version, "mismatch version: " << version);
+  ASSERT(version >= 2385 && version <= 2386, "mismatch version: " << version);
   feasst_deserialize(&neighbor_, istr);
   feasst_deserialize_fstobj(&select_mobile_, istr);
+  if (version >= 2386) {
+    feasst_deserialize(&target_site_name_, istr);
+  }
 }
 
 void SelectParticleAVBDivalent::serialize_select_particle_avb_divalent_(
     std::ostream& ostr) const {
   serialize_trial_select_(ostr);
-  feasst_serialize_version(2385, ostr);
+  feasst_serialize_version(2386, ostr);
   feasst_serialize(neighbor_, ostr);
   feasst_serialize_fstobj(select_mobile_, ostr);
+  feasst_serialize(target_site_name_, ostr);
 }
 
 void SelectParticleAVBDivalent::serialize(std::ostream& ostr) const {

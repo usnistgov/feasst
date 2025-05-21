@@ -14,7 +14,7 @@ import launch_04_lj_tm_parallel
 def parse():
     """ Parse arguments from command line or change their default values. """
     params, args = launch_04_lj_tm_parallel.parse(
-          fstprt='/feasst/particle/trimer.fstprt',
+          fstprt='/feasst/particle/trimer.txt',
           beta=1./0.275,
           beta_mu=-5,
           min_sweeps=20,

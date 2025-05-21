@@ -1,0 +1,8 @@
+TrialGrowFile
+
+rigid_body_connector true mobile_site 1 anchor_site 0 particle_type 0 weight 1
+angle true mobile_site 2 anchor_site 1 anchor_site2 0
+
+bond true mobile_site 1 anchor_site 2 particle_type 0 weight 1
+rigid_body_angle true mobile_site 0 anchor_site 1 anchor_site2 2
+

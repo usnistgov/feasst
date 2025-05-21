@@ -16,7 +16,7 @@ import launch_04_lj_tm_parallel
 
 def parse():
     params, args = launch_04_lj_tm_parallel.parse(
-          fstprt='/feasst/particle/atom.fstprt',
+          fstprt='/feasst/particle/atom.txt',
           beta=1.,
           beta_mu=-2.352321,
           min_sweeps=1e2,

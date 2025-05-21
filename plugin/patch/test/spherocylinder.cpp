@@ -1,4 +1,6 @@
 #include "utils/test/utils.h"
+#include "configuration/include/particle.h"
+#include "configuration/include/file_particle.h"
 #include "configuration/include/file_xyz.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/group.h"
@@ -19,7 +21,7 @@ TEST(Spherocylinder, serialize) {
 
 TEST(Spherocylinder, patch_one) {
   Configuration config;
-  config.add_particle_type("../plugin/patch/particle/spherocylinder.fstprt");
+  config.add_particle_type("../plugin/patch/particle/spherocylinder.txt");
   config.set_model_param("cutoff", 0, 3.);
   config.set_model_param("cutoff", 1, 3.);
   FileXYZ().load("../plugin/patch/test/data/spherocylinder.xyz", &config);
@@ -42,7 +44,7 @@ TEST(Spherocylinder, patch_one) {
 TEST(Spherocylinder, patch_one_2body) {
   System system;
   system.add(MakeConfiguration({{"cubic_side_length", "10"},
-    {"particle_type", "../plugin/patch/particle/spherocylinder.fstprt"},
+    {"particle_type", "../plugin/patch/particle/spherocylinder.txt"},
     {"add_particles_of_type0", "2"},
     {"group0", "centers"}, {"centers_site_type0", "0"}}));
 

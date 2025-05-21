@@ -1,4 +1,5 @@
 #include <cmath>  // isnan, pow
+#include <iostream>
 #include <string>
 #include <fstream>
 #include "utils/include/arguments.h"
@@ -219,8 +220,8 @@ void VisitModelInnerTable::precompute_cutoffs(Configuration * config) {
       const double cutoff = inner[t1][t2]->maximum() + delta_[t1][t2];
       config->set_model_param("cutoff", type1, type2, cutoff);
       config->set_model_param("cutoff", type2, type1, cutoff);
-      INFO("cutoff for " << type1 << "-" << type2 << " site types: " << cutoff);
-      INFO("cutoff for " << type2 << "-" << type1 << " site types: " << cutoff);
+      std::cout << "# cutoff for " << type1 << "-" << type2 << " site types: " << cutoff << std::endl;
+      std::cout << "# cutoff for " << type2 << "-" << type1 << " site types: " << cutoff << std::endl;
     }
   }
 }

@@ -30,7 +30,7 @@ PARAMS['prefix'] = 'contact'
 
 hard_spherocylinder(length=PARAMS['cylinder_length'],
                     diameter=PARAMS['cylinder_diameter'],
-                    file_name=PARAMS['prefix'] + '.fstprt')
+                    file_name=PARAMS['prefix'] + '.txt')
 
 # write xyz relative orientation of two solids of revolution as described in feasst::SolidOfRevolutionTable
 # place the center of both solids on the origin
@@ -60,7 +60,7 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-Configuration cubic_side_length {cubic_side_length} particle_type0 {prefix}.fstprt \
+Configuration cubic_side_length {cubic_side_length} particle_type0 {prefix}.txt \
     group0 centers centers_site_type0 0 \
     add_particles_of_type0 2 xyz_file {prefix}_init.xyz
 Potential Model HardSphere VisitModelInner Spherocylinder group centers

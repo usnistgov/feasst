@@ -1,0 +1,37 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+# TRAPPE O2 http://trappe.oit.umn.edu/
+#
+# O(1) - M(0) - O(1)
+#
+# Units
+# length: Angstrom
+# energy: kJ/mol
+# charge: elementary
+
+Site Properties
+
+M sigma 0.0  epsilon 0.0                 cutoff 14.0 charge  0.226 cutoff_outer 0.605
+O sigma 3.02 epsilon 0.40740866828950880 cutoff 14.0 charge -0.113 cutoff_outer 0.605
+
+Sites
+
+0 M  0     0 0
+1 O -0.605 0 0
+2 O  0.605 0 0
+
+Bond Properties
+
+OM RigidBond length 0.605 delta 0.0001
+
+Bonds
+
+0 OM 0 1
+1 OM 0 2
+
+Angle Properties
+
+OMO RigidAngle degrees 180.0 delta 0.01
+
+Angles
+
+0 OMO 1 0 2

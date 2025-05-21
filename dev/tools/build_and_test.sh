@@ -8,7 +8,8 @@ source feasst_test_env/bin/activate
 python3 -m pip install --upgrade pip
 pip install ../pyfeasst numpy jupyter matplotlib pandas scipy wheel biopandas
 #module load mpi/openmpi-x86_64 # sudo dnf install openmpi-devel
-cmake -DUSE_GTEST=ON -DUSE_MPI=ON -DUSE_HEADER_CHECK=ON -DUSE_PYBIND11=ON .. #-DUSE_SWIG=ON
+cmake -DUSE_GTEST=ON -DUSE_HEADER_CHECK=ON -DUSE_PYBIND11=ON .. #-DUSE_SWIG=ON
+#cmake -DUSE_GTEST=ON -DUSE_MPI=ON -DUSE_HEADER_CHECK=ON -DUSE_PYBIND11=ON .. #-DUSE_SWIG=ON
 #make feasst -j24
 make install -j24
 pip install ../

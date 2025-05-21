@@ -287,7 +287,7 @@ void Particle::serialize(std::ostream& ostr) const {
 
 Particle::Particle(std::istream& istr) : PropertiedEntity(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 365 || version == 366, "version mismatch: " << version);
+  ASSERT(version >= 365 && version <= 366, "version mismatch: " << version);
   feasst_deserialize(&type_, istr);
   feasst_deserialize_fstobj(&sites_, istr);
   feasst_deserialize_fstobj(&bonds_, istr);
@@ -357,5 +357,19 @@ void Particle::set_site(const int index, const Site& site) {
   sites_[index] = site;
 }
 
+void Particle::clear_names() {
+  for (Site& site : sites_) {
+    site.set_name("");
+  }
+  for (Bond& bond : bonds_) {
+    bond.set_name("");
+  }
+  for (Angle& angle : angles_) {
+    angle.set_name("");
+  }
+  for (Dihedral& dihedral : dihedrals_) {
+    dihedral.set_name("");
+  }
+}
 
 }  // namespace feasst

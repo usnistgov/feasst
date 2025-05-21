@@ -13,10 +13,11 @@ TrialSelectBond::TrialSelectBond(argtype args) : TrialSelectBond(&args) {
 }
 TrialSelectBond::TrialSelectBond(argtype * args) : TrialSelect(args) {
   class_name_ = "TrialSelectBond";
-  mobile_site_ = integer("mobile_site", args);
-  anchor_site_ = integer("anchor_site", args);
-  ASSERT(mobile_site_ != anchor_site_, "the mobile site: " << mobile_site_ <<
-    " cannot be the same as the anchor_site_: " << anchor_site_);
+  mobile_site_name_ = str("mobile_site", args);
+  anchor_site_name_ = str("anchor_site", args);
+  ASSERT(mobile_site_name_ != anchor_site_name_, "the mobile site: " <<
+    mobile_site_name_ << " cannot be the same as the anchor site: " <<
+    anchor_site_name_);
   ignore_bond_ = boolean("ignore_bond", args, false);
 }
 
@@ -25,15 +26,18 @@ FEASST_MAPPER(TrialSelectBond,
 
 void TrialSelectBond::precompute(System * system) {
   TrialSelect::precompute(system);
+  const Configuration& conf = configuration(*system);
+  const int mobile_site = conf.site_name_to_index(mobile_site_name_);
+  const int anchor_site = conf.site_name_to_index(anchor_site_name_);
   if (!ignore_bond_) {
-    const Particle& part = configuration(*system).particle_types().particle(particle_type());
-    const int bond_type = part.bond(mobile_site_, anchor_site_).type();
+    const Particle& part = conf.particle_types().particle(particle_type());
+    const int bond_type = part.bond(mobile_site, anchor_site).type();
     add_or_set_property("bond_type", bond_type);
   }
   anchor_->clear();
-  anchor_->add_site(0, anchor_site_);
+  anchor_->add_site(0, anchor_site);
   get_mobile()->clear();
-  get_mobile()->add_site(0, mobile_site_);
+  get_mobile()->add_site(0, mobile_site);
 }
 
 bool TrialSelectBond::select(const Select& perturbed,
@@ -72,9 +76,16 @@ TrialSelectBond::TrialSelectBond(std::istream& istr)
   : TrialSelect(istr) {
   // ASSERT(class_name_ == "TrialSelectBond", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(235 == version || 236 == version, "mismatch version: " << version);
-  feasst_deserialize(&mobile_site_, istr);
-  feasst_deserialize(&anchor_site_, istr);
+  ASSERT(version >= 235 && version <= 237, "mismatch version: " << version);
+  if (version <= 236) {
+    WARN("Restart versions may be incompatible");
+    int anchor_site;
+    feasst_deserialize(&anchor_site, istr);
+  }
+  if (version >= 237) {
+    feasst_deserialize(&mobile_site_name_, istr);
+    feasst_deserialize(&anchor_site_name_, istr);
+  }
   if (version >= 236) {
     feasst_deserialize(&ignore_bond_, istr);
   }
@@ -82,9 +93,9 @@ TrialSelectBond::TrialSelectBond(std::istream& istr)
 
 void TrialSelectBond::serialize_trial_select_bond_(std::ostream& ostr) const {
   serialize_trial_select_(ostr);
-  feasst_serialize_version(236, ostr);
-  feasst_serialize(mobile_site_, ostr);
-  feasst_serialize(anchor_site_, ostr);
+  feasst_serialize_version(237, ostr);
+  feasst_serialize(mobile_site_name_, ostr);
+  feasst_serialize(anchor_site_name_, ostr);
   feasst_serialize(ignore_bond_, ostr);
 }
 

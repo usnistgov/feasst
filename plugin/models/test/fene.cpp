@@ -17,7 +17,7 @@ namespace feasst {
 System fene_ex() {
   System system;
   system.add(MakeConfiguration({{"cubic_side_length", "12"},
-    {"particle_type0", "../plugin/models/particle/data.chain10"},
+    {"particle_type0", "../plugin/models/particle/chain10.txt"},
     {"add_particles_of_type0", "1"}}));
   // wca
   { auto wca = MakeLennardJonesCutShift();

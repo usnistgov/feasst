@@ -11,6 +11,7 @@ namespace feasst {
 typedef std::map<std::string, std::string> argtype;
 
 class Domain;
+class ParticleFactory;
 class Position;
 
 // HWH consider applying Shapes from confinement into NeighborCriteria
@@ -47,6 +48,10 @@ class NeighborCriteria {
    */
   //@{
 
+  /// Convert site type names to intergers for optimization.
+  /// Otherwise, assumes name is index (and index is -1 if stoi fails).
+  void name_to_index(const ParticleFactory& unique_types);
+
   int reference_potential() const { return reference_potential_; }
   int potential_index() const { return potential_index_; }
   double energy_maximum() const { return energy_maximum_; }
@@ -75,15 +80,11 @@ class NeighborCriteria {
 
   //@}
  private:
-  int reference_potential_;
-  int potential_index_;
-  double energy_maximum_;
-  double minimum_distance_sq_;
-  double maximum_distance_sq_;
-  int site_type0_;
-  int site_type1_;
-  int site_type0_alt_;
-  int site_type1_alt_;
+  int reference_potential_, potential_index_;
+  double energy_maximum_, minimum_distance_sq_, maximum_distance_sq_;
+  int site_type0_, site_type1_, site_type0_alt_, site_type1_alt_;
+  std::string site_type0_name_, site_type1_name_;
+  std::string site_type0_alt_name_, site_type1_alt_name_;
 
   // temporary
   std::shared_ptr<Position> rel_, pbc_, origin_;

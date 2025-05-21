@@ -13,7 +13,7 @@ PARSER.add_argument('--show_plot', type=int, default=1., help='if 1, show plot o
 ARGS, UNKNOWN_ARGS = PARSER.parse_known_args()
 assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_ARGS)
 PARAMS = vars(ARGS)
-PARAMS['file_name'] = basename + 'd' + str(PARAMS['spacing']) + 's' + str(PARAMS['size']) + '.fstprt'
+PARAMS['file_name'] = basename + 'd' + str(PARAMS['spacing']) + 's' + str(PARAMS['size']) + '.txt'
 
 xs = list()
 ys = list()

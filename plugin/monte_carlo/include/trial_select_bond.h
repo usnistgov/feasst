@@ -20,8 +20,8 @@ class TrialSelectBond : public TrialSelect {
  public:
   //@{
   /** @name Arguments
-    - mobile_site: index of the mobile site.
-    - anchor_site: index of the anchor site.
+    - mobile_site: name of the mobile site.
+    - anchor_site: name of the anchor site.
     - ignore_bond: if true, do not try to find a bond between mobile and anchor.
       This is used for generic reptations (default: false).
     - TrialSelect arguments.
@@ -35,10 +35,10 @@ class TrialSelectBond : public TrialSelect {
   //@{
 
   /// Return the anchor site.
-  int anchor_site() const { return anchor_site_; }
+  const std::string& anchor_site_name() const { return anchor_site_name_; }
 
   /// Return the mobile site.
-  int mobile_site() const { return mobile_site_; }
+  const std::string& mobile_site_name() const { return mobile_site_name_; }
 
   /// bond_type is added as a property.
   /// Mobile and anchor are sized.
@@ -59,8 +59,7 @@ class TrialSelectBond : public TrialSelect {
   void serialize_trial_select_bond_(std::ostream& ostr) const;
 
  private:
-  int mobile_site_;
-  int anchor_site_;
+  std::string mobile_site_name_, anchor_site_name_;
   bool ignore_bond_;
 };
 

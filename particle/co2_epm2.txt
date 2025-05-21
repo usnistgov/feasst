@@ -1,0 +1,56 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+# EPM2 CO2 https://doi.org/10.1021/j100031a034
+#
+# The sigma_C-O mixing rule is not the default LB but instead geometric sqrt(sigma_C sigma_O).
+# This must be input manually into FEASST the Configuration argument "sigma0_1 2.89170901025674"
+#
+# Oxygen(index 1, type 1) - Carbon(index 0, type 0) - Oxygen (index 2, type 1)
+#
+# Harmonic angle potential is k(theta - theta_0)^2, without the 1/2 factor (see AngleHarmonic).
+# The original manuscript reports drawing from an angle distribution with probability
+#
+# P(theta) = exp[-0.5 beta kappa (theta - theta_0)]
+#
+# in the fourth paragraph of the manuscript.
+# The correct distribution should have been
+#
+# P(theta) = sin(theta)*exp[-0.5 beta kappa (theta - theta_0)]
+#
+# Because for k=0, P(theta) = sin(theta) for random point picking on the surface of a unit sphere.
+# The reported distribution leads to unphysical bias toward the poles (theta 0 and pi).
+# It is possible this was a typo in the manuscript.
+# It is also possible this may have led other researchers to implement a rigid version of EPM2, because the
+# bias toward the poles makes the bond more stiff than if the sin(theta) term was included.
+#
+# Units
+# length: Angstrom
+# energy: kJ/mol
+# charge: elementary
+
+Site Properties
+
+0 sigma 2.757 epsilon 0.2338775189860325 cutoff 14.0 charge  0.6512 cutoff_outer 1.149
+1 sigma 3.033 epsilon 0.669372441999663 cutoff 14.0 charge -0.3256 cutoff_outer 1.149
+
+Sites
+
+0 0  0     0 0
+1 1 -1.149 0 0
+2 1  1.149 0 0
+
+Bond Properties
+
+0 RigidBond length 1.149 delta 0.0001
+
+Bonds
+
+0 0 0 1
+1 0 0 2
+
+Angle Properties
+
+0 AngleHarmonic equilibrium_degrees 180.0 k_energy_per_radian_sq 618
+
+Angles
+
+0 0 1 0 2

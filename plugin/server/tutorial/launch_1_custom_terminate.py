@@ -52,7 +52,7 @@ def client(params):
     sock.connect(("localhost", params['port']+params['sim']))
     feasst_commands = """MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length 8 particle_type0 /feasst/particle/lj.fstprt
+Configuration cubic_side_length 8 particle_type0 /feasst/particle/lj.txt
 Potential Model LennardJones
 ThermoParams beta {beta} chemical_potential0 1
 Metropolis

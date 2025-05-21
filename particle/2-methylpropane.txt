@@ -1,0 +1,47 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+# TraPPE http://trappe.oit.umn.edu/
+#
+#           CH3(1)
+#            |
+#           CH(0)
+#         /     \
+#       CH3(2)   CH3(3)
+#
+#
+# Units
+#
+# length Angstrom
+# energy kJ/mol
+# charge elementary
+
+Site Properties
+
+CH sigma 4.68 epsilon 0.0831446261815324 cutoff 14.0 charge 0.0
+CH3 sigma 3.75 epsilon 0.8148173365790174 cutoff 14.0 charge 0.0
+
+Sites
+
+0 CH 0.00 0.00 0.00
+1 CH3 1.54 0.00 0.00
+2 CH3 0.00 1.54 0.00
+3 CH3 0.00 0.00 1.54
+
+Bond Properties
+
+CHCH3 RigidBond length 1.54 delta 0.0001
+
+Bonds
+
+0 CHCH3 0 1
+1 CHCH3 0 2
+2 CHCH3 0 3
+
+Angle Properties
+
+0 AngleHarmonic equilibrium_degrees 112 k_energy_per_radian_sq 259.82695681728876 num_jacobian_gaussian 1
+
+Angles
+
+0 0 1 0 2
+1 0 1 0 3
+2 0 2 0 3

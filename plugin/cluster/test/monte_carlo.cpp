@@ -46,7 +46,7 @@ namespace feasst {
 //    MonteCarlo mc;
 //    //mc.set(MakeRandomMT19937({{"seed", "1613161559"}}));
 //    mc.add(MakeConfiguration({{"cubic_side_length", "8"},
-//      {"particle_type0", "../particle/lj.fstprt"},
+//      {"particle_type0", "../particle/lj.txt"},
 //      {"add_particles_of_type0", "3"}}));
 //    mc.get_system()->get_configuration()->update_positions({{0, 0, 0}, {2, 0, 0}, {4, 0, 0}});
 //    mc.add(MakePotential({{"Model", "LennardJones"}, {"EnergyMap", "EnergyMapNeighbor"}}));
@@ -111,7 +111,7 @@ TEST(MonteCarlo, GCMCmap) {
     INFO(mapstr);
     MonteCarlo mc;
     //mc.set(MakeRandomMT19937({{"seed", "123"}}));
-    mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"}}));
+    mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.txt"}}));
     mc.add(MakePotential(MakeLennardJones()));
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
     mc.set(MakeMetropolis());
@@ -154,7 +154,7 @@ std::unique_ptr<MonteCarlo> mc_avb_test(
   auto monte_carlo = std::make_unique<MonteCarlo>();
   // monte_carlo->set(MakeRandomMT19937({{"seed", "default"}}));
   monte_carlo->add(MakeConfiguration({{"cubic_side_length", "6"},
-                                     {"particle_type", "../particle/lj.fstprt"}}));
+                                     {"particle_type", "../particle/lj.txt"}}));
   if (avb) {
     monte_carlo->add(MakePotential({{"Model", "LennardJones"}, {"EnergyMap", "EnergyMapAll"}}));
     //monte_carlo->add(MakePotential(MakeLennardJones(),

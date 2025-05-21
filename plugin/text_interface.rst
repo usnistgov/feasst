@@ -345,6 +345,14 @@ Below is a list text interface changes that may affect older scripts.
 Backwards incompatibility should remain for deprecated interface on minor version changes.
 Renamed arguments are shown as Class::old_argument->new_argument.
 
+v0.25.12 to v0.25.13
+-----------------------
+
+* FEASST particle (fstprt) files now use strings instead of integers to represent sites, bonds, angles and dihedrals. Previous use of integers is still backwards compatible.
+* TrialSelect, Group and NeighborIndex also use names instead of integers
+* SelectParticleAVBDivalent::site_index->site_name
+* SelectParticleAVBDivalent::target_site_index->target_site_name
+
 v0.25.11 to v0.25.12
 -----------------------
 

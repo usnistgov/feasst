@@ -58,7 +58,7 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length 500 particle_type0 /feasst/plugin/patch/particle/one_patch.fstprt \
+Configuration cubic_side_length 500 particle_type0 /feasst/plugin/patch/particle/one_patch.txt \
     add_particles_of_type0 2 \
     group0 first first_particle_index 0 \
     group1 centers centers_site_type0 0

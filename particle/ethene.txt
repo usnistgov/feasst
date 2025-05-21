@@ -1,0 +1,24 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+# TRAPPE Ethene http://trappe.oit.umn.edu/
+#
+# Units
+# length: Angstrom
+# energy: kJ/mol
+# charge: elementary
+
+Site Properties
+
+C sigma 3.675 epsilon 0.7067293225430253 cutoff 14 cutoff_outer 1.33
+
+Sites
+
+0 C 0    0 0
+1 C 1.33 0 0
+
+Bond Properties
+
+CC RigidBond length 1.33 delta 0.00001
+
+Bonds
+
+0 CC 0 1

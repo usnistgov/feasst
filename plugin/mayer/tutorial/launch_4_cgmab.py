@@ -16,7 +16,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
                         help='FEASST particle definition')
     parser.add_argument('--pdb_file', type=str, default="../../../pyfeasst/tests/1igt.pdb",
                         help='pdb file that describes a mAb')
@@ -91,10 +91,10 @@ def sim_node_dependent_params(params):
     fab2 = coarse_grain_pdb.subset(pdb_file=params['pdb_file'], chains=chains['fab2'])
     r_com_fab2 = coarse_grain_pdb.center_of_mass(fab2)/10
 
-    coarse_grain_pdb.pdb_to_fstprt(hinge, '1igt_hinge.fstprt')
-    coarse_grain_pdb.pdb_to_fstprt(fc, '1igt_fc.fstprt')
-    coarse_grain_pdb.pdb_to_fstprt(fab1, '1igt_fab1.fstprt')
-    coarse_grain_pdb.pdb_to_fstprt(fab2, '1igt_fab2.fstprt')
+    coarse_grain_pdb.pdb_to_fstprt(hinge, '1igt_hinge.txt')
+    coarse_grain_pdb.pdb_to_fstprt(fc, '1igt_fc.txt')
+    coarse_grain_pdb.pdb_to_fstprt(fab1, '1igt_fab1.txt')
+    coarse_grain_pdb.pdb_to_fstprt(fab2, '1igt_fab2.txt')
 
     # 7 bead (fv[1,2], ch1_[1,2], ch2, ch3 and hinge)
     fv1 = coarse_grain_pdb.subset(pdb_file=params['pdb_file'], chains=chains['fv1'])
@@ -110,12 +110,12 @@ def sim_node_dependent_params(params):
     ch3 = coarse_grain_pdb.subset(pdb_file=params['pdb_file'], chains=chains['ch3'])
     r_com_ch3 = coarse_grain_pdb.center_of_mass(ch3)/10
 
-    coarse_grain_pdb.pdb_to_fstprt(fv1, '1igt_fv1.fstprt')
-    coarse_grain_pdb.pdb_to_fstprt(fv2, '1igt_fv2.fstprt')
-    coarse_grain_pdb.pdb_to_fstprt(ch1_1, '1igt_ch1_1.fstprt')
-    coarse_grain_pdb.pdb_to_fstprt(ch1_2, '1igt_ch1_2.fstprt')
-    coarse_grain_pdb.pdb_to_fstprt(ch2, '1igt_ch2.fstprt')
-    coarse_grain_pdb.pdb_to_fstprt(ch3, '1igt_ch3.fstprt')
+    coarse_grain_pdb.pdb_to_fstprt(fv1, '1igt_fv1.txt')
+    coarse_grain_pdb.pdb_to_fstprt(fv2, '1igt_fv2.txt')
+    coarse_grain_pdb.pdb_to_fstprt(ch1_1, '1igt_ch1_1.txt')
+    coarse_grain_pdb.pdb_to_fstprt(ch1_2, '1igt_ch1_2.txt')
+    coarse_grain_pdb.pdb_to_fstprt(ch2, '1igt_ch2.txt')
+    coarse_grain_pdb.pdb_to_fstprt(ch3, '1igt_ch3.txt')
 
     # compute the distances and angles between the COM of pairs and triplets of domains
     # compare with table S1 of https://doi.org/10.1016/j.xphs.2018.12.013
@@ -172,7 +172,7 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length 200 particle_type0 1igt_{domain}.fstprt \
+Configuration cubic_side_length 200 particle_type0 1igt_{domain}.txt \
     add_particles_of_type0 2 \
     group0 first first_particle_index 0 \
     group1 com com_site_type 5

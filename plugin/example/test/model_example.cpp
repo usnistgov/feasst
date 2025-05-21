@@ -20,7 +20,7 @@ void test_energy(const double distance, const double energy,
 }
 
 TEST(ModelExample, analytical) {
-  auto config = MakeConfiguration({{"particle_type0", "../plugin/example/particle/jagla.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../plugin/example/particle/jagla.txt"}});
   auto jagla = std::make_shared<ModelExample>();
   jagla->precompute(config->model_params());
 

@@ -113,7 +113,7 @@ class PropertiedEntity {
   void serialize(std::ostream& ostr) const { properties_.serialize(ostr); }
   explicit PropertiedEntity(std::istream& istr) {
     properties_ = Properties(istr); }
-  virtual ~PropertiedEntity() {}
+  virtual ~PropertiedEntity();
 
  private:
   Properties properties_;

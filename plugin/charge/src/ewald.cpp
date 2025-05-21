@@ -1,3 +1,4 @@
+#include <iostream>
 #include <cmath>  // isnan, pow
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
@@ -183,8 +184,8 @@ void Ewald::precompute(Configuration * config) {
   struct_fact_real_()->resize(wave_prefactor_.size());
   struct_fact_imag_()->resize(wave_prefactor_.size());
   resize_struct_fact_new_(wave_prefactor_.size());
-  INFO("alpha: " << config->model_params().property("alpha"));
-  INFO("kmax_squared " << kmax_squared_);
+  std::cout << "# Ewald alpha: " << config->model_params().property("alpha") << std::endl;
+  std::cout << "# Ewald kmax_squared " << kmax_squared_ << std::endl;
 }
 
 void Ewald::resize_eik_(const Configuration& config) {

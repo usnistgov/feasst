@@ -6,6 +6,7 @@
 #include "configuration/include/domain.h"
 #include "configuration/include/file_xyz.h"
 #include "configuration/include/select.h"
+#include "system/include/system.h"
 #include "system/include/visit_model_cell.h"
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/trial_select_particle.h"
@@ -38,6 +39,10 @@ TEST(VisitModelCell, lj_reference_config) {
 
   /// test energy of selection
   auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
+  { System sys;
+    sys.add(std::make_shared<Configuration>(config));
+    tsel->precompute(&sys);
+  }
   RandomMT19937 random;
   tsel->random_particle(config, &select, &random);
   model.compute(select, &config, &visit);
@@ -78,6 +83,11 @@ TEST(VisitModelCell, spce_reference_config) {
 
   /// test energy of selection
   auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
+  {
+    System sys;
+    sys.add(std::make_shared<Configuration>(config));
+    tsel->precompute(&sys);
+  }
   RandomMT19937 random;
   tsel->random_particle(config, &select, &random);
   model.compute(select, &config, &visit);
@@ -92,7 +102,7 @@ TEST(VisitModelCell, spce_reference_config) {
 //// inconsistent
 //TEST(VisitModelCell, spce_reference_config_buildup) {
 //  Configuration config;
-//  config.add_particle_type("../particle/spce.fstprt");
+//  config.add_particle_type("../particle/spce.txt");
 //  const int rcut = 5;
 //  for (int site_index = 0; site_index < config.num_site_types(); ++site_index) {
 //    config.set_model_param("cutoff", site_index, rcut);

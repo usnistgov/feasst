@@ -35,7 +35,7 @@ TEST(FileNETCDF, write) {
 //
 //TEST(FileNETCDF, load_frame) {
 //  auto config = MakeConfiguration({{"particle_type0",
-//                                    "../particle/dimer.fstprt"}});
+//                                    "../particle/dimer.txt"}});
 //  std::ifstream xyz("../plugin/configuration/test/data/dimer4.xyz");
 //  FileNETCDF fxyz;
 //  fxyz.load_frame(xyz, config.get());

@@ -207,6 +207,15 @@ class Configuration {
   /// Return, for each particle type, the number of sites of each type.
   std::vector<std::vector<int> > num_site_types_per_particle_type() const;
 
+  /// Return the name of a given site type.
+  const std::string& site_type_to_name(const int site_type) const;
+
+  /// Return the index of a site given the site name.
+  int site_name_to_index(const std::string& site_name) const;
+
+  /// For unique_type, return index of a given site type name.
+  int site_type_name_to_index(const std::string& site_type_name) const;
+
   //@}
   /** @name Groups
     Groups of sites and particles

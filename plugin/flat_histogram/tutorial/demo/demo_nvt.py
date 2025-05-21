@@ -20,7 +20,7 @@ from pyfeasst import fstio
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 PARSER.add_argument('--feasst_install', type=str, default='../../../../build/',
                     help='FEASST install directory (e.g., the path to build)')
-PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
+PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
                     help='FEASST particle definition')
 PARSER.add_argument('--beta', type=float, default=1./1.5, help='inverse temperature')
 PARSER.add_argument('--mu_init', type=float, default=10, help='initial chemical potential')

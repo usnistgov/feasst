@@ -45,7 +45,7 @@ TEST(MonteCarlo, spce_nvt_VERY_LONG) {
     {"cubic_side_length", "24.8586887"},
     {"alpha", str(5.6/24.8586887)},
     {"kmax_squared", "38"},
-    {"xyz_file", install_dir() + "/plugin/charge/test/data/spce_sample_config_hummer_eq.xyz"}}));
+    {"xyz_file", "../plugin/charge/test/data/spce_sample_config_hummer_eq.xyz"}}));
   mc.set(MakeThermoParams({{"beta", str(1/kelvin2kJpermol(298, mc.configuration()))}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
@@ -193,8 +193,8 @@ TEST(MonteCarlo, rpm) {
 TEST(MonteCarlo, spcearglist) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"cubic_side_length", "20"},
-                       {"particle_type0", "../particle/spce.fstprt"},
-                       {"particle_type1", "../plugin/charge/particle/rpm_plus.fstprt"}}},
+                       {"particle_type0", "../particle/spce.txt"},
+                       {"particle_type1", "../plugin/charge/particle/rpm_plus.txt"}}},
     {"Potential", {{"VisitModel", "Ewald"}, {"alpha", str(5.6/20)}, {"kmax_squared", "38"}}},
     {"Potential", {{"Model", "ModelTwoBodyFactory"}, {"model0", "LennardJones"}, {"model1", "ChargeScreened"}, {"VisitModel", "VisitModelCutoffOuter"}, {"erfc_table_size", "2e4"}}},
     {"Potential", {{"Model", "ChargeScreenedIntra"}, {"VisitModel", "VisitModelBond"}}},
@@ -224,7 +224,7 @@ TEST(MonteCarlo, spce_npt) {
   auto mc = MakeMonteCarlo({{
     //{"RandomMT19937", {{"seed", "123"}}},
     {"Configuration", {{"cubic_side_length", "40"},
-                       {"particle_type0", "../particle/spce.fstprt"}}},
+                       {"particle_type0", "../particle/spce.txt"}}},
     {"Potential", {{"VisitModel", "Ewald"}, {"alpha", str(5.6/20)}, {"kmax_squared", "38"}}},
     //{"Potential", {{"Model", "ModelTwoBodyFactory"}, {"model0", "LennardJones"}, {"model1", "ChargeScreened"}, {"erfc_table_size", "2e4"}}},
     {"Potential", {{"Model", "ModelTwoBodyFactory"}, {"model0", "LennardJones"}, {"model1", "ChargeScreened"}, {"VisitModel", "VisitModelCutoffOuter"}, {"erfc_table_size", "2e4"}}},

@@ -1,0 +1,55 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+
+5 sites
+4 bonds
+3 angles
+2 dihedrals
+
+1 site types
+1 bond types
+1 angle types
+1 dihedral types
+
+Site Properties
+
+0 sigma 1.0 epsilon 1.0 cutoff 3.0
+
+Sites
+
+0 0 0.0 0.0 0.0
+1 0 1.0 0.0 0.0
+2 0 1.0 1.0 0.0
+3 0 1.0 1.0 1.0
+4 0 2.0 1.0 1.0
+
+Bond Properties
+
+0 BondHarmonic equilibrium_length 1.0 k_energy_per_length_sq 600
+
+Bonds
+
+0 0 0 1
+1 0 1 2
+2 0 2 3
+3 0 3 4
+
+Angle Properties
+
+0 AngleHarmonic equilibrium_degrees 90.0 k_energy_per_radian_sq 60
+
+Angles
+
+0 0 0 1 2
+1 0 1 2 3
+2 0 2 3 4
+
+Dihedral Properties
+
+0 DihedralHarmonic equilibrium_degrees 90.0 k_energy_per_radian_sq 60
+#0 RigidDihedral degrees 90.0 delta 0.001
+
+Dihedrals
+
+0 0 0 1 2 3
+1 0 1 2 3 4
+

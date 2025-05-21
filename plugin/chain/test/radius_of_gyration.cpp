@@ -10,7 +10,7 @@ namespace feasst {
 TEST(RadiusOfGyration, test) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {
-      {"particle_type0", "../plugin/steppers/test/data/mab.fstprt"},
+      {"particle_type0", "../plugin/steppers/test/data/mab.txt"},
       {"xyz_euler_file", "../plugin/steppers/test/data/nvt0.xyze"},
     }},
     {"Potential", {{"VisitModel", "DontVisitModel"}}},

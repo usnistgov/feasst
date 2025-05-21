@@ -19,7 +19,7 @@ import launch_04_lj_tm_parallel
 def parse(temperature=300):
     """ Parse arguments from command line or change their default values. """
     params, args = launch_04_lj_tm_parallel.parse(
-          fstprt='/feasst/particle/spce.fstprt',
+          fstprt='/feasst/particle/spce.txt',
           beta=1./(temperature*physical_constants.MolarGasConstant().value()/1e3), # mol/kJ
           beta_mu=-15.24,
           mu_init=-7,

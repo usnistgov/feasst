@@ -74,7 +74,7 @@ def pdb_to_fstprt(subset, fstprt_file, add_com=True, skip_hydrogens=False):
 
     >>> from pyfeasst import coarse_grain_pdb
     >>> fc = coarse_grain_pdb.subset('../../tests/1igt.pdb', {'B': range(248, 474), 'D': range(248, 474)})
-    >>> coarse_grain_pdb.pdb_to_fstprt(fc, '1igt_fc.fstprt')
+    >>> coarse_grain_pdb.pdb_to_fstprt(fc, '1igt_fc.txt')
     """
     myfile = open(fstprt_file, 'w')
     params = {'num_sites': len(subset) + 1}
@@ -92,7 +92,7 @@ def pdb_to_fstprt(subset, fstprt_file, add_com=True, skip_hydrogens=False):
         else:
             params['com_prop'] = '5 sigma 0.0 cutoff 0.0'
             params['com_type'] = '5'
-    myfile.write("""# LAMMPS-inspired data file
+    myfile.write("""# FEASST particle file
 # site types are H, C, N, O, S, in order
 
 {num_sites} sites
@@ -139,7 +139,7 @@ def write_fstprt(mol):
 
     :param str mol: the name of the mol.pqr file.
     """
-    myfile = open(mol+".fstprt.log", 'w')
+    myfile = open(mol+".txt.log", 'w')
     # list the epsilon (kcal/mol) and radius, r (A) for each atom type, and alternate labels
     atoms = {
       'H': {'eps': 0.02, 'rad': 0.8909, 'mass': 1.00784, 'alt': ['H', 'H2', 'H3', 'HH', 'HH1', 'HH2', 'HA', 'HA1', 'HA2', 'HA3', 'HB', 'HB1', 'HB2', 'HB3', 'HG', 'HG1', 'HG2', 'HG11', 'HG12', 'HG13', 'HG21', 'HG22', 'HG23', 'HG2', 'HG3', 'HD1', 'HD11', 'HD12', 'HD13', 'HD21', 'HD22', 'HD23', 'HD2', 'HD3', 'HE', 'HE1', 'HE2', 'HE21', 'HE22', 'HE23', 'HE3', 'HH11', 'HH12', 'HH21', 'HH22', 'HZ', 'HZ1', 'HZ2', 'HZ3']},
@@ -225,7 +225,7 @@ def write_fstprt(mol):
     #print(df[5])
 
     # write a fstprt file
-    myfile = open(mol+'.fstprt', 'w')
+    myfile = open(mol+'.txt', 'w')
     params = {
       'num_sites': len(df),
       'num_site_types': len(atom_type),
@@ -248,7 +248,7 @@ Site Properties
         myfile.write(str(atom) + " " + str(df['type'][atom]) + " " + str(df[5][atom]-cmx) + " " + str(df[6][atom]-cmy) + " " + str(df[7][atom]-cmz) + '\n')
 
     # write a fstprt file with a reference site at the beginning for mayer sampling
-    myfile = open(mol+'_with_ref.fstprt', 'w')
+    myfile = open(mol+'_with_ref.txt', 'w')
     params = {
       'num_sites': len(df)+1,
       'num_site_types': len(atom_type)+1,

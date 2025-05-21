@@ -31,6 +31,7 @@ inline void test_revert(System * system) {
 //  trajectory.set_coord(2, 1.25);
   PerturbTranslate translate;
   auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
+  tsel->precompute(system);
   auto random = MakeRandomMT19937();
   tsel->sel(system, random.get());
   translate.perturb(system, tsel.get(), random.get());
@@ -50,6 +51,7 @@ inline void test_revert(System * system) {
   Position position;
   position.set_vector({0, 1.25, 0});
   auto tsel_ghost = MakeTrialSelectParticle({{"particle_type", "0"}});
+  tsel_ghost->precompute(system);
   // precompute adds argument {"ghost", "true"} to tsel
   PerturbAdd add;
   add.precompute(tsel_ghost.get(), system);

@@ -201,11 +201,11 @@ void parse_restart(std::string line) {
   "set_variable name value" will replace any use of name in subsequent values.
 
   Any value beginning with "/feasst" will have that beginning replaced with
-  feasst::install_dir().
+  feasst::FEASST_INSTALL_DIR.
  */
 int main() {
-  std::cout << "# Usage: ./fst < file.txt" << std::endl;
-  std::cout << "FEASST version " << version() << std::endl;
+  std::cout << "# Usage: " << FEASST_INSTALL_DIR << "/build/bin/fst < file.txt" << std::endl;
+  std::cout << "FEASST version " << FEASST_VERSION << std::endl;
   std::string line;
   std::getline(std::cin, line);
 
@@ -222,9 +222,9 @@ int main() {
     argtype variables;
     auto args = parse_line(line, NULL, NULL);
     const std::string read_ver = str("version", &args.second);
-    if (read_ver != version()) {
+    if (read_ver != FEASST_VERSION) {
       WARN("Version given in text file: " << read_ver << " is not the same " <<
-           "as the executable version: " << version());
+           "as the executable version: " << FEASST_VERSION);
     }
     std::getline(std::cin, line);
   }

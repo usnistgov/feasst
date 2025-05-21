@@ -388,11 +388,11 @@ def num_sites_in_fstprt(fstprt_file, feasst_install=""):
         fstprt_file which begins with the characters '/feasst' to the feasst directory.
 
     >>> from pyfeasst import fstio
-    >>> fstio.num_sites_in_fstprt('../../../particle/lj.fstprt')
+    >>> fstio.num_sites_in_fstprt('../../../particle/lj.txt')
     1
-    >>> fstio.num_sites_in_fstprt('../../../particle/n-butane.fstprt')
+    >>> fstio.num_sites_in_fstprt('../../../particle/n-butane.txt')
     4
-    >>> fstio.num_sites_in_fstprt('/feasst/particle/n-butane.fstprt', '../../../build/')
+    >>> fstio.num_sites_in_fstprt('/feasst/particle/n-butane.txt', '../../../build/')
     4
     """
     if fstprt_file[:7] == '/feasst':
@@ -400,23 +400,27 @@ def num_sites_in_fstprt(fstprt_file, feasst_install=""):
             print('feasst_install:', feasst_install, 'should be used given as the path to the',
                   'feasst build directory in order to convert /feasst in the fstprt_file')
         fstprt_file = feasst_install + '..' + fstprt_file[7:]
-#    else:
-#        if feasst_install != "":
-#            print('feasst_install:', feasst_install, 'should only be used if the fstprt_file',
-#                  fstprt_file, 'beings with /feasst. Because your fstprt file does not begin',
-#                  'with /feasst, simply remove the feasst_install argument in your Python script')
-#            assert False
     with open(fstprt_file, 'r') as file1:
         lines = file1.read().splitlines()
+    num_sites = 0
+    phase = 0
     for line in lines:
         #print('line', line)
         values = line.split()
         #print('values', values)
-        if len(values) > 1:
-            if values[1] == 'sites':
-                return int(values[0])
-    print('reached the end of file without finding number of sites', fstprt_file)
-    assert False
+        if len(values) == 0 and phase == 2:
+            phase = 3
+        if phase == 2:
+            num_sites += 1
+        if len(values) == 0 and phase == 1:
+            phase = 2
+        if len(values) == 1:
+            if values[0] == "Sites":
+                phase = 1
+    if num_sites == 0:
+        print('reached the end of file without finding number of sites in', fstprt_file)
+        assert False
+    return num_sites
 
 # For use in function below only
 def write_bond_(btype, file1, descript, num_steps_override=-1):

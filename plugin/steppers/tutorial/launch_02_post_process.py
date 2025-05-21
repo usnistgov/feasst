@@ -16,7 +16,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/atom.fstprt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/atom.txt',
                         help='FEASST particle definition')
     parser.add_argument('--xyz_file', type=str, default='post_process.xyz',
                         help='The xyz file to read configurations')

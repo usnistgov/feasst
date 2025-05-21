@@ -3,11 +3,11 @@
 namespace feasst {
 
 TEST(MACROS, FEASST_VERSION) {
-  std::cout << FEASST_VERSION_ << std::endl;
+  std::cout << FEASST_VERSION << std::endl;
 }
 
-TEST(MACROS, FEASST_DIR) {
-  std::cout << FEASST_DIR_ << std::endl;
+TEST(MACROS, FEASST_INSTALL_DIR) {
+  std::cout << FEASST_INSTALL_DIR << std::endl;
 }
 
 }  // namespace feasst

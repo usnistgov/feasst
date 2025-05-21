@@ -13,7 +13,7 @@ typedef std::map<std::string, std::string> argtype;
 
 /**
   Using the first particle in perturbed, select another particle that has
-  site_index inside the aggregation volume (AV) of target_site_index.
+  a site inside the aggregation volume (AV) of the target site.
  */
 class SelectParticleAVBDivalent : public TrialSelect {
  public:
@@ -23,8 +23,8 @@ class SelectParticleAVBDivalent : public TrialSelect {
 
   /**
     args:
-    - target_site_index: index of target site (default: 0).
-    - site_index: index of site on particle_type to put in AV of target site
+    - target_site_name: name of target site (default: 0).
+    - site_name: name of site on particle_type to put in AV of target site
       (default: 0).
     - ghost: true if selecting a ghost (for adding).
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
@@ -37,6 +37,7 @@ class SelectParticleAVBDivalent : public TrialSelect {
    */
   //@{
 
+  void precompute(System * system) override;
   bool select(const Select& perturbed,
               System* system,
               Random * random,
@@ -54,6 +55,7 @@ class SelectParticleAVBDivalent : public TrialSelect {
  private:
   int neighbor_;
   TrialSelectParticle select_mobile_;
+  std::string target_site_name_;
 
   // temporary
   Select neighbors_;

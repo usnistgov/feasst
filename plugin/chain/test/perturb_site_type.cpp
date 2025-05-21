@@ -12,7 +12,7 @@ namespace feasst {
 TEST(PerturbSiteType, serialize) {
   System sys;
   sys.add(MakeConfiguration({{"cubic_side_length", "20"},
-    {"particle_type", "../particle/chain10_3types.fstprt"},
+    {"particle_type", "../particle/chain10_3types.txt"},
     {"add_particles_of_type0", "1"}}));
   const Configuration& config = sys.configuration();
   auto morph = MakePerturbSiteType({{"type", "0"}});
@@ -20,9 +20,9 @@ TEST(PerturbSiteType, serialize) {
   sel->precompute(&sys);
   auto random = MakeRandomMT19937();
   sel->select(Select(), &sys, random.get(), NULL);
-  EXPECT_EQ(config.particle(0).site(1).type(), 0);
-  morph->set_site_type(&sys, *sel, 1);
   EXPECT_EQ(config.particle(0).site(1).type(), 1);
+  morph->set_site_type(&sys, *sel, 0);
+  EXPECT_EQ(config.particle(0).site(1).type(), 0);
   PerturbSiteType morph2 = test_serialize(*morph);
 }
 

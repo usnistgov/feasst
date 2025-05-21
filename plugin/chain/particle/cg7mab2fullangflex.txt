@@ -1,0 +1,97 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+#  7 bead coarse-grained mAb model
+#
+#This set of coordinates (below) correspond to the bead positions based on the other crystal structure (pdb ID: 1IGT).
+#
+# x [nm]  y [nm]  z [nm]  sigma [nm]
+# Hinge   0.00000000  0.00000000  0.00000000  1.52
+# H1  0.38370924  -0.27543393   -2.93884982   5.3283
+# H2  1.88944709  -2.28230144   -4.78259695   4.5405
+# V1.1  -0.20018689   -6.22249817   4.10258205  4.6319
+# V2.1  -1.13469610   -3.19449097   2.39971875  4.4130
+# V1.2  -4.13100713   4.62278921  -1.22550756   4.6319
+# V2.2  -2.75015812   1.97783376  0.47737548  4.4130
+#
+#Hinge -> 1
+#H1 -> 2
+#H2 -> 3
+#V1.1 -> 7
+#V2.1 -> 6
+#V1.2 -> 5
+#V2.2 -> 4
+#
+#             2
+#             |
+#             1
+#             |
+#             0
+#           /   \
+#         3       5
+#       /           \
+#     4               6
+#
+
+7 sites
+6 bonds
+6 angles
+
+7 site types
+6 bond types
+6 angle types
+
+Site Properties
+
+0 epsilon 1 sigma 1.5200 cutoff 1.5200
+1 epsilon 1 sigma 5.3283 cutoff 5.3283
+2 epsilon 1 sigma 4.5405 cutoff 4.5405
+3 epsilon 1 sigma 4.4130 cutoff 4.4130
+4 epsilon 1 sigma 4.6319 cutoff 4.6319
+5 epsilon 1 sigma 4.4130 cutoff 4.4130
+6 epsilon 1 sigma 4.6319 cutoff 4.6319
+
+Sites
+
+0 0  0.0       0.0       0.0
+1 1  2.314176 -1.490841 -1.132219
+2 2  4.73485  -3.050289 -2.316544
+3 3 -2.823455 -1.754021 -0.809072
+4 4 -5.658858 -3.515464 -1.621568
+5 5 -0.646072  0.323239  4.090118
+6 6 -1.205667  0.603212  7.632765
+
+Bond Properties
+
+0 RigidBond length 2.976564682686740000 delta 0.0001
+1 RigidBond length 3.420977244392310000 delta 0.0001
+2 RigidBond length 4.153427227510910000 delta 0.0001
+3 RigidBond length 3.113545752835420000 delta 0.0001
+4 RigidBond length 3.435453968374820000 delta 0.0001
+5 RigidBond length 3.597482242529290000 delta 0.0001
+
+Bonds
+
+0 0 0 1
+1 1 0 3
+2 2 0 5
+3 3 1 2
+4 4 3 4
+5 5 5 6
+
+Angle Properties
+
+0 AngleSquareWell min_degrees 0.0 max_degrees 180.0
+1 AngleSquareWell min_degrees 0.0 max_degrees 180.0
+2 AngleSquareWell min_degrees 0.0 max_degrees 180.0
+3 AngleSquareWell min_degrees 98.770311717551300000 max_degrees 180.0
+4 AngleSquareWell min_degrees 84.330508349490500000 max_degrees 180.0
+5 AngleSquareWell min_degrees 70.457290162886000000 max_degrees 180.0
+
+Angles
+
+0 0 0 1 2
+1 1 0 3 4
+2 2 0 5 6
+3 3 1 0 3
+4 4 1 0 5
+5 5 3 0 5
+

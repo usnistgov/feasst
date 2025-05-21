@@ -125,7 +125,7 @@ void VisitModelInner::serialize_visit_model_inner_(std::ostream& ostr) const {
 VisitModelInner::VisitModelInner(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 8177 || version == 8178,
+  ASSERT(version >= 8177 && version <= 8178,
     "unrecognized verison: " << version);
   feasst_deserialize(&energy_, istr);
   feasst_deserialize(&cutoff_index_, istr);

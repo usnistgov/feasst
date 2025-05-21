@@ -31,7 +31,7 @@ class SelectBranch : public TrialSelectAngle {
  public:
   //@{
   /** @name Arguments
-    - mobile_site2 : index of second mobile site.
+    - mobile_site2 : name of second mobile site.
     - TrialSelectAngle arguments.
    */
   explicit SelectBranch(argtype args = argtype());
@@ -55,7 +55,7 @@ class SelectBranch : public TrialSelectAngle {
   void serialize_select_branch_(std::ostream& ostr) const;
 
  private:
-  int mobile_site2_;
+  std::string mobile_site2_name_;
 };
 
 inline std::shared_ptr<SelectBranch> MakeSelectBranch(

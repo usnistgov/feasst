@@ -1,3 +1,5 @@
+#include <string>
+#include <iostream>
 #include "utils/include/debug.h"
 #include "utils/include/utils.h"
 #include "utils/include/serialize.h"
@@ -25,6 +27,9 @@ void ParticleFactory::add(const Particle& particle) {
   if (unique_particles_) {
     particle_copy.increment_site_types(num_site_type);
     particle_copy.set_type(num_particle_type);
+  }
+  if (!unique_types_ && !unique_particles_) {
+    particle_copy.clear_names();
   }
   particles_.push_back(particle_copy);
   if (unique_types_ || unique_particles_) {
@@ -102,6 +107,52 @@ void ParticleFactory::check_types(int * num_site_types,
   *num_bond_types = round(bond_type.center_of_last_bin()) + 1;
   *num_angle_types = round(angle_type.center_of_last_bin()) + 1;
   *num_dihedral_types = round(dihedral_type.center_of_last_bin()) + 1;
+
+//  // Check that all site names are unique
+//  if (unique_types_) {
+//    std::vector<std::string> names;
+//    for (const Particle& particle : particles_) {
+//      for (const Site& site : particle.sites()) {
+//        ASSERT(!find_in_list(site.name(), names), "A site_type with name: " <<
+//          site.name() << " is equivalent to a previous site_type name.");
+//        names.push_back(site.name());
+//      }
+//    }
+//  }
+}
+
+void ParticleFactory::rename_nonunique_(const std::vector<std::string>& names,
+    const std::string& original_name, const std::string& prop, const std::string& file_name,
+    const int max_warn, int * num_warn, std::string * name) {
+  DEBUG("name " << *name << " names " << feasst_str(names));
+  int num_attempts = 0;
+  while (find_in_list(*name, names)) {
+    DEBUG("renaming " << *name << " to: " << *name << "-");
+    if (num_attempts > 1e2) {
+      *name = *name + "-"; // faster than stoi + to_string
+    } else {
+      try {
+        int index = std::stoi(*name);
+        *name = std::to_string(index + 1);
+      } catch (...) {
+        *name = *name + "-";
+      }
+    }
+    ASSERT(num_attempts < 1e6, "error");
+    ++num_attempts;
+    if (*num_warn < max_warn && !find_in_list(*name, names)) {
+      std::string type = "name";
+      if (unique_types_) type = "type";
+      std::cout << "# Renamed " << prop << " " << type << ":" <<
+        original_name << "->" << *name << " for particle_type:" << num() <<
+        " in:" << file_name << std::endl;
+     *num_warn += 1;
+    }
+    if (*num_warn == max_warn) {
+      std::cout << "# ... and so on (suppressed following rename warnings)" << std::endl;
+      *num_warn += 1;
+    }
+  }
 }
 
 void ParticleFactory::add(const std::string file_name) {
@@ -109,7 +160,7 @@ void ParticleFactory::add(const std::string file_name) {
     "only add particles by file for defining allowed types");
   Particle particle = FileParticle().read(file_name);
 
-  // Assign per-site properties from the data file.
+  DEBUG("Assign per-site properties from the data file:" << file_name);
   if (unique_types_) {
     particle.remove_non_unique_types();
     FileParticle().read_properties(file_name, &particle);
@@ -117,7 +168,44 @@ void ParticleFactory::add(const std::string file_name) {
 
   add(particle);
 
-  // Update model parameters only after the particle has been filtered.
+  if (unique_types_ || unique_particles_) {
+    DEBUG("Ensure all site, bond, angle and dihedral names are unique");
+    int num_warn = 0, max_warn = 2e0;
+    std::vector<std::string> snames, bnames, anames, dnames;
+    for (Particle& particle : particles_) {
+      DEBUG("particle.type() " << particle.type());
+      for (int isite = 0; isite < particle.num_sites(); ++isite) {
+        Site * site = particle.get_site(isite);
+        std::string name = site->name(), original_name = name;
+        rename_nonunique_(snames, original_name, "Site", file_name, max_warn, &num_warn, &name);
+        site->set_name(name);
+        snames.push_back(site->name());
+      }
+      for (int ibond = 0; ibond < particle.num_bonds(); ++ibond) {
+        Bond * bond = particle.get_bond(ibond);
+        std::string name = bond->name(), original_name = name;
+        rename_nonunique_(bnames, original_name, "Bond", file_name, max_warn, &num_warn, &name);
+        bond->set_name(name);
+        bnames.push_back(bond->name());
+      }
+      for (int iangle = 0; iangle < particle.num_angles(); ++iangle) {
+        Angle * angle = particle.get_angle(iangle);
+        std::string name = angle->name(), original_name = name;
+        rename_nonunique_(anames, original_name, "Angle", file_name, max_warn, &num_warn, &name);
+        angle->set_name(name);
+        anames.push_back(angle->name());
+      }
+      for (int idihedral = 0; idihedral < particle.num_dihedrals(); ++idihedral) {
+        Dihedral * dihedral = particle.get_dihedral(idihedral);
+        std::string name = dihedral->name(), original_name = name;
+        rename_nonunique_(dnames, original_name, "Dihedral", file_name, max_warn, &num_warn, &name);
+        dihedral->set_name(name);
+        dnames.push_back(dihedral->name());
+      }
+    }
+  }
+
+  DEBUG("Update model parameters only after the particle has been filtered.");
   if (unique_types_) {
     model_params_->add(particles_.back());
   }
@@ -344,6 +432,68 @@ void ParticleFactory::set_cutoff_min_to_sigma() {
 void ParticleFactory::set_physical_constants(
     std::shared_ptr<PhysicalConstants> constants) {
   model_params_->set_physical_constants(constants);
+}
+
+int ParticleFactory::site_name_to_index(const std::string& site_name,
+    int * particle_index) const {
+  ASSERT(unique_particles_, "only logical to use for unique_particles");
+  for (int pindex = 0; pindex < num(); ++pindex) {
+    const Particle& part = particles_[pindex];
+    for (int site_index = 0; site_index < part.num_sites(); ++site_index) {
+      const Site& site = part.site(site_index);
+      if (site.name() == site_name) {
+        if (particle_index) *particle_index = pindex;
+        return site_index;
+      }
+    }
+  }
+  FATAL("Could not find a site_name: " << site_name);
+}
+
+int ParticleFactory::site_type_to_particle_type(const int site_type) const {
+  ASSERT(unique_types_, "only logical to use for unique_types");
+  int particle_type = 0;
+  int prev = 0;
+  for (int site = 0; site <= site_type; ++site) {
+    const int num_sites = particle(particle_type).num_sites();
+    if (site >= num_sites + prev) {
+      prev += num_sites;
+      ++particle_type;
+    }
+  }
+  return particle_type;
+}
+
+const Site& ParticleFactory::unique_type(const int ptype,
+    const int stype) const {
+  ASSERT(unique_types_, "only logical to use for unique_types");
+  int prev_site_types = 0;
+  for (int pt = 0; pt < ptype; ++pt) {
+    prev_site_types += particle(pt).num_sites();
+  }
+  const int index = stype - prev_site_types;
+  ASSERT(index >= 0, "error");
+  return particle(ptype).site(index);
+}
+
+const std::string& ParticleFactory::site_type_to_name(const int site_type) const {
+  const int ptype = site_type_to_particle_type(site_type);
+  return unique_type(ptype, site_type).name();
+}
+
+int ParticleFactory::site_type_name_to_index(const std::string& site_type_name) const {
+  ASSERT(unique_types_, "only logical to use for unique_types");
+  int index = 0;
+  for (const Particle& part : particles_) {
+    for (const Site& site : part.sites()) {
+      if (site.name() == site_type_name) {
+        return index;
+      } else {
+        ++index;
+      }
+    }
+  }
+  FATAL("site_type_name:" << site_type_name << " not found.");
 }
 
 }  // namespace feasst

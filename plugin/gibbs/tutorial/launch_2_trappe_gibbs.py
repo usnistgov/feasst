@@ -23,8 +23,8 @@ def parse():
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--dictionary_input', type=json.loads, help='dictionary with the following parameters for each particle: temperature(Kelvin), expected vapor density(kg/m^3), expected liquid density(kg/m^3), total number of particles, and an optional xyz file name to initialize vapor and liquid',
-            default='{"/feasst/particle/ethane.fstprt":{"temp":[236,256],"expect_vapor_dens":[20.19, 35.4],"expect_liquid_dens":[469.4, 434.42],"num_particles":[1000, 1000],"xyz_vapor":["",""],"xyz_liquid":["",""]},\
-                    "/feasst/particle/n-butane.fstprt":{"temp":[354],"expect_vapor_dens":[32.35],"expect_liquid_dens":[496.9],"num_particles":[512],"xyz_vapor":["",""],"xyz_liquid":["",""]}}')
+            default='{"/feasst/particle/ethane.txt":{"temp":[236,256],"expect_vapor_dens":[20.19, 35.4],"expect_liquid_dens":[469.4, 434.42],"num_particles":[1000, 1000],"xyz_vapor":["",""],"xyz_liquid":["",""]},\
+                    "/feasst/particle/n-butane.txt":{"temp":[354],"expect_vapor_dens":[32.35],"expect_liquid_dens":[496.9],"num_particles":[512],"xyz_vapor":["",""],"xyz_liquid":["",""]}}')
     parser.add_argument('--liquid_cutoff', type=float, default=14, help='real space cutoff distance in the liquid')
     parser.add_argument('--vapor_cutoff_frac_pbc', type=float, default=0.4, help='fraction of initial vapor pbc to set vapor cutoff')
     parser.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')

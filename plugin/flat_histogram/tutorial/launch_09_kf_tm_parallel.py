@@ -15,7 +15,7 @@ import launch_04_lj_tm_parallel
 def parse():
     """ Parse arguments from command line or change their default values. """
     params, args = launch_04_lj_tm_parallel.parse(
-          fstprt='/feasst/plugin/patch/particle/two_patch_linear.fstprt',
+          fstprt='/feasst/plugin/patch/particle/two_patch_linear.txt',
           beta=1./0.7,
           beta_mu=-2.14285714285714,
           min_sweeps=5,

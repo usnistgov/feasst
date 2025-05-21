@@ -108,6 +108,7 @@ TEST(Ewald, revert) {
   PerturbTranslate perturb;
   TrialSelectParticle tsel;
   RandomMT19937 random;
+  tsel.precompute(&system);
   tsel.sel(&system, &random);
   perturb.perturb(&system, &tsel, &random);
   EXPECT_GT(std::abs(en - system.energy()), 1e-10);
@@ -183,7 +184,7 @@ TEST(Ewald, srsw_ref_config) {
     {"xz", "-2.6146722824297473"},
     {"yz", "-4.692615336756641"},
     {"xyz_file", "../plugin/charge/test/data/spce_triclinic_sample_periodic1.xyz"},
-    {"particle_type0", install_dir() + "/particle/spce.fstprt"},
+    {"particle_type0", "../particle/spce.txt"},
     {"cutoff", "10"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.add(MakePotential(MakeLongRangeCorrections()));

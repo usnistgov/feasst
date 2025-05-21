@@ -4,6 +4,7 @@
 
 #include <string>
 #include <sstream>
+#include "utils/include/definitions.h"
 #include "utils/include/custom_exception.h"
 
 namespace feasst {
@@ -31,8 +32,9 @@ namespace feasst {
 
   Set the VERBOSE_LEVEL during installation with:
   "cmake -DFEASST_VERBOSE_LEVEL=3 .."
+
+  The VERBOSE_LEVEL is set in utils/include/defintions.h
 */
-constexpr int VERBOSE_LEVEL = FEASST_VERBOSE_LEVEL_;
 // HWH update verbose levels: per trial, per energy calc, per interaction
 // HWH also verbosity levels for each plugin and classes.
 

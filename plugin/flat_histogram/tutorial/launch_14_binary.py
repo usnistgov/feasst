@@ -25,8 +25,8 @@ from pyfeasst import physical_constants
 from pyfeasst import macrostate_distribution
 from pyfeasst import multistate_accumulator
 
-def parse(particle_type0='/feasst/particle/dimer_mie_CO2.fstprt',
-          particle_type1='/feasst/particle/dimer_mie_N2.fstprt',
+def parse(particle_type0='/feasst/particle/dimer_mie_CO2.txt',
+          particle_type1='/feasst/particle/dimer_mie_N2.txt',
           beta=1./258.15,
           beta_mu0=-3,
           beta_delta_mu=0.244046,

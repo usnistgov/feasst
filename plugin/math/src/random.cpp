@@ -35,7 +35,7 @@ void Random::parse_seed_(argtype * args) {
 void Random::seed_by_time() {
   const int t = time(NULL);
   srand(t);
-  std::cout << "# initializing random number generator with seed: "
+  std::cout << "# Initializing random number generator with seed: "
             << t << std::endl;
   reseed_(t);
   is_seeded_ = true;
@@ -43,7 +43,7 @@ void Random::seed_by_time() {
 
 void Random::seed(const int seed) {
   srand(seed);
-  std::cout << "# initializing random number generator with seed: "
+  std::cout << "# Initializing random number generator with seed: "
             << seed << std::endl;
   reseed_(seed);
   is_seeded_ = true;

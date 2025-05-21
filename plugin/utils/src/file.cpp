@@ -7,8 +7,7 @@ namespace feasst {
 
 void skip_characters(const char comment, std::ifstream &file) {
   std::string line;
-  std::getline(file, line);
-  while (line[0] == comment) {
+  while (file.peek() == comment) {
     std::getline(file, line);
   }
 }

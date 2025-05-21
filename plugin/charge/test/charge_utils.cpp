@@ -37,8 +37,7 @@ System spce(argtype args) {
   double dual_cut = dble("dual_cut", &args, -1);
   add_if_not_used("cubic_side_length", &args, "20");
   add_if_not_used("physical_constants", &args, "CODATA2018");
-  add_if_not_used("particle_type", &args,
-    install_dir() + "/particle/spce.fstprt");
+  add_if_not_used("particle_type", &args, "../particle/spce.txt");
   system.add(std::make_shared<Configuration>(&args));
   system.add(MakePotential(std::make_shared<Ewald>(&args)));
   system.add(MakePotential(MakeModelTwoBodyFactory(MakeLennardJones(),
@@ -70,10 +69,8 @@ System rpm(argtype args) {
   System system;
   double dual_cut = dble("dual_cut", &args, -1);
   add_if_not_used("cubic_side_length", &args, "20");
-  add_if_not_used("particle_type0", &args,
-    install_dir() + "/plugin/charge/particle/rpm_plus.fstprt");
-  add_if_not_used("particle_type1", &args,
-    install_dir() + "/plugin/charge/particle/rpm_minus.fstprt");
+  add_if_not_used("particle_type0", &args, "../plugin/charge/particle/rpm_plus.txt");
+  add_if_not_used("particle_type1", &args, "../plugin/charge/particle/rpm_minus.txt");
   {
     Configuration config(&args);
     if (used("cutoff", args)) {

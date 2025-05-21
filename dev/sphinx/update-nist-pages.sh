@@ -14,7 +14,7 @@ mkdir build
 cd build
 cmake -DUSE_SPHINX=ON ..
 make html > tt 2>&1
-grep -v "_arguments.rst: WARNING: document" tt | grep -v "_arguments.rst:4: WARNING: Duplicate"  | grep -v "^Declaration is" | grep -v "WARNING: Duplicate C++ declaration, also defined" | grep -v "/home/hwh/feasst/README.rst: WARNING: document isn't included in any toctree" | grep -v "warning: The following parameters of feasst::" | grep -v "warning: The following parameter of feasst::"
+grep -v "_arguments.rst: WARNING: document" tt | grep -v "_arguments.rst:4: WARNING: Duplicate"  | grep -v "^Declaration is" | grep -v "WARNING: Duplicate C++ declaration, also defined" | grep -v "/home/$LOGNAME/feasst/README.rst: WARNING: document isn't included in any toctree" | grep -v "warning: The following parameters of feasst::" | grep -v "warning: The following parameter of feasst::"
 version=$(git describe)
 #branch=`git branch | grep \* | cut -d ' ' -f2`
 cp -r html/* ../html/

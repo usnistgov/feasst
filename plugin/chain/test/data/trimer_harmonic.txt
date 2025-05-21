@@ -1,0 +1,28 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+
+Site Properties
+
+0 sigma 1.0 epsilon 1.0 cutoff 3.0
+
+Sites
+
+0 0 0.0 0.0 0.0
+1 0 1.0 0.0 0.0
+2 0 1.0 1.0 0.0
+
+Bond Properties
+
+0 BondHarmonic k_energy_per_length_sq 600 equilibrium_length 1
+
+Bonds
+
+0 0 0 1
+1 0 1 2
+
+Angle Properties
+
+0 AngleHarmonic equilibrium_degrees 90.0 k_energy_per_radian_sq 60
+
+Angles
+
+0 0 0 1 2

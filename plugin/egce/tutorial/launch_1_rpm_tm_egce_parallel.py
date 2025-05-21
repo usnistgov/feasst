@@ -18,9 +18,9 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--plus', type=str, default='/feasst/plugin/charge/particle/rpm_plus.fstprt',
+    parser.add_argument('--plus', type=str, default='/feasst/plugin/charge/particle/rpm_plus.txt',
                         help='FEASST particle definition of the positive charge RPM')
-    parser.add_argument('--minus', type=str, default='/feasst/plugin/charge/particle/rpm_minus.fstprt',
+    parser.add_argument('--minus', type=str, default='/feasst/plugin/charge/particle/rpm_minus.txt',
                         help='FEASST particle definition of the negative charge RPM')
     parser.add_argument('--beta', type=float, default=1./0.047899460618081, help='inverse temperature')
     parser.add_argument('--beta_mu', type=float, default=-13.94, help='beta times chemical potential')

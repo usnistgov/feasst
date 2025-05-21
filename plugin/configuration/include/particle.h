@@ -275,8 +275,13 @@ class Particle : public PropertiedEntity {
   /// Return the maximum distance of a site from the origin.
   double max_distance() const;
 
-  // This interface is for optimization and not for typical use
+  /// Rename names from sites, bonds, angles, dihedrals.
+  void clear_names();
+
   Site * get_site(const int index) { return &sites_[index]; }
+  Bond * get_bond(const int index) { return &bonds_[index]; }
+  Angle * get_angle(const int index) { return &angles_[index]; }
+  Dihedral * get_dihedral(const int index) { return &dihedrals_[index]; }
 
   void serialize(std::ostream& ostr) const;
   explicit Particle(std::istream& istr);

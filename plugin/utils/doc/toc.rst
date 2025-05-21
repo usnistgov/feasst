@@ -1,6 +1,7 @@
 
 .. toctree::
 
+   definitions
    utils
    ArgumentParse
    Timer

@@ -9,30 +9,37 @@
 
 namespace feasst {
 
+TrialSelectParticle::TrialSelectParticle(argtype * args) : TrialSelect(args) {
+  class_name_ = "TrialSelectParticle";
+  load_coordinates_ = boolean("load_coordinates", args, true);
+  site_name_ = str("site", args, "-1");
+  ASSERT(!site_name_.empty(), "Empty site_name.");
+  DEBUG("site_name_ " << site_name_);
+  min_particles_ = integer("min_particles", args, -1);
+  max_particles_ = integer("max_particles", args, -1);
+  set_ghost(boolean("ghost", args, false));
+  exclude_perturbed_ = boolean("exclude_perturbed", args, false);
+}
 TrialSelectParticle::TrialSelectParticle(argtype args)
   : TrialSelectParticle(&args) {
   feasst_check_all_used(args);
 }
 
-TrialSelectParticle::TrialSelectParticle(argtype * args) : TrialSelect(args) {
-  class_name_ = "TrialSelectParticle";
-  load_coordinates_ = boolean("load_coordinates", args, true);
-  min_particles_ = integer("min_particles", args, -1);
-  max_particles_ = integer("max_particles", args, -1);
+FEASST_MAPPER(TrialSelectParticle,);
 
-  // parse site
-  site_ = integer("site", args, -1);
-  if (site_ != -1) {
+void TrialSelectParticle::precompute(System * system) {
+  TrialSelect::precompute(system);
+  const Configuration& conf = configuration(*system);
+  if (site_name_ == "-1") {
+    site_ = -1;
+  } else {
+    site_ = conf.site_name_to_index(site_name_);
     get_mobile()->clear();
     get_mobile()->add_site(0, site_);
     site_vec_ =  {site_};
   }
-
-  set_ghost(boolean("ghost", args, false));
-  exclude_perturbed_ = boolean("exclude_perturbed", args, false);
+  DEBUG("site_ " << site_);
 }
-
-FEASST_MAPPER(TrialSelectParticle,);
 
 int TrialSelectParticle::num_excluded_(const Configuration& config,
     const Select * exclude) {
@@ -214,9 +221,12 @@ TrialSelectParticle::TrialSelectParticle(std::istream& istr)
   : TrialSelect(istr) {
   // ASSERT(class_name_ == "TrialSelectParticle", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 760 && version <= 761, "mismatch version: " << version);
+  ASSERT(version >= 760 && version <= 762, "mismatch version: " << version);
   feasst_deserialize(&load_coordinates_, istr);
   feasst_deserialize(&site_, istr);
+  if (version >= 762) {
+    feasst_deserialize(&site_name_, istr);
+  }
   feasst_deserialize(&site_vec_, istr);
   feasst_deserialize(&exclude_perturbed_, istr);
   if (version >= 761) {
@@ -227,9 +237,10 @@ TrialSelectParticle::TrialSelectParticle(std::istream& istr)
 
 void TrialSelectParticle::serialize_trial_select_particle_(std::ostream& ostr) const {
   serialize_trial_select_(ostr);
-  feasst_serialize_version(761, ostr);
+  feasst_serialize_version(762, ostr);
   feasst_serialize(load_coordinates_, ostr);
   feasst_serialize(site_, ostr);
+  feasst_serialize(site_name_, ostr);
   feasst_serialize(site_vec_, ostr);
   feasst_serialize(exclude_perturbed_, ostr);
   feasst_serialize(min_particles_, ostr);

@@ -1,0 +1,19 @@
+# FEASST particle file
+
+Site Properties
+
+0 sigma 1 epsilon 1.0 cutoff 4
+1 sigma 1 epsilon 1.0 cutoff 1 director 1 spherocylinder_length 3
+
+Bond Properties
+
+0 RigidBond length 1.0 delta 0.000001
+
+Sites
+
+0 0 0.0 0.0 0.0
+1 1 1.0 0.0 0.0
+
+Bonds
+
+0 0 0 1

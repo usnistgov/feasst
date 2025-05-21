@@ -8,7 +8,7 @@ namespace feasst {
 
 TEST(Select, add_remove) {
   Configuration config;
-  config.add_particle_type("../particle/spce.fstprt");
+  config.add_particle_type("../particle/spce.txt");
   config.add_particle_of_type(0);
   config.add_particle_of_type(0);
   Select oxygen;
@@ -75,7 +75,7 @@ TEST(Select, add_remove) {
 
 TEST(Select, group) {
   Configuration config;
-  config.add_particle_type("../particle/spce.fstprt");
+  config.add_particle_type("../particle/spce.txt");
   config.add_particle_of_type(0);
   Select oxygen;
   oxygen.set_group(MakeGroup({{"site_type", "1"}}));
@@ -84,7 +84,7 @@ TEST(Select, group) {
 
 TEST(Select, position) {
   Configuration config;
-  config.add_particle_type("../particle/spce.fstprt");
+  config.add_particle_type("../particle/spce.txt");
   config.add_particle_of_type(0);
   Select sel(config.group_select(0), config.particles());
   Select sel2 = test_serialize(sel);

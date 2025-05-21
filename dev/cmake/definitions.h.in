@@ -1,0 +1,19 @@
+
+#ifndef FEASST_UTILS_DEFINITIONS_H_
+#define FEASST_UTILS_DEFINITIONS_H_
+
+#include <string>
+
+namespace feasst {
+
+/// Return the feasst install directory as a string literal.
+constexpr const char * FEASST_INSTALL_DIR = "@CMAKE_SOURCE_DIR@";
+
+/// Return the feasst version as a string literal.
+constexpr const char * FEASST_VERSION = "@FEASST_VERSION@";
+
+constexpr int VERBOSE_LEVEL = @FEASST_VERBOSE_LEVEL@;
+
+}  // namespace feasst
+
+#endif  // FEASST_UTILS_DEFINITIONS_H_

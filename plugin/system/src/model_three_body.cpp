@@ -5,6 +5,12 @@
 
 namespace feasst {
 
+ModelThreeBody::ModelThreeBody() {
+  class_name_ = "ModelThreeBody";
+}
+ModelThreeBody::~ModelThreeBody() {}
+ModelThreeBody::ModelThreeBody(std::istream& istr) : Model(istr) {}
+
 double ModelThreeBody::compute(
     const ModelParams& model_params,
     const int group_index,

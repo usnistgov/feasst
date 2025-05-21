@@ -12,7 +12,7 @@ TEST(FileXTC, XTC) {
     file.load(xdrfile_read_only, &config, "../plugin/xtc/test/data/1L2Y.xtc");
     CATCH_PHRASE("does not match number of atoms in xtc");
   );
-  config.add_particle_type("../particle/atom.fstprt");
+  config.add_particle_type("../particle/atom.txt");
   for (int i = 0; i < 245; ++i) {
     config.add_particle_of_type(0);
   }

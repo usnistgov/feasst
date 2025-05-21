@@ -1,0 +1,32 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+
+2 dimensions
+
+Site Properties
+
+0 sigma 1.0 epsilon 0.0 cutoff 1.0
+1 sigma 0.5 epsilon 1.0 cutoff 3.0
+2 sigma 0.5 epsilon 1.0 cutoff 3.0
+
+Sites
+
+0 0 0.0 0.0 0.0
+1 1 0.5 0.0 0.0
+2 2 0.0 0.5 0.0
+
+Bond Properties
+
+0 RigidBond length 0.5 delta 0.0001
+
+Bonds
+
+0 0 0 1
+1 0 0 2
+
+Angle Properties
+
+0 RigidAngle degrees 90 delta 0.01
+
+Angles
+
+0 0 2 0 1

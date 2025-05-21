@@ -8,14 +8,9 @@
 #include <deque>
 #include <map>
 #include "utils/include/max_precision.h"
+#include "utils/include/definitions.h"
 
 namespace feasst {
-
-/// Return the feasst install directory as a string.
-std::string install_dir();
-
-/// Return the feasst version as a string.
-std::string version();
 
 /// Return string representation of vector
 template<class T>

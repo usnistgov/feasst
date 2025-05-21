@@ -1,0 +1,44 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+# This model is in development and may not be suitable for use.
+# F3C is model of water with 3 sites and flexible bonds and angles.
+# https://doi.org/10.1021/jp964020s
+# While Table 1 includes A and B, the energy function does not have B,
+# and the units are confused.
+#
+# H
+#  \
+#   O -- H
+#
+#
+# Units
+# length: Angstrom
+# energy: kJ/mol
+# charge: elementary
+
+Site Properties
+
+0 sigma 3.5332 epsilon 0.7732032 cutoff 10 charge -0.82 cutoff_outer 1
+1 sigma 0.9000 epsilon 0.0418400 cutoff 10 charge  0.41 cutoff_outer 1
+
+Sites
+
+0 0  0                    0                    0
+1 1  1.0                  0                    0
+2 1 -0.333313247568237000 0.942816142731718000 0
+
+Bond Properties
+
+0 BondHarmonic equilibrium_length 1.0 k_energy_per_length_sq 1046
+
+Bonds
+
+0 0 0 1
+1 0 0 2
+
+Angle Properties
+
+0 AngleHarmonic equilibrium_degrees 109.47 k_energy_per_radian_sq 251.04
+
+Angles
+
+0 0 1 0 2

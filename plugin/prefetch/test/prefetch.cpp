@@ -44,7 +44,7 @@ void run_prefetch(const int trials, const int trials_per) {
 //  mc->set(MakeRandomMT19937({{"seed", "1592943710"}}));
   mc->set(MakeRandomMT19937({{"seed", "1596650884"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},
-                             {"particle_type0", "../particle/lj.fstprt"}}));
+                             {"particle_type0", "../particle/lj.txt"}}));
   mc->add(MakePotential(MakeLennardJones()));
   mc->add(MakePotential(MakeLongRangeCorrections()));
   mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
@@ -84,7 +84,7 @@ void prefetch(System system, const int sync = 0) {
 //  mc->add(MakeLogAndMovie({{"trials_per_write", str(1e1)}, {"output_file", "tmp/lj"}}));
   mc->add(MakeCheckEnergy({{"trials_per_update", str(1e1)}}));
   mc->add(MakeTune());
-  //mc_lj(mc.get(), 8, "../particle/lj.fstprt", 1e1, true, false);
+  //mc_lj(mc.get(), 8, "../particle/lj.txt", 1e1, true, false);
   // mc->set(MakeRandomMT19937({{"seed", "default"}}));
   // mc->set(MakeRandomMT19937({{"seed", "1578665877"}}));
   // mc->set(MakeRandomMT19937({{"seed", "1578667496"}}));
@@ -131,7 +131,7 @@ void prefetch(System system, const int sync = 0) {
 TEST(Prefetch, MUVT_LONG) {
   System sys;
   sys.add(MakeConfiguration({{"cubic_side_length", "8"},
-                             {"particle_type0", "../particle/lj.fstprt"}}));
+                             {"particle_type0", "../particle/lj.txt"}}));
   sys.add(MakePotential(MakeLennardJones()));
   sys.add(MakePotential(MakeLongRangeCorrections()));
   prefetch(sys);
@@ -174,7 +174,7 @@ TEST(Prefetch, AVB) {
   auto monte_carlo = MakePrefetch({{"synchronize", "true"},
                                    {"trials_per_check", str(trials_per)}});
   monte_carlo->add(MakeConfiguration({{"cubic_side_length", "6"},
-                                      {"particle_type", "../particle/lj.fstprt"}}));
+                                      {"particle_type", "../particle/lj.txt"}}));
   monte_carlo->add(MakePotential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   //monte_carlo->add(MakePotential(MakeLennardJones()));

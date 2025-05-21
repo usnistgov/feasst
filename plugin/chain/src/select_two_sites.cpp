@@ -13,12 +13,12 @@ SelectTwoSites::SelectTwoSites(argtype args) : SelectTwoSites(&args) {
 }
 SelectTwoSites::SelectTwoSites(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectTwoSites";
-  mobile_site_ = integer("mobile_site", args);
-  mobile_site2_ = integer("mobile_site2", args);
+  mobile_site_name_ = str("mobile_site", args);
+  mobile_site2_name_ = str("mobile_site2", args);
   particle_type2_ = integer("particle_type2", args, -1);
   if (particle_type2_ == -1) {
-    ASSERT(mobile_site_ != mobile_site2_, "the mobile site: " << mobile_site_ <<
-      " cannot be the same as mobile_site2_: " << mobile_site2_);
+    ASSERT(mobile_site_name_ != mobile_site2_name_, "the mobile site: " << mobile_site_name_ <<
+      " cannot be the same as mobile_site2_: " << mobile_site2_name_);
   }
 }
 
@@ -26,12 +26,15 @@ FEASST_MAPPER(SelectTwoSites, argtype({{"mobile_site", "1"}, {"mobile_site2", "0
 
 void SelectTwoSites::precompute(System * system) {
   TrialSelect::precompute(system);
+  const Configuration& conf = configuration(*system);
+  const int mobile_site = conf.site_name_to_index(mobile_site_name_);
+  const int mobile_site2 = conf.site_name_to_index(mobile_site2_name_);
   get_mobile()->clear();
-  get_mobile()->add_site(0, mobile_site_);
+  get_mobile()->add_site(0, mobile_site);
   if (particle_type2_ == -1) {
-    get_mobile()->add_site(0, mobile_site2_);
+    get_mobile()->add_site(0, mobile_site2);
   } else {
-    get_mobile()->add_site(1, mobile_site2_);
+    get_mobile()->add_site(1, mobile_site2);
   }
 }
 
@@ -83,20 +86,28 @@ std::shared_ptr<TrialSelect> SelectTwoSites::create(std::istream& istr) const {
 SelectTwoSites::SelectTwoSites(std::istream& istr) : TrialSelect(istr) {
   // ASSERT(class_name_ == "SelectTwoSites", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 1365 && version <= 1366, "mismatch version: " << version);
-  feasst_deserialize(&mobile_site_, istr);
-  feasst_deserialize(&mobile_site2_, istr);
+  ASSERT(version >= 1365 && version <= 1367, "mismatch version: " << version);
+  if (version <= 1365) {
+    WARN("Restart versions may be incompatible");
+    int mobile_site, mobile_site2;
+    feasst_deserialize(&mobile_site, istr);
+    feasst_deserialize(&mobile_site2, istr);
+  }
   if (version >= 1366) {
     feasst_deserialize(&particle_type2_, istr);
+  }
+  if (version >= 1367) {
+    feasst_deserialize(&mobile_site_name_, istr);
+    feasst_deserialize(&mobile_site2_name_, istr);
   }
 }
 
 void SelectTwoSites::serialize_select_two_sites_(std::ostream& ostr) const {
   serialize_trial_select_(ostr);
-  feasst_serialize_version(1366, ostr);
-  feasst_serialize(mobile_site_, ostr);
-  feasst_serialize(mobile_site2_, ostr);
+  feasst_serialize_version(1367, ostr);
   feasst_serialize(particle_type2_, ostr);
+  feasst_serialize(mobile_site_name_, ostr);
+  feasst_serialize(mobile_site2_name_, ostr);
 }
 
 void SelectTwoSites::serialize(std::ostream& ostr) const {

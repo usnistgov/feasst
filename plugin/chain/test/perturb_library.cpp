@@ -16,7 +16,7 @@ TEST(PerturbLibrary, dimer) {
   System sys;
   sys.add(MakeConfiguration({
     {"cubic_side_length", "8"},
-    {"particle_type0", "../particle/dimer.fstprt"}}));
+    {"particle_type0", "../particle/dimer.txt"}}));
   sys.precompute();
   auto sel = MakeTrialSelectParticle({{"particle_type", "0"}});
   auto pert = MakePerturbLibrary({{"library_xyz",

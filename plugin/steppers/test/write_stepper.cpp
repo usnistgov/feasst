@@ -12,7 +12,7 @@ TEST(WriteStepper, serialize) {
 
 TEST(WriteStepper, fh) {
   auto mc = MakeMonteCarlo({{
-    {"Configuration", {{"particle_type0", "../particle/atom.fstprt"},
+    {"Configuration", {{"particle_type0", "../particle/atom.txt"},
                        {"cubic_side_length", "8"}}},
     {"Potential", {{"Model", "IdealGas"}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1"}}},

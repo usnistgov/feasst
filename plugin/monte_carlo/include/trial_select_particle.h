@@ -18,7 +18,7 @@ class TrialSelectParticle : public TrialSelect {
   //@{
   /** @name Arguments
     - load_coordinates: load the coordinates into the selection (default: true)
-    - site: site index to select. If all sites, set to -1 (default).
+    - site: site name to select. If all sites, set to -1 (default).
     - ghost: select ghost particles (default: false).
     - exclude_perturbed: if true, exclude perturbed particle (default: false)
     - min_particles: do not select if less than min number of particles.
@@ -36,6 +36,8 @@ class TrialSelectParticle : public TrialSelect {
   /** @name Public Functions
    */
   //@{
+
+  void precompute(System * system) override;
 
   /// Return true if loading coordinates into selection.
   bool load_coordinates() const { return load_coordinates_; }
@@ -87,7 +89,8 @@ class TrialSelectParticle : public TrialSelect {
  private:
   bool load_coordinates_;
   bool exclude_perturbed_;
-  int site_;
+  int site_ = -123; // avoid uninitialized warning but requires precompute
+  std::string site_name_;
   int min_particles_;
   int max_particles_;
   std::vector<int> site_vec_;

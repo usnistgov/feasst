@@ -45,7 +45,7 @@ std::pair<std::string, argtype> parse_line(const std::string line,
         DEBUG(value.substr(0, 7));
         if (value.substr(0, 7) == "/feasst") {
           DEBUG("replaced: " << value);
-          value.replace(0, 7, install_dir());
+          value.replace(0, 7, FEASST_INSTALL_DIR);
         }
       }
       ASSERT(args.find(minor) == args.end(), "All arguments must be unique, but"

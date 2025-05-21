@@ -250,6 +250,23 @@ class ParticleFactory {
       const int site_index) {
     particles_[particle_index].set_site_property(index, value, site_index); }
 
+  /// For unique_particles, return the index of a site given the site name.
+  int site_name_to_index(const std::string& site_name,
+    /// Optionally, return the particle index (if not NULL)
+    int * particle_index = NULL) const;
+
+  /// For unique_types, return the particle type of a given site type.
+  int site_type_to_particle_type(const int site_type) const;
+
+  /// Return the site of unique type by individual particle and site type.
+  const Site& unique_type(const int ptype, const int stype) const;
+
+  /// For unique_type, return the name of a given site type.
+  const std::string& site_type_to_name(const int site_type) const;
+
+  /// For unique_type, return index of a given site type name.
+  int site_type_name_to_index(const std::string& site_type_name) const;
+
   // This interface is for optimization and not for typical use
   Particle * get_particle(const int index) { return &particles_[index]; }
 
@@ -261,6 +278,10 @@ class ParticleFactory {
   bool unique_particles_ = false;
   bool unique_types_ = false;
   std::shared_ptr<ModelParams> model_params_;
+  void rename_nonunique_(const std::vector<std::string>& names,
+    const std::string& original_name, const std::string& prop,
+    const std::string& file_name,
+    const int max_warn, int * num_warn, std::string * name);
 };
 
 }  // namespace feasst

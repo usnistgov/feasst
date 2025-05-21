@@ -16,13 +16,17 @@ SelectParticlePivot::SelectParticlePivot(argtype args)
 
 SelectParticlePivot::SelectParticlePivot(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectParticlePivot";
-  pivot_site_ = integer("pivot_site", args, 0);
+  pivot_site_name_ = str("pivot_site", args, "");
 }
 
 FEASST_MAPPER(SelectParticlePivot,);
 
 void SelectParticlePivot::precompute(System * system) {
   TrialSelect::precompute(system);
+  const Configuration& conf = configuration(*system);
+  if (!pivot_site_name_.empty()) {
+    pivot_site_ = conf.site_name_to_index(pivot_site_name_);
+  }
   ASSERT(is_particle_type_set(), "required particle_type as argument");
   ASSERT(particle_type() >= 0, "particle_type required and must be >= 0");
   get_anchor()->clear();
@@ -68,14 +72,18 @@ SelectParticlePivot::SelectParticlePivot(std::istream& istr)
   : TrialSelect(istr) {
   // ASSERT(class_name_ == "SelectParticlePivot", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(6841 == version, "mismatch version: " << version);
+  ASSERT(version >= 6841 && version <= 6842, "mismatch version: " << version);
   feasst_deserialize(&pivot_site_, istr);
+  if (version >= 6842) {
+    feasst_deserialize(&pivot_site_name_, istr);
+  }
 }
 
 void SelectParticlePivot::serialize_select_particle_pivot_(std::ostream& ostr) const {
   serialize_trial_select_(ostr);
-  feasst_serialize_version(6841, ostr);
+  feasst_serialize_version(6842, ostr);
   feasst_serialize(pivot_site_, ostr);
+  feasst_serialize(pivot_site_name_, ostr);
 }
 
 void SelectParticlePivot::serialize(std::ostream& ostr) const {

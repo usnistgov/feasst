@@ -19,7 +19,7 @@ namespace feasst {
 TEST(SeekAnalyze, seek) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"cubic_side_length", "8"},
-                       {"particle_type0", "../particle/lj.fstprt"}}},
+                       {"particle_type0", "../particle/lj.txt"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
     {"ThermoParams", {{"beta", "1.2"}, {"chemical_potential", "1."}}},

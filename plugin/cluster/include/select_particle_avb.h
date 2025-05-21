@@ -13,7 +13,7 @@ typedef std::map<std::string, std::string> argtype;
 
 /**
   Select a random particle as target, then selection another particle that has
-  index of site either inside or outside the aggregation volume (AV) of
+  a site either inside or outside the aggregation volume (AV) of
   target_site.
   Inside selections may optionally set the anchor to a second target particle,
   allowing for inside->inside moves.
@@ -27,8 +27,8 @@ class SelectParticleAVB : public TrialSelect {
   /**
     args:
     - target_particle_type: type of target particle (default: 0).
-    - target_site: index of target site (default: 0).
-    - site: index of site on particle_type to put in AV of target site
+    - target_site: name of target site (default: 0).
+    - site: name of site on particle_type to put in AV of target site
       (default: 0).
     - grand_canonical: true if used for grand canonical, false otherwise.
     - rxnavb: true if used for rxnavb, false otherwise (default: false).
@@ -65,7 +65,8 @@ class SelectParticleAVB : public TrialSelect {
 
  private:
   int neighbor_;
-  int site_index_;
+  int site_index_ = -123;
+  std::string site_index_name_;
   bool grand_canonical_;
   bool inside_;
   bool is_second_target_;

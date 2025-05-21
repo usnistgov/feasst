@@ -26,6 +26,12 @@ class Site : public PropertiedEntity {
   /// Set the type.
   void set_type(const int type) { type_ = type; }
 
+  /// Obtain the name.
+  const std::string& name() const { return name_; }
+
+  /// Set the name.
+  void set_name(const std::string& name) { name_ = name; }
+
   /// Set the Position.
   void set_position(const Position& position) { position_ = position; }
 
@@ -85,10 +91,11 @@ class Site : public PropertiedEntity {
 
   void serialize(std::ostream& ostr) const;
   explicit Site(std::istream& istr);
-  virtual ~Site() {}
+  virtual ~Site();
 
  private:
   int type_ = 0;
+  std::string name_;
   Position position_;
   Euler euler_;
   bool is_physical_;

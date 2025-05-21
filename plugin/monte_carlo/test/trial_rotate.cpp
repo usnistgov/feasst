@@ -15,7 +15,7 @@ namespace feasst {
 TEST(TrialRotate, spce) {
   System system;
   system.add(MakeConfiguration({{"cubic_side_length", "20"},
-    {"particle_type", "../particle/spce.fstprt"},
+    {"particle_type", "../particle/spce.txt"},
     {"add_particles_of_type0", "1"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.set(MakeThermoParams({{"beta", "1.0"}}));
@@ -28,6 +28,7 @@ TEST(TrialRotate, spce) {
   FileXYZ file;
   file.write("tmp/before", system.configuration());
   RandomMT19937 random;
+  rotate->precompute(&criteria, &system);
   rotate->attempt(&criteria, &system, &random);
   file.write("tmp/after", system.configuration());
 

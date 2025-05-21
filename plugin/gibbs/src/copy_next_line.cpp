@@ -1,3 +1,4 @@
+#include <iostream>
 #include "utils/include/serialize.h"
 #include "utils/include/arguments.h"
 #include "monte_carlo/include/monte_carlo.h"
@@ -50,7 +51,7 @@ void CopyNextLine::run(MonteCarlo * mc) {
     next_arg.second.insert({rep[0], rep[1]});
   }
   arglist newline = {next_arg};
-  INFO("copied line: " << next_arg.first << " " << str(next_arg.second));
+  std::cout << "# Copied line: " << next_arg.first << " " << str(next_arg.second) << std::endl;
   mc->parse_args(&newline, true);  // parse silently so not in reproducible logs
 }
 

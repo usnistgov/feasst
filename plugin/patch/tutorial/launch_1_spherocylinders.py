@@ -13,7 +13,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    #parser.add_argument('--fstprt', type=str, default='/feasst/plugin/patch/particle/spherocylinder.fstprt',
+    #parser.add_argument('--fstprt', type=str, default='/feasst/plugin/patch/particle/spherocylinder.txt',
     #                    help='FEASST particle definition')
     parser.add_argument('--num_particles', type=int, default=500, help='number of particles')
     parser.add_argument('--cylinder_length', type=float, default=3, help='cylinder length (distance between center of end caps)')
@@ -53,7 +53,7 @@ def parse():
 
     hard_spherocylinder(length=params['cylinder_length'],
                         diameter=1,
-                        file_name=params['prefix']+'.fstprt')
+                        file_name=params['prefix']+'.txt')
     return params, args
 
 def write_feasst_script(params, script_file):
@@ -62,7 +62,7 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {prefix}.fstprt group0 centers centers_site_type0 0
+Configuration cubic_side_length {cubic_side_length} particle_type0 {prefix}.txt group0 centers centers_site_type0 0
 Potential Model HardSphere VisitModelInner Spherocylinder group centers
 ThermoParams beta 1 chemical_potential -1
 Metropolis

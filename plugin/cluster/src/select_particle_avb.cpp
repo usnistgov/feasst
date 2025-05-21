@@ -20,13 +20,11 @@ SelectParticleAVB::SelectParticleAVB(argtype args) : SelectParticleAVB(&args) {
 SelectParticleAVB::SelectParticleAVB(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectParticleAVB";
   neighbor_ = integer("neighbor_index", args, 0);
-  site_index_ = integer("site", args, 0);
-  get_mobile()->clear();
-  get_mobile()->add_site(0, site_index_);
   grand_canonical_ = boolean("grand_canonical", args);
   inside_ = boolean("inside", args, true);
   is_second_target_ = boolean("second_target", args, false);
   rxnavb_ = boolean("rxnavb", args, false);
+  site_index_name_ = str("site", args, "0");
 
   // initialize select_target_
   argtype target_args;
@@ -36,7 +34,19 @@ SelectParticleAVB::SelectParticleAVB(argtype * args) : TrialSelect(args) {
   target_args.insert({"site", str("target_site", args, "0")});
   select_target_ = TrialSelectParticle(target_args);
 
+  ASSERT(!used("group_index", *args), "group not implemented with AVB");
+}
+
+FEASST_MAPPER(SelectParticleAVB, argtype({{"grand_canonical", "true"}}));
+
+void SelectParticleAVB::precompute(System * system) {
+  TrialSelect::precompute(system);
+
   // initialize select_mobile_
+  const Configuration& config = configuration(*system);
+  site_index_ = config.site_name_to_index(site_index_name_);
+  get_mobile()->clear();
+  get_mobile()->add_site(0, site_index_);
   argtype mobile_args;
   mobile_args.insert({"load_coordinates", "true"});
   if (is_particle_type_set()) {
@@ -45,13 +55,6 @@ SelectParticleAVB::SelectParticleAVB(argtype * args) : TrialSelect(args) {
   mobile_args.insert({"site", str(site_index_)});
   select_mobile_ = TrialSelectParticle(mobile_args);
 
-  ASSERT(!used("group_index", *args), "group not implemented with AVB");
-}
-
-FEASST_MAPPER(SelectParticleAVB, argtype({{"grand_canonical", "true"}}));
-
-void SelectParticleAVB::precompute(System * system) {
-  TrialSelect::precompute(system);
   select_target_.precompute(system);
   select_mobile_.precompute(system);
   get_anchor()->clear();
@@ -264,9 +267,12 @@ std::shared_ptr<TrialSelect> SelectParticleAVB::create(std::istream& istr) const
 SelectParticleAVB::SelectParticleAVB(std::istream& istr)
   : TrialSelect(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 239 && version >= 240, "mismatch version: " << version);
+  ASSERT(version >= 239 && version >= 241, "mismatch version: " << version);
   feasst_deserialize(&neighbor_, istr);
   feasst_deserialize(&site_index_, istr);
+  if (version >= 241) {
+    feasst_deserialize(&site_index_name_, istr);
+  }
   feasst_deserialize(&grand_canonical_, istr);
   feasst_deserialize(&inside_, istr);
   feasst_deserialize(&is_second_target_, istr);
@@ -280,9 +286,10 @@ SelectParticleAVB::SelectParticleAVB(std::istream& istr)
 void SelectParticleAVB::serialize_select_particle_avb_(
     std::ostream& ostr) const {
   serialize_trial_select_(ostr);
-  feasst_serialize_version(240, ostr);
+  feasst_serialize_version(241, ostr);
   feasst_serialize(neighbor_, ostr);
   feasst_serialize(site_index_, ostr);
+  feasst_serialize(site_index_name_, ostr);
   feasst_serialize(grand_canonical_, ostr);
   feasst_serialize(inside_, ostr);
   feasst_serialize(is_second_target_, ostr);

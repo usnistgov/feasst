@@ -32,7 +32,7 @@ std::unique_ptr<MonteCarlo> monte_carlo(const int thread, const int min, const i
   auto mc = std::make_unique<MonteCarlo>();
   //mc->set(MakeRandomMT19937({{"seed", "1635444301"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../particle/lj.fstprt"},
+                            {"particle_type0", "../particle/lj.txt"},
                             {"add_particles_of_type0", "1"}}));
   mc->add(MakePotential(MakeLennardJones()));
   mc->add(MakePotential(MakeLongRangeCorrections()));

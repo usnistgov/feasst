@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.5)
 project (FEASST)
 set (CMAKE_CXX_STANDARD 14)
 cmake_policy(SET CMP0042 NEW) # removes warning about macosx_rpath
-set(FEASST_VERSION 0.25.12)
+set(FEASST_VERSION 0.25.13)
 
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
@@ -149,6 +149,10 @@ add_definitions("-DFEASST_VERBOSE_LEVEL_=${FEASST_VERBOSE_LEVEL}")
 #unset(FEASST_VERBOSE_LEVEL CACHE)
 add_definitions("-DFEASST_VERSION_=\"${FEASST_VERSION}\"")
 add_definitions("-DFEASST_DIR_=\"${CMAKE_SOURCE_DIR}\"")
+#configure_file(
+#  "${CMAKE_SOURCE_DIR}/dev/cmake/definitions.h.in"
+#  "${CMAKE_SOURCE_DIR}/plugin/utils/include/definitions.h"
+#  @ONLY)
 
 # OMP
 if(POLICY CMP0012)
@@ -168,7 +172,7 @@ if (USE_OPENMP)
   endif()
 endif()
 
-if (EV)
+if (EV OR USE_HEADER_CHECK)
   # prep feasst.h (and documentation)
   execute_process(
     COMMAND python3 ${CMAKE_SOURCE_DIR}/dev/tools/depend.py -s ${CMAKE_SOURCE_DIR} --update_doc 0 --check_headers ${USE_HEADER_CHECK}
@@ -182,7 +186,7 @@ if (EV)
               "There was a problem generating feasst.h using the following command: \"python3 ../dev/tools/depend.py -s ../\" Ensure that python3 is available, and try to run this command manually to report any issues to the developers."
       )
   endif()
-endif (EV)
+endif (EV OR USE_HEADER_CHECK)
 
 # FEASST plugins
 set (FEASST_PLUGIN_DIR "${CMAKE_SOURCE_DIR}/plugin")

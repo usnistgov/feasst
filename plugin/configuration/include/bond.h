@@ -23,6 +23,12 @@ class Bond : public PropertiedEntity {
   /// Set the type.
   void set_type(const int type) { type_ = type; }
 
+  /// Obtain the name.
+  const std::string& name() const { return name_; }
+
+  /// Set the name.
+  void set_name(const std::string& name) { name_ = name; }
+
   /// Return the indices of the sites involved in the bond within a particle.
   const std::vector<int>& site_indices() const { return site_indicies_; }
 
@@ -52,6 +58,7 @@ class Bond : public PropertiedEntity {
 
  private:
   int type_ = 0;
+  std::string name_;
   std::vector<int> site_indicies_;
   std::string model_;
 };

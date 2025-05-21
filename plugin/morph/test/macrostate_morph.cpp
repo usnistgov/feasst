@@ -14,14 +14,14 @@
 namespace feasst {
 
 TEST(MacrostateMorph, lj) {
-  auto conf = MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.fstprt"}});
-  conf->add_particle_type(install_dir() + "/particle/lj.fstprt", "0.25");
+  auto conf = MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.txt"}});
+  conf->add_particle_type("../particle/lj.txt", "0.25");
   conf->set_model_param("sigma", 1, 0.25);
   conf->set_model_param("cutoff", 1, 1.0);
-  conf->add_particle_type(install_dir() + "/particle/lj.fstprt", "0.5");
+  conf->add_particle_type("../particle/lj.txt", "0.5");
   conf->set_model_param("sigma", 1, 0.5);
   conf->set_model_param("cutoff", 1, 1.0);
-  conf->add_particle_type(install_dir() + "/particle/lj.fstprt", "0.75");
+  conf->add_particle_type("../particle/lj.txt", "0.75");
   conf->set_model_param("sigma", 1, 0.75);
   conf->set_model_param("cutoff", 1, 1.0);
   System system;

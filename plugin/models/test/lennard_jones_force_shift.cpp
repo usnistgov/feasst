@@ -5,7 +5,7 @@
 namespace feasst {
 
 TEST(LennardJonesForceShift, analytical) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.txt"}});
   EXPECT_NEAR(3., config->model_params().select("cutoff").mixed_values()[0][0], NEAR_ZERO);
   auto force_shift = std::make_shared<LennardJonesForceShift>();
   force_shift->precompute(config->model_params());
@@ -14,7 +14,7 @@ TEST(LennardJonesForceShift, analytical) {
 }
 
 TEST(LennardJonesForceShift, analytical_delta) {
-  auto config = MakeConfiguration({{"particle_type0", "../plugin/models/particle/ljdelta.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../plugin/models/particle/ljdelta.txt"}});
   EXPECT_NEAR(3., config->model_params().select("cutoff").mixed_values()[0][0], NEAR_ZERO);
   auto force_shift = std::make_shared<LennardJonesForceShift>();
   force_shift->precompute(config->model_params());
@@ -23,7 +23,7 @@ TEST(LennardJonesForceShift, analytical_delta) {
 }
 
 TEST(LennardJonesForceShift, serialize) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/spce.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../particle/spce.txt"}});
   auto shift = MakeLennardJonesForceShift({{"alpha", "12"},
       {"hard_sphere_threshold", "0.3"}});
   shift->precompute(config->model_params());
@@ -32,7 +32,7 @@ TEST(LennardJonesForceShift, serialize) {
 }
 
 TEST(LennardJonesForceShift, analytical_lambda) {
-  auto config = MakeConfiguration({{"particle_type0", "../plugin/models/particle/ljlambda.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../plugin/models/particle/ljlambda.txt"}});
   auto model = MakeLennardJonesForceShift();
   model->precompute(config->model_params());
   EXPECT_NEAR(-0.002739720872119390 - -0.001087390195827500 - -0.5*0.5*0.003726165748658701, model->energy(2.5*2.5, 0, 0, config->model_params()), NEAR_ZERO);

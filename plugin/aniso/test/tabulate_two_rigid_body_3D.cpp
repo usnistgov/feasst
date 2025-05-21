@@ -10,8 +10,8 @@ inline void run_hs(const int num_orientations_per_pi, const int proc, const int 
   auto mc_hs = MakeMonteCarlo({{
     {"Configuration", {
       {"cubic_side_length", "2e2"},
-      {"particle_type0", "../plugin/aniso/test/data/fc.fstprt"},
-      {"particle_type1", "../plugin/aniso/test/data/fc.fstprt"},
+      {"particle_type0", "../plugin/aniso/test/data/fc.txt"},
+      {"particle_type1", "../plugin/aniso/test/data/fc.txt"},
       {"add_particles_of_type0", "1"},
       {"add_particles_of_type1", "1"},
       {"group0", "fixed"},
@@ -77,8 +77,8 @@ inline void run(const int num_orientations_per_pi, const int proc, const int num
   auto mc = MakeMonteCarlo({{
     {"Configuration", {
       {"cubic_side_length", "2e2"},
-      {"particle_type0", "../plugin/aniso/test/data/fc.fstprt"},
-      {"particle_type1", "../plugin/aniso/test/data/fc.fstprt"},
+      {"particle_type0", "../plugin/aniso/test/data/fc.txt"},
+      {"particle_type1", "../plugin/aniso/test/data/fc.txt"},
       {"add_particles_of_type0", "1"},
       {"add_particles_of_type1", "1"},
       {"group0", "fixed"},
@@ -136,10 +136,10 @@ TEST(MonteCarlo, tabulate_rigid_bodies_LONG) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {
       {"cubic_side_length", "2e2"},
-      {"particle_type0", "../particle/spce.fstprt"},
-      {"particle_type1", "../particle/spce.fstprt"},
-      //{"particle_type0", "../plugin/aniso/test/data/fc.fstprt"},
-      //{"particle_type1", "../plugin/aniso/test/data/fc.fstprt"},
+      {"particle_type0", "../particle/spce.txt"},
+      {"particle_type1", "../particle/spce.txt"},
+      //{"particle_type0", "../plugin/aniso/test/data/fc.txt"},
+      //{"particle_type1", "../plugin/aniso/test/data/fc.txt"},
       {"add_particles_of_type0", "1"},
       {"add_particles_of_type1", "1"},
       {"group0", "fixed"},
@@ -173,11 +173,11 @@ TEST(MonteCarlo, tabulate_rigid_bodies_LONG) {
 //  auto mc = MakeMonteCarlo({{
 //    {"Configuration", {
 //      {"cubic_side_length", "2e2"},
-//      {"particle_type0", "../particle/spce.fstprt"},
-//      {"particle_type1", "../particle/spce.fstprt"},
-//      //{"particle_type1", "../particle/propane.fstprt"},
-//      //{"particle_type0", "../plugin/aniso/test/data/fc.fstprt"},
-//      //{"particle_type1", "../plugin/aniso/test/data/fc.fstprt"},
+//      {"particle_type0", "../particle/spce.txt"},
+//      {"particle_type1", "../particle/spce.txt"},
+//      //{"particle_type1", "../particle/propane.txt"},
+//      //{"particle_type0", "../plugin/aniso/test/data/fc.txt"},
+//      //{"particle_type1", "../plugin/aniso/test/data/fc.txt"},
 //      {"add_particles_of_type0", "1"},
 //      {"add_particles_of_type1", "1"},
 //      {"group0", "fixed"},

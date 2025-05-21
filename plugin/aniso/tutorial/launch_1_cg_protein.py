@@ -72,7 +72,7 @@ def parse():
     parser.add_argument('--production', type=int, default=int(2e1), help='number of cycles in production')
     parser.add_argument('--seed', type=int, default=-1,
                         help='Random number generator seed. If -1, assign random seed to each sim.')
-    parser.add_argument('--fstprt', type=str, default='/feasst/plugin/aniso/particle/aniso_tabular.fstprt', help='fstprt file')
+    parser.add_argument('--fstprt', type=str, default='/feasst/plugin/aniso/particle/aniso_tabular.txt', help='fstprt file')
     return parser
 
 def write_feasst_script(params, script_file):
@@ -80,14 +80,14 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-Configuration cubic_side_length 2e2 particle_type0 /feasst/particle/spce.fstprt particle_type1 /feasst/particle/spce.fstprt \
+Configuration cubic_side_length 2e2 particle_type0 /feasst/particle/spce.txt particle_type1 /feasst/particle/spce.txt \
   add_particles_of_type0 1 add_particles_of_type1 1 \
   group0 fixed fixed_particle_type 0 group1 mobile mobile_particle_type 1
 Potential Model ModelEmpty
 TabulateTwoRigidBody3D num_orientations_per_pi {num_orientations_per_pi} output_orientation_file {prefix}{num_orientations_per_pi}.txt
 
 MonteCarlo
-Configuration cubic_side_length 2e2 particle_type0 /feasst/particle/spce.fstprt particle_type1 /feasst/particle/propane.fstprt \
+Configuration cubic_side_length 2e2 particle_type0 /feasst/particle/spce.txt particle_type1 /feasst/particle/propane.txt \
   add_particles_of_type0 1 add_particles_of_type1 1 \
   group0 fixed fixed_particle_type 0 group1 mobile mobile_particle_type 1
 Potential Model ModelEmpty

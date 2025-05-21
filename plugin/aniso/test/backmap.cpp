@@ -7,17 +7,17 @@
 
 namespace feasst {
 
-TEST(MonteCarlo, backmap) {
+TEST(MonteCarlo, backmap_LONG) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {
-      {"particle_type0", "../plugin/steppers/test/data/mab.fstprt"},
+      {"particle_type0", "../plugin/steppers/test/data/mab.txt"},
       {"xyz_euler_file", "../plugin/steppers/test/data/nvt0.xyze"},
     }},
     {"Potential", {{"VisitModel", "DontVisitModel"}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1"}}},
     {"Metropolis", {{}}},
     {"ReadConfigFromFile", {{"input_file", "../plugin/steppers/test/data/nvt0.xyze"}, {"euler", "true"}}},
-    {"Backmap", {{"trials_per_write", "1"}, {"output_file", "tmp/backmap.xyz"}, {"site0", "0"}, {"fstprt0", "../plugin/aniso/test/data/fc.fstprt"}, {"site1", "3"}, {"fstprt1", "../plugin/aniso/test/data/fc.fstprt"}}},
+    {"Backmap", {{"trials_per_write", "1"}, {"output_file", "tmp/backmap.xyz"}, {"site0", "0"}, {"fstprt0", "../plugin/aniso/test/data/fc.txt"}, {"site1", "3"}, {"fstprt1", "../plugin/aniso/test/data/fc.txt"}}},
     {"Run", {{"until", "complete"}}},
   }}, true);
 }

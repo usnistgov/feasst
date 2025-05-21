@@ -96,4 +96,5 @@ Properties::Properties(std::istream& istr) {
   feasst_deserialize(&values_, istr);
 }
 
+PropertiedEntity::~PropertiedEntity() {}
 }  // namespace feasst

@@ -11,55 +11,118 @@
 namespace feasst {
 
 TEST(Configuration, type_to_file_name) {
-  Configuration config({
-    {"particle_type0", "../particle/atom.fstprt"},
-    {"particle_type1", "../particle/lj.fstprt"},
-    {"particle_type2", "../particle/spce.fstprt"},
-    {"particle_type3", "../particle/lj.fstprt"},
-  });
-  //std::stringstream ss;
-  //config.serialize(ss);
-  //INFO(ss.str());
-//  TRY(
-//    auto config2 = config;
-//    config2.add_particle_type("../particle/atom.fstprt");
-//    CATCH_PHRASE("already provided");
-//  );
-  EXPECT_EQ(4, config.num_particle_types());
-  EXPECT_EQ("../particle/atom.fstprt", config.type_to_file_name(0));
-  EXPECT_EQ("../particle/lj.fstprt", config.type_to_file_name(1));
-  EXPECT_EQ("../particle/spce.fstprt", config.type_to_file_name(2));
+  for (const std::string spce : {
+      "../plugin/configuration/test/data/spce.txt.new",
+      "../plugin/configuration/test/data/spce.txt.old"}) {
+    INFO(spce);
+    Configuration config({
+      {"particle_type0", "../particle/atom.txt"},
+      {"particle_type1", "../particle/lj.txt"},
+      {"particle_type2", "../particle/" + spce},
+      {"particle_type3", "../particle/lj.txt"},
+    });
+    //std::stringstream ss;
+    //config.serialize(ss);
+    //INFO(ss.str());
+  //  TRY(
+  //    auto config2 = config;
+  //    config2.add_particle_type("../particle/atom.txt");
+  //    CATCH_PHRASE("already provided");
+  //  );
+    EXPECT_EQ(4, config.num_particle_types());
+    EXPECT_EQ("../particle/atom.txt", config.type_to_file_name(0));
+    EXPECT_EQ("../particle/lj.txt", config.type_to_file_name(1));
+    EXPECT_EQ("../particle/" + spce, config.type_to_file_name(2));
 
-  config.add_particle_type("../particle/lj.fstprt", "2");
-  EXPECT_EQ(5, config.num_particle_types());
-  EXPECT_EQ("../particle/lj.fstprt2", config.type_to_file_name(4));
+    config.add_particle_type("../particle/lj.txt", "2");
+    EXPECT_EQ(5, config.num_particle_types());
+    EXPECT_EQ("../particle/lj.txt2", config.type_to_file_name(4));
 
-  EXPECT_EQ(6, config.num_site_types());
-  EXPECT_EQ(0, config.site_type_to_particle_type(0));
-  EXPECT_EQ(1, config.site_type_to_particle_type(1));
-  EXPECT_EQ(2, config.site_type_to_particle_type(2));
-  EXPECT_EQ(2, config.site_type_to_particle_type(3));
-  EXPECT_EQ(3, config.site_type_to_particle_type(4));
-  EXPECT_EQ(4, config.site_type_to_particle_type(5));
-  const std::vector<std::vector<int> > nstppt =
-    config.num_site_types_per_particle_type();
-  EXPECT_EQ(5, static_cast<int>(nstppt.size()));
-  EXPECT_EQ(1, nstppt[0][0]);
-  EXPECT_EQ(0, nstppt[1][0]);
-  EXPECT_EQ(1, nstppt[1][1]);
-  EXPECT_EQ(0, nstppt[2][0]);
-  EXPECT_EQ(0, nstppt[2][1]);
-  EXPECT_EQ(1, nstppt[2][2]);
-  EXPECT_EQ(2, nstppt[2][3]);
-  EXPECT_EQ(1, nstppt[3][4]);
-  EXPECT_EQ(1, nstppt[4][5]);
+    EXPECT_EQ(6, config.num_site_types());
+    EXPECT_EQ(0, config.site_type_to_particle_type(0));
+    EXPECT_EQ(1, config.site_type_to_particle_type(1));
+    EXPECT_EQ(2, config.site_type_to_particle_type(2));
+    EXPECT_EQ(2, config.site_type_to_particle_type(3));
+    EXPECT_EQ(3, config.site_type_to_particle_type(4));
+    EXPECT_EQ(4, config.site_type_to_particle_type(5));
+    const std::vector<std::vector<int> > nstppt =
+      config.num_site_types_per_particle_type();
+    EXPECT_EQ(5, static_cast<int>(nstppt.size()));
+    EXPECT_EQ(1, nstppt[0][0]);
+    EXPECT_EQ(0, nstppt[1][0]);
+    EXPECT_EQ(1, nstppt[1][1]);
+    EXPECT_EQ(0, nstppt[2][0]);
+    EXPECT_EQ(0, nstppt[2][1]);
+    EXPECT_EQ(1, nstppt[2][2]);
+    EXPECT_EQ(2, nstppt[2][3]);
+    EXPECT_EQ(1, nstppt[3][4]);
+    EXPECT_EQ(1, nstppt[4][5]);
 
-  EXPECT_NEAR(config.unique_type(2, 3).position().coord(0), 1., NEAR_ZERO);
+    EXPECT_NEAR(config.unique_type(2, 3).position().coord(0), 1., NEAR_ZERO);
+    EXPECT_EQ("0", config.site_type_to_name(0));
+    EXPECT_EQ("1", config.site_type_to_name(1));
+    if (spce == "spce.txt" ||
+        spce == "../plugin/configuration/test/data/spce.txt.old") {
+      EXPECT_EQ("4", config.site_type_to_name(4));
+      EXPECT_EQ("5", config.site_type_to_name(5));
+    } else {
+      EXPECT_EQ("2", config.site_type_to_name(4));
+      EXPECT_EQ("3", config.site_type_to_name(5));
+    }
+    EXPECT_EQ(config.particle_type(0).site(0).name(), "0");
+    EXPECT_EQ(config.unique_type(0).site(0).name(), "0");
+    EXPECT_EQ(config.particle_type(1).site(0).name(), "1");
+    EXPECT_EQ(config.unique_type(1).site(0).name(), "1");
+    if (spce == "spce.txt" ||
+        spce == "../plugin/configuration/test/data/spce.txt.old") {
+      EXPECT_EQ("2", config.site_type_to_name(2));
+      EXPECT_EQ("3", config.site_type_to_name(3));
+      EXPECT_EQ(config.particle_type(2).site(0).name(), "2");
+      EXPECT_EQ(config.particle_type(2).site(1).name(), "3");
+      EXPECT_EQ(config.particle_type(2).site(2).name(), "4");
+      EXPECT_EQ(config.unique_type(2).site(0).name(), "2");
+      EXPECT_EQ(config.unique_type(2).site(1).name(), "3");
+      EXPECT_EQ(config.particle_type(2).bond(0).name(), "0");
+      EXPECT_EQ(config.particle_type(2).bond(1).name(), "1");
+      EXPECT_EQ(config.unique_type(2).bond(0).name(), "0");
+      EXPECT_EQ(config.particle_type(2).angle(0).name(), "0");
+      EXPECT_EQ(config.unique_type(2).angle(0).name(), "0");
+      EXPECT_EQ(config.particle_type(3).site(0).name(), "5");
+      EXPECT_EQ(config.particle_type(4).site(0).name(), "6");
+    } else if (spce ==  "../plugin/configuration/test/data/spce.txt.new") {
+      EXPECT_EQ("O", config.site_type_to_name(2));
+      EXPECT_EQ("H", config.site_type_to_name(3));
+      EXPECT_EQ(config.particle_type(2).site(0).name(), "O1");
+      EXPECT_EQ(config.site_name_to_index("O1"), 0);
+      TRY(
+        config.site_name_to_index("OX1");
+        CATCH_PHRASE("Could not find");
+      );
+      EXPECT_EQ(config.particle_type(2).site(1).name(), "H1");
+      EXPECT_EQ(config.site_name_to_index("H1"), 1);
+      EXPECT_EQ(config.particle_type(2).site(2).name(), "H2");
+      EXPECT_EQ(config.site_name_to_index("H2"), 2);
+      EXPECT_EQ(config.unique_type(2).site(0).name(), "O");
+      EXPECT_EQ(config.site_type_name_to_index("O"), 2);
+      EXPECT_EQ(config.unique_type(2).site(1).name(), "H");
+      EXPECT_EQ(config.site_type_name_to_index("H"), 3);
+      EXPECT_EQ(config.unique_type(2).site(1).name(), "H");
+      EXPECT_EQ(config.particle_type(2).bond(0).name(), "O1H1");
+      EXPECT_EQ(config.particle_type(2).bond(1).name(), "O1H2");
+      EXPECT_EQ(config.unique_type(2).bond(0).name(), "OH");
+      EXPECT_EQ(config.particle_type(2).angle(0).name(), "H1O1H2");
+      EXPECT_EQ(config.unique_type(2).angle(0).name(), "HOH");
+      EXPECT_EQ(config.particle_type(3).site(0).name(), "2");
+      EXPECT_EQ(config.particle_type(4).site(0).name(), "3");
+      EXPECT_EQ(config.site_type_name_to_index("2"), 4);
+      EXPECT_EQ(config.site_type_name_to_index("3"), 5);
+    }
+  }
 }
 
 TEST(Configuration, coordinates_and_wrapping) {
   auto config = MakeConfiguration({{"cubic_side_length", "5"},
-    {"particle_type0", "../particle/atom.fstprt"},
+    {"particle_type0", "../particle/atom.txt"},
     {"add_particles_of_type0", "2"}});
   Position pos;
   pos.set_to_origin_3D();
@@ -94,7 +157,7 @@ TEST(Configuration, coordinates_and_wrapping) {
 }
 
 TEST(Configuration, particle_types_lj) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.txt"}});
   config->check();
   EXPECT_EQ(1, config->particle_types().num());
   EXPECT_EQ(1, config->particle_types().num());
@@ -112,7 +175,7 @@ TEST(Configuration, particle_types_lj) {
 }
 
 TEST(Configuration, particle_types_spce) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/spce.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../particle/spce.txt"}});
   config->check();
   EXPECT_EQ(2, config->particle_types().num_site_types());
   EXPECT_EQ(3, config->particle_types().num_sites());
@@ -156,10 +219,10 @@ TEST(Configuration, bonds_spce) {
 
 TEST(Configuration, order) {
   auto config = MakeConfiguration({{"cubic_side_length", "7"},
-                                   {"particle_type0", "../particle/spce.fstprt"}});
+                                   {"particle_type0", "../particle/spce.txt"}});
   config->add_particle_of_type(0);
   TRY(
-    config->add_particle_type("../particle/lj.fstprt");
+    config->add_particle_type("../particle/lj.txt");
     CATCH_PHRASE("types cannot be added after particles");
   );
 }
@@ -171,15 +234,22 @@ TEST(Configuration, group) {
     config_err.add(MakeGroup({{"site_type", "0"}}));
     CATCH_PHRASE("add groups after particle types");
   );
-  config->add_particle_type("../particle/spce.fstprt");
-  config->add_particle_type("../particle/lj.fstprt");
+  config->add_particle_type("../particle/spce.txt");
+  TRY(
+    Configuration config_err(*config);
+    config_err.add(MakeGroup({{"site_type", "Hello"}}));
+    CATCH_PHRASE("site_type_name:Hello not found");
+  );
+  config->add_particle_type("../particle/lj.txt");
   config->add(MakeGroup({{"site_type", "0"}, {"particle_type", "0"}}), "O");
-  config->add(MakeGroup({{"site_type", "0"}, {"particle_type", "1"}}), "H");
-  config->add(MakeGroup({{"site_type", "2"}, {"particle_type", "1"}}), "none");
+  config->add(MakeGroup({{"site_type", "2"}, {"particle_type", "1"}}), "LJ");
+  config->add(MakeGroup({{"site_type", "1"}, {"particle_type", "0"}}), "H");
+  //config->add(MakeGroup({{"site_type", "2"}, {"particle_type", "1"}}), "none");
   EXPECT_TRUE(config->group_select(0).group().has_property("0"));
   EXPECT_TRUE(config->group_select(1).group().has_property("O"));
-  EXPECT_TRUE(config->group_select(2).group().has_property("H"));
-  EXPECT_TRUE(config->group_select(3).group().has_property("none"));
+  EXPECT_TRUE(config->group_select(2).group().has_property("LJ"));
+  EXPECT_TRUE(config->group_select(3).group().has_property("H"));
+  //EXPECT_TRUE(config->group_select(3).group().has_property("none"));
   EXPECT_EQ(4, config->group_selects().size());
   for (int part = 0; part < 100; ++part) {
     config->add_particle_of_type(0);
@@ -197,11 +267,11 @@ TEST(Configuration, group) {
     EXPECT_EQ(1, sel0.site_indices(index).size());
   }
   const Select& sel1 = config->group_select(2);
-  EXPECT_EQ(0, sel1.num_particles());
-  EXPECT_EQ(0, sel1.num_sites());
+  EXPECT_EQ(1, sel1.num_particles());
+  EXPECT_EQ(1, sel1.num_sites());
   const Select& sel2 = config->group_select(3);
-  EXPECT_EQ(1, sel2.num_particles());
-  EXPECT_EQ(1, sel2.num_sites());
+  EXPECT_EQ(100, sel2.num_particles());
+  EXPECT_EQ(200, sel2.num_sites());
 
 //  TrialSelectParticle tselect;
 //  tselect.random_particle(config, 1);
@@ -224,8 +294,8 @@ TEST(Configuration, group) {
 
 TEST(Configuration, group_as_arg) {
   auto config = MakeConfiguration({
-    {"xyz_file", install_dir() + "/plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
-    {"particle_type0", "../particle/lj.fstprt"},
+    {"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
+    {"particle_type0", "../particle/lj.txt"},
     {"group0", "first"}, {"first_particle_type0", "0"}});
   EXPECT_EQ(2, config->num_groups());
 }
@@ -280,7 +350,7 @@ TEST(Configuration, copy_particles) {
 
 TEST(Configuration, change_volume) {
   auto config = MakeConfiguration({{"cubic_side_length", "10"},
-    {"particle_type", install_dir() + "/particle/spce.fstprt"}});
+    {"particle_type", "../particle/spce.txt"}});
   config->add_particle_of_type(0);
   config->add_particle_of_type(0);
   Select second;
@@ -327,8 +397,8 @@ TEST(Configuration, change_volume) {
 }
 
 TEST(Configuration, add_particles_of_type) {
-  auto config = MakeConfiguration({{"particle_type0", install_dir() + "/particle/lj.fstprt"},
-    {"particle_type1", install_dir() + "/particle/atom.fstprt"},
+  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.txt"},
+    {"particle_type1", "../particle/atom.txt"},
     {"add_particles_of_type1", "2"}});
   EXPECT_EQ(2, config->num_particles());
   EXPECT_EQ(1, config->particle(0).type());
@@ -336,7 +406,7 @@ TEST(Configuration, add_particles_of_type) {
 }
 
 TEST(Configuration, dihedrals) {
-  auto config = MakeConfiguration({{"particle_type", "../particle/n-decane.fstprt"}, {"add_particles_of_type0", "1"}});
+  auto config = MakeConfiguration({{"particle_type", "../particle/n-decane.txt"}, {"add_particles_of_type0", "1"}});
   EXPECT_EQ(1, config->num_particles());
   EXPECT_EQ(7, config->particle_type(0).num_dihedrals());
   EXPECT_EQ(1, config->unique_type(0).num_dihedrals());
@@ -354,7 +424,7 @@ TEST(Configuration, dihedrals) {
 }
 
 TEST(Configuration, set_param) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/spce.fstprt"},
+  auto config = MakeConfiguration({{"particle_type0", "../particle/spce.txt"},
     {"sigma1", "0.1"},
     {"epsilon0", "5.2"},
     {"cutoff", "2.3"},
@@ -373,9 +443,9 @@ TEST(Configuration, set_param) {
 
 TEST(Configuration, particle_with_different_params) {
   auto config = MakeConfiguration({
-    {"particle_type0", "../particle/lj.fstprt"},
-    {"particle_type1", "../particle/atom.fstprt"},
-    {"particle_type2", "../particle/spce.fstprt"},
+    {"particle_type0", "../particle/lj.txt"},
+    {"particle_type1", "../particle/atom.txt"},
+    {"particle_type2", "../particle/spce.txt"},
   });
   EXPECT_EQ(config->model_params().select("charge").value(0), 0.);
   EXPECT_EQ(config->model_params().select("charge").value(1), 0.);
@@ -386,7 +456,7 @@ TEST(Configuration, particle_with_different_params) {
 
 TEST(Configuration, xyz_euler_file) {
   auto config = MakeConfiguration({
-    {"particle_type0", "../particle/euler.fstprt"},
+    {"particle_type0", "../particle/euler.txt"},
     {"xyz_euler_file", "../plugin/configuration/test/data/euler.xyze"}});
   EXPECT_NEAR(200, config->domain().side_length(0), 1e-6);
   EXPECT_NEAR(35.652456, config->particle(0).site(0).position().coord(0), 1e-6);
@@ -395,8 +465,8 @@ TEST(Configuration, xyz_euler_file) {
 
 TEST(Configuration, 2dfstprt_with_xyz) {
   auto config = MakeConfiguration({
-    //{"particle_type0", "../particle/atom2d.fstprt"}});
-    {"particle_type0", "../particle/atom2d.fstprt"},
+    //{"particle_type0", "../particle/atom2d.txt"}});
+    {"particle_type0", "../particle/atom2d.txt"},
     {"xyz_file", "../plugin/configuration/test/data/2d.xyz"}});
 //  EXPECT_EQ(2, config->domain().dimension());
 //  EXPECT_EQ(2, config->particle_type(0).site(0).position().dimension());
@@ -404,7 +474,7 @@ TEST(Configuration, 2dfstprt_with_xyz) {
 
 TEST(Configuration, param_mixing_file) {
   auto config = MakeConfiguration({
-    {"particle_type0", "../particle/spce.fstprt"},
+    {"particle_type0", "../particle/spce.txt"},
     {"cubic_side_length", "8"},
     {"epsilon_mixing_file", "../plugin/configuration/test/data/eps_mix.txt"}});
   EXPECT_NEAR(1.51, config->model_params().select("epsilon").mixed_value(0, 0), NEAR_ZERO);

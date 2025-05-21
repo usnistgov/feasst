@@ -2,13 +2,7 @@
 def hard_spherocylinder(length, diameter, file_name):
     with open(file_name, 'w') as f:
         fstprt_params = {'central_cut': length + diameter, 'length': length, 'diameter': diameter}
-        f.write("""# LAMMPS-inspired data file
-
-2 sites
-1 bonds
-
-2 site types
-1 bond types
+        f.write("""# FEASST particle file
 
 Site Properties
 

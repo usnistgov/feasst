@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 from pyfeasst import fstio
 from pyfeasst import macrostate_distribution
 
-def parse(fstprt='/feasst/particle/lj.fstprt',
+def parse(fstprt='/feasst/particle/lj.txt',
           beta=1./1.5,
           beta_mu=-1.568214,
           mu_init=10,

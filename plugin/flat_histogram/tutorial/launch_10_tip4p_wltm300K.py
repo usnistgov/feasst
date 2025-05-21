@@ -12,7 +12,7 @@ import launch_10_spce_wltm300K
 def parse(temperature=300):
     """ Parse arguments from command line or change their default values. """
     params, args = launch_04_lj_tm_parallel.parse(
-          fstprt='/feasst/plugin/charge/particle/tip4p.fstprt',
+          fstprt='/feasst/plugin/charge/particle/tip4p.txt',
           beta=1./(temperature*physical_constants.MolarGasConstant().value()/1e3), # mol/kJ
           beta_mu=-15.24,
           mu_init=-7,

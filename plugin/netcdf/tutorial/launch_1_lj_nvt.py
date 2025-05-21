@@ -9,7 +9,7 @@ import numpy as np
 # define parameters of a pure component NVT MC Lennard-Jones simulation
 params = {
     "num_particles": 500, "density": 0.001, "trials_per": 1e5,
-    "beta": 1./0.9, "fstprt": "/feasst/particle/lj.fstprt",
+    "beta": 1./0.9, "fstprt": "/feasst/particle/lj.txt",
     "equilibration": 1e5, "production": 1e7,
     "seed": random.randrange(int(1e9)), "num_hours": 1, "script": __file__}
 params["box_length"] = (params["num_particles"]/params["density"])**(1./3.)

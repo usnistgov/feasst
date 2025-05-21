@@ -14,16 +14,16 @@ TEST(MonteCarlo, VisitModelInnerTable) {
   auto vis = std::make_shared<VisitModelInnerTable>(argtype({{"table_file", table_file}}));
 //  EXPECT_NEAR(vis->outer()[0][0].minimum(), 1.5, NEAR_ZERO);
 //  EXPECT_NEAR(vis->outer()[0][0].maximum(), 1.5, NEAR_ZERO);
-  auto config = MakeConfiguration({{"particle_type0", "../particle/atom.fstprt"}});
+  auto config = MakeConfiguration({{"particle_type0", "../particle/atom.txt"}});
   vis->precompute(config.get());
   EXPECT_NEAR(config->table5d()[0][0]->minimum(), 1.0, NEAR_ZERO);
   EXPECT_NEAR(config->table5d()[0][0]->maximum(), 1.0, NEAR_ZERO);
   EXPECT_NEAR(config->table6d()[0][0]->minimum(), -1, 1e-3);
   EXPECT_NEAR(config->table6d()[0][0]->maximum(), -1., 1e-3);
   auto mc = MakeMonteCarlo({{
-    {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../plugin/aniso/particle/aniso_tabular.fstprt"},
+    {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../plugin/aniso/particle/aniso_tabular.txt"},
       {"xyz_file", "../plugin/aniso/test/data/two.xyz"}}},
-    //{"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../plugin/aniso/particle/aniso_tabular.fstprt"},
+    //{"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../plugin/aniso/particle/aniso_tabular.txt"},
     //  {"add_particles_of_type0", "1"}}},
     //{"Potential", {{"VisitModelInner", "VisitModelInnerTable"}, {"table_file", table_file}}},
     {"Potential", {{"Model", "TwoBodyTable"}, {"VisitModelInner", "VisitModelInnerTable"}, {"table_file", table_file}}},
@@ -56,7 +56,7 @@ TEST(MonteCarlo, rigid_body_connector) {
     //{"RandomMT19937", {{"seed", "time"}}},
     //{"RandomMT19937", {{"seed", "123"}}},
     {"Configuration", {{"cubic_side_length", "8"}, {"add_particles_of_type0", "1"},
-                       {"particle_type0", "../plugin/aniso/test/data/rigid_and_connector.fstprt"}}},
+                       {"particle_type0", "../plugin/aniso/test/data/rigid_and_connector.txt"}}},
     {"Potential", {{"Model", "TwoBodyTable"}, {"VisitModelInner", "VisitModelInnerTable"}, {"table_file", table_file}}},
     {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential", "1."}}},
     {"Metropolis", {{}}},
@@ -65,7 +65,7 @@ TEST(MonteCarlo, rigid_body_connector) {
     //{"Run", {{"num_trials", "1"}}},
     {"Run", {{"num_trials", "4"}}},
     {"Remove", {{"name0", "TrialTranslate"}, {"name1", "TrialRotate"}}},
-    {"TrialGrowFile", {{"grow_file", "../plugin/aniso/test/data/rigid_and_connector.txt"}}},
+    {"TrialGrowFile", {{"grow_file", "../plugin/aniso/test/data/rigid_and_connector_grow.txt"}}},
     {"Log", {{"trials_per_write", "1"}, {"output_file", "tmp/connector.txt"}}},
     {"Movie", {{"trials_per_write", "1"}, {"output_file", "tmp/connector.xyz"}}},
     {"CheckEnergy", {{"trials_per_update", str(1e2)}, {"tolerance", "1e-8"}}},
@@ -78,7 +78,7 @@ TEST(MonteCarlo, rigid_body_connector) {
 TEST(MonteCarlo, 4lyt_smoothing) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {
-      {"particle_type0", "../plugin/aniso/particle/aniso_tabular.fstprt"},
+      {"particle_type0", "../plugin/aniso/particle/aniso_tabular.txt"},
       {"xyz_euler_file", "../plugin/aniso/test/data/two.xyze"}}},
     {"Potential", {{"Model", "TwoBodyTable"}, {"VisitModelInner", "VisitModelInnerTable"}, {"table_file", "../plugin/aniso/test/data/table.txt"}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1."}}},
@@ -108,7 +108,7 @@ TEST(MonteCarlo, 4lyt_smoothing) {
 //    {"Configuration", {
 //      {"cubic_side_length", "500"},
 //      {"cutoff", str(cutoff)},
-//      {"particle_type0", "../../open_mab_cg/4lyt_ph6/4lyt.fstprt"},
+//      {"particle_type0", "../../open_mab_cg/4lyt_ph6/4lyt.txt"},
 //      {"add_particles_of_type0", "2"}}},
 //    {"Potential", {{"Model", "ModelTwoBodyFactory"}, {"model0", "HardSphere"}, {"model1", "LennardJones"}, {"model2", "DebyeHuckel"}, {"kappa", str(kappa)}, {"dielectric", str(dielectric_water)}, {"smoothing_distance", "2"}, {"energy_cutoff", "1e100"}}},
 //    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1."}}},

@@ -14,7 +14,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/atom.fstprt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/atom.txt',
                         help='FEASST particle definition')
     parser.add_argument('--num_particles', type=int, default=128, help='number of particles')
     parser.add_argument('--cubic_side_length', type=float, default=8,

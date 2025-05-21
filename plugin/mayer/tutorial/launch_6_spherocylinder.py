@@ -56,7 +56,7 @@ def parse():
 
     hard_spherocylinder(length=params['aspect_ratio'] - 1,
                         diameter=1,
-                        file_name=params['prefix']+'.fstprt')
+                        file_name=params['prefix']+'.txt')
     return params, args
 
 def write_feasst_script(params, script_file):
@@ -65,7 +65,7 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed {seed}
-Configuration cubic_side_length 500 particle_type0 {prefix}.fstprt \
+Configuration cubic_side_length 500 particle_type0 {prefix}.txt \
     add_particles_of_type0 2 \
     group0 first first_particle_index 0 \
     group1 centers centers_site_type0 0

@@ -11,8 +11,8 @@ TEST(DensityProfile, serialize) {
 
 TEST(DensityProfile, dimer) {
   auto mc = MakeMonteCarlo({{
-    {"Configuration", {{"cubic_side_length", "4.5"}, {"particle_type0", "../particle/dimer.fstprt"}, {"cutoff", "1"}}},
-    //{"Configuration", {{"cubic_side_length", "4"}, {"particle_type0", "../particle/heterodimer.fstprt"}, {"cutoff", "1"}}},
+    {"Configuration", {{"cubic_side_length", "4.5"}, {"particle_type0", "../particle/dimer.txt"}, {"cutoff", "1"}}},
+    //{"Configuration", {{"cubic_side_length", "4"}, {"particle_type0", "../particle/heterodimer.txt"}, {"cutoff", "1"}}},
     {"Potential", {{"VisitModel", "DontVisitModel"}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1"}}},
     {"Metropolis", {{}}},

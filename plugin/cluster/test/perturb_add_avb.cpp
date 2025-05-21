@@ -18,7 +18,7 @@ TEST(PerturbAddAVB, gce_add) {
   System system;
   {
     auto config = MakeConfiguration({{"cubic_side_length", "8"},
-      {"particle_type", "../particle/lj.fstprt"},
+      {"particle_type", "../particle/lj.txt"},
       {"add_particles_of_type0", "1"}});
     config->update_positions({{0, 0, 0}});
     system.add(config);

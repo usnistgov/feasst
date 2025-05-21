@@ -8,7 +8,7 @@ using namespace feasst;
 System lj_system(const double cutoff) {
   System system;
   std::stringstream particle;
-  particle << install_dir() << "/particle/lj.fstprt";
+  particle << install_dir() << "/particle/lj.txt";
   Configuration config(
       MakeDomain({{"cubic_side_length", str(2.*cutoff)}}),
       {{"particle_type", particle.str()}});
