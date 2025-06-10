@@ -197,7 +197,7 @@ int Random::index_from_cumulative_probability(
   if (std::abs(cumulative.back() - 1) <= NEAR_ZERO) {
     return static_cast<int>(cumulative.size()) - 1;
   }
-  ERROR("This should never ever EVER happen!");
+  ERROR("This should never happen. Please submit this as an issue to the developers.");
   return -1;
 }
 

@@ -53,8 +53,8 @@
 
 Site Properties
 
-0 sigma 2.757 epsilon 0.2338775189860325 cutoff 14.0 charge  0.6512 cutoff_outer 1.149
-1 sigma 3.033 epsilon 0.669372441999663 cutoff 14.0 charge -0.3256 cutoff_outer 1.149
+0 sigma=2.757 epsilon=0.2338775189860325 cutoff=14.0 charge=0.6512 cutoff_outer=1.149
+1 sigma=3.033 epsilon=0.669372441999663 cutoff=14.0 charge=-0.3256 cutoff_outer=1.149
 
 Sites
 

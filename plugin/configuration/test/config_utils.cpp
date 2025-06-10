@@ -7,7 +7,7 @@
 namespace feasst {
 
 Configuration lj_sample4() {
-  return *MakeConfiguration({{"particle_type0", "../particle/lj.txt"},
+  return *MakeConfiguration({{"particle_type", "../particle/lj.txt"},
     {"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"}});
 }
 

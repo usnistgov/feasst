@@ -111,7 +111,7 @@ class Prefetch : public MonteCarlo {
   /// Run a number of trials.
   void run_num_trials(int num_trials) override;
   void run_until_num_particles(const int num_particles,
-                               const int particle_type,
+                               const std::string& particle_type,
                                const int configuration_index) override;
   void run_until_file_exists(const std::string& file_name,
                              const int trials_per_file_check) override;

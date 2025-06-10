@@ -76,41 +76,42 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {prefix}_small.txt \
-    particle_type1 {prefix}_large.txt \
-    group0 centers centers_site_type0 0 centers_site_type1 2 \
-    add_particles_of_type1 2 xyz_file {prefix}_init.xyz
-Potential Model HardSphere VisitModelInner Spherocylinder group centers
-ThermoParams beta 1 chemical_potential0 -1 chemical_potential1 -1
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} \
+    particle_type=small:{prefix}_small.txt,large:{prefix}_large.txt \
+    group=centers centers_site_type=0,2 \
+    add_num_large_particles=2 xyz_file={prefix}_init.xyz
+Potential Model=HardSphere VisitModelInner=Spherocylinder group=centers
+ThermoParams beta=1 chemical_potential=-1,-1
 Metropolis
-TrialTranslate weight 1 tunable_param 2 particle_type 0
-TrialTranslate weight 1 tunable_param 0.1 particle_type 1 dimension 0
-TrialRotate weight 1 tunable_param 40 particle_type 0
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-CheckEnergy trials_per_update {tpc} tolerance 1e-4
+TrialTranslate tunable_param=2 particle_type=small
+TrialTranslate tunable_param=0.1 particle_type=large dimension=0
+TrialRotate tunable_param=40 particle_type=small
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
+CheckEnergy trials_per_update={tpc} decimal_places=6
 
 # gcmc initialization
-TrialAdd particle_type 0
-Log trials_per_write {tpc} output_file {prefix}{sim}_init.txt
+TrialAdd particle_type=small
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_init.txt
 Tune
-Run until_num_particles {num_particles}
-Remove name0 TrialAdd name1 Log
+Run until_num_particles={num_particles}
+Remove name=TrialAdd,Log
 
 # nvt equilibration
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}_eq.xyz
-Run until complete
-Remove name0 Tune name1 Log name2 Movie
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
+Log [write]_eq.txt
+Movie [write]_eq.xyz
+Run until=complete
+Remove name=Tune,Log,Movie
 
 # nvt production
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production}
-Log trials_per_write {tpc} output_file {prefix}{sim}.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
-MovieSpherocylinder trials_per_write {tpc} output_file {prefix}{sim}c.xyz
-Energy trials_per_write {tpc} output_file {prefix}{sim}_en.txt
-Run until complete
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production}
+Log [write].txt
+Movie [write].xyz
+MovieSpherocylinder [write]c.xyz
+Energy [write]_en.txt
+Run until=complete
 """.format(**params))
 
 def post_process(params):

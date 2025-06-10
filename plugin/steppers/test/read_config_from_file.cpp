@@ -15,7 +15,7 @@ TEST(ReadConfigFromFile, test) {
       {"xyz_euler_file", "../plugin/steppers/test/data/nvt0.xyze"},
     }},
     {"Potential", {{"VisitModel", "DontVisitModel"}}},
-    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1"}}},
     {"Metropolis", {{}}},
     {"ReadConfigFromFile", {{"input_file", "../plugin/steppers/test/data/nvt0.xyze"}, {"euler", "true"}}},
   }}, true);

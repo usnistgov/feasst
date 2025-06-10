@@ -16,8 +16,6 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
-                        help='FEASST particle definition')
     parser.add_argument('--pdb_file', type=str, default="../../../pyfeasst/tests/1igt.pdb",
                         help='pdb file that describes a mAb')
     parser.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle, but not necessary num_particles')
@@ -171,34 +169,32 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length 200 particle_type0 1igt_{domain}.txt \
-    add_particles_of_type0 2 \
-    group0 first first_particle_index 0 \
-    group1 com com_site_type 5
-Potential Model HardSphere VisitModel VisitModelCell min_length 3.9 energy_cutoff 1e100
-RefPotential Model HardSphere sigma0 0 sigma1 0 sigma2 0 sigma3 0 sigma4 0 sigma5 30 cutoff0 0 cutoff1 0 cutoff2 0 cutoff3 0 cutoff4 0 cutoff5 30 group com
-ThermoParams beta 1
-MayerSampling trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
-TrialTranslate new_only true reference_index 0 tunable_param 1 group first
-TrialRotate new_only true reference_index 0 tunable_param 40
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-set_variable trials_per 1e4
+RandomMT19937 seed={seed}
+Configuration cubic_side_length=200 particle_type=domain:1igt_{domain}.txt add_num_domain_particles 2 \
+    group=first,com first_particle_index=0 com_site_type=5
+Potential Model=HardSphere VisitModel=VisitModelCell min_length=3.9 energy_cutoff=1e100
+RefPotential Model=HardSphere sigma=0 sigma5=30 cutoff=0 cutoff5=30 group=com
+ThermoParams beta=1
+MayerSampling trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
+TrialTranslate new_only=true reference_index=0 tunable_param=1 group=first
+TrialRotate new_only=true reference_index=0 tunable_param=40
+Checkpoint checkpoint_file={prefix}_{domain}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # tune trial parameters
-CriteriaWriter trials_per_write trials_per output_file {prefix}_{domain}_b2_eq.txt
-#Log trials_per_write trials_per output_file {prefix}_{domain}_eq.txt
-#Movie trials_per_write trials_per output_file {prefix}_{domain}_eq.xyz
+Let [write]=trials_per_write={tpc} output_file={prefix}_{domain}
+#Log [write]_eq.csv
+#Movie [write]_eq.xyz
+CriteriaWriter [write]_b2_eq.csv
 Tune
-Run until complete
-Remove name Tune
+Run until=complete
+Remove name=Tune
 
 # production
-CriteriaWriter trials_per_write trials_per output_file {prefix}_{domain}_b2.txt
-#Log trials_per_write trials_per output_file {prefix}_{domain}.txt
-#Movie trials_per_write trials_per output_file {prefix}_{domain}.xyz
-MayerSampling trials_per_cycle {tpc} cycles_to_complete {production_cycles}
-Run until complete
+#Log [write].csv
+#Movie [write].xyz
+CriteriaWriter [write]_b2.csv
+MayerSampling trials_per_cycle={tpc} cycles_to_complete={production_cycles}
+Run until=complete
 """.format(**params))
 
 def post_process(params):
@@ -209,23 +205,23 @@ def post_process(params):
         exec('iprm=' + lines[0], globals())
         return iprm
     b2hs_ref = 2*np.pi*3**3/3 # sigma=3 nanometer reference HS
-    fc = b2(params['prefix']+'_fc_b2.txt')
+    fc = b2(params['prefix']+'_fc_b2.csv')
     print('fc', fc['second_virial_ratio']*b2hs_ref, '+/-', fc['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 527.87 ± 1.91')
-    fab1 = b2(params['prefix']+'_fab1_b2.txt')
+    fab1 = b2(params['prefix']+'_fab1_b2.csv')
     print('fab1', fab1['second_virial_ratio']*b2hs_ref, '+/-', fab1['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 443.20 ± 0.26')
-    fab2 = b2(params['prefix']+'_fab2_b2.txt')
+    fab2 = b2(params['prefix']+'_fab2_b2.csv')
     print('fab2', fab2['second_virial_ratio']*b2hs_ref, '+/-', fab2['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 443.20 ± 0.26')
-    fv1 = b2(params['prefix']+'_fv1_b2.txt')
+    fv1 = b2(params['prefix']+'_fv1_b2.csv')
     print('fv1', fv1['second_virial_ratio']*b2hs_ref, '+/-', fv1['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 208.13 ± 018')
-    fv2 = b2(params['prefix']+'_fv2_b2.txt')
+    fv2 = b2(params['prefix']+'_fv2_b2.csv')
     print('fv2', fv2['second_virial_ratio']*b2hs_ref, '+/-', fv2['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 208.13 ± 018')
-    ch1_1 = b2(params['prefix']+'_ch1_1_b2.txt')
+    ch1_1 = b2(params['prefix']+'_ch1_1_b2.csv')
     print('ch1_1', ch1_1['second_virial_ratio']*b2hs_ref, '+/-', ch1_1['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 179.09 ± 0.06')
-    ch1_2 = b2(params['prefix']+'_ch1_2_b2.txt')
+    ch1_2 = b2(params['prefix']+'_ch1_2_b2.csv')
     print('ch1_2', ch1_2['second_virial_ratio']*b2hs_ref, '+/-', ch1_2['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 179.09 ± 0.06')
-    ch2 = b2(params['prefix']+'_ch2_b2.txt')
+    ch2 = b2(params['prefix']+'_ch2_b2.csv')
     print('ch2', ch2['second_virial_ratio']*b2hs_ref, '+/-', ch2['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 316.83 ± 0.62')
-    ch3 = b2(params['prefix']+'_ch3_b2.txt')
+    ch3 = b2(params['prefix']+'_ch3_b2.csv')
     print('ch3', ch3['second_virial_ratio']*b2hs_ref, '+/-', ch3['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 196.05 ± 0.14')
 
 if __name__ == '__main__':

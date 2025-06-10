@@ -21,7 +21,7 @@ SelectParticleAVBDivalent::SelectParticleAVBDivalent(argtype args)
   // initialize select_mobile_
   argtype mobile_args;
   mobile_args.insert({"load_coordinates", "true"});
-  mobile_args.insert({"particle_type", str(particle_type())});
+  mobile_args.insert({"particle_type", str(particle_type_name())});
   mobile_args.insert({"site", str("site_name", &args, "0")});
   mobile_args.insert({"ghost", str("ghost", &args)});
   select_mobile_ = TrialSelectParticle(mobile_args);

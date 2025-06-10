@@ -12,7 +12,7 @@ TEST(VisitModelIntra, energy) {
     {"particle_type", "../particle/chain10.txt"},
     {"add_particles_of_type0", "1"}});
   LennardJones model;
-  model.precompute(config->model_params());
+  model.precompute(*config);
   // don't compute intraparticle interactions between bonded sites.
   auto visit = MakeVisitModelIntra({{"intra_cut", "1"}});
   visit->precompute(config.get());

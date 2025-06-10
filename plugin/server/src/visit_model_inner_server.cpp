@@ -18,16 +18,24 @@ namespace feasst {
 VisitModelInnerServer::VisitModelInnerServer(argtype * args) : VisitModelInner(args) {
   class_name_ = "VisitModelInnerServer";
   server_ = std::make_unique<Server>(args);
-  int type = 0;
-  std::string start = "server_site";
-  std::stringstream key;
-  key << start << type;
-  while (used(key.str(), *args)) {
-    site_types_.push_back(integer(key.str(), args));
-    ++type;
-    ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
-    key.str("");
+  const std::string names = str("server_sites", args, "");
+  if (names.empty()) {
+    WARN("Deprecate VisitModelInnerServer::server_site[i]->server_sites.");
+    int type = 0;
+    std::string start = "server_site";
+    std::stringstream key;
     key << start << type;
+    while (used(key.str(), *args)) {
+      site_type_names_.push_back(str(key.str(), args));
+      ++type;
+      ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
+      key.str("");
+      key << start << type;
+    }
+  } else {
+    for (const std::string& name : split(names, ',')) {
+      site_type_names_.push_back(name);
+    }
   }
 }
 VisitModelInnerServer::VisitModelInnerServer(argtype args) : VisitModelInnerServer(&args) {
@@ -40,10 +48,9 @@ void VisitModelInnerServer::precompute(Configuration * config) {
   aniso_index_ = config->model_params().index("anisotropic");
   DEBUG("aniso_index_ " << aniso_index_);
   t2index_.resize(config->num_site_types(), -1);
-  for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
-    const int type1 = site_types_[t1];
-    ASSERT(type1 < config->num_site_types(),"site type: " << type1 <<
-      " in table > number of site types:" << config->num_site_types());
+  for (int t1 = 0; t1 < static_cast<int>(site_type_names_.size()); ++t1) {
+    const std::string& stname = site_type_names_[t1];
+    const int type1 = config->site_type_name_to_index(stname);
     t2index_[type1] = t1;
   }
 }
@@ -194,12 +201,16 @@ void VisitModelInnerServer::compute(
              site2_index, type2, squared_distance, pbc, is_old_config, *config);
 }
 
-FEASST_MAPPER(VisitModelInnerServer,);
+FEASST_MAPPER(VisitModelInnerServer, argtype({{"server_sites", "0"}}));
 
 VisitModelInnerServer::VisitModelInnerServer(std::istream& istr) : VisitModelInner(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 2670, "unrecognized version: " << version);
+  ASSERT(version >= 2670 && version <= 2671, "unrecognized version: " << version);
   feasst_deserialize(&aniso_index_, istr);
+  if (version >= 2671) {
+    feasst_deserialize(&t2index_, istr);
+    feasst_deserialize(&site_type_names_, istr);
+  }
   feasst_deserialize(server_, istr);
 //  feasst_deserialize2(std::move(server_), istr);
   //HWH for unknown reasons, this does not deserialize properly
@@ -214,8 +225,10 @@ VisitModelInnerServer::VisitModelInnerServer(std::istream& istr) : VisitModelInn
 void VisitModelInnerServer::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_inner_(ostr);
-  feasst_serialize_version(2670, ostr);
+  feasst_serialize_version(2671, ostr);
   feasst_serialize(aniso_index_, ostr);
+  feasst_serialize(t2index_, ostr);
+  feasst_serialize(site_type_names_, ostr);
   feasst_serialize(server_, ostr);
 }
 

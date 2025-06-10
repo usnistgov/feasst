@@ -10,30 +10,41 @@ TwoBodyAlpha::TwoBodyAlpha(argtype * args) {
   class_name_ = "TwoBodyAlpha";
 
   DEBUG("parse alpha and s");
-  std::string start;
-  std::stringstream key;
-  start.assign("alpha");
-  int index = 0;
-  key << start << index;
-  DEBUG("key " << key.str());
-  while (used(key.str(), *args)) {
-    alpha_.push_back(dble(key.str(), args));
-    key.str("");
-    key << "s" << index;
-    DEBUG("key " << key.str());
-    s_.push_back(dble(key.str(), args));
-    ++index;
-    key.str("");
+  for (const std::string& alpha : split(str("alpha", args, ""), ',')) {
+    alpha_.push_back(str_to_double(alpha));
+  }
+  for (const std::string& s : split(str("s", args, ""), ',')) {
+    s_.push_back(str_to_double(s));
+  }
+  ASSERT(alpha_.size() == s_.size(), "The number of comma-separated alpha:" <<
+    alpha_.size() << " should equal the number of comma-separated s:" << s_.size());
+  if (alpha_.size() == 0) {
+    WARN("Deprecated TwoBodyAlpha::alpha0 -> alpha");
+    std::string start;
+    std::stringstream key;
+    start.assign("alpha");
+    int index = 0;
     key << start << index;
     DEBUG("key " << key.str());
-    DEBUG("args " << str(*args));
+    while (used(key.str(), *args)) {
+      alpha_.push_back(dble(key.str(), args));
+      key.str("");
+      key << "s" << index;
+      DEBUG("key " << key.str());
+      s_.push_back(dble(key.str(), args));
+      ++index;
+      key.str("");
+      key << start << index;
+      DEBUG("key " << key.str());
+      DEBUG("args " << str(*args));
+    }
   }
 }
 TwoBodyAlpha::TwoBodyAlpha(argtype args) : TwoBodyAlpha(&args) {
   feasst_check_all_used(args);
 }
 
-FEASST_MAPPER(TwoBodyAlpha, argtype({{"alpha0", "1"}, {"s0", "1"}}));
+FEASST_MAPPER(TwoBodyAlpha, argtype({{"alpha", "1"}, {"s", "1"}}));
 
 void TwoBodyAlpha::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

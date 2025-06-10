@@ -17,8 +17,14 @@ Supertoroid::Supertoroid(argtype * args) : Shape() {
   a4_ = dble("a4", args, 0);
   epsilon1_ = dble("epsilon1", args, 1);
   epsilon2_ = dble("epsilon2", args, 1);
-  if (used("center", *args)) {
-    center_ = Position(parse_dimensional(str("center", args), args, 4));
+  const std::string center = str("center", args, "");
+  if (!center.empty()) {
+    if (is_found_in(center, ",")) {
+      center_ = Position({{"csv", center}});
+    } else {
+      WARN("Deprecate Supertoroid::center without comma-separated values.");
+      center_ = Position(parse_dimensional(center, args, 4));
+    }
   } else {
     center_ = Position({0, 0, 0});
   }

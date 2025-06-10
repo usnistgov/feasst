@@ -16,7 +16,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/spce.txt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/spce_new.txt',
         help='FEASST particle definition')
     parser.add_argument('--temperature', type=float, default=298, help='temperature in Kelvin')
     parser.add_argument('--num_particles', type=int, default=512, help='number of particles')
@@ -64,47 +64,48 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} physical_constants CODATA2010 cutoff {cutoff}
-Potential VisitModel Ewald alpha {alpha} kmax_squared 38
-Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened VisitModel VisitModelCutoffOuter erfc_table_size 2e4
-Potential Model ChargeScreenedIntra VisitModel VisitModelBond
-Potential Model ChargeSelf
-Potential VisitModel LongRangeCorrections
-ThermoParams beta {beta} chemical_potential 1
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=spce:{fstprt} physical_constants=CODATA2010 cutoff={cutoff}
+Potential VisitModel=Ewald alpha={alpha} kmax_squared=38
+Potential Model=ModelTwoBodyFactory models=LennardJones,ChargeScreened VisitModel=VisitModelCutoffOuter erfc_table_size=2e4
+Potential Model=ChargeScreenedIntra VisitModel=VisitModelBond
+Potential Model=ChargeSelf
+Potential VisitModel=LongRangeCorrections
+ThermoParams beta={beta} chemical_potential=1
 Metropolis
-TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
-TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+TrialTranslate weight=0.5 tunable_param=2
+TrialParticlePivot weight=0.5 particle_type=spce tunable_param=0.5
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # grand canonical ensemble initalization
-TrialAdd particle_type 0
-Run until_num_particles {num_particles}
-Remove name TrialAdd
+TrialAdd particle_type=spce
+Run until_num_particles={num_particles}
+Remove name=TrialAdd
 
 # canonical ensemble equilibration
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
 Tune
-CheckEnergy trials_per_update {tpc} decimal_places 8
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
-Run until complete
-Remove name0 Tune name1 Log
+CheckEnergy trials_per_update={tpc} decimal_places=8
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_eq.csv
+Run until=complete
+Remove name=Tune,Log
 
 # canonical ensemble production
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production}
-Log trials_per_write {tpc} output_file {prefix}{sim}.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
-Energy trials_per_write {tpc} output_file {prefix}{sim}_en.txt
-CPUTime trials_per_write {tpc} output_file {prefix}{sim}_cpu.txt
-Run until complete
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production}
+Log [write].csv
+Movie [write].xyz
+Energy [write]_en.csv
+CPUTime [write]_cpu.txt
+Run until=complete
 """.format(**params))
 
 def post_process(params):
     """ Approximately compare energy with https://doi.org/10.1063/1.476834 """
     if params['num_sims'] == 1: # compare energy
-        log = pd.read_csv(params['prefix']+'0.txt')
-        assert int(log['num_particles_of_type0'][0]) == params['num_particles']
-        energy = pd.read_csv(params['prefix']+'0_en.txt')
+        log = pd.read_csv(params['prefix']+'000.csv')
+        assert int(log['num_particles_spce'][0]) == params['num_particles']
+        energy = pd.read_csv(params['prefix']+'000_en.csv')
         diff = energy['average'][0] - (-46.82)*params['num_particles']
         assert np.abs(diff) < 20*np.sqrt(energy['block_stdev'][0]**2 + (0.02*params['num_particles'])**2)
 

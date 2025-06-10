@@ -14,7 +14,7 @@ TEST(DensityProfile, dimer) {
     {"Configuration", {{"cubic_side_length", "4.5"}, {"particle_type0", "../particle/dimer.txt"}, {"cutoff", "1"}}},
     //{"Configuration", {{"cubic_side_length", "4"}, {"particle_type0", "../particle/heterodimer.txt"}, {"cutoff", "1"}}},
     {"Potential", {{"VisitModel", "DontVisitModel"}}},
-    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1"}}},
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"tunable_param", "3"}}},
     {"TrialParticlePivot", {{"particle_type", "0"}, {"tunable_param", "3"}}},

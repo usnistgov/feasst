@@ -19,12 +19,12 @@ class TrialMorph : public Trial {
  public:
   //@{
   /** @name Arguments
-    - particle_type[i]: type of particle that will be morphed.
-      The [i] represents each of the particles being morphed, and
-      is to be substituted for an integer starting with 0, 1, 2, ...
-    - particle_type_morph[i]: type of particle to morph into.
-      The [i] is to be substituted for an integer 0, 1, 2, ...
-      Each [i] should have a corresponding particle_type[i] argument.
+    - particle_type: name of particle type that will be morphed.
+      Multiple types can be given with comma-separated.
+    - particle_type_morph: name of particle type to morph into.
+      Multiple arguments must correspond with the above.
+      For example, "particle_type 1,2 particle_type_morph 3,4"
+      changes 1->2 and 3->4.
     - Trial arguments.
     - TrialSelectParticle arguments (but particle_type is specified as above).
    */

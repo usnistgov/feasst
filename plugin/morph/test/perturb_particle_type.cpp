@@ -17,7 +17,7 @@ TEST(PerturbParticleType, serialize) {
   {
     auto config = MakeConfiguration({{"cubic_side_length", "8"},
       {"particle_type0", "../particle/lj.txt"}});
-    config->add_particle_type("../particle/lj.txt", "sig0.25");
+    config->add_particle_type("../particle/lj.txt");
     config->add_particle_of_type(0);
     config->add_particle_of_type(0);
     config->set_model_param("sigma", 1, 0.25);
@@ -31,7 +31,10 @@ TEST(PerturbParticleType, serialize) {
   }
   sys.add(MakePotential(MakeLennardJones()));
   const Configuration& config = sys.configuration();
+  auto select = MakeTrialSelectParticle({{"particle_type", "0"}});
+  select->precompute(&sys);
   auto morph = MakePerturbParticleType({{"type", "1"}});
+  morph->precompute(select.get(), &sys);
   PerturbParticleType morph2 = test_serialize(*morph);
   EXPECT_EQ(config.particle(0).type(), 0);
   EXPECT_EQ(config.particle(0).site(0).type(), 0);
@@ -41,8 +44,6 @@ TEST(PerturbParticleType, serialize) {
   EXPECT_EQ(config.group_select(1).num_particles(), 2);
   EXPECT_EQ(config.group_select(2).num_particles(), 0);
   auto random = MakeRandomMT19937();
-  auto select = MakeTrialSelectParticle({{"particle_type", "0"}});
-  select->precompute(&sys);
   select->sel(&sys, random.get());
   EXPECT_NEAR(sys.energy(), -0.142661179698217000, NEAR_ZERO);
   morph2.perturb(&sys, select.get(), random.get());
@@ -84,6 +85,7 @@ TEST(PerturbParticleType, ewald) {
   auto random = MakeRandomMT19937();
   select->sel(&sys, random.get());
   auto morph = MakePerturbParticleType({{"type", "1"}});
+  morph->precompute(select.get(), &sys);
   const double en_old = sys.perturbed_energy(select->mobile());
   morph->perturb(&sys, select.get(), random.get());
   select->set_trial_state(1);

@@ -15,7 +15,7 @@ TEST(WriteStepper, fh) {
     {"Configuration", {{"particle_type0", "../particle/atom.txt"},
                        {"cubic_side_length", "8"}}},
     {"Potential", {{"Model", "IdealGas"}}},
-    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1"}}},
     {"FlatHistogram", {{"Macrostate", "MacrostateNumParticles"}, {"width", "1"}, {"max", "4"}, {"min", "0"}, {"Bias", "TransitionMatrix"}, {"min_sweeps", "2"}}},
     {"TrialTransfer", {{"particle_type", "0"}}},
     {"CriteriaUpdater", {{"trials_per_update", "1e2"}}},

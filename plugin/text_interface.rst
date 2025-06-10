@@ -349,9 +349,23 @@ v0.25.12 to v0.25.13
 -----------------------
 
 * FEASST particle (fstprt) files now use strings instead of integers to represent sites, bonds, angles and dihedrals. Previous use of integers is still backwards compatible.
-* TrialSelect, Group and NeighborIndex also use names instead of integers
+* Copy[Following,Next]Line::replace0/with0 deprecated. Use For.
+* Configuration::[parameter][i][j] replace with site type names
+* Configuration::particle_type,group csv
+* Configuration::add_particles_of_type[i]->add_num_[name]_particles
+* Cuboid::site_length[i]->side_lengths csv
+* Domain::side_length,periodic csv
+* Group::site_type,particle_type,particle_index csv
+* ModelTwoBodyFactory::model[i]->models csv
+* Position::x,y,z->csv
 * SelectParticleAVBDivalent::site_index->site_name
 * SelectParticleAVBDivalent::target_site_index->target_site_name
+* Remove::name,name_contains csv
+* ThermoParams::chemical_potential csv
+* Trial[Add,Remove,Transfer]Multiple::particle_type csv
+* TrialMorph::particle_type,particle_type_morph csv
+* VisitModelInnerServer::server_site[i]->server_sites csv
+* TrialSelect, Group and NeighborIndex,  also use names instead of integers
 
 v0.25.11 to v0.25.12
 -----------------------

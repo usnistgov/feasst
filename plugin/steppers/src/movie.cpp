@@ -12,7 +12,7 @@ FEASST_MAPPER(Movie, argtype({{"output_file", "place_holder"}}));
 
 Movie::Movie(argtype * args) : AnalyzeWriteOnly(args) {
   set_append();
-  ASSERT(!output_file().empty(), "file name is required");
+  ASSERT(!output_file().empty(), "output_file argument is required");
   args->insert({"append", "true"}); // always append
   xyz_ = std::make_unique<FileXYZ>(args);
   vmd_ = std::make_unique<FileVMD>(args);
@@ -23,7 +23,7 @@ Movie::~Movie() {}
 void Movie::initialize(MonteCarlo * mc) {
   const System& system = mc->system();
   const std::string name = output_file(mc->criteria());
-  ASSERT(!name.empty(), "file name required. Did you forget to " <<
+  ASSERT(!name.empty(), "output_file argument is required. Did you forget to " <<
     "Analyze::set_output_file()?");
 
   // write xyz

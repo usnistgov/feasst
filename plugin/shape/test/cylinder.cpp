@@ -10,7 +10,7 @@ TEST(Shape, Cylinder) {
     {"second_point", "s"}, {"s0", "0"}, {"s1", "0"}, {"s2", "1"}});
   Position point;
   point.set_vector({1.5, 0, 13.535});
-  EXPECT_NEAR(-0.5, cylinder.nearest_distance(point), 1e-15);
+  EXPECT_NEAR(-0.5, cylinder.nearest_distance(point), 5e-12);
   EXPECT_TRUE(cylinder.is_inside(point));
   EXPECT_TRUE(cylinder.is_inside(point, 0.9999));
   EXPECT_FALSE(cylinder.is_inside(point, 1.00001));

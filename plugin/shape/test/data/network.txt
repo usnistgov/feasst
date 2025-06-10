@@ -1,4 +1,4 @@
 Sphere radius 5
-union Cylinder radius 2 first_point f f0 0 f1 0 f2 0 second_point s s0 0 s1 0 s2 1
-union Cylinder radius 2 first_point f f0 0 f1 0 f2 0 second_point s s0 0 s1 1 s2 0
-union Cylinder radius 2 first_point f f0 0 f1 0 f2 0 second_point s s0 1 s1 0 s2 0
+union Cylinder radius=2 first_point=0,0,0 second_point=0,0,1
+union Cylinder radius=2 first_point=0,0,0 second_point=0,1,0
+union Cylinder radius=2 first_point=0,0,0 second_point=1,0,0

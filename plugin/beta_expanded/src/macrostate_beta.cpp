@@ -46,7 +46,7 @@ void MacrostateBeta::serialize(std::ostream& ostr) const {
 
 double MacrostateBeta::value(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const {
+    const Acceptance& acceptance) {
   return system.thermo_params().beta();
 }
 

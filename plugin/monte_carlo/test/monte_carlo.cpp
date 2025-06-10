@@ -308,7 +308,7 @@ TEST(MonteCarlo, lj_npt) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"cubic_side_length", "8"}, {"particle_type", "../particle/atom.txt"}}},
     {"Potential", {{"Model", "LennardJones"}}},
-    {"ThermoParams", {{"beta", str(beta)}, {"pressure", str(pressure)}, {"chemical_potential0", "-1"}}},
+    {"ThermoParams", {{"beta", str(beta)}, {"pressure", str(pressure)}, {"chemical_potential", "-1"}}},
     {"Metropolis", {{}}},
     {"TrialTranslate", {{}}},
     {"CheckEnergy", {{"trials_per_update", trials_per}, {"tolerance", "1e-4"}}},
@@ -456,7 +456,7 @@ TEST(MonteCarlo, arglist) {
     {"ThermoParams", {{"beta", "1.2"}}},
     {"Remove", {{"name", "TrialAdd"}}},
     {"Run", {{"num_trials", str(1e3)}}},
-    {"Remove", {{"name0", "Tune"}}},
+    {"Remove", {{"name", "Tune"}}},
     {"Run", {{"num_trials", str(1e3)}}},
     {"WriteCheckpoint", {{}}},
   }}, true);
@@ -485,11 +485,11 @@ TEST(MonteCarlo, arglist) {
 
 TEST(MonteCarlo, gen_5_spce_in_triclinic) {
   auto mc = MakeMonteCarlo({{
-    {"Configuration", {{"side_length0", "22"}, {"side_length1", "22"}, {"side_length2", "22"},
+    {"Configuration", {{"side_length", "22,22,22"},
       {"xy", "4"}, {"yz", "4"}, {"xz", "4"},
       {"particle_type0", "../particle/spce.txt"}}},
     {"Potential", {{"Model", "LennardJones"}}},
-    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "-1"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "-1"}}},
     {"Metropolis", {{}}},
     {"TrialAdd", {{"particle_type", "0"}}},
     {"Run", {{"until_num_particles", "5"}}},
@@ -500,7 +500,7 @@ TEST(MonteCarlo, gen_5_spce_in_triclinic) {
 TEST(MonteCarlo, group_in_arglist) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
-      {"particle_type0", "../particle/lj.txt"}, {"group0", "first"}, {"first_particle_index", "0"}}},
+      {"particle_type", "lj:../particle/lj.txt"}, {"group0", "first"}, {"first_particle_index", "0"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"ThermoParams", {{"beta", "1.2"}, {"chemical_potential", "1."}}},
     {"Metropolis", {{}}},
@@ -555,7 +555,7 @@ TEST(MonteCarlo, weight_per_number_fraction_no_particle_type) {
       {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.txt"},
                                                      {"particle_type1", "../particle/lj.txt"}}},
       {"Potential", {{"Model", "LennardJones"}}},
-      {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1."}, {"chemical_potential1", "1."}}},
+      {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1,1"}}},
       {"Metropolis", {{}}},
       {"TrialTranslate", {{"weight_per_number_fraction", "1."}, {"tunable_param", "1."}}},
       {"TrialTransfer", {{"particle_type", "0"}}},
@@ -576,7 +576,7 @@ TEST(MonteCarlo, weight_per_number_fraction_on_add) {
       {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.txt"},
                                                      {"particle_type1", "../particle/lj.txt"}}},
       {"Potential", {{"Model", "LennardJones"}}},
-      {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1."}, {"chemical_potential1", "1."}}},
+      {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1,1"}}},
       {"Metropolis", {{}}},
       {"TrialTranslate", {{"weight_per_number_fraction", "1."}, {"particle_type", "0"}}},
       {"TrialTranslate", {{"weight_per_number_fraction", "1."}, {"particle_type", "1"}}},
@@ -599,7 +599,7 @@ TEST(MonteCarlo, weight_per_number_fraction) {
                                                    {"particle_type2", "../particle/lj.txt"},
                                                    {"add_particles_of_type2", "1"}}},
     {"Potential", {{"Model", "LennardJones"}}},
-    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1."}, {"chemical_potential1", "1."}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1,1"}}},
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"weight_per_number_fraction", "1."}, {"particle_type", "0"}, {"number_fraction_exclude_type", "2"}}},
     {"TrialTranslate", {{"weight_per_number_fraction", "1."}, {"particle_type", "1"}, {"number_fraction_exclude_type", "2"}}},

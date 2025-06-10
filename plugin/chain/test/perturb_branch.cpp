@@ -24,13 +24,13 @@ TEST(PerturbBranch, tip4p) {
 TEST(MonteCarlo, tip4p) {
   auto mc = MakeMonteCarlo({{
     //{"RandomMT19937", {{"seed", "123"}}},
-    {"Configuration", {{"particle_type0", "../plugin/charge/particle/tip4p.txt"},
-      {"cubic_side_length", "20"}, {"add_particles_of_type0", "1"}}},
+    {"Configuration", {{"particle_type", "tip4p:../plugin/charge/particle/tip4p.txt"},
+      {"cubic_side_length", "20"}, {"add_num_tip4p_particles", "1"}}},
     {"Potential", {{"Model", "HardSphere"}, {"VisitModel", "DontVisitModel"}}},
-    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "-1"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "-1"}}},
     {"Metropolis", {{}}},
     {"TrialGrowFile", {{"grow_file", "../plugin/chain/test/data/tip4p.grow"}}},
-    {"TrialParticlePivot", {{"particle_type", "0"}}},
+    {"TrialParticlePivot", {{"particle_type", "tip4p"}}},
     {"TrialTranslate", {{}}},
 //    {"Log", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/tip4p.txt"}}},
 //    {"Movie", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/tip4p.xyz"}}},

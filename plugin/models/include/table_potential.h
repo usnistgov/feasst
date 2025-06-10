@@ -30,18 +30,18 @@ typedef std::map<std::string, std::string> argtype;
   The format of the tabular potential stored in a file is as follows.
 
   The first line should be 'site_types' followed by the number of site types
-  and then the identity of each of those site types in order of the tables
-  given below. (e.g., "site_types n i" where n is the number of site types and
-  each following number is the type of each anisotropic site.)
+  and then the name of each of those site types in order of the tables
+  given below. (e.g., "site_types 1 name" where n is the number of site types and
+  each following name is the site type name of each site.)
 
   There is a table for each unique pair of site types.
   For example, if the first line is as follows:
-  "site_types 2 1 7"
-  then the first table will be for interactions of site type 1 with
-  site type 1 (i.e., 1-1), the second table will be for 1-7 interactions,
-  and the third table will be for 7-7 interactions.
+  "site_types 2 O H"
+  then the first table will be for interactions of site type O with
+  site type O (i.e., O-O), the second table will be for O-H interactions,
+  and the third table will be for H-H interactions.
 
-  For each pair of site types, i <= j, a table is given by the following lines.
+  For each pair of site types, a table is given by the following lines.
 
   1. "gamma [value]" is the optional stretching exponential.
      If this line is not provided, then the default value of -2 is used.
@@ -66,7 +66,7 @@ class TablePotential : public ModelTwoBody {
 
   const std::vector<std::vector<Table1D> >& energy_table() const { return energy_table_; }
 
-  void precompute(const ModelParams& existing) override;
+  void precompute(const Configuration& config) override;
   double energy(
     const double squared_distance,
     const int type1,
@@ -86,6 +86,7 @@ class TablePotential : public ModelTwoBody {
   std::vector<std::vector<double> > inner_, inner_g_;
   std::vector<std::vector<double> > cutoff_g_;
   std::vector<int> site_types_;
+  std::vector<std::string> site_type_names_;
   std::vector<int> t2index_;
   std::vector<std::vector<double> > gamma_;
   std::vector<std::vector<Table1D> > energy_table_;

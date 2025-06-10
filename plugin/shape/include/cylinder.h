@@ -17,10 +17,7 @@ class Cylinder : public Shape {
   //@{
   /** @name Arguments
     - radius: radius of the cylinder.
-    - first_point: set the unique key for the first_point positions.
-      Thus, arguments of "key[i]" are expected to follow.
-      The "[i]" is to be substituted for integer dimensions 0, 1, 2, ...
-      The "[i]" are also expected to be in order, starting from 0.
+    - first_point: comma-separated values for the positions in each dimension.
     - second_point: as described for first_point.
    */
   explicit Cylinder(argtype args);

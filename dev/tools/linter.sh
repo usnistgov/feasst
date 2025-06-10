@@ -5,7 +5,20 @@
 for f in $(find . -name '*.cpp' -o -name '*.h' -o -name '*.py' -o -name '*.dot' -o -name '*.ipynb'); do
   echo $f
   #git mv $f $(sed 's/\.fstprt/\.txt/g' <<< $f)
-  sed 's/\.fstprt/\.txt/g' $f > ttmp; mv ttmp $f
+  #sed 's///' $f > ttmp; mv ttmp $f
+  #sed 's///' $f > ttmp; mv ttmp $f
+  #sed 's/Remove name0 TrialAdd name1 Log/Remove name TrialAdd,Log/' $f > ttmp; mv ttmp $f
+  #sed 's/Remove name0 Tune name1 Log/Remove name Tune,Log/' $f > ttmp; mv ttmp $f
+  #sed 's/Remove name0 TrialAdd name1 Log name2 Tune/Remove name TrialAdd,Log,Tune/' $f > ttmp; mv ttmp $f
+  #sed 's/Remove name Tune,Log name2 Movie/Remove name Tune,Log,Movie/' $f > ttmp; mv ttmp $f
+  #sed 's/Remove name0 Tune name1 Log name2 Movie/Remove name Tune,Log,Movie/' $f > ttmp; mv ttmp $f
+  #sed 's/Remove name0 GibbsInitialize name1 Tune name2 Log name3 Movie name4 Movie name5 ProfileCPU/Remove name GibbsInitialize,Tune,Log,Movie,Movie,ProfileCPU/' $f > ttmp; mv ttmp $f
+  ##sed 's/Remove name0 Tune name1 Log name2 Movie name3 Movie/Remove name Tune,Log,Movie,Movie/' $f > ttmp; mv ttmp $f
+  #sed 's/Remove name0 Tune name1 CriteriaWriter name2 Log name3 Movie/Remove name Tune,CriteriaWriter,Log,Movie/' $f > ttmp; mv ttmp $f
+  #sed 's/Remove name0 CriteriaWriter name1 Log name2 Tune/Remove name CriteriaWriter,Log,Tune/' $f > ttmp; mv ttmp $f
+  #sed 's/Remove name0 TrialAdd name1 Log name2 Tune/Remove name TrialAdd,Log,Tune/' $f > ttmp; mv ttmp $f
+  #sed 's/Remove name0 Tune name1 Log name2 Movie/Remove name Tune,Log,Movie/' $f > ttmp; mv ttmp $f
+  #sed 's/Remove name0 Tune name1 Log/Remove name Tune,Log/' $f > ttmp; mv ttmp $f
   #sed 's/get_vector(/coord(/g' $f > ttmp; mv ttmp $f
   #sed 's/get_//g' $f > ttmp; mv ttmp $f
   #sed 's/ "include/ "core\/include/' $f > ttmp; mv ttmp $f

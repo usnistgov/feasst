@@ -32,9 +32,8 @@ TrialSelect::TrialSelect(argtype * args) {
   configuration_index_ = integer("configuration_index", args, 0);
   group_index_ = 0;
   if (used("particle_type", *args)) {
-    is_particle_type_set_ = true;
-    particle_type_ = integer("particle_type", args);
-    DEBUG("particle_type " << particle_type_);
+    particle_type_name_ = str("particle_type", args);
+    DEBUG("particle_type " << particle_type_name_);
     ASSERT(!used("group_index", *args),
       "cant specify both particle type and group index");
   } else {
@@ -60,6 +59,11 @@ int TrialSelect::particle_type() const {
 void TrialSelect::precompute(System * system) {
   aniso_index_ = system->configuration().model_params().index("anisotropic");
   DEBUG("is_particle_type_set_ " << is_particle_type_set_);
+  if (!particle_type_name_.empty()) {
+    is_particle_type_set_ = true;
+    const Configuration& config = configuration(*system);
+    particle_type_ = config.particle_name_to_type(particle_type_name_);
+  }
   if (is_particle_type_set_) {
     DEBUG("particle_type " << particle_type_);
     group_index_ = get_configuration(system)->particle_type_to_group_create(
@@ -83,7 +87,7 @@ void TrialSelect::set_ghost(const bool ghost) {
   is_ghost_ = ghost;
   if (is_ghost_) {
     // ASSERT(group_index() == 0, "ghost particles cannot be selected by groups");
-    ASSERT(particle_type() >= 0, "ghost particles must be selected by type");
+    ASSERT(!particle_type_name().empty(), "ghost particles must be selected by type");
   }
 }
 
@@ -107,13 +111,14 @@ std::shared_ptr<TrialSelect> TrialSelect::deserialize(std::istream& istr) {
 }
 
 void TrialSelect::serialize_trial_select_(std::ostream& ostr) const {
-  feasst_serialize_version(275, ostr);
+  feasst_serialize_version(276, ostr);
   feasst_serialize(mobile_original_, ostr);
   feasst_serialize(mobile_, ostr);
   feasst_serialize(anchor_, ostr);
   feasst_serialize(printable_, ostr);
   feasst_serialize(group_index_, ostr);
   feasst_serialize(particle_type_, ostr);
+  feasst_serialize(particle_type_name_, ostr);
   feasst_serialize(configuration_index_, ostr);
   feasst_serialize(is_particle_type_set_, ostr);
   feasst_serialize(is_ghost_, ostr);
@@ -124,7 +129,7 @@ void TrialSelect::serialize_trial_select_(std::ostream& ostr) const {
 TrialSelect::TrialSelect(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 273 && version <= 275, "mismatch version: " << version);
+  ASSERT(version >= 273 && version <= 276, "mismatch version: " << version);
 //  feasst_deserialize(mobile_original_, istr);
 // HWH for unknown reasons, this function template does not work.
   {
@@ -157,6 +162,9 @@ TrialSelect::TrialSelect(std::istream& istr) {
   }
   feasst_deserialize(&group_index_, istr);
   feasst_deserialize(&particle_type_, istr);
+  if (version >= 276) {
+    feasst_deserialize(&particle_type_name_, istr);
+  }
   if (version >= 274) {
     feasst_deserialize(&configuration_index_, istr);
   }

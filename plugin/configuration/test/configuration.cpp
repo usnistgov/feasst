@@ -15,12 +15,8 @@ TEST(Configuration, type_to_file_name) {
       "../plugin/configuration/test/data/spce.txt.new",
       "../plugin/configuration/test/data/spce.txt.old"}) {
     INFO(spce);
-    Configuration config({
-      {"particle_type0", "../particle/atom.txt"},
-      {"particle_type1", "../particle/lj.txt"},
-      {"particle_type2", "../particle/" + spce},
-      {"particle_type3", "../particle/lj.txt"},
-    });
+    Configuration config({{"particle_type", "../particle/atom.txt,../particle/lj.txt,../particle/"+spce+",../particle/lj.txt"}});
+    //Configuration config(argtype({{"particle_type", "../particle/atom.txt,../particle/lj.txt,../particle/"+spce+",../particle/lj.txt"}}));
     //std::stringstream ss;
     //config.serialize(ss);
     //INFO(ss.str());
@@ -34,9 +30,10 @@ TEST(Configuration, type_to_file_name) {
     EXPECT_EQ("../particle/lj.txt", config.type_to_file_name(1));
     EXPECT_EQ("../particle/" + spce, config.type_to_file_name(2));
 
-    config.add_particle_type("../particle/lj.txt", "2");
+    config.add_particle_type("../particle/lj.txt");
     EXPECT_EQ(5, config.num_particle_types());
-    EXPECT_EQ("../particle/lj.txt2", config.type_to_file_name(4));
+    EXPECT_EQ("../particle/lj.txt", config.type_to_file_name(4));
+    EXPECT_EQ("4", config.particle_type_to_name(4));
 
     EXPECT_EQ(6, config.num_site_types());
     EXPECT_EQ(0, config.site_type_to_particle_type(0));
@@ -61,6 +58,7 @@ TEST(Configuration, type_to_file_name) {
     EXPECT_NEAR(config.unique_type(2, 3).position().coord(0), 1., NEAR_ZERO);
     EXPECT_EQ("0", config.site_type_to_name(0));
     EXPECT_EQ("1", config.site_type_to_name(1));
+    EXPECT_EQ("1", config.site_index_to_name(1, 0));
     if (spce == "spce.txt" ||
         spce == "../plugin/configuration/test/data/spce.txt.old") {
       EXPECT_EQ("4", config.site_type_to_name(4));
@@ -92,6 +90,7 @@ TEST(Configuration, type_to_file_name) {
     } else if (spce ==  "../plugin/configuration/test/data/spce.txt.new") {
       EXPECT_EQ("O", config.site_type_to_name(2));
       EXPECT_EQ("H", config.site_type_to_name(3));
+      EXPECT_EQ("H2", config.site_index_to_name(2, 2));
       EXPECT_EQ(config.particle_type(2).site(0).name(), "O1");
       EXPECT_EQ(config.site_name_to_index("O1"), 0);
       TRY(
@@ -234,16 +233,16 @@ TEST(Configuration, group) {
     config_err.add(MakeGroup({{"site_type", "0"}}));
     CATCH_PHRASE("add groups after particle types");
   );
-  config->add_particle_type("../particle/spce.txt");
+  config->add_particle_type("../particle/spce_new.txt", "spce");
   TRY(
     Configuration config_err(*config);
     config_err.add(MakeGroup({{"site_type", "Hello"}}));
     CATCH_PHRASE("site_type_name:Hello not found");
   );
-  config->add_particle_type("../particle/lj.txt");
-  config->add(MakeGroup({{"site_type", "0"}, {"particle_type", "0"}}), "O");
-  config->add(MakeGroup({{"site_type", "2"}, {"particle_type", "1"}}), "LJ");
-  config->add(MakeGroup({{"site_type", "1"}, {"particle_type", "0"}}), "H");
+  config->add_particle_type("../particle/lj_new.txt", "lj");
+  config->add(MakeGroup({{"site_type", "O"}, {"particle_type", "spce"}}), "O");
+  config->add(MakeGroup({{"site_type", "LJ"}, {"particle_type", "lj"}}), "LJ");
+  config->add(MakeGroup({{"site_type", "H"}, {"particle_type", "spce"}}), "H");
   //config->add(MakeGroup({{"site_type", "2"}, {"particle_type", "1"}}), "none");
   EXPECT_TRUE(config->group_select(0).group().has_property("0"));
   EXPECT_TRUE(config->group_select(1).group().has_property("O"));
@@ -296,7 +295,7 @@ TEST(Configuration, group_as_arg) {
   auto config = MakeConfiguration({
     {"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
     {"particle_type0", "../particle/lj.txt"},
-    {"group0", "first"}, {"first_particle_type0", "0"}});
+    {"group", "first"}, {"first_particle_type", "0"}});
   EXPECT_EQ(2, config->num_groups());
 }
 
@@ -397,9 +396,8 @@ TEST(Configuration, change_volume) {
 }
 
 TEST(Configuration, add_particles_of_type) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.txt"},
-    {"particle_type1", "../particle/atom.txt"},
-    {"add_particles_of_type1", "2"}});
+  auto config = MakeConfiguration({{"particle_type", "lj:../particle/lj.txt,atom:../particle/atom.txt"},
+    {"add_num_atom_particles", "2"}});
   EXPECT_EQ(2, config->num_particles());
   EXPECT_EQ(1, config->particle(0).type());
   EXPECT_EQ(1, config->particle(1).type());

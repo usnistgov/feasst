@@ -12,7 +12,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./0.9, help='inverse temperature')
     parser.add_argument('--num_particles', type=int, default=400, help='number of particles')
@@ -51,10 +51,10 @@ def parse():
     params['procs_per_sim'] = 1
     params['num_sims'] = params['num_nodes']*params['procs_per_node']
     params['target_acceptance'] = 0.25
-    if params['fstprt'] == '/feasst/particle/lj.txt':
-        params['potential'] = """Potential Model LennardJones
-    Potential VisitModel LongRangeCorrections"""
-        params['trials'] = """TrialTranslate tunable_param 2 tunable_target_acceptance {target_acceptance}""".format(**params)
+    if params['fstprt'] == '/feasst/particle/lj_new.txt':
+        params['potential'] = """Potential Model=LennardJones
+    Potential VisitModel=LongRangeCorrections"""
+        params['trials'] = """TrialTranslate tunable_param=2 tunable_target_acceptance={target_acceptance}""".format(**params)
     elif params['fstprt'] == '/feasst/particle/spce.txt':
         params['cubic_side_length'] = 20
         params['num_particles'] = 265
@@ -62,14 +62,14 @@ def parse():
         params['alpha'] = 5.6/params['cubic_side_length']
         params['dccb_cut'] = 0.9*3.165
         params['dccb_cut'] = params['cubic_side_length']/int(params['cubic_side_length']/params['dccb_cut']) # maximize inside box
-        params['potential'] = """Potential VisitModel Ewald alpha {alpha} kmax_squared 38
-    Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter
-    #RefPotential Model HardSphere group oxygen cutoff {dccb_cut} VisitModel VisitModelCell min_length {dccb_cut} cell_group oxygen
-    Potential Model ChargeScreenedIntra VisitModel VisitModelBond
-    Potential Model ChargeSelf
-    Potential VisitModel LongRangeCorrections""".format(**params)
-        params['trials'] = """TrialTranslate tunable_param 0.2 tunable_target_acceptance {target_acceptance}
-    TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance {target_acceptance} """.format(**params)
+        params['potential'] = """Potential VisitModel=Ewald alpha={alpha} kmax_squared=38
+    Potential Model=ModelTwoBodyFactory models=LennardJones,ChargeScreened erfc_table_size=2e4 VisitModel=VisitModelCutoffOuter
+    #RefPotential Model=HardSphere group=oxygen cutoff={dccb_cut} VisitModel=VisitModelCell min_length={dccb_cut} cell_group=oxygen
+    Potential Model=ChargeScreenedIntra VisitModel=VisitModelBond
+    Potential Model=ChargeSelf
+    Potential VisitModel=LongRangeCorrections""".format(**params)
+        params['trials'] = """TrialTranslate tunable_param=0.2 tunable_target_acceptance={target_acceptance}
+    TrialParticlePivot weight=0.5 particle_type=fluid tunable_param=0.5 tunable_target_acceptance={target_acceptance} """.format(**params)
     else:
         assert False, 'unrecognized fstprt'
     return params, args
@@ -78,39 +78,40 @@ def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
-Prefetch synchronize true
-#Prefetch synchronize true trials_per_check 1
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
+Prefetch synchronize=true
+#Prefetch synchronize=true trials_per_check=1
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=fluid:{fstprt}
 {potential}
-ThermoParams beta {beta} chemical_potential -1
+ThermoParams beta={beta} chemical_potential=-1
 Metropolis
 {trials}
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-CheckEnergy trials_per_update {tpc} decimal_places 4
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
+CheckEnergy trials_per_update={tpc} decimal_places=4
 
 # gcmc initialization
-TrialAdd particle_type 0
-Log trials_per_write {tpc} output_file {prefix}{sim}_init.txt
+TrialAdd particle_type=fluid
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_init.csv
 Tune
-Run until_num_particles {num_particles}
-Remove name0 TrialAdd name1 Log
+Run until_num_particles={num_particles}
+Remove name=TrialAdd,Log
 
 # nvt equilibration
-ThermoParams beta {beta}
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}_eq.xyz
-Run until complete
-Remove name0 Tune name1 Log name2 Movie
+ThermoParams beta={beta}
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
+Log [write]_eq.csv
+Movie [write]_eq.xyz
+Run until=complete
+Remove name=Tune,Log,Movie
 
 # nvt production
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
-Log trials_per_write {tpc} output_file {prefix}{sim}.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
-Energy trials_per_write {tpc} output_file {prefix}{sim}_en.txt append true
-CPUTime trials_per_write {tpc} output_file {prefix}{sim}_time.txt append true
-Run until complete
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
+Log [write].csv
+Movie [write].xyz
+Energy [write]_en.csv append=true
+CPUTime [write]_time.txt append=true
+Run until=complete
 """.format(**params))
 
 def linear_fit(x, b):
@@ -122,9 +123,9 @@ def post_process(params):
     import matplotlib.pyplot as plt
     import numpy as np
     from scipy.optimize import curve_fit
-    time = pd.read_csv('lj0_time.txt', delim_whitespace=True, header=None)
+    time = pd.read_csv('lj000_time.txt', delim_whitespace=True, header=None)
     print(time[1])
-    en = pd.read_csv('lj0_en.txt', header=None, comment="a")
+    en = pd.read_csv('lj000_en.csv', header=None, comment="a")
     print(en[0])
     equil=500
     logt = np.log(time[1][equil:])

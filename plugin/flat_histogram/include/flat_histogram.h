@@ -61,6 +61,8 @@ class FlatHistogram : public Criteria {
   /// Return the macrostate.
   const Macrostate& macrostate() const override;
 
+  Macrostate * get_macrostate() { return macrostate_.get(); }
+
   /// Return the bias.
   const Bias& bias() const override;
   void set_bias(std::shared_ptr<Bias> bias);

@@ -13,12 +13,12 @@ FEASST_MAPPER(TrialRemoveMultiple,);
 TrialRemoveMultiple::TrialRemoveMultiple(argtype * args) : Trial(args) {
   class_name_ = "TrialRemoveMultiple";
   set_description("TrialRemoveMultiple");
-  const std::vector<int> pt = ptypes(args);
+  const std::vector<std::string> pt = ptypes(args);
   std::vector<argtype> new_args;
   set(std::make_shared<ComputeRemoveMultiple>(args));
   const std::string num_steps = feasst::str("num_steps", args, "1");
   const std::string reference_index = feasst::str("reference_index", args, "-1");
-  for (int p : pt) {
+  for (const std::string& p : pt) {
     argtype nag = *args;
     nag.insert({"particle_type", str(p)});
     nag.insert({"num_steps", num_steps});

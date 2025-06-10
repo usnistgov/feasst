@@ -24,12 +24,20 @@ Domain::Domain(argtype * args) {
 
   std::string start("side_length");
   {
+    if (used(start, *args)) {
+      ASSERT(!is_cubic, "cubic_side_length argument should not be used in " <<
+        "conjunction with the side_length argument.");
+      for (const std::string& st : split(feasst::str(start, args), ',')) {
+        add_side_length(str_to_double(st));
+      }
+    }
     int dim = dimension();
     std::stringstream key;
     key << start << dim;
     while (used(key.str(), *args)) {
       ASSERT(!is_cubic, "cubic_side_length argument should not be used in " <<
         "conjunction with side_length arguments");
+      WARN("side_length0 is deprecated. Use comma-separated list for side_length.");
       add_side_length(dble(key.str(), args));
       ++dim;
       ASSERT(dim < 1e8, "dim(" << dim << ") is very high. Infinite loop?");
@@ -41,11 +49,26 @@ Domain::Domain(argtype * args) {
   set_xz_(dble("xz", args, 0.0));
   set_yz_(dble("yz", args, 0.0));
 
-  for (int dim = 0; dim < dimension(); ++dim) {
-    std::stringstream key;
-    key << "periodic" << dim;
-    if (used(key.str(), *args)) {
-      if (!boolean(key.str(), args)) disable(dim);
+  start.assign("periodic");
+  if (used(start, *args)) {
+    std::vector<std::string> prds = split(feasst::str(start, args), ',');
+    ASSERT(dimension() == static_cast<int>(prds.size()), "The number of " <<
+      "comma-separated values for periodic argument:" << prds.size() <<
+      " must equal the number of dimensions:" << dimension());
+    for (int dim = 0; dim < dimension(); ++dim) {
+      if (!str_to_bool(prds[dim])) {
+        disable(dim);
+      }
+    }
+  } else {
+    for (int dim = 0; dim < dimension(); ++dim) {
+      std::stringstream key;
+      key << start << dim;
+      if (used(key.str(), *args)) {
+        WARN("periodic[i] is deprecated. Use comma-separated periodic argument"
+          << " where the number of values must equal the number of dimensions");
+        if (!boolean(key.str(), args)) disable(dim);
+      }
     }
   }
   update_h_();

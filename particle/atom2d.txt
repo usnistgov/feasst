@@ -4,7 +4,7 @@
 
 Site Properties
 
-A sigma 1.0 epsilon 1.0 cutoff 3.0
+A sigma=1.0 epsilon=1.0 cutoff=3.0
 
 Sites
 

@@ -27,13 +27,13 @@ def parse():
     params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['chi'] = 0.7
     params['patch_angle'] = 2*np.arcsin(np.sqrt(params['chi']/2))*180/np.pi
-    params['system'] = """Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} \
-  patch_angle1 {patch_angle} group0 centers centers_site_type0 0
-Potential Model HardSphere VisitModel VisitModelCell min_length 1 cell_group centers group centers
-Potential Model SquareWell VisitModel VisitModelCell min_length 1.5 cell_group centers \
-  VisitModelInner VisitModelInnerPatch group centers""".format(**params)
-    params['nvt_trials'] = """TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-TrialRotate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25"""
+    params['system'] = """Configuration cubic_side_length={cubic_side_length} particle_type=lj:{fstprt} \
+  patch_angleP={patch_angle} group=centers centers_site_type=C
+Potential Model=HardSphere VisitModel=VisitModelCell min_length=1 cell_group=centers group=centers
+Potential Model=SquareWell VisitModel=VisitModelCell min_length=1.5 cell_group=centers \
+  VisitModelInner=VisitModelInnerPatch group=centers""".format(**params)
+    params['nvt_trials'] = """TrialTranslate weight=1 tunable_param=0.2
+TrialRotate weight=1 tunable_param=0.2"""
     return params, args
 
 def post_process(params):
@@ -46,7 +46,7 @@ def post_process(params):
     diverged = lnpi[lnpi.ln_prob-lnpi.ln_prob_prev > 6*lnpi.ln_prob_prev_stdev]
     print(diverged)
     assert len(diverged) == 0
-    energy = pd.read_csv(params['prefix']+'n0s0_en.csv')
+    energy = pd.read_csv(params['prefix']+'n0s000_en.csv')
     energy = energy[:6]
     energy['prev'] = [0, 0, -0.038758392176564, -0.116517384264731, -0.232665619265520, -0.387804181572135]
     diverged = energy[energy.average - energy.prev > 10*energy.block_stdev]

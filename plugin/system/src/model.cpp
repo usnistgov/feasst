@@ -1,6 +1,7 @@
 #include "utils/include/serialize_extra.h"
 #include "utils/include/arguments.h"
 #include "math/include/position.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/model_params.h"
 #include "system/include/model.h"
 
@@ -77,7 +78,8 @@ Model::Model(std::istream& istr) {
   feasst_deserialize(&charge_index_, istr);
 }
 
-void Model::precompute(const ModelParams& existing) {
+void Model::precompute(const Configuration& config) {
+  const ModelParams& existing = config.model_params();
   epsilon_index_ = existing.index("epsilon");
   sigma_index_ = existing.index("sigma");
   cutoff_index_ = existing.index("cutoff");

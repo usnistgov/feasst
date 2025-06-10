@@ -81,7 +81,7 @@ Run until_num_particles {num_particles}
 Remove name TrialAdd
 Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
 Run until complete
-Remove name0 Tune name1 Log
+Remove name Tune,Log
 
 # nvt production
 Metropolis trials_per_cycle {tpc} cycles_to_complete {production}

@@ -9,8 +9,8 @@ namespace feasst {
 
 typedef std::map<std::string, std::string> argtype;
 
-// parse the number of particle types.
-std::vector<int> ptypes(argtype * args);
+// parse the names of particle types.
+std::vector<std::string> ptypes(argtype * args);
 
 /**
 Attempt to add multiple particles.
@@ -70,8 +70,7 @@ class TrialAddMultiple : public Trial {
  public:
   //@{
   /** @name Arguments
-    - particle_type[i]: the i-th type of particle to add.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - particle_types: comma-separated list of particle names to add.
     - TrialStage arguments.
    */
   explicit TrialAddMultiple(argtype args = argtype());

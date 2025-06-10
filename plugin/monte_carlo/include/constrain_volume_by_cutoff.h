@@ -25,7 +25,7 @@ class ConstrainVolumeByCutoff : public Constraint {
 
   bool is_allowed(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const override;
+    const Acceptance& acceptance) override;
 
   std::shared_ptr<Constraint> create(std::istream& istr) const override {
     return std::make_shared<ConstrainVolumeByCutoff>(istr); }

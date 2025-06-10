@@ -2,6 +2,7 @@
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/configuration.h"
 #include "models/include/lennard_jones_cut_shift.h"
 
 namespace feasst {
@@ -30,8 +31,9 @@ LennardJonesCutShift::LennardJonesCutShift(std::istream& istr)
   shift_ = EnergyAtCutOff(istr);
 }
 
-void LennardJonesCutShift::precompute(const ModelParams& existing) {
-  LennardJonesAlpha::precompute(existing);
+void LennardJonesCutShift::precompute(const Configuration& config) {
+  LennardJonesAlpha::precompute(config);
+  const ModelParams& existing = config.model_params();
   shift_.set_model(this); // note the model is used here for the computation
   shift_.set_param(existing);
   shift_.set_model(NULL); // remove model immediately

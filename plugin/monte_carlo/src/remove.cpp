@@ -14,11 +14,14 @@ FEASST_MAPPER(Remove, argtype({{"name", "test"}}));
 Remove::Remove(argtype * args) {
   class_name_ = "Remove";
   DEBUG("parse names");
-  std::string start;
-  start.assign("name");
-  if (used(start, *args)) {
-    names_.push_back(feasst::str(start, args));
-  } else {
+  if (used("name", *args)) {
+    for (const std::string& name : split(feasst::str("name", args), ',')) {
+      names_.push_back(name);
+    }
+  }
+  if (used("name0", *args)) {
+    WARN("name[i] is deprecated. Use name with comma-separated list");
+    std::string start = "name";
     int index = 0;
     std::stringstream key;
     key << start << index;
@@ -33,11 +36,14 @@ Remove::Remove(argtype * args) {
   DEBUG("names: " << feasst_str(names_));
 
   DEBUG("parse name_contains");
-  start.assign("name_contains");
-  DEBUG("start " << start);
-  if (used(start, *args)) {
-    name_contains_.push_back(feasst::str(start, args));
-  } else {
+  if (used("name_contains", *args)) {
+    for (const std::string& name : split(feasst::str("name_contains", args), ',')) {
+      name_contains_.push_back(name);
+    }
+  }
+  if (used("name_contains0", *args)) {
+    WARN("name_contains[i] is deprecated. Use name with comma-separated list");
+    std::string start = "name_contains";
     int index = 0;
     std::stringstream key;
     key << start << index;

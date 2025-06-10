@@ -168,15 +168,13 @@ TEST(MonteCarlo, rpm) {
   const int trials_per = 1e0;
   mc.set(MakeThermoParams({
     {"beta", "0.02"},
-    {"chemical_potential0", "-509"},
-    {"chemical_potential1", "-509"}}));
+    {"chemical_potential", "-509,-509"}}));
   mc.set(MakeMetropolis());
   EXPECT_NEAR(-0.99036730859815814, mc.criteria().current_energy(), 1e-9);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.add(MakeTrialTransferMultiple({
     {"weight", "1."},
-    {"particle_type0", "0"},
-    {"particle_type1", "1"},
+    {"particle_types", "0,1"},
     {"reference_index", "0"},
   }));
   mc.add(MakeCheckProperties({{"trials_per_update", str(trials_per)}}));
@@ -200,7 +198,7 @@ TEST(MonteCarlo, spcearglist) {
     {"Potential", {{"Model", "ChargeScreenedIntra"}, {"VisitModel", "VisitModelBond"}}},
     {"Potential", {{"Model", "ChargeSelf"}}},
     {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
-    {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential0", "10"}, {"chemical_potential1", "10"}}},
+    {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential", "10,10"}}},
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"tunable_param", "0.2"},
                         {"tunable_target_acceptance", "0.2"}}},
@@ -231,7 +229,7 @@ TEST(MonteCarlo, spce_npt) {
     {"Potential", {{"Model", "ChargeScreenedIntra"}, {"VisitModel", "VisitModelBond"}}},
     {"Potential", {{"Model", "ChargeSelf"}}},
     {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
-    {"ThermoParams", {{"beta", "0.01"}, {"chemical_potential0", "10"}, {"pressure", "0.1"}}},
+    {"ThermoParams", {{"beta", "0.01"}, {"chemical_potential", "10"}, {"pressure", "0.1"}}},
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"tunable_param", "0.2"},
                         {"tunable_target_acceptance", "0.2"}}},

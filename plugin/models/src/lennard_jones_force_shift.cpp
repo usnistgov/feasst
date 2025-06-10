@@ -2,6 +2,7 @@
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/configuration.h"
 #include "models/include/lennard_jones_force_shift.h"
 
 namespace feasst {
@@ -34,8 +35,9 @@ LennardJonesForceShift::LennardJonesForceShift(std::istream& istr)
   feasst_deserialize(&precomputed_, istr);
 }
 
-void LennardJonesForceShift::precompute(const ModelParams& existing) {
-  LennardJonesAlpha::precompute(existing);
+void LennardJonesForceShift::precompute(const Configuration& config) {
+  LennardJonesAlpha::precompute(config);
+  const ModelParams& existing = config.model_params();
   precomputed_ = true;
   shift_.set_model(this); // note the model is used here for the computation
   shift_.set_param(existing);

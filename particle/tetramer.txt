@@ -3,8 +3,8 @@
 
 Site Properties
 
-0 sigma 1.0 epsilon 1.0 cutoff 3.0
-1 sigma 1.0 epsilon 1.0 cutoff 3.0
+0 sigma=1 epsilon=1 cutoff=3
+1 sigma=1 epsilon=1 cutoff=3
 
 Sites
 

@@ -64,29 +64,30 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
-Potential Model ModelServer port {port} VisitModel VisitModelCell
-Potential VisitModel LongRangeCorrections
-ThermoParams beta {beta} chemical_potential -1
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=lj:{fstprt}
+Potential Model=ModelServer port={port} VisitModel=VisitModelCell
+Potential VisitModel=LongRangeCorrections
+ThermoParams beta={beta} chemical_potential=-1
 Metropolis
-TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-TrialAdd particle_type 0
-Run until_num_particles {num_particles}
-Remove name TrialAdd
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
+TrialTranslate tunable_param=2
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
+TrialAdd particle_type=lj
+Run until_num_particles={num_particles}
+Remove name=TrialAdd
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
 Tune
-CheckEnergy trials_per_update {tpc} tolerance 1e-8
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
-Run until complete
-Remove name0 Tune name1 Log
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
-Log trials_per_write {tpc} output_file {prefix}{sim}.csv
-Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
-Energy trials_per_write {tpc} output_file {prefix}{sim}_en.csv
-CPUTime trials_per_write {tpc} output_file {prefix}{sim}_cpu.txt
-Run until complete
+CheckEnergy trials_per_update={tpc} decimal_places=6
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_eq.csv
+Run until=complete
+Remove name=Tune,Log
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
+Log [write].csv
+Movie [write].xyz
+Energy [write]_en.csv
+CPUTime [write]_cpu.txt
+Run until=complete
 """.format(**params))
 
 def en_lj(r2):
@@ -113,9 +114,9 @@ def post_process(params):
     """ Plot energy and compare with https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm """
     ens = np.zeros(shape=(params['num_sims'], 2))
     for sim in range(params['num_sims']):
-        log = pd.read_csv(params['prefix']+str(sim)+'.csv')
-        assert int(log['num_particles_of_type0'][0]) == params['num_particles']
-        energy = pd.read_csv(params['prefix']+str(sim)+'_en.csv')
+        log = pd.read_csv("{}{:03d}.csv".format(params['prefix'], sim))
+        assert int(log['num_particles_lj'][0]) == params['num_particles']
+        energy = pd.read_csv("{}{:03d}_en.csv".format(params['prefix'], sim))
         ens[sim] = np.array([energy['average'][0],
                              energy['block_stdev'][0]])/params['num_particles']
     rhos_srsw = [0.001]

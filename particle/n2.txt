@@ -10,8 +10,8 @@
 
 Site Properties
 
-M sigma 0.0  epsilon 0.0                  cutoff 14.0 charge  0.964 cutoff_outer 0.55
-N sigma 3.31 epsilon 0.299320654253516670 cutoff 14.0 charge -0.482 cutoff_outer 0.55
+M sigma=0.0  cutoff=14.0 charge=0.964  cutoff_outer=0.55 epsilon=0.0
+N sigma=3.31 cutoff=14.0 charge=-0.482 cutoff_outer=0.55 epsilon=0.299320654253516670
 
 Sites
 
@@ -21,7 +21,7 @@ Sites
 
 Bond Properties
 
-MN RigidBond length 0.55 delta 0.0001
+MN RigidBond length=0.55 delta=0.0001
 
 Bonds
 
@@ -30,7 +30,7 @@ Bonds
 
 Angle Properties
 
-NMN RigidAngle degrees 180.0 delta 0.01
+NMN RigidAngle degrees=180.0 delta=0.01
 
 Angles
 

@@ -63,14 +63,12 @@ def parse():
         params['kappa'] = np.sqrt(2*(elem_q**2)*params['ionic_strength']*(1e3)*na/(params['dielectric_water']*eps_0*kb*params['temperature']*1e20))
         params['cutoff'] = 5/params['kappa']
         params['cutoff_line'] = """cutoff {cutoff}""".format(**params)
-        params['potential'] = """Potential Model ModelTwoBodyFactory \
-    model0 HardSphere \
-    model1 LennardJones \
-    model2 DebyeHuckel kappa {kappa} dielectric {dielectric_water} smoothing_distance {smoothing_distance} \
-    energy_cutoff 1e100""".format(**params)
+        params['potential'] = """Potential Model=ModelTwoBodyFactory models=HardSphere,LennardJones,DebyeHuckel \
+kappa={kappa} dielectric={dielectric_water} smoothing_distance={smoothing_distance} \
+energy_cutoff=1e100""".format(**params)
     else:
-        params['cutoff_line'] = """set_cutoff_min_to_sigma true"""
-        params['potential'] = """Potential Model HardSphere energy_cutoff 1e100""".format(**params)
+        params['cutoff_line'] = """set_cutoff_min_to_sigma=true"""
+        params['potential'] = """Potential Model=HardSphere energy_cutoff=1e100""".format(**params)
 
     # convert pdb to pqr to fstprt
     for domain in [params['domain1'], params['domain2']]:
@@ -86,39 +84,41 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {domain1}_with_ref.txt particle_type1 {domain2}_with_ref.txt \
-  add_particles_of_type0 1 add_particles_of_type1 1 \
-  group0 mobile mobile_particle_type 1 \
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=domain1:{domain1}_with_ref.txt,domain2:{domain2}_with_ref.txt \
+  add_num_domain1_particles=1 add_num_domain2_particles=1 \
+  group=mobile mobile_particle_type=domain2 \
   {cutoff_line}
 {potential}
-RefPotential Model HardSphere sigma 0 cutoff 0 sigma0 {reference_sigma} cutoff0 {reference_sigma} sigma{num_site_types} {reference_sigma} cutoff{num_site_types} {reference_sigma}
-ThermoParams beta {beta}
-MayerSampling trials_per_cycle {trials_per} cycles_to_complete {equilibration} num_beta_taylor {num_beta_taylor}
-TrialTranslate new_only true reference_index 0 tunable_param 35 group mobile
-TrialRotate new_only true reference_index 0 tunable_param 40
+RefPotential Model=HardSphere sigma=0 cutoff=0 sigma0={reference_sigma} cutoff0={reference_sigma} sigma{num_site_types}={reference_sigma} cutoff{num_site_types}={reference_sigma}
+ThermoParams beta={beta}
+MayerSampling trials_per_cycle={trials_per} cycles_to_complete={equilibration} num_beta_taylor={num_beta_taylor}
+TrialTranslate new_only=true reference_index=0 tunable_param=35 group=mobile
+TrialRotate new_only=true reference_index=0 tunable_param=40
 
 # tune trial parameters
-CriteriaWriter trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}_b2_eq.txt
-Log trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}_eq.txt
+Let [write]=trials_per_write={trials_per} file_name={prefix}_{domain1}-{domain2}_{sim:03d}
+Log [write]_eq.csv
+CriteriaWriter [write]_b2_eq.csv
 Tune
-Run until complete
-Remove name0 CriteriaWriter name1 Log name2 Tune
+Run until=complete
+Remove name=CriteriaWriter,Log,Tune
 
 # production
-CriteriaWriter trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}_b2.txt
-Log trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}.txt
-#Movie trials_per_write {trials_per} file_name {prefix}_{domain1}-{domain2}_{sim}.xyz
-MayerSampling trials_per_cycle {trials_per} cycles_to_complete {production} num_beta_taylor {num_beta_taylor}
-Run until complete
+Log [write].csv
+#Movie [write].xyz
+CriteriaWriter [write]_b2.csv
+MayerSampling trials_per_cycle={trials_per} cycles_to_complete={production} num_beta_taylor={num_beta_taylor}
+Run until=complete
 """.format(**params))
 
 def post_process(params):
     from pyfeasst import accumulator
     b2acc = accumulator.Accumulator()
     for p in range(params['procs_per_node']):
-        with open(params['prefix']+'_'+params['domain1']+'-'+params['domain2']+'_'+str(p)+"_b2_eq.txt", 'r') as file1:
-            lines = file1.readlines()
+        params['sim'] = p
+        filename="""{prefix}_{domain1}-{domain2}_{sim:03d}_b2_eq.csv""".format(**params)
+        with open(filename, 'r') as file1: lines = file1.readlines()
         print('p', p, 'lines[0]', lines[0])
         exec('iprm=' + lines[0], globals())
         #print(iprm)

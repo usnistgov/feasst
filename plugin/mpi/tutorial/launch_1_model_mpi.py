@@ -20,7 +20,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1/0.9, help='1 / kB / T')
     parser.add_argument('--density', type=float, default=1e-3, help='number density')
@@ -35,7 +35,7 @@ def parse():
                         help='Random number generator seed. If -1, assign random seed to each sim.')
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')
-    parser.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
+    parser.add_argument('--hours_terminate', type=float, default=5*24, help='hours until termination')
     parser.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
     parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
     parser.add_argument('--scratch', type=str, default=None,
@@ -64,30 +64,31 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
-Potential Model ModelMPI
-#Potential Model ModelMPI VisitModel VisitModelCell
-Potential VisitModel LongRangeCorrections
-ThermoParams beta {beta} chemical_potential -1
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=fluid:{fstprt}
+Potential Model=ModelMPI
+#Potential Model=ModelMPI VisitModel=VisitModelCell
+Potential VisitModel=LongRangeCorrections
+ThermoParams beta={beta} chemical_potential=-1
 Metropolis
-TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-TrialAdd particle_type 0
-Run until_num_particles {num_particles}
-Remove name TrialAdd
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
+TrialTranslate tunable_param=2
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
+TrialAdd particle_type=fluid
+Run until_num_particles={num_particles}
+Remove name=TrialAdd
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
 Tune
-CheckEnergy trials_per_update {tpc} tolerance 1e-8
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
-Run until complete
-Remove name0 Tune name1 Log
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
-Log trials_per_write {tpc} output_file {prefix}{sim}.csv
-Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
-Energy trials_per_write {tpc} output_file {prefix}{sim}_en.csv
-CPUTime trials_per_write {tpc} output_file {prefix}{sim}_cpu.txt
-Run until complete
+CheckEnergy trials_per_update={tpc} decimal_places=8
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_eq.csv
+Run until=complete
+Remove name=Tune,Log
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
+Log [write].csv
+Movie [write].xyz
+Energy [write]_en.csv
+CPUTime [write]_cpu.txt
+Run until=complete
 """.format(**params))
 
 def en_lj(r2):
@@ -119,9 +120,9 @@ def post_process(params):
     """ Plot energy and compare with https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm """
     ens = np.zeros(shape=(params['num_sims'], 2))
     for sim in range(params['num_sims']):
-        log = pd.read_csv(params['prefix']+str(sim)+'.csv')
-        assert int(log['num_particles_of_type0'][0]) == params['num_particles']
-        energy = pd.read_csv(params['prefix']+str(sim)+'_en.csv')
+        log = pd.read_csv("{}{:03d}.csv".format(params['prefix'], sim))
+        assert int(log['num_particles_fluid'][0]) == params['num_particles']
+        energy = pd.read_csv("{}{:03d}_en.csv".format(params['prefix'], sim))
         ens[sim] = np.array([energy['average'][0],
                              energy['block_stdev'][0]])/params['num_particles']
     rhos_srsw = [0.001]
@@ -141,19 +142,23 @@ def post_process(params):
 
 if __name__ == '__main__':
     parameters, arguments = parse()
-    if args.run_type == 1:
-        client(params)
-    elif args.run_type == 0:
-        params['sim'] = 0
-        write_feasst_script(params, params['prefix']+"0_run.txt")
-        cmd="""mpirun -np 1 {feasst_install}bin/fst < {prefix}0_run.txt : -np 1 python {script} -r 1""".format(**params)
+    print(parameters)
+    print(arguments)
+    if arguments.run_type == 1:
+        client(parameters)
+    elif arguments.run_type == 0:
+        print('here')
+        parameters['sim'] = 0
+        write_feasst_script(parameters, parameters['prefix']+"0_run.txt")
+        print('here2')
+        cmd="""mpirun -np 1 {feasst_install}bin/fst < {prefix}0_run.txt : -np 1 python {script} -r 1""".format(**parameters)
         print('cmd:', cmd)
-        #subprocess.call(cmd, shell=True, executable='/bin/bash')
+        #subprocess.check_call(cmd, shell=True, executable='/bin/bash')
         from subprocess import Popen
         process = Popen(cmd, shell=True)
-        post_process(params)
-    elif args.run_type == 2:
-        post_process(params)
+        post_process(parameters)
+    elif arguments.run_type == 2:
+        post_process(parameters)
 #    fstio.run_simulations(params=params,
 #                          queue_function=fstio.slurm_single_node,
 #                          args=args,

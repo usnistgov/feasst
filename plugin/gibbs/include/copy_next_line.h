@@ -16,12 +16,11 @@ class CopyNextLine : public Action {
  public:
   //@{
   /** @name Arguments
-    - replace[i]: replace this argument with the following with[i].
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-      If only one replace, the "[i]" is optional.
-    - with[i]: this is the value to replace the argument with.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-      If only one with, the "[i]" is optional.
+    - replace: replace this argument with the following with.
+      Multiple can be provided as comma-separated values.
+    - with: this is the value to replace the argument with.
+      Multiple can be provided as comma-separated values.
+      Must have the same number as replace.
    */
   explicit CopyNextLine(argtype args = argtype());
   explicit CopyNextLine(argtype * args);

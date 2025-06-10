@@ -21,7 +21,7 @@ class PerturbParticleType : public Perturb {
  public:
   /**
     args:
-    - type: type to set for particle.
+    - type: name of particle type to set.
    */
   explicit PerturbParticleType(argtype args = argtype());
   explicit PerturbParticleType(argtype * args);
@@ -31,6 +31,8 @@ class PerturbParticleType : public Perturb {
     const Select& select,
     const int type);
 
+  void precompute(TrialSelect * select, System * system) override;
+  
   void perturb(
     System * system,
     TrialSelect * select,
@@ -50,7 +52,8 @@ class PerturbParticleType : public Perturb {
   virtual ~PerturbParticleType() {}
 
  private:
-  int new_particle_type_;
+  int new_particle_type_ = -123;
+  std::string type_;
   PerturbRotate rotate_;
 
   // temporary

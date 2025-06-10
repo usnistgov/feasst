@@ -63,7 +63,7 @@ class ModelLJShape : public ModelOneBody,
   ModelLJShape(std::shared_ptr<Shape> shape, argtype * args);
 
   /// Precompute the shift factor for optimization.
-  void precompute(const ModelParams& existing) override;
+  void precompute(const Configuration& config) override;
 
   double energy(
     const Position& wrapped_site,

@@ -12,8 +12,8 @@ AHalfB::AHalfB(argtype * args) : Constraint() {
     {"type", str("particle_type_A", args, "0")}});
   num_B_ = ConstrainNumParticles({
     {"type", str("particle_type_B", args, "1")}});
-  ASSERT(num_A_.type() != num_B_.type(), "particle_type_A: " << num_A_.type()
-    << " == particle_type_B_: " << num_B_.type());
+  //ASSERT(num_A_.type() != num_B_.type(), "particle_type_A: " << num_A_.type()
+  //  << " == particle_type_B_: " << num_B_.type());
 }
 AHalfB::AHalfB(argtype args) : AHalfB(&args) {
   feasst_check_all_used(args);
@@ -21,7 +21,7 @@ AHalfB::AHalfB(argtype args) : AHalfB(&args) {
 
 bool AHalfB::is_allowed(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const {
+    const Acceptance& acceptance) {
   const int nA = num_A_.num_particles(system, acceptance);
   const int nB = num_B_.num_particles(system, acceptance);
   bool allowed = false;

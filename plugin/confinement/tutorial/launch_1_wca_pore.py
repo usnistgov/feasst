@@ -17,7 +17,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--pore', type=str, default='/feasst/plugin/confinement/particle/porel4.txt',
                         help='FEASST particle definition')
@@ -80,54 +80,58 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} particle_type1 {pore} cutoff0 2.5 cutoff1 {wca} cutoff0_1 {wca} add_particles_of_type1 1 group0 liquid liquid_particle_type 0 group1 pore pore_particle_type 1
-NeighborCriteria maximum_distance 1.375 minimum_distance 0.9 site_type0 0 site_type1 0
-Potential EnergyMap EnergyMapNeighborCriteria neighbor_index 0 Model LennardJonesForceShift
-RefPotential Model LennardJonesForceShift VisitModel VisitModelCell min_length {dccb_cut}
-ThermoParams beta {beta} chemical_potential {mu_init}
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=fluid:{fstprt},pore:{pore} \
+    cutoffLJ=2.5 cutoffP={wca} cutoffLJ_P={wca} add_num_pore_particles=1 \
+    group=fluid,pore fluid_particle_type=fluid pore_particle_type=pore
+NeighborCriteria maximum_distance=1.375 minimum_distance=0.9 site_type0=LJ site_type1=LJ
+Potential EnergyMap=EnergyMapNeighborCriteria neighbor_index=0 Model=LennardJonesForceShift
+RefPotential Model=LennardJonesForceShift VisitModel=VisitModelCell min_length={dccb_cut}
+ThermoParams beta={beta} chemical_potential={mu_init}
 Metropolis
-TrialTranslate weight 1 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25
-TrialAVB2 weight 0.1 particle_type 0
-TrialAVB4 weight 0.1 particle_type 0
-CheckEnergy trials_per_update {tpc} decimal_places 4
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+TrialTranslate weight=1 particle_type=fluid tunable_param=0.2
+Let [AVB_args]=particle_type=fluid site=LJ1 target_particle_type=fluid target_site=LJ1
+TrialAVB2 weight=0.1 [AVB_args]
+TrialAVB4 weight=0.1 [AVB_args]
+CheckEnergy trials_per_update={tpc} decimal_places=4
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # write the pore xyz for visualization
-Movie output_file {prefix}n{node}s{sim}_pore.xyz group pore clear_file true
-WriteStepper analyze_name Movie
-Remove name Movie
+Movie output_file={prefix}n{node}s{sim:03d}_pore.xyz group=pore clear_file=true
+WriteStepper analyze_name=Movie
+Remove name=Movie
 
 # gcmc initialization and nvt equilibration
-TrialAdd particle_type 0
-Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.csv
+TrialAdd particle_type=fluid
+Let [write]=trials_per_write={tpc} output_file={prefix}n{node}s{sim:03d}
+Log [write]_eq.csv
 Tune
-Run until_num_particles {min_particles} particle_type 0
-Remove name TrialAdd
-ThermoParams beta {beta} chemical_potential {mu}
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
-Run until complete
-Remove name0 Tune name1 Log
+Run until_num_particles={min_particles} particle_type=fluid
+Remove name=TrialAdd
+ThermoParams beta={beta} chemical_potential={mu}
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
+Run until=complete
+Remove name=Tune,Log
 
 # gcmc tm production
-FlatHistogram Macrostate MacrostateNumParticles particle_type 0 width 1 max {max_particles} min {min_particles} \
-  Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
-TrialTransfer    weight 2   particle_type 0 reference_index 0 num_steps 4
-TrialTransferAVB weight 0.2 particle_type 0 reference_index 0 num_steps 4
+FlatHistogram Macrostate=MacrostateNumParticles particle_type=fluid width=1 max={max_particles} min={min_particles} \
+  Bias=WLTM min_sweeps={min_sweeps} min_flatness=25 collect_flatness=20 min_collect_sweeps=1
+TrialTransfer    weight=2   reference_index=0 num_steps=4 particle_type=fluid
+TrialTransferAVB weight=0.2 reference_index=0 num_steps=4 [AVB_args]
+Log [write].csv
+Tune [write]_tune.csv multistate=true stop_after_cycle=1
 #To print trajectories for each macrostate in separate files, add the following arguments to the "Movie" lines below: multistate true multistate_aggregate false
-Log            trials_per_write {tpc} output_file {prefix}n{node}s{sim}.csv
-Movie          trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.xyz stop_after_cycle 1 group liquid
-Movie          trials_per_write {tpc} output_file {prefix}n{node}s{sim}.xyz start_after_cycle 1 group liquid
-Tune           trials_per_write {tpc} output_file {prefix}n{node}s{sim}_tune.csv multistate true stop_after_cycle 1
-Energy         trials_per_write {tpc} output_file {prefix}n{node}s{sim}_en.csv multistate true start_after_cycle 1
-ProfileCPU     trials_per_write {tpc} output_file {prefix}n{node}s{sim}_profile.csv
-CriteriaWriter trials_per_write {tpc} output_file {prefix}n{node}s{sim:03d}_crit.csv
-CriteriaUpdater trials_per_update 1e5
-Run until complete
+Movie [write]_eq.xyz stop_after_cycle=1 group=fluid
+Movie [write].xyz start_after_cycle=1 group=fluid
+Energy [write]_en.csv multistate=true start_after_cycle=1
+ProfileCPU [write]_profile.csv
+CriteriaWriter [write]_crit.csv
+CriteriaUpdater trials_per_update=1e5
+Run until=complete
 
 # continue until all simulations on the node are complete
-WriteFileAndCheck sim {sim} sim_start {sim_start} sim_end {sim_end} file_prefix {prefix}n{node}s file_suffix _finished.txt output_file {prefix}n{node}_terminate.txt
-Run until_file_exists {prefix}n{node}_terminate.txt trials_per_file_check {tpc}
+WriteFileAndCheck sim={sim} sim_start={sim_start} sim_end={sim_end} file_prefix={prefix}n{node}s file_suffix=_finished.txt output_file={prefix}n{node}_terminate.txt
+Run until_file_exists={prefix}n{node}_terminate.txt trials_per_file_check={tpc}
 """.format(**params))
 
 def post_process(params):
@@ -138,6 +142,7 @@ def post_process(params):
     #print(df['delta_ln_prob_stdev'])
     delta_ln_prob_std_1_2_3 = [0.002927, 0.006865, 0.005270]
     df = df[1:4]
+    print(df)
     df['delta_ln_prob_prev'] = [5.33710, 4.66512, 4.27458]
     df['delta_ln_prob_std_prev'] = [0.002927, 0.006865, 0.005270]
     print(df)

@@ -7,7 +7,7 @@
 namespace feasst {
 
 TEST(Shape, Sphere) {
-  auto sphere = MakeSphere({{"radius", "2"}, {"center", "c"}, {"c0", "0"}, {"c1", "0"}, {"c2", "0"}});
+  auto sphere = MakeSphere({{"radius", "2"}, {"center", "0,0,0"}});
   Position point;
   point.set_vector({1.5, 0, 0});
   EXPECT_NEAR(-0.5, sphere->nearest_distance(point), 1e-15);

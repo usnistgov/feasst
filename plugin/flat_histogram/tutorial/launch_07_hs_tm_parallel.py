@@ -27,9 +27,9 @@ def parse():
     params['script'] = __file__
     params['prefix'] = 'hs'
     params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
-    params['system'] = """Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
-Potential Model HardSphere VisitModel VisitModelCell min_length 1""".format(**params)
-    params['nvt_trials'] = "TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25"
+    params['system'] = """Configuration cubic_side_length={cubic_side_length} particle_type=lj:{fstprt}
+Potential Model=HardSphere VisitModel=VisitModelCell min_length=1""".format(**params)
+    params['nvt_trials'] = "TrialTranslate weight=1 tunable_param=0.2"
     return params, args
 
 def post_process(params):

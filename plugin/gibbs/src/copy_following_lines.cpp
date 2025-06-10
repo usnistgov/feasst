@@ -14,12 +14,20 @@ CopyFollowingLines::CopyFollowingLines(argtype * args) {
   std::string start;
   start.assign("replace");
   if (used(start, *args)) {
-    replace_.push_back({str("replace", args), str("with", args)});
+    FATAL("replace is deprecated. There seems to be no need for this usage?");
+    std::vector<std::string> rpls = split(feasst::str("replace", args), ',');
+    std::vector<std::string> wths = split(feasst::str("with", args), ',');
+    ASSERT(rpls.size() == wths.size(), "The number of comma-separated values "
+      << "given to \"replace\" must equal the number given to \"with\"");
+    for (int i = 0; i < static_cast<int>(rpls.size()); ++i) {
+      replace_.push_back({rpls[i], wths[i]});
+    }
   } else {
     int index = 0;
     std::stringstream key;
     key << start << index;
     while (used(key.str(), *args)) {
+      WARN("replace[i] is deprecated. Use comma-separated input.");
       replace_.push_back({str(key.str(), args), str("with"+str(index), args)});
       ++index;
       ASSERT(index < 1e8, "index(" << index << ") is large. Infinite loop?");
@@ -53,6 +61,7 @@ void CopyFollowingLines::serialize(std::ostream& ostr) const {
 }
 
 void CopyFollowingLines::run(MonteCarlo * mc) {
+  WARN("Deprecated CopyFollowingLines. Use For instead.");
   DEBUG("setting " << for_num_configurations_);
   mc->set_parse_for_num_configs(for_num_configurations_);
   mc->set_parse_replace(replace_);

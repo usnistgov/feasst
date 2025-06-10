@@ -11,7 +11,7 @@ TEST(MonteCarlo, TrialModel) {
       {"cubic_side_length", "8"}}},
     //{"Potential", {{"Model", "LennardJones"}}},
     {"Potential", {{"Model", "ModelExpanded"}, {"model_file", "../plugin/model_expanded/test/data/models.txt"}}},
-    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "-1"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "-1"}}},
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},
     {"TrialAdd", {{"particle_type", "0"}}},

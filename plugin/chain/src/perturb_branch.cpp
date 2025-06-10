@@ -38,17 +38,19 @@ void PerturbBranch::precompute(TrialSelect * select, System * system) {
   DEBUG("precomputing a2a1m1");
   a2a1m1_.precompute(select, system);
   DEBUG("precomputing a2a1m2");
-  TrialSelectAngle sela2a1m2({{"particle_type", str(select->particle_type())},
-    {"mobile_site", feasst::str(select->mobile().site_index(0, 1))},
-    {"anchor_site", feasst::str(select->anchor().site_index(0, 0))},
-    {"anchor_site2", feasst::str(select->anchor().site_index(0, 1))}});
+  const Configuration& conf = select->configuration(*system);
+  const int pt = select->particle_type();
+  TrialSelectAngle sela2a1m2({{"particle_type", str(select->particle_type_name())},
+    {"mobile_site", conf.site_index_to_name(pt, select->mobile().site_index(0, 1))},
+    {"anchor_site", conf.site_index_to_name(pt, select->anchor().site_index(0, 0))},
+    {"anchor_site2", conf.site_index_to_name(pt, select->anchor().site_index(0, 1))}});
   sela2a1m2.precompute(system);
   a2a1m2_.precompute(&sela2a1m2, system);
   DEBUG("precomputing m1a1m2");
-  TrialSelectAngle selm1a1m2({{"particle_type", str(select->particle_type())},
-    {"mobile_site", feasst::str(select->mobile().site_index(0, 0))},
-    {"anchor_site", feasst::str(select->anchor().site_index(0, 0))},
-    {"anchor_site2", feasst::str(select->mobile().site_index(0, 1))}});
+  TrialSelectAngle selm1a1m2({{"particle_type", str(select->particle_type_name())},
+    {"mobile_site", conf.site_index_to_name(pt, select->mobile().site_index(0, 0))},
+    {"anchor_site", conf.site_index_to_name(pt, select->anchor().site_index(0, 0))},
+    {"anchor_site2", conf.site_index_to_name(pt, select->mobile().site_index(0, 1))}});
   selm1a1m2.precompute(system);
   m1a1m2_.precompute(&selm1a1m2, system);
 }

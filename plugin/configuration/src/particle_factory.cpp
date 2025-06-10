@@ -16,13 +16,14 @@ ParticleFactory::ParticleFactory() {
   model_params_ = std::make_shared<ModelParams>();
 }
 
-void ParticleFactory::add(const Particle& particle) {
+void ParticleFactory::add(const Particle& particle, const std::string name) {
   // compute types and also check none are skipped.
   const int num_site_type = num_site_types();
   const int num_particle_type = num_particle_types();
   Particle particle_copy = particle;
   if (unique_types_) {
     particle_copy.remove_non_unique_types();
+    names_.push_back(name);
   }
   if (unique_particles_) {
     particle_copy.increment_site_types(num_site_type);
@@ -144,7 +145,7 @@ void ParticleFactory::rename_nonunique_(const std::vector<std::string>& names,
       std::string type = "name";
       if (unique_types_) type = "type";
       std::cout << "# Renamed " << prop << " " << type << ":" <<
-        original_name << "->" << *name << " for particle_type:" << num() <<
+        original_name << "->" << *name << " for particle_type:" << num() - 1 <<
         " in:" << file_name << std::endl;
      *num_warn += 1;
     }
@@ -155,7 +156,7 @@ void ParticleFactory::rename_nonunique_(const std::vector<std::string>& names,
   }
 }
 
-void ParticleFactory::add(const std::string file_name) {
+void ParticleFactory::add(const std::string file_name, const std::string name) {
   ASSERT(unique_particles_,
     "only add particles by file for defining allowed types");
   Particle particle = FileParticle().read(file_name);
@@ -166,7 +167,7 @@ void ParticleFactory::add(const std::string file_name) {
     FileParticle().read_properties(file_name, &particle);
   }
 
-  add(particle);
+  add(particle, name);
 
   if (unique_types_ || unique_particles_) {
     DEBUG("Ensure all site, bond, angle and dihedral names are unique");
@@ -335,8 +336,9 @@ void ParticleFactory::remove(const int particle_index) {
 }
 
 void ParticleFactory::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(692, ostr);
+  feasst_serialize_version(693, ostr);
   feasst_serialize_fstobj(particles_, ostr);
+  feasst_serialize(names_, ostr);
   feasst_serialize(unique_particles_, ostr);
   feasst_serialize(unique_types_, ostr);
   feasst_serialize(model_params_, ostr);
@@ -344,8 +346,11 @@ void ParticleFactory::serialize(std::ostream& ostr) const {
 
 ParticleFactory::ParticleFactory(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 692, "unrecognized version: " << version);
+  ASSERT(version >= 692 && version <= 693, "unrecognized version: " << version);
   feasst_deserialize_fstobj(&particles_, istr);
+  if (version >= 693) {
+    feasst_deserialize(&names_, istr);
+  }
   feasst_deserialize(&unique_particles_, istr);
   feasst_deserialize(&unique_types_, istr);
 // HWH for unknown reasons, this function template does not work.
@@ -450,6 +455,12 @@ int ParticleFactory::site_name_to_index(const std::string& site_name,
   FATAL("Could not find a site_name: " << site_name);
 }
 
+const std::string& ParticleFactory::site_index_to_name(const int particle_type,
+    const int site_index) const {
+  ASSERT(unique_particles_, "only logical to use for unique_particles");
+  return particles_[particle_type].site(site_index).name();
+}
+
 int ParticleFactory::site_type_to_particle_type(const int site_type) const {
   ASSERT(unique_types_, "only logical to use for unique_types");
   int particle_type = 0;
@@ -494,6 +505,22 @@ int ParticleFactory::site_type_name_to_index(const std::string& site_type_name) 
     }
   }
   FATAL("site_type_name:" << site_type_name << " not found.");
+}
+
+int ParticleFactory::name_to_index(const std::string& name) const {
+  ASSERT(unique_types_, "only implemented for unique_types");
+  for (int index = 0; index < num(); ++index) {
+    if (names_[index] == name) {
+      return index;
+    }
+  }
+  FATAL("unrecognized particle name:" << name);
+}
+
+const std::string& ParticleFactory::index_to_name(const int index) const {
+  ASSERT(unique_types_, "only implemented for unique_types");
+  ASSERT(index < static_cast<int>(names_.size()), "error");
+  return names_[index];
 }
 
 }  // namespace feasst

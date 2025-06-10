@@ -40,9 +40,9 @@ std::unique_ptr<MonteCarlo> patchmc(const int min, const int max) {
   auto mc = MakeMonteCarlo({{
     {"RandomMT19937", {{"seed", "123"}}},
     {"Configuration", {{"cubic_side_length", "8"},
-      {"patch_angle1", str(patch_angle_degrees)},
+      {"patch_angleP", str(patch_angle_degrees)},
       {"particle_type0", "../plugin/patch/particle/two_patch_linear.txt"},
-      {"group0", "centers"}, {"centers_site_type0", "0"}}},
+      {"group", "centers"}, {"centers_site_type", "C"}}},
     {"Potential", {{"Model", "HardSphere"},
                    {"VisitModel", "VisitModelCell"}, {"min_length", "1"}, {"cell_group_index", "1"},
                    {"group_index", "1"}}},
@@ -84,7 +84,7 @@ TEST(MonteCarlo, patch_arglist) {
     {"Configuration", {{"particle_type0", "../plugin/patch/particle/janus.txt"},
       {"xyz_file", "../plugin/patch/test/data/patch5.xyz"},
       {"cutoff", "3"},
-      {"group0", "centers"}, {"centers_site_type0", "0"}}},
+      {"group0", "centers"}, {"centers_site_type", "0"}}},
     {"Potential", {{"Model", "SquareWell"}, {"VisitModelInner", "VisitModelInnerPatch"}, {"group", "centers"}}},
     {"ThermoParams", {{"beta", "1"}}},
     {"Metropolis", {{}}}
@@ -96,9 +96,9 @@ TEST(MonteCarlo, patch_arglist) {
 TEST(MonteCarlo, spherocylinder) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"particle_type0", "../plugin/patch/particle/spherocylinder.txt"},
-      {"cubic_side_length", "8"}, {"group0", "centers"}, {"centers_site_type0", "0"}}},
+      {"cubic_side_length", "8"}, {"group0", "centers"}, {"centers_site_type", "0"}}},
     {"Potential", {{"Model", "SquareWell"}, {"VisitModelInner", "Spherocylinder"}, {"group", "centers"}}},
-    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "-1"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "-1"}}},
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},
     {"TrialRotate", {{"weight", "1."}, {"tunable_param", "1."}}},
@@ -119,9 +119,9 @@ TEST(MonteCarlo, SolidOfRevolution) {
   auto mc = MakeMonteCarlo({{
     //{"RandomMT19937", {{"seed", "123"}}},
     {"Configuration", {{"particle_type0", "../plugin/patch/particle/one_patch.txt"},
-      {"cubic_side_length", "8"}, {"group0", "centers"}, {"centers_site_type0", "0"}, {"cutoff", "4"}}},
+      {"cubic_side_length", "8"}, {"group0", "centers"}, {"centers_site_type", "0"}, {"cutoff", "4"}}},
     {"Potential", {{"Model", "HardSphere"}, {"VisitModelInner", "SolidOfRevolutionTable"}, {"group", "centers"}, {"table_file", "../plugin/patch/test/data/tablek5l1.0d1.txt"}}},
-    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "-1"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "-1"}}},
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"weight", "1."}, {"tunable_param", "1."}}},
     {"TrialRotate", {{"weight", "1."}, {"tunable_param", "1."}}},

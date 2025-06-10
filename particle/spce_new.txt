@@ -1,0 +1,42 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+# SPC/E water model
+# See https:/doi.org/10.1021/j100308a038
+#
+#  H1
+#  |
+#  O1
+#   \
+#     H2
+#
+# Units
+# length: Angstrom
+# energy: kJ/mol
+# charge: elementary
+
+Site Properties
+
+O cutoff=10 cutoff_outer=1 charge=-0.8476 sigma=3.16555789 epsilon=0.650169581
+H cutoff=10 cutoff_outer=1 charge=0.4238 sigma=0 epsilon=0
+
+Sites
+
+O1 O  0                    0                    0
+H1 H  1.0                  0                    0
+H2 H -0.333313247568237000 0.942816142731718000 0
+
+Bond Properties
+
+OH RigidBond length=1.0 delta=0.0001
+
+Bonds
+
+O1H1 OH O1 H1
+O1H2 OH O1 H2
+
+Angle Properties
+
+HOH RigidAngle degrees=109.47 delta=0.01
+
+Angles
+
+H1O1H2 HOH H1 O1 H2

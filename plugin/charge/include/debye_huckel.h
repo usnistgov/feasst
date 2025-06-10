@@ -48,7 +48,7 @@ class DebyeHuckel : public ModelTwoBody {
       const int type2,
       const ModelParams& model_params) override;
 
-  void precompute(const ModelParams& existing) override;
+  void precompute(const Configuration& config) override;
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<DebyeHuckel>(istr); }

@@ -56,7 +56,7 @@ class Jagla : public ModelTwoBody {
   /// Return the argument num_discretized_steps in read-only fashion.
   double num_discretized_steps() const { return num_discretized_steps_; }
 
-  void precompute(const ModelParams& existing) override;
+  void precompute(const Configuration& config) override;
 
   double energy(
       const double squared_distance,

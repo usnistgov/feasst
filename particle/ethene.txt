@@ -8,7 +8,7 @@
 
 Site Properties
 
-C sigma 3.675 epsilon 0.7067293225430253 cutoff 14 cutoff_outer 1.33
+C sigma=3.675 epsilon=0.7067293225430253 cutoff=14 cutoff_outer=1.33
 
 Sites
 
@@ -17,7 +17,7 @@ Sites
 
 Bond Properties
 
-CC RigidBond length 1.33 delta 0.00001
+CC RigidBond length=1.33 delta=0.00001
 
 Bonds
 

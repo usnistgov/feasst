@@ -6,13 +6,12 @@ namespace feasst {
 
 TEST(TwoBodyAlpha, serialize) {
   auto config = MakeConfiguration({
-    {"particle_type0", "../particle/lj.txt"},
-    {"sigma0", "2.5"},
-    {"epsilon0", "3.7"}});
+    {"particle_type", "../particle/lj_new.txt"},
+    {"sigmaLJ", "2.5"},
+    {"epsilonLJ", "3.7"}});
   auto model = MakeTwoBodyAlpha({
-    {"alpha0", "12"}, {"s0", "1"},
-    {"alpha1", "6"}, {"s1", "-1"}});
-  model->precompute(config->model_params());
+    {"alpha", "12,6"}, {"s", "1,-1"}});
+  model->precompute(*config);
   EXPECT_NEAR(39.727706462144852,
     model->energy(2.*2., 0, 0, config->model_params()),
     NEAR_ZERO);

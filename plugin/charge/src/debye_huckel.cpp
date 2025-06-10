@@ -3,6 +3,7 @@
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "configuration/include/physical_constants.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/model_params.h"
 #include "charge/include/debye_huckel.h"
 
@@ -71,9 +72,9 @@ double DebyeHuckel::energy(
   return en;
 }
 
-void DebyeHuckel::precompute(const ModelParams& existing) {
-  Model::precompute(existing);
-  conversion_factor_ = existing.constants().charge_conversion();
+void DebyeHuckel::precompute(const Configuration& config) {
+  Model::precompute(config);
+  conversion_factor_ = config.model_params().constants().charge_conversion();
 }
 
 }  // namespace feasst

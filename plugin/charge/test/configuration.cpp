@@ -12,8 +12,8 @@ namespace feasst {
 
 TEST(Configuration, tip4p) {
   auto config = std::make_unique<Configuration>(argtype({
-    {"particle_type0", "../plugin/charge/particle/tip4p.txt"},
-    {"add_particles_of_type0", "1"}
+    {"particle_type", "tip4p:../plugin/charge/particle/tip4p.txt"},
+    {"add_num_tip4p_particles", "1"}
   }));
   EXPECT_EQ(1, config->num_particle_types());
   EXPECT_EQ("../plugin/charge/particle/tip4p.txt", config->type_to_file_name(0));

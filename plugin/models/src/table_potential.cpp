@@ -49,22 +49,23 @@ void TablePotential::read_table_(const std::string file_name) {
   std::string line, descript;
   double double_val;
   int int_val;
+  std::string str_val;
   file >> descript >> int_val;
   ASSERT(descript == "site_types", "format error: " << descript);
   const int num_sites = int_val;
   DEBUG("num_sites " << num_sites);
 
   // size arrays
-  site_types_.resize(num_sites);
+  site_type_names_.resize(num_sites);
   resize(num_sites, num_sites, &inner_);
   resize(num_sites, num_sites, &inner_g_);
   resize(num_sites, num_sites, &cutoff_g_);
   resize(num_sites, num_sites, &energy_table_);
   resize(num_sites, num_sites, &gamma_);
   for (int type = 0; type < num_sites; ++type) {
-    file >> int_val;
-    DEBUG("site " << int_val);
-    site_types_[type] = int_val;
+    file >> str_val;
+    DEBUG("site name " << str_val);
+    site_type_names_[type] = str_val;
   }
 
   for (int itype = 0; itype < num_sites; ++itype) {
@@ -111,10 +112,15 @@ void TablePotential::read_table_(const std::string file_name) {
   ASSERT(file.eof(), "improper table file: " << file_name);
 }
 
-void TablePotential::precompute(const ModelParams& existing) {
-  Model::precompute(existing);
+void TablePotential::precompute(const Configuration& config) {
+  Model::precompute(config);
+  const ModelParams& existing = config.model_params();
   const ModelParam& cutoff = existing.select("cutoff");
   t2index_.assign(existing.size(), -1);
+  site_types_.clear();
+  for (const std::string& sname : site_type_names_) {
+    site_types_.push_back(config.site_type_name_to_index(sname));
+  }
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
     t2index_[type1] = t1;
@@ -196,11 +202,14 @@ FEASST_MAPPER(TablePotential,);
 
 TablePotential::TablePotential(std::istream& istr) : ModelTwoBody(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 8965 && version <= 8966, "unrecognized version: " << version);
+  ASSERT(version >= 8965 && version <= 8967, "unrecognized version: " << version);
   feasst_deserialize(&inner_, istr);
   feasst_deserialize(&inner_g_, istr);
   feasst_deserialize(&cutoff_g_, istr);
   feasst_deserialize(&site_types_, istr);
+  if (version >= 8967) {
+    feasst_deserialize(&site_type_names_, istr);
+  }
   feasst_deserialize(&t2index_, istr);
   feasst_deserialize_fstobj(&energy_table_, istr);
   if (version >= 8966) {
@@ -211,11 +220,12 @@ TablePotential::TablePotential(std::istream& istr) : ModelTwoBody(istr) {
 void TablePotential::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_model_(ostr);
-  feasst_serialize_version(8966, ostr);
+  feasst_serialize_version(8967, ostr);
   feasst_serialize(inner_, ostr);
   feasst_serialize(inner_g_, ostr);
   feasst_serialize(cutoff_g_, ostr);
   feasst_serialize(site_types_, ostr);
+  feasst_serialize(site_type_names_, ostr);
   feasst_serialize(t2index_, ostr);
   feasst_serialize_fstobj(energy_table_, ostr);
   feasst_serialize(gamma_, ostr);

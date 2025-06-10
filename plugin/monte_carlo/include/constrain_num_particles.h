@@ -16,7 +16,8 @@ class ConstrainNumParticles : public Constraint {
   /** @name Arguments
     - maximum: maximum number of particles. If -1, no limit (default: -1).
     - minimum: minimum number of particles (default: 0).
-    - type: particle type. If -1, all types (default: -1).
+    - type: particle type name. If empty (default), all types.
+    - configuration_index: index of configuration (default: 0).
    */
   explicit ConstrainNumParticles(argtype args = argtype());
   explicit ConstrainNumParticles(argtype * args);
@@ -31,11 +32,11 @@ class ConstrainNumParticles : public Constraint {
 
   bool is_allowed(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const override;
+    const Acceptance& acceptance) override;
 
   /// Return the number of particles, taking into account the potential to shift
   /// (e.g., add or delete) from a trial move.
-  int num_particles(const System& system, const Acceptance& acceptance) const;
+  int num_particles(const System& system, const Acceptance& acceptance);
 
   std::shared_ptr<Constraint> create(std::istream& istr) const override {
     return std::make_shared<ConstrainNumParticles>(istr); }
@@ -51,6 +52,8 @@ class ConstrainNumParticles : public Constraint {
   int maximum_;
   int minimum_;
   int type_;
+  std::string type_name_;
+  int configuration_index_;
 };
 
 inline std::shared_ptr<ConstrainNumParticles> MakeConstrainNumParticles(

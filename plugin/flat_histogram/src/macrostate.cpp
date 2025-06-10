@@ -40,7 +40,7 @@ Macrostate::~Macrostate() {}
 
 bool Macrostate::is_allowed(const System& system,
                             const Criteria& criteria,
-                            const Acceptance& acceptance) const {
+                            const Acceptance& acceptance) {
   const double val = value(system, criteria, acceptance);
   if (val > histogram_->max() || val < histogram_->min()) {
     return false;
@@ -129,7 +129,7 @@ void Macrostate::set(const Histogram histogram) { histogram_ = std::make_unique<
 const Histogram& Macrostate::histogram() const { return *histogram_; }
 int Macrostate::bin(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const {
+    const Acceptance& acceptance) {
   return histogram_->bin(value(system, criteria, acceptance));
 }
 

@@ -84,9 +84,9 @@ TEST(Position, vertex_angle_radians) {
 
 // maintain chirality in 2d
 TEST(Position, vertex_angle_2d_chiral) {
-  Position ri({{"x", "0.5"}, {"y", "0.0"}});
-  Position rj({{"x", "0.0"}, {"y", "0.0"}});
-  Position rk({{"x", "0.0"}, {"y", "0.5"}});
+  Position ri(argtype({{"csv", "0.5,0"}}));
+  Position rj(argtype({{"csv", "0,0"}}));
+  Position rk(argtype({{"csv", "0,0.5"}}));
   EXPECT_DOUBLE_EQ(rj.vertex_angle_radians(ri, rk), 3./2.*PI);
   EXPECT_DOUBLE_EQ(rj.vertex_angle_radians(rk, ri), 1./2.*PI);
 }

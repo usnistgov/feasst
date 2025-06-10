@@ -379,4 +379,10 @@ To Do List
 * For 0.26, Remove serialization version checks grep "if (version >"
 * For 0.26, move pyfeasst.cd to pyfeasst.fstio
 * For 0.26, TrialMorph becomes TrialFactoryNamed with reverse and half weights
+* For 0.26, remove Copy[following/next] in favor of For
 * Benchmark FEASST for use with podman or apptainer
+* Search for deprecate Warn in weekly build tests
+* Make a feasst text interface generic for loop with string replacement, For [var]=1,2,3 [var2]=1.csv,2.sv,3.csv. Can it be nested with config index? or 2d->1d [var]=1,1,2,2 [conf]=0,1,0,1
+* Configuration names instead of index. RefPotential names too.
+* Checkpoint shorten: Save save_file={prefix}{sim:03d}_save.fst hours={hours_checkpoint} hours_terminate={hours_terminate}
+* shape plugin needs comma-separated args

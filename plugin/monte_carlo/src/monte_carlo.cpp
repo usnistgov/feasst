@@ -38,10 +38,10 @@ template <class T>
 std::shared_ptr<T> parse(T * obj, arglist * args) {
   std::shared_ptr<T> new_obj;
   const auto& map = obj->deserialize_map();
-  // INFO("parsing " << args->begin()->first);
+  DEBUG("parsing " << args->begin()->first);
   if (map.count(args->begin()->first) > 0) {
     new_obj = obj->factory(args->begin()->first, &args->begin()->second);
-    // INFO(new_obj->class_name());
+    DEBUG(new_obj->class_name());
     feasst_check_all_used(args->begin()->second);
     return new_obj;
   }
@@ -87,21 +87,23 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
     WARN("RemoveModify is deprecated. Use Remove instead.");
   }
 
-  // repeat for each config
+  // repeat for each copy (which may be a config)
   DEBUG("parse_for_num_configs " << parse_for_num_configs_);
   ASSERT(parse_for_num_configs_ == 1 || parse_for_num_configs_ == 2,
     "hard corded for 1 or two configs");
-  for (int config = 0; config <= parse_for_num_configs_; ++config) {
-    DEBUG("config " << config);
+  int num_copy = parse_for_num_configs_;
+  DEBUG("num_copy " << num_copy);
+  for (int copy = 0; copy <= num_copy; ++copy) {
+    DEBUG("copy " << copy);
     if (parse_for_num_configs_ > 1) {
-      if (config == 0 && args->begin()->first != "EndCopy") {
-        args->begin()->second.insert({"configuration_index", str(config)});
+      if (copy == 0 && args->begin()->first != "EndCopy") {
+        args->begin()->second.insert({"configuration_index", str(copy)});
         args->insert(args->begin() + 1, *args->begin());
-      } else if (config == 1 && args->begin()->first != "EndCopy") {
-        args->begin()->second.insert({"configuration_index", str(config)});
+      } else if (copy == 1 && args->begin()->first != "EndCopy") {
+        args->begin()->second.insert({"configuration_index", str(copy)});
         auto pair = args->begin()->second.find("configuration_index");
         ASSERT(pair != args->begin()->second.end(), "err");
-        pair->second = str(config);
+        pair->second = str(copy);
         //for (argtype::iterator it = args->begin()->second.begin();
         //     it != args->begin()->second.end(); ++it ) {
         for (auto &p : args->begin()->second) {
@@ -112,15 +114,19 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       }
       for (auto &p : args->begin()->second) {
         if (!replace_with_index_.empty()) {
-          feasst::replace(replace_with_index_, str(config), &p.second);
+          feasst::replace(replace_with_index_, str(copy), &p.second);
         }
       }
     }
     if (!silent &&
         args->begin()->first != "CopyFollowingLines" &&
         args->begin()->first != "EndCopy") {
-      std::cout << args->begin()->first << " "
-                << str(args->begin()->second) << " " << std::endl;
+      std::cout << args->begin()->first;
+      std::string second = str(args->begin()->second);
+      if (!second.empty()) {
+        std::cout << " " << second;
+      }
+      std::cout << std::endl;
     }
 
     // parse all derived classes of Random
@@ -130,7 +136,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       DEBUG("parsing Random");
       set(ran);
       args->erase(args->begin());
-      if (config + 1 == parse_for_num_configs_) {
+      if (copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -142,7 +148,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       DEBUG("parsing Checkpoint");
       set(MakeCheckpoint(args->begin()->second));
       args->erase(args->begin());
-      if (config + 1 == parse_for_num_configs_) {
+      if (copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -154,7 +160,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       DEBUG("parsing Configuration");
       add(MakeConfiguration(args->begin()->second));
       args->erase(args->begin());
-      if (config + 1 == parse_for_num_configs_) {
+      if (copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -166,7 +172,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       DEBUG("parsing NeighborCriteria");
       add(MakeNeighborCriteria(args->begin()->second));
       args->erase(args->begin());
-      if (config + 1 == parse_for_num_configs_) {
+      if (copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -179,7 +185,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       const int pconfig = integer("configuration_index", &(args->begin()->second), 0);
       add(MakePotential(args->begin()->second), pconfig);
       args->erase(args->begin());
-      if (config + 1 == parse_for_num_configs_) {
+      if (copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -191,7 +197,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       DEBUG("parsing ReferencePotential");
       add_to_reference(MakePotential(args->begin()->second));
       args->erase(args->begin());
-      if (config + 1 == parse_for_num_configs_) {
+      if (copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -203,7 +209,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       DEBUG("parsing OptimizedPotential");
       add_to_optimized(MakePotential(args->begin()->second));
       args->erase(args->begin());
-      if (config + 1 == parse_for_num_configs_) {
+      if (copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -215,7 +221,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       DEBUG("parsing ThermoParams");
       set(MakeThermoParams(args->begin()->second));
       args->erase(args->begin());
-      if (config + 1 == parse_for_num_configs_) {
+      if (copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -229,7 +235,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       DEBUG("parsing Criteria");
       set(crit);
       args->erase(args->begin());
-      if (config + 1 == parse_for_num_configs_) {
+      if (copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -243,7 +249,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       DEBUG("parsing Trial");
       add(trial);
       args->erase(args->begin());
-      if (config + 1 == parse_for_num_configs_) {
+      if (copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -257,7 +263,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       DEBUG("parsing TrialFactoryNamed");
       add(trials);
       args->erase(args->begin());
-      if (config + 1 == parse_for_num_configs_) {
+      if (copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -271,7 +277,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       DEBUG("parsing Analyze");
       add(an);
       args->erase(args->begin());
-      if (config + 1 == parse_for_num_configs_) {
+      if (copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -285,7 +291,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
       DEBUG("parsing Modify");
       add(mod);
       args->erase(args->begin());
-      if (config + 1 == parse_for_num_configs_) {
+      if (copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -298,10 +304,12 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
     if (act) {
       DEBUG("parsing Action");
       std::string aname = args->begin()->first;
+      DEBUG("aname " << aname);
       args->erase(args->begin());
       record_next_arg_(args);
       run(act);
-      if (aname == "CopyFollowingLines" || aname == "EndCopy" || config + 1 == parse_for_num_configs_) {
+      if (aname == "CopyFollowingLines" ||
+          aname == "EndCopy" || copy + 1 == num_copy) {
         return;
       } else {
         continue;
@@ -692,7 +700,7 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
 
 MonteCarlo::MonteCarlo(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 529 && version <= 531, "version: " << version);
+  ASSERT(version >= 529 && version <= 532, "version: " << version);
   feasst_deserialize(system_, istr);
   // feasst_deserialize_fstdr(criteria_, istr);
   { // HWH for unknown reasons the above template function does not work
@@ -922,8 +930,12 @@ void MonteCarlo::run_num_trials(int num_trials) {
 }
 
 void MonteCarlo::run_until_num_particles(const int until_num_particles,
-    const int particle_type, const int configuration_index) {
+    const std::string& particle_type_name, const int configuration_index) {
   const Configuration& conf = configuration(configuration_index);
+  int particle_type = -1;
+  if (!particle_type_name.empty()) {
+    particle_type = conf.particle_name_to_type(particle_type_name);
+  }
   while ((until_num_particles > 0) &&
          ((particle_type == -1 && (conf.num_particles() != until_num_particles)) ||
           (particle_type != -1 && (conf.num_particles_of_type(particle_type) != until_num_particles)))) {
@@ -1026,6 +1038,5 @@ void MonteCarlo::set_parse_replace(
 void MonteCarlo::set_replace_with_index(const std::string& str) {
   replace_with_index_ = str;
 }
-
 
 }  // namespace feasst

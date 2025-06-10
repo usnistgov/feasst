@@ -17,8 +17,8 @@
 
 Site Properties
 
-0 sigma 3.5332 epsilon 0.7732032 cutoff 10 charge -0.82 cutoff_outer 1
-1 sigma 0.9000 epsilon 0.0418400 cutoff 10 charge  0.41 cutoff_outer 1
+0 sigma=3.5332 epsilon=0.7732032 cutoff=10 charge=-0.82 cutoff_outer=1
+1 sigma=0.9    epsilon=0.0418400 cutoff=10 charge=0.41  cutoff_outer=1
 
 Sites
 
@@ -28,7 +28,7 @@ Sites
 
 Bond Properties
 
-0 BondHarmonic equilibrium_length 1.0 k_energy_per_length_sq 1046
+0 BondHarmonic equilibrium_length=1 k_energy_per_length_sq=1046
 
 Bonds
 
@@ -37,7 +37,7 @@ Bonds
 
 Angle Properties
 
-0 AngleHarmonic equilibrium_degrees 109.47 k_energy_per_radian_sq 251.04
+0 AngleHarmonic equilibrium_degrees=109.47 k_energy_per_radian_sq=251.04
 
 Angles
 

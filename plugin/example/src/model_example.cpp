@@ -3,6 +3,7 @@
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "configuration/include/model_params.h"
+#include "configuration/include/configuration.h"
 #include "example/include/model_example.h"
 
 namespace feasst {
@@ -37,8 +38,9 @@ ModelExample::ModelExample(argtype args) : ModelExample(&args) {
   feasst_check_all_used(args);
 }
 
-void ModelExample::precompute(const ModelParams& existing) {
-  Model::precompute(existing);  // find sigma, epsilon, cutoff, charge index
+void ModelExample::precompute(const Configuration& config) {
+  Model::precompute(config);  // find sigma, epsilon, cutoff, charge index
+  const ModelParams& existing = config.model_params();
   lambda_index_ = existing.index("lambda");
   gamma_index_ = existing.index("gamma");
 }

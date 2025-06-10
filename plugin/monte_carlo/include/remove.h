@@ -16,13 +16,12 @@ class Remove : public Action {
  public:
   //@{
   /** @name Arguments
-    - name[i]: remove first class with this class name, if not empty.
+    - name: remove first class with this class name, if not empty.
       (default: empty).
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-      If only one remove, the "[i]" is optional.
-    - name_contains[i]: same "name[i]" above, except the entire name does not
+      Multiple names can be provided as comma-separated values.
+    - name_contains: same as name above, except the entire name does not
       have to match exactly and all matches are removed (not just the first).
-      If any part of the given characters match then remove, if not empty.
+      Multiple name_contains can be provided as comma-separated values.
     - all_trials: if true (default: false), remove all trials.
     - all_analyzers: if true (default: false), remove all analyzers.
     - all_modifiers: if true (default: false), remove all modifiers.

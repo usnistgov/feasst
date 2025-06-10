@@ -65,7 +65,7 @@ TEST(ModelTableCart3DIntegr, SineSlabTable_TXT_LONG) {
     {"num_shells", "10"},
     {"points_per_shell", "10"}});
   auto config = MakeConfiguration({{"cubic_side_length", "20"}});
-  hamaker->precompute(config->model_params());
+  hamaker->precompute(*config);
   MakeCheckpoint({{"checkpoint_file", "tmp/sine_slab_table"}})->write(hamaker->table());
   ModelTableCart3DIntegr hamaker2 = test_serialize(*hamaker);
   hamaker2.write("tmp/table3d_out.txt");

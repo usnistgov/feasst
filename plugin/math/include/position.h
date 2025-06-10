@@ -23,9 +23,7 @@ class Position {
   //@{
   /** @name Arguments
     args:
-    - x: x-coordinate
-    - y: y-coordinate. Requires explicit x.
-    - z: z-coordinate. Requires explicit y.
+    - csv: comma-separated values for the positions in each dimension.
    */
   explicit Position(argtype args);
   explicit Position(argtype * args);

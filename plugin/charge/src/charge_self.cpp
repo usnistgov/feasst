@@ -4,6 +4,7 @@
 #include "configuration/include/physical_constants.h"
 #include "configuration/include/site.h"
 #include "configuration/include/model_params.h"
+#include "configuration/include/configuration.h"
 #include "charge/include/charge_self.h"
 
 namespace feasst {
@@ -39,8 +40,9 @@ double ChargeSelf::energy(
   return -charge*charge*conversion_factor_*alpha_/std::sqrt(PI);
 }
 
-void ChargeSelf::precompute(const ModelParams& existing) {
-  Model::precompute(existing);
+void ChargeSelf::precompute(const Configuration& config) {
+  Model::precompute(config);
+  const ModelParams& existing = config.model_params();
   alpha_ = existing.property("alpha");
   conversion_factor_ = existing.constants().charge_conversion();
   DEBUG("conversion_factor_ " << conversion_factor_);

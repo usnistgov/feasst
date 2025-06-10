@@ -15,13 +15,13 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt0', type=str, default='/feasst/particle/co2.txt',
+    parser.add_argument('--fstprt1', type=str, default='/feasst/particle/co2.txt',
                         help='FEASST particle definition of the first particle.')
-    parser.add_argument('--fstprt1', type=str, default='/feasst/particle/n2.txt',
+    parser.add_argument('--fstprt2', type=str, default='/feasst/particle/n2.txt',
                         help='FEASST particle definition of the second particle.')
     parser.add_argument('--temperature', type=float, default=300, help='temperature in Kelvin')
-    parser.add_argument('--mu0', type=float, default=-15.24, help='chemical potential')
     parser.add_argument('--mu1', type=float, default=-15.24, help='chemical potential')
+    parser.add_argument('--mu2', type=float, default=-15.24, help='chemical potential')
     parser.add_argument('--mu_init', type=float, default=10, help='initial chemical potential')
     parser.add_argument('--num_particles', type=int, default=10, help='total number of particles')
     parser.add_argument('--min_particles', type=int, default=0, help='minimum number of particles')
@@ -78,52 +78,52 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt0} particle_type1 {fstprt1}
-Potential VisitModel Ewald alpha {ewald_alpha} kmax_squared 38
-Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter
-Potential Model ChargeScreenedIntra VisitModel VisitModelBond
-Potential Model ChargeSelf
-Potential VisitModel LongRangeCorrections
-RefPotential VisitModel DontVisitModel
-ThermoParams beta {beta} chemical_potential0 {mu_init} chemical_potential1 {mu_init}
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=pt1:{fstprt1},pt2:{fstprt2}
+Potential VisitModel=Ewald alpha={ewald_alpha} kmax_squared=38
+Potential Model=ModelTwoBodyFactory models=LennardJones,ChargeScreened erfc_table_size=2e4 VisitModel=VisitModelCutoffOuter
+Potential Model=ChargeScreenedIntra VisitModel=VisitModelBond
+Potential Model=ChargeSelf
+Potential VisitModel=LongRangeCorrections
+RefPotential VisitModel=DontVisitModel
+ThermoParams beta={beta} chemical_potential={mu_init},{mu_init}
 Metropolis
-TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
-TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25
-CheckEnergy trials_per_update {tpc} tolerance 1e-4
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+TrialTranslate weight=0.5 tunable_param=0.2
+TrialParticlePivot weight=0.5 particle_type=pt1 tunable_param=0.5
+CheckEnergy trials_per_update={tpc} decimal_places=8
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # gcmc initialization and nvt equilibration
-TrialAdd particle_type 0
-Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.csv
+Let [write]=trials_per_write={tpc} output_file={prefix}n{node}s{sim:03d}
+Log [write]_eq.csv
 Tune
-Run until_num_particles {min_particles}
-Remove name TrialAdd
-TrialAdd particle_type 1
-Run until_num_particles {num_particles}
-Remove name TrialAdd
-ThermoParams beta {beta} chemical_potential0 {mu0} chemical_potential1 {mu1}
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
-Run until complete
-Remove name0 Tune name1 Log
+For [pt]:[num]=pt1:{min_particles},pt2:{num_particles}
+    TrialAdd particle_type=[pt]
+    Run until_num_particles=[num]
+    Remove name=TrialAdd
+EndFor
+ThermoParams beta={beta} chemical_potential={mu1},{mu2}
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
+Run until=complete
+Remove name=Tune,Log
 
 # gcmc tm production
-FlatHistogram Macrostate MacrostateNumParticles particle_type 0 width 1 max {max_particles} min {min_particles} \
-    Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
-TrialMorph particle_type0 0 particle_type_morph0 1 reference_index 0
-TrialMorph particle_type0 1 particle_type_morph0 0 reference_index 0
-Log            trials_per_write {tpc} output_file {prefix}n{node}s{sim}.csv
-Movie          trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.xyz stop_after_cycle 1
-Movie          trials_per_write {tpc} output_file {prefix}n{node}s{sim}.xyz start_after_cycle 1
-Tune           trials_per_write {tpc} output_file {prefix}n{node}s{sim}_tune.csv multistate true stop_after_cycle 1
-Energy         trials_per_write {tpc} output_file {prefix}n{node}s{sim}_en.csv multistate true start_after_cycle 1
-CriteriaWriter trials_per_write {tpc} output_file {prefix}n{node}s{sim:03d}_crit.csv
-CriteriaUpdater trials_per_update 1e5
-Run until complete
+FlatHistogram Macrostate=MacrostateNumParticles particle_type=pt1 width=1 max={max_particles} min={min_particles} \
+    Bias=WLTM min_sweeps={min_sweeps} min_flatness=25 collect_flatness=20 min_collect_sweeps=1
+TrialMorph particle_type=pt1 particle_type_morph=pt2 reference_index=0
+TrialMorph particle_type=pt2 particle_type_morph=pt1 reference_index=0
+Log [write].csv
+Tune [write]_tune.csv multistate=true stop_after_cycle=1
+Movie [write]_eq.xyz stop_after_cycle=1
+Movie [write].xyz start_after_cycle=1
+Energy [write]_en.csv multistate=true start_after_cycle=1
+CriteriaWriter [write]_crit.csv
+CriteriaUpdater trials_per_update=1e5
+Run until=complete
 
 # continue until all simulations on the node are complete
-WriteFileAndCheck sim {sim} sim_start {sim_start} sim_end {sim_end} file_prefix {prefix}n{node}s file_suffix _finished.txt output_file {prefix}n{node}_terminate.txt
-Run until_file_exists {prefix}n{node}_terminate.txt trials_per_file_check {tpc}
+WriteFileAndCheck sim={sim} sim_start={sim_start} sim_end={sim_end} file_prefix={prefix}n{node}s file_suffix=_finished.txt output_file={prefix}n{node}_terminate.txt
+Run until_file_exists={prefix}n{node}_terminate.txt trials_per_file_check={tpc}
 """.format(**params))
 
 def post_process(params):

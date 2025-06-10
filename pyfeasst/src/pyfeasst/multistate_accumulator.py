@@ -115,27 +115,28 @@ def splice_by_node(prefix, suffix, num_nodes, extra_overlap=0):
         block += 1
     return data
 
-def splice(prefix, suffix, stop, start=0, extra_overlap=0):
+def splice(prefix, suffix, extra_overlap=0):
     """
-    Use splice to combine pandas csv files with matching prefix + index + suffix, where index
-    goes from start to stop.
-    Then drop 1+extra_overlap at the beginning of each index != 0.
+    Use splice to combine pandas csv files with matching prefix + * + suffix.
+    If there are more than ten files, they must contain leading zeros or they will
+    be out of order.
+    Drop 1+extra_overlap at the beginning of each file after the first.
 
     >>> import numpy as np
     >>> from pyfeasst import multistate_accumulator
-    >>> spliced = multistate_accumulator.splice(prefix='../../tests/ljn0s', suffix='_en.csv', stop=2)
+    >>> spliced = multistate_accumulator.splice(prefix='../../tests/ljn0s', suffix='_en.csv')
     >>> round(float(np.average(spliced['average'])), 8)
     -2.91222716
     """
     frames = list()
-    for index in range(start, stop + 1):
-        #print('index', index)
-        fname = prefix + str(index) + suffix
-        df = pd.read_csv(fname)
-        if index != start:
+    first = True
+    for filename in Path('.').rglob(prefix+'*'+suffix):
+        df = pd.read_csv(filename)
+        if not first:
             df.drop(df.head(1 + extra_overlap).index, inplace=True)
         #print('df', df)
         frames.append(df)
+        first = False
     combined = pd.concat(frames)
     combined.reset_index(inplace=True)
     return combined

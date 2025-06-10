@@ -1,37 +1,25 @@
 # FEASST particle file (https://doi.org/10.18434/M3S095)
 # TraPPE Ethane http://trappe.oit.umn.edu/
-
-2 sites
-1 bonds
-
-2 site types
-1 bond types
-
-Units
-
-length Angstrom
-energy K
-
-Site Labels
-
-0 C
-1 C
+#
+# Units
+#
+# length: Angstrom
+# energy: K
 
 Site Properties
 
-0 sigma 3.75 epsilon 98 cutoff 14
-1 sigma 3.75 epsilon 98 cutoff 14
+C1 sigma 3.75 epsilon 98 cutoff 14
+C2 sigma 3.75 epsilon 98 cutoff 14
 
 Sites
 
-0 0  0                    0                    0
-1 1  1.54                 0                    0
+CC1 C1 0    0 0
+CC2 C2 1.54 0 0
 
 Bond Properties
 
-0 RigidBond length 1.54 delta 0.00001
+CC RigidBond length 1.54 delta 0.00001
 
 Bonds
 
-0 0 0 1
-
+C1C2 CC CC1 CC2

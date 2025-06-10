@@ -13,11 +13,11 @@ class NumParticles : public Analyze {
  public:
   //@{
   /** @name Arguments
-    - particle_type: index of particle type from configuration.
-      If -1, sum all particles (default: -1).
+    - particle_type: particle type name from Configuration.
+      If empty, sum all particles (default: empty).
     - group: index of group from configuration.
       If -1, sum all particles (default: -1).
-      Can only be specified if particle_type is -1.
+      Can only be specified if particle_type is empty.
     - Stepper arguments.
    */
   explicit NumParticles(argtype args = argtype());
@@ -48,6 +48,7 @@ class NumParticles : public Analyze {
   //@}
  private:
   int particle_type_;
+  std::string particle_type_name_;
   int group_;
 };
 

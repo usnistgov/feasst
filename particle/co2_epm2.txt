@@ -29,8 +29,8 @@
 
 Site Properties
 
-0 sigma 2.757 epsilon 0.2338775189860325 cutoff 14.0 charge  0.6512 cutoff_outer 1.149
-1 sigma 3.033 epsilon 0.669372441999663 cutoff 14.0 charge -0.3256 cutoff_outer 1.149
+0 sigma=2.757 epsilon=0.2338775189860325 cutoff=14.0 charge=0.6512 cutoff_outer=1.149
+1 sigma=3.033 epsilon=0.669372441999663 cutoff=14.0 charge=-0.3256 cutoff_outer=1.149
 
 Sites
 
@@ -40,7 +40,7 @@ Sites
 
 Bond Properties
 
-0 RigidBond length 1.149 delta 0.0001
+0 RigidBond length=1.149 delta=0.0001
 
 Bonds
 
@@ -49,7 +49,7 @@ Bonds
 
 Angle Properties
 
-0 AngleHarmonic equilibrium_degrees 180.0 k_energy_per_radian_sq 618
+0 AngleHarmonic equilibrium_degrees=180.0 k_energy_per_radian_sq=618
 
 Angles
 

@@ -72,7 +72,7 @@ class Model {
   virtual int num_body() const = 0;
 
   /// Precompute model parameters based on existing model parameters.
-  virtual void precompute(const ModelParams& existing);
+  virtual void precompute(const Configuration& config);
 
   /// Return the ModelParams index of epsilon.
   int epsilon_index() const { return epsilon_index_; }

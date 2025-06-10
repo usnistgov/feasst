@@ -13,8 +13,8 @@ MacrostateNumParticles::MacrostateNumParticles(const Histogram& histogram,
     argtype * args) : Macrostate(histogram, args) {
   class_name_ = "MacrostateNumParticles";
   num_ = ConstrainNumParticles(
-    {{"type", str("particle_type", args, "-1")}});
-  ASSERT(num_.type() >= -1, "particle_type: " << num_.type());
+    {{"type", str("particle_type", args, "")}});
+  ASSERT(num_.type() >= -2, "particle_type: " << num_.type());
 }
 MacrostateNumParticles::MacrostateNumParticles(const Histogram& histogram,
     argtype args) : MacrostateNumParticles(histogram, &args) {
@@ -30,7 +30,7 @@ std::shared_ptr<Macrostate> MacrostateNumParticles::create(argtype * args) const
 
 double MacrostateNumParticles::value(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const {
+    const Acceptance& acceptance) {
   return num_.num_particles(system, acceptance);
 }
 

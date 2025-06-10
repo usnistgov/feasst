@@ -12,12 +12,11 @@
 
 namespace feasst {
 
-TEST(ModelTwoBodyTable, spce) {
+TEST(ModelTwoBodyTable, rpm) {
   auto config = MakeConfiguration({{"cubic_side_length", "20"},
-    {"particle_type0", "../plugin/charge/particle/rpm_plus.txt"},
-    {"particle_type1", "../plugin/charge/particle/rpm_minus.txt"},
-    {"add_particles_of_type0", "1"},
-    {"add_particles_of_type1", "1"}});
+    {"particle_type", "rpm+:../plugin/charge/particle/rpm_plus.txt,rpm-:../plugin/charge/particle/rpm_minus.txt"},
+    {"add_num_rpm+_particles", "1"},
+    {"add_num_rpm-_particles", "1"}});
   config->update_positions({{0, 0, 0}, {0, 0, 2}});
   config->add_or_set_model_param("alpha", 0.2);
   auto model = MakeLennardJones();

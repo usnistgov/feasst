@@ -3,7 +3,12 @@
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/select.h"
+#include "configuration/include/particle.h"
+#include "configuration/include/site.h"
 #include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "fftw/include/scattering_fftw.h"
 
 namespace feasst {
@@ -27,10 +32,8 @@ void ScatteringFFTW::resize_fftw_variables_() {
   fftw_initialized_ = true;
 }
 
-void ScatteringFFTW::initialize(Criteria * criteria,
-    System * system,
-    TrialFactory * trial_factory) {
-  const Configuration& config = system->configuration();
+void ScatteringFFTW::initialize(MonteCarlo * mc) {
+  const Configuration& config = configuration(mc->system());
   ASSERT(config.dimension() == 3, "only implemented for 3d.");
   ASSERT(!config.domain().is_tilted(), "not implemented for tilted domains.");
 
@@ -117,10 +120,8 @@ void ScatteringFFTW::fill_grid_(const Configuration& config, const bool centers)
   }
 }
 
-void ScatteringFFTW::update(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
-  const Configuration& config = system.configuration();
+void ScatteringFFTW::update(const MonteCarlo& mc) {
+  const Configuration& config = configuration(mc.system());
 
   // sq
   fill_grid_(config, true);
@@ -140,10 +141,8 @@ void ScatteringFFTW::update(const Criteria& criteria,
   ++updates_;
 }
 
-std::string ScatteringFFTW::write(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
-  const Configuration& config = system.configuration();
+std::string ScatteringFFTW::write(const MonteCarlo& mc) {
+  const Configuration& config = configuration(mc.system());
   // integerate 3D->1D
   std::vector<double> sq1d, fk1d, count;
   const int nx = num_bin_[0];

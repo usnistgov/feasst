@@ -11,7 +11,7 @@ namespace feasst {
 FEASST_MAPPER(NumParticles,);
 
 NumParticles::NumParticles(argtype * args) : Analyze(args) {
-  particle_type_ = integer("particle_type", args, -1);
+  particle_type_name_ = str("particle_type", args, "");
   group_ = integer("group", args, -1);
 }
 NumParticles::NumParticles(argtype args) : NumParticles(&args) {
@@ -26,6 +26,11 @@ std::string NumParticles::header(const MonteCarlo& mc) const {
 
 void NumParticles::initialize(MonteCarlo * mc) {
   printer(header(*mc), output_file(mc->criteria()));
+  if (particle_type_name_.empty()) {
+    particle_type_ = -1;
+  } else {
+    particle_type_ = configuration(mc->system()).particle_name_to_type(particle_type_name_);
+  }
 }
 
 void NumParticles::update(const MonteCarlo& mc) {
@@ -58,15 +63,19 @@ std::string NumParticles::write(const MonteCarlo& mc) {
 
 void NumParticles::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
-  feasst_serialize_version(956, ostr);
+  feasst_serialize_version(957, ostr);
   feasst_serialize(particle_type_, ostr);
+  feasst_serialize(particle_type_name_, ostr);
   feasst_serialize(group_, ostr);
 }
 
 NumParticles::NumParticles(std::istream& istr) : Analyze(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 956, "version mismatch:" << version);
+  ASSERT(version >= 956 && version <= 957, "version mismatch:" << version);
   feasst_deserialize(&particle_type_, istr);
+  if (version >= 957) {
+    feasst_deserialize(&particle_type_name_, istr);
+  }
   feasst_deserialize(&group_, istr);
 }
 

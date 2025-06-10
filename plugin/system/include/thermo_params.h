@@ -22,9 +22,9 @@ class ThermoParams {
   /** @name Arguments
     - beta: inverse temperature, \f$ \beta = \frac{1}{k_B T} \f$.
     - pH: negative of the log-base-10 of the proton concentration.
-    - chemical_potential[i]: chemical potential of the i-th particle type.
-      The [i] is to be substituted for an integer 0, 1, 2, ...
-      If only one particle type, you can drop the [i].
+    - chemical_potential: chemical potential for each particle type.
+      Multiple may be provided as comma-separated values in the same order
+      as the particle_type were added in Configuration.
       The chemical potential must have the inverse units of \f$\beta\f$.
     - pressure: imposed isotropic system pressure.
    */

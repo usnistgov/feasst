@@ -95,7 +95,7 @@ TEST(Domain, wrap) {
 
   // try a 2d position
   domain = MakeDomain({
-    {"side_length0", "8"}, {"side_length1", "8"}, {"xy", "1"}});
+    {"side_length", "8,8"}, {"xy", "1"}});
   pos.set_vector({-2.4047377863009207,-3.7795889301349841});
   shift = domain->shift(pos);
   EXPECT_TRUE(domain->is_tilted());
@@ -108,11 +108,15 @@ TEST(Domain, wrap) {
 }
 
 TEST(Domain, non_cubic) {
+  TRY(
+    auto domain = MakeDomain({
+      {"side_length", "3,4,5"},
+      {"periodic", "false"}});
+    CATCH_PHRASE("must equal the number of dimensions");
+  );
   auto domain = MakeDomain({
-    {"side_length0", "3"},
-    {"side_length1", "4"},
-    {"side_length2", "5"},
-    {"periodic2", "false"}});
+    {"side_length", "3,4,5"},
+    {"periodic", "true,true,false"}});
   EXPECT_EQ(domain->dimension(), 3);
   EXPECT_EQ(domain->volume(), 3*4*5);
   const Position shift = domain->shift_opt(Position({4.6, 2, 1}));
@@ -126,9 +130,7 @@ TEST(Domain, non_cubic) {
 
 TEST(Domain, inscribed_sphere_diameter) {
   auto domain = MakeDomain({
-    {"side_length0", "36.0"},
-    {"side_length1", "36.0"},
-    {"side_length2", "31.17691453623979"},
+    {"side_length", "36,36,31.17691453623979"},
     {"xy", "0.0"},
     {"xz", "18.0"},
     {"yz", "0.0"}});
@@ -136,16 +138,10 @@ TEST(Domain, inscribed_sphere_diameter) {
 }
 
 TEST(Domain, is_minimum_image_for_cutoff) {
-  auto domain = MakeDomain({
-    {"side_length0", "3"},
-    {"side_length1", "4"},
-    {"side_length2", "5"}});
+  auto domain = MakeDomain({{"side_length", "3,4,5"}});
   EXPECT_TRUE (domain->is_minimum_image_for_cutoff(1.5));
   EXPECT_FALSE(domain->is_minimum_image_for_cutoff(1.5001));
-  auto domain2 = MakeDomain({
-    {"side_length0", "3"}, {"periodic0", "false"},
-    {"side_length1", "4"},
-    {"side_length2", "5"}});
+  auto domain2 = MakeDomain({{"side_length", "3,4,5"}, {"periodic", "false,true,true"}});
   EXPECT_TRUE (domain2->is_minimum_image_for_cutoff(2.0));
   EXPECT_FALSE(domain2->is_minimum_image_for_cutoff(2.0001));
 }

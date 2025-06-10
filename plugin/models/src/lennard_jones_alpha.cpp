@@ -2,6 +2,7 @@
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/configuration.h"
 #include "models/include/lennard_jones_alpha.h"
 
 namespace feasst {
@@ -46,8 +47,9 @@ LennardJonesAlpha::LennardJonesAlpha(std::istream& istr) : LennardJones(istr) {
   feasst_deserialize(&two_raised_inv_alpha_, istr);
 }
 
-void LennardJonesAlpha::precompute(const ModelParams& existing) {
-  Model::precompute(existing);
+void LennardJonesAlpha::precompute(const Configuration& config) {
+  Model::precompute(config);
+  const ModelParams& existing = config.model_params();
   delta_sigma_index_ = existing.index("delta_sigma");
   lambda_index_ = existing.index("lambda");
   DEBUG("lambda_index_ " << lambda_index_);

@@ -1,9 +1,9 @@
 # FEASST particle file (https://doi.org/10.18434/M3S095)
 #
-#        O(0)
+#        O1
 #      / | \
-#    /   M(1)\
-#  H(2)        H2(3)
+#    /   M1  \
+#  H1         H2
 #
 # Units
 # length: Angstrom
@@ -12,35 +12,35 @@
 
 Site Properties
 
-0 sigma 3.153577942 epsilon 0.648694333 cutoff 10.0 charge  0.   cutoff_outer 0.9572
-1 sigma 0           epsilon 0           cutoff 10.0 charge -1.04 cutoff_outer 0.9572
-2 sigma 0           epsilon 0           cutoff 10.0 charge  0.52 cutoff_outer 0.9572
+O sigma=3.153577942 epsilon=0.648694333 cutoff=10 charge=0     cutoff_outer=0.9572
+M sigma=0           epsilon=0           cutoff=10 charge=-1.04 cutoff_outer=0.9572
+H sigma=0           epsilon=0           cutoff=10 charge=0.52  cutoff_outer=0.9572
 
 Sites
 
-0 0  0                     0                    0
-1 1  0                    -0.150                0
-2 2 -0.756950327263661000 -0.585882276618295000 0
-3 2  0.756950327263661000 -0.585882276618295000 0
+O1 O  0                     0                    0
+M1 M  0                    -0.150                0
+H1 H -0.756950327263661000 -0.585882276618295000 0
+H2 H  0.756950327263661000 -0.585882276618295000 0
 
 Bond Properties
 
-OM RigidBond length 0.1500 delta 0.0001
-OH RigidBond length 0.9572 delta 0.0001
+OM RigidBond length=0.1500 delta=0.0001
+OH RigidBond length=0.9572 delta=0.0001
 
 Bonds
 
-0 OM 0 1
-1 OH 0 2
-2 OH 0 3
+OM1 OM O1 M1
+OH1 OH O1 H1
+OH2 OH O1 H2
 
 Angle Properties
 
-HOH RigidAngle degrees 104.52 delta 0.01
-HOM RigidAngle degrees  52.26 delta 0.01
+HOH RigidAngle degrees=104.52 delta=0.01
+HOM RigidAngle degrees=52.26  delta=0.01
 
 Angles
 
-0 HOH 2 0 3
-1 HOM 1 0 2
-2 HOM 1 0 3
+H1O1H2 HOH H1 O1 H2
+M1O1H1 HOM M1 O1 H1
+M1O1H2 HOM M1 O1 H2

@@ -62,7 +62,7 @@ Configuration cubic_box_length {cubic_box_length} particle_type0 {fstprt}
 Potential Model HardSphere VisitModel VisitModelCell min_length 1
 ThermoParams beta 1 chemical_potential -1
 Metropolis
-TrialTranslate tunable_param 0.2 tunable_target_acceptance 0.25
+TrialTranslate tunable_param 0.2
 Checkpoint file_name {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # grand canonical ensemble initalization

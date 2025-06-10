@@ -3,6 +3,7 @@
 #include "math/include/constants.h"
 #include "configuration/include/model_params.h"
 #include "configuration/include/physical_constants.h"
+#include "configuration/include/configuration.h"
 #include "charge/include/charge_screened_intra.h"
 
 namespace feasst {
@@ -38,8 +39,9 @@ double ChargeScreenedIntra::energy(
   return -mixed_charge*conversion_factor_*erf(alpha_*distance)/distance;
 }
 
-void ChargeScreenedIntra::precompute(const ModelParams& existing) {
-  Model::precompute(existing);
+void ChargeScreenedIntra::precompute(const Configuration& config) {
+  Model::precompute(config);
+  const ModelParams& existing = config.model_params();
   alpha_ = existing.property("alpha");
   conversion_factor_ = existing.constants().charge_conversion();
 }

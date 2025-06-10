@@ -62,8 +62,7 @@ std::unique_ptr<MonteCarlo> rpm_egce(const int min = 0,
   const double temperature = 0.047899460618081;
   const double beta_mu = -13.94;
   mc->set(MakeThermoParams({{"beta", str(1/temperature)},
-    {"chemical_potential0", str(beta_mu*temperature)},
-    {"chemical_potential1", str(beta_mu*temperature)}}));
+    {"chemical_potential", str(beta_mu*temperature)+','+str(beta_mu*temperature)}}));
   if (min == 1) {
     mc->get_system()->get_configuration()->add_particle_of_type(0);
   } else if (min > 1) {
@@ -218,8 +217,7 @@ std::unique_ptr<MonteCarlo> dival_egce(
     mc->get_system()->get_configuration()->add_particle_of_type(1);
   }
   mc->set(MakeThermoParams({{"beta", str(1/temperature)},
-     {"chemical_potential0", str(beta_mu*temperature)},
-     {"chemical_potential1", str(beta_mu*temperature)}}));
+     {"chemical_potential", str(beta_mu*temperature)+","+str(beta_mu*temperature)}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
@@ -444,8 +442,8 @@ TEST(MonteCarlo, rpm_divalent_morph_LONG) {
   { Configuration * config = mc->get_system()->get_configuration();
     const double q_plus = config->model_params().select("charge").value(0);
     const double q_minus = config->model_params().select("charge").value(1);
-    config->add_particle_type("../plugin/charge/particle/rpm_plus.txt", "0.5");
-    config->add_particle_type("../plugin/charge/particle/rpm_minus.txt", "0.5");
+    config->add_particle_type("../plugin/charge/particle/rpm_plus.txt");
+    config->add_particle_type("../plugin/charge/particle/rpm_minus.txt");
     config->set_model_param("charge", 2, 0.5*q_plus);
     config->set_model_param("charge", 3, 0.5*q_minus);
     config->set_model_param("cutoff", 2, 7.5);
@@ -455,10 +453,11 @@ TEST(MonteCarlo, rpm_divalent_morph_LONG) {
   mc->add_to_reference(MakePotential(MakeDontVisitModel()));
   const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};
   mc->set(MakeThermoParams({{"beta", str(mc->system().thermo_params().beta())},
-    {"chemical_potential0", str(mc->system().thermo_params().chemical_potential(0))},
-    {"chemical_potential1", str(mc->system().thermo_params().chemical_potential(1))},
-    {"chemical_potential2", str(mc->system().thermo_params().chemical_potential(0))},
-    {"chemical_potential3", str(mc->system().thermo_params().chemical_potential(1))}}));
+    {"chemical_potential",
+      str(mc->system().thermo_params().chemical_potential(0)) + "," +
+      str(mc->system().thermo_params().chemical_potential(1)) + "," +
+      str(mc->system().thermo_params().chemical_potential(0)) + "," +
+      str(mc->system().thermo_params().chemical_potential(1))}}));
   mc->set(MakeFlatHistogram(
     MakeMacrostateMorph(
       grow_sequence,

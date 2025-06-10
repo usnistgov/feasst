@@ -60,10 +60,30 @@ NeighborCriteria::NeighborCriteria(argtype args) : NeighborCriteria(&args) {
 }
 
 void NeighborCriteria::name_to_index(const ParticleFactory& unique_types) {
-  site_type0_ = unique_types.site_type_name_to_index(site_type0_name_);
-  site_type1_ = unique_types.site_type_name_to_index(site_type1_name_);
-  site_type0_alt_ = unique_types.site_type_name_to_index(site_type0_alt_name_);
-  site_type1_alt_ = unique_types.site_type_name_to_index(site_type1_alt_name_);
+  DEBUG("site_type0_name_ " << site_type0_name_);
+  DEBUG("site_type1_name_ " << site_type1_name_);
+  DEBUG("site_type0_alt_name_ " << site_type0_alt_name_);
+  DEBUG("site_type1_alt_name_ " << site_type1_alt_name_);
+  if (site_type0_name_ == "-1" && site_type1_name_ == "-1") {
+    site_type0_ = site_type1_ = -1;
+  } else if (site_type0_name_ != "-1" && site_type1_name_ != "-1") {
+    site_type0_ = unique_types.site_type_name_to_index(site_type0_name_);
+    site_type1_ = unique_types.site_type_name_to_index(site_type1_name_);
+  } else {
+    FATAL("site_type0_name_:" << site_type0_name_ << " and "
+      << "site_type1_name_:" << site_type1_name_ << " should either "
+      << "both be -1 or neither");
+  }
+  if (site_type0_alt_name_ == "-1" && site_type1_alt_name_ == "-1") {
+    site_type0_alt_ = site_type1_alt_ = -1;
+  } else if (site_type0_alt_name_ != "-1" && site_type1_alt_name_ != "-1") {
+    site_type0_alt_ = unique_types.site_type_name_to_index(site_type0_alt_name_);
+    site_type1_alt_ = unique_types.site_type_name_to_index(site_type1_alt_name_);
+  } else {
+    FATAL("site_type0_alt_name_:" << site_type0_alt_name_ << " and "
+      << "site_type1_alt_name_:" << site_type1_alt_name_ << " should either "
+      << "both be -1 or neither");
+  }
 }
 
 bool NeighborCriteria::is_accepted(const double energy,

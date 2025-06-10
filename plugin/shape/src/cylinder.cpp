@@ -5,14 +5,21 @@
 
 namespace feasst {
 
-FEASST_MAPPER(Cylinder, argtype({{"radius", "1"}, {"first_point", "f"},
-  {"f0", "0"}, {"second_point", "s"}, {"s0", "0"}}));
+FEASST_MAPPER(Cylinder, argtype({{"radius", "1"}, {"first_point", "0,0"},
+    {"second_point", "0,0"}}));
 
 Cylinder::Cylinder(argtype * args) {
   class_name_ = "Cylinder";
   radius_ = dble("radius", args);
-  point0_ = Position(parse_dimensional(str("first_point", args), args, 4));
-  point1_ = Position(parse_dimensional(str("second_point", args), args, 4));
+  const std::string fp = str("first_point", args);
+  if (is_found_in(fp, ",")) {
+    point0_ = Position({{"csv", fp}});
+    point1_ = Position({{"csv", str("second_point", args)}});
+  } else {
+    WARN("Deprecated Cylinder::first_point without comma-separated values.");
+    point0_ = Position(parse_dimensional(fp, args, 4));
+    point1_ = Position(parse_dimensional(str("second_point", args), args, 4));
+  }
 }
 Cylinder::Cylinder(argtype args) : Cylinder(&args) {
   feasst_check_all_used(args);

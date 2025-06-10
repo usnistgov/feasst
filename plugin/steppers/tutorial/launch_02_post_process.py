@@ -16,7 +16,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/atom.txt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--xyz_file', type=str, default='post_process.xyz',
                         help='The xyz file to read configurations')
@@ -54,18 +54,18 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-Configuration particle_type0 {fstprt} xyz_file {xyz_file}
-Potential Model HardSphere VisitModel VisitModelCell min_length 1
-ThermoParams beta 1 chemical_potential 1
+Configuration particle_type=fluid:{fstprt} xyz_file={xyz_file} cutoff=1
+Potential Model=HardSphere VisitModel=VisitModelCell min_length=max_cutoff
+ThermoParams beta=1 chemical_potential=1
 Metropolis
-Scattering trials_per_update 1 trials_per_write 1 num_frequency 10 output_file {prefix}{sim}_iq.csv
-ReadConfigFromFile input_file {xyz_file}
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-Run until complete
+Scattering trials_per_update=1 trials_per_write=1 num_frequency=10 output_file={prefix}{sim:03d}_iq.csv
+ReadConfigFromFile input_file={xyz_file}
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
+Run until=complete
 """.format(**params))
 
 def post_process(params):
-    iq=pd.read_csv(params['prefix']+'0_iq.csv', comment="#")
+    iq=pd.read_csv(params['prefix']+'000_iq.csv', comment="#")
     grp = iq.groupby('q', as_index=False)
     assert np.abs(iq['i'][3810] - 0.114066) < 0.4
     assert np.abs(iq['i'][0]/iq['p0'][0]**2 - 1) < 0.075

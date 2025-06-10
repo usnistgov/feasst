@@ -59,32 +59,33 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length 500 particle_type0 /feasst/plugin/chain/particle/cg7mab2.txt \
-    add_particles_of_type0 2 \
-    group0 first first_particle_index 0
-Potential Model HardSphere
-RefPotential Model HardSphere sigma 0 sigma0 {reference_sigma} cutoff 0 cutoff0 {reference_sigma}
-ThermoParams beta 1
-MayerSampling trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
-TrialTranslate new_only true reference_index 0 tunable_param 1 group first
-TrialRotate new_only true reference_index 0 tunable_param 40
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+RandomMT19937 seed={seed}
+Configuration cubic_side_length=500 particle_type=mab:/feasst/plugin/chain/particle/cg7mab2.txt \
+    add_num_mab_particles=2 \
+    group=first first_particle_index=0
+Potential Model=HardSphere
+RefPotential Model=HardSphere sigma=0 sigma0={reference_sigma} cutoff=0 cutoff0={reference_sigma}
+ThermoParams beta=1
+MayerSampling trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
+TrialTranslate new_only=true reference_index=0 tunable_param=1 group=first
+TrialRotate new_only=true reference_index=0 tunable_param=40
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # tune trial parameters
-CriteriaWriter trials_per_write {tpc} output_file {prefix}{sim}_b2_eq.txt
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}_eq.xyz
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_eq.csv
+Movie [write]_eq.xyz
+CriteriaWriter [write]_b2_eq.csv
 Tune
-Run until complete
-Remove name0 Tune name1 CriteriaWriter name2 Log name3 Movie
+Run until=complete
+Remove name=Tune,CriteriaWriter,Log,Movie
 
 # production
-CriteriaWriter trials_per_write {tpc} output_file {prefix}{sim}_b2.txt
-Log trials_per_write {tpc} output_file {prefix}{sim}.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
-MayerSampling trials_per_cycle {tpc} cycles_to_complete {production_cycles}
-Run until complete
+Log [write].csv
+Movie [write].xyz
+CriteriaWriter [write]_b2.csv
+MayerSampling trials_per_cycle={tpc} cycles_to_complete={production_cycles}
+Run until=complete
 """.format(**params))
 
 def post_process(params):
@@ -100,7 +101,7 @@ def post_process(params):
     b2_overall = accumulator.Accumulator()
     for i in range(params['num_sims']):
         print('i', i)
-        b2t = b2(params['prefix']+str(i)+'_b2.txt')
+        b2t = b2("{}{:03d}_b2.csv".format(params['prefix'], i))
         print('b2', b2t['second_virial_ratio']*b2hs_ref, '+/-', b2t['second_virial_ratio_block_stdev']*b2hs_ref)
         print('b2', b2t['second_virial_ratio']*b2hs_ref*lpm_fac,
              '+/-', b2t['second_virial_ratio_block_stdev']*b2hs_ref*lpm_fac,

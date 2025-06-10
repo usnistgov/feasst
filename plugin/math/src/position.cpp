@@ -233,7 +233,17 @@ double Position::nearest_distance_to_axis(const Position& point1,
 
 Position::Position(argtype * args) {
   double x = 0, y = 0, z = 0;
-  if (used("x", *args)) {
+  if (!used("x", *args)) {
+    const std::string csv = feasst::str("csv", args, "");
+    if (!csv.empty()) {
+      std::vector<double> vals;
+      for (const std::string& x : split(csv, ',')) {
+        vals.push_back(str_to_double(x));
+      }
+      set_vector(vals);
+    }
+  } else {
+    WARN("Deprecated Position::x->csv");
     x = dble("x", args);
     if (used("y", *args)) {
       y = dble("y", args);

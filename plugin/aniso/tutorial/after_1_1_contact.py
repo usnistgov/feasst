@@ -17,10 +17,10 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-Configuration cubic_side_length 2e2 particle_type0 {domain1}.txt particle_type1 {domain2}.txt \
-  add_particles_of_type0 1 add_particles_of_type1 1 cutoff 0 set_cutoff_min_to_sigma true {vis_extra}
-Potential Model HardSphere VisitModel VisitModelCell min_length max_sigma energy_cutoff 1e100
-TabulateTwoRigidBody3D proc {sim} num_proc {num_sims} input_orientation_file {orientation_file} num_z -1 output_table_file {prefix}{sim}.txt {contact_xyz_file} contact_xyz_index {contact_xyz_index}
+Configuration cubic_side_length=2e2 particle_type=pt1:{domain1}.txt,pt2:{domain2}.txt \
+  add_num_pt1_particles=1 add_num_pt2_particles=1 cutoff=0 set_cutoff_min_to_sigma=true {vis_extra}
+Potential Model=HardSphere VisitModel=VisitModelCell min_length=max_sigma energy_cutoff=1e100
+TabulateTwoRigidBody3D proc={sim} num_proc={num_sims} input_orientation_file={orientation_file} num_z=-1 output_table_file={prefix}{sim}.txt {contact_xyz_file} contact_xyz_index={contact_xyz_index}
 """.format(**params))
 
 def post_process(params):
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     prms['num_sims'] = prms['num_nodes']*prms['procs_per_node']
     if prms['contact_xyz_file'] != '':
         prms['contact_xyz_file'] = 'contact_xyz_file ' + prms['contact_xyz_file']
-        prms['vis_extra'] = 'group0 fixed fixed_particle_type 0 group1 mobile mobile_particle_type 1'
+        prms['vis_extra'] = 'group=fixed,mobile fixed_particle_type=pt1 mobile_particle_type=pt2'
     else:
         prms['vis_extra'] = ''
 

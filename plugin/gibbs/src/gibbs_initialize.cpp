@@ -1,3 +1,4 @@
+#include <iostream>
 #include <cmath>
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
@@ -119,14 +120,14 @@ void GibbsInitialize::update(MonteCarlo * mc) {
   DEBUG("updates_since_adjust_ " << updates_since_adjust_);
   DEBUG("updates_per_adjust_ " << updates_per_adjust_);
   if (updates_since_adjust_ >= updates_per_adjust_) {
-    INFO("Begin adjustment process. Checking if tolerances reached.");
-    INFO("Estimated low and high densities: " << low_dens_->average() << " "
-      << high_dens_->average());
+    std::cout << "# Begin adjustment process. Checking if tolerances reached."
+      << std::endl << "# Estimated low and high densities: " <<
+      low_dens_->average() << " " << high_dens_->average() << std::endl;
     const double frac_low = static_cast<double>(num_low)/(num_low + num_high);
     const bool frac_tol = std::abs(frac_low - frac_part_low_dens_) <= frac_part_low_dens_tol_;
-    INFO("May adjust volume to reach target fraction N in low dens:"
+    std::cout << "# May adjust volume to reach target fraction N in low dens:"
       << frac_part_low_dens_ << " currently: " << frac_low << " tolerance: "
-      << frac_part_low_dens_tol_ << " within? " << frac_tol);
+      << frac_part_low_dens_tol_ << " within tolernace? " << frac_tol << std::endl;
     if (frac_tol) {
       criteria->set_complete();
     } else {
@@ -135,10 +136,10 @@ void GibbsInitialize::update(MonteCarlo * mc) {
       const double v_low_target = frac_part_low_dens_*(num_low + num_high)/low_dens_->average();
       const double v_high_target = (1. - frac_part_low_dens_)*(num_low + num_high)/high_dens_->average();
       const double dv = v_low_target + v_high_target - vol_low - vol_high;
-      INFO("Volume change:" << dv);
+      std::cout << "# Changing volume by:" << dv << std::endl;
       system->change_volume(dv, {{"configuration", str(low_dens_config_)}});
       criteria->initialize(system);
-      INFO("Energy of low density:" << criteria->current_energy(low_dens_config_));
+      std::cout << "# Energy of low density:" << criteria->current_energy(low_dens_config_) << std::endl;
       // HWH consider a series of trials to reach the target volume
     }
 

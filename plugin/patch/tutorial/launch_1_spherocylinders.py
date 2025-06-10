@@ -61,37 +61,38 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {prefix}.txt group0 centers centers_site_type0 0
-Potential Model HardSphere VisitModelInner Spherocylinder group centers
-ThermoParams beta 1 chemical_potential -1
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=cylinder:{prefix}.txt group=centers centers_site_type=0
+Potential Model=HardSphere VisitModelInner=Spherocylinder group=centers
+ThermoParams beta=1 chemical_potential=-1
 Metropolis
-TrialTranslate weight 1 tunable_param 2
-TrialRotate weight 1 tunable_param 40
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-CheckEnergy trials_per_update {tpc} tolerance 1e-4
+TrialTranslate tunable_param=2
+TrialRotate tunable_param=40
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
+CheckEnergy trials_per_update={tpc} decimal_places=8
 
 # gcmc initialization
-TrialAdd particle_type 0
-Log trials_per_write {tpc} output_file {prefix}{sim}_init.txt
+TrialAdd particle_type=cylinder
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_init.csv
 Tune
-Run until_num_particles {num_particles}
-Remove name0 TrialAdd name1 Log
+Run until_num_particles={num_particles}
+Remove name=TrialAdd,Log
 
 # nvt equilibration
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}_eq.xyz
-Run until complete
-Remove name0 Tune name1 Log name2 Movie
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
+Log [write]_eq.csv
+Movie [write]_eq.xyz
+Run until=complete
+Remove name=Tune,Log,Movie
 
 # nvt production
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production}
-Log trials_per_write {tpc} output_file {prefix}{sim}.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
-MovieSpherocylinder trials_per_write {tpc} output_file {prefix}{sim}c.xyz
-Energy trials_per_write {tpc} output_file {prefix}{sim}_en.txt
-Run until complete
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production}
+Log [write].csv
+Movie [write].xyz
+MovieSpherocylinder [write]c.xyz
+Energy [write]_en.csv
+Run until=complete
 """.format(**params))
 
 def post_process(params):

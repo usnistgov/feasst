@@ -15,28 +15,29 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} add_particles_of_type0 2 group0 mobile mobile_particle_index 1
-Potential Model TwoBodyTable VisitModelInner VisitModelInnerTable table_file {table_file} ignore_energy {ignore_energy}
-RefPotential Model HardSphere sigma 0 cutoff 0 sigma0 {reference_sigma} cutoff0 {reference_sigma}
-ThermoParams beta {beta}
-MayerSampling num_beta_taylor {num_beta_taylor} trials_per_cycle {trials_per} cycles_to_complete {equilibration}
-TrialTranslate new_only true reference_index 0 tunable_param 35 group mobile
-TrialRotate new_only true reference_index 0 tunable_param 40
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=pt1:{fstprt} add_num_pt1_particles=2 group=mobile mobile_particle_index=1
+Potential Model=TwoBodyTable VisitModelInner=VisitModelInnerTable table_file={table_file} ignore_energy={ignore_energy}
+RefPotential Model=HardSphere sigma=0 cutoff=0 sigma0={reference_sigma} cutoff0={reference_sigma}
+ThermoParams beta={beta}
+MayerSampling num_beta_taylor={num_beta_taylor} trials_per_cycle={trials_per} cycles_to_complete={equilibration}
+TrialTranslate new_only=true reference_index=0 tunable_param=35 group=mobile
+TrialRotate new_only=true reference_index=0 tunable_param=40
 
 # tune trial parameters
-CriteriaWriter trials_per_write {trials_per} output_file {prefix}_{sim}_b2_eq.txt
-Log trials_per_write {trials_per} output_file {prefix}_{sim}_eq.txt
+Let [write]=trials_per_write={trials_per} output_file={prefix}_{sim}
+Log [write]_eq.txt
+CriteriaWriter [write]_b2_eq.txt
 Tune
-Run until complete
-Remove name0 CriteriaWriter name1 Log name2 Tune
+Run until=complete
+Remove name=CriteriaWriter,Log,Tune
 
 # production
-CriteriaWriter trials_per_write {trials_per} output_file {prefix}_{sim}_b2.txt
-Log trials_per_write {trials_per} output_file {prefix}_{sim}.txt
-#Movie trials_per_write {trials_per} output_file {prefix}_{sim}.xyz
-MayerSampling num_beta_taylor {num_beta_taylor} trials_per_cycle {trials_per} cycles_to_complete {production}
-Run until complete
+CriteriaWriter [write]_b2.txt
+Log [write].txt
+#Movie [write].xyz
+MayerSampling num_beta_taylor={num_beta_taylor} trials_per_cycle={trials_per} cycles_to_complete={production}
+Run until=complete
 """.format(**params))
 
 def post_process(params):

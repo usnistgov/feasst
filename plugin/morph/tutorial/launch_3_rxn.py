@@ -57,53 +57,51 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-Configuration cubic_side_length {cubic_side_length} add_particles_of_type2 1 \
-  particle_type0 /feasst/particle/lj.txt particle_type1 /feasst/particle/lj.txt \
-  particle_type2 /feasst/particle/lj.txt particle_type3 /feasst/particle/lj.txt
-Potential Model LennardJones
-Potential VisitModel LongRangeCorrections
-RefPotential VisitModel DontVisitModel
-ThermoParams beta {beta} chemical_potential0 1 chemical_potential1 1 \
-                         chemical_potential2 1 chemical_potential3 1
+Configuration cubic_side_length={cubic_side_length} particle_type=\
+reactant1:/feasst/particle/lj_new.txt,product1:/feasst/particle/lj_new.txt,\
+reactant2:/feasst/particle/lj_new.txt,product2:/feasst/particle/lj_new.txt add_num_reactant2_particles=1
+Potential Model=LennardJones
+Potential VisitModel=LongRangeCorrections
+RefPotential VisitModel=DontVisitModel
+ThermoParams beta={beta} chemical_potential=1,1,1,1
 Metropolis
 # Add weight per num fraction
-TrialTranslate particle_type 0 weight_per_number_fraction 0.125
-TrialTranslate particle_type 1 weight_per_number_fraction 0.125
-TrialTranslate particle_type 2 weight_per_number_fraction 0.125
-TrialTranslate particle_type 3 weight_per_number_fraction 0.125
-#TrialParticlePivot particle_type 0 weight_per_number_fraction 0.125
-#TrialParticlePivot particle_type 1 weight_per_number_fraction 0.125
-#TrialParticlePivot particle_type 2 weight_per_number_fraction 0.125
-#TrialParticlePivot particle_type 3 weight_per_number_fraction 0.125
-CheckEnergy trials_per_update {tpc} decimal_places 8
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+For [pt]=reactant1,reactant2,product1,product2
+    TrialTranslate particle_type=[pt] weight_per_number_fraction 0.125
+#TrialParticlePivot particle_type=[pt] weight_per_number_fraction 0.125
+EndFor
+CheckEnergy trials_per_update={tpc} decimal_places=8
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # initialization number of particles
-Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_fill.csv
+Let [write]=trials_per_write={tpc} output_file={prefix}n{node}s{sim:03d}
+Log [write]_fill.csv
 Tune
-TrialAdd particle_type 0
-Run until_num_particles {num_particles} particle_type 0
-Remove name0 TrialAdd name1 Log
+TrialAdd particle_type=reactant1
+Run until_num_particles={num_particles} particle_type=reactant1
+Remove name=TrialAdd,Log
 
 # equilibration
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
-TrialMorph weight 0.1 reference_index 0 particle_type0 0 particle_type_morph0 1 particle_type1 2 particle_type_morph1 3
-TrialMorph weight 0.1 reference_index 0 particle_type0 1 particle_type_morph0 0 particle_type1 3 particle_type_morph1 2
-TrialMorph weight 0.1 reference_index 0 particle_type0 0 particle_type_morph0 1 particle_type1 1 particle_type_morph1 0
-Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.csv
-Run until complete
-Remove name0 Tune name1 Log
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
+Let [TrialMorph]=TrialMorph weight=0.1 reference_index=0 particle_type
+[TrialMorph]=reactant1,reactant2 particle_type_morph=product1,product2
+[TrialMorph]=product1,product2 particle_type_morph=reactant1,reactant2
+[TrialMorph]=product1,reactant1 particle_type_morph=reactant1,product1
+[TrialMorph]=product2,reactant2 particle_type_morph=reactant2,product2
+Log [write]_eq.csv
+Run until=complete
+Remove name=Tune,Log
 
 # production
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
-Log          trials_per_write {tpc} output_file {prefix}n{node}s{sim}.csv
-Movie        trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.xyz
-Movie        trials_per_write {tpc} output_file {prefix}n{node}s{sim}.xyz
-Tune         trials_per_write {tpc} output_file {prefix}n{node}s{sim}_tune.csv
-Energy       trials_per_write {tpc} output_file {prefix}n{node}s{sim}_en.csv
-NumParticles trials_per_write {tpc} output_file {prefix}n{node}s{sim}_n.csv particle_type 2
-ProfileCPU   trials_per_write {tpc} output_file {prefix}n{node}s{sim}_profile.csv trials_per_update 5e3
-Run until complete
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
+Log [write].csv
+Tune [write]_tune.csv
+Movie [write]_eq.xyz
+Movie [write].xyz
+Energy [write]_en.csv
+ProfileCPU [write]_profile.csv trials_per_update=5e3
+NumParticles [write]_n.csv particle_type=reactant2
+Run until=complete
 """.format(**params))
 
 def post_process(params):

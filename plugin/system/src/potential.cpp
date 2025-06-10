@@ -52,7 +52,7 @@ Potential::Potential(argtype * args) {
       DEBUG("key " << key);
       DEBUG("param " << param);
       if (key.substr(0, size) == param) {
-        DEBUG("** extracting param");
+        DEBUG("** extracting param:"  << key);
         override_args_.insert({key, str(key, *args)});
         it = args->erase(it);
       } else {
@@ -221,14 +221,15 @@ void Potential::precompute(Configuration * config) {
         }
       }
       for (int site_type = 0; site_type < config->num_site_types(); ++site_type) {
-        std::string param_arg = param + str(site_type);
+        std::string param_arg = param + config->site_type_to_name(site_type);
         if (used(param_arg, args)) {
           set_model_param(param, site_type, dble(param_arg, &args), *config);
         }
       }
       for (int site1 = 0; site1 < config->num_site_types(); ++site1) {
         for (int site2 = site1; site2 < config->num_site_types(); ++site2) {
-          std::string param_arg = param + str(site1) + "_" + str(site2);
+          std::string param_arg = param + config->site_type_to_name(site1) + "_"
+                                        + config->site_type_to_name(site2);
           if (used(param_arg, args)) {
             set_model_param(param, site1, site2, dble(param_arg, &args), *config);
           }
@@ -239,8 +240,8 @@ void Potential::precompute(Configuration * config) {
   }
 
   visit_model_->precompute(config);
-  const ModelParams& params = model_params(*config);
-  model_->precompute(params);
+  //const ModelParams& params = model_params(*config);
+  model_->precompute(*config);
   does_cutoff_fit_domain(*config, true);
 
   if (table_size_ > 0) {
@@ -248,7 +249,7 @@ void Potential::precompute(Configuration * config) {
       << "body simulations");
     auto table = MakeModelTwoBodyTable({{"hard_sphere_threshold",
                                          str(table_hs_threshold_)}});
-    table->precompute(config->model_params());
+    table->precompute(*config);
     table->set(model_params(*config),
       table_size_,
       model_);

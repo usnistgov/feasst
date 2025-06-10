@@ -16,7 +16,7 @@ TEST(ArgumentParse, args) {
   args.parse(5, argv);
   //char *argv[] = {NULL, (char*)"-k", (char*)"hi", (char*)"-z", (char*)"1234",(char*)"-h"};
   //INFO(args.parse(6, argv));
-  EXPECT_EQ(args.str(), "-k,hi,-z,1234,-g,dflt,-y,123.5,-q,-23,");
+  EXPECT_EQ(args.str(), "-k,hi,-z,1234,-g,dflt,-y,123.5,-q,-23");
   EXPECT_TRUE(args.option_given("-k"));
   EXPECT_FALSE(args.option_given("-f"));
   EXPECT_FALSE(args.option_given("-p"));

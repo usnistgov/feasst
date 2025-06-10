@@ -15,7 +15,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./0.8, help='inverse temperature')
     parser.add_argument('--mu', type=float, default=-1, help='chemical potential')
@@ -78,44 +78,45 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration side_length0 {xy_side_length} side_length1 {xy_side_length} side_length2 {z_side_length} periodic2 false particle_type0 {fstprt}
-Potential Model ModelLJShape shape_file {prefix}_shape_file.txt alpha 9 wall_epsilon 10 wall_sigma 2
-Potential Model ModelLJShape shape_file {prefix}_shape_file.txt alpha 3 wall_epsilon -10 wall_sigma 2
-Potential Model LennardJones
-ThermoParams beta {beta} chemical_potential {mu_init}
+RandomMT19937 seed={seed}
+Configuration side_length={xy_side_length},{xy_side_length},{z_side_length} periodic=true,true,false particle_type=fluid:{fstprt}
+Potential Model=ModelLJShape shape_file={prefix}_shape_file.txt alpha=9 wall_sigma=2 wall_epsilon=10
+Potential Model=ModelLJShape shape_file={prefix}_shape_file.txt alpha=3 wall_sigma=2 wall_epsilon=-10
+Potential Model=LennardJones
+ThermoParams beta={beta} chemical_potential={mu_init}
 Metropolis
-TrialTranslate weight 1 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25
-CheckEnergy trials_per_update {tpc} tolerance 1e-4
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+TrialTranslate weight=1 particle_type=fluid tunable_param=0.2
+CheckEnergy trials_per_update={tpc} decimal_places=6
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # gcmc initialization and nvt equilibration
-TrialAdd particle_type 0
-Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.txt
+TrialAdd particle_type=fluid
+Let [write]=trials_per_write={tpc} output_file={prefix}n{node}s{sim:03d}
+Log [write]_eq.txt
 Tune
-Run until_num_particles {min_particles} particle_type 0
-Remove name TrialAdd
-ThermoParams beta {beta} chemical_potential {mu}
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
-Run until complete
-Remove name0 Tune name1 Log
+Run until_num_particles={min_particles} particle_type=fluid
+Remove name=TrialAdd
+ThermoParams beta={beta} chemical_potential={mu}
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
+Run until=complete
+Remove name=Tune,Log
 
 # gcmc tm production
-FlatHistogram Macrostate MacrostateNumParticles particle_type 0 width 1 max {max_particles} min {min_particles} \
-Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
-TrialTransfer weight 2 particle_type 0 num_steps 4
-Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}.txt
-Movie trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.xyz stop_after_cycle 1
-Movie trials_per_write {tpc} output_file {prefix}n{node}s{sim}.xyz start_after_cycle 1
-Tune trials_per_write {tpc} output_file {prefix}n{node}s{sim}_tune.txt multistate true stop_after_cycle 1
-Energy trials_per_write {tpc} output_file {prefix}n{node}s{sim}_en.txt multistate true start_after_cycle 1
-CriteriaUpdater trials_per_update 1e5
-CriteriaWriter trials_per_write {tpc} output_file {prefix}n{node}s{sim}_crit.txt
-Run until complete
+FlatHistogram Macrostate=MacrostateNumParticles particle_type=fluid width=1 max={max_particles} min={min_particles} \
+    Bias=WLTM min_sweeps={min_sweeps} min_flatness=25 collect_flatness=20 min_collect_sweeps=1
+TrialTransfer weight=2 particle_type=fluid num_steps=4
+Log [write].txt
+Movie [write]_eq.xyz stop_after_cycle=1
+Movie [write].xyz start_after_cycle=1
+Tune [write]_tune.txt multistate=true stop_after_cycle=1
+Energy [write]_en.txt multistate=true start_after_cycle=1
+CriteriaUpdater trials_per_update=1e5
+CriteriaWriter [write]_crit.txt
+Run until=complete
 
 # continue until all simulations on the node are complete
-WriteFileAndCheck sim {sim} sim_start {sim_start} sim_end {sim_end} file_prefix {prefix}n{node}s file_suffix _finished.txt output_file {prefix}n{node}_terminate.txt
-Run until_file_exists {prefix}n{node}_terminate.txt trials_per_file_check {tpc}
+WriteFileAndCheck sim={sim} sim_start={sim_start} sim_end={sim_end} file_prefix={prefix}n{node}s file_suffix=_finished.txt output_file={prefix}n{node}_terminate.txt
+Run until_file_exists={prefix}n{node}_terminate.txt trials_per_file_check={tpc}
 """.format(**params))
 
 def post_process(params):

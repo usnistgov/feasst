@@ -13,7 +13,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1., help='inverse temperature')
     parser.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
@@ -60,67 +60,64 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
+RandomMT19937 seed={seed}
 # purposefully start with a bad volume guess to see if equilibration adjusts volume
-Configuration cubic_side_length 16 particle_type0 {fstprt}
-Configuration cubic_side_length 8 particle_type0 {fstprt}
-CopyFollowingLines for_num_configurations 2
-    Potential Model LennardJones
-    Potential VisitModel LongRangeCorrections
-    RefPotential VisitModel DontVisitModel
-EndCopy
-ThermoParams beta {beta} chemical_potential 5
+For [config]:[len]=0:16,1:8
+    Configuration cubic_side_length=[len] particle_type=fluid:{fstprt}
+    Potential Model=LennardJones configuration_index=[config]
+    Potential VisitModel=LongRangeCorrections configuration_index=[config]
+    RefPotential VisitModel=DontVisitModel configuration_index=[config]
+EndFor
+ThermoParams beta={beta} chemical_potential=5
 Metropolis
-CopyNextLine replace0 configuration_index with0 0 replace1 tunable_param with1 2.0
-TrialTranslate tunable_param 0.1 tunable_target_acceptance 0.2 configuration_index 1
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+For [config]:[param]=0:2.0,1:0.1
+    TrialTranslate tunable_param=[param] configuration_index=[config]
+EndFor
+CheckEnergy trials_per_update={tpc} decimal_places=8
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # fill both boxes with particles
-Log trials_per_write {tpc} output_file {prefix}{sim}_fill.csv
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_fill.xyz
-Movie trials_per_write {tpc} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_fill.csv
 Tune
-TrialAdd particle_type 0 configuration_index 0
-Run until_num_particles 112 configuration_index 0
-Remove name TrialAdd
-TrialAdd particle_type 0 configuration_index 1
-Run until_num_particles 400 configuration_index 1
-Remove name0 Tune name1 TrialAdd name2 Log name3 Movie name4 Movie
+For [config]:[num]=0:112,1:400
+    Movie [write]_c[config]_fill.xyz configuration_index=[config]
+    TrialAdd particle_type=fluid configuration_index=[config]
+    Run until_num_particles=[num] configuration_index=[config]
+    Remove name=TrialAdd,Movie
+EndFor
 
 # gibbs equilibration cycles: equilibrate, estimate density, adjust, repeat
 # start a very long run GibbsInitialize completes once targets are reached
-Metropolis trials_per_cycle 1e9 cycles_to_complete 1e9
-GibbsInitialize updates_density_equil {equil} updates_per_adjust {double_equil}
-TrialGibbsParticleTransfer weight 0.5 particle_type 0 reference_index 0 print_num_accepted true
-TrialGibbsVolumeTransfer weight 0.01 tunable_param 10. tunable_target_acceptance 0.5 reference_index 0 print_num_accepted true
-CheckEnergy trials_per_update {tpc} decimal_places 8
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
-Movie trials_per_write {tpc} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
-ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_eq_profile.csv
+Metropolis trials_per_cycle=1e9 cycles_to_complete=1e9
+GibbsInitialize updates_density_equil={equil} updates_per_adjust={double_equil}
+TrialGibbsParticleTransfer weight=0.5 particle_type=fluid reference_index=0 print_num_accepted=true
+TrialGibbsVolumeTransfer weight=0.01 tunable_param=10. tunable_target_acceptance=0.5 reference_index=0 print_num_accepted=true
+Log [write]_eq.csv
+For [config]=0,1
+    Movie [write]_c[config]_eq.xyz configuration_index=[config]
+EndFor
+ProfileCPU [write]_eq_profile.csv
 # a new tune is required when new Trials are introduced
 # decrease trials per due to infrequency of volume transfer attempts
-Tune trials_per_tune 20
-Run until complete
-Remove name0 GibbsInitialize name1 Tune name2 Log name3 Movie name4 Movie name5 ProfileCPU
+Tune trials_per_tune=20
+Run until=complete
+Remove name=GibbsInitialize,Tune,Log,Movie,Movie,ProfileCPU
 
 # gibbs ensemble production
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
-Log trials_per_write {tpc} output_file {prefix}{sim}.csv
-CopyFollowingLines for_num_configurations 2 replace_with_index [config]
-    Density trials_per_write {tpc} output_file {prefix}{sim}_c[config]_dens.csv
-    Movie   trials_per_write {tpc} output_file {prefix}{sim}_c[config].xyz
-    Energy  trials_per_write {tpc} output_file {prefix}{sim}_c[config]_en.csv
-    Volume  trials_per_write {tpc} output_file {prefix}{sim}_c[config]_vol.csv
-EndCopy
-GhostTrialVolume trials_per_write {tpc} output_file {prefix}{sim}_pressure.csv trials_per_update 1e3
-ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_profile.csv
-CPUTime    trials_per_write {tpc} output_file {prefix}{sim}_cpu.csv
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
+Log [write].csv
+For [analyze]:[file]=Density:_dens.csv,Movie:.xyz,Energy:_en.csv,Volume:_vol.csv,ProfileCPU:_profile.csv,CPUTime:_cpu.csv
+    For [config]=0,1
+        [analyze] [write]_c[config][file] configuration_index=[config]
+    EndFor
+EndFor
+GhostTrialVolume [write]_pressure.csv trials_per_update=1e3
 Run until complete
 """.format(**params))
 
 def compare(label, average, stdev, params, z_factor=5):
-    df = pd.read_csv(params['prefix']+"0_"+label+".csv")
+    df = pd.read_csv(params['prefix']+"000_"+label+".csv")
     df['diff'] = np.abs(df['average']-average)
     df['tol'] = np.sqrt(df['block_stdev']**2+stdev**2)
     print(label, df)
@@ -139,13 +136,13 @@ def post_process(params):
     compare("pressure", rhov_rhol_p[0][2], rhov_rhol_p[1][2], params)
     #if True: # set to true to plot
     if False: # set to true to plot
-        df = pd.read_csv('lj0_eq.csv')
+        df = pd.read_csv('lj000_eq.csv')
         print(df)
         #plt.plot(df['volume_config0'])
-        label='num_particles_of_type0'
+        label='num_particles_fluid'
         #label='volume'
         #label='energy'
-        if label != 'num_particles_of_type0':
+        if label != 'num_particles_fluid':
             for config in ['0', '1']:
                 plt.plot(df[label+'_config'+config], label=config)
             plt.ylabel(label, fontsize=16)

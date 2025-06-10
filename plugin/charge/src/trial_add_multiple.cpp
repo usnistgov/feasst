@@ -8,23 +8,33 @@
 
 namespace feasst {
 
-std::vector<int> ptypes(argtype * args) {
-  std::vector<int> ptypes;
-  int count = 0;
-  std::string start("particle_type");
-  std::stringstream ss;
-  ss << start << count;
-  while (used(ss.str(), *args)) {
-    DEBUG("ss " << ss.str());
-    ptypes.push_back(integer(ss.str(), args));
-    ASSERT(count < 1e8, "count: " << count << " is too high");
-    ++count;
-    ss.str("");
+std::vector<std::string> ptypes(argtype * args) {
+  std::vector<std::string> ptypes;
+  if (used("particle_types", *args)) {
+    std::vector<std::string> pnames = split(feasst::str("particle_types", args), ',');
+    for (const std::string& pn : pnames) {
+      ptypes.push_back(pn);
+    }
+  } else {
+    int count = 0;
+    std::string start("particle_type");
+    std::stringstream ss;
     ss << start << count;
+    while (used(ss.str(), *args)) {
+      DEBUG("ss " << ss.str());
+      ptypes.push_back(str(ss.str(), args));
+      ASSERT(count < 1e8, "count: " << count << " is too high");
+      ++count;
+      ss.str("");
+      ss << start << count;
+    }
+    if (count > 0) {
+      WARN("Deprecated Trial[Add,Transfer]Multiple::particle_type[i]->particle_types");
+    }
   }
   DEBUG("ptypes " << feasst_str(ptypes));
-  ASSERT(std::is_sorted(ptypes.begin(), ptypes.end()),
-    "ptypes not sorted: " << feasst_str(ptypes));
+  //ASSERT(std::is_sorted(ptypes.begin(), ptypes.end()),
+  //  "ptypes not sorted: " << feasst_str(ptypes));
   return ptypes;
 }
 
@@ -33,12 +43,12 @@ FEASST_MAPPER(TrialAddMultiple,);
 TrialAddMultiple::TrialAddMultiple(argtype * args) : Trial(args) {
   class_name_ = "TrialAddMultiple";
   set_description("TrialAddMultiple");
-  const std::vector<int> pt = ptypes(args);
+  const std::vector<std::string> pt = ptypes(args);
   std::vector<argtype> new_args;
   set(std::make_shared<ComputeAddMultiple>(args));
   const std::string reference_index = feasst::str("reference_index", args, "-1");
   const std::string num_steps = feasst::str("num_steps", args, "1");
-  for (int p : pt) {
+  for (const std::string& p : pt) {
     argtype nag = *args;
     nag.insert({"particle_type", str(p)});
     nag.insert({"num_steps", num_steps});

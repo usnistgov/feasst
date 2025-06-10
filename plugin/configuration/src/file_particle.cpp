@@ -214,29 +214,50 @@ void FileParticle::read_properties(const std::string file_name,
 }
 
 void FileParticle::read_properties_(const std::string property_type,
-                               const int num_types,
-                               Particle * particle,
-                               std::ifstream & file) const {
+    const int num_types, Particle * particle, std::ifstream & file) const {
   std::string line;
   std::getline(file, line);
   DEBUG("property_type " << property_type);
   DEBUG("read properties: " << line);
   std::vector<std::string> types;
   for (int i = 0; i < num_types; ++i) {
+    int shift = 0;
+    if (property_type == "bond" || property_type == "angle" ||
+        property_type == "dihedral") {
+      shift = 1;
+    }
     std::getline(file, line);
     DEBUG("read properties i " << i << ": " << line);
-    std::vector<std::string> properties = split(line);
+    std::vector<std::string> properties;
+    if (is_found_in(line, "=")) {
+      DEBUG("Parse new delimitor with = sign for assigning values");
+      std::stringstream ss(line);
+      std::string type;
+      ss >> type;
+      properties.push_back(type);
+      for (int ishift = 0; ishift < shift; ++ishift) {
+        ss >> type;
+        properties.push_back(type);
+      }
+      std::string remaining;
+      std::getline(ss, remaining);
+      std::vector<std::string> pairs = split(remaining, ' ');
+      for (const std::string& pair : pairs) {
+        std::vector<std::string> vals = split(pair, '=');
+        DEBUG("vals:" << feasst_str(vals));
+        properties.push_back(vals[0]);
+        properties.push_back(vals[1]);
+      }
+    } else {
+      properties = split(line, ' ');
+    }
     ASSERT(properties.size() >= 3, "Missing properties for: " << property_type);
     const int type = find_type_index_(properties[0], &types);
-    int shift = 0;
     if (property_type == "bond") {
-      shift = 1;
       particle->add_bond_model(type, properties[1]);
     } else if (property_type == "angle") {
-      shift = 1;
       particle->add_angle_model(type, properties[1]);
     } else if (property_type == "dihedral") {
-      shift = 1;
       particle->add_dihedral_model(type, properties[1]);
     }
     ASSERT((properties.size() - shift) % 2 == 1, "size error");

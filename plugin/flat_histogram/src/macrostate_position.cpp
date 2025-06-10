@@ -32,7 +32,7 @@ std::shared_ptr<Macrostate> MacrostatePosition::create(argtype * args) const {
 
 double MacrostatePosition::value(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const {
+    const Acceptance& acceptance) {
   return system.configuration().particle(particle_index_).site(site_index_).position().coord(dimension_);
 }
 

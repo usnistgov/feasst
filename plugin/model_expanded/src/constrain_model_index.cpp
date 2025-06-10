@@ -29,7 +29,7 @@ int ConstrainModelIndex::model_index(const System& system,
 
 bool ConstrainModelIndex::is_allowed(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const {
+    const Acceptance& acceptance) {
   const int index = model_index(system, acceptance);
   bool allowed;
   if (index >= minimum_ && ( (maximum_ == -1) || (index <= maximum_) ) ) {

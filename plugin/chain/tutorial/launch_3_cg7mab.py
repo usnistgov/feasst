@@ -62,47 +62,48 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
-Potential Model HardSphere VisitModel VisitModelCell min_length 5.3283
-ThermoParams beta 1 chemical_potential -1
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=mab:{fstprt}
+Potential Model=HardSphere VisitModel=VisitModelCell min_length=5.3283
+ThermoParams beta=1 chemical_potential=-1
 Metropolis
-TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
-TrialParticlePivot weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25 particle_type 0
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+TrialTranslate weight=0.5 tunable_param=2
+TrialParticlePivot weight=0.5 tunable_param=0.2 particle_type=mab
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # grand canonical ensemble initalization
-TrialAdd particle_type 0
-Run until_num_particles {num_particles}
-Remove name TrialAdd
+TrialAdd particle_type=mab
+Run until_num_particles={num_particles}
+Remove name=TrialAdd
 
 # canonical ensemble equilibration
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
 Tune
-CheckEnergy trials_per_update {tpc} decimal_places 8
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
-Run until complete
-Remove name0 Tune name1 Log
+CheckEnergy trials_per_update={tpc} decimal_places=8
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_eq.txt
+Run until=complete
+Remove name=Tune,Log
 
 # canonical ensemble production
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
-Log trials_per_write {tpc} output_file {prefix}{sim}.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
-PairDistribution trials_per_update 1000 trials_per_write {tpc} dr 0.025 output_file {prefix}{sim}_gr.csv print_intra true
-Scattering trials_per_update 100 trials_per_write {tpc} num_frequency 4 output_file {prefix}{sim}_iq.csv
-Energy trials_per_write {tpc} output_file {prefix}{sim}_en.txt
-CPUTime trials_per_write {tpc} output_file {prefix}{sim}_cpu.txt
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
+Log [write].txt
+Movie [write].xyz
+PairDistribution [write]_gr.csv trials_per_update=1000 dr=0.025 print_intra=true
+Scattering [write]_iq.csv trials_per_update=100 num_frequency=4
+Energy [write]_en.txt
+CPUTime [write]_cpu.txt
 Run until complete
 """.format(**params))
 
 def post_process(params):
-    iq3=pd.read_csv(params['prefix']+'1_iq.csv', comment="#")
-    iq30=pd.read_csv(params['prefix']+'0_iq.csv', comment="#")
+    iq3=pd.read_csv(params['prefix']+'001_iq.csv', comment="#")
+    iq30=pd.read_csv(params['prefix']+'000_iq.csv', comment="#")
     grp3 = iq3.groupby('q', as_index=False)
     grp30 = iq30.groupby('q', as_index=False)
     plt.scatter(grp3.mean()['q'], grp30.mean()['i']/grp3.mean()['i'], label='direct I(10g/L)/I(1g/L)', marker='.')
-    iq3rdfft = scattering.intensity(gr_file=params['prefix']+'1_gr.csv', iq_file=params['prefix']+'1_iq.csv', num_density=3/90**3, skip=10)
-    iq30rdfft = scattering.intensity(gr_file=params['prefix']+'0_gr.csv', iq_file=params['prefix']+'0_iq.csv', num_density=30/90**3, skip=10)
+    iq3rdfft = scattering.intensity(gr_file=params['prefix']+'001_gr.csv', iq_file=params['prefix']+'001_iq.csv', num_density=3/90**3, skip=10)
+    iq30rdfft = scattering.intensity(gr_file=params['prefix']+'000_gr.csv', iq_file=params['prefix']+'000_iq.csv', num_density=30/90**3, skip=10)
     plt.scatter(iq3rdfft['q'], iq30rdfft['iq']/iq3rdfft['iq'], label='rdf ft I(10g/L)/I(1g/L)')
     plt.ylabel('S', fontsize=16)
     plt.xlabel('q(1/nm)', fontsize=16)

@@ -40,8 +40,7 @@ TEST(TrialTransferAVBDivalent, add_remove) {
   metropolis->set_current_energy_profile({0.});
   system.set(MakeThermoParams({
     {"beta", str(1e-6)},
-    {"chemical_potential0", "2"},
-    {"chemical_potential1", "2"}}));
+    {"chemical_potential", "2,2"}}));
   system.add(MakeNeighborCriteria({
     {"maximum_distance", "1.5"},
     {"minimum_distance", "1"},

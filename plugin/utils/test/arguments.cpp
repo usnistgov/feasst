@@ -96,9 +96,9 @@ TEST(Arguments, boolean) {
 
 TEST(Arguments, str) {
   argtype arg = {{"hi", "you"}};
-  EXPECT_EQ("hi you ", str(arg));
+  EXPECT_EQ("hi=you", str(arg));
   arglist args = {{{"major_key1", {{"minor_key1", "value1"}}}}};
-  EXPECT_EQ("{{{\"major_key1\",minor_key1 value1 },}}", str(args));
+  EXPECT_EQ("{{{\"major_key1\",minor_key1=value1},}}", str(args));
 }
 
 TEST(Utils, find_in_list) {
@@ -109,11 +109,11 @@ TEST(Utils, find_in_list) {
   int find;
   find_in_list(std::string("major_key2"), args, &find);
   EXPECT_EQ(1, find);
-  // INFO(str(args));
+  // DEBUG(str(args));
   replace_value("value3", "value[sim_index]", &args);
-  EXPECT_EQ(str(args), "{{{\"major_key\",minor_key value1 },{\"major_key2\",minor_key2 value2 minor_key3 value[sim_index] },}}");
+  EXPECT_EQ(str(args), "{{{\"major_key\",minor_key=value1},{\"major_key2\",minor_key2=value2 minor_key3=value[sim_index]},}}");
   replace_in_value("[sim_index]", "5", &args);
-  EXPECT_EQ(str(args), "{{{\"major_key\",minor_key value1 },{\"major_key2\",minor_key2 value2 minor_key3 value5 },}}");
+  EXPECT_EQ(str(args), "{{{\"major_key\",minor_key=value1},{\"major_key2\",minor_key2=value2 minor_key3=value5},}}");
 }
 
 TEST(Arguments, line_to_argtype) {
@@ -129,6 +129,139 @@ TEST(Arguments, parse_dimensional) {
   EXPECT_EQ(dat.size(), 2);
   EXPECT_EQ(dat[0], 1);
   EXPECT_EQ(dat[1], 2);
+}
+
+TEST(Arguments, parse_line) {
+  std::pair<std::string, argtype> parsed;
+  // deprecated old interface style
+  parsed = parse_line("Configuration cubic_box_length 12 particle_type lj.txt ", NULL, NULL);
+  EXPECT_EQ("Configuration", parsed.first);
+  EXPECT_EQ(parsed.second.find("cubic_box_length")->first, "cubic_box_length");
+  EXPECT_EQ(parsed.second.find("cubic_box_length")->second, "12");
+  EXPECT_EQ(parsed.second.find("particle_type")->first, "particle_type");
+  EXPECT_EQ(parsed.second.find("particle_type")->second, "lj.txt");
+
+  parsed = parse_line("Configuration cubic_box_length=12=5 particle_type=lj.txt ", NULL, NULL);
+  EXPECT_EQ("Configuration", parsed.first);
+  EXPECT_EQ(parsed.second.find("cubic_box_length")->first, "cubic_box_length");
+  EXPECT_EQ(parsed.second.find("cubic_box_length")->second, "12=5");
+  EXPECT_EQ(parsed.second.find("particle_type")->first, "particle_type");
+  EXPECT_EQ(parsed.second.find("particle_type")->second, "lj.txt");
+}
+
+TEST(Arguments, parse_mcs_for) {
+  std::stringstream ss;
+  ss << "For [len]=8,9\nFor [pt]=lj,atom\nConfiguration cubic_box_length [len] particle_type [pt].txt\nEndFor\nEndFor";
+  std::vector<arglist> mcs = parse_mcs(ss);
+  for (const auto& lp : mcs[0]) {
+    EXPECT_EQ(lp.first, "Configuration");
+  }
+  EXPECT_EQ(mcs[0][0].second["cubic_box_length"], "8");
+  EXPECT_EQ(mcs[0][1].second["cubic_box_length"], "8");
+  EXPECT_EQ(mcs[0][2].second["cubic_box_length"], "9");
+  EXPECT_EQ(mcs[0][3].second["cubic_box_length"], "9");
+  EXPECT_EQ(mcs[0][0].second["particle_type"], "lj.txt");
+  EXPECT_EQ(mcs[0][1].second["particle_type"], "atom.txt");
+  EXPECT_EQ(mcs[0][2].second["particle_type"], "lj.txt");
+  EXPECT_EQ(mcs[0][3].second["particle_type"], "atom.txt");
+  //DEBUG(mcs[0][0].first << " : " << feasst_str(mcs[0][0].second));
+  TRY(
+    std::stringstream ss2;
+    ss2 << "For [obj]=Configuration,8";
+    parse_mcs(ss2);
+    CATCH_PHRASE("Found a For without a corresponding EndFor");
+  );
+  TRY(
+    std::stringstream ss2;
+    ss2 << "For [var1]:[var2]=0:1,2:3,4\nEndFor";
+    parse_mcs(ss2);
+    CATCH_PHRASE("did not equal the number of given");
+  );
+  TRY(
+    std::stringstream ss2;
+    ss2 << "For var1:[var2]=0:1,2:4\nEndFor";
+    parse_mcs(ss2);
+    CATCH_PHRASE("should begin with a ");
+  );
+  TRY(
+    std::stringstream ss2;
+    ss2 << "For [var1:[var2]=0:1,2:4\nEndFor";
+    parse_mcs(ss2);
+    CATCH_PHRASE("should end with a ");
+  );
+}
+
+TEST(Arguments, parse_mcs_for_if) {
+  std::stringstream ss;
+  ss << "For [len]=8,9\nIf defined=?hi\nRemove\nElse\nConfiguration cubic_box_length [len] particle_type lj.txt\nEndIf\nEndFor";
+  std::vector<arglist> mcs = parse_mcs(ss);
+  for (const auto& lp : mcs[0]) {
+    EXPECT_EQ(lp.first, "Remove");
+  }
+  std::stringstream ss2;
+  ss2 << "For [len]=8,9\nIf defined=?\nRemove\nElse\nConfiguration cubic_box_length [len] particle_type lj.txt\nEndIf\nEndFor";
+  mcs = parse_mcs(ss2);
+  for (const auto& lp : mcs[0]) {
+    EXPECT_EQ(lp.first, "Configuration");
+  }
+  std::stringstream ss3;
+  ss3 << "For [len]:[pt]=8:?8,9:?\nConf [len]=[pt]\nEndFor";
+  mcs = parse_mcs(ss3);
+  EXPECT_EQ(static_cast<int>(mcs.size()), 1);
+  EXPECT_EQ(static_cast<int>(mcs[0].size()), 2);
+  EXPECT_EQ(mcs[0][0].first, "Conf");
+  EXPECT_EQ(str(mcs[0][0].second), "8=8");
+  EXPECT_EQ(mcs[0][1].first, "Conf");
+  EXPECT_EQ(str(mcs[0][1].second), "9=?");
+  std::stringstream ss4;
+  ss4 << "For [cutoff]:[xyz]=28.741260651153034:?,14:?\n\
+Let [Config]=Configuration particle_type=trappe:/feasst/particle/ethane.txt cutoff=[cutoff]\n\
+If defined=?[xyz]\n\
+[Config] xyz_file=?[xyz]\n\
+Else\n\
+[Config] cubic_side_length=?71.85315162788258\n\
+Endif\n\
+Endfor";
+  mcs = parse_mcs(ss4);
+}
+
+TEST(Arguments, IF) {
+  TRY(
+    std::stringstream ss;
+    ss << "If something=something";
+    parse_mcs(ss);
+    CATCH_PHRASE("syntax is");
+  );
+  TRY(
+    std::stringstream ss;
+    ss << "If defined=?";
+    parse_mcs(ss);
+    CATCH_PHRASE("If without a corresponding EndIf");
+  );
+  TRY(
+    std::stringstream ss;
+    ss << "If defined=?\nEndIf\nEndIf";
+    parse_mcs(ss);
+    CATCH_PHRASE("EndIf without a corresponding If");
+  );
+  TRY(
+    std::stringstream ss;
+    ss << "Else\nEndIf";
+    parse_mcs(ss);
+    CATCH_PHRASE("Else without a corresponding If");
+  );
+  std::stringstream ss;
+  ss << "If defined=?\nNot\nElse\nTrue\nEndIf";
+  std::vector<arglist> list = parse_mcs(ss);
+  EXPECT_EQ("True", list[0][0].first);
+  std::stringstream ss2;
+  ss2 << "If defined=?Yes\nNot\nElse\nTrue\nEndIf";
+  list = parse_mcs(ss2);
+  EXPECT_EQ("Not", list[0][0].first);
+  std::stringstream ss3;
+  ss3 << "If undefined=?Yes\nNot\nElse\nTrue\nEndIf";
+  list = parse_mcs(ss3);
+  EXPECT_EQ("True", list[0][0].first);
 }
 
 }  // namespace feasst

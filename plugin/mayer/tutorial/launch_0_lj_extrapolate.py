@@ -18,7 +18,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/atom.txt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--reference_sigma', type=float, default=1,
                         help='reference potential is a hard sphere unit diameter which is also the size of the inner hard sphere in the square well.')
@@ -64,39 +64,40 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length 1e10 periodic0 false periodic1 false periodic2 false \
-  particle_type0 {fstprt} add_particles_of_type0 2 \
-  group0 first first_particle_index 0 \
-  cutoff 5e9
-Potential Model LennardJones
-RefPotential Model HardSphere sigma 0 sigma0 {reference_sigma} cutoff 0 cutoff0 {reference_sigma}
-ThermoParams beta {beta}
-MayerSampling num_beta_taylor {num_beta_taylor} trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
-TrialTranslate new_only true reference_index 0 tunable_param 1 group first
-#TrialRotate new_only true reference_index 0 tunable_param 40
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+RandomMT19937 seed={seed}
+Configuration cubic_side_length=1e10 periodic=false,false,false \
+    particle_type=fluid:{fstprt} add_num_fluid_particles=2 \
+    group=first first_particle_index=0 \
+    cutoff=5e9
+Potential Model=LennardJones
+RefPotential Model=HardSphere sigma=0 sigmaLJ={reference_sigma} cutoff=0 cutoffLJ={reference_sigma}
+ThermoParams beta={beta}
+MayerSampling num_beta_taylor={num_beta_taylor} trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
+TrialTranslate new_only=true reference_index=0 tunable_param=1 group=first
+#TrialRotate new_only=true reference_index=0 tunable_param=40
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # tune trial parameters
-CriteriaWriter trials_per_write {tpc} output_file {prefix}{sim}_b2_eq.txt
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}_eq.xyz
+Let [write]=trials_per_write={tpc} output_file {prefix}{sim:03d}
+Log [write]_eq.csv
+Movie [write]_eq.xyz
+CriteriaWriter [write]_b2_eq.csv
 Tune
-Run until complete
-Remove name0 Tune name1 CriteriaWriter name2 Log name3 Movie
+Run until=complete
+Remove name=Tune,CriteriaWriter,Log,Movie
 
 # production
-CriteriaWriter trials_per_write {tpc} output_file {prefix}{sim}_b2.txt
-Log trials_per_write {tpc} output_file {prefix}{sim}.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
-MayerSampling num_beta_taylor {num_beta_taylor} trials_per_cycle {tpc} cycles_to_complete {production_cycles}
-Run until complete
+CriteriaWriter [write]_b2.csv
+Log [write].csv
+Movie [write].xyz
+MayerSampling num_beta_taylor={num_beta_taylor} trials_per_cycle={tpc} cycles_to_complete={production_cycles}
+Run until=complete
 """.format(**params))
 
 def post_process(params):
     b2s = list()
     for sim in range(params['procs_per_node']):
-        with open(params['prefix']+str(sim)+'_b2.txt') as f:
+        with open("{}{:03d}_b2.csv".format(params['prefix'], sim)) as f:
             firstline = f.readline().rstrip()
             b2=eval(firstline)
             #print(b2)

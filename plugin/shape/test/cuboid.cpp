@@ -5,7 +5,7 @@
 namespace feasst {
 
 TEST(Cuboid, volume) {
-  auto cuboid = MakeCuboid({{"side_length", "s"}, {"s0", "1"}, {"s1", "2"}, {"s2", "3"}, {"center", "c"}, {"c2", "6"}});
+  auto cuboid = MakeCuboid({{"side_lengths", "1,2,3"}, {"center", "0,0,6"}});
   Cuboid cuboid2 = test_serialize(*cuboid);
   EXPECT_NEAR(cuboid2.volume(), 6, NEAR_ZERO);
   EXPECT_NEAR(cuboid2.surface_area(), 22, NEAR_ZERO);

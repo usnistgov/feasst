@@ -51,24 +51,24 @@ def client(params):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect(("localhost", params['port']+params['sim']))
     feasst_commands = """MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length 8 particle_type0 /feasst/particle/lj.txt
-Potential Model LennardJones
-ThermoParams beta {beta} chemical_potential0 1
+RandomMT19937 seed={seed}
+Configuration cubic_side_length=8 particle_type=fluid:/feasst/particle/lj_new.txt
+Potential Model=LennardJones
+ThermoParams beta={beta} chemical_potential=1
 Metropolis
 TrialTranslate
-TrialAdd particle_type 0
-Run until_num_particles 20
-Remove name TrialAdd
-Log trials_per_write 2e6 output_file {prefix}{sim}.csv
-Run num_trials 2e6""".format(**params)
+TrialAdd particle_type=fluid
+Run until_num_particles=20
+Remove name=TrialAdd
+Log trials_per_write=2e6 output_file={prefix}{sim:03d}.csv
+Run num_trials=2e6""".format(**params)
     for line in feasst_commands.split('\n'):
         sock.send(bytes(line, 'utf-8'))
         message = sock.recv(params['buffer_size'])
     print('elapsed', time.time() - start_time)
     print('terminate', params['hours_terminate']*60*60)
     while time.time() - start_time < params['hours_terminate']*60*60:
-        sock.send(bytes('Run num_trials 1e5', 'utf-8'))
+        sock.send(bytes('Run num_trials=1e5', 'utf-8'))
         message = sock.recv(params['buffer_size'])
         print('elapsed', params['sim'], time.time() - start_time)
     sock.close()

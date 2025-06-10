@@ -17,7 +17,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1., help='inverse temperature')
     parser.add_argument('--mu', type=float, default=-1, help='chemical potential')
@@ -59,15 +59,15 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
-Potential Model HardSphere
-Potential Model ModelHardShape shape_file {prefix}_shape_file.txt
-ThermoParams beta {beta} chemical_potential {mu}
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=fluid:{fstprt}
+Potential Model=HardSphere
+Potential Model=ModelHardShape shape_file={prefix}_shape_file.txt
+ThermoParams beta={beta} chemical_potential={mu}
 AlwaysReject
-TrialAdd particle_type 0 new_only true
-HenryCoefficient trials_per_write {tpc} file_name {prefix}.csv write_precision 12 num_beta_taylor 4
-Run num_trials 1e6
+TrialAdd particle_type=fluid new_only=true
+HenryCoefficient trials_per_write={tpc} file_name={prefix}.csv write_precision=12 num_beta_taylor=4
+Run num_trials=1e6
 """.format(**params))
 
 def post_process(params):

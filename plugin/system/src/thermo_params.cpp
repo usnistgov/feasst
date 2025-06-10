@@ -10,9 +10,11 @@ ThermoParams::ThermoParams(argtype args) {
     set_beta(dble("beta", &args));
   }
   std::string start("chemical_potential");
-  // if only one chemical potential, drop the subscript
   if (used(start, args)) {
-    add_chemical_potential(dble(start, &args));
+    std::vector<std::string> mus = split(feasst::str(start, &args), ',');
+    for (const std::string& mu : mus) {
+      add_chemical_potential(feasst::str_to_double(mu));
+    }
   } else {
     std::stringstream key;
     int type = 0;
@@ -23,6 +25,9 @@ ThermoParams::ThermoParams(argtype args) {
       ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
       key.str("");
       key << start << type;
+    }
+    if (type > 0) {
+      WARN("Deprecated ThermoParams::chemical_potential[i]->chemical_potential");
     }
   }
 

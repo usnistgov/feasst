@@ -29,7 +29,7 @@ class SelectParticleAVB : public TrialSelect {
     - target_particle_type: type of target particle (default: 0).
     - target_site: name of target site (default: 0).
     - site: name of site on particle_type to put in AV of target site
-      (default: 0).
+      (default: 0). This is the specific site name, not the site type name.
     - grand_canonical: true if used for grand canonical, false otherwise.
     - rxnavb: true if used for rxnavb, false otherwise (default: false).
     - inside: true if selecting in the AV, otherwise out (default: true).

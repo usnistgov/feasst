@@ -40,11 +40,8 @@ class Supertoroid : public Shape {
  public:
   //@{
   /** @name Arguments
-    - center: set the unique key for the center positions.
-      Thus, arguments of "key[i]" are expected to follow.
-      The "[i]" is to be substituted for integer dimensions 0, 1, 2, ...
-      The "[i]" are also expected to be in order, starting from 0.
-      If center arg is not used, a three dimensional origin is assumed.
+    - center: comma-separated values for the positions in each dimension.
+      (default: a three dimensional origin is assumed, e.g., center=0,0,0).
     - a1: (default: 1).
     - a2: (default: 1).
     - a3: (default: 1).

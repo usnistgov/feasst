@@ -14,7 +14,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--xy_side_length', type=float, default=9,
                         help='periodic boundary length in x and y (confined z)')
@@ -62,14 +62,14 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 # first, initialize multiple clones into windows
 MonteCarlo
-Configuration side_length0 {xy_side_length} side_length1 {xy_side_length} side_length2 {z_side_length} periodic2 false particle_type0 {fstprt} add_particles_of_type0 1 xyz_file {prefix}.xyz
-Potential Model ModelLJShape shape_file {prefix}_shape_file.txt alpha 9 wall_epsilon 10 wall_sigma 2
-Potential Model ModelLJShape shape_file {prefix}_shape_file.txt alpha 3 wall_epsilon -10 wall_sigma 2
-Potential Model LennardJones
-ThermoParams beta 1 chemical_potential 1
+Configuration side_length={xy_side_length},{xy_side_length},{z_side_length} periodic=true,true,false particle_type=fluid:{fstprt} add_num_fluid_particles 1 xyz_file={prefix}.xyz
+Potential Model=ModelLJShape shape_file={prefix}_shape_file.txt alpha=9 wall_sigma=2 wall_epsilon=10
+Potential Model=ModelLJShape shape_file={prefix}_shape_file.txt alpha=3 wall_sigma=2 wall_epsilon=-10
+Potential Model=LennardJones
+ThermoParams beta=1 chemical_potential=1
 Metropolis
-Log output_file {prefix}.csv max_precision true clear_file true
-Run num_trials 1
+Log output_file={prefix}.csv max_precision=true clear_file=true
+Run num_trials=1
 """.format(**params))
 
 def post_process(params):

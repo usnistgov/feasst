@@ -22,7 +22,7 @@ class Constraint {
   Constraint() {}
   virtual bool is_allowed(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const = 0;
+    const Acceptance& acceptance) = 0;
 
   // serialize
   std::string class_name() const { return class_name_; }

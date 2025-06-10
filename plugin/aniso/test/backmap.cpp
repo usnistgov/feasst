@@ -14,7 +14,7 @@ TEST(MonteCarlo, backmap_LONG) {
       {"xyz_euler_file", "../plugin/steppers/test/data/nvt0.xyze"},
     }},
     {"Potential", {{"VisitModel", "DontVisitModel"}}},
-    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1"}}},
     {"Metropolis", {{}}},
     {"ReadConfigFromFile", {{"input_file", "../plugin/steppers/test/data/nvt0.xyze"}, {"euler", "true"}}},
     {"Backmap", {{"trials_per_write", "1"}, {"output_file", "tmp/backmap.xyz"}, {"site0", "0"}, {"fstprt0", "../plugin/aniso/test/data/fc.txt"}, {"site1", "3"}, {"fstprt1", "../plugin/aniso/test/data/fc.txt"}}},

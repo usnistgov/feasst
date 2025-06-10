@@ -24,8 +24,8 @@ TEST(FileXYZPatch, patch) {
   const std::string fstprt = "../plugin/patch/particle/janus.txt";
   { auto config = MakeConfiguration({{"cubic_side_length", "8"}});
     config->add_particle_type(fstprt);
-    config->add_particle_type(fstprt, "2");
-    config->add(MakeGroup({{"site_type0", "0"}, {"site_type1", "2"}}));
+    config->add_particle_type(fstprt);
+    config->add(MakeGroup({{"site_type", "0,2"}}));
     config->add_particle_of_type(0);
     config->add_particle_of_type(1);
     mc.add(config);

@@ -47,7 +47,7 @@ void MacrostateModel::serialize(std::ostream& ostr) const {
 
 double MacrostateModel::value(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const {
+    const Acceptance& acceptance) {
   return constraint_.model_index(system, acceptance);
 }
 

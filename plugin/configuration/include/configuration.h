@@ -56,27 +56,29 @@ class Configuration {
     - physical_constants: optional class_name of PhysicalConstants.
       These are typically only used in charged interactions to compute the
       conversion factor between squared charge over distance and energy.
-    - particle_type[i]: add the i-th type of particle.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-      If only one particle type, the "[i]" is optional.
-      See FileParticle.
-    - add_particles_of_type[i]: add this many of i-th type particles.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - particle_type: dictionary of names and files for different particle types.
+      The dictionary syntax is name1:file_name1,name2:file_name2,etc.
+      If only file_name are provided without names, the names will default to
+      0, 1, etc.
+      Particle names must be unique.
+      See FileParticle for description of the file required to define particles.
+    - add_num_[type name]_particles: add this many particles of given type name.
+      Particles are added with the coordinates in the file, so adding multiple
+      will overlap.
     - xyz_file: optionally load FileXYZ if not empty (default: empty).
       Note that Domain tilt factors are not read by FileXYZ.
     - xyz_euler_file: optionally load FileXYZEuler if not empty (default: empty).
-    - group[i]: set the name of the "i"-th group.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - group: comma-separated list of group names.
       All following arguments of the group are then expected to have the name
-      prepended (e.g., "group0 water water_particle_type 0").
+      prepended with an underscore (e.g., "group=oxygen oxygen_site_type=O").
     - wrap: wrap particle centers within domain (default: true).
     - [parameter]: optionally set the [parameter] of all types to this value.
       The "[parameter]" is to be substituted for epsilon, sigma, cutoff, etc.
-    - [parameter][i]: optionally set the [parameter] of the i-th site type.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - [parameter][site type name]: optionally set the [parameter] value of the
+      given site type name.
       These are applied after (overriding) the above argument for all types.
-    - [parameter][i]_[j]: optionally set the [parameter] of the i-j mixed type.
-      The "[i]/[j]" is to be substituted for an integer 0, 1, 2, ...
+    - [parameter][site type name 1]_[site type name 2]: optionally set the
+      [parameter] value of the 1-2 mixed type.
       These are applied after (overriding) the above argument for single types.
     - [parameter]_mixing_file: override default mixing parameters with this
       file in the three-column space-separated format of "i j [param]_ij".
@@ -116,11 +118,8 @@ class Configuration {
 
   /// Add a particle type that may exist in the simulation.
   /// See FileParticle.
-  void add_particle_type(
-    /// Each particle type must have a unique file name.
-    const std::string file_name,
-    /// Optionally, append to name to use same file but keep unique names.
-    const std::string append = "");
+  void add_particle_type(const std::string file_name,
+    std::string name = "");
 
   /// Return the number of particle types.
   int num_particle_types() const;
@@ -143,6 +142,12 @@ class Configuration {
   /// Return the file name used to initialize the particle types.
   const std::string& type_to_file_name(const int type) const {
     return type_to_file_[type]; }
+
+  /// Return the name of a given particle type.
+  const std::string& particle_type_to_name(const int ptype) const;
+
+  /// Return the name of a given particle type.
+  int particle_name_to_type(const std::string& name) const;
 
   /// Return the particle types.
   const ParticleFactory& particle_types() const;
@@ -212,6 +217,10 @@ class Configuration {
 
   /// Return the index of a site given the site name.
   int site_name_to_index(const std::string& site_name) const;
+
+  /// Return the name of a site given the particle type and site index.
+  const std::string& site_index_to_name(const int particle_type,
+    const int index) const;
 
   /// For unique_type, return index of a given site type name.
   int site_type_name_to_index(const std::string& site_type_name) const;
@@ -635,7 +644,7 @@ class Configuration {
   const Particle& particle_(const int index);
 
   /// Store the files used to initialize particle types.
-  std::vector<std::string> type_to_file_;
+  std::vector<std::string> type_to_file_, type_to_name_;
 
   /// Store the number of particles of each type.
   std::vector<int> num_particles_of_type_;

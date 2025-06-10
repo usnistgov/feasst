@@ -64,7 +64,7 @@ TEST(MonteCarlo, rigid_body_connector) {
     {"TrialRotate", {{"weight", "1"}, {"tunable_param", "180"}}},
     //{"Run", {{"num_trials", "1"}}},
     {"Run", {{"num_trials", "4"}}},
-    {"Remove", {{"name0", "TrialTranslate"}, {"name1", "TrialRotate"}}},
+    {"Remove", {{"name", "TrialTranslate,TrialRotate"}}},
     {"TrialGrowFile", {{"grow_file", "../plugin/aniso/test/data/rigid_and_connector_grow.txt"}}},
     {"Log", {{"trials_per_write", "1"}, {"output_file", "tmp/connector.txt"}}},
     {"Movie", {{"trials_per_write", "1"}, {"output_file", "tmp/connector.xyz"}}},

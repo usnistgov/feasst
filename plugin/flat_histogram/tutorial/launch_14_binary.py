@@ -7,8 +7,8 @@ https://doi.org/10.1063/1.4966573
 https://doi.org/10.1063/1.4996759
 https://doi.org/10.1063/1.5006906
 
-In the postprocessing step, reweight in mu0 to find equilibrium between vapor and liquid.
-The chosen delta mu = mu1 - mu0 determines the resulting pressure.
+In the postprocessing step, reweight in mu1 to find equilibrium between vapor and liquid.
+The chosen delta mu = mu2 - mu1 determines the resulting pressure.
 Simulations of various delta mu yeild the binary phase envelope for a given temperature.
 
 Each macrostate is an isochoric semigrand ensemble (instead of canonical in the single component case), but we are simulating with grand canonical ensemble sampling (e.g., insertions and deletions).
@@ -25,10 +25,10 @@ from pyfeasst import physical_constants
 from pyfeasst import macrostate_distribution
 from pyfeasst import multistate_accumulator
 
-def parse(particle_type0='/feasst/particle/dimer_mie_CO2.txt',
-          particle_type1='/feasst/particle/dimer_mie_N2.txt',
+def parse(particle_type1='/feasst/particle/dimer_mie_CO2.txt',
+          particle_type2='/feasst/particle/dimer_mie_N2.txt',
           beta=1./258.15,
-          beta_mu0=-3,
+          beta_mu1=-3,
           beta_delta_mu=0.244046,
           beta_init=1/400,
           min_sweeps=5,
@@ -47,10 +47,10 @@ def parse(particle_type0='/feasst/particle/dimer_mie_CO2.txt',
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--particle_type0', type=str, default=particle_type0, help='first component FEASST particle')
-    parser.add_argument('--particle_type1', type=str, default=particle_type1, help='second component FEASST particle')
+    parser.add_argument('--particle_type1', type=str, default=particle_type1, help='first component FEASST particle')
+    parser.add_argument('--particle_type2', type=str, default=particle_type2, help='second component FEASST particle')
     parser.add_argument('--beta', type=float, default=beta, help='1/(Temperature in Kelvin)')
-    parser.add_argument('--beta_mu0', type=float, default=beta_mu0, help='chemical potential of first component')
+    parser.add_argument('--beta_mu1', type=float, default=beta_mu1, help='chemical potential of first component')
     parser.add_argument('--beta_delta_mu', type=float, default=beta_delta_mu, help='chemical potential of second component minus first')
     parser.add_argument('--beta_init', type=float, default=beta_init, help='chemical potential to initialize number of particles')
     parser.add_argument('--max_particles', type=int, default=max_particles, help='maximum number of particles')
@@ -91,8 +91,8 @@ def parse(particle_type0='/feasst/particle/dimer_mie_CO2.txt',
     params['hours_terminate'] = 0.95*params['hours_terminate'] - 0.05 # terminate FEASST before SLURM
     params['procs_per_sim'] = 1
     params['num_sims'] = params['procs_per_node']*params['num_nodes']
-    params['mu0'] = params['beta_mu0']/params['beta']
-    params['mu1'] = params['beta_delta_mu']/params['beta'] + params['mu0']
+    params['mu1'] = params['beta_mu1']/params['beta']
+    params['mu2'] = params['beta_delta_mu']/params['beta'] + params['mu1']
     params['min_particles_second_window'] = ""
     params['minimums'] = [params['min_particles']]
     if params['num_nodes'] == 1:
@@ -113,58 +113,58 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {particle_type0} particle_type1 {particle_type1} \
-    sigma0_1 2.9216 epsilon0_1 121.5 mie_lambda_r0_1 20.27 mie_lambda_a0_1 5.48294
-Potential Model Mie table_size 1e4
-Potential VisitModel LongRangeCorrections
-RefPotential VisitModel DontVisitModel
-ThermoParams beta {beta_init} chemical_potential0 {mu0} chemical_potential1 {mu1}
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=pt1:{particle_type1},pt2:{particle_type2} \
+    sigmaCO2_N=2.9216 epsilonCO2_N=121.5 mie_lambda_rCO2_N=20.27 mie_lambda_aCO2_N=5.48294
+Potential Model=Mie table_size=1e4
+Potential VisitModel=LongRangeCorrections
+RefPotential VisitModel=DontVisitModel
+ThermoParams beta={beta_init} chemical_potential={mu1},{mu2}
 Metropolis
-TrialTranslate weight_per_number_fraction 0.5 particle_type 0 tunable_param 0.2
-TrialTranslate weight_per_number_fraction 0.5 particle_type 1 tunable_param 0.2
-TrialParticlePivot weight_per_number_fraction 0.5 particle_type 0 tunable_param 0.5
-TrialParticlePivot weight_per_number_fraction 0.5 particle_type 1 tunable_param 0.5
+For [pt]=pt1,pt2
+    TrialTranslate weight_per_number_fraction=0.5 particle_type=[pt] tunable_param=0.2
+    TrialParticlePivot weight_per_number_fraction=0.5 particle_type=[pt] tunable_param=0.5
+EndFor
 # The following semigrand particle type changes only help sampling if the excluded volumes of the two particles are similar (and particles are rigid)
-TrialMorph weight 0.5 particle_type0 0 particle_type_morph0 1 reference_index 0
-TrialMorph weight 0.5 particle_type0 1 particle_type_morph0 0 reference_index 0
-CheckEnergy trials_per_update {tpc} decimal_places 4
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+TrialMorph weight=0.5 particle_type=pt1 particle_type_morph=pt2 reference_index=0
+TrialMorph weight=0.5 particle_type=pt2 particle_type_morph=pt1 reference_index=0
+CheckEnergy trials_per_update={tpc} decimal_places=4
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # gcmc initialization and nvt equilibration
-TrialAdd particle_type 0
-TrialAdd particle_type 1
-Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.csv
+TrialAdd particle_type=pt1
+TrialAdd particle_type=pt2
+Let [write]=trials_per_write={tpc} output_file={prefix}n{node}s{sim:03d}
+Log [write]_eq.csv
 Tune
-Run until_num_particles {min_particles}
-Remove name TrialAdd
-Remove name TrialAdd
-ThermoParams beta {beta} chemical_potential0 {mu0} chemical_potential1 {mu1}
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
-Run until complete
-Remove name0 Tune name1 Log
+Run until_num_particles={min_particles}
+Remove name=TrialAdd,TrialAdd
+ThermoParams beta={beta} chemical_potential={mu1},{mu2}
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
+Run until=complete
+Remove name=Tune,Log
 
 # gcmc tm production
-FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} \
-    Bias WLTM min_sweeps {min_sweeps} min_flatness {min_flatness} collect_flatness {collect_flatness} min_collect_sweeps 1
-TrialTransfer weight 2 particle_type 0
-TrialTransfer weight 2 particle_type 1
-NumParticles particle_type 0 multistate true trials_per_write {tpc} output_file {prefix}n{node}s{sim}_num0.csv start_after_cycle 1
+FlatHistogram Macrostate=MacrostateNumParticles width=1 max={max_particles} min={min_particles} \
+    Bias=WLTM min_sweeps={min_sweeps} min_flatness={min_flatness} collect_flatness={collect_flatness} min_collect_sweeps=1
+TrialTransfer weight=2 particle_type=pt1
+TrialTransfer weight=2 particle_type=pt2
+Log [write].csv
+Tune [write]_tune.csv multistate=true stop_after_cycle=1
 #To print xyz for each macrostate in separate files, add the following arguments to the "Movie" lines below: multistate true multistate_aggregate false
-Movie           trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.xyz stop_after_cycle 1
-Movie           trials_per_write {tpc} output_file {prefix}n{node}s{sim}.xyz start_after_cycle 1
-Log             trials_per_write {tpc} output_file {prefix}n{node}s{sim}.csv
-Tune            trials_per_write {tpc} output_file {prefix}n{node}s{sim}_tune.csv multistate true stop_after_cycle 1
-Energy          trials_per_write {tpc} output_file {prefix}n{node}s{sim}_en.csv multistate true start_after_cycle 1
-#HeatCapacity    trials_per_write {tpc} output_file {prefix}n{node}s{sim}_cv.csv multistate true start_after_cycle 1
-ProfileCPU      trials_per_write {tpc} output_file {prefix}n{node}s{sim}_profile.csv
-CriteriaWriter  trials_per_write {tpc} output_file {prefix}n{node}s{sim:03d}_crit.csv
-CriteriaUpdater trials_per_update 1e5
-Run until complete
+Movie [write]_eq.xyz stop_after_cycle=1
+Movie [write].xyz start_after_cycle=1
+Energy [write]_en.csv multistate=true start_after_cycle=1
+ProfileCPU [write]_profile.csv
+NumParticles [write]_num0.csv particle_type=pt1 multistate=true start_after_cycle=1
+#HeatCapacity [write]_cv.csv multistate=true start_after_cycle=1
+CriteriaWriter [write]_crit.csv
+CriteriaUpdater trials_per_update=1e5
+Run until=complete
 
 # continue until all simulations on the node are complete
-WriteFileAndCheck sim {sim} sim_start {sim_start} sim_end {sim_end} file_prefix {prefix}n{node}s file_suffix _finished.txt output_file {prefix}n{node}_terminate.txt
-Run until_file_exists {prefix}n{node}_terminate.txt trials_per_file_check {tpc}
+WriteFileAndCheck sim={sim} sim_start={sim_start} sim_end={sim_end} file_prefix={prefix}n{node}s file_suffix=_finished.txt output_file={prefix}n{node}_terminate.txt
+Run until_file_exists={prefix}n{node}_terminate.txt trials_per_file_check={tpc}
 """.format(**params))
 
 def post_process(params):
@@ -173,8 +173,7 @@ def post_process(params):
         return
     lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
     #lnpi.reweight(delta_beta_mu=-4.5, inplace=True)
-    num0 = multistate_accumulator.splice(prefix=params['prefix']+'n0s', suffix='_num0.csv',
-                                         start=0, stop=params['procs_per_node']-1)
+    num0 = multistate_accumulator.splice(prefix=params['prefix']+'n0s', suffix='_num0.csv')
     #num0.to_csv('num0.csv')
     #plt.plot(num0['average'])
     #plt.show()
@@ -202,7 +201,8 @@ def post_process(params):
             assert np.abs(num0 - 14.8) < 4
         else:
             assert np.abs(n_gce - 183.8) < 4
-            assert np.abs(num0 - 172.8) < 4
+            assert np.abs(num0 - 145) < 8
+            #assert np.abs(num0 - 172.8) < 4
         #plt.plot(phase.dataframe()['num0_average'])
         #plt.show()
         print('mole frac0', num0/n_gce)

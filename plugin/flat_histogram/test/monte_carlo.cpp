@@ -545,8 +545,7 @@ std::shared_ptr<MonteCarlo> rpm_fh_test(
   const double temperature = 0.047899460618081;
   const double beta_mu = -13.94;
   mc.set(MakeThermoParams({{"beta", str(1/temperature)},
-     {"chemical_potential0", str(beta_mu*temperature)},
-     {"chemical_potential1", str(beta_mu*temperature)}}));
+     {"chemical_potential", str(beta_mu*temperature) + "," + str(beta_mu*temperature)}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", "2"}, {"min", "0"}}),
@@ -615,8 +614,7 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
     {"alpha", str(5./15)}}));
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   mc.set(MakeThermoParams({{"beta", str(1/temperature)},
-     {"chemical_potential0", str(beta_mu*temperature)},
-     {"chemical_potential1", str(beta_mu*temperature)}}));
+     {"chemical_potential", str(beta_mu*temperature) + "," + str(beta_mu*temperature)}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", "5"}, {"min", "0"}}),

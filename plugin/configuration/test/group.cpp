@@ -28,8 +28,7 @@ TEST(Group, remove_sites) {
 }
 
 TEST(Group, multiple_particles) {
-  auto grp = MakeGroup({{"particle_type0", "0"},
-                        {"particle_type1", "1"}});
+  auto grp = MakeGroup({{"particle_type", "0,1"}});
   EXPECT_EQ(grp->particle_types().size(), 2);
 }
 

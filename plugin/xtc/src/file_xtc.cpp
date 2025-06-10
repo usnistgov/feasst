@@ -41,7 +41,7 @@ int FileXTC::load(XDRFILE * file,
   result_xtc = read_xtc(file, natoms_xtc, &step_xtc, &time_xtc,
                         box_xtc, x_xtc, &prec_xtc);
   if (result_xtc != 0) {
-    INFO("reached the end of XTC file " << file_name);
+    std::cout << "# Reached the end of XTC file " << file_name << std::cout;
     endXTC = 1;
   }
   // set the domain

@@ -21,7 +21,7 @@ TEST(SolidOfRevolutionTable, test_two) {
   system.add(MakeConfiguration({{"cubic_side_length", "10"},
     {"particle_type", "../plugin/patch/particle/one_patch.txt"},
     {"add_particles_of_type0", "2"},
-    {"group0", "centers"}, {"centers_site_type0", "0"}}));
+    {"group0", "centers"}, {"centers_site_type", "0"}}));
 
   system.add(MakePotential(MakeSquareWell(),
                        MakeVisitModel(std::make_shared<SolidOfRevolutionTable>(argtype({{"table_file", "../plugin/patch/test/data/tablek5l2.0d1.txt"}}))),

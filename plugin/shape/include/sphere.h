@@ -18,11 +18,8 @@ class Sphere : public Shape {
   //@{
   /** @name Arguments
     - radius: Set the radius of the sphere (default: 1).
-    - center: set the unique key for the center positions.
-      Thus, arguments of "key[i]" are expected to follow.
-      The "[i]" is to be substituted for integer dimensions 0, 1, 2, ...
-      The "[i]" are also expected to be in order, starting from 0.
-      If center arg is not used, a three dimensional origin is assumed.
+    - center: comma-separated values for the positions in each dimension.
+      (default: a three dimensional origin is assumed, e.g., center=0,0,0).
    */
   explicit Sphere(argtype args = argtype());
   explicit Sphere(argtype * args);

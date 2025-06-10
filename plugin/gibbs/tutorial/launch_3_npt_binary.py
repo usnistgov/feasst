@@ -16,8 +16,8 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt0', type=str, default='/feasst/particle/dimer_mie_CO2.txt', help='FEASST particle definition')
-    parser.add_argument('--fstprt1', type=str, default='/feasst/particle/dimer_mie_N2.txt', help='FEASST particle definition')
+    parser.add_argument('--fstprt1', type=str, default='/feasst/particle/dimer_mie_CO2.txt', help='FEASST particle definition')
+    parser.add_argument('--fstprt2', type=str, default='/feasst/particle/dimer_mie_N2.txt', help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./258.15, help='inverse temperature (K)')
     parser.add_argument('--pressure', type=float, default=5.38, help='pressure (MPa)')
     parser.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
@@ -65,87 +65,83 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length 55 particle_type0 {fstprt0} particle_type1 {fstprt1} sigma0_1 2.9216 epsilon0_1 121.5 mie_lambda_r0_1 20.27 mie_lambda_a0_1 5.48294
-Configuration cubic_side_length 32 particle_type0 {fstprt0} particle_type1 {fstprt1} sigma0_1 2.9216 epsilon0_1 121.5 mie_lambda_r0_1 20.27 mie_lambda_a0_1 5.48294
-CopyFollowingLines for_num_configurations 2
-    Potential Model Mie table_size 1e4
-    Potential VisitModel LongRangeCorrections
-    RefPotential VisitModel DontVisitModel
-EndCopy
-ThermoParams beta {beta} chemical_potential0 5 chemical_potential1 5 pressure {pressure}
+RandomMT19937 seed={seed}
+For [config]:[length]=0:55,1:32
+    Configuration cubic_side_length=[length] particle_type=pt1:{fstprt1},pt2:{fstprt2} sigmaCO2_N=2.9216 epsilonCO2_N=121.5 mie_lambda_rCO2_N=20.27 mie_lambda_aCO2_N=5.48294
+    Potential Model=Mie table_size=1e4 configuration_index=[config]
+    Potential VisitModel=LongRangeCorrections configuration_index=[config]
+    RefPotential VisitModel=DontVisitModel configuration_index=[config]
+EndFor
+ThermoParams beta={beta} chemical_potential=5,5 pressure={pressure}
 Metropolis
-CopyFollowingLines for_num_configurations 2
-    TrialTranslate weight_per_number_fraction 0.5 particle_type 0 tunable_param 0.1
-    TrialTranslate weight_per_number_fraction 0.5 particle_type 1 tunable_param 0.1
-    TrialParticlePivot weight_per_number_fraction 0.5 particle_type 0 tunable_param 0.5
-    TrialParticlePivot weight_per_number_fraction 0.5 particle_type 1 tunable_param 0.5
-EndCopy
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+For [config]=0,1
+    For [pt]=pt1,pt2
+        For [trial]:[tunable]=Translate:0.1,ParticlePivot:0.5
+            Trial[trial] weight_per_number_fraction=0.5 particle_type=[pt] tunable_param=[tunable] configuration_index=[config]
+        EndFor
+    EndFor
+EndFor
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # fill both boxes with particles
-Log trials_per_write {tpc} output_file {prefix}{sim}_fill.csv
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_fill.xyz
-Movie trials_per_write {tpc} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_fill.csv
 Tune
-TrialAdd particle_type 0 configuration_index 0
-Run until_num_particles 240 particle_type 0 configuration_index 0
-Remove name TrialAdd
-TrialAdd particle_type 1 configuration_index 0
-Run until_num_particles 260 particle_type 1 configuration_index 0
-Remove name TrialAdd
-TrialAdd particle_type 0 configuration_index 1
-Run until_num_particles 450 particle_type 0 configuration_index 1
-Remove name TrialAdd
-TrialAdd particle_type 1 configuration_index 1
-Run until_num_particles 50 particle_type 1 configuration_index 1
-Remove name0 Tune name1 TrialAdd name2 Log name3 Movie name4 Movie
+For [config]:[num1]:[num2]=0:240:260,1:450:50
+    Movie [write]_c[config]_fill.xyz configuration_index=[config]
+    For [pt]:[num]=pt1:[num1],pt2:[num2]
+        TrialAdd particle_type=[pt] configuration_index=[config]
+        Run until_num_particles=[num] particle_type=[pt] configuration_index=[config]
+        Remove name=TrialAdd
+    EndFor
+    Remove name=Movie
+EndFor
+Remove name=Tune,Log
 
 # npt equilibrate both boxes
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equil_npt}
-CopyFollowingLines for_num_configurations 2 replace_with_index [config]
-    TrialVolume weight 0.005 tunable_param 0.2 tunable_target_acceptance 0.5
-    Movie trials_per_write {tpc} output_file {prefix}{sim}_c[config]_npt.xyz
-EndCopy
-Log trials_per_write {tpc} output_file {prefix}{sim}_npt.csv
-ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_npt_profile.csv
-CheckEnergy trials_per_update {tpc} decimal_places 8
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equil_npt}
+For [config]=0,1
+    TrialVolume weight=0.005 tunable_param=0.2 tunable_target_acceptance=0.5 configuration_index=[config]
+    Movie [write]_c[config]_npt.xyz configuration_index=[config]
+EndFor
+Log [write]_npt.csv
+ProfileCPU [write]_npt_profile.csv
+CheckEnergy trials_per_update={tpc} decimal_places=8
 # a new tune is required when new Trials are introduced
 # decrease trials per due to infrequency of volume transfer attempts
-Tune trials_per_tune 20
-Run until complete
-Remove name0 Tune name1 Log name2 Movie name3 Movie name4 ProfileCPU
+Tune trials_per_tune=20
+Run until=complete
+Remove name=Tune,Log,Movie,Movie,ProfileCPU
 
 # Gibbs equilibration
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equil}
-TrialGibbsParticleTransfer weight 0.5 particle_type 0 reference_index 0 print_num_accepted true
-TrialGibbsParticleTransfer weight 0.5 particle_type 1 reference_index 0 print_num_accepted true
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
-Movie trials_per_write {tpc} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
-ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_eq_profile.csv
-Run until complete
-Remove name0 Log name1 Movie name2 Movie name3 ProfileCPU
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equil}
+For [pt]=pt1,pt2
+    TrialGibbsParticleTransfer weight=0.5 particle_type=[pt] reference_index=0 print_num_accepted=true
+EndFor
+Log [write]_eq.csv
+For [config]=0,1
+    Movie [write]_c[config]_eq.xyz configuration_index=[config]
+EndFor
+ProfileCPU [write]_eq_profile.csv
+Run until=complete
+Remove name=Log,Movie,Movie,ProfileCPU
 
 # Gibbs ensemble production
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
-Log trials_per_write {tpc} output_file {prefix}{sim}.csv
-CopyFollowingLines for_num_configurations 2 replace_with_index [config]
-    Density      trials_per_write {tpc} output_file {prefix}{sim}_c[config]_dens.csv
-    Movie        trials_per_write {tpc} output_file {prefix}{sim}_c[config].xyz
-    Energy       trials_per_write {tpc} output_file {prefix}{sim}_c[config]_en.csv
-    Volume       trials_per_write {tpc} output_file {prefix}{sim}_c[config]_vol.csv
-    NumParticles trials_per_write {tpc} output_file {prefix}{sim}_c[config]_n0.csv particle_type 0
-    NumParticles trials_per_write {tpc} output_file {prefix}{sim}_c[config]_n1.csv particle_type 1
-EndCopy
-#GhostTrialVolume trials_per_write {tpc} output_file {prefix}{sim}_pressure.csv trials_per_update 1e3
-ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_profile.csv
-CPUTime    trials_per_write {tpc} output_file {prefix}{sim}_cpu.csv
-Run until complete
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
+Log [write].csv
+For [config]=0,1
+    For [analyze]:[file]=Density:_dens.csv,Movie:.xyz,Energy:_en.csv,Volume:_vol.csv,ProfileCPU:_profile.csv,CPUTime:_cpu.csv
+        [analyze] [write]_c[config][file] configuration_index=[config]
+    EndFor
+    For [pt]=1,2
+        NumParticles [write]_c[config]_n[pt].csv particle_type=pt[pt] configuration_index=[config]
+    EndFor
+EndFor
+Run until=complete
 """.format(**params))
 
 def compare(label, average, stdev, params, z_factor=5):
-    df = pd.read_csv(params['prefix']+"0_"+label+".csv")
+    df = pd.read_csv(params['prefix']+"000_"+label+".csv")
     df['diff'] = np.abs(df['average']-average)
     df['tol'] = np.sqrt(df['block_stdev']**2+stdev**2)
     print(label, df)
@@ -159,25 +155,25 @@ def post_process(params):
     rhov_rhol = [[0.00294, 0.0131], [0.0005, 0.005]] # [[avs], [stdevs]]
     compare("c0_dens", rhov_rhol[0][0], rhov_rhol[1][0], params)
     compare("c1_dens", rhov_rhol[0][1], rhov_rhol[1][1], params)
-    numc0n0 = pd.read_csv(params['prefix']+'0_c0_n0.csv')['average'][0]
-    numc0n1 = pd.read_csv(params['prefix']+'0_c0_n1.csv')['average'][0]
-    numc1n0 = pd.read_csv(params['prefix']+'0_c1_n0.csv')['average'][0]
-    numc1n1 = pd.read_csv(params['prefix']+'0_c1_n1.csv')['average'][0]
+    numc0n0 = pd.read_csv(params['prefix']+'000_c0_n1.csv')['average'][0]
+    numc0n1 = pd.read_csv(params['prefix']+'000_c0_n2.csv')['average'][0]
+    numc1n0 = pd.read_csv(params['prefix']+'000_c1_n1.csv')['average'][0]
+    numc1n1 = pd.read_csv(params['prefix']+'000_c1_n2.csv')['average'][0]
     yco2 = numc0n0/(numc0n0+numc0n1)
     print('mol frac CO2 in vapor', yco2)
     assert np.abs(yco2 - 0.536) < 0.075
     xco2 = numc1n0/(numc1n0+numc1n1)
     print('mol frac CO2 in liquid', xco2)
     assert np.abs(xco2 - 0.938) < 0.075
-    eq = pd.read_csv(params['prefix']+'0_eq.csv')
-    prod = pd.read_csv(params['prefix']+'0.csv')
+    eq = pd.read_csv(params['prefix']+'000_eq.csv')
+    prod = pd.read_csv(params['prefix']+'000.csv')
     for conf in range(2):
         #plt.plot(eq['volume_config'+str(conf)])
-        n0eq = eq['num_particles_of_type0_config'+str(conf)]
-        n1eq = eq['num_particles_of_type1_config'+str(conf)]
+        n0eq = eq['num_particles_pt1_config'+str(conf)]
+        n1eq = eq['num_particles_pt2_config'+str(conf)]
         plt.plot(eq['trial'], n0eq/(n0eq+n1eq))
-        n0 = prod['num_particles_of_type0_config'+str(conf)]
-        n1 = prod['num_particles_of_type1_config'+str(conf)]
+        n0 = prod['num_particles_pt1_config'+str(conf)]
+        n1 = prod['num_particles_pt2_config'+str(conf)]
         plt.plot(prod['trial'], n0/(n0+n1))
     #plt.axhline(0.8977, linestyle='dotted', color='black')
     #plt.axhline(0.4788, linestyle='dotted', color='black')

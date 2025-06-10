@@ -8,11 +8,11 @@ namespace feasst {
 TEST(TablePotential, serialize) {
   auto config = MakeConfiguration({
     {"cubic_side_length", "8"},
-    {"particle_type0", "../particle/lj.txt"},
+    {"particle_type", "lj:../particle/lj_new.txt"},
     {"add_particles_of_type0", "2"}});
   config->update_positions({{0, 0, 0}, {2, 0, 0}});
   auto table = MakeTablePotential({{"table_file", "../plugin/models/test/data/lj_table.txt"}});
-  table->precompute(config->model_params());
+  table->precompute(*config);
   TablePotential table2 = test_serialize(*table);
   EXPECT_EQ(1, table2.energy_table().size());
   EXPECT_EQ(1, table2.energy_table()[0].size());

@@ -62,7 +62,7 @@ Potential Model LennardJones
 Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential {chemical_potential}
 Metropolis
-TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
+TrialTranslate tunable_param 2
 TrialTransfer particle_type 0
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4

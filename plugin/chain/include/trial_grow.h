@@ -157,13 +157,17 @@ class TrialGrowFile : public TrialGrow {
 
       line1: TrialGrowFile
 
-      line2: optional space
+      line2: empty line
 
-      line3: stage with key pair separated by space (e.g., "transfer true site 0")
+      line3: stage with key pairs separated by spaces, with each pair separated
+             by an equal sign (e.g., "transfer=true site=0")
 
-      lineX: additional stages until end of file or empty line.
+      line2+n: n stages until end of file or empty line.
+               This completely describes one Trial.
 
-      lineY: additional trials with additional stages as described above,
+      line2+n+1: end of file or empty line
+
+      line2+n+2+: additional trials with additional stages as described above,
              separated by empty lines.
 
       See the tutorials for examples.

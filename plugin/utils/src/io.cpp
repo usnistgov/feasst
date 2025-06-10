@@ -7,12 +7,16 @@
 
 namespace feasst {
 
-// thanks to http://www.cplusplus.com/forum/beginner/87238/
-std::vector<std::string> split(const std::string str) {
-  std::istringstream buffer(str);
-  std::istream_iterator<std::string> begin(buffer), end;
-  std::vector<std::string> tokens(begin, end);
-  return tokens;
+std::vector<std::string> split(const std::string& str_to_split,
+    const char delimitor) {
+  std::vector<std::string> values;
+  std::stringstream ss(str_to_split);
+  while (ss.good()) {
+    std::string substr;
+    std::getline(ss, substr, delimitor);
+    if (!substr.empty()) values.push_back(substr);
+  }
+  return values;
 }
 
 std::string trim(const char* specialchr, const char* phrase, int from_left) {
@@ -48,8 +52,16 @@ int num_spaces(const std::string str) {
 
 std::string str(const std::map<std::string, std::string>& mp) {
   std::stringstream ss;
-  for (auto const& pair : mp) {
-    ss << pair.first << " " << pair.second << " ";
+  //for (int index = 0; index < static_cast<int>(mp.size()); ++index) {
+  //  const std::pair<std::string, std::string>& pair = mp[index];
+  //for (auto const& pair : mp) {
+  for (auto it = mp.begin(); it != mp.end(); ++it) {
+    ss << it->first << "=" << it->second;
+    auto next_it = it;
+    ++next_it;
+    if (next_it != mp.end()) {
+      ss << " ";
+    }
   }
   return ss.str();
 }

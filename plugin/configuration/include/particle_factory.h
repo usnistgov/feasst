@@ -84,10 +84,10 @@ class ParticleFactory {
   int check_dihedral_types() const;
 
   /// Add particle by file.
-  void add(const std::string file_name);
+  void add(const std::string file_name, const std::string name = "");
 
   /// Add a particle.
-  void add(const Particle& particle);
+  void add(const Particle& particle, const std::string name = "");
 
   /// Remove particle by index.
   void remove(const int particle_index);
@@ -255,6 +255,10 @@ class ParticleFactory {
     /// Optionally, return the particle index (if not NULL)
     int * particle_index = NULL) const;
 
+  /// For unique_particles, return the name of a site given the site index.
+  const std::string& site_index_to_name(const int particle_type,
+    const int site_index) const;
+
   /// For unique_types, return the particle type of a given site type.
   int site_type_to_particle_type(const int site_type) const;
 
@@ -266,7 +270,13 @@ class ParticleFactory {
 
   /// For unique_type, return index of a given site type name.
   int site_type_name_to_index(const std::string& site_type_name) const;
-
+  
+  /// For unique_type, return the name given the index.
+  int name_to_index(const std::string& name) const;
+  
+  /// For unique_type, return the index given the name.
+  const std::string& index_to_name(const int index) const;
+  
   // This interface is for optimization and not for typical use
   Particle * get_particle(const int index) { return &particles_[index]; }
 
@@ -275,6 +285,7 @@ class ParticleFactory {
 
  private:
   std::vector<Particle> particles_;
+  std::vector<std::string> names_;
   bool unique_particles_ = false;
   bool unique_types_ = false;
   std::shared_ptr<ModelParams> model_params_;

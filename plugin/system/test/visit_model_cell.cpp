@@ -79,7 +79,7 @@ TEST(VisitModelCell, simple_lj) {
   EXPECT_EQ(0, config->particle(0).site(0).position().coord(0));
   EXPECT_EQ(2, config->particle(1).site(0).position().coord(0));
   LennardJones model;
-  model.precompute(config->model_params());
+  model.precompute(*config);
   auto cell_visit = MakeVisitModelCell({{"min_length", "3"}});
   cell_visit->precompute(config.get());
 //  config->init_cells(3);

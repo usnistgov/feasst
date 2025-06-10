@@ -11,7 +11,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./0.9, help='inverse temperature')
     parser.add_argument('--num_particles', type=int, default=500, help='number of particles')
@@ -59,43 +59,44 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {initial_cubic_side_length} particle_type0 {fstprt}
-Potential Model LennardJones
-Potential VisitModel LongRangeCorrections
-ThermoParams beta {beta} chemical_potential -1
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={initial_cubic_side_length} particle_type=lj:{fstprt}
+Potential Model=LennardJones
+Potential VisitModel=LongRangeCorrections
+ThermoParams beta={beta} chemical_potential=-1
 Metropolis
-TrialTranslate weight 1 tunable_param 2 tunable_target_acceptance 0.2
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
-CheckEnergy trials_per_update {tpc} decimal_places 4
+TrialTranslate weight=1 tunable_param=2
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
+CheckEnergy trials_per_update={tpc} decimal_places=4
 
 # gcmc initialization
-TrialAdd particle_type 0
-Log trials_per_write {tpc} output_file {prefix}{sim}_init.csv
+TrialAdd particle_type=lj
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_init.csv
 Tune
-Run until_num_particles {num_particles}
-Remove name0 TrialAdd name1 Log name2 Tune
+Run until_num_particles={num_particles}
+Remove name=TrialAdd,Log,Tune
 
 # npt equilibration
-ThermoParams beta {beta} pressure {pressure}
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
-TrialVolume weight 0.005 tunable_param 0.2 tunable_target_acceptance 0.5
-Tune trials_per_tune 20
-Log     trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
-Movie   trials_per_write {tpc} output_file {prefix}{sim}_eq.xyz
-Density trials_per_write {tpc} output_file {prefix}{sim}_density_eq.csv
-Run until complete
-Remove name0 Tune name1 Log name2 Movie name3 Density
+ThermoParams beta={beta} pressure={pressure}
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
+TrialVolume weight=0.005 tunable_param=0.2 tunable_target_acceptance=0.5
+Tune trials_per_tune=20
+Log [write]_eq.csv
+Movie [write]_eq.xyz
+Density [write]_density_eq.csv
+Run until=complete
+Remove name=Tune,Log,Movie,Density
 
 # npt production
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production}
-Log        trials_per_write {tpc} output_file {prefix}{sim}.csv
-Movie      trials_per_write {tpc} output_file {prefix}{sim}.xyz
-Energy     trials_per_write {tpc} output_file {prefix}{sim}_en.csv
-Density    trials_per_write {tpc} output_file {prefix}{sim}_density.csv
-Volume     trials_per_write {tpc} output_file {prefix}{sim}_volume.csv
-ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_profile.csv
-Run until complete
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production}
+Log [write].csv
+Movie [write].xyz
+Energy [write]_en.csv
+Volume [write]_volume.csv
+Density [write]_density.csv
+ProfileCPU [write]_profile.csv
+Run until=complete
 """.format(**params))
 
 def post_process(params):
@@ -106,12 +107,12 @@ def post_process(params):
     ens = np.zeros(shape=(params['num_sims'], 2))
     rhos = np.zeros(shape=(params['num_sims'], 2))
     for sim in range(params['num_sims']):
-        log = pd.read_csv(params['prefix']+str(sim)+'.csv')
-        assert int(log['num_particles_of_type0'][0]) == params['num_particles']
-        energy = pd.read_csv(params['prefix']+str(sim)+'_en.csv')
+        log = pd.read_csv("{}{:03d}.csv".format(params['prefix'], sim))
+        assert int(log['num_particles_lj'][0]) == params['num_particles']
+        energy = pd.read_csv("{}{:03d}_en.csv".format(params['prefix'], sim))
         ens[sim] = np.array([energy['average'][0],
                              energy['block_stdev'][0]])/params['num_particles']
-        density = pd.read_csv(params['prefix']+str(sim)+'_density.csv')
+        density = pd.read_csv("{}{:03d}_density.csv".format(params['prefix'], sim))
         print('density', density)
         rhos[sim] = np.array([density['average'][0],
                               density['block_stdev'][0]])

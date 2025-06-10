@@ -111,10 +111,12 @@ class Domain {
  public:
   //@{
   /** @name Arguments
-    - side_length[i]: set the side length of the i-th dimension.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - side_length: set the side length(s) of each dimension.
+      Multiple side lengths may be provided as a comma-separated list.
     - cubic_side_length: side length of cubic perioidic boundary conditions.
-    - periodic[i]: set if the i-th dimension is periodic (default: true).
+    - periodic: set if the side length(s) are periodic (default: true).
+      If given, multiple must be provided as a comma-separated list equal to the
+      number of dimensions.
     - xy: set the tilt along the x-y direction (default: 0).
     - xz: set the tilt along the x-z direction (default: 0).
     - yz: set the tilt along the y-z direction (default: 0).

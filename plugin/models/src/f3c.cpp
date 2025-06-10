@@ -2,6 +2,7 @@
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/model_params.h"
 #include "configuration/include/physical_constants.h"
 #include "models/include/f3c.h"
@@ -33,8 +34,9 @@ F3C::F3C(std::istream& istr) : ModelTwoBody(istr) {
   feasst_deserialize(&Asc_, istr);
 }
 
-void F3C::precompute(const ModelParams& existing) {
-  Model::precompute(existing);
+void F3C::precompute(const Configuration& config) {
+  Model::precompute(config);
+  const ModelParams& existing = config.model_params();
   conversion_factor_ = existing.constants().charge_conversion();
 }
 
@@ -64,8 +66,8 @@ double F3C::energy(
     const_shift_q = 1./cutoff,
     linear_shift_q = -const_shift_q*const_shift_q,
     en_q = mixed_charge*conversion_factor_*(1./distance - const_shift_q - linear_shift_q*(distance - cutoff));
-  INFO("en_lj " << en_lj);
-  INFO("en_q " << en_q);
+  TRACE("en_lj " << en_lj);
+  TRACE("en_q " << en_q);
   return en_lj + en_q;
 }
 

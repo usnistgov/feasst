@@ -71,8 +71,8 @@ void Clones::initialize(const int upper_index, argtype args) {
   const double macro_lower_max =
     fh_lower->macrostate().histogram().center_of_last_bin();
 
-  if (fh_upper->macrostate().is_allowed(upper->system(),
-                                        upper->criteria(), empty)) {
+  if (fh_upper->get_macrostate()->is_allowed(upper->system(),
+                                             upper->criteria(), empty)) {
     DEBUG("already initialized");
     return;
   }
@@ -83,7 +83,7 @@ void Clones::initialize(const int upper_index, argtype args) {
   while (!overlap) {
     lower->attempt(attempt_batch);
 
-    const double macro_lower = fh_lower->macrostate().value(
+    const double macro_lower = fh_lower->get_macrostate()->value(
       lower->system(), lower->criteria(), empty);
     DEBUG("macro_lower: " << macro_lower);
     if (is_in_interval(macro_lower, macro_upper_min, macro_lower_max)) {

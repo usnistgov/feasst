@@ -19,12 +19,6 @@ class CopyFollowingLines : public Action {
     - for_num_configurations: number of configurations to copy (default: 1).
     - replace_with_index: replace this string in any copied argument with the
       configuration index, if not empty (default: empty).
-    - replace[i]: replace this argument with the following with[i].
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-      If only one replace, the "[i]" is optional.
-    - with[i]: this is the value to replace the argument with.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-      If only one with, the "[i]" is optional.
    */
   explicit CopyFollowingLines(argtype args = argtype());
   explicit CopyFollowingLines(argtype * args);

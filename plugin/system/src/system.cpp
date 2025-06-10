@@ -387,7 +387,7 @@ void System::change_volume(const double delta_volume, argtype args) {
 //}
 
 int System::num_references(const int config) const {
-  if (static_cast<int>(references_.size()) > 0) {
+  if (static_cast<int>(references_.size()) > config) {
     return static_cast<int>(references_[config].size());
   }
   return 0;

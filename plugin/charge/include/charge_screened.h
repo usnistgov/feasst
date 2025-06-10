@@ -49,7 +49,7 @@ class ChargeScreened : public ModelTwoBody {
       const int type2,
       const ModelParams& model_params) override;
 
-  void precompute(const ModelParams& existing) override;
+  void precompute(const Configuration& config) override;
 
   /// Return the erfc table.
   const Table1D * erfc(const double distance_squared) const {

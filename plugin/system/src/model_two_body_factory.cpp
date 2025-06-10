@@ -30,6 +30,11 @@ ModelTwoBodyFactory::ModelTwoBodyFactory(argtype * args) {
       feasst_check_all_used(margs.second);
       models_.push_back(model);
     }
+  } else if (used("models", *args)) {
+    const std::vector<std::string> mods = split(feasst::str("models", args), ',');
+    for (const std::string& mod : mods) {
+      models_.push_back(ModelTwoBody().factory(mod, args));
+    }
   } else {
     int model_index = 0;
     std::stringstream key;
@@ -56,9 +61,9 @@ void ModelTwoBodyFactory::add(
   }
 }
 
-void ModelTwoBodyFactory::precompute(const ModelParams& existing) {
+void ModelTwoBodyFactory::precompute(const Configuration& config) {
   for (const std::shared_ptr<Model>& model : models_) {
-    model->precompute(existing);
+    model->precompute(config);
   }
 }
 

@@ -17,7 +17,7 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./0.9, help='inverse temperature')
     parser.add_argument('--num_particles', type=int, default=500, help='number of particles')
@@ -101,14 +101,14 @@ def run_en(params):
 1 0 0 {displacement_test}""".format(**params))
     with open("launch.txt", "w") as myfile: myfile.write("""
 MonteCarlo
-RandomMT19937 seed time
-Configuration xyz_file lj_two.xyz particle_type0 {fstprt} cutoff {cutoff}
-Potential Model TablePotential table_file {table_file}
-Potential VisitModel LongRangeCorrections
-ThermoParams beta 1000000
+RandomMT19937 seed={seed}
+Configuration xyz_file=lj_two.xyz particle_type={fstprt} cutoff={cutoff}
+Potential Model=TablePotential table_file={table_file}
+Potential VisitModel=LongRangeCorrections
+ThermoParams beta=1000000
 Metropolis
-Log output_file lj.csv max_precision true clear_file true
-Run num_trials 1
+Log output_file=lj.csv max_precision=true clear_file=true
+Run num_trials=1
 """.format(**params))
     syscode = subprocess.call(params['feasst_install']+"bin/fst < launch.txt > launch.log", shell=True, executable='/bin/bash')
     if syscode > 0: sys.exit(1)
@@ -119,7 +119,7 @@ def generate_table(params):
     rhg = params['inner']**params['gamma']
     rcg = params['cutoff']**params['gamma']
     with open(params['table_file'], 'w') as file1:
-        file1.write("""site_types 1 0\ngamma {gamma}\ninner {inner}\nnum_z {num_z}\n""".format(**params))
+        file1.write("""site_types 1 LJ\ngamma {gamma}\ninner {inner}\nnum_z {num_z}\n""".format(**params))
         for z in np.arange(0, 1 + dz/2, dz):
             if z == 0:
                 distance = params['inner']
@@ -136,44 +136,45 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
-Potential Model TablePotential table_file {table_file} VisitModel VisitModelCell
-Potential VisitModel LongRangeCorrections
-ThermoParams beta {beta} chemical_potential -1
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=lj:{fstprt}
+Potential Model=TablePotential table_file={table_file} VisitModel=VisitModelCell
+Potential VisitModel=LongRangeCorrections
+ThermoParams beta={beta} chemical_potential=-1
 Metropolis
-TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+TrialTranslate tunable_param=2
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # grand canonical ensemble initalization
-TrialAdd particle_type 0
-Run until_num_particles {num_particles}
-Remove name TrialAdd
+TrialAdd particle_type=lj
+Run until_num_particles={num_particles}
+Remove name=TrialAdd
 
 # canonical ensemble equilibration
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
 Tune
-CheckEnergy trials_per_update {tpc} tolerance 1e-8
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
-Run until complete
-Remove name0 Tune name1 Log
+CheckEnergy trials_per_update={tpc} decimal_places=6
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_eq.txt
+Run until=complete
+Remove name=Tune,Log
 
 # canonical ensemble production
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
-Log trials_per_write {tpc} output_file {prefix}{sim}.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
-Energy trials_per_write {tpc} output_file {prefix}{sim}_en.txt
-CPUTime trials_per_write {tpc} output_file {prefix}{sim}_cpu.txt
-Run until complete
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
+Log [write].csv
+Movie [write].xyz
+Energy [write]_en.csv
+CPUTime [write]_cpu.txt
+Run until=complete
 """.format(**params))
 
 def post_process(params):
     """ Plot energy and compare with https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm """
     ens = np.zeros(shape=(params['num_sims'], 2))
     for sim in range(params['num_sims']):
-        log = pd.read_csv(params['prefix']+str(sim)+'.txt')
-        assert int(log['num_particles_of_type0'][0]) == params['num_particles']
-        energy = pd.read_csv(params['prefix']+str(sim)+'_en.txt')
+        log = pd.read_csv("{}{:03d}.csv".format(params['prefix'], sim))
+        assert int(log['num_particles_lj'][0]) == params['num_particles']
+        energy = pd.read_csv("{}{:03d}_en.csv".format(params['prefix'], sim))
         ens[sim] = np.array([energy['average'][0],
                              energy['block_stdev'][0]])/params['num_particles']
     # data from https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm

@@ -6,7 +6,7 @@
 namespace feasst {
 
 TEST(Shape, Supertoroid) {
-  auto shape = MakeSupertoroid({{"a1", "2"}, {"center", "c"}, {"c0", "0"}, {"c1", "0"}, {"c2", "0"}});
+  auto shape = MakeSupertoroid({{"a1", "2"}, {"center", "0,0,0"}});
   std::shared_ptr<Shape> shape2 = test_serialize<Supertoroid, Shape>(*shape);
   Position point;
   point.set_vector({1.5, 0, 0});

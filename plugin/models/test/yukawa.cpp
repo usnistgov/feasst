@@ -7,7 +7,7 @@ namespace feasst {
 TEST(Yukawa, analytical) {
   Configuration config = two_particle_configuration();
   Yukawa model;
-  model.precompute(config.model_params());
+  model.precompute(config);
   model.set_kappa(2.);
   config.set_model_param("epsilon", 0, 0.5);
   EXPECT_NEAR(0.033833820809153176,

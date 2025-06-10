@@ -23,10 +23,9 @@ class TwoBodyAlpha : public ModelTwoBody {
  public:
   /**
     args:
-    - alpha[i]: set the value of \f$\alpha\f$ for each potential.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-    - s[i]: set the value of \f$s\f$.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - alpha: set the value of \f$\alpha\f$.
+      A comma-separated list provides an alpha for each potential.
+    - s: set the value of \f$s\f$ with a comma-separated list.
    */
   explicit TwoBodyAlpha(argtype args = argtype());
   explicit TwoBodyAlpha(argtype * args);

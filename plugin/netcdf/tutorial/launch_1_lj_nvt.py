@@ -20,31 +20,32 @@ params["num_hours_terminate"] = 0.95*params["num_hours"]
 def mc_lj(params=params, script_file="launch.txt"):
     with open(script_file, "w") as myfile: myfile.write("""
 MonteCarlo
-Checkpoint checkpoint_file checkpoint.fst
-RandomMT19937 seed time
-Configuration cubic_side_length {box_length} particle_type0 {fstprt}
-Potential Model LennardJones VisitModel VisitModelCell min_length 3
-Potential VisitModel LongRangeCorrections
-ThermoParams beta 0.1 chemical_potential 10
+Checkpoint checkpoint_file=checkpoint.fst
+RandomMT19937 seed=time
+Configuration cubic_side_length={box_length} particle_type=fluid:{fstprt}
+Potential Model=LennardJones VisitModel=VisitModelCell min_length=3
+Potential VisitModel=LongRangeCorrections
+ThermoParams beta=0.1 chemical_potential=10
 Metropolis
-TrialTranslate tunable_param 2. tunable_target_acceptance 0.2
-TrialAdd particle_type 0
-Run until_num_particles {num_particles}
-Remove name TrialAdd
-ThermoParams beta {beta}
+TrialTranslate tunable_param=2
+TrialAdd particle_type=fluid
+Run until_num_particles={num_particles}
+Remove name=TrialAdd
+ThermoParams beta={beta}
 Tune
-CheckEnergy trials_per_update {trials_per} tolerance 1e-8
+CheckEnergy trials_per_update={trials_per} decimal_places=6
 
 # equilibrate
-Run num_trials {equilibration}
-Remove name Tune
+Run num_trials={equilibration}
+Remove name=Tune
 
 # production analysis and output
-Log trials_per_write {trials_per} output_file lj.txt
-Movie trials_per_write {trials_per} output_file lj.xyz
-MovieNETCDF trials_per_write {trials_per} output_file lj.nc float_precision true
-Energy trials_per_write {trials_per} output_file en.txt
-Run num_trials {production}
+Let [write]=trials_per_write {trials_per}=output_file lj
+Log [write].txt
+Movie [write].xyz
+MovieNETCDF [write].nc float_precision=true
+Energy [write]_en.txt
+Run num_trials={production}
 """.format(**params))
 
 # write slurm script to fill nodes with simulations

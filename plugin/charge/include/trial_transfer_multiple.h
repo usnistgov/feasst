@@ -15,8 +15,7 @@ class TrialTransferMultiple : public TrialFactoryNamed {
  public:
   //@{
   /** @name Arguments
-    - particle_type[i]: the i-th type of particle to add.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - particle_types: comma-separated list of particle names to transfer.
     - TrialStage arguments.
    */
   explicit TrialTransferMultiple(argtype args = argtype());

@@ -3,18 +3,14 @@ Simulate hard spheres and compute scattering intensity.
 """
 
 import argparse
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 from pyfeasst import fstio
-from pyfeasst import scattering
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/atom.txt',
+    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--num_particles', type=int, default=128, help='number of particles')
     parser.add_argument('--cubic_side_length', type=float, default=8,
@@ -56,39 +52,44 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
-Potential Model HardSphere VisitModel VisitModelCell min_length 1
-ThermoParams beta 1 chemical_potential -1
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=fluid:{fstprt} cutoff=1
+Potential Model=HardSphere VisitModel=VisitModelCell min_length=max_cutoff
+ThermoParams beta=1 chemical_potential=-1
 Metropolis
-TrialTranslate tunable_param 0.2 tunable_target_acceptance 0.25
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+TrialTranslate tunable_param=0.2
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # grand canonical ensemble initalization
-TrialAdd particle_type 0
-Run until_num_particles {num_particles}
-Remove name TrialAdd
+TrialAdd particle_type=fluid
+Run until_num_particles={num_particles}
+Remove name=TrialAdd
 
 # canonical ensemble equilibration
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
 Tune
-CheckEnergy trials_per_update {tpc} tolerance 1e-8
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
-Run until complete
-Remove name0 Tune name1 Log
+CheckEnergy trials_per_update={tpc} decimal_places=6
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_eq.txt
+Run until=complete
+Remove name=Tune,Log
 
 # canonical ensemble production
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production}
-Log trials_per_write {tpc} output_file {prefix}{sim}.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
-PairDistribution trials_per_update 1000 trials_per_write {tpc} dr 0.025 output_file {prefix}{sim}_gr.csv
-Scattering trials_per_update 100 trials_per_write {tpc} num_frequency 10 output_file {prefix}{sim}_iq.csv
-Run until complete
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production}
+Log [write].txt
+Movie [write].xyz
+PairDistribution [write]_gr.csv trials_per_update=1000 dr=0.025
+Scattering [write]_iq.csv trials_per_update=100 num_frequency=10
+Run until=complete
 """.format(**params))
 
 def post_process(params):
-    gr=pd.read_csv(params['prefix'] + '0_gr.csv', comment="#")
-    iq=pd.read_csv(params['prefix'] + '0_iq.csv', comment="#")
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    from pyfeasst import scattering
+    gr=pd.read_csv(params['prefix'] + '000_gr.csv', comment="#")
+    iq=pd.read_csv(params['prefix'] + '000_iq.csv', comment="#")
     grp = iq.groupby('q', as_index=False)
     assert np.abs(gr['g0-0'][45] - 1.2829) < 0.05
     assert np.abs(iq['i'][3810] - 0.0988677) < 0.4

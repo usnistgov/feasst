@@ -35,7 +35,7 @@ class MacrostateBeta : public Macrostate {
   MacrostateBeta(const Histogram& histogram, argtype * args);
   double value(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const override;
+    const Acceptance& acceptance) override;
   std::shared_ptr<Macrostate> create(std::istream& istr) const override;
   std::shared_ptr<Macrostate> create(argtype * args) const override;
   void serialize(std::ostream& ostr) const override;

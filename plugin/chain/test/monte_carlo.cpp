@@ -138,7 +138,21 @@ TEST(MonteCarlo, TrialGrow_LONG) {
     mc.run(MakeRun({{"until_num_particles", "3"}}));
     mc.run(MakeRemove({{"name", "TrialAdd"}}));
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
-    std::vector<argtype> grow_args = {
+    std::vector<argtype> grow_args;
+    if (particle == "lj") {
+      grow_args = {
+      {{"default_num_steps", "4"}, {"default_reference_index", "0"},
+       {"transfer", "true"},
+       {"regrow", "true"},
+       {"particle_type", "0"},
+       {"site", "D1"},
+       {"weight", "100"}},
+      {{"bond", "true"},
+       {"mobile_site", "D2"},
+       {"anchor_site", "D1"},
+       {"num_steps", "5"}}};
+    } else if (particle == "spce") {
+      grow_args = {
       {{"default_num_steps", "4"}, {"default_reference_index", "0"},
        {"transfer", "true"},
        {"regrow", "true"},
@@ -148,12 +162,12 @@ TEST(MonteCarlo, TrialGrow_LONG) {
       {{"bond", "true"},
        {"mobile_site", "1"},
        {"anchor_site", "0"},
-       {"num_steps", "5"}}};
-    if (particle == "spce") grow_args.push_back(
+       {"num_steps", "5"}},
       {{"angle", "true"},
        {"mobile_site", "2"},
        {"anchor_site", "0"},
-       {"anchor_site2", "1"}});
+       {"anchor_site2", "1"}}};
+    }
     mc.add(MakeTrialGrow(grow_args));
     EXPECT_EQ(4, mc.trial(0).stage(0).rosenbluth().num());
     EXPECT_EQ(5, mc.trial(0).stage(1).rosenbluth().num());
@@ -253,7 +267,7 @@ TEST(MonteCarlo, cg7mab2_LONG) {
 
 TEST(System, Angles2D) {
   MonteCarlo mc;
-  mc.add(MakeConfiguration({{"side_length0", "6"}, {"side_length1", "6"},
+  mc.add(MakeConfiguration({{"side_length", "6,6"},
     {"particle_type", "../plugin/chain/particle/heterotrimer2d.txt"},
     {"add_particles_of_type0", "1"}}));
   mc.add(MakePotential(MakeLennardJones()));
@@ -266,7 +280,7 @@ std::unique_ptr<MonteCarlo> test_avb(const bool avb2, const bool avb4 = true) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
-  mc.add(MakeConfiguration({{"side_length0", "6"}, {"side_length1", "6"},
+  mc.add(MakeConfiguration({{"side_length", "6,6"},
     {"particle_type", "../plugin/chain/particle/heterotrimer2d.txt"}}));
   EXPECT_EQ(2, mc.configuration().dimension());
   mc.add(MakePotential(MakeLennardJones(),
@@ -348,11 +362,11 @@ TEST(MonteCarlo, multisite_neighbors) {
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   //mc.set(MakeRandomMT19937({{"seed", "1610132694"}}));
   mc.add(MakeConfiguration({{"cubic_side_length", "6"},
-                            {"particle_type0", "../particle/dimer.txt"}}));
+                            {"particle_type", "dimer:../particle/dimer.txt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1"}}));
   mc.set(MakeMetropolis());
-  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.add(MakeTrialAdd({{"particle_type", "dimer"}}));
   mc.run(MakeRun({{"until_num_particles", "5"}}));
   mc.run(MakeRemove({{"name", "TrialAdd"}}));
   auto neigh = MakeEnergyMapNeighbor();
@@ -363,12 +377,12 @@ TEST(MonteCarlo, multisite_neighbors) {
 //  mc.add(MakeTrialRotate({{"tunable_param", "50"}}));
   mc.add(MakeTrialGrow({
     {{"default_num_steps", "4"}, {"default_reference_index", "0"},
-     {"regrow", "true"}, {"particle_type", "0"}, {"site", "0"}},
-    {{"bond", "true"}, {"mobile_site", "1"}, {"anchor_site", "0"}}}));
+     {"regrow", "true"}, {"particle_type", "dimer"}, {"site", "D1"}},
+    {{"bond", "true"}, {"mobile_site", "D2"}, {"anchor_site", "D1"}}}));
   mc.add(MakeTrialGrow({
     {{"default_num_steps", "4"}, {"default_reference_index", "0"},
-     {"regrow", "true"}, {"particle_type", "0"}, {"site", "1"}},
-    {{"bond", "true"}, {"mobile_site", "0"}, {"anchor_site", "1"}}}));
+     {"regrow", "true"}, {"particle_type", "dimer"}, {"site", "D2"}},
+    {{"bond", "true"}, {"mobile_site", "D1"}, {"anchor_site", "D2"}}}));
   EXPECT_EQ(4, mc.trial(0).stage(0).num_steps());
 //  mc.add(MakeLogAndMovie({{"trials_per_write", "100"}, {"output_file", "tmp/dimer"}}));
   for (int i = 0; i < 1e1; ++i) {
@@ -465,7 +479,7 @@ void test_b2_cg4_flex(const bool mayer_intra) {
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   auto config = MakeConfiguration({{"cubic_side_length", str(NEAR_INFINITY)},
     {"particle_type0", "../plugin/chain/particle/cg4_mab_flex.txt"}});
-  config->add_particle_type("../plugin/chain/particle/cg4_mab_flex.txt", "2");
+  config->add_particle_type("../plugin/chain/particle/cg4_mab_flex.txt");
   config->add_particle_of_type(0);
   config->add_particle_of_type(1);
   mc.add(config);
@@ -598,8 +612,8 @@ TEST(MonteCarlo, RigidBondAngleDihedral) {
     System system;
     system.add(MakeConfiguration({
       {"cubic_side_length", "10"},
-      {"particle_type", data},
-      {"add_particles_of_type0", "1"}}));
+      {"particle_type", "fluid:"+data},
+      {"add_num_fluid_particles", "1"}}));
     system.set(MakeThermoParams({{"beta", "1"}}));
     system.precompute();
     auto random = MakeRandomMT19937();
@@ -608,15 +622,15 @@ TEST(MonteCarlo, RigidBondAngleDihedral) {
     std::shared_ptr<TrialSelect> select;
     std::shared_ptr<Perturb> perturb;
     if (data == "../particle/dimer.txt") {
-      select = MakeTrialSelectBond({{"particle_type", "0"}, {"mobile_site", "1"},
-        {"anchor_site", "0"}});
+      select = MakeTrialSelectBond({{"particle_type", "fluid"}, {"mobile_site", "D2"},
+        {"anchor_site", "D1"}});
       perturb = MakePerturbDistance();
     } else if (data == "../particle/trimer_0.4L.txt") {
-      select = MakeTrialSelectAngle({{"particle_type", "0"}, {"mobile_site", "2"},
+      select = MakeTrialSelectAngle({{"particle_type", "fluid"}, {"mobile_site", "2"},
         {"anchor_site", "0"}, {"anchor_site2", "1"}});
       perturb = MakePerturbDistanceAngle();
     } else if (data == "../plugin/chain/test/data/tetramer_rigid.txt") {
-      select = MakeTrialSelectDihedral({{"particle_type", "0"}, {"mobile_site", "3"},
+      select = MakeTrialSelectDihedral({{"particle_type", "fluid"}, {"mobile_site", "3"},
         {"anchor_site", "2"}, {"anchor_site2", "1"}, {"anchor_site3", "0"}});
       perturb = MakePerturbDihedral();
     } else {
@@ -800,7 +814,7 @@ TEST(MonteCarlo, ethane) {
   mc->add(MakePotential(MakeLennardJones()));
   mc->add(MakePotential(MakeLongRangeCorrections()));
   mc->set(MakeThermoParams({{"beta", str(1./325)},
-                            {"chemical_potential0", "-1"}}));
+                            {"chemical_potential", "-1"}}));
   mc->set(MakeMetropolis());
   mc->add(MakeTrialGrow({
     {{"bond", "true"},
@@ -839,7 +853,7 @@ TEST(MonteCarlo, water) {
                         MakeVisitModelCutoffOuter()));
   mc->add(MakePotential(MakeLongRangeCorrections()));
   mc->set(MakeThermoParams({{"beta", str(1./325)},
-                            {"chemical_potential0", "-1"}}));
+                            {"chemical_potential", "-1"}}));
   mc->set(MakeMetropolis());
   mc->add(MakeTrialGrow({
     {{"angle", "true"},
@@ -883,7 +897,7 @@ TEST(MonteCarlo, chainarglist) {
     {"Configuration", {{"cubic_side_length", "20"},
                        {"particle_type0", "../plugin/chain/particle/chain20.txt"}}},
     {"Potential", {{"Model", "IdealGas"}}},
-    {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential0", "10"}}},
+    {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential", "10"}}},
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"tunable_param", "0.2"},
                         {"tunable_target_acceptance", "0.2"}}},
@@ -916,7 +930,7 @@ TEST(MonteCarlo, angle_square_well) {
                              {"end_site_type", "1"}}));
   mc->add(MakePotential(MakeLennardJones(),
                         MakeVisitModelCutoffOuter()));
-  mc->set(MakeThermoParams({{"beta", "1"}, {"chemical_potential0", "-1"}}));
+  mc->set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "-1"}}));
   mc->set(MakeMetropolis());
   mc->add(MakeTrialGrow({
     {{"angle", "true"},
@@ -943,8 +957,7 @@ TEST(MonteCarlo, lj_position_swap) {
   mc->add(MakePotential(MakeLennardJones()));
   mc->add(MakePotential(MakeLongRangeCorrections()));
   mc->set(MakeThermoParams({{"beta", str(1./1.5)},
-                            {"chemical_potential0", "-1"},
-                            {"chemical_potential1", "-1"}}));
+                            {"chemical_potential", "-1,-1"}}));
   mc->set(MakeMetropolis());
   mc->add(MakeTrialGrow({
     {{"position_swap", "true"},
@@ -991,5 +1004,89 @@ TEST(MonteCarlo, lj_position_swap) {
 //  }
 //  mc.attempt(10);
 //}
+
+TEST(MonteCarlo, chain_npt_ideal_gas) {
+  const std::string tpc = "1e1";
+  auto mc = MakeMonteCarlo({{
+    {"Configuration", {{"cubic_side_length", str(std::pow(5e4, 1./3))},
+      {"particle_type", "../particle/n-butane.txt"},
+      {"cutoff", "0"}}},
+    {"Potential", {{"VisitModel", "DontVisitModel"}}},
+    //{"Potential", {{"Model", "IdealGas"}}},
+    //{"Potential", {{"Model", "LennardJones"}}},
+    {"RefPotential", {{"VisitModel", "DontVisitModel"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1."}, {"pressure", "1e-3"}}},
+    {"Metropolis", {{}}},
+    {"TrialGrowFile", {{"grow_file", "../plugin/chain/test/data/c4_grow_ce.txt"}}},
+    {"TrialGrowFile", {{"grow_file", "../plugin/chain/test/data/c4_grow_gce.txt"}}},
+    {"Remove", {{"name_contains", "remove"}}},
+    {"Run", {{"until_num_particles", "50"}}},
+    {"Remove", {{"name_contains", "add"}}},
+    {"TrialVolume", {{"reference_index", "0"}, {"weight", "1e1"}, {"tunable_param", "0.8"}}},
+    {"Metropolis", {{"trials_per_cycle", tpc}, {"cycles_to_complete", "1e2"}}},
+    {"Log", {{"trials_per_write", tpc}, {"output_file", "tmp/lj.csv"}}},
+    {"Movie", {{"trials_per_write", tpc}, {"output_file", "tmp/lj.xyz"}}},
+    {"Volume", {{"trials_per_write", tpc}, {"output_file", "tmp/lj_vol.csv"}}},
+    {"CheckEnergy", {{"trials_per_update", tpc}, {"decimal_places", "7"}}},
+    {"Tune", {{"trials_per_tune", "20"}}},
+    {"Run", {{"until", "complete"}}},
+  }}, true);
+  const Accumulator& vol = mc->analyzers().back()->accumulator();
+  DEBUG("vol:" << vol.str());
+  EXPECT_NEAR(5e4, vol.average(), 5*vol.block_stdev());
+}
+
+TEST(MonteCarlo, gibbs_trappe_ideal_gas_LONG) {
+  const std::string tpc = "1e3";
+  auto mc = MakeMonteCarlo({{
+    {"Configuration", {{"cubic_side_length", "40"}, {"particle_type", "../particle/n-butane.txt"}, {"cutoff", "0"}}},
+    {"Configuration", {{"cubic_side_length", "40"}, {"particle_type", "../particle/n-butane.txt"}, {"cutoff", "0"}}},
+    {"CopyFollowingLines", {{"for_num_configurations", "2"}}},
+    {"Potential", {{"VisitModel", "DontVisitModel"}}},
+    {"RefPotential", {{"VisitModel", "DontVisitModel"}}},
+    {"EndCopy", {{}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "10"}}},
+    {"Metropolis", {{}}},
+
+    // fill box
+    {"TrialGrowFile", {{"grow_file", "../plugin/chain/test/data/c4_grow_ce.txt"}}},
+    {"TrialGrowFile", {{"grow_file", "../plugin/chain/test/data/c4_grow_gce.txt"}}},
+    {"Remove", {{"name_contains", "remove"}}},
+    {"Run", {{"until_num_particles", "50"}, {"configuration_index", "0"}}},
+    {"Remove", {{"name_contains", "add"}}},
+    {"TrialGrowFile", {{"grow_file", "../plugin/chain/test/data/c4_grow_gce_conf1.txt"}}},
+    {"Remove", {{"name_contains", "remove"}}},
+    {"Run", {{"until_num_particles", "50"}, {"configuration_index", "1"}}},
+    {"Remove", {{"name_contains", "add"}}},
+
+    {"Metropolis", {{"trials_per_cycle", tpc}, {"cycles_to_complete", "1e2"}}},
+    {"TrialGrowFile", {{"grow_file", "../plugin/chain/test/data/c4_grow_gibbs.txt"}}},
+    {"TrialGibbsVolumeTransfer", {{"tunable_param", "10"}, {"reference_index", "0"}}},
+    {"Tune", {{"trials_per_tune", "4"}}},
+    {"Log", {{"trials_per_write", tpc}, {"output_file", "tmp/lj.csv"}}},
+    {"CopyFollowingLines", {{"for_num_configurations", "2"}, {"replace_with_index", "[config]"}}},
+    {"Movie", {{"trials_per_write", tpc}, {"output_file", "tmp/ljc[config].xyz"}}},
+    {"Density", {{"trials_per_write", tpc}, {"output_file", "tmp/ljc[config]dens.csv"}}},
+    {"NumParticles", {{"trials_per_write", tpc}, {"output_file", "tmp/ljc[config]num.csv"}}},
+    {"Volume", {{"trials_per_write", tpc}, {"output_file", "tmp/ljc[config]vol.csv"}}},
+    {"EndCopy", {{}}},
+    {"CheckEnergy", {{"trials_per_update", tpc}, {"tolerance", str(1e-9)}}},
+    //{"GibbsInitialize", {{"trials_per_update", tpc}}},
+    {"Run", {{"until", "complete"}}},
+  //}});
+  }}, true);
+  auto mc2 = test_serialize_unique(*mc);
+  EXPECT_EQ(2, mc2->system().num_configurations());
+  const Accumulator& num0 = mc2->analyze(5).accumulator();
+  const Accumulator& num1 = mc2->analyze(6).accumulator();
+  DEBUG(num0.str() << std::endl << num1.str());
+  EXPECT_NEAR(50, num0.average(), 5*num0.block_stdev());
+  EXPECT_NEAR(50, num1.average(), 5*num1.block_stdev());
+  const Accumulator& vol0 = mc2->analyze(7).accumulator();
+  const Accumulator& vol1 = mc2->analyze(8).accumulator();
+  DEBUG(vol0.str() << std::endl << vol1.str());
+  EXPECT_NEAR(std::pow(40, 3), vol0.average(), 5*vol0.block_stdev());
+  EXPECT_NEAR(std::pow(40, 3), vol1.average(), 5*vol1.block_stdev());
+}
 
 }  // namespace feasst

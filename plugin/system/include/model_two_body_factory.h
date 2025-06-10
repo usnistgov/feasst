@@ -18,8 +18,7 @@ class ModelTwoBodyFactory : public ModelTwoBody {
  public:
   //@{
   /** @name Arguments
-    - model[i]: add the i-th model.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - models: comma-separated list of ModelTwoBody.
     - model_file: if not empty, file name that lists the ModelTwoBody
       (default: empty).
       The first line is simply ModelTwoBodyFactory.
@@ -53,7 +52,7 @@ class ModelTwoBodyFactory : public ModelTwoBody {
       const int type2,
       const ModelParams& model_params) override;
 
-  void precompute(const ModelParams& existing) override;
+  void precompute(const Configuration& config) override;
 
   // serialize
   std::shared_ptr<Model> create(std::istream& istr) const override {

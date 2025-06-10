@@ -20,10 +20,15 @@ PerturbParticleType::PerturbParticleType(argtype * args) : Perturb(args) {
   rotate_.set_tunable(-1);
   rotate_.disable_tunable_();
   disable_tunable_();
-  new_particle_type_ = integer("type", args);
+  type_ = str("type", args);
+  //new_particle_type_ = integer("type", args);
 }
 
 FEASST_MAPPER(PerturbParticleType, argtype({{"type", "0"}}));
+
+void PerturbParticleType::precompute(TrialSelect * select, System * system) {
+  new_particle_type_ = select->configuration(*system).particle_name_to_type(type_);
+}
 
 std::shared_ptr<Perturb> PerturbParticleType::create(std::istream& istr) const {
   return std::make_shared<PerturbParticleType>(istr);
@@ -115,16 +120,20 @@ PerturbParticleType::PerturbParticleType(std::istream& istr)
   : Perturb(istr) {
   ASSERT(class_name_ == "PerturbParticleType", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(4672 == version, "mismatch version: " << version);
+  ASSERT(version >= 4672 && version <= 4673, "mismatch version: " << version);
   feasst_deserialize(&new_particle_type_, istr);
+  if (version >= 4673) {
+    feasst_deserialize(&type_, istr);
+  }
   feasst_deserialize_fstobj(&rotate_, istr);
 }
 
 void PerturbParticleType::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_perturb_(ostr);
-  feasst_serialize_version(4672, ostr);
+  feasst_serialize_version(4673, ostr);
   feasst_serialize(new_particle_type_, ostr);
+  feasst_serialize(type_, ostr);
   feasst_serialize_fstobj(rotate_, ostr);
 }
 

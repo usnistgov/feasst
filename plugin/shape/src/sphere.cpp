@@ -12,8 +12,14 @@ FEASST_MAPPER(Sphere,);
 Sphere::Sphere(argtype * args) : Shape() {
   class_name_ = "Sphere";
   radius_ = dble("radius", args, 1);
-  if (used("center", *args)) {
-    center_ = Position(parse_dimensional(str("center", args), args, 4));
+  const std::string center = str("center", args, "");
+  if (!center.empty()) {
+    if (is_found_in(center, ",")) {
+      center_ = Position({{"csv", center}});
+    } else {
+      WARN("Deprecate Sphere::center without comma-separated values.");
+      center_ = Position(parse_dimensional(center, args, 4));
+    }
   } else {
     center_ = Position({0, 0, 0});
   }

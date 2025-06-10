@@ -39,12 +39,26 @@ Configuration::Configuration(argtype * args) {
   // if only one particle type, allow drop the subscript
   start.assign("particle_type");
   if (used(start, *args)) {
-    add_particle_type(feasst::str(start, args));
+    const std::vector<std::string> ptypes = split(feasst::str(start, args), ',');
+    for (int ipt = 0; ipt < static_cast<int>(ptypes.size()); ++ipt) {
+      std::string value = ptypes[ipt];
+      std::string name;
+      if (value.find(':') != std::string::npos) {
+        const std::vector<std::string> v2 = split(value, ':');
+        name = v2[0];
+        value = v2[1];
+      }
+      if (value.substr(0, 7) == "/feasst") {
+        value.replace(0, 7, FEASST_INSTALL_DIR);
+      }
+      add_particle_type(value, name);
+    }
   } else {
     int type = num_particle_types();
     std::stringstream key;
     key << start << type;
     while (used(key.str(), *args)) {
+      WARN("Deprecated Configuration::particle_type[i]->particle_type");
       add_particle_type(feasst::str(key.str(), args));
       ++type;
       ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
@@ -55,9 +69,22 @@ Configuration::Configuration(argtype * args) {
 
   DEBUG("parse adding particles of type");
   for (int type = 0; type < num_particle_types(); ++type) {
+    const std::string& pname = particle_type_to_name(type);
+    const std::string key = "add_num_" + pname + "_particles";
+    if (used(key, *args)) {
+      const int nump = integer(key, args);
+      for (int ipart = 0; ipart < nump; ++ipart) {
+        add_particle_of_type(type);
+      }
+    }
+  }
+  for (int type = 0; type < num_particle_types(); ++type) {
     std::stringstream key;
     key << "add_particles_of_type" << type;
     const int num = integer(key.str(), args, 0);
+    if (num > 0) {
+      WARN("Deprecated Configuration::add_particles_of_type[i]->add_num_[name]_particles");
+    }
     for (int i = 0; i < num; ++i) {
       add_particle_of_type(type);
     }
@@ -77,18 +104,26 @@ Configuration::Configuration(argtype * args) {
   check_dimensions();
 
   DEBUG("parse groups");
-  start = "group";
-  int index = 0;
-  std::stringstream key;
-  key << start << index;
-  while (used(key.str(), *args)) {
-    const std::string name = feasst::str(key.str(), args);
-    args->insert({"prepend", name});
-    auto group = std::make_shared<Group>(args);
-    add(group, name);
-    ++index;
-    key.str("");
+  if (used("group", *args)) {
+    const std::vector<std::string> grps = split(feasst::str("group", args), ',');
+    for (const std::string& grp : grps) {
+      args->insert({"prepend", grp});
+      add(std::make_shared<Group>(args), grp);
+    }
+  } else {
+    start = "group";
+    int index = 0;
+    std::stringstream key;
     key << start << index;
+    while (used(key.str(), *args)) {
+      const std::string name = feasst::str(key.str(), args);
+      args->insert({"prepend", name});
+      auto group = std::make_shared<Group>(args);
+      add(group, name);
+      ++index;
+      key.str("");
+      key << start << index;
+    }
   }
 
   init_wrap(boolean("wrap", args, true));
@@ -109,7 +144,7 @@ Configuration::Configuration(argtype * args) {
       }
       if (args->size() != 0) {
         for (int site_type = 0; site_type < num_site_types(); ++site_type) {
-          std::string param_arg = param + feasst::str(site_type);
+          std::string param_arg = param + site_type_to_name(site_type);
           if (used(param_arg, *args)) {
             set_model_param(param, site_type, dble(param_arg, args));
           }
@@ -118,8 +153,8 @@ Configuration::Configuration(argtype * args) {
       if (args->size() != 0) {
         for (int site1 = 0; site1 < num_site_types(); ++site1) {
           for (int site2 = site1; site2 < num_site_types(); ++site2) {
-            std::string param_arg = param + feasst::str(site1) + "_" +
-                                    feasst::str(site2);
+            std::string param_arg = param + site_type_to_name(site1) + "_" +
+                                            site_type_to_name(site2);
             if (used(param_arg, *args)) {
               set_model_param(param, site1, site2, dble(param_arg, args));
             }
@@ -143,14 +178,21 @@ Configuration::Configuration(argtype * args) {
 }
 
 void Configuration::add_particle_type(const std::string file_name,
-    const std::string append) {
-  DEBUG("adding type: " << file_name);
+    std::string name) {
+  if (name.empty()) {
+    name = std::to_string(num_particle_types());
+    DEBUG("setting default name for part:" << file_name << " as: " << name);
+  }
+  ASSERT(!find_in_list(name, type_to_name_), "particle type name:" << name
+    << " already exists in Configuration. Particle names must be unique.");
+  DEBUG("adding type: " << file_name << " of name: " << name);
   ASSERT(particles_->num() == 0, "types cannot be added after particles");
   particle_types_->add(file_name);
-  unique_types_->add(file_name);
+  unique_types_->add(file_name, name);
   ghosts_.push_back(std::make_shared<Select>());
   ASSERT(ghosts_.back()->is_group_empty(), "no ghosts in brand new type");
-  type_to_file_.push_back(file_name + append);
+  type_to_file_.push_back(file_name);
+  type_to_name_.push_back(name);
   num_particles_of_type_.push_back(0);
 }
 
@@ -540,7 +582,8 @@ int Configuration::particle_type_to_group_create(const int particle_type) {
   if (grp != -1) {
     return grp;
   }
-  add(MakeGroup({{"particle_type", feasst::str(particle_type)}}));
+  add(MakeGroup({{"particle_type", particle_type_to_name(particle_type)}}));
+  //add(MakeGroup({{"particle_type", feasst::str(HEREITISTHEISSUEparticle_type)}}));
   group_store_particle_type_.push_back(particle_type);
   group_store_group_index_.push_back(num_groups() - 1);
   const int index = static_cast<int>(group_store_group_index_.size()) - 1;
@@ -760,7 +803,7 @@ std::string Configuration::status_header(const std::string append) const {
   std::stringstream ss;
   ss << domain().status_header(append);
   for (int type = 0; type < num_particle_types(); ++type) {
-    ss << ",num_particles_of_type" << type << append;
+    ss << ",num_particles_" << particle_type_to_name(type) << append;
   }
   return ss.str();
 }
@@ -796,7 +839,7 @@ void Configuration::serialize(std::ostream& ostr) const {
 
 Configuration::Configuration(std::istream& istr) {
   const int config_version = feasst_deserialize_version(istr);
-  ASSERT(config_version >= 7199 && config_version <= 7199,
+  ASSERT(config_version >= 7199 && config_version <= 7200,
     "unrecognized config_version: " << config_version);
   std::string checkpoint_version;
   feasst_deserialize(&checkpoint_version, istr);
@@ -1055,6 +1098,7 @@ const PhysicalConstants& Configuration::physical_constants() const {
 
 void Configuration::add(std::shared_ptr<NeighborCriteria> neighbor_criteria) {
   neighbor_criteria_.push_back(neighbor_criteria);
+  neighbor_criteria_.back()->name_to_index(*unique_types_);
 }
 
 const NeighborCriteria& Configuration::neighbor_criteria(
@@ -1223,6 +1267,19 @@ int Configuration::site_name_to_index(const std::string& site_name) const {
 
 int Configuration::site_type_name_to_index(const std::string& site_type_name) const {
   return unique_types().site_type_name_to_index(site_type_name);
+}
+
+const std::string& Configuration::site_index_to_name(const int particle_index,
+    const int site_index) const {
+  return particle_types().site_index_to_name(particle_index, site_index);
+}
+
+int Configuration::particle_name_to_type(const std::string& name) const {
+  return unique_types_->name_to_index(name);
+}
+
+const std::string& Configuration::particle_type_to_name(const int ptype) const {
+  return unique_types_->index_to_name(ptype);
 }
 
 }  // namespace feasst

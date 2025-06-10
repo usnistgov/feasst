@@ -158,18 +158,18 @@ TEST(Ewald, triclinic) {
   std::stringstream ss;
   system.potential(0).visit_model().serialize(ss);
   Ewald ewald(ss);
-  INFO("alpha " << system.configuration().model_params().property("alpha"));
-  INFO("num_kx " << ewald.num_kx());
-  INFO("num_ky " << ewald.num_ky());
-  INFO("num_kz " << ewald.num_kz());
-  INFO("kxmax " << ewald.kxmax());
-  INFO("kymax " << ewald.kymax());
-  INFO("kzmax " << ewald.kzmax());
-  INFO("kmax_squared " << ewald.kmax_squared());
-  INFO(system.configuration().num_particles());
-  INFO(system.stored_energy());
+  DEBUG("alpha " << system.configuration().model_params().property("alpha"));
+  DEBUG("num_kx " << ewald.num_kx());
+  DEBUG("num_ky " << ewald.num_ky());
+  DEBUG("num_kz " << ewald.num_kz());
+  DEBUG("kxmax " << ewald.kxmax());
+  DEBUG("kymax " << ewald.kymax());
+  DEBUG("kzmax " << ewald.kzmax());
+  DEBUG("kmax_squared " << ewald.kmax_squared());
+  DEBUG(system.configuration().num_particles());
+  DEBUG(system.stored_energy());
   for (const std::shared_ptr<Potential>& pot : system.potentials().potentials()) {
-    INFO(pot->visit_model().class_name() << ":" << pot->model().class_name() <<
+    DEBUG(pot->visit_model().class_name() << ":" << pot->model().class_name() <<
       " = " << pot->stored_energy());
   }
 }
@@ -177,9 +177,7 @@ TEST(Ewald, triclinic) {
 TEST(Ewald, srsw_ref_config) {
   System system;
   system.add(MakeConfiguration({
-    {"side_length0", "30.0"},
-    {"side_length1", "28.97777478867205"},
-    {"side_length2", "29.51512917398008"},
+    {"side_length", "30.0,28.97777478867205,29.51512917398008"},
     {"xy", "7.764571353075622"},
     {"xz", "-2.6146722824297473"},
     {"yz", "-4.692615336756641"},

@@ -4,12 +4,23 @@
 namespace feasst {
 
 TEST(IO, split) {
-  const std::vector<std::string> str = split("This is a string");
+  std::vector<std::string> str = split("This is a string");
   EXPECT_EQ(4, str.size());
   EXPECT_EQ("This", str[0]);
   EXPECT_EQ("is", str[1]);
   EXPECT_EQ("a", str[2]);
   EXPECT_EQ("string", str[3]);
+
+  str = split("This,is,a,string,", ',');
+  EXPECT_EQ(4, str.size());
+  EXPECT_EQ("This", str[0]);
+  EXPECT_EQ("is", str[1]);
+  EXPECT_EQ("a", str[2]);
+  EXPECT_EQ("string", str[3]);
+
+  str = split("This is a string", ',');
+  EXPECT_EQ(1, str.size());
+  EXPECT_EQ("This is a string", str[0]);
 }
 
 TEST(IO, trim) {
@@ -55,7 +66,7 @@ TEST(IO, serialize_string) {
 
 TEST(IO, str) {
   std::map<std::string, std::string> mp = {{"hi","you"},{"well","hello"},};
-  EXPECT_EQ(str(mp), "hi you well hello ");
+  EXPECT_EQ(str(mp), "hi=you well=hello");
 }
 
 TEST(IO, is_found_in) {

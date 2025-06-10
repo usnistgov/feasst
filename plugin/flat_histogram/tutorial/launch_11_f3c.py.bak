@@ -103,8 +103,8 @@ Potential Model ChargeSelf
 Potential VisitModel LongRangeCorrections
 ThermoParams beta {beta} chemical_potential {mu_init}
 Metropolis
-TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25
+TrialTranslate weight 1 tunable_param 0.2
+TrialParticlePivot weight 0.25 particle_type 0 tunable_param 0.2
 TrialGrowFile grow_file {prefix}_grow_canonical.txt
 CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
 
@@ -113,7 +113,7 @@ TrialGrowFile grow_file {prefix}_grow_grand_canonical.txt
 Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}s[sim_index]_eq.txt include_bonds true
 Tune
 Run until_num_particles [soft_macro_min]
-Remove name_contains0 add name_contains1 remove
+Remove name_contains add,remove
 ThermoParams beta {beta} chemical_potential {mu}
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 Run until_criteria_complete true

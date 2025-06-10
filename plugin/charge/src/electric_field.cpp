@@ -4,6 +4,7 @@
 #include "configuration/include/physical_constants.h"
 #include "configuration/include/site.h"
 #include "configuration/include/model_params.h"
+#include "configuration/include/configuration.h"
 #include "charge/include/electric_field.h"
 
 namespace feasst {
@@ -17,8 +18,9 @@ ElectricField::ElectricField(argtype args) {
   feasst_check_all_used(args);
 }
 
-void ElectricField::precompute(const ModelParams& existing) {
-  Model::precompute(existing);
+void ElectricField::precompute(const Configuration& config) {
+  Model::precompute(config);
+  const ModelParams& existing = config.model_params();
   // convert from V/A to kJ/mol/A/e
   conversion_factor_ = existing.constants().elementary_charge()*
     existing.constants().avogadro_constant()/1e3;

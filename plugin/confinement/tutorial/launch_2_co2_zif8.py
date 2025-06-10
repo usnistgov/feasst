@@ -85,53 +85,54 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fluid} particle_type1 {MOF} add_particles_of_type1 1 group0 fluid fluid_particle_type 0 group1 MOF MOF_particle_type 1 cutoff {cutoff}
-Potential VisitModel Ewald alpha {alpha} kmax_squared 27
-Potential Model ModelTwoBodyFactory model0 LennardJonesForceShift model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter
-Potential Model ChargeScreenedIntra VisitModel VisitModelBond
-Potential Model ChargeSelf
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=fluid:{fluid},MOF:{MOF} add_num_MOF_particles=1 \
+    group=fluid,MOF fluid_particle_type=fluid MOF_particle_type=MOF cutoff={cutoff}
+Potential VisitModel=Ewald alpha={alpha} kmax_squared=27
+Potential Model=ModelTwoBodyFactory models=LennardJonesForceShift,ChargeScreened erfc_table_size=2e4 VisitModel=VisitModelCutoffOuter
+Potential Model=ChargeScreenedIntra VisitModel=VisitModelBond
+Potential Model=ChargeSelf
 ZeroBackground
-ThermoParams beta {beta_init} chemical_potential {mu_init}
+ThermoParams beta={beta_init} chemical_potential={mu_init}
 Metropolis
-TrialTranslate weight 30 particle_type 0 tunable_param 0.2 tunable_target_acceptance 0.25
-TrialParticlePivot weight 20 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25
-CheckEnergy trials_per_update {tpc} tolerance 1e-4
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+TrialTranslate weight=30 particle_type=fluid tunable_param=0.2
+TrialParticlePivot weight=20 particle_type=fluid tunable_param=0.5
+CheckEnergy trials_per_update={tpc} decimal_places=6
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # write the MOF xyz for visualization
-Movie output_file {prefix}n{node}s{sim}_MOF.xyz group MOF clear_file true
-WriteStepper analyze_name Movie
-Remove name Movie
+Movie output_file={prefix}n{node}s{sim:03d}_MOF.xyz group=MOF clear_file=true
+WriteStepper analyze_name=Movie
+Remove name=Movie
 
 # gcmc initialization and nvt equilibration
-TrialAdd weight 50.0 particle_type 0
-Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.csv
+TrialAdd weight=50.0 particle_type=fluid
+Let [write]=trials_per_write={tpc} output_file={prefix}n{node}s{sim:03d}
+Log [write]_eq.csv
 Tune
-Run until_num_particles {min_particles} particle_type 0
-Remove name TrialAdd
-ThermoParams beta {beta} chemical_potential {mu}
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
-Run until complete
-Remove name0 Tune name1 Log
+Run until_num_particles={min_particles} particle_type=fluid
+Remove name=TrialAdd
+ThermoParams beta={beta} chemical_potential={mu}
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
+Run until=complete
+Remove name=Tune,Log
 
 # gcmc tm production
-FlatHistogram Macrostate MacrostateNumParticles particle_type 0 width 1 max {max_particles} min {min_particles} \
-  Bias TransitionMatrix min_sweeps {min_sweeps}
-TrialTransfer weight 50 particle_type 0
-Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}.csv
-#To print trajectories for each macrostate in separate files, add the following arguments to the "Movie" lines below: multistate true multistate_aggregate false
-Movie trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.xyz stop_after_cycle 1 group fluid
-Movie trials_per_write {tpc} output_file {prefix}n{node}s{sim}.xyz start_after_cycle 1 group fluid
-Tune trials_per_write {tpc} output_file {prefix}n{node}s{sim}_tune.csv multistate true stop_after_cycle 1
-Energy trials_per_write {tpc} output_file {prefix}n{node}s{sim}_en.csv multistate true start_after_cycle 1
-CriteriaUpdater trials_per_update 1e5
-CriteriaWriter trials_per_write {tpc} output_file {prefix}n{node}s{sim}_crit.csv
-Run until complete
+FlatHistogram Macrostate=MacrostateNumParticles particle_type=fluid width=1 max={max_particles} min={min_particles} \
+  Bias=TransitionMatrix min_sweeps={min_sweeps}
+TrialTransfer weight=50 particle_type=fluid
+Log [write].csv
+Tune [write]_tune.csv multistate=true stop_after_cycle=1
+Movie [write]_eq.xyz stop_after_cycle=1 group=fluid
+Movie [write].xyz start_after_cycle=1 group=fluid
+Energy [write]_en.csv multistate=true start_after_cycle=1
+CriteriaUpdater trials_per_update=1e5
+CriteriaWriter [write]_crit.csv
+Run until=complete
 
 # continue until all simulations on the node are complete
-WriteFileAndCheck sim {sim} sim_start {sim_start} sim_end {sim_end} file_prefix {prefix}n{node}s file_suffix _finished.txt output_file {prefix}n{node}_terminate.txt
-Run until_file_exists {prefix}n{node}_terminate.txt trials_per_file_check {tpc}
+WriteFileAndCheck sim={sim} sim_start={sim_start} sim_end={sim_end} file_prefix={prefix}n{node}s file_suffix=_finished.txt output_file={prefix}n{node}_terminate.txt
+Run until_file_exists={prefix}n{node}_terminate.txt trials_per_file_check={tpc}
 """.format(**params))
 
 def post_process(params):

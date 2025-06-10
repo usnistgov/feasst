@@ -19,7 +19,7 @@ import launch_04_lj_tm_parallel
 def parse(temperature=300):
     """ Parse arguments from command line or change their default values. """
     params, args = launch_04_lj_tm_parallel.parse(
-          fstprt='/feasst/particle/spce.txt',
+          fstprt='/feasst/particle/spce_new.txt',
           beta=1./(temperature*physical_constants.MolarGasConstant().value()/1e3), # mol/kJ
           beta_mu=-15.24,
           mu_init=-7,
@@ -43,9 +43,9 @@ def parse(temperature=300):
     with open(params['prefix']+'_grow.txt', 'w') as f:
         f.write("""TrialGrowFile
 
-particle_type 0 weight 2 transfer true site 0 num_steps 10 reference_index 0
-bond true mobile_site 1 anchor_site 0 reference_index 0
-angle true mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0
+particle_type=water weight=2 transfer=true site=O1 num_steps=10 reference_index=0
+bond=true mobile_site=H1 anchor_site=O1 reference_index=0
+angle=true mobile_site=H2 anchor_site=O1 anchor_site2=H1 reference_index=0
 """)
 
     return params, args
@@ -55,27 +55,28 @@ def sim_node_dependent_params(params):
     if params['node'] == 0:
         params['min_particles'] = 0
         params['max_particles'] = params['num_particles_first_node']
-        params['muvt_trials'] = 'TrialTransfer weight 2 particle_type 0'
+        params['muvt_trials'] = 'TrialTransfer weight=2 particle_type=water'
         params['ref_potential'] = ''
         params['min_sweeps'] = 10
         params['window_alpha'] = 1.1
         params['min_window_size'] = 5
     elif params['node'] == 1:
         params['min_particles'] = params['num_particles_first_node']
-        params["muvt_trials"]="""TrialGrowFile grow_file {prefix}_grow.txt""".format(**params)
-        params["ref_potential"]="""RefPotential Model HardSphere group oxygen cutoff {dccb_cut} VisitModel VisitModelCell min_length {dccb_cut} cell_group oxygen""".format(**params)
+        params["muvt_trials"]="""TrialGrowFile grow_file={prefix}_grow.txt""".format(**params)
+        params["ref_potential"]="""RefPotential Model=HardSphere group=oxygen cutoff={dccb_cut} VisitModel=VisitModelCell min_length={dccb_cut} cell_group=oxygen""".format(**params)
         params['min_sweeps'] = 1
         params['window_alpha'] = 1.25
         params['min_window_size'] = 3
-    params['system'] = """Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} group0 oxygen oxygen_site_type 0
-Potential VisitModel Ewald alpha {ewald_alpha} kmax_squared 38
-Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter
+    params['system'] = """Configuration cubic_side_length={cubic_side_length} particle_type=water:{fstprt} group=oxygen oxygen_site_type=O
+Potential VisitModel=Ewald alpha={ewald_alpha} kmax_squared=38
+Potential Model=ModelTwoBodyFactory models=LennardJones,ChargeScreened erfc_table_size=2e4 VisitModel=VisitModelCutoffOuter
 {ref_potential}
-Potential Model ChargeScreenedIntra VisitModel VisitModelBond
-Potential Model ChargeSelf
-Potential VisitModel LongRangeCorrections""".format(**params)
-    params['nvt_trials'] = """TrialTranslate weight 0.5 tunable_param 0.2 tunable_target_acceptance 0.25
-TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25"""
+Potential Model=ChargeScreenedIntra VisitModel=VisitModelBond
+Potential Model=ChargeSelf
+Potential VisitModel=LongRangeCorrections""".format(**params)
+    params['nvt_trials'] = """TrialTranslate weight=0.5 tunable_param=0.2
+TrialParticlePivot weight=0.5 particle_type=water tunable_param=0.5"""
+    params['init_trials'] = "TrialAdd particle_type=water"
     params['sim_start'] = params['node']*params['procs_per_node']
     params['sim_end'] = params['sim_start'] + params['procs_per_node'] - 1
     params['windows'] = macrostate_distribution.window_exponential(
@@ -110,14 +111,8 @@ def post_process(params):
         for node in range(params['num_nodes']):
             prefix = params['prefix']+'n'+str(node)+'s'
             suffix = '_en.csv'
-            multistate_accumulator.splice(prefix=prefix, suffix=suffix,
-                                          start=node*params['procs_per_node'],
-                                          stop=(node+1)*params['procs_per_node'] - 1).to_csv(prefix+suffix)
-        energy = multistate_accumulator.splice(prefix=params['prefix']+'n', suffix='s_en.csv',
-                                               start=0, stop=params['num_nodes']-1)
-        #energy = multistate_accumulator.splice_by_node(prefix=params['prefix']+'n',
-        #                                               suffix='_en.txt',
-        #                                               num_nodes=params['num_nodes'])
+            multistate_accumulator.splice(prefix=prefix, suffix=suffix).to_csv(prefix+suffix+'_spliced')
+        energy = multistate_accumulator.splice(prefix=params['prefix']+'n', suffix='_en.csv_spliced')
         lnpi.concat_dataframe(dataframe=energy, add_prefix='e_')
         try: # if multiple minima found, then skip the block
             delta_beta_mu = lnpi.equilibrium()

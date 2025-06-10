@@ -1,29 +1,31 @@
 # FEASST particle file (https://doi.org/10.18434/M3S095)
+#
+# P1 -- C1 -- P2
 
 Site Properties
 
-0 sigma 1.0 epsilon 1.0 cutoff 1.5
-1 sigma 0.0 epsilon 1.0 cutoff 1.5 director 1 patch_angle 30
+C sigma 1.0 epsilon 1.0 cutoff 1.5
+P sigma 0.0 epsilon 1.0 cutoff 1.5 director 1 patch_angle 30
 
 Bond Properties
 
-0 RigidBond length 1.0 delta 0.0001
+CP RigidBond length 1.0 delta 0.0001
 
 Angle Properties
 
-0 RigidAngle degrees 180 delta 0.01
+PCP RigidAngle degrees 180 delta 0.01
 
 Sites
 
-0 0 0.0 0.0 0.0
-1 1 1.0 0.0 0.0
-2 1 -1.0 0.0 0.0
+C1 C 0.0 0.0 0.0
+P1 P 1.0 0.0 0.0
+P2 P -1.0 0.0 0.0
 
 Bonds
 
-0 0 0 1
-1 0 0 2
+C1P1 CP C1 P1
+C1P2 CP C1 P2
 
 Angles
 
-0 0 1 0 2
+P1C1P2 PCP P1 C1 P2

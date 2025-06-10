@@ -35,8 +35,7 @@ double energy_av2(const int macro, const MonteCarlo& mc) {
 void test_morph(const System& system) {
   MonteCarlo mc;
   mc.set(system);
-  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential0", "1."},
-                                        {"chemical_potential1", "1."}}));
+  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1,1"}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));
@@ -47,10 +46,10 @@ void test_morph(const System& system) {
   mc.run(MakeRemove({{"name", "TrialAdd"}}));
   EXPECT_EQ(mc.configuration().num_particles_of_type(0), 2);
   EXPECT_EQ(mc.configuration().num_particles_of_type(1), 2);
-  mc.add(std::make_shared<TrialMorph>(argtype({{"particle_type0", "1"},
-                         {"particle_type_morph0", "0"}, {"reference_index", "0"}})));
-  mc.add(std::make_shared<TrialMorph>(argtype({{"particle_type0", "0"},
-                         {"particle_type_morph0", "1"}, {"reference_index", "0"}})));
+  mc.add(std::make_shared<TrialMorph>(argtype({{"particle_type", "1"},
+                         {"particle_type_morph", "0"}, {"reference_index", "0"}})));
+  mc.add(std::make_shared<TrialMorph>(argtype({{"particle_type", "0"},
+                         {"particle_type_morph", "1"}, {"reference_index", "0"}})));
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(1e2)}, {"output_file", "tmp/growth"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(1e2)}}));
   mc.add(MakeTune());
@@ -98,8 +97,7 @@ std::unique_ptr<MonteCarlo> test_morph_expanded_lj(
   //INFO(str(num_parts_in_grow/grow_sequence.size()));
   mc->set(MakeThermoParams({
     {"beta", str(1./1.5)},
-    {"chemical_potential0", "-2.352321"},
-    {"chemical_potential1", "-2.352321"}}));
+    {"chemical_potential", "-2.352321,-2.352321"}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateMorph(grow_sequence,
       Histogram({{"width", str(num_parts_in_grow/grow_sequence.size())},
@@ -197,10 +195,7 @@ std::unique_ptr<MonteCarlo> test_morph_expanded(const std::string trials_per) {
   const std::vector<std::vector<int> > grow_sequence = {{1}, {2}, {3}, {0}};
   mc->set(MakeThermoParams({
       {"beta", str(1./1.5)},
-      {"chemical_potential0", "-2.352321"},
-      {"chemical_potential1", "-2"},
-      {"chemical_potential2", "-2.1"},
-      {"chemical_potential3", "-2.2"}}));
+      {"chemical_potential", "-2.352321,-2,-2.1,-2.2"}}));
   mc->set(MakeFlatHistogram(
     MakeMacrostateMorph(
       grow_sequence,
@@ -268,10 +263,7 @@ TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
   const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};
   mc.set(MakeThermoParams({
     {"beta", str(1./1.5)},
-    {"chemical_potential0", "-2.352321"},
-    {"chemical_potential1", "-2"},
-    {"chemical_potential2", "-2.1"},
-    {"chemical_potential3", "-2.2"}}));
+    {"chemical_potential", "-2.352321,-2,-2.1,-2.2"}}));
   mc.set(MakeFlatHistogram(
     MakeMacrostateMorph(
       grow_sequence,
@@ -317,8 +309,7 @@ TEST(MonteCarlo, morphrxn) {
                        {"add_particles_of_type2", "1"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"RefPotential", {{"VisitModel", "DontVisitModel"}}},
-    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1."}, {"chemical_potential1", "1."},
-                                     {"chemical_potential2", "1."}, {"chemical_potential3", "1."}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1,1,1,1"}}},
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"weight_per_number_fraction", str(1./8.)}, {"particle_type", "0"}}},
     {"TrialTranslate", {{"weight_per_number_fraction", str(1./8.)}, {"particle_type", "1"}}},
@@ -357,7 +348,7 @@ TEST(MonteCarlo, octane_01_fh_VERY_LONG) {
     {"Potential", {{"Model", "LennardJones"}}},
     {"Potential", {{"Model", "LennardJones"}, {"VisitModel", "VisitModelIntraMap"}, {"exclude_bonds", "true"}, {"exclude_angles", "true"}, {"exclude_dihedrals", "true"}}},
     {"RefPotential", {{"VisitModel", "DontVisitModel"}}},
-    {"ThermoParams", {{"beta", "0.3436353001220744"}, {"chemical_potential0", "-17.460371498121805"}}},
+    {"ThermoParams", {{"beta", "0.3436353001220744"}, {"chemical_potential", "-17.460371498121805"}}},
     {"FlatHistogram", {{"Macrostate", "MacrostateNumParticles"}, {"width", "1"}, {"max", "1"}, {"min", "0"},
       {"Bias", "TransitionMatrix"}, {"min_sweeps", "1e2"}}},
     {"TrialGrowFile", {{"grow_file", "../plugin/chain/test/data/trappe_grow_grand_canonical.txt"}}},

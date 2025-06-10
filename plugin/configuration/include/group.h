@@ -27,15 +27,12 @@ class Group : public PropertiedEntity {
     - prepend: expect all other arguments to have this prepended with underscore.
       For example, if prepend==water, the following argument would expect
       "water_site_type0" (default: empty).
-    - site_type[i]: add the i-th site type. If none, all sites included.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-      If only one site type, the "[i]" is optional.
-    - particle_type[i]: add the i-th particle type. If none, all included.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-      If only one particle type, the "[i]" is optional.
-    - particle_index[i]: add the i-th particle index. If none, all included.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-      If only one particle index, the "[i]" is optional.
+    - site_type: add site type(s). If none, all sites included.
+      Multiple can be provided as comma-separated values.
+    - particle_type: add particle type(s). If none, all included.
+      Multiple can be provided as comma-separated values.
+    - particle_index: add particle index(es). If none, all included.
+      Multiple can be provided as comma-separated values.
     - dynamic: set true if groups should be updated (default: true).
     - spatial: set true if group is based on location (default: false).
    */
@@ -86,6 +83,7 @@ class Group : public PropertiedEntity {
   /// If no types or indices are listed, do not screen by types or indices.
   std::vector<std::string> site_type_names_;
   std::vector<int> site_types_;
+  std::vector<std::string> particle_type_names_;
   std::vector<int> particle_types_;
   // std::vector<int> site_indices_;
   std::vector<int> particle_indices_;

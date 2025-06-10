@@ -7,7 +7,7 @@
 
 namespace feasst {
 
-FEASST_MAPPER(Cuboid, argtype({{"side_length", "s"}}));
+FEASST_MAPPER(Cuboid, argtype({{"side_lengths", "0,0,0"}}));
 
 Cuboid::Cuboid(argtype * args) : Shape() {
   class_name_ = "Cuboid";
@@ -18,18 +18,28 @@ Cuboid::Cuboid(argtype * args) : Shape() {
     ASSERT(len > 0, "len: " << len << " must be > 0");
     side_lengths_ = Position({len, len, len});
   } else {
-    DEBUG("parse side_length");
-    side_lengths_ = Position(parse_dimensional(str("side_length", args), args, 4));
+    const std::string side_lengths = str("side_lengths", args, "");
+    if (!side_lengths.empty()) {
+      side_lengths_ = Position({{"csv", side_lengths}});
+    } else {
+      WARN("Deprecate Sphere::side_lengths without comma-separated values.");
+      side_lengths_ = Position(parse_dimensional(str("side_length", args), args, 4));
+    }
   }
 
   DEBUG("parse center");
   center_.set_to_origin(side_lengths_.size());
-  const std::string center_key = str("center", args, "");
-  if (!center_key.empty()) {
-    for (int dim = 0; dim < side_lengths_.size(); ++dim) {
-      const std::string key = center_key+str(dim);
-      if (used(key, *args)) {
-        center_.set_coord(dim, dble(key, args));
+  const std::string center = str("center", args, "");
+  if (!center.empty()) {
+    if (is_found_in(center, ",")) {
+      center_ = Position({{"csv", center}});
+    } else {
+      WARN("Deprecate Sphere::center without comma-separated values.");
+      for (int dim = 0; dim < side_lengths_.size(); ++dim) {
+        const std::string key = center+str(dim);
+        if (used(key, *args)) {
+          center_.set_coord(dim, dble(key, args));
+        }
       }
     }
   }

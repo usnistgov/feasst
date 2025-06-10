@@ -20,15 +20,10 @@ class Cuboid : public Shape {
   //@{
   /** @name Arguments
     - cubic_side_length: side length of cube.
-    - side_length: set the unique key for the side_length positions.
-      Thus, arguments of "key[i]" are expected to follow.
-      The "[i]" is to be substituted for integer dimensions 0, 1, 2, ...
-      The "[i]" are also expected to be in order, starting from 0.
+    - side_lengths: comma-separated values for the length in each dimension.
       Cannot be used in conjunction with cubic_side_length.
-    - center: set the unique key for the center positions.
-      Thus, arguments of "key[i]" are expected to follow.
-      The "[i]" is to be substituted for integer dimensions 0, 1, 2, ...
-      The default value is 0 up to the same dimensions as (cubic_)side_length.
+    - center: comma-separated values for the positions in each dimension.
+      (default: origin).
    */
   explicit Cuboid(argtype args);
   explicit Cuboid(argtype * args);

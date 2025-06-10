@@ -7,6 +7,7 @@
 
 namespace feasst {
 
+class Configuration;
 class Select;
 
 /**
@@ -22,6 +23,8 @@ class PerturbVolume : public Perturb {
     args:
     - uniform_volume: if true, change volume uniformly in V instead of
       \f$\ln V\f$ (default: false).
+    - uniform_volume_max_fraction: if uniform_volume, maximum change as fraction
+      of the total volume (default: 0.2).
     - constrain_volume_change: if true, use the previous volume change to
       do the opposite for use as the second stage in Gibbs ensemble
       (default: false).
@@ -65,9 +68,12 @@ class PerturbVolume : public Perturb {
   bool uniform_volume_;
   bool constrain_volume_change_;
   argtype args_;
+  double uniform_volume_max_fraction_;
 
   // temporary
   double volume_change_;
+
+  void reset_max_tunable_(const Configuration& config);
 };
 
 inline std::shared_ptr<PerturbVolume> MakePerturbVolume(

@@ -16,8 +16,8 @@
 
 Site Properties
 
-CH sigma 4.68 epsilon 0.0831446261815324 cutoff 14.0 charge 0.0
-CH3 sigma 3.75 epsilon 0.8148173365790174 cutoff 14.0 charge 0.0
+CH sigma=4.68 epsilon=0.0831446261815324 cutoff=14.0 charge=0.0
+CH3 sigma=3.75 epsilon=0.8148173365790174 cutoff=14.0 charge=0.0
 
 Sites
 
@@ -28,7 +28,7 @@ Sites
 
 Bond Properties
 
-CHCH3 RigidBond length 1.54 delta 0.0001
+CHCH3 RigidBond length=1.54 delta=0.0001
 
 Bonds
 
@@ -38,7 +38,7 @@ Bonds
 
 Angle Properties
 
-0 AngleHarmonic equilibrium_degrees 112 k_energy_per_radian_sq 259.82695681728876 num_jacobian_gaussian 1
+0 AngleHarmonic equilibrium_degrees=112 k_energy_per_radian_sq=259.82695681728876 num_jacobian_gaussian=1
 
 Angles
 

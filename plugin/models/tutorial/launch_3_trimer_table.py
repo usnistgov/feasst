@@ -87,7 +87,7 @@ def generate_table(params):
     assert params['num_z'] > 1
     dz = 1./(params['num_z'] - 1)
     with open(params['table_file'], 'w') as file1:
-        file1.write("""site_types 2 0 1""")
+        file1.write("""site_types 2 A R""")
         for site1 in [0, 1]:
             for site2 in [0, 1]:
                 if site1 <= site2:
@@ -98,7 +98,6 @@ def generate_table(params):
                     rcg = cutoff**params['gamma']
                     rhg = params['inner']**params['gamma']
                     file1.write("""\ninner {inner}\nnum_z {num_z}\n""".format(**params))
-                    #file1.write("""site_types 1 0\ngamma {gamma}\ninner {inner}\nnum_z {num_z}\n""".format(**params))
                     for z in np.arange(0, 1 + dz/2, dz):
                         if z == 0:
                             distance = params['inner']
@@ -114,35 +113,36 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} cutoff {cutoff} cutoff0_1 {rwca} cutoff1_1 {rwca}
-Potential Model TablePotential table_file {table_file}
-Potential VisitModel LongRangeCorrections
-ThermoParams beta {beta} chemical_potential -1
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} particle_type=trimer:{fstprt} cutoff={cutoff} cutoffA_R={rwca} cutoffR_R={rwca}
+Potential Model=TablePotential table_file={table_file}
+Potential VisitModel=LongRangeCorrections
+ThermoParams beta={beta} chemical_potential=-1
 Metropolis
-TrialTranslate tunable_param 2 tunable_target_acceptance 0.2
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+TrialTranslate tunable_param=2
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # grand canonical ensemble initalization
-TrialAdd particle_type 0
-Run until_num_particles {num_particles}
-Remove name TrialAdd
+TrialAdd particle_type=trimer
+Run until_num_particles={num_particles}
+Remove name=TrialAdd
 
 # canonical ensemble equilibration
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration_cycles}
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
 Tune
-CheckEnergy trials_per_update {tpc} tolerance 1e-8
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.txt
-Run until complete
-Remove name0 Tune name1 Log
+CheckEnergy trials_per_update={tpc} decimal_places=8
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_eq.txt
+Run until=complete
+Remove name=Tune,Log
 
 # canonical ensemble production
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
-Log trials_per_write {tpc} output_file {prefix}{sim}.txt
-Movie trials_per_write {tpc} output_file {prefix}{sim}.xyz
-Energy trials_per_write {tpc} output_file {prefix}{sim}_en.txt
-CPUTime trials_per_write {tpc} output_file {prefix}{sim}_cpu.txt
-Run until complete
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
+Log [write].csv
+Movie [write].xyz
+Energy [write]_en.csv
+CPUTime [write]_cpu.txt
+Run until=complete
 """.format(**params))
 
 def post_process(params):

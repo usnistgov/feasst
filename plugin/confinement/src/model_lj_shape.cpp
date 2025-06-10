@@ -7,6 +7,7 @@
 #include "shape/include/shape_file.h"
 #include "configuration/include/site.h"
 #include "configuration/include/model_params.h"
+#include "configuration/include/configuration.h"
 #include "confinement/include/model_lj_shape.h"
 
 namespace feasst {
@@ -86,8 +87,9 @@ double ModelLJShape::energy(const double epsilon,
   return epsilon * std::pow(sigma/(distance + delta_), alpha_);
 }
 
-void ModelLJShape::precompute(const ModelParams& existing) {
-  ModelOneBody::precompute(existing);
+void ModelLJShape::precompute(const Configuration& config) {
+  ModelOneBody::precompute(config);
+  const ModelParams& existing = config.model_params();
   if (std::abs(wall_sigma_) > NEAR_ZERO && mixed_sigma_.size() == 0) {
     //mixed_sigma_ = Sigma();  // reset in case multiple precompute
     const ModelParam& fluid_sig = existing.select("sigma");

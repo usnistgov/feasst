@@ -5,7 +5,7 @@
 namespace feasst {
 
 TEST(VisitModelInnerServer, serialize) {
-  auto obj = std::make_unique<VisitModelInnerServer>();
+  auto obj = std::make_unique<VisitModelInnerServer>(argtype({{"server_sites", "0"}}));
   auto obj2 = test_serialize(obj);
 }
 

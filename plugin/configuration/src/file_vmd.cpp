@@ -56,6 +56,11 @@ void FileVMD::write(const std::string file_name,
     get_params(config, site_type, &radius, &distance, &center_index);
     vmdf << "$sel set radius " << radius << std::endl;
   }
+  vmdf << "pbc set {";
+  for (const double length : config.domain().side_lengths().coord()) {
+    vmdf << length << " ";
+  }
+  vmdf << "} -all\npbc box -center origin -color blue";
 }
 
 }  // namespace feasst

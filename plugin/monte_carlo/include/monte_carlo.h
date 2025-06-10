@@ -270,7 +270,7 @@ class MonteCarlo {
 
   /// Run until a number of particles is reached.
   virtual void run_until_num_particles(const int num_particles,
-                                       const int particle_type,
+                                       const std::string& particle_type_name,
                                        const int configuration_index);
 
   /// Run trials for a number of hours.
@@ -334,6 +334,9 @@ class MonteCarlo {
   /// Set the parse replacements
   void set_parse_replace(
     const std::vector<std::vector<std::string> >& replace = {});
+
+  /// Set the for loop parsing arguments
+  void set_parse_for(const std::vector<std::pair<std::string, std::vector<std::string> > > replace);
 
   /// Set the parse replacement
   void set_replace_with_index(const std::string& str);

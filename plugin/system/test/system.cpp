@@ -29,9 +29,7 @@ TEST(System, cache) {
 TEST(System, triclinic) {
   System system;
   system.add(MakeConfiguration({
-    {"side_length0", "10"},
-    {"side_length1", "9.84807753012208"},
-    {"side_length2", "9.64974312607518"},
+    {"side_length", "10,9.84807753012208,9.64974312607518"},
     {"xy", "1.7364817766693041"},
     {"xz", "2.5881904510252074"},
     {"yz", "0.42863479791864567"},

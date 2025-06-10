@@ -32,7 +32,7 @@ MacrostateEnergy::~MacrostateEnergy() {}
 
 double MacrostateEnergy::value(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const {
+    const Acceptance& acceptance) {
   //return num_.num_particles(system, acceptance);
   return criteria.current_energy() + acceptance.energy_new()
                                    - acceptance.energy_old();

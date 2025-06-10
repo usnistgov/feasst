@@ -18,7 +18,7 @@ import launch_04_lj_tm_parallel
 def parse(temperature=525):
     """ Parse arguments from command line or change their default values. """
     params, args = launch_04_lj_tm_parallel.parse(
-          fstprt='/feasst/particle/spce.txt',
+          fstprt='/feasst/particle/spce_new.txt',
           beta=1./(temperature*physical_constants.MolarGasConstant().value()/1e3), # mol/kJ
           beta_mu=-8.14,
           min_sweeps=5,
@@ -29,15 +29,16 @@ def parse(temperature=525):
     params['prefix'] = 'spce'
     params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['ewald_alpha'] = 5.6/params['cubic_side_length']
-    params['system'] = """Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt} group0 oxygen oxygen_site_type 0
-Potential VisitModel Ewald alpha {ewald_alpha} kmax_squared 38
-Potential Model ModelTwoBodyFactory model0 LennardJones model1 ChargeScreened erfc_table_size 2e4 VisitModel VisitModelCutoffOuter
-Potential Model ChargeScreenedIntra VisitModel VisitModelBond
-Potential Model ChargeSelf
-Potential VisitModel LongRangeCorrections""".format(**params)
-    params['nvt_trials'] = """TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
-TrialParticlePivot weight 0.5 particle_type 0 tunable_param 0.5 tunable_target_acceptance 0.25"""
-    params['muvt_trials'] = """TrialTransfer weight 2 particle_type 0"""
+    params['system'] = """Configuration cubic_side_length={cubic_side_length} particle_type=spce:{fstprt}
+Potential VisitModel=Ewald alpha={ewald_alpha} kmax_squared=38
+Potential Model=ModelTwoBodyFactory models=LennardJones,ChargeScreened erfc_table_size=2e4 VisitModel=VisitModelCutoffOuter
+Potential Model=ChargeScreenedIntra VisitModel=VisitModelBond
+Potential Model=ChargeSelf
+Potential VisitModel=LongRangeCorrections""".format(**params)
+    params['nvt_trials'] = """TrialTranslate weight=1 tunable_param=0.2
+TrialParticlePivot weight=0.5 particle_type=spce tunable_param=0.5"""
+    params['muvt_trials'] = """TrialTransfer weight=2 particle_type=spce"""
+    params['init_trials'] = "TrialAdd particle_type=spce"
     return params, args
 
 def post_process(params):

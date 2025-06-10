@@ -49,10 +49,12 @@ void SelectParticleAVB::precompute(System * system) {
   get_mobile()->add_site(0, site_index_);
   argtype mobile_args;
   mobile_args.insert({"load_coordinates", "true"});
+  DEBUG("is_particle_type_set " << is_particle_type_set());
   if (is_particle_type_set()) {
-    mobile_args.insert({"particle_type", str(particle_type())});
+    mobile_args.insert({"particle_type", str(particle_type_name())});
+    DEBUG("particle_type " << particle_type_name());
   }
-  mobile_args.insert({"site", str(site_index_)});
+  mobile_args.insert({"site", str(site_index_name_)});
   select_mobile_ = TrialSelectParticle(mobile_args);
 
   select_target_.precompute(system);

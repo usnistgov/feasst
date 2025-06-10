@@ -70,12 +70,12 @@ class Macrostate {
   /// Return the current value of the macrostate.
   virtual double value(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const = 0;
+    const Acceptance& acceptance) = 0;
 
   /// Return the current bin of the macrostate.
   int bin(const System& system,
       const Criteria& criteria,
-      const Acceptance& acceptance) const;
+      const Acceptance& acceptance);
 
   /// Return the value of the bin.
   double value(const int bin) const;
@@ -84,7 +84,7 @@ class Macrostate {
   /// given by the input histogram.
   bool is_allowed(const System& system,
                   const Criteria& criteria,
-                  const Acceptance& acceptance) const;
+                  const Acceptance& acceptance);
 
 //  // Swap the soft bounds with another macrostate.
 //  void swap_soft_bounds(Macrostate * macrostate);

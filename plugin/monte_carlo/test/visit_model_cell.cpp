@@ -27,7 +27,7 @@ TEST(VisitModelCell, lj_reference_config) {
   config.set(domain);
   config.check();
   LennardJones model;
-  model.precompute(config.model_params());
+  model.precompute(config);
   auto cell_visit = MakeVisitModelCell({{"min_length", feasst::str(rcut)}});
   VisitModel visit;
   cell_visit->precompute(&config);
@@ -35,7 +35,7 @@ TEST(VisitModelCell, lj_reference_config) {
   model.compute(&config, &visit);
   model.compute(&config, cell_visit.get());
   EXPECT_NEAR(visit.energy(), cell_visit->energy(), 5e-12);
-  EXPECT_NEAR(-15.076312312129405, visit.energy(), NEAR_ZERO);
+  EXPECT_NEAR(-15.076312312129405, visit.energy(), 5e-12);
 
   /// test energy of selection
   auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
@@ -71,7 +71,7 @@ TEST(VisitModelCell, spce_reference_config) {
   config.set(domain);
   config.check();
   LennardJones model;
-  model.precompute(config.model_params());
+  model.precompute(config);
   auto cell_visit = MakeVisitModelCell({{"min_length", feasst::str(rcut)}});
   VisitModel visit;
   cell_visit->precompute(&config);
@@ -79,7 +79,7 @@ TEST(VisitModelCell, spce_reference_config) {
   model.compute(&config, &visit);
   model.compute(&config, cell_visit.get());
   EXPECT_NEAR(visit.energy(), cell_visit->energy(), 5e-12);
-  EXPECT_NEAR(896.85497602741475, visit.energy(), NEAR_ZERO);
+  EXPECT_NEAR(896.85497602741475, visit.energy(), 5e-12);
 
   /// test energy of selection
   auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});

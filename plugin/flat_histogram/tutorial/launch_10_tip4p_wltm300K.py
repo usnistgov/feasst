@@ -36,9 +36,9 @@ def parse(temperature=300):
     with open(params['prefix']+'_grow.txt', 'w') as f:
         f.write("""TrialGrowFile
 
-particle_type 0 weight 2 transfer true site 0 num_steps 10 reference_index 0
-bond true mobile_site 1 anchor_site 0 reference_index 0
-branch true mobile_site2 3 mobile_site 2 anchor_site 0 anchor_site2 1 reference_index 0
+particle_type=water weight=2 transfer=true site=O1 num_steps=10 reference_index=0
+bond=true mobile_site=M1 anchor_site=O1 reference_index=0
+branch=true mobile_site2=H1 mobile_site=H2 anchor_site=O1 anchor_site2=M1 reference_index=0
 """)
 
     return params, args

@@ -167,7 +167,7 @@ Accumulator henry(System system,
   //WARN("remove seed");
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.set(system);
-  mc.set(MakeThermoParams({{"beta", str(beta)}, {"chemical_potential0", "1"}}));
+  mc.set(MakeThermoParams({{"beta", str(beta)}, {"chemical_potential", "1"}}));
   mc.set(MakeAlwaysReject());
   mc.add(MakeTrialAdd({{"particle_type", "0"}, {"new_only", "true"}}));
   const int henry_index = mc.num_analyzers();
@@ -384,8 +384,7 @@ TEST(DensityProfile, ig_hard_slab) {
     {"dimension", "2"},
     {"bound0", "3"},
     {"bound1", "-3"}}))));
-  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential0", "1"},
-    {"chemical_potential1", "1"}}));
+  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1,1"}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"tunable_param", "3"}}));
   mc.add(MakeTrialAdd({{"particle_type", "0"}}));

@@ -1,5 +1,6 @@
 ## Usage: gdb -batch -x filename executable
 catch throw
-#r < ljgibbs0_run.txt
-r --gtest_filter=Configuration.type_to_file_name
+#r < script2.txt
+#r < pore000_fstin.txt
+r --gtest_filter=FileXYZ.load_frame
 bt

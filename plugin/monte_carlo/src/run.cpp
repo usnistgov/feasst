@@ -13,7 +13,7 @@ Run::Run(argtype * args) {
   num_trials_ = integer("num_trials", args, -1);
   until_num_particles_ = integer("until_num_particles", args, -1);
   configuration_index_ = integer("configuration_index", args, 0);
-  particle_type_ = integer("particle_type", args, -1);
+  particle_type_ = str("particle_type", args, "");
   for_hours_ = dble("for_hours", args, -1);
   until_criteria_complete_ = boolean("until_criteria_complete", args, false);
   if (str("until", args, "") == "complete") {

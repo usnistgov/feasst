@@ -34,7 +34,7 @@ bool MacrostateMorph::is_row_all_populated_(const int row,
 
 double MacrostateMorph::value(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const {
+    const Acceptance& acceptance) {
   // begin by initializing the number matrix
   // number of particles of type, where row follows macrostate (steps),
   // and column is for each morphing particle.

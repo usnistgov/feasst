@@ -3,7 +3,7 @@
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "math/include/table.h"
-#include "configuration/include/physical_constants.h"
+#include "configuration/include/configuration.h"
 #include "configuration/include/model_params.h"
 #include "configuration/include/physical_constants.h"
 #include "charge/include/charge_screened.h"
@@ -76,8 +76,9 @@ double ChargeScreened::energy(
   }
 }
 
-void ChargeScreened::precompute(const ModelParams& existing) {
-  Model::precompute(existing);
+void ChargeScreened::precompute(const Configuration& config) {
+  Model::precompute(config);
+  const ModelParams& existing = config.model_params();
   alpha_ = existing.property("alpha");
   conversion_factor_ = existing.constants().charge_conversion();
   init_erfc_(existing.select("cutoff").mixed_max());

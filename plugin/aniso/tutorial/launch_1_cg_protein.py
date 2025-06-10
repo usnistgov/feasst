@@ -80,18 +80,18 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-Configuration cubic_side_length 2e2 particle_type0 /feasst/particle/spce.txt particle_type1 /feasst/particle/spce.txt \
-  add_particles_of_type0 1 add_particles_of_type1 1 \
-  group0 fixed fixed_particle_type 0 group1 mobile mobile_particle_type 1
+Configuration cubic_side_length=2e2 particle_type=pt1:/feasst/particle/spce.txt,pt2:/feasst/particle/spce.txt \
+  add_num_pt1_particles=1 add_num_pt2_particles=1 \
+  group=fixed,mobile fixed_particle_type=pt1 mobile_particle_type=pt2
 Potential Model ModelEmpty
-TabulateTwoRigidBody3D num_orientations_per_pi {num_orientations_per_pi} output_orientation_file {prefix}{num_orientations_per_pi}.txt
+TabulateTwoRigidBody3D num_orientations_per_pi={num_orientations_per_pi} output_orientation_file={prefix}{num_orientations_per_pi}.txt
 
 MonteCarlo
-Configuration cubic_side_length 2e2 particle_type0 /feasst/particle/spce.txt particle_type1 /feasst/particle/propane.txt \
-  add_particles_of_type0 1 add_particles_of_type1 1 \
-  group0 fixed fixed_particle_type 0 group1 mobile mobile_particle_type 1
-Potential Model ModelEmpty
-TabulateTwoRigidBody3D num_orientations_per_pi {num_orientations_per_pi} output_orientation_file {prefix}{num_orientations_per_pi}_ij.txt
+Configuration cubic_side_length=2e2 particle_type=pt1:/feasst/particle/spce.txt,pt2:/feasst/particle/propane.txt \
+  add_num_pt1_particles=1 add_num_pt2_particles=1 \
+  group=fixed,mobile fixed_particle_type=pt1 mobile_particle_type=pt2
+Potential Model=ModelEmpty
+TabulateTwoRigidBody3D num_orientations_per_pi={num_orientations_per_pi} output_orientation_file={prefix}{num_orientations_per_pi}_ij.txt
 """.format(**params))
 
 def post_process(params):

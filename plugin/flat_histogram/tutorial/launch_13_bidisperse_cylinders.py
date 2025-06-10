@@ -18,8 +18,6 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
-                        help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./1.5, help='inverse temperature')
     parser.add_argument('--num_particles', type=int, default=100, help='number of particles')
     parser.add_argument('--small_cylinder_length', type=float, default=0, help='small cylinder length (distance between center of end caps)')
@@ -83,43 +81,43 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length {cubic_side_length} particle_type0 {prefix}_small.txt \
-    particle_type1 {prefix}_large.txt \
-    particle_type2 {prefix}_large.txt \
-    group0 centers centers_site_type0 0 centers_site_type1 2 centers_site_type2 4 \
-    add_particles_of_type1 1 add_particles_of_type2 1 xyz_file {prefix}_init.xyz
-Potential Model HardSphere VisitModelInner Spherocylinder group centers
-ThermoParams beta {beta} chemical_potential {mu_init}
+RandomMT19937 seed={seed}
+Configuration cubic_side_length={cubic_side_length} \
+    particle_type=small:{prefix}_small.txt,large1:{prefix}_large.txt,large2:{prefix}_large.txt \
+    group=centers centers_site_type=0,2,4 \
+    add_num_large1_particles=1 add_num_large2_particles=1 xyz_file={prefix}_init.xyz
+Potential Model=HardSphere VisitModelInner=Spherocylinder group=centers
+ThermoParams beta={beta} chemical_potential={mu_init}
 Metropolis
-TrialTranslate weight 1 tunable_param 2 particle_type 0
-TrialRotate weight 1 tunable_param 40 particle_type 0
-CheckEnergy trials_per_update {tpc} decimal_places 4
+TrialTranslate weight=1 tunable_param=2 particle_type=small
+TrialRotate weight=1 tunable_param=40 particle_type=small
+CheckEnergy trials_per_update={tpc} decimal_places=4
 
 # gcmc initialization and nvt equilibration
-TrialAdd particle_type 0
-Log trials_per_write {tpc} output_file {prefix}n{node}_eq.txt
+TrialAdd particle_type=small
+Let [write]=trials_per_write={tpc} output_file={prefix}n{node}
+Log [write]_eq.txt
 Tune
-Run until_num_particles {num_particles}
-Remove name TrialAdd
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
-Run until complete
-Remove name0 Tune name1 Log
+Run until_num_particles={num_particles}
+Remove name=TrialAdd
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
+Run until=complete
+Remove name=Tune,Log
 
 # gcmc tm production
-FlatHistogram Macrostate MacrostatePosition particle_index 0 site_index 0 dimension 0 width 0.1 max 2.1001 min 1.1001 \
-  Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
-TrialTranslate weight 1 tunable_param 0.1 particle_type 1 dimension 0
-Log                 trials_per_write {tpc} output_file {prefix}n{node}.txt
-Movie               trials_per_write {tpc} output_file {prefix}n{node}_eq.xyz stop_after_cycle 1
-MovieSpherocylinder trials_per_write {tpc} output_file {prefix}n{node}_eqc.xyz stop_after_cycle 1
-Movie               trials_per_write {tpc} output_file {prefix}n{node}.xyz start_after_cycle 1
-MovieSpherocylinder trials_per_write {tpc} output_file {prefix}n{node}c.xyz start_after_cycle 1
-Tune                trials_per_write {tpc} output_file {prefix}n{node}_tune.txt multistate true stop_after_cycle 1
-Energy              trials_per_write {tpc} output_file {prefix}n{node}_en.txt multistate true start_after_cycle 1
-CriteriaWriter      trials_per_write {tpc} output_file {prefix}n{node}_crit.txt
-CriteriaUpdater     trials_per_update 1e5
-Run until complete
+FlatHistogram Macrostate=MacrostatePosition particle_index=0 site_index=0 dimension=0 width=0.1 max=2.1001 min=1.1001 \
+  Bias=WLTM min_sweeps={min_sweeps} min_flatness=25 collect_flatness=20 min_collect_sweeps=1
+TrialTranslate weight 1 tunable_param 0.1 particle_type large1 dimension 0
+Log [write].txt
+Tune [write]_tune.txt multistate=true stop_after_cycle=1
+Movie [write]_eq.xyz stop_after_cycle=1
+Movie [write].xyz start_after_cycle=1
+MovieSpherocylinder [write]_eqc.xyz stop_after_cycle=1
+MovieSpherocylinder [write]c.xyz start_after_cycle=1
+Energy [write]_en.txt multistate=true start_after_cycle=1
+CriteriaWriter [write]_crit.txt
+CriteriaUpdater trials_per_update=1e5
+Run until=complete
 """.format(**params))
 
 def post_process(params):

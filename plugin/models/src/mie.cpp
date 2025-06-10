@@ -2,6 +2,7 @@
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/configuration.h"
 #include "models/include/mie.h"
 
 namespace feasst {
@@ -36,8 +37,9 @@ Mie::Mie(std::istream& istr) : ModelTwoBody(istr) {
   feasst_deserialize_fstobj(&prefactor_, istr);
 }
 
-void Mie::precompute(const ModelParams& existing) {
-  Model::precompute(existing);
+void Mie::precompute(const Configuration& config) {
+  Model::precompute(config);
+  const ModelParams& existing = config.model_params();
   mie_lambda_r_index_ = existing.index("mie_lambda_r");
   mie_lambda_a_index_ = existing.index("mie_lambda_a");
   ASSERT(mie_lambda_r_index_ != -1 && mie_lambda_a_index_ != -1,

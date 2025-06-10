@@ -14,7 +14,7 @@ TEST(RadiusOfGyration, test) {
       {"xyz_euler_file", "../plugin/steppers/test/data/nvt0.xyze"},
     }},
     {"Potential", {{"VisitModel", "DontVisitModel"}}},
-    {"ThermoParams", {{"beta", "1"}, {"chemical_potential0", "1"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1"}}},
     {"Metropolis", {{}}},
     {"RadiusOfGyration", {{"print_histogram", "true"}, {"min", "27"}, {"max", "27"}, {"width", "1"}, {"output_file", "tmp/rg.csv"}}},
     {"ReadConfigFromFile", {{"input_file", "../plugin/steppers/test/data/nvt0.xyze"}, {"euler", "true"}}},

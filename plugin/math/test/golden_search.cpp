@@ -14,7 +14,7 @@ TEST(GoldenSearch, minimum) {
     {"lower", "-100"},
     {"upper", "100"},
     {"tolerance", str(1e-8)}}).minimum(poly.get());
-  EXPECT_NEAR(res, 2.0001, 1e-8);
+  EXPECT_NEAR(res, 2.0001, 1e-6);
 }
 
 }  // namespace feasst

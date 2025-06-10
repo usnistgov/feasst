@@ -28,7 +28,7 @@ This section and all following sections begins with the Section name (in this ca
 Each site type line may have a list of properties given by a name and value.
 The format for each line (e.g., each site type) in this section is as follows:
 
-[site type name] [name_0] [value_0] ... [name_n] [value_n]
+[site type name] [name_0]=[value_0] ... [name_n]=[value_n]
 
 All names are strings and all values are floating point numbers.
 After the site type name, the following names are typically the ones described in :cpp:class:`ModelParams <feasst::ModelParams>`, such as sigma, epsilon, cutoff and charge.
@@ -57,7 +57,7 @@ As for all sections, these begin with "Bond Properties", "Angle Properties" or "
 
 The format for each line in this section is as follows:
 
-[bond type name] [bond class name] [name_0] [value_0] ... [name_n] [value_n]
+[bond type name] [bond class name] [name_0]=[value_0] ... [name_n]=[value_n]
 
 All names are strings and all values are floating point numbers.
 The names are described for each bond class, such as :cpp:class:`RigidBond <feasst::RigidBond>`, :cpp:class:`AngleHarmonic <feasst::AngleHarmonic>` and :cpp:class:`DihedralTraPPE <feasst::DihedralTraPPE>`.

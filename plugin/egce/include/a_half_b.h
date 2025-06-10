@@ -30,7 +30,7 @@ class AHalfB : public Constraint {
 
   bool is_allowed(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const override;
+    const Acceptance& acceptance) override;
   std::shared_ptr<Constraint> create(std::istream& istr) const override {
     return std::make_shared<AHalfB>(istr); }
   std::shared_ptr<Constraint> create(argtype * args) const override {

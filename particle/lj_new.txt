@@ -1,0 +1,9 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+
+Site Properties
+
+LJ sigma=1.0 epsilon=1.0 cutoff=3.0
+
+Sites
+
+LJ1 LJ 0.0 0.0 0.0

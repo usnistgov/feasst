@@ -89,7 +89,7 @@ std::string feasst_omp_thread();
 
 /// Expect to catch exception with phrase in message.
 # define CATCH_PHRASE(phrase) \
-FAIL() << "Expected failure"; \
+FAIL() << "Did not find expected failure."; \
 } catch(const feasst::CustomException& e) { \
   std::string what(e.what()); \
   std::stringstream ermsg; \

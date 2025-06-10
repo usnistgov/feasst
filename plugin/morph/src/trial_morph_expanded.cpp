@@ -13,7 +13,8 @@ namespace feasst {
 class MapTrialMorphExpanded {
  public:
   MapTrialMorphExpanded() {
-    std::vector<std::vector<int> > seq = {{1}, {0}};
+    std::vector<std::vector<int> > seq = {};
+    //std::vector<std::vector<int> > seq = {{1}, {0}};
     auto obj = std::make_shared<TrialMorphExpanded>(seq);
     obj->deserialize_map()["TrialMorphExpanded"] = obj;
   }

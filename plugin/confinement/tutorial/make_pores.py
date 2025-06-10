@@ -1,3 +1,5 @@
+# See https://doi.org/10.1021/acs.jpcb.3c00613
+
 import os
 import copy
 import argparse
@@ -54,22 +56,20 @@ ysa -= half_pbc
 zsa -= half_pbc
 
 f = open(PARAMS['file_name'], 'w')
-f.write('# 2x2x2 pores\n\
-\n\
-'+str(len(xsa))+' sites\n\
-\n\
-1 site types\n\
+f.write('# FEASST particle file (https://doi.org/10.18434/M3S095)\n\
+# 2x2x2 pores (see https://doi.org/10.1021/acs.jpcb.3c00613)\n\
 \n\
 Site Properties\n\
 \n\
-0 sigma 1.0 epsilon 1.0 cutoff 2.5\n\
+P sigma 1.0 epsilon 1.0 cutoff 2.5\n\
 \n\
 Sites\n\
 \n\
 ')
 
 for ix,x in enumerate(xsa):
-  f.write('0 0 '+str(x) + ' ' + str(ysa[ix]) + ' ' + str(zsa[ix]) + '\n')
+  f.write("P{} P {} {} {}\n".format(ix+1, x, ysa[ix], zsa[ix]))
+  #'0 P '+str(x) + ' ' + str(ysa[ix]) + ' ' + str(zsa[ix]) + '\n')
 
 if PARAMS['show_plot']:
   import matplotlib.pyplot as plt

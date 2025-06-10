@@ -24,7 +24,7 @@ class ChargeSelf : public ModelOneBody {
     const Configuration& config,
     const ModelParams& model_params) override;
 
-  void precompute(const ModelParams& existing) override;
+  void precompute(const Configuration& config) override;
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ChargeSelf>(istr); }

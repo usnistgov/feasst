@@ -22,7 +22,7 @@ ConstrainVolumeByCutoff::ConstrainVolumeByCutoff(argtype args) : ConstrainVolume
 
 bool ConstrainVolumeByCutoff::is_allowed(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const {
+    const Acceptance& acceptance) {
   bool allowed = true;
   for (int iconfig = 0; iconfig < system.num_configurations(); ++iconfig) {
     const Configuration& config = system.configuration(iconfig);

@@ -2,7 +2,7 @@
 
 Site Properties
 
-H sigma 1.0 epsilon 1.0 cutoff 1.0
+H sigma=1 epsilon=1 cutoff=1
 
 Sites
 

@@ -3,11 +3,11 @@
 
 Site Properties
 
-0 epsilon 1 sigma 1.0 cutoff 3.0
+0 epsilon=1 sigma=1 cutoff=3
 
 Bond Properties
 
-0 FENE k_energy_per_length_sq 30 R0 1.5
+0 FENE k_energy_per_length_sq=30 R0=1.5
 
 Sites
 

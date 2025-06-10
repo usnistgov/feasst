@@ -33,7 +33,7 @@ class ConstrainModelIndex : public Constraint {
 
   bool is_allowed(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const override;
+    const Acceptance& acceptance) override;
 
   /// Return the Model::model_index proposed by a Trial.
   int model_index(const System& system, const Acceptance& acceptance) const;

@@ -32,8 +32,8 @@ class VisitModelInnerServer : public VisitModelInner {
   //@{
   /** @name Arguments
     - ignore_energy: do not read the energy table (default: false).
-    - server_site[i]: add the i-th type of site to include with this potential.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - server_sites: comma-separated list of site type names to include with
+      this potential.
     - Server arguments.
    */
   explicit VisitModelInnerServer(argtype args = argtype());
@@ -69,7 +69,7 @@ class VisitModelInnerServer : public VisitModelInner {
   //@}
  private:
   int aniso_index_ = -1;
-  std::vector<int> site_types_;
+  std::vector<std::string> site_type_names_;
   std::vector<int> t2index_;
   std::unique_ptr<Server> server_;
 

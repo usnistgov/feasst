@@ -26,7 +26,7 @@ TEST(VisitModelInnerPatch, patch_one) {
   config.set_model_param("patch_angle", 1, 90);
   FileXYZ().load("../plugin/patch/test/data/patch5.xyz", &config);
   SquareWell model;
-  model.precompute(config.model_params());
+  model.precompute(config);
   VisitModel visit;
   auto patch = std::make_shared<VisitModelInnerPatch>();
   visit.set_inner(patch);

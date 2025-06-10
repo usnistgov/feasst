@@ -15,8 +15,8 @@ class MacrostateNumParticles : public Macrostate {
  public:
   //@{
   /** @name Arguments
-    - particle_type: number of particles of type. If -1 (default), count all
-      types.
+    - particle_type: number of particles of type name. If empty (default), count
+      all types.
     - Macrostate arguments.
   */
   explicit MacrostateNumParticles(argtype args = argtype());
@@ -34,7 +34,7 @@ class MacrostateNumParticles : public Macrostate {
 
   double value(const System& system,
     const Criteria& criteria,
-    const Acceptance& acceptance) const override;
+    const Acceptance& acceptance) override;
   std::shared_ptr<Macrostate> create(std::istream& istr) const override;
   std::shared_ptr<Macrostate> create(argtype * args) const override;
   void serialize(std::ostream& ostr) const override;

@@ -17,15 +17,12 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-Configuration cubic_side_length {initial_box} particle_type0 {domain1}.txt particle_type1 {domain2}.txt \
-  add_particles_of_type0 1 add_particles_of_type1 1 cutoff {cutoff} \
-  group0 fixed fixed_particle_type 0 group1 mobile mobile_particle_type 1
-Potential Model ModelTwoBodyFactory \
-  model0 HardSphere \
-  model1 LennardJones \
-  model2 DebyeHuckel kappa {kappa} dielectric {dielectric_water} smoothing_distance {smoothing_distance} \
-  VisitModel VisitModelCell energy_cutoff 1e100
-TabulateTwoRigidBody3D proc {sim} num_proc {num_sims} input_orientation_file {orientation_file} num_z {num_z} smoothing_distance {smoothing_distance} input_table_file {contact_file} output_table_file {prefix}{sim}.txt gamma {gamma}
+Configuration cubic_side_length={initial_box} particle_type=pt1:{domain1}.txt,pt2:{domain2}.txt \
+  add_num_pt1_particles=1 add_num_pt2_particles=1 cutoff={cutoff} \
+  group=fixed,mobile fixed_particle_type=pt1 mobile_particle_type=pt2
+Potential Model=ModelTwoBodyFactory models=HardSphere,LennardJones,DebyeHuckel kappa={kappa} dielectric={dielectric_water} smoothing_distance={smoothing_distance} \
+  VisitModel=VisitModelCell energy_cutoff=1e100
+TabulateTwoRigidBody3D proc={sim} num_proc={num_sims} input_orientation_file={orientation_file} num_z={num_z} smoothing_distance={smoothing_distance} input_table_file={contact_file} output_table_file={prefix}{sim}.txt gamma={gamma}
 """.format(**params))
 
 def post_process(params):

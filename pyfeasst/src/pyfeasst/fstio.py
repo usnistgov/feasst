@@ -167,7 +167,7 @@ def server(params, args, sim_node_dependent_params, write_feasst_script):
     params['server_port'] = params['port'] + params['sim']
     if write_feasst_script == None:
         syscode = subprocess.call(
-            """echo "Server port {server_port} buffer_size {buffer_size}" |""".format(**params) + args.feasst_install+'bin/fst > '+params['prefix']+str(params['sim'])+'_run.log',
+                """echo "Server port {server_port} buffer_size {buffer_size}" |""".format(**params) + args.feasst_install+"""bin/fst > {prefix}{sim:03d}_fstout.txt""".format(**params),
             shell=True, executable='/bin/bash')
     else:
         syscode = seed_param_write_run(params['sim'], params, args, sim_node_dependent_params, write_feasst_script)
@@ -184,10 +184,10 @@ def seed_param_write_run(sim, params, args, sim_node_dependent_params, write_fea
     reseed(params)
     if sim_node_dependent_params:
         sim_node_dependent_params(params)
-    file_name = params['prefix']+str(sim)+'_run'
-    write_feasst_script(params, script_file=file_name+'.txt')
+    file_name = "{}{:03d}".format(params['prefix'],sim)
+    write_feasst_script(params, script_file=file_name+'_fstin.txt')
     syscode = subprocess.call(
-        args.feasst_install+'bin/fst < '+file_name+'.txt  > '+file_name+'.log',
+        args.feasst_install+'bin/fst < '+file_name+'_fstin.txt  > '+file_name+'_fstout.txt',
         shell=True, executable='/bin/bash')
     return syscode
 
@@ -197,8 +197,7 @@ def run_single(sim, params, args, sim_node_dependent_params, write_feasst_script
         params['sim'] = sim
         syscode = seed_param_write_run(sim, params, args, sim_node_dependent_params, write_feasst_script)
     else: # if queue_task < 1, restart from checkpoint
-        syscode = subprocess.call('echo "Restart '+params['prefix']+str(sim)+'_checkpoint.fst" | ' +
-            args.feasst_install+'bin/fst', shell=True, executable='/bin/bash')
+        syscode = subprocess.call("echo \"Restart {}{:03d}_checkpoint.fst\" | {}bin/fst".format(params['prefix'], sim, args.feasst_install), shell=True, executable='/bin/bash')
     if syscode == 0: # if simulation finishes with no errors, write to sim id file
         with open(params['sim_id_file'], 'a', encoding='utf-8') as file1:
             file1.write(str(sim)+'\n')
@@ -428,20 +427,20 @@ def write_bond_(btype, file1, descript, num_steps_override=-1):
     if num_steps_override > 0:
         descript = copy.deepcopy(descript)
         if num_steps_override > 1:
-            descript['num_steps'] = ' num_steps '+str(num_steps_override)
+            descript['num_steps'] = ' num_steps='+str(num_steps_override)
         else:
             descript['num_steps'] = ''
     if btype == 'bond':
-        file1.write("""bond true mobile_site {site0} anchor_site {site1}{num_steps}{reference_index}\n""".format(**descript))
+        file1.write("""bond=true mobile_site={site0} anchor_site={site1}{num_steps}{reference_index}\n""".format(**descript))
     elif btype == 'angle':
-        file1.write("""angle true mobile_site {site0} anchor_site {site1} anchor_site2 {site2}{num_steps}{reference_index}\n""".format(**descript))
+        file1.write("""angle=true mobile_site={site0} anchor_site={site1} anchor_site2={site2}{num_steps}{reference_index}\n""".format(**descript))
     elif btype == 'dihedral':
-        file1.write("""dihedral true mobile_site {site0} anchor_site {site1} anchor_site2 {site2} anchor_site3 {site3}{num_steps}{reference_index}\n""".format(**descript))
+        file1.write("""dihedral=true mobile_site={site0} anchor_site={site1} anchor_site2={site2} anchor_site3={site3}{num_steps}{reference_index}\n""".format(**descript))
     else:
         print('unrecognized bond type', btype)
     return True
 
-def write_linear_grow_file(filename, num_sites, gce=0, reference_index=0, num_steps=4, base_weight=1, conf=0, conf2=-1, particle_type=0, angle=True, dihedral=True):
+def write_linear_grow_file(filename, num_sites=None, gce=0, reference_index=0, num_steps=4, base_weight=1, conf=0, conf2=-1, particle_type=0, angle=True, dihedral=True, particle_file=None, feasst_install=None):
     """
     Write TrialGrowFile input files for linear chain particles.
 
@@ -449,6 +448,7 @@ def write_linear_grow_file(filename, num_sites, gce=0, reference_index=0, num_st
         The name of the file to write the TrialGrowFile text.
     :param int num_sites:
         The number of sites in the linear chain particle.
+        If None, obtain num_sites from the particle_file.
     :param int gce:
         If 0, write only canonical ensemble trials.
         If 1, write only grand canonical ensemble insertion and deletion trials.
@@ -471,6 +471,11 @@ def write_linear_grow_file(filename, num_sites, gce=0, reference_index=0, num_st
         True if there are angle potentials present in the linear chain.
     :param bool dihedral:
         True if there are dihedral potentials present in the linear chain.
+    :param str particle_file:
+        If not None, use the particle_file to find the site names.
+    :param str feasst_install:
+        An option to provide the path to the feasst build directory in order to convert a
+        particle_file which begins with the characters '/feasst' to the feasst directory.
 
     The weight for trial moves is the base weight, but reptations are divided by 4 and partial regrowth
     weights are divided by the number of stages.
@@ -486,16 +491,44 @@ def write_linear_grow_file(filename, num_sites, gce=0, reference_index=0, num_st
     >>> lines[1]
     '\\n'
     >>> lines[2]
-    'particle_type 0 weight 1 transfer true site 2 num_steps 4 reference_index 0\\n'
+    'particle_type=0 weight=1 transfer=true site=2 num_steps=4 reference_index=0\\n'
+    >>> fstio.write_linear_grow_file("grow_grand_canonical.txt", gce=1, reference_index=0, num_steps=4, particle_file='../../../particle/spce_new.txt')
+    >>> with open('grow_grand_canonical.txt') as file1:
+    ...     lines = file1.readlines()
+    >>> lines[2]
+    'particle_type=0 weight=1 transfer=true site=H2 num_steps=4 reference_index=0\\n'
     """
     descript = {'reference_index':'', 'num_steps':'', 'weight':base_weight, 'conf':'',
                 'particle_type':particle_type, 'conf2':conf2, 'rept_weight':base_weight/4.}
     if reference_index >= 0:
-        descript['reference_index'] = ' reference_index '+str(reference_index)
+        descript['reference_index'] = ' reference_index='+str(reference_index)
     if num_steps > 1:
-        descript['num_steps'] = ' num_steps '+str(num_steps)
+        descript['num_steps'] = ' num_steps='+str(num_steps)
     if conf > 0:
-        descript['conf'] = ' configuration_index '+str(conf)
+        descript['conf'] = ' configuration_index='+str(conf)
+    site_names = list()
+    if particle_file != None:
+        if num_sites == None:
+            num_sites = num_sites_in_fstprt(particle_file, feasst_install)
+        # obtain site_names from particle_file
+        if particle_file[:7] == '/feasst':
+            if feasst_install == "":
+                print('feasst_install:', feasst_install, 'should be used given as the path to the',
+                      'feasst build directory in order to convert /feasst in the particle_file')
+            particle_file = feasst_install + '..' + particle_file[7:]
+        with open(particle_file, 'r') as file1:
+            lines = file1.readlines()
+        iline = 0
+        while lines[iline] != 'Sites\n':
+            iline += 1
+            if iline > 1e6 or iline == len(lines):
+                print('Cannot find "Sites" in particle_file', particle_file)
+                assert False
+        for isite in range(num_sites):
+            site_names.append(lines[iline+2+isite].split(' ')[0])
+    else:
+        site_names = list(range(num_sites))
+    #print('site_names', site_names)
     with open(filename, 'w') as file1:
         file1.write("TrialGrowFile\n\n")
         for inv in [True, False]:
@@ -506,19 +539,23 @@ def write_linear_grow_file(filename, num_sites, gce=0, reference_index=0, num_st
                         sign = -1
                         if trial_type == 0 and site != num_sites - 1:
                             sign = 1
-                        descript['site'+str(i)] = site + sign*i
                         if inv:
-                            descript['site'+str(i)] = num_sites - site - 1 - sign*i
+                            index = num_sites - site - 1 - sign*i
+                        else:
+                            index = site + sign*i
+                        if index >= 0 and index < len(site_names):
+                            #print('index', index, 'site_names', site_names)
+                            descript['site'+str(i)] = site_names[index]
 
                     # full regrowth insertion/deletion
                     if trial_type == 1 and gce > 0:
                         if site == 0:
                             if gce == 3:
-                                file1.write("""particle_type {particle_type}{conf} configuration_index2 {conf2} weight {weight} gibbs_transfer true site {site0}{num_steps}{reference_index} print_num_accepted true\n""".format(**descript))
+                                file1.write("""particle_type={particle_type}{conf} configuration_index2={conf2} weight={weight} gibbs_transfer=true site={site0}{num_steps}{reference_index} print_num_accepted=true\n""".format(**descript))
                             elif gce == 2:
-                                file1.write("""particle_type {particle_type} weight {weight} add true site {site0}{num_steps}{reference_index}{conf}\n""".format(**descript))
+                                file1.write("""particle_type={particle_type} weight={weight} add=true site={site0}{num_steps}{reference_index}{conf}\n""".format(**descript))
                             elif gce == 1:
-                                file1.write("""particle_type {particle_type} weight {weight} transfer true site {site0}{num_steps}{reference_index}{conf}\n""".format(**descript))
+                                file1.write("""particle_type={particle_type} weight={weight} transfer=true site={site0}{num_steps}{reference_index}{conf}\n""".format(**descript))
                             wrote = True
                         elif site == 1:
                             wrote = write_bond_('bond', file1, descript)
@@ -562,7 +599,7 @@ def write_linear_grow_file(filename, num_sites, gce=0, reference_index=0, num_st
                         num_grow = trial_type - 1
                         if num_sites - site < num_grow:
                             if num_sites - site == num_grow - 1:
-                                file1.write('particle_type '+str(descript['particle_type'])+' weight '+str(descript['weight']/(trial_type-2))+descript['conf']+' ')
+                                file1.write('particle_type='+str(descript['particle_type'])+' weight='+str(descript['weight']/(trial_type-2))+descript['conf']+' ')
                                 wrote = True
                             if site == 1:
                                 wrote = write_bond_('bond', file1, descript)

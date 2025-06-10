@@ -19,7 +19,8 @@ std::string feasst_str(const std::vector<T> &vec,
   std::stringstream ss;
   if (max_precision) ss << MAX_PRECISION;
   for (int i = 0; i < static_cast<int>(vec.size()); ++i) {
-    ss << vec[i] << ",";
+    ss << vec[i];
+    if (i != static_cast<int>(vec.size()-1)) ss << ",";
   }
   return ss.str();
 }
@@ -46,8 +47,9 @@ std::string feasst_str(const std::deque<T> &deq,
 /// Print a std::map of a pair of strings in human readable format.
 std::string str(const std::map<std::string, std::string>& mp);
 
-/// Split a string into a vector of strings via space delimitors.
-std::vector<std::string> split(const std::string str);
+/// Split a string into a vector of strings via given delimitor.
+std::vector<std::string> split(const std::string& str_to_split,
+  const char delimitor = ' ');
 
 /// Return phrase with all characters up to the last specialchr removed.
 std::string trim(const char* specialchr, const char* phrase,

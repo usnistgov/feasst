@@ -42,7 +42,6 @@ TEST(MayerSampling, ljb2) {
   EXPECT_EQ(config->model_params().select("cutoff").value(0), NEAR_INFINITY);
   const double boxl = 2*(config->model_params().select("cutoff").value(0));
   config->set_side_lengths(Position().set_vector({boxl, boxl, boxl}));
-  std::cout << "boxl " << boxl << std::endl;
   system.set(MakeThermoParams({{"beta", "1."},
     {"chemical_potential", "-2.775"}}));
   MayerSampling criteria;
@@ -56,7 +55,6 @@ TEST(MayerSampling, ljb2) {
     translate->attempt(&criteria, &system, random.get());
   }
   const double b2 = 2./3.*PI*criteria.second_virial_ratio();
-  std::cout << "b2 " << b2 << std::endl;
   EXPECT_NEAR(-5.3, b2, 15);
   EXPECT_GT(std::abs(2.0944-b2), 0.0001); // HS value
 
@@ -128,10 +126,8 @@ TEST(MonteCarlo, ljb2_beta_deriv_LONG) {
 TEST(MayerSampling, square_well_LONG) {
   MonteCarlo mc;
   auto config = MakeConfiguration({{"cubic_side_length", "10"},
-    {"particle_type0", "../particle/lj.txt"}});
-  config->add_particle_type("../particle/lj.txt", "2");
-  config->add_particle_of_type(0);
-  config->add_particle_of_type(1);
+    {"particle_type", "../particle/lj.txt,../particle/lj.txt"},
+    {"add_particles_of_type0", "1"}, {"add_particles_of_type1", "1"}});
   mc.add(config);
   EXPECT_EQ(2, mc.configuration().num_particles());
   EXPECT_EQ(1, mc.configuration().num_particles_of_type(0));
@@ -161,7 +157,7 @@ TEST(MayerSampling, cg4_rigid_LONG) {
   MonteCarlo mc;
   auto config = MakeConfiguration({{"cubic_side_length", "1000"},
     {"particle_type0", "../plugin/chain/particle/cg4_mab.txt"}});
-  config->add_particle_type("../plugin/chain/particle/cg4_mab.txt", "2");
+  config->add_particle_type("../plugin/chain/particle/cg4_mab.txt");
   config->add_particle_of_type(0);
   config->add_particle_of_type(1);
   mc.add(config);
@@ -257,7 +253,7 @@ TEST(MayerSampling, trimer_LONG) {
   //mc.set(MakeRandomMT19937({{"seed", "1663862890"}}));
   { auto config = MakeConfiguration({{"cubic_side_length", str(NEAR_INFINITY)}});
     config->add_particle_type("../particle/trimer_0.4L.txt");
-    config->add_particle_type("../particle/trimer_0.4L.txt", "2");
+    config->add_particle_type("../particle/trimer_0.4L.txt");
     config->add_particle_of_type(0);
     config->add_particle_of_type(1);
     const double rwca = std::pow(2, 1./6.);

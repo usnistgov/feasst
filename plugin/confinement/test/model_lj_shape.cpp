@@ -20,7 +20,7 @@ TEST(ModelLJShape, half_space) {
     {"particle_type", "../particle/atom.txt"},
     {"add_particles_of_type0", "1"}});
   const ModelParams model_params = config->model_params();
-  model.precompute(model_params);
+  model.precompute(*config);
   std::shared_ptr<Model> model2 = test_serialize<ModelLJShape, Model>(model);
 
   const Site& site = config->particle(0).site(0);
@@ -39,7 +39,7 @@ TEST(ModelLJShape, half_space) {
 
   // Without shift
   ModelLJShape model3(std::make_shared<HalfSpace>(half_space), {{"disable_shift", "true"}});
-  model3.precompute(model_params);
+  model3.precompute(*config);
   EXPECT_NEAR(0.037037403706123712, model3.energy(site.position(), site, *config, model_params), 1e-15);
 
   pos.set_vector({0, 0, -3.});
@@ -59,7 +59,7 @@ TEST(ModelLJShape, wall_sigma) {
     {"particle_type", "../particle/atom.txt"},
     {"add_particles_of_type0", "1"}});
   const ModelParams model_params = config->model_params();
-  model.precompute(model_params);
+  model.precompute(*config);
   std::shared_ptr<Model> model2 = test_serialize<ModelLJShape, Model>(model);
 
   const Site& site = config->particle(0).site(0);

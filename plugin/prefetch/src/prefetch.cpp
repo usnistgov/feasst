@@ -542,7 +542,7 @@ void Prefetch::run_num_trials(int num_trials) {
 }
 
 void Prefetch::run_until_num_particles(const int num_particles,
-                                       const int particle_type,
+                                       const std::string& particle_type,
                                        const int configuration_index) {
   activate_prefetch(false);
   MonteCarlo::run_until_num_particles(num_particles, particle_type,

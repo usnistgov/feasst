@@ -18,7 +18,7 @@ import launch_04_lj_tm_parallel
 def parse():
     """ Parse arguments from command line or change their default values. """
     params, args = launch_04_lj_tm_parallel.parse(
-          fstprt='/feasst/particle/lj.txt',
+          fstprt='/feasst/particle/lj_new.txt',
           beta=1./0.7,
           beta_mu=-5.943376,
           min_sweeps=5,
@@ -44,28 +44,29 @@ def sim_node_dependent_params(params):
     if params['node'] == 0:
         params['min_particles'] = 0
         params['max_particles'] = params['num_particles_first_node']
-        params['muvt_trials'] = 'TrialTransfer weight 2 particle_type 0\nTrialTransferAVB weight 0.2 particle_type 0'
-        params['lj_potential'] = 'Potential EnergyMap EnergyMapNeighborCriteria neighbor_index 0 Model LennardJones'
+        avb_args = "particle_type=lj site=LJ1 target_particle_type=lj target_site LJ1"
+        params['muvt_trials'] = "TrialTransfer weight=2 particle_type=lj\nTrialTransferAVB weight=0.2 "+avb_args
+        params['lj_potential'] = 'Potential EnergyMap=EnergyMapNeighborCriteria neighbor_index=0 Model=LennardJones'
         params['ref_potential'] = ''
-        params['avb_trials'] = 'TrialAVB2 weight 0.1 particle_type 0\nTrialAVB4 weight 0.1 particle_type 0'
+        params['avb_trials'] = "TrialAVB2 weight=0.1 "+avb_args+"\nTrialAVB4 weight=0.1 "+avb_args
         params['min_sweeps'] = 20
         params['window_alpha'] = 2
         params['min_window_size'] = 5
     elif params['node'] == 1:
         params['min_particles'] = params['num_particles_first_node']
-        params['muvt_trials'] = 'TrialTransfer weight 2 particle_type 0 reference_index 0 num_steps 10'
-        params['lj_potential'] = 'Potential Model LennardJones'
-        params['ref_potential'] = """RefPotential Model LennardJones cutoff {dccb_cut} VisitModel VisitModelCell min_length {dccb_cut}""".format(**params)
+        params['muvt_trials'] = 'TrialTransfer weight=2 particle_type=lj reference_index=0 num_steps=10'
+        params['lj_potential'] = 'Potential Model=LennardJones'
+        params['ref_potential'] = """RefPotential Model=LennardJones cutoff={dccb_cut} VisitModel=VisitModelCell min_length={dccb_cut}""".format(**params)
         params['avb_trials'] = ''
         params['min_sweeps'] = 2
         params['window_alpha'] = 1
         params['min_window_size'] = 3
-    params['system'] = """Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
-NeighborCriteria maximum_distance 1.375 minimum_distance 0.9
+    params['system'] = """Configuration cubic_side_length={cubic_side_length} particle_type=lj:{fstprt}
+NeighborCriteria maximum_distance=1.375 minimum_distance=0.9
 {lj_potential}
 {ref_potential}
-Potential VisitModel LongRangeCorrections""".format(**params)
-    params['nvt_trials'] = """TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25
+Potential VisitModel=LongRangeCorrections""".format(**params)
+    params['nvt_trials'] = """TrialTranslate weight=1 tunable_param=0.2
 {avb_trials}""".format(**params)
     params['sim_start'] = params['node']*params['procs_per_node']
     params['sim_end'] = params['sim_start'] + params['procs_per_node'] - 1
@@ -97,11 +98,8 @@ def post_process(params):
         for node in range(params['num_nodes']):
             prefix = params['prefix']+'n'+str(node)+'s'
             suffix = '_en.csv'
-            multistate_accumulator.splice(prefix=prefix, suffix=suffix,
-                                          start=node*params['procs_per_node'],
-                                          stop=(node+1)*params['procs_per_node'] - 1).to_csv(prefix+suffix)
-        energy = multistate_accumulator.splice(prefix=params['prefix']+'n', suffix='s_en.csv',
-                                               start=0, stop=params['num_nodes']-1)
+            multistate_accumulator.splice(prefix=prefix, suffix=suffix).to_csv(prefix+suffix+'_spliced')
+        energy = multistate_accumulator.splice(prefix=params['prefix']+'n', suffix='s_en.csv_spliced')
         lnpi.concat_dataframe(dataframe=energy, add_prefix='e_')
         delta_beta_mu = lnpi.equilibrium()
         beta_mu_eq.append(params['beta']*params['mu'] + delta_beta_mu)

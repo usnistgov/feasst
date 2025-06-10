@@ -16,8 +16,8 @@ def parse():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--feasst_install', type=str, default='../../../build/',
                         help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--fstprt0', type=str, default='/feasst/particle/dimer_mie_CO2.txt', help='FEASST particle definition')
-    parser.add_argument('--fstprt1', type=str, default='/feasst/particle/dimer_mie_N2.txt', help='FEASST particle definition')
+    parser.add_argument('--fstprt1', type=str, default='/feasst/particle/dimer_mie_CO2.txt', help='FEASST particle definition')
+    parser.add_argument('--fstprt2', type=str, default='/feasst/particle/dimer_mie_N2.txt', help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./258.15, help='inverse temperature (K)')
     parser.add_argument('--pressure', type=float, default=5.38, help='pressure (MPa)')
     parser.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
@@ -57,109 +57,101 @@ def parse():
     params['pressure'] = params['pressure']/1e24/physical_constants.BoltzmannConstant().value()
     params['dccb_cut'] = 3.5 # cutoff for dual-cut cb in liquid
     params['num_dccb'] = 4   # number of cb steps per site in liquid
-    params['config_particle_def'] = """particle_type0 {fstprt0} particle_type1 {fstprt1} sigma0_1 2.9216 epsilon0_1 121.5 mie_lambda_r0_1 20.27 mie_lambda_a0_1 5.48294""".format(**params)
+    params['config_particle_def'] = """particle_type=pt1:{fstprt1},pt2:{fstprt2} sigmaCO2_N 2.9216 epsilonCO2_N 121.5 mie_lambda_rCO2_N 20.27 mie_lambda_aCO2_N 5.48294""".format(**params)
     return params, args
 
 def sim_node_dependent_params(params):
     """ Set parameters that depent upon the sim or node here. """
-    sim = params['sim']
-    for ptype, fstprt in enumerate([params['fstprt0'], params['fstprt1']]):
-        prepend = filename=params['prefix']+str(sim)+"_p"+str(ptype)
-        params['num_sites'] = fstio.num_sites_in_fstprt(fstprt, params['feasst_install'])
-        fstio.write_linear_grow_file(prepend+"_c0_grow_canonical.txt", particle_type=ptype, num_sites=params['num_sites'], gce=0, conf=0, reference_index=0, num_steps=1)
-        fstio.write_linear_grow_file(prepend+"_c0_grow_add.txt", particle_type=ptype, num_sites=params['num_sites'], gce=2, conf=0, reference_index=0, num_steps=1)
-        fstio.write_linear_grow_file(prepend+"_c1_grow_canonical.txt", particle_type=ptype, num_sites=params['num_sites'], gce=0, conf=1, reference_index=1, num_steps=params['num_dccb'])
-        fstio.write_linear_grow_file(prepend+"_c1_grow_add.txt", particle_type=ptype, num_sites=params['num_sites'], gce=2, conf=1, reference_index=1, num_steps=params['num_dccb'])
-        fstio.write_linear_grow_file(prepend+"_grow_gibbs.txt", particle_type=ptype, num_sites=params['num_sites'], gce=3, conf=0, conf2=1, reference_index=1, num_steps=params['num_dccb'])
+    for ptype, fstprt in enumerate([params['fstprt1'], params['fstprt2']]):
+        ptype_name = 'pt'+str(ptype+1)
+        prepend = "{}{:03d}_p{}".format(params['prefix'], params['sim'], ptype+1)
+        fstio.write_linear_grow_file(prepend+"_c0_grow_canonical.txt", particle_type=ptype_name, gce=0, conf=0, reference_index=0, num_steps=1, particle_file=fstprt, feasst_install=params['feasst_install'])
+        fstio.write_linear_grow_file(prepend+"_c0_grow_add.txt", particle_type=ptype_name, gce=2, conf=0, reference_index=0, num_steps=1, particle_file=fstprt, feasst_install=params['feasst_install'])
+        fstio.write_linear_grow_file(prepend+"_c1_grow_canonical.txt", particle_type=ptype_name, gce=0, conf=1, reference_index=1, num_steps=params['num_dccb'], particle_file=fstprt, feasst_install=params['feasst_install'])
+        fstio.write_linear_grow_file(prepend+"_c1_grow_add.txt", particle_type=ptype_name, gce=2, conf=1, reference_index=1, num_steps=params['num_dccb'], particle_file=fstprt, feasst_install=params['feasst_install'])
+        fstio.write_linear_grow_file(prepend+"_grow_gibbs.txt", particle_type=ptype_name, gce=3, conf=0, conf2=1, reference_index=1, num_steps=params['num_dccb'], particle_file=fstprt, feasst_install=params['feasst_install'])
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
-Configuration cubic_side_length 55 {config_particle_def}
-Configuration cubic_side_length 32 {config_particle_def}
-CopyFollowingLines for_num_configurations 2
-    Potential Model Mie table_size 1e4
-    Potential VisitModel LongRangeCorrections
-    RefPotential reference_index 0 VisitModel DontVisitModel
-EndCopy
-RefPotential reference_index 1 configuration_index 0 VisitModel DontVisitModel
-RefPotential reference_index 1 configuration_index 1 Model Mie table_size 1e4 VisitModel VisitModelCell cutoff {dccb_cut} min_length {dccb_cut}
-ThermoParams beta {beta} chemical_potential0 5 chemical_potential1 5 pressure {pressure}
+RandomMT19937 seed={seed}
+For [config]:[length]=0:55,1:32
+    Configuration cubic_side_length=[length] {config_particle_def}
+    Potential Model=Mie table_size=1e4 configuration_index=[config]
+    Potential VisitModel=LongRangeCorrections configuration_index=[config]
+    RefPotential reference_index=0 VisitModel=DontVisitModel configuration_index=[config]
+EndFor
+RefPotential reference_index=1 configuration_index=0 VisitModel=DontVisitModel
+RefPotential reference_index=1 configuration_index=1 Model=Mie table_size=1e4 VisitModel=VisitModelCell cutoff={dccb_cut} min_length={dccb_cut}
+ThermoParams beta={beta} chemical_potential=5,5 pressure={pressure}
 Metropolis
-CopyFollowingLines for_num_configurations 2
-    TrialTranslate weight_per_number_fraction 0.5 particle_type 0 tunable_param 0.1
-    TrialTranslate weight_per_number_fraction 0.5 particle_type 1 tunable_param 0.1
-    TrialParticlePivot weight_per_number_fraction 0.5 particle_type 0 tunable_param 0.5
-    TrialParticlePivot weight_per_number_fraction 0.5 particle_type 1 tunable_param 0.5
-EndCopy
-TrialGrowFile grow_file {prefix}{sim}_p0_c0_grow_canonical.txt
-TrialGrowFile grow_file {prefix}{sim}_p0_c1_grow_canonical.txt
-TrialGrowFile grow_file {prefix}{sim}_p1_c0_grow_canonical.txt
-TrialGrowFile grow_file {prefix}{sim}_p1_c1_grow_canonical.txt
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+For [config]=0,1
+    For [pt]=1,2
+        For [trial]:[tunable]=Translate:0.1,ParticlePivot:0.5
+            Trial[trial] weight_per_number_fraction=0.5 particle_type=pt[pt] tunable_param=[tunable] configuration_index=[config]
+        EndFor
+        TrialGrowFile grow_file={prefix}{sim:03d}_p[pt]_c[config]_grow_canonical.txt
+    EndFor
+EndFor
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # fill both boxes with particles
-Log trials_per_write {tpc} output_file {prefix}{sim}_fill.csv
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_fill.xyz
-Movie trials_per_write {tpc} output_file {prefix}{sim}_c1_fill.xyz configuration_index 1
+Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+Log [write]_fill.csv
 Tune
-TrialGrowFile grow_file {prefix}{sim}_p0_c0_grow_add.txt
-Run until_num_particles 240 particle_type 0 configuration_index 0
-Remove name_contains add
-TrialGrowFile grow_file {prefix}{sim}_p1_c0_grow_add.txt
-Run until_num_particles 260 particle_type 1 configuration_index 0
-Remove name_contains add
-TrialGrowFile grow_file {prefix}{sim}_p0_c1_grow_add.txt
-Run until_num_particles 450 particle_type 0 configuration_index 1
-Remove name_contains add
-TrialGrowFile grow_file {prefix}{sim}_p1_c1_grow_add.txt
-Run until_num_particles 50 particle_type 1 configuration_index 1
-Remove name_contains add
-Remove name0 Tune name1 Log name2 Movie name3 Movie
+For [config]:[num1]:[num2]=0:240:260,1:450:50
+    Movie [write]_c[config]_fill.xyz configuration_index=[config]
+    For [pt]:[num]=1:[num1],2:[num2]
+        TrialGrowFile grow_file={prefix}{sim:03d}_p[pt]_c[config]_grow_add.txt
+        Run until_num_particles=[num] particle_type=pt[pt] configuration_index=[config]
+        Remove name_contains=add
+    EndFor
+    Remove name=Movie
+EndFor
+Remove name=Tune,Log
 
 # npt equilibrate both boxes
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equil_npt}
-CopyFollowingLines for_num_configurations 2 replace_with_index [config]
-    TrialVolume weight 0.005 tunable_param 0.2 tunable_target_acceptance 0.5 reference_index 0
-    Movie trials_per_write {tpc} output_file {prefix}{sim}_c[config]_npt.xyz
-EndCopy
-Log trials_per_write {tpc} output_file {prefix}{sim}_npt.csv
-ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_npt_profile.csv
-CheckEnergy trials_per_update {tpc} decimal_places 8
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equil_npt}
+For [config]=0,1
+    TrialVolume weight=0.005 tunable_param=0.2 tunable_target_acceptance=0.5 reference_index=0 configuration_index=[config]
+    Movie [write]_c[config]_npt.xyz configuration_index=[config]
+EndFor
+Log [write]_npt.csv
+ProfileCPU [write]_npt_profile.csv
+CheckEnergy trials_per_update={tpc} decimal_places=8
 # a new tune is required when new Trials are introduced
 # decrease trials per due to infrequency of volume transfer attempts
-Tune trials_per_tune 20
-Run until complete
-Remove name0 Tune name1 Log name2 Movie name3 Movie name4 ProfileCPU
+Tune trials_per_tune=20
+Run until=complete
+Remove name=Tune,Log,Movie,Movie,ProfileCPU
 
 # Gibbs equilibration
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equil}
-TrialGrowFile grow_file {prefix}{sim}_p0_grow_gibbs.txt
-TrialGrowFile grow_file {prefix}{sim}_p1_grow_gibbs.txt
-Log trials_per_write {tpc} output_file {prefix}{sim}_eq.csv
-CopyNextLine replace0 configuration_index with0 0 replace1 output_file with1 {prefix}{sim}_c0_eq.xyz
-Movie trials_per_write {tpc} output_file {prefix}{sim}_c1_eq.xyz configuration_index 1
-ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_eq_profile.csv
-Run until complete
-Remove name0 Log name1 Movie name2 Movie name3 ProfileCPU
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equil}
+For [pt]=1,2
+    TrialGrowFile grow_file={prefix}{sim:03d}_p[pt]_grow_gibbs.txt
+EndFor
+Log [write]_eq.csv
+For [config]=0,1
+    Movie [write]_c[config]_eq.xyz configuration_index=[config]
+EndFor
+ProfileCPU [write]_eq_profile.csv
+Run until=complete
+Remove name=Log,Movie,Movie,ProfileCPU
 
 # Gibbs ensemble production
-Metropolis trials_per_cycle {tpc} cycles_to_complete {production_cycles}
-Log trials_per_write {tpc} output_file {prefix}{sim}.csv
-CopyFollowingLines for_num_configurations 2 replace_with_index [config]
-    Density      trials_per_write {tpc} output_file {prefix}{sim}_c[config]_dens.csv
-    Movie        trials_per_write {tpc} output_file {prefix}{sim}_c[config].xyz
-    Energy       trials_per_write {tpc} output_file {prefix}{sim}_c[config]_en.csv
-    Volume       trials_per_write {tpc} output_file {prefix}{sim}_c[config]_vol.csv
-    NumParticles trials_per_write {tpc} output_file {prefix}{sim}_c[config]_n0.csv particle_type 0
-    NumParticles trials_per_write {tpc} output_file {prefix}{sim}_c[config]_n1.csv particle_type 1
-EndCopy
-ProfileCPU trials_per_write {tpc} output_file {prefix}{sim}_profile.csv
-CPUTime    trials_per_write {tpc} output_file {prefix}{sim}_cpu.csv
-Run until complete
+Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
+Log [write].csv
+For [config]=0,1
+    For [analyze]:[file]=Density:_dens.csv,Movie:.xyz,Energy:_en.csv,Volume:_vol.csv,ProfileCPU:_profile.csv,CPUTime:_cpu.csv
+        [analyze] [write]_c[config][file] configuration_index=[config]
+    EndFor
+    For [pt]=1,2
+        NumParticles [write]_c[config]_n[pt].csv particle_type=pt[pt] configuration_index=[config]
+    EndFor
+EndFor
+Run until=complete
 """.format(**params))
 
 def post_process(params):

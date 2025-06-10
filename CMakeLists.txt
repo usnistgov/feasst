@@ -91,6 +91,7 @@ endif (USE_GCOV)
 
 # FFTW
 if (USE_FFTW)
+  set(FEASST_PLUGINS "${FEASST_PLUGINS};fftw")
 #  message("USING FFTW")
 #  find_package(PkgConfig REQUIRED)
 #  pkg_search_module(FFTW REQUIRED fftw3 IMPORTED_TARGET)

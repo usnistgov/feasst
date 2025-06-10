@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 from pyfeasst import fstio
 from pyfeasst import macrostate_distribution
 
-def parse(fstprt='/feasst/particle/lj.txt',
+def parse(fstprt='/feasst/particle/lj_new.txt',
           beta=1./1.5,
           beta_mu=-1.568214,
           mu_init=10,
@@ -85,13 +85,13 @@ def parse(fstprt='/feasst/particle/lj.txt',
     params['procs_per_sim'] = 1
     params['num_sims'] = params['procs_per_node']*params['num_nodes']
     params['mu'] = params['beta_mu']/params['beta']
-    params['system'] = """Configuration cubic_side_length {cubic_side_length} particle_type0 {fstprt}
-Potential Model LennardJones
-Potential VisitModel LongRangeCorrections""".format(**params)
-    params['nvt_trials'] = "TrialTranslate weight 1 tunable_param 0.2 tunable_target_acceptance 0.25"
-    params['muvt_trials'] = "TrialTransfer weight 2 particle_type 0"
-    params['init_trials'] = "TrialAdd particle_type 0"
-    params['init_remove'] = "Remove name TrialAdd"
+    params['system'] = """Configuration cubic_side_length={cubic_side_length} particle_type=lj:{fstprt}
+Potential Model=LennardJones
+Potential VisitModel=LongRangeCorrections""".format(**params)
+    params['nvt_trials'] = "TrialTranslate weight=1 tunable_param=0.2"
+    params['muvt_trials'] = "TrialTransfer weight=2 particle_type=lj"
+    params['init_trials'] = "TrialAdd particle_type=lj"
+    params['init_remove'] = "Remove name=TrialAdd"
     params['min_particles_second_window'] = ""
     params['minimums'] = [params['min_particles']]
     if params['num_nodes'] == 1:
@@ -112,44 +112,45 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-RandomMT19937 seed {seed}
+RandomMT19937 seed={seed}
 {system}
-ThermoParams beta {beta} chemical_potential0 {mu_init}
+ThermoParams beta={beta} chemical_potential={mu_init}
 Metropolis
 {nvt_trials}
-CheckEnergy trials_per_update {tpc} decimal_places 4
-Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
+CheckEnergy trials_per_update={tpc} decimal_places=4
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # gcmc initialization and nvt equilibration
 {init_trials}
-Log trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.csv
+Let [write]=trials_per_write={tpc} output_file={prefix}n{node}s{sim:03d}
+Log [write]_eq.csv
 Tune
-Run until_num_particles {min_particles}
+Run until_num_particles={min_particles}
 {init_remove}
-ThermoParams beta {beta} chemical_potential0 {mu}
-Metropolis trials_per_cycle {tpc} cycles_to_complete {equilibration}
-Run until complete
-Remove name0 Tune name1 Log
+ThermoParams beta={beta} chemical_potential={mu}
+Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
+Run until=complete
+Remove name=Tune,Log
 
 # gcmc tm production
-FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} \
-    Bias WLTM min_sweeps {min_sweeps} min_flatness {min_flatness} collect_flatness {collect_flatness} min_collect_sweeps 1
+FlatHistogram Macrostate=MacrostateNumParticles width=1 max={max_particles} min={min_particles} \
+    Bias=WLTM min_sweeps={min_sweeps} min_flatness={min_flatness} collect_flatness={collect_flatness} min_collect_sweeps=1
 {muvt_trials}
+Log [write].csv
+Tune [write]_tune.csv multistate=true stop_after_cycle=1
 #To print xyz for each macrostate in separate files, add the following arguments to the "Movie" lines below: multistate true multistate_aggregate false
-Movie           trials_per_write {tpc} output_file {prefix}n{node}s{sim}_eq.xyz stop_after_cycle 1
-Movie           trials_per_write {tpc} output_file {prefix}n{node}s{sim}.xyz start_after_cycle 1
-Log             trials_per_write {tpc} output_file {prefix}n{node}s{sim}.csv
-Tune            trials_per_write {tpc} output_file {prefix}n{node}s{sim}_tune.csv multistate true stop_after_cycle 1
-Energy          trials_per_write {tpc} output_file {prefix}n{node}s{sim}_en.csv multistate true start_after_cycle 1
-HeatCapacity    trials_per_write {tpc} output_file {prefix}n{node}s{sim}_cv.csv multistate true start_after_cycle 1
-ProfileCPU      trials_per_write {tpc} output_file {prefix}n{node}s{sim}_profile.csv
-CriteriaWriter  trials_per_write {tpc} output_file {prefix}n{node}s{sim:03d}_crit.csv
-CriteriaUpdater trials_per_update 1e5
-Run until complete
+Movie [write]_eq.xyz stop_after_cycle=1
+Movie [write].xyz start_after_cycle=1
+Energy [write]_en.csv multistate=true start_after_cycle=1
+ProfileCPU [write]_profile.csv
+HeatCapacity [write]_cv.csv multistate=true start_after_cycle=1
+CriteriaWriter [write]_crit.csv
+CriteriaUpdater trials_per_update=1e5
+Run until=complete
 
 # continue until all simulations on the node are complete
-WriteFileAndCheck sim {sim} sim_start {sim_start} sim_end {sim_end} file_prefix {prefix}n{node}s file_suffix _finished.txt output_file {prefix}n{node}_terminate.txt
-Run until_file_exists {prefix}n{node}_terminate.txt trials_per_file_check {tpc}
+WriteFileAndCheck sim={sim} sim_start={sim_start} sim_end={sim_end} file_prefix={prefix}n{node}s file_suffix=_finished.txt output_file={prefix}n{node}_terminate.txt
+Run until_file_exists={prefix}n{node}_terminate.txt trials_per_file_check={tpc}
 """.format(**params))
 
 def post_process(params):

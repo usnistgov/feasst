@@ -1,18 +1,20 @@
 # FEASST particle file (https://doi.org/10.18434/M3S095)
+#
+# D1 - D2
 
 Site Properties
 
-0 sigma 1.0 epsilon 1.0 cutoff 3.0
+D sigma=1.0 epsilon=1.0 cutoff=3.0
 
 Sites
 
-0 0 0.0 0.0 0.0
-1 0 1.0 0.0 0.0
+D1 D 0.0 0.0 0.0
+D2 D 1.0 0.0 0.0
 
 Bond Properties
 
-0 RigidBond length 1.0 delta 0.0001
+DD RigidBond length=1.0 delta=0.0001
 
 Bonds
 
-0 0 0 1
+DD1 DD D1 D2

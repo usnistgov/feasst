@@ -22,11 +22,9 @@ inline System chain(const double alpha,
                     const int kmax_squared) {
   System system;
   { auto config = MakeConfiguration({{"cubic_side_length", "20"},
-      {"particle_type0", "../particle/chain10_3types.txt"},
-      {"particle_type1", "../plugin/charge/particle/rpm_minus.txt"},
-      {"particle_type2", "../plugin/charge/particle/rpm_plus.txt"},
-      {"add_particles_of_type1", "1"},
-      {"add_particles_of_type2", "1"},
+      {"particle_type", "../particle/chain10_3types.txt,../plugin/charge/particle/rpm_minus.txt,../plugin/charge/particle/rpm_plus.txt"},
+      {"add_num_1_particles", "1"},
+      {"add_num_2_particles", "1"},
     });
     config->update_positions({{0, 0, 0}, {2, 0, 0}});
     double alpha2;

@@ -24,7 +24,7 @@ TEST(MayerSampling, patch_LONG) {
     const std::string fstprt = "../plugin/patch/particle/janus.txt";
     { auto config = MakeConfiguration({{"cubic_side_length", str(NEAR_INFINITY)}});
       config->add_particle_type(fstprt);
-      config->add_particle_type(fstprt, "2");
+      config->add_particle_type(fstprt);
       config->add(MakeGroup({{"site_type0", "0"}, {"site_type1", "2"}}));
       config->set_model_param("patch_angle", 1, degrees);
       config->set_model_param("patch_angle", 3, degrees);

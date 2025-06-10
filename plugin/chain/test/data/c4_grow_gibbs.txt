@@ -1,0 +1,12 @@
+TrialGrowFile
+
+particle_type 0 configuration_index2 1 weight 1 gibbs_transfer true site 3 num_steps 1 reference_index -1 print_num_accepted true
+bond true mobile_site 2 anchor_site 3 num_steps 1 reference_index -1
+angle true mobile_site 1 anchor_site 2 anchor_site2 3 num_steps 1 reference_index -1
+dihedral true mobile_site 0 anchor_site 1 anchor_site2 2 anchor_site3 3 num_steps 1 reference_index -1
+
+particle_type 0 configuration_index2 1 weight 1 gibbs_transfer true site 0 num_steps 1 reference_index -1 print_num_accepted true
+bond true mobile_site 1 anchor_site 0 num_steps 1 reference_index -1
+angle true mobile_site 2 anchor_site 1 anchor_site2 0 num_steps 1 reference_index -1
+dihedral true mobile_site 3 anchor_site 2 anchor_site2 1 anchor_site3 0 num_steps 1 reference_index -1
+
