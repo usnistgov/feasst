@@ -35,7 +35,7 @@ class Random;
 class TrialMorphExpanded : public Trial {
  public:
   /**
-    Typically requires reference_index if multiple particles are to be morphed
+    Typically requires RefPotential if multiple particles are to be morphed
     simultaneously.
    */
   TrialMorphExpanded(

@@ -19,6 +19,7 @@ ProfileCPU::ProfileCPU(argtype args) : ProfileCPU(&args) {
 }
 
 void ProfileCPU::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   mc->set_timer();
   mc->get_trial_factory()->set_timer();
   mc->get_analyze_factory()->set_timer();

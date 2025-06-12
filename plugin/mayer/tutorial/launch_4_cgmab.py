@@ -173,11 +173,11 @@ RandomMT19937 seed={seed}
 Configuration cubic_side_length=200 particle_type=domain:1igt_{domain}.txt add_num_domain_particles 2 \
     group=first,com first_particle_index=0 com_site_type=5
 Potential Model=HardSphere VisitModel=VisitModelCell min_length=3.9 energy_cutoff=1e100
-RefPotential Model=HardSphere sigma=0 sigma5=30 cutoff=0 cutoff5=30 group=com
+RefPotential ref=hs Model=HardSphere sigma=0 sigma5=30 cutoff=0 cutoff5=30 group=com
 ThermoParams beta=1
 MayerSampling trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
-TrialTranslate new_only=true reference_index=0 tunable_param=1 group=first
-TrialRotate new_only=true reference_index=0 tunable_param=40
+TrialTranslate new_only=true ref=hs tunable_param=1 group=first
+TrialRotate new_only=true ref=hs tunable_param=40
 Checkpoint checkpoint_file={prefix}_{domain}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # tune trial parameters

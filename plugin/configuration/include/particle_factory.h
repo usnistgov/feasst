@@ -183,7 +183,14 @@ class ParticleFactory {
                        const double value);
 
   /// Set mixed model parameters using a file.
-  void set_model_param(const std::string name, const std::string filename);
+  void set_model_param(const std::string name, const std::string filename,
+    /// Optionally provide a list of names of site types
+    std::vector<std::string> * site_type_names = NULL);
+
+  /// Set mixed model parameters using a file (see Configuration).
+  void set_model_param(const std::string filename,
+    /// Optionally provide a list of names of site types
+    std::vector<std::string> * site_type_names = NULL);
 
   /// Add model parameter of a given name to value.
   void add_model_param(const std::string name,

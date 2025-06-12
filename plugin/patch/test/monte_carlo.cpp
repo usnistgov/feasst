@@ -62,7 +62,8 @@ std::unique_ptr<MonteCarlo> patchmc(const int min, const int max) {
     {"MoviePatch", {{"trials_per_write", trials_per}, {"output_file", "tmp/patch_nvt_vis.xyz"}}},
     {"CriteriaUpdater", {{"trials_per_update", trials_per}}},
     {"CriteriaWriter", {{"trials_per_write", trials_per}, {"output_file", "tmp/patch_fh.txt"}}},
-  }}, true);
+  }});
+  //}}, true);
   auto mc2 = test_serialize_unique(*mc);
   return mc2;
 }

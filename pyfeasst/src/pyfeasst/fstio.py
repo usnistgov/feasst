@@ -431,16 +431,16 @@ def write_bond_(btype, file1, descript, num_steps_override=-1):
         else:
             descript['num_steps'] = ''
     if btype == 'bond':
-        file1.write("""bond=true mobile_site={site0} anchor_site={site1}{num_steps}{reference_index}\n""".format(**descript))
+        file1.write("""bond=true mobile_site={site0} anchor_site={site1}{num_steps}{ref}\n""".format(**descript))
     elif btype == 'angle':
-        file1.write("""angle=true mobile_site={site0} anchor_site={site1} anchor_site2={site2}{num_steps}{reference_index}\n""".format(**descript))
+        file1.write("""angle=true mobile_site={site0} anchor_site={site1} anchor_site2={site2}{num_steps}{ref}\n""".format(**descript))
     elif btype == 'dihedral':
-        file1.write("""dihedral=true mobile_site={site0} anchor_site={site1} anchor_site2={site2} anchor_site3={site3}{num_steps}{reference_index}\n""".format(**descript))
+        file1.write("""dihedral=true mobile_site={site0} anchor_site={site1} anchor_site2={site2} anchor_site3={site3}{num_steps}{ref}\n""".format(**descript))
     else:
         print('unrecognized bond type', btype)
     return True
 
-def write_linear_grow_file(filename, num_sites=None, gce=0, reference_index=0, num_steps=4, base_weight=1, conf=0, conf2=-1, particle_type=0, angle=True, dihedral=True, particle_file=None, feasst_install=None):
+def write_linear_grow_file(filename, num_sites=None, gce=0, ref="", num_steps=4, base_weight=1, conf=0, conf2=-1, particle_type=0, angle=True, dihedral=True, particle_file=None, feasst_install=None):
     """
     Write TrialGrowFile input files for linear chain particles.
 
@@ -454,17 +454,17 @@ def write_linear_grow_file(filename, num_sites=None, gce=0, reference_index=0, n
         If 1, write only grand canonical ensemble insertion and deletion trials.
         If 2, write only grand canonical ensemble insertion trials
         If 3, wirte only Gibbs particle transfer trials.
-    :param int reference_index:
-        The index of the reference potential to be used for dual-cut configurational bias.
-        If -1, do not use a reference potential.
+    :param str ref:
+        The name of the reference potential to be used for dual-cut configurational bias.
+        If empty, do not use a reference potential.
     :param int num_steps:
         The number of steps to be used for (dual-cut) configurational bias.
     :param float base_weight:
         The weight used for determining the probability of attempting a trial.
     :param int conf:
-        The configuration index for the trial (see System).
+        The configuration name for the trial (see System).
     :param int conf2:
-        The second configuration index for the trial used with gibbs transfers only.
+        The second configuration name for the trial used with gibbs transfers only.
     :param int particle_type:
         Type of particle in configuration.
     :param bool angle:
@@ -483,7 +483,7 @@ def write_linear_grow_file(filename, num_sites=None, gce=0, reference_index=0, n
     Reptations has been disabled because there is an issue with them.
 
     >>> from pyfeasst import fstio
-    >>> fstio.write_linear_grow_file("grow_grand_canonical.txt", num_sites=3, gce=1, reference_index=0, num_steps=4)
+    >>> fstio.write_linear_grow_file("grow_grand_canonical.txt", num_sites=3, gce=1, ref="noixn", num_steps=4)
     >>> with open('grow_grand_canonical.txt') as file1:
     ...     lines = file1.readlines()
     >>> lines[0]
@@ -491,21 +491,21 @@ def write_linear_grow_file(filename, num_sites=None, gce=0, reference_index=0, n
     >>> lines[1]
     '\\n'
     >>> lines[2]
-    'particle_type=0 weight=1 transfer=true site=2 num_steps=4 reference_index=0\\n'
-    >>> fstio.write_linear_grow_file("grow_grand_canonical.txt", gce=1, reference_index=0, num_steps=4, particle_file='../../../particle/spce_new.txt')
+    'particle_type=0 weight=1 transfer=true site=2 num_steps=4 ref=noixn\\n'
+    >>> fstio.write_linear_grow_file("grow_grand_canonical.txt", gce=1, ref="dccb", num_steps=4, particle_file='../../../particle/spce_new.txt')
     >>> with open('grow_grand_canonical.txt') as file1:
     ...     lines = file1.readlines()
     >>> lines[2]
-    'particle_type=0 weight=1 transfer=true site=H2 num_steps=4 reference_index=0\\n'
+    'particle_type=0 weight=1 transfer=true site=H2 num_steps=4 ref=dccb\\n'
     """
-    descript = {'reference_index':'', 'num_steps':'', 'weight':base_weight, 'conf':'',
+    descript = {'ref':'', 'num_steps':'', 'weight':base_weight, 'conf':'',
                 'particle_type':particle_type, 'conf2':conf2, 'rept_weight':base_weight/4.}
-    if reference_index >= 0:
-        descript['reference_index'] = ' reference_index='+str(reference_index)
+    if ref != "":
+        descript['ref'] = ' ref='+str(ref)
     if num_steps > 1:
         descript['num_steps'] = ' num_steps='+str(num_steps)
-    if conf > 0:
-        descript['conf'] = ' configuration_index='+str(conf)
+    if conf != 0:
+        descript['conf'] = ' config='+str(conf)
     site_names = list()
     if particle_file != None:
         if num_sites == None:
@@ -551,11 +551,11 @@ def write_linear_grow_file(filename, num_sites=None, gce=0, reference_index=0, n
                     if trial_type == 1 and gce > 0:
                         if site == 0:
                             if gce == 3:
-                                file1.write("""particle_type={particle_type}{conf} configuration_index2={conf2} weight={weight} gibbs_transfer=true site={site0}{num_steps}{reference_index} print_num_accepted=true\n""".format(**descript))
+                                file1.write("""particle_type={particle_type}{conf} config2={conf2} weight={weight} gibbs_transfer=true site={site0}{num_steps}{ref} print_num_accepted=true\n""".format(**descript))
                             elif gce == 2:
-                                file1.write("""particle_type={particle_type} weight={weight} add=true site={site0}{num_steps}{reference_index}{conf}\n""".format(**descript))
+                                file1.write("""particle_type={particle_type} weight={weight} add=true site={site0}{num_steps}{ref}{conf}\n""".format(**descript))
                             elif gce == 1:
-                                file1.write("""particle_type={particle_type} weight={weight} transfer=true site={site0}{num_steps}{reference_index}{conf}\n""".format(**descript))
+                                file1.write("""particle_type={particle_type} weight={weight} transfer=true site={site0}{num_steps}{ref}{conf}\n""".format(**descript))
                             wrote = True
                         elif site == 1:
                             wrote = write_bond_('bond', file1, descript)
@@ -591,7 +591,7 @@ def write_linear_grow_file(filename, num_sites=None, gce=0, reference_index=0, n
 #                        else:
 #                            if site == 0:
 #                                file1.write("""particle_type {particle_type} weight {rept_weight}{conf} """.format(**descript))
-#                            file1.write("""reptate true mobile_site {site0} anchor_site {site1}{reference_index}\n""".format(**descript))
+#                            file1.write("""reptate true mobile_site {site0} anchor_site {site1}{ref}\n""".format(**descript))
 #                            wrote = True
 
                     # partial regrow

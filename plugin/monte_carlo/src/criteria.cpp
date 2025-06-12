@@ -3,6 +3,7 @@
 #include "utils/include/serialize_extra.h"
 #include "utils/include/io.h"
 #include "math/include/constants.h"
+#include "configuration/include/configuration.h"
 #include "system/include/visit_model.h"
 #include "system/include/potential.h"
 #include "system/include/model.h"
@@ -78,8 +79,9 @@ std::string Criteria::status_header(const System& system,
   }
   std::string append = "";
   for (int iconf = 0; iconf < system.num_configurations(); ++iconf) {
+    const std::string cname = system.configuration(iconf).name();
     if (system.num_configurations() > 1) {
-      append = "_config" + str(iconf);
+      append = "_" + cname;
     }
     ss << ",energy" << append;
     for (int i = 0; i < static_cast<int>(current_energy_profile().size()); ++i) {
@@ -93,7 +95,7 @@ std::string Criteria::status_header(const System& system,
     if (include_bonds) {
       std::string append = "";
       if (system.num_configurations() > 1) {
-        append = "_config" + str(iconf);
+        append = "_" + cname;
       }
       ss << ",BondTwoBody" << append <<
             ",BondThreeBody" << append <<

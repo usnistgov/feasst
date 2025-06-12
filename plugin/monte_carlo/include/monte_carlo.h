@@ -110,7 +110,7 @@ class MonteCarlo {
   const Configuration& configuration(const int index = 0) const;
 
   /// The second action is to add Potentials.
-  void add(std::shared_ptr<Potential> potential, const int config = 0);
+  void add(std::shared_ptr<Potential> potential);
 
   /// Warning for deprecated use.
   void add(const Potential& potential);
@@ -125,8 +125,8 @@ class MonteCarlo {
   /// Add potential to reference.
   void add_to_reference(std::shared_ptr<Potential> potential,
     /// Store different references by index.
-    const int index = 0,
-    const int config = 0);
+    int index = 0,
+    const std::string name = "");
 
   /// Add NeighborCriteria.
   void add(std::shared_ptr<NeighborCriteria> neighbor_criteria,
@@ -390,7 +390,7 @@ class MonteCarlo {
 
   void record_next_arg_(arglist * args);
   bool duplicate_stepper_output_file_(const std::string output_file);
-  void potential_check_(const Potential& pot, const int config);
+  void potential_check_(const Potential& pot);
 };
 
 inline std::shared_ptr<MonteCarlo> MakeMonteCarlo() {

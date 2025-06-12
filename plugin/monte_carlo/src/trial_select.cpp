@@ -29,7 +29,11 @@ TrialSelect::TrialSelect(argtype * args) {
 
   // parse particle type and group index from args.
   particle_type_ = -1;
+//  if (used("configuration_index", *args)) {
+//    WARN("Deprecated TrialSelect::configuration_index->config (see Configuration::name)");
+//  }
   configuration_index_ = integer("configuration_index", args, 0);
+  config_ = str("config", args, "");
   group_index_ = 0;
   if (used("particle_type", *args)) {
     particle_type_name_ = str("particle_type", args);
@@ -57,6 +61,9 @@ int TrialSelect::particle_type() const {
 }
 
 void TrialSelect::precompute(System * system) {
+  if (!config_.empty()) {
+    configuration_index_ = system->configuration_index(config_);
+  }
   aniso_index_ = system->configuration().model_params().index("anisotropic");
   DEBUG("is_particle_type_set_ " << is_particle_type_set_);
   if (!particle_type_name_.empty()) {
@@ -111,7 +118,7 @@ std::shared_ptr<TrialSelect> TrialSelect::deserialize(std::istream& istr) {
 }
 
 void TrialSelect::serialize_trial_select_(std::ostream& ostr) const {
-  feasst_serialize_version(276, ostr);
+  feasst_serialize_version(277, ostr);
   feasst_serialize(mobile_original_, ostr);
   feasst_serialize(mobile_, ostr);
   feasst_serialize(anchor_, ostr);
@@ -120,6 +127,7 @@ void TrialSelect::serialize_trial_select_(std::ostream& ostr) const {
   feasst_serialize(particle_type_, ostr);
   feasst_serialize(particle_type_name_, ostr);
   feasst_serialize(configuration_index_, ostr);
+  feasst_serialize(config_, ostr);
   feasst_serialize(is_particle_type_set_, ostr);
   feasst_serialize(is_ghost_, ostr);
   feasst_serialize(properties_, ostr);
@@ -129,7 +137,7 @@ void TrialSelect::serialize_trial_select_(std::ostream& ostr) const {
 TrialSelect::TrialSelect(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 273 && version <= 276, "mismatch version: " << version);
+  ASSERT(version >= 273 && version <= 277, "mismatch version: " << version);
 //  feasst_deserialize(mobile_original_, istr);
 // HWH for unknown reasons, this function template does not work.
   {
@@ -167,6 +175,9 @@ TrialSelect::TrialSelect(std::istream& istr) {
   }
   if (version >= 274) {
     feasst_deserialize(&configuration_index_, istr);
+  }
+  if (version >= 277) {
+    feasst_deserialize(&config_, istr);
   }
   feasst_deserialize(&is_particle_type_set_, istr);
   feasst_deserialize(&is_ghost_, istr);
@@ -228,19 +239,24 @@ bool TrialSelect::select(
 
 const EnergyMap& TrialSelect::map_(const System& system,
     const int neighbor_index) const {
-  const int num_neigh = static_cast<int>(system.neighbor_criteria(configuration_index()).size());
+  const int iconf = configuration_index();
+  const int num_neigh = static_cast<int>(system.neighbor_criteria(iconf).size());
   ASSERT(num_neigh > neighbor_index,
     "With " << num_neigh << " NeighborCriteria added to system, the index "
     << neighbor_index << " is out of range.");
   const NeighborCriteria& neighbor_criteria =
-    system.neighbor_criteria(neighbor_index, configuration_index());
-  DEBUG("ref potential " << neighbor_criteria.reference_potential());
-  if (neighbor_criteria.reference_potential() == -1) {
-    return system.potentials().potential(neighbor_criteria.potential_index()).visit_model().inner().energy_map();
+    system.neighbor_criteria(neighbor_index, iconf);
+  int iref = neighbor_criteria.reference_potential();
+  // HWH optimize by adding to NeighborCriteria.name_to_index given config names or other precompute
+  if (!neighbor_criteria.ref().empty()) {
+    iref = system.reference_index(iconf, neighbor_criteria.ref());
   }
-  const Potential& ref = system.reference(
-    neighbor_criteria.reference_potential(),
-    neighbor_criteria.potential_index());
+  const int ipot = neighbor_criteria.potential_index();
+  DEBUG("iref:" << iref);
+  if (iref == -1) {
+    return system.potentials().potential(ipot).visit_model().inner().energy_map();
+  }
+  const Potential& ref = system.reference(iref, ipot);
   return ref.visit_model().inner().energy_map();
 }
 
@@ -290,6 +306,10 @@ bool TrialSelect::are_constraints_satisfied(const int old,
 
 void TrialSelect::set_configuration_index(const int config) {
   configuration_index_ = config;
+}
+
+void TrialSelect::set_config(const std::string& config) {
+  config_ = config;
 }
 
 const Configuration& TrialSelect::configuration(const System& system) const {

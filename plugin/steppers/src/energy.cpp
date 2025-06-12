@@ -15,6 +15,7 @@ Energy::Energy(argtype args) : Energy(&args) {
 }
 
 void Energy::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   printer(header(*mc), output_file(mc->criteria()));
 }
 

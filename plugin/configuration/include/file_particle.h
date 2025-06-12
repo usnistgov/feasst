@@ -12,7 +12,7 @@ namespace feasst {
  */
 class FileParticle {
  public:
-  /// Create a particle from the LAMMPS-inspired fstprt file format.
+  /// Create a particle from the FEASST particle file format.
   Particle read(const std::string file_name);
 
   /// Read pair properties from file and assign properties to particle

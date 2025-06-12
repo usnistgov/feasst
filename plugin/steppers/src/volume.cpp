@@ -16,6 +16,7 @@ Volume::Volume(argtype args) : Volume(&args) {
 }
 
 void Volume::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   printer(header(*mc), output_file(mc->criteria()));
 }
 

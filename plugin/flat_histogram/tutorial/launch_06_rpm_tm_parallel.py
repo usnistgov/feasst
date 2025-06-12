@@ -85,7 +85,7 @@ RandomMT19937 seed={seed}
 Configuration cubic_side_length={cubic_side_length} particle_type=rpm+:{plus},rpm-:{minus} cutoff=4.891304347826090 chargeRPM+={charge_plus} chargeRPM-={charge_minus}
 Potential VisitModel=Ewald alpha={alpha} kmax_squared=38
 Potential Model=ModelTwoBodyFactory model0=HardSphere model1=ChargeScreened erfc_table_size=2e4
-RefPotential Model=HardSphere VisitModel=VisitModelCell min_length={dccb_cut}
+RefPotential Model=HardSphere VisitModel=VisitModelCell min_length={dccb_cut} ref=dccb
 Potential Model=ChargeSelf
 ThermoParams beta={beta} chemical_potential={mu},{mu}
 Metropolis
@@ -94,7 +94,7 @@ CheckEnergy trials_per_update={tpc} decimal_places=4
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # gcmc initialization and nvt equilibration
-TrialAddMultiple particle_types=rpm+,rpm- reference_index=0
+TrialAddMultiple particle_types=rpm+,rpm- ref=dccb
 Let [write]=trials_per_write={tpc} output_file={prefix}n{node}s{sim:03d}
 Log [write]_eq.csv
 Tune
@@ -107,7 +107,7 @@ Remove name=Tune,Log
 # gcmc tm production
 FlatHistogram Macrostate=MacrostateNumParticles width=1 max={max_particles} min={min_particles} particle_type=rpm+ \
     Bias=WLTM min_sweeps={min_sweeps} min_flatness=25 collect_flatness=20 min_collect_sweeps=1
-TrialTransferMultiple weight=2 particle_types=rpm+,rpm- reference_index=0 num_steps=8
+TrialTransferMultiple weight=2 particle_types=rpm+,rpm- ref=dccb num_steps=8
 Log [write].csv
 Movie [write]_eq.xyz stop_after_cycle=1
 Movie [write].xyz start_after_cycle=1

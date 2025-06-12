@@ -31,11 +31,11 @@ def parse():
 WriteModelParams output_file={prefix}_model_params.txt
 NeighborCriteria energy_maximum=-0.5 site_type0=A site_type1=A
 Potential EnergyMap=EnergyMapNeighborCriteria neighbor_index=0 Model=LennardJonesForceShift
-RefPotential Model=LennardJonesForceShift cutoff={rwca} VisitModel=VisitModelCell min_length={rwca}""".format(**params)
+RefPotential Model=LennardJonesForceShift cutoff={rwca} VisitModel=VisitModelCell min_length={rwca} ref=dccb""".format(**params)
     params['nvt_trials'] = """TrialTranslate weight=1 tunable_param=0.2
 TrialParticlePivot weight=0.5 tunable_param=0.2 particle_type=trimer
 TrialRigidCluster weight={trial_rigid_cluster_weight} neighbor_index=0""".format(**params)
-    params['muvt_trials'] = "TrialTransfer weight=2 particle_type=trimer reference_index=0 num_steps=8"
+    params['muvt_trials'] = "TrialTransfer weight=2 particle_type=trimer ref=dccb num_steps=8"
     params['init_trials'] = "TrialAdd particle_type=trimer"
     return params, args
 

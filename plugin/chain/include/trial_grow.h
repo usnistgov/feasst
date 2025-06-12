@@ -21,7 +21,7 @@ typedef std::map<std::string, std::string> argtype;
   - transfer: if true, create add and remove trial with equal weight
     (default: false).
   - gibbs_transfer: if true, create two trials which transfer particles between
-    configuration_index and configuration_index2 (default: false).
+    config and config2 Configuration names (default: false).
   - regrow: if true, place anywhere in the domain (default: false).
   - transfer_avb: if true, same as transfer but with TrialAddAVB/TrialRemoveAVB
     for the first stage (default: false).
@@ -35,7 +35,7 @@ typedef std::map<std::string, std::string> argtype;
   - add_avb: if true, create an avb add trial (default: false).
   - remove_avb: if true, create an avb remove trial (default: false).
   - default_num_steps: optional default number of steps for all stages.
-  - default_reference_index: optional default reference index for all stages.
+  - default_ref: optional default reference name for all stages.
   - default_new_only: optional default new only for all stages.
 
   The following options may be used in any argtype.
@@ -60,7 +60,7 @@ typedef std::map<std::string, std::string> argtype;
     Requires arguments described in TrialSelectBond.
   - rigid_body_angle: if true, add TrialSelectAngle and PerturbDistanceAngleConnector.
     Requires arguments described in TrialSelectAngle.
-  - TrialStage arguments: num_steps, reference_index, new_only, etc.
+  - TrialStage arguments: num_steps, ref, new_only, etc.
 
   Note that only one of bond, angle or branch may be true for a given stage.
 

@@ -16,7 +16,7 @@ class ZeroBackground : public Action {
  public:
   //@{
   /** @name Arguments
-    - configuration_index: index of configuration potential (default: 0).
+    - config: name of Configuration (default: 0).
    */
   explicit ZeroBackground(argtype args = argtype());
   explicit ZeroBackground(argtype * args);
@@ -37,6 +37,7 @@ class ZeroBackground : public Action {
 
   //@}
  private:
+  std::string config_;
   int configuration_index_;
 };
 

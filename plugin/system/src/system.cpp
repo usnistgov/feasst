@@ -15,6 +15,22 @@
 namespace feasst {
 
 void System::add(std::shared_ptr<Configuration> configuration) {
+  // rename configuration to a unique name
+  for (auto conf : configurations_) {
+    while (configuration->name() == conf->name()) {
+      std::string new_name;
+      try {
+        int index = std::stoi(configuration->name());
+        new_name = std::to_string(index + 1);
+      } catch (...) {
+        new_name = configuration->name() + "-";
+      }
+      WARN("Renaming Configuration:" << configuration->name() << " to:" <<
+        new_name << " to find a unique name for each Configuration.");
+      configuration->set_name(new_name);
+    }
+  }
+
   configurations_.push_back(configuration);
   bonds_.push_back(std::make_shared<BondVisitor>());
   unoptimized_.push_back(PotentialFactory());
@@ -67,8 +83,37 @@ PotentialFactory * System::reference_(const int index, const int config) {
   return &references_[config][index];
 }
 
-void System::add_to_reference(std::shared_ptr<Potential> ref, const int index,
-    const int config) {
+int System::reference_index(const int config, const std::string& name) const {
+  const int index = reference_index_(config, name);
+  ASSERT(index != num_references(config), "Could not find a RefPotential " <<
+    "with the name:" << name << " in config:" << config);
+  return index;
+}
+
+int System::reference_index_(const int config, const std::string& name) const {
+  if (config < static_cast<int>(references_.size())) {
+    for (int iref = 0; iref < static_cast<int>(references_[config].size()); ++iref) {
+      if (references_[config][iref].user_name() == name) {
+        return iref;
+      }
+    }
+  }
+  return num_references(config);
+}
+
+void System::add_to_reference(std::shared_ptr<Potential> ref, int index,
+    std::string name) {
+  DEBUG("adding ref with index:"<< index << " and name:" << name);
+  if (!ref->config().empty()) {
+    ref->set_configuration_index(configuration_index(ref->config()));
+  }
+  const int config = ref->configuration_index();
+  if (name.empty()) {
+    name = std::to_string(index);
+  } else {
+    index = reference_index_(config, name);
+  }
+  DEBUG("index:"<<index<<" name:"<<name<<" config:"<<config);
   if (config == static_cast<int>(references_.size())) {
     references_.push_back(std::vector<PotentialFactory>());
   } else if (index > static_cast<int>(references_.size())) {
@@ -76,6 +121,7 @@ void System::add_to_reference(std::shared_ptr<Potential> ref, const int index,
   }
   if (index == static_cast<int>(references_[config].size())) {
     references_[config].push_back(PotentialFactory());
+    references_[config].back().set_user_name(name);
   } else if (index > static_cast<int>(references_[config].size())) {
     FATAL("references must be added in order");
   }
@@ -326,7 +372,7 @@ std::string System::status_header() const {
   } else {
     for (int iconf = 0; iconf < num_configurations(); ++iconf) {
       const Configuration& config = *configurations_[iconf];
-      ss << config.status_header("_config" + str(iconf));
+      ss << config.status_header("_" + config.name());
     }
   }
   ss << ",beta";
@@ -464,6 +510,32 @@ double System::initialize(const int config) {
     reference_energy(ref, config);
   }
   return en;
+}
+
+int System::configuration_index(const std::string& name) const {
+  for (int ci = 0; ci < num_configurations(); ++ci) {
+    const Configuration& conf = *configurations_[ci];
+    if (name == conf.name()) {
+      return ci;
+    }
+  }
+  FATAL("Unrecognized Configuration name:" << name);
+}
+
+void System::add(std::shared_ptr<Potential> potential) {
+  if (!potential->config().empty()) {
+    // assign Configuration index based on name
+    potential->set_configuration_index(configuration_index(potential->config()));
+  }
+  add_to_unoptimized(potential, potential->configuration_index());
+}
+
+const Configuration& System::configuration(const std::string& name) const {
+  return *configurations_[configuration_index(name)];
+}
+
+Configuration * System::configuration(const std::string& name) {
+  return configurations_[configuration_index(name)].get();
 }
 
 }  // namespace feasst

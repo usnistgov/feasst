@@ -54,6 +54,7 @@ AnalyzeBonds::AnalyzeBonds(std::istream& istr) : Analyze(istr) {
 }
 
 void AnalyzeBonds::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   DEBUG("initializing AnalyzeBonds");
   const Configuration& config = mc->system().configuration();
   for (int btype = 0; btype < config.num_bond_types(); ++btype) {

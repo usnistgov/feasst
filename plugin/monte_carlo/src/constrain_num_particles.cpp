@@ -18,7 +18,11 @@ ConstrainNumParticles::ConstrainNumParticles(argtype * args) : Constraint() {
   minimum_ = integer("minimum", args, 0);
   type_name_ = str("type", args, "");
   type_ = -2; // initialize if -2
+  if (used("configuration_index", *args)) {
+    WARN("Deprecated RefPotential::configuration_index->config (see Configuration::name)");
+  }
   configuration_index_ = integer("configuration_index", args, 0);
+  config_ = str("config", args, "");
 }
 ConstrainNumParticles::ConstrainNumParticles(argtype args) : ConstrainNumParticles(&args) {
   feasst_check_all_used(args);
@@ -26,6 +30,11 @@ ConstrainNumParticles::ConstrainNumParticles(argtype args) : ConstrainNumParticl
 
 int ConstrainNumParticles::num_particles(const System& system,
     const Acceptance& acceptance) {
+  if (!config_.empty()) {
+    if (!config_set_) {
+      configuration_index_ = system.configuration_index(config_);
+    }
+  }
   const int shift = acceptance.macrostate_shift();
   const Configuration& conf = system.configuration(configuration_index_);
   if (type_ == -2) {
@@ -70,7 +79,7 @@ ConstrainNumParticles::ConstrainNumParticles(std::istream& istr)
   : Constraint(istr) {
   // ASSERT(class_name_ == "ConstrainNumParticles", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 2492 && version <= 2493, "mismatch version: " << version);
+  ASSERT(version >= 2492 && version <= 2494, "mismatch version: " << version);
   feasst_deserialize(&maximum_, istr);
   feasst_deserialize(&minimum_, istr);
   feasst_deserialize(&type_, istr);
@@ -78,17 +87,21 @@ ConstrainNumParticles::ConstrainNumParticles(std::istream& istr)
     feasst_deserialize(&type_name_, istr);
     feasst_deserialize(&configuration_index_, istr);
   }
+  if (version >= 2494) {
+    feasst_deserialize(&config_, istr);
+  }
 }
 
 void ConstrainNumParticles::serialize_constrain_num_particles_(
     std::ostream& ostr) const {
   serialize_constraint_(ostr);
-  feasst_serialize_version(2493, ostr);
+  feasst_serialize_version(2494, ostr);
   feasst_serialize(maximum_, ostr);
   feasst_serialize(minimum_, ostr);
   feasst_serialize(type_, ostr);
   feasst_serialize(type_name_, ostr);
   feasst_serialize(configuration_index_, ostr);
+  feasst_serialize(config_, ostr);
 }
 
 void ConstrainNumParticles::serialize(std::ostream& ostr) const {

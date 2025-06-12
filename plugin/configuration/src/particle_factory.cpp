@@ -416,8 +416,13 @@ void ParticleFactory::set_model_param(const std::string name,
 }
 
 void ParticleFactory::set_model_param(const std::string name,
-                                      const std::string filename) {
-  model_params_->set(name, filename);
+    const std::string filename, std::vector<std::string> * site_type_names) {
+  model_params_->set(name, filename, site_type_names);
+}
+
+void ParticleFactory::set_model_param(const std::string filename,
+    std::vector<std::string> * site_type_names) {
+  model_params_->set(filename, site_type_names);
 }
 
 void ParticleFactory::add_model_param(const std::string name,

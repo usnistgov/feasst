@@ -32,7 +32,7 @@ class TrialSelect {
     - group_index: index of group defined within system (default: 0).
     - group: name of group defined within system (default: "").
     - particle_type: particle type name in Configuration (default: not set)
-    - configuration_index: index of configuration (default: 0).
+    - config: name of Configuration (default: 0)
    */
   explicit TrialSelect(argtype args = argtype());
   explicit TrialSelect(argtype * args);
@@ -62,6 +62,12 @@ class TrialSelect {
 
   /// Set the configuration index.
   void set_configuration_index(const int config);
+
+  /// Set the config name.
+  void set_config(const std::string& config);
+
+  /// Return the config name.
+  const std::string& config() { return config_; }
 
   /// Perform upkeep before select.
   void before_select();
@@ -196,6 +202,7 @@ class TrialSelect {
   int particle_type_;
   std::string particle_type_name_;
   int configuration_index_;
+  std::string config_;
   bool is_particle_type_set_ = false;
   bool is_ghost_;
   std::shared_ptr<Properties> properties_;

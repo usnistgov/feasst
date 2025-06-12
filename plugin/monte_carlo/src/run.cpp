@@ -3,6 +3,7 @@
 #include "utils/include/debug.h"
 #include "utils/include/timer.h"
 #include "math/include/utils_math.h"
+#include "system/include/system.h"
 #include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/run.h"
 #include "monte_carlo/include/monte_carlo.h"
@@ -12,7 +13,11 @@ namespace feasst {
 Run::Run(argtype * args) {
   num_trials_ = integer("num_trials", args, -1);
   until_num_particles_ = integer("until_num_particles", args, -1);
+  if (used("configuration_index", *args)) {
+    WARN("Deprecated Run::configuration_index->config (see Configuration::name)");
+  }
   configuration_index_ = integer("configuration_index", args, 0);
+  config_ = str("config", args, "");
   particle_type_ = str("particle_type", args, "");
   for_hours_ = dble("for_hours", args, -1);
   until_criteria_complete_ = boolean("until_criteria_complete", args, false);
@@ -31,11 +36,14 @@ FEASST_MAPPER(Run,);
 
 Run::Run(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 3854 && version <= 3856, "mismatch version: " << version);
+  ASSERT(version >= 3854 && version <= 3857, "mismatch version: " << version);
   feasst_deserialize(&num_trials_, istr);
   feasst_deserialize(&until_num_particles_, istr);
   if (version >= 3855) {
     feasst_deserialize(&configuration_index_, istr);
+  }
+  if (version >= 3857) {
+    feasst_deserialize(&config_, istr);
   }
   feasst_deserialize(&particle_type_, istr);
   feasst_deserialize(&for_hours_, istr);
@@ -49,10 +57,11 @@ Run::Run(std::istream& istr) : Action(istr) {
 void Run::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_action_(ostr);
-  feasst_serialize_version(3856, ostr);
+  feasst_serialize_version(3857, ostr);
   feasst_serialize(num_trials_, ostr);
   feasst_serialize(until_num_particles_, ostr);
   feasst_serialize(configuration_index_, ostr);
+  feasst_serialize(config_, ostr);
   feasst_serialize(particle_type_, ostr);
   feasst_serialize(for_hours_, ostr);
   feasst_serialize(until_criteria_complete_, ostr);
@@ -61,6 +70,9 @@ void Run::serialize(std::ostream& ostr) const {
 }
 
 void Run::run(MonteCarlo * mc) {
+  if (!config_.empty()) {
+    configuration_index_ = mc->system().configuration_index(config_);
+  }
   mc->run_num_trials(num_trials_);
   mc->run_until_num_particles(until_num_particles_,
                               particle_type_,

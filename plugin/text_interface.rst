@@ -349,6 +349,8 @@ v0.25.12 to v0.25.13
 -----------------------
 
 * FEASST particle (fstprt) files now use strings instead of integers to represent sites, bonds, angles and dihedrals. Previous use of integers is still backwards compatible.
+* Deprecated configuration_index->config in RefPotential,Potential,Stepper,TrialSelect,Run,ZeroBackground,TrialGibbs[Particle,Volume]Transfer(csv)
+* Deprecated reference_index->ref in NeighborCriteria,RefPotential,TrialStage,WriteModelParams
 * Copy[Following,Next]Line::replace0/with0 deprecated. Use For.
 * Configuration::[parameter][i][j] replace with site type names
 * Configuration::particle_type,group csv

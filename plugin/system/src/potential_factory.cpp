@@ -95,14 +95,15 @@ void PotentialFactory::finalize(const Select& select, Configuration * config) {
 }
 
 void PotentialFactory::serialize(std::ostream& sstr) const {
-  feasst_serialize_version(8655, sstr);
+  feasst_serialize_version(8656, sstr);
   feasst_serialize(potentials_, sstr);
   feasst_serialize(opt_overlap_, sstr);
+  feasst_serialize(user_name_, sstr);
 }
 
 PotentialFactory::PotentialFactory(std::istream& sstr) {
   const int version = feasst_deserialize_version(sstr);
-  ASSERT(version == 8655, "unrecognized verison: " << version);
+  ASSERT(version >= 8655 && version <= 8656, "unrecognized verison: " << version);
   // HWH for unknown reasons, this does not work
   // feasst_deserialize(&potentials_, sstr);
   int dim1;
@@ -116,6 +117,9 @@ PotentialFactory::PotentialFactory(std::istream& sstr) {
     }
   }
   feasst_deserialize(&opt_overlap_, sstr);
+  if (version <= 8656) {
+    feasst_deserialize(&user_name_, sstr);
+  }
 }
 
 void PotentialFactory::load_cache(const bool load) {

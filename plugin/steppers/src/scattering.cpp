@@ -24,6 +24,7 @@ Scattering::Scattering(argtype args) : Scattering(&args) {
 }
 
 void Scattering::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   const Configuration& config = configuration(mc->system());
   ASSERT(config.dimension() == 3, "only implemented for 3d.");
   ASSERT(!config.domain().is_tilted(), "not implemented for tilted domains.");

@@ -130,7 +130,7 @@ def splice(prefix, suffix, extra_overlap=0):
     """
     frames = list()
     first = True
-    for filename in Path('.').rglob(prefix+'*'+suffix):
+    for filename in sorted(Path('.').rglob(prefix+'*'+suffix)):
         df = pd.read_csv(filename)
         if not first:
             df.drop(df.head(1 + extra_overlap).index, inplace=True)

@@ -164,17 +164,28 @@ Configuration::Configuration(argtype * args) {
       if (args->size() != 0) {
         std::string param_arg = param + "_mixing_file";
         if (used(param_arg, *args)) {
+          WARN("Deprecated argument [parameter]_mixing_file. " <<
+            "Use mixing_file instead.");
           DEBUG("param " << param << " param_arg " << param_arg);
-          set_model_param(param, feasst::str(param_arg, args));
+          std::vector<std::string> names;
+          site_type_names(&names);
+          set_model_param(param, feasst::str(param_arg, args), &names);
         }
       }
     }
+  }
+  const std::string model_param_file = feasst::str("model_param_file", args, "");
+  if (!model_param_file.empty()) {
+    std::vector<std::string> names;
+    site_type_names(&names);
+    set_model_param(model_param_file, &names);
   }
 
   // Set after param overrides
   if (boolean("set_cutoff_min_to_sigma", args, false)) {
     unique_types_->set_cutoff_min_to_sigma();
   }
+  name_ = feasst::str("name", args, "0");
 }
 
 void Configuration::add_particle_type(const std::string file_name,
@@ -818,7 +829,7 @@ std::string Configuration::status() const {
 }
 
 void Configuration::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(7199, ostr);
+  feasst_serialize_version(7200, ostr);
   feasst_serialize(std::string(FEASST_VERSION), ostr);
   feasst_serialize(particle_types_, ostr);
   feasst_serialize(unique_types_, ostr);
@@ -833,6 +844,7 @@ void Configuration::serialize(std::ostream& ostr) const {
   feasst_serialize(wrap_, ostr);
   feasst_serialize(num_cell_lists_, ostr);
   feasst_serialize(neighbor_criteria_, ostr);
+  feasst_serialize(name_, ostr);
   feasst_serialize_endcap("Configuration", ostr);
   DEBUG("size: " << ostr.tellp());
 }
@@ -923,6 +935,9 @@ Configuration::Configuration(std::istream& istr) {
         neighbor_criteria_[index] = std::make_shared<NeighborCriteria>(istr);
       }
     }
+  }
+  if (config_version >= 7200) {
+    feasst_deserialize(&name_, istr);
   }
   feasst_deserialize_endcap("Configuration", istr);
 }
@@ -1140,8 +1155,13 @@ void Configuration::set_model_param(const std::string name,
   unique_types_->set_model_param(name, site_type1, site_type2, value); }
 
 void Configuration::set_model_param(const std::string name,
-                                    const std::string filename) {
-  unique_types_->set_model_param(name, filename); }
+                                    const std::string filename,
+                                    std::vector<std::string> * site_type_names) {
+  unique_types_->set_model_param(name, filename, site_type_names); }
+
+void Configuration::set_model_param(const std::string filename,
+                                    std::vector<std::string> * site_type_names) {
+  unique_types_->set_model_param(filename, site_type_names); }
 
 void Configuration::add_model_param(const std::string name,
                      const double value) {
@@ -1280,6 +1300,13 @@ int Configuration::particle_name_to_type(const std::string& name) const {
 
 const std::string& Configuration::particle_type_to_name(const int ptype) const {
   return unique_types_->index_to_name(ptype);
+}
+
+void Configuration::site_type_names(std::vector<std::string> * names) const {
+  names->resize(num_site_types());
+  for (int stype = 0; stype < num_site_types(); ++stype) {
+    (*names)[stype] = site_type_to_name(stype);
+  }
 }
 
 }  // namespace feasst

@@ -115,10 +115,11 @@ def write_feasst_script(params, script_file):
 MonteCarlo
 RandomMT19937 seed={seed}
 Configuration cubic_side_length={cubic_side_length} particle_type=pt1:{particle_type1},pt2:{particle_type2} \
-    sigmaCO2_N=2.9216 epsilonCO2_N=121.5 mie_lambda_rCO2_N=20.27 mie_lambda_aCO2_N=5.48294
+    model_param_file=/feasst/particle/mie_model_parameters.txt
+WriteModelParams output_file={prefix}{sim:03d}_model_params.txt
 Potential Model=Mie table_size=1e4
 Potential VisitModel=LongRangeCorrections
-RefPotential VisitModel=DontVisitModel
+RefPotential VisitModel=DontVisitModel ref=noixn
 ThermoParams beta={beta_init} chemical_potential={mu1},{mu2}
 Metropolis
 For [pt]=pt1,pt2
@@ -126,8 +127,8 @@ For [pt]=pt1,pt2
     TrialParticlePivot weight_per_number_fraction=0.5 particle_type=[pt] tunable_param=0.5
 EndFor
 # The following semigrand particle type changes only help sampling if the excluded volumes of the two particles are similar (and particles are rigid)
-TrialMorph weight=0.5 particle_type=pt1 particle_type_morph=pt2 reference_index=0
-TrialMorph weight=0.5 particle_type=pt2 particle_type_morph=pt1 reference_index=0
+TrialMorph weight=0.5 particle_type=pt1 particle_type_morph=pt2 ref=noixn
+TrialMorph weight=0.5 particle_type=pt2 particle_type_morph=pt1 ref=noixn
 CheckEnergy trials_per_update={tpc} decimal_places=4
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
@@ -201,8 +202,7 @@ def post_process(params):
             assert np.abs(num0 - 14.8) < 4
         else:
             assert np.abs(n_gce - 183.8) < 4
-            assert np.abs(num0 - 145) < 8
-            #assert np.abs(num0 - 172.8) < 4
+            assert np.abs(num0 - 172.8) < 4
         #plt.plot(phase.dataframe()['num0_average'])
         #plt.show()
         print('mole frac0', num0/n_gce)

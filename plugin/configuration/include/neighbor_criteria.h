@@ -23,8 +23,7 @@ class NeighborCriteria {
  public:
   //@{
   /** @name Arguments
-    - reference_potential: index of reference potentials (default: -1).
-      If -1, use full potentials.
+    - ref: name of RefPotential. If empty, use Potential (default: empty)
     - potential_index: index of potential for pair interaction (default: 0).
     - energy_maximum: maximum energy to be in cluster (default: largest double precision).
     - minimum_distance: minimum separation distance (default: 0).
@@ -52,7 +51,8 @@ class NeighborCriteria {
   /// Otherwise, assumes name is index (and index is -1 if stoi fails).
   void name_to_index(const ParticleFactory& unique_types);
 
-  int reference_potential() const { return reference_potential_; }
+  int reference_potential() const;
+  const std::string& ref() const { return ref_; }
   int potential_index() const { return potential_index_; }
   double energy_maximum() const { return energy_maximum_; }
   double minimum_distance() const;
@@ -81,6 +81,7 @@ class NeighborCriteria {
   //@}
  private:
   int reference_potential_, potential_index_;
+  std::string ref_;
   double energy_maximum_, minimum_distance_sq_, maximum_distance_sq_;
   int site_type0_, site_type1_, site_type0_alt_, site_type1_alt_;
   std::string site_type0_name_, site_type1_name_;

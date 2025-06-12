@@ -62,16 +62,16 @@ def write_feasst_script(params, script_file):
 MonteCarlo
 RandomMT19937 seed={seed}
 # purposefully start with a bad volume guess to see if equilibration adjusts volume
-For [config]:[len]=0:16,1:8
-    Configuration cubic_side_length=[len] particle_type=fluid:{fstprt}
-    Potential Model=LennardJones configuration_index=[config]
-    Potential VisitModel=LongRangeCorrections configuration_index=[config]
-    RefPotential VisitModel=DontVisitModel configuration_index=[config]
+For [config]:[len]=vapor:16,liquid:8
+    Configuration name=[config] cubic_side_length=[len] particle_type=fluid:{fstprt}
+    Potential Model=LennardJones config=[config]
+    Potential VisitModel=LongRangeCorrections config=[config]
+    RefPotential VisitModel=DontVisitModel ref=noixn config=[config]
 EndFor
 ThermoParams beta={beta} chemical_potential=5
 Metropolis
-For [config]:[param]=0:2.0,1:0.1
-    TrialTranslate tunable_param=[param] configuration_index=[config]
+For [config]:[param]=vapor:2.0,liquid:0.1
+    TrialTranslate tunable_param=[param] config=[config]
 EndFor
 CheckEnergy trials_per_update={tpc} decimal_places=8
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
@@ -80,10 +80,10 @@ Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_che
 Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_fill.csv
 Tune
-For [config]:[num]=0:112,1:400
-    Movie [write]_c[config]_fill.xyz configuration_index=[config]
-    TrialAdd particle_type=fluid configuration_index=[config]
-    Run until_num_particles=[num] configuration_index=[config]
+For [config]:[num]=vapor:112,liquid:400
+    Movie [write]_[config]_fill.xyz config=[config]
+    TrialAdd particle_type=fluid config=[config]
+    Run until_num_particles=[num] config=[config]
     Remove name=TrialAdd,Movie
 EndFor
 
@@ -91,11 +91,11 @@ EndFor
 # start a very long run GibbsInitialize completes once targets are reached
 Metropolis trials_per_cycle=1e9 cycles_to_complete=1e9
 GibbsInitialize updates_density_equil={equil} updates_per_adjust={double_equil}
-TrialGibbsParticleTransfer weight=0.5 particle_type=fluid reference_index=0 print_num_accepted=true
-TrialGibbsVolumeTransfer weight=0.01 tunable_param=10. tunable_target_acceptance=0.5 reference_index=0 print_num_accepted=true
+TrialGibbsParticleTransfer weight=0.5 particle_type=fluid ref=noixn print_num_accepted=true configs=vapor,liquid
+TrialGibbsVolumeTransfer weight=0.01 tunable_param=10. tunable_target_acceptance=0.5 ref=noixn print_num_accepted=true configs=vapor,liquid
 Log [write]_eq.csv
-For [config]=0,1
-    Movie [write]_c[config]_eq.xyz configuration_index=[config]
+For [config]=vapor,liquid
+    Movie [write]_[config]_eq.xyz config=[config]
 EndFor
 ProfileCPU [write]_eq_profile.csv
 # a new tune is required when new Trials are introduced
@@ -108,8 +108,8 @@ Remove name=GibbsInitialize,Tune,Log,Movie,Movie,ProfileCPU
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
 Log [write].csv
 For [analyze]:[file]=Density:_dens.csv,Movie:.xyz,Energy:_en.csv,Volume:_vol.csv,ProfileCPU:_profile.csv,CPUTime:_cpu.csv
-    For [config]=0,1
-        [analyze] [write]_c[config][file] configuration_index=[config]
+    For [config]=vapor,liquid
+        [analyze] [write]_[config][file] config=[config]
     EndFor
 EndFor
 GhostTrialVolume [write]_pressure.csv trials_per_update=1e3
@@ -131,23 +131,23 @@ def post_process(params):
     #fh rhov_rhol_p = [[0.1003, 0.56329, 0.07721], [9.41E-06, 4.51E-05, 5.7E-06]] # T=1.2 srsw fh
     rhov_rhol_p = [[2.9556E-02, 7.0094E-01, 2.4950E-02], [3.45E-06, 6.31E-05, 1.67E-06]] # T=1 srsw fh
     #fh rhov_rhol_p = [[6.1007E-03, 0.79981, 0.0046465], [5.63E-07, 0.000013, 3.74e-7]] #T=0.8 srsw fh
-    compare("c0_dens", rhov_rhol_p[0][0], rhov_rhol_p[1][0], params)
-    compare("c1_dens", rhov_rhol_p[0][1], rhov_rhol_p[1][1], params)
+    compare("vapor_dens", rhov_rhol_p[0][0], rhov_rhol_p[1][0], params)
+    compare("liquid_dens", rhov_rhol_p[0][1], rhov_rhol_p[1][1], params)
     compare("pressure", rhov_rhol_p[0][2], rhov_rhol_p[1][2], params)
     #if True: # set to true to plot
     if False: # set to true to plot
         df = pd.read_csv('lj000_eq.csv')
         print(df)
-        #plt.plot(df['volume_config0'])
+        #plt.plot(df['volume_vapor'])
         label='num_particles_fluid'
         #label='volume'
         #label='energy'
         if label != 'num_particles_fluid':
-            for config in ['0', '1']:
-                plt.plot(df[label+'_config'+config], label=config)
+            for config in ['vapor', 'liquid']:
+                plt.plot(df[label+'_'+config], label=config)
             plt.ylabel(label, fontsize=16)
         else:
-            frac_vapor = df[label+'_config0']/(df[label+'_config0']+df[label+'_config1'])
+            frac_vapor = df[label+'_vapor']/(df[label+'_vapor']+df[label+'_liquid'])
             plt.plot(frac_vapor)
             plt.ylabel('number fraction in vapor', fontsize=16)
             plt.axhline(0.15)

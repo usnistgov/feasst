@@ -56,7 +56,7 @@ class Stepper {
     - rewrite_header: set true to rewrite header every write (default: true).
       If multistate_aggregate, automatically set to false.
     - Accumulator arguments.
-    - configuration_index: index of configuration (default: 0)
+    - config: name of Configuration (default: 0).
    */
   explicit Stepper(argtype args = argtype());
   explicit Stepper(argtype * args);
@@ -138,6 +138,9 @@ class Stepper {
   /// Write to standard output if file name is not set. Otherwise, output file.
   void printer(const std::string output, const std::string& output_file);
 
+  /// Initialize and precompute before trials.
+  virtual void initialize(MonteCarlo * mc);
+
   virtual std::string class_name() const { return std::string("Stepper"); }
 
   void serialize(std::ostream& ostr) const;
@@ -187,6 +190,7 @@ class Stepper {
   bool is_multistate_aggregate_;
   int state_ = 0;
   int configuration_index_;
+  std::string config_;
   bool rewrite_header_;
 };
 

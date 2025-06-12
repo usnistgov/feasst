@@ -58,7 +58,7 @@ class TrialReptateUnopt : public TrialFactoryNamed {
     - Trial arguments.
     - TrialStage arguments.
     - particle_type: See TrialSelect.
-    - configuration_index: See TrialSelect.
+    - config: See TrialSelect.
    */
   explicit TrialReptateUnopt(argtype args = argtype());
   explicit TrialReptateUnopt(argtype * args);

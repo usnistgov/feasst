@@ -35,6 +35,7 @@ HenryCoefficient::HenryCoefficient(argtype args) : HenryCoefficient(&args) {
 }
 
 void HenryCoefficient::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   const Criteria& criteria = mc->criteria();
   const TrialFactory& tfac = mc->trial_factory();
   ASSERT(criteria.class_name() == "AlwaysReject",

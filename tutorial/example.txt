@@ -2,7 +2,7 @@
 # Usage: ./fst < example.txt
 MonteCarlo
 RandomMT19937 seed=1572362164
-Configuration cubic_side_length=55.0321208149104 particle_type=lj:/feasst/particle/lj_new.txt
+Configuration cubic_side_length=55.0321208149104 particle_type=lj:/feasst/particle/lj.txt
 Potential Model=LennardJones VisitModel=VisitModelCell
 Potential VisitModel=LongRangeCorrections
 ThermoParams beta=1.111111111111111 chemical_potential=-1

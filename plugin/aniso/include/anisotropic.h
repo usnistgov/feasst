@@ -7,7 +7,7 @@
 namespace feasst {
 
 /**
-  The anisotropic parameter in LMP-like data file Site Properties signals that
+  The anisotropic parameter in particle file Site Properties signals that
   a site has orientation and must track its Euler angles.
  */
 class Anisotropic : public ModelParam {

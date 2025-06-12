@@ -21,6 +21,7 @@ CalculateCluster::CalculateCluster(argtype args) : CalculateCluster(&args) {
 }
 
 void CalculateCluster::initialize(MonteCarlo * mc) {
+  Modify::initialize(mc);
   printer(header(*mc), output_file(mc->criteria()));
 }
 

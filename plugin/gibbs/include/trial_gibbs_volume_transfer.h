@@ -18,8 +18,8 @@ class TrialGibbsVolumeTransfer : public Trial {
  public:
   //@{
   /** @name Arguments
-    - configuration_index0: index of one of the configurations (default: 0).
-    - configuration_index1: index of the other configuration (default: 1).
+    - configs: two comma-separated names of configurations to transfer between
+      (default: "0,1").
     - Tunable arguments.
    */
   explicit TrialGibbsVolumeTransfer(argtype args = argtype());

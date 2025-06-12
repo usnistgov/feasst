@@ -123,7 +123,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
         args->begin()->first != "EndCopy") {
       std::cout << args->begin()->first;
       std::string second = str(args->begin()->second);
-      if (!second.empty()) {
+      if (!second.empty() && second != "=") {
         std::cout << " " << second;
       }
       std::cout << std::endl;
@@ -182,8 +182,8 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
     // parse Potential
     if (args->begin()->first == "Potential") {
       DEBUG("parsing Potential");
-      const int pconfig = integer("configuration_index", &(args->begin()->second), 0);
-      add(MakePotential(args->begin()->second), pconfig);
+      //const int pconfig = integer("configuration_index", &(args->begin()->second), 0);
+      add(MakePotential(args->begin()->second));
       args->erase(args->begin());
       if (copy + 1 == num_copy) {
         return;
@@ -194,6 +194,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
 
     // parse reference Potential
     if (args->begin()->first == "ReferencePotential") {
+      WARN("Deprecated ReferencePotential->RefPotential");
       DEBUG("parsing ReferencePotential");
       add_to_reference(MakePotential(args->begin()->second));
       args->erase(args->begin());
@@ -369,23 +370,23 @@ void MonteCarlo::add(std::shared_ptr<Configuration> config) {
   ASSERT(!criteria_set_, "add config before criteria");
 }
 
-void MonteCarlo::potential_check_(const Potential& pot, const int config) {
+void MonteCarlo::potential_check_(const Potential& pot) {
   // Check that if the Domain is tilted, then the cell list is only used in an
   // OptPotential to catch possible errors.
   if (pot.visit_model().class_name() == "VisitModelCell") {
-    if (system_->configuration(config).domain().is_tilted()) {
+    if (system_->configuration(pot.configuration_index()).domain().is_tilted()) {
       WARN("OptPotential with VisitModelCell is recommended to catch possible "
         << " errors if the Configuration/Domain is triclinic");
     }
   }
 }
 
-void MonteCarlo::add(std::shared_ptr<Potential> potential, const int config) {
+void MonteCarlo::add(std::shared_ptr<Potential> potential) {
   ASSERT(!criteria_set_, "add potential before criteria");
   ASSERT(config_set_ || system_set_, "config:" << config_set_ <<
     " or system:" << system_set_ << " must be set before adding a potential");
-  potential_check_(*potential.get(), config);
-  system_->add(potential, config);
+  system_->add(potential);
+  potential_check_(*potential.get());
   system_->precompute();
   potential_set_ = true;
 }
@@ -393,10 +394,9 @@ void MonteCarlo::add(std::shared_ptr<Potential> potential, const int config) {
 void MonteCarlo::set(const int index, std::shared_ptr<Potential> potential) {
   // ASSERT(!criteria_set_, "add potential before criteria");
   ASSERT(potential_set_ || system_set_, "add potential before setting one");
-  const int config = 0;
   ASSERT(system_->num_configurations() <= 1, "not implemented");
-  potential_check_(*potential.get(), config);
   system_->set_unoptimized(index, potential);
+  potential_check_(*potential.get());
   system_->precompute();
 }
 
@@ -432,7 +432,8 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
         pot->visit_model().class_name() == "LongRangeCorrections") {
       for (int stage = 0; stage < trial->num_stages(); ++stage) {
         // Require reference potentials for multi-stage trials.
-        if (trial->num_stages() > 1 && trial->stage(stage).reference() == -1) {
+        const TrialStage& ts = trial->stage(stage);
+        if (trial->num_stages() > 1 && (ts.reference() == -1 && ts.ref().empty())) {
           ERROR(trial->class_name() << " " << trial->description()
             << " should use a reference potential "
             << "without Ewald or LongRangeCorrections due to multiple stages "
@@ -441,8 +442,8 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
       }
       // Require reference potentials for any trial with multiple steps
       for (int stage = 0; stage < trial->num_stages(); ++stage) {
-        ASSERT(trial->stage(stage).num_steps() == 1 ||
-               trial->stage(stage).reference() != -1,
+        const TrialStage& ts = trial->stage(stage);
+        ASSERT(ts.num_steps() == 1 || ts.reference() != -1 || !ts.ref().empty(),
           "Ewald and LongRangeCorrections require a reference potential "
           << "if multiple steps.");
       }
@@ -473,14 +474,15 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
     const int conf = trial->stage(0).select().configuration_index();
     DEBUG("conf  " << conf);
     for (int stage = 0; stage < trial->num_stages(); ++stage) {
-      if (trial->stage(stage).select().is_particle_type_set()) {
-        const int ptype = trial->stage(stage).select().particle_type();
+      const TrialStage& ts = trial->stage(stage);
+      if (ts.select().is_particle_type_set()) {
+        const int ptype = ts.select().particle_type();
         DEBUG("ptype " << ptype);
         const int num_sites = system_->configuration(conf).particle_type(ptype).num_sites();
         DEBUG("num_sites " << num_sites);
         if (num_sites > 1) {
-          DEBUG("ref " << trial->stage(stage).reference());
-          ASSERT(trial->stage(stage).reference() != -1,
+          DEBUG("ref " << ts.reference());
+          ASSERT(ts.reference() != -1 || !ts.ref().empty(),
             "TrialMorph and TrialRXNAVB requires a reference_index argument when "
             << "the number of sites:" << num_sites << " > 1");
         }
@@ -984,8 +986,8 @@ void MonteCarlo::add_to_optimized(std::shared_ptr<Potential> potential,
     const int config) {
   system_->add_to_optimized(potential, config); }
 void MonteCarlo::add_to_reference(std::shared_ptr<Potential> potential,
-    const int index, const int config) {
-  system_->add_to_reference(potential, index, config); }
+    const int index, const std::string name) {
+  system_->add_to_reference(potential, index, name); }
 void MonteCarlo::add(std::shared_ptr<NeighborCriteria> neighbor_criteria,
     const int config) {
   system_->add(neighbor_criteria, config); }

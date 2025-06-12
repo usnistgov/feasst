@@ -23,7 +23,7 @@ class Analyze : public Stepper {
   explicit Analyze(argtype * args) : Stepper(args) {}
 
   /// Initialize and precompute before trials.
-  virtual void initialize(MonteCarlo * mc) {}
+  void initialize(MonteCarlo * mc) override { Stepper::initialize(mc); }
 
   /// Check every trial if action is to be performed.
   virtual void trial(const MonteCarlo& mc);

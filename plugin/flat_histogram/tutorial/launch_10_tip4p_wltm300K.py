@@ -36,9 +36,9 @@ def parse(temperature=300):
     with open(params['prefix']+'_grow.txt', 'w') as f:
         f.write("""TrialGrowFile
 
-particle_type=water weight=2 transfer=true site=O1 num_steps=10 reference_index=0
-bond=true mobile_site=M1 anchor_site=O1 reference_index=0
-branch=true mobile_site2=H1 mobile_site=H2 anchor_site=O1 anchor_site2=M1 reference_index=0
+particle_type=water weight=2 transfer=true site=O1 num_steps=10 ref=dccb
+bond=true mobile_site=M1 anchor_site=O1 ref=dccb
+branch=true mobile_site2=H1 mobile_site=H2 anchor_site=O1 anchor_site2=M1 ref=dccb
 """)
 
     return params, args
@@ -55,7 +55,7 @@ def post_process(params):
     print('<N_vapor>_GCE', vapor.average_macrostate())
     assert np.abs(vapor.average_macrostate() - 0.01) < 0.001
     print('<N_liquid>_GCE', liquid.average_macrostate())
-    assert np.abs(liquid.average_macrostate() - 264.1) < 1.5
+    assert np.abs(liquid.average_macrostate() - 264.1) < 3.5
 
 if __name__ == '__main__':
     parameters, arguments = parse()

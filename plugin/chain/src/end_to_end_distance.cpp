@@ -20,6 +20,7 @@ EndToEndDistance::EndToEndDistance(argtype args) : EndToEndDistance(&args) {
 }
 
 void EndToEndDistance::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   printer(header(*mc), output_file(mc->criteria()));
 }
 

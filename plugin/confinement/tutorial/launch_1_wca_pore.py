@@ -33,7 +33,7 @@ def parse():
     parser.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
     parser.add_argument('--equilibration', type=int, default=1e0, help='number of cycles for equilibration')
     parser.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
-    parser.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
+    parser.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
     parser.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')
@@ -86,7 +86,7 @@ Configuration cubic_side_length={cubic_side_length} particle_type=fluid:{fstprt}
     group=fluid,pore fluid_particle_type=fluid pore_particle_type=pore
 NeighborCriteria maximum_distance=1.375 minimum_distance=0.9 site_type0=LJ site_type1=LJ
 Potential EnergyMap=EnergyMapNeighborCriteria neighbor_index=0 Model=LennardJonesForceShift
-RefPotential Model=LennardJonesForceShift VisitModel=VisitModelCell min_length={dccb_cut}
+RefPotential Model=LennardJonesForceShift VisitModel=VisitModelCell min_length={dccb_cut} ref=dccb
 ThermoParams beta={beta} chemical_potential={mu_init}
 Metropolis
 TrialTranslate weight=1 particle_type=fluid tunable_param=0.2
@@ -116,8 +116,8 @@ Remove name=Tune,Log
 # gcmc tm production
 FlatHistogram Macrostate=MacrostateNumParticles particle_type=fluid width=1 max={max_particles} min={min_particles} \
   Bias=WLTM min_sweeps={min_sweeps} min_flatness=25 collect_flatness=20 min_collect_sweeps=1
-TrialTransfer    weight=2   reference_index=0 num_steps=4 particle_type=fluid
-TrialTransferAVB weight=0.2 reference_index=0 num_steps=4 [AVB_args]
+TrialTransfer    weight=2   ref=dccb num_steps=4 particle_type=fluid
+TrialTransferAVB weight=0.2 ref=dccb num_steps=4 [AVB_args]
 Log [write].csv
 Tune [write]_tune.csv multistate=true stop_after_cycle=1
 #To print trajectories for each macrostate in separate files, add the following arguments to the "Movie" lines below: multistate true multistate_aggregate false

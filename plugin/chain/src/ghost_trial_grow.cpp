@@ -50,6 +50,7 @@ GhostTrialGrow::GhostTrialGrow(argtype args) : GhostTrialGrow(&args) {
 }
 
 void GhostTrialGrow::initialize(MonteCarlo * mc) {
+  Modify::initialize(mc);
   System * system = mc->get_system();
   Criteria * criteria = mc->get_criteria();
   printer(header(*mc), output_file(mc->criteria()));

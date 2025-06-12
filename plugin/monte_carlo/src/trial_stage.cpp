@@ -17,12 +17,13 @@ TrialStage::TrialStage(argtype * args) {
   rosenbluth_ = std::make_shared<Rosenbluth>();
   rosenbluth_->resize(integer("num_steps", args, 1));
   reference_ = integer("reference_index", args, -1);
+  ref_ = str("ref", args, "");
   is_new_only_ = boolean("new_only", args, false);
 }
 
 argtype get_stage_args(argtype * args) {
   argtype tmp_args;
-  for (const std::string key : {"num_steps", "reference_index", "new_only"}) {
+  for (const std::string key : {"num_steps", "reference_index", "ref", "new_only"}) {
     if (used(key, *args)) tmp_args.insert({key, str(key, args)});
   }
   return tmp_args;
@@ -31,6 +32,10 @@ argtype get_stage_args(argtype * args) {
 void TrialStage::precompute(System * system) {
   select_->precompute(system);
   perturb_->precompute(select_.get(), system);
+  if (!ref_.empty()) {
+    const int conf = select_->configuration_index();
+    reference_ = system->reference_index(conf, ref_);
+  }
 }
 
 void TrialStage::before_select() {
@@ -151,8 +156,9 @@ bool TrialStage::are_constraints_satisfied(const int old,
 }
 
 void TrialStage::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(135, ostr);
+  feasst_serialize_version(136, ostr);
   feasst_serialize(reference_, ostr);
+  feasst_serialize(ref_, ostr);
   feasst_serialize_fstdr(perturb_, ostr);
   feasst_serialize_fstdr(select_, ostr);
   feasst_serialize(rosenbluth_, ostr);
@@ -161,8 +167,11 @@ void TrialStage::serialize(std::ostream& ostr) const {
 
 TrialStage::TrialStage(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 135, "version");
+  ASSERT(version >= 135 && version <= 136, "version mismatch: " << version);
   feasst_deserialize(&reference_, istr);
+  if (version >= 136) {
+    feasst_deserialize(&ref_, istr);
+  }
   // HWH for unknown reasons, this function template doesn't work
   //feasst_deserialize_fstdr(perturb_, istr);
   { int existing;

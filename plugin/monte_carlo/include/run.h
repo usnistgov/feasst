@@ -19,7 +19,7 @@ class Run : public Action {
     - num_trials: run this many trials (default: -1. e.g., None).
       Note that num_trials is not as restart friendly as ``until_*'' arguments.
     - until_num_particles: run until this many particles (default: -1. e.g., None)
-    - configuration_index: configuration for until_num_particles (default: 0).
+    - config: name of Configuration (default: 0).
     - particle_type: type name of particle to count. If empty, all particles (default: empty).
     - for_hours: run for this many CPU hours (default: -1 e.g., None).
     - until: if "complete", run until Criteria is complete (default: empty).
@@ -55,6 +55,7 @@ class Run : public Action {
   int num_trials_;
   int until_num_particles_;
   int configuration_index_;
+  std::string config_;
   std::string particle_type_;
   double for_hours_;
   bool until_criteria_complete_;

@@ -85,7 +85,9 @@ class ModelParam {
   virtual void set_param(const ModelParams& existing);
 
   /// Return as a human readable string.
-  std::string str() const;
+  std::string str(
+     /// If provided, write the names of the site types instead of the indices.
+     std::vector<std::string> * site_type_names = NULL) const;
 
   // serialize
   std::string class_name() const { return class_name_; }
@@ -119,7 +121,7 @@ class ModelParam {
 };
 
 /**
- The epsilon parameter is named "epsilon" in LMP-like data file Site Properties.
+ The epsilon parameter is named "epsilon" in the particle file Site Properties.
  The epsilon parameter has the default mixing rule:
  \f$ \epsilon_{ij} = \sqrt{\epsilon_i \epsilon_j} \f$
  */
@@ -139,7 +141,7 @@ class Epsilon : public ModelParam {
 };
 
 /**
-  The sigma parameter is named "sigma" in LMP-like data file Site Properties.
+  The sigma parameter is named "sigma" in the particle file Site Properties.
   The sigma parameter has the default mixing rule:
 
   \f$ \sigma_{ij} = \left\{
@@ -162,7 +164,7 @@ class Sigma : public ModelParam {
 };
 
 /**
-  The cut off parameter is named "cutoff" in LMP-like data file Site Properties.
+  The cut off parameter is named "cutoff" in the particle file Site Properties.
   The cut off parameter has the default mixing rule:
 
   \f$ r_{c,ij} = \left\{
@@ -185,7 +187,7 @@ class CutOff : public ModelParam {
 };
 
 /**
- The charge parameter is named "charge" in LMP-like data file Site Properties.
+ The charge parameter is named "charge" in the particle file Site Properties.
  The charge parameter, q, has the default mixing rule:
  \f$ q_{ij} = q_i q_j \f$
  */
@@ -230,7 +232,14 @@ class ModelParams : public PropertiedEntity {
     const double value);
 
   /// Set mixed model parameters by file.
-  void set(const std::string& name, const std::string& filename);
+  void set(const std::string& name, const std::string& filename,
+    /// Optionally provide a list of names of site types
+    std::vector<std::string> * site_type_names = NULL);
+
+  /// Set mixed model parameters by file.
+  void set(const std::string& filename,
+    /// Optionally provide a list of names of site types
+    std::vector<std::string> * site_type_names = NULL);
 
   /// Add a custom model parameter
   void add(std::shared_ptr<ModelParam> param) {
@@ -266,7 +275,9 @@ class ModelParams : public PropertiedEntity {
   void check() const;
 
   /// Return as a human readable string.
-  std::string str() const;
+  std::string str(
+     /// If provided, write the names of the site types instead of the indices.
+     std::vector<std::string> * site_type_names = NULL) const;
 
   /// Return a deep copy of self.
   ModelParams deep_copy() const;

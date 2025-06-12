@@ -90,11 +90,11 @@ Configuration cubic_side_length={cubic_side_length} particle_type=domain1:{domai
   group=mobile mobile_particle_type=domain2 \
   {cutoff_line}
 {potential}
-RefPotential Model=HardSphere sigma=0 cutoff=0 sigma0={reference_sigma} cutoff0={reference_sigma} sigma{num_site_types}={reference_sigma} cutoff{num_site_types}={reference_sigma}
+RefPotential ref=hs Model=HardSphere sigma=0 cutoff=0 sigma0={reference_sigma} cutoff0={reference_sigma} sigma{num_site_types}={reference_sigma} cutoff{num_site_types}={reference_sigma}
 ThermoParams beta={beta}
 MayerSampling trials_per_cycle={trials_per} cycles_to_complete={equilibration} num_beta_taylor={num_beta_taylor}
-TrialTranslate new_only=true reference_index=0 tunable_param=35 group=mobile
-TrialRotate new_only=true reference_index=0 tunable_param=40
+TrialTranslate new_only=true ref=hs tunable_param=35 group=mobile
+TrialRotate new_only=true ref=hs tunable_param=40
 
 # tune trial parameters
 Let [write]=trials_per_write={trials_per} file_name={prefix}_{domain1}-{domain2}_{sim:03d}

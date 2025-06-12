@@ -64,11 +64,11 @@ Configuration cubic_side_length=500 particle_type=mab:/feasst/plugin/chain/parti
     add_num_mab_particles=2 \
     group=first first_particle_index=0
 Potential Model=HardSphere
-RefPotential Model=HardSphere sigma=0 sigma0={reference_sigma} cutoff=0 cutoff0={reference_sigma}
+RefPotential ref=hs Model=HardSphere sigma=0 sigma0={reference_sigma} cutoff=0 cutoff0={reference_sigma}
 ThermoParams beta=1
 MayerSampling trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
-TrialTranslate new_only=true reference_index=0 tunable_param=1 group=first
-TrialRotate new_only=true reference_index=0 tunable_param=40
+TrialTranslate new_only=true ref=hs tunable_param=1 group=first
+TrialRotate new_only=true ref=hs tunable_param=40
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # tune trial parameters

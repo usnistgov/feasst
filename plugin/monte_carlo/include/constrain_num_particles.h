@@ -17,7 +17,7 @@ class ConstrainNumParticles : public Constraint {
     - maximum: maximum number of particles. If -1, no limit (default: -1).
     - minimum: minimum number of particles (default: 0).
     - type: particle type name. If empty (default), all types.
-    - configuration_index: index of configuration (default: 0).
+    - config: name of Configuration (default: 0).
    */
   explicit ConstrainNumParticles(argtype args = argtype());
   explicit ConstrainNumParticles(argtype * args);
@@ -54,6 +54,8 @@ class ConstrainNumParticles : public Constraint {
   int type_;
   std::string type_name_;
   int configuration_index_;
+  std::string config_;
+  bool config_set_ = false;
 };
 
 inline std::shared_ptr<ConstrainNumParticles> MakeConstrainNumParticles(

@@ -44,7 +44,7 @@ def parse():
     parser.add_argument('--production_cycles', type=int, default=int(1e2),
                         help='number of cycles for production')
     parser.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
-    parser.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
+    parser.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
     parser.add_argument('--procs_per_node', type=int, default=32, help='number of processors')
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')
@@ -83,11 +83,11 @@ Configuration cubic_side_length=1e10 periodic=false,false,false \
     group=first first_particle_index=0 \
     cutoff={cutoff}
 Potential Model=SquareWell
-RefPotential Model=HardSphere sigma=0 sigmaLJ={reference_sigma} cutoff=0 cutoffLJ={reference_sigma}
+RefPotential ref=hs Model=HardSphere sigma=0 sigmaLJ={reference_sigma} cutoff=0 cutoffLJ={reference_sigma}
 ThermoParams beta={beta}
 MayerSampling trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
-TrialTranslate new_only=true reference_index=0 tunable_param=1 group=first
-#TrialRotate new_only=true reference_index=0 tunable_param=40
+TrialTranslate new_only=true ref=hs tunable_param=1 group=first
+#TrialRotate new_only=true ref=hs tunable_param=40
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # tune trial parameters

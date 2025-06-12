@@ -16,6 +16,7 @@ Density::Density(argtype args) : Density(&args) {
 }
 
 void Density::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   printer(header(*mc), output_file(mc->criteria()));
 }
 

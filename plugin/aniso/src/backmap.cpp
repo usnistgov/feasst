@@ -55,6 +55,7 @@ void Backmap::add_backmap_particles_() {
 }
 
 void Backmap::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   const std::string name = output_file(mc->criteria());
   ASSERT(!name.empty(), "file name required. Did you forget to " <<
     "Analyze::set_output_file()?");

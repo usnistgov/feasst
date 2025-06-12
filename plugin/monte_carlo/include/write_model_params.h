@@ -22,7 +22,8 @@ class WriteModelParams : public Action {
     - output_file: name of file to write.
     - potential_index: index of potential.
       If -1, use Configuration (default: -1)
-    - reference_index: index of reference potential (default: -1).
+    - config: name of Configuration (default: 0).
+    - ref: name of RefPotential. If empty, use Potential (default: empty).
    */
   explicit WriteModelParams(argtype args = argtype());
   explicit WriteModelParams(argtype * args);
@@ -45,6 +46,8 @@ class WriteModelParams : public Action {
  private:
   int potential_index_;
   int reference_index_;
+  std::string config_;
+  std::string ref_;
   std::string output_file_;
 };
 

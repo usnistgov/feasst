@@ -15,7 +15,7 @@ FEASST_MAPPER(PairDistributionInner,);
 
 PairDistributionInner::PairDistributionInner() {
   class_name_ = "PairDistributionInner";
-}  
+}
 PairDistributionInner::~PairDistributionInner() {}
 
 void PairDistributionInner::serialize(std::ostream& ostr) const {
@@ -63,6 +63,7 @@ PairDistribution::PairDistribution(argtype args) : PairDistribution(&args) {
 }
 
 void PairDistribution::initialize(MonteCarlo * mc) {
+  Modify::initialize(mc);
   Configuration * config = mc->get_system()->get_configuration(configuration_index());
   DEBUG("init");
   num_updates_ = 0;

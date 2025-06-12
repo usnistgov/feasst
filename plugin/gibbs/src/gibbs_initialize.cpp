@@ -85,6 +85,7 @@ int GibbsInitialize::dens_config_index_(const bool high,
 }
 
 void GibbsInitialize::initialize(MonteCarlo * mc) {
+  Modify::initialize(mc);
   const System& system = mc->system();
   DEBUG("initializing");
   ASSERT(system.num_configurations() == 2, "Assumes 2 domains, but there are: "

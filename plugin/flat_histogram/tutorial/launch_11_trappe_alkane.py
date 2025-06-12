@@ -47,8 +47,8 @@ def parse(temperature=350):
 Potential Model=LennardJones
 Potential Model=LennardJones VisitModel=VisitModelIntra intra_cut=3
 Potential VisitModel=LongRangeCorrections
-RefPotential Model=LennardJones VisitModel=VisitModelCell min_length={dccb_cut} reference_index=0
-RefPotential Model=LennardJones VisitModel=VisitModelIntra intra_cut=3 reference_index=0""".format(**params)
+RefPotential Model=LennardJones VisitModel=VisitModelCell min_length={dccb_cut} ref=dccb
+RefPotential Model=LennardJones VisitModel=VisitModelIntra intra_cut=3 ref=dccb""".format(**params)
     params['nvt_trials'] = """TrialTranslate weight=1 tunable_param=0.2
 For [pivot_site]=0,{last_site}
     TrialParticlePivot weight=0.25 particle_type=trappe tunable_param=0.2 pivot_site=[pivot_site]
@@ -57,8 +57,8 @@ TrialGrowFile grow_file {prefix}_grow_canonical.txt""".format(**params)
     params['init_trials'] = """TrialGrowFile grow_file={prefix}_grow_grand_canonical.txt""".format(**params)
     params['init_remove'] = "Remove name_contains=add,remove"
     params['muvt_trials'] = """TrialGrowFile grow_file={prefix}_grow_grand_canonical.txt""".format(**params)
-    fstio.write_linear_grow_file(filename=params['prefix']+"_grow_canonical.txt", num_sites=params['num_sites'], gce=0, reference_index=0, num_steps=4, base_weight=2, particle_type='trappe')
-    fstio.write_linear_grow_file(filename=params['prefix']+"_grow_grand_canonical.txt", num_sites=params['num_sites'], gce=1, reference_index=0, num_steps=4, base_weight=2, particle_type='trappe')
+    fstio.write_linear_grow_file(filename=params['prefix']+"_grow_canonical.txt", num_sites=params['num_sites'], gce=0, ref="dccb", num_steps=4, base_weight=2, particle_type='trappe')
+    fstio.write_linear_grow_file(filename=params['prefix']+"_grow_grand_canonical.txt", num_sites=params['num_sites'], gce=1, ref="dccb", num_steps=4, base_weight=2, particle_type='trappe')
     return params, args
 
 def post_process(params):

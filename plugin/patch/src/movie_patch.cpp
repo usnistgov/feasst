@@ -18,6 +18,7 @@ MoviePatch::MoviePatch(argtype * args) : AnalyzeWriteOnly(args) {
 MoviePatch::MoviePatch(argtype args) : MoviePatch(&args) { feasst_check_all_used(args); }
 
 void MoviePatch::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   const Criteria& criteria = mc->criteria();
   const std::string name = output_file(mc->criteria());
   ASSERT(!name.empty(), "file name required. Did you forget to " <<

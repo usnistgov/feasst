@@ -15,6 +15,7 @@ AnalyzeFactory::AnalyzeFactory(argtype args) : Analyze(&args) {}
 AnalyzeFactory::~AnalyzeFactory() {}
 
 void AnalyzeFactory::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   for (std::shared_ptr<Analyze> analyze : analyzers_) {
     analyze->initialize(mc);
   }

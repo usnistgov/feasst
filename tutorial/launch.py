@@ -1,8 +1,7 @@
 """
-Example single-site Lennard-Jones canonical ensemble Monte Carlo simulation using FEASST.
-Run multiple densities using multiple processors/nodes/restarts, and plot results.
+Single-site Lennard-Jones canonical ensemble Monte Carlo simulation using FEASST.
+Run multiple densities using multiple processors/nodes/restarts, and then plot results.
 Compare with T*=0.9 in https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm.
-Note that checkpoints and restarts happen quicker than usual in these tutorial for testing purposes.
 
 Usage: python /path/to/feasst/tutorial/launch.py
 Options: python /path/to/feasst/tutorial/launch.py --help
@@ -29,7 +28,7 @@ def parse():
     parser.add_argument('--equilibration', type=int, default=int(1e1), help='number of cycles for equilibraiton')
     parser.add_argument('--production', type=int, default=int(1e1), help='number of cycles for production')
     parser.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
-    parser.add_argument('--hours_terminate', type=float, default=0.1, help='hours until termination')
+    parser.add_argument('--hours_terminate', type=float, default=5*24, help='hours until termination')
     parser.add_argument('--procs_per_node', type=int, default=5, help='number of processors')
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')

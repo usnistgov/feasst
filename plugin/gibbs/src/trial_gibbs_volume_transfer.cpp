@@ -15,23 +15,25 @@ FEASST_MAPPER(TrialGibbsVolumeTransfer,);
 TrialGibbsVolumeTransfer::TrialGibbsVolumeTransfer(argtype * args) : Trial(args) {
   class_name_ = "TrialGibbsVolumeTransfer";
   set_description("TrialGibbsVolumeTransfer");
-  const int to_configuration_index = integer("configuration_index0", args, 0);
-  const int configuration_index = integer("configuration_index1", args, 1);
-  ASSERT(configuration_index != to_configuration_index, "configuration_index0:"
-    << configuration_index << " cannot equal configuration_index1:" <<
-    to_configuration_index);
+  std::string cargs = str("configs", args, "0,1");
+  std::vector<std::string> configs = split(cargs, ',');
+  ASSERT(static_cast<int>(configs.size()) == 2, "Requires two configuration " <<
+    "names separated by a comma (e.g., \"vapor,liquid\") but was given:" <<
+    cargs);
+  ASSERT(configs[0] != configs[1], "Cannot transfer between the same "
+    << "config:" << configs[0] << " and:" << configs[1]);
   const bool uniform_volume = boolean("uniform_volume", args, true);
   ASSERT(uniform_volume,
     "Gibbs volume transfers must be chosen uniformly in V.");
   args->insert({"uniform_volume", str(uniform_volume)});
   argtype args2 = *args;
-  args2.insert({"configuration_index", str(to_configuration_index)});
+  args2.insert({"config", configs[0]});
   add_stage(
     std::make_shared<TrialSelectAll>(&args2),
     std::make_shared<PerturbVolume>(&args2),
     &args2);
   feasst_check_all_used(args2);
-  args->insert({"configuration_index", str(configuration_index)});
+  args->insert({"config", configs[1]});
   args->insert({"constrain_volume_change", "true"});
   add_stage(
     std::make_shared<TrialSelectAll>(args),

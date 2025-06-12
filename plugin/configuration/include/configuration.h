@@ -71,7 +71,14 @@ class Configuration {
     - group: comma-separated list of group names.
       All following arguments of the group are then expected to have the name
       prepended with an underscore (e.g., "group=oxygen oxygen_site_type=O").
-    - wrap: wrap particle centers within domain (default: true).
+    - model_param_file: input ModelParam with this file with either a three-
+      or four-column space-separated format on each line as follows:
+      "[parameter] [site type name] [value]"
+      "[parameter] [site type name 1] [site type name 2] [value]"
+      This file can be used to override the otherwise default Lorentz-Berthelot
+      mixing rules.
+      Mixing is always symmetric (e.g., params[i][j] == param[j][i])
+      Comment lines beginning with the '#' character are ignored.
     - [parameter]: optionally set the [parameter] of all types to this value.
       The "[parameter]" is to be substituted for epsilon, sigma, cutoff, etc.
     - [parameter][site type name]: optionally set the [parameter] value of the
@@ -80,11 +87,11 @@ class Configuration {
     - [parameter][site type name 1]_[site type name 2]: optionally set the
       [parameter] value of the 1-2 mixed type.
       These are applied after (overriding) the above argument for single types.
-    - [parameter]_mixing_file: override default mixing parameters with this
-      file in the three-column space-separated format of "i j [param]_ij".
+    - wrap: wrap particle centers within domain (default: true).
     - set_cutoff_min_to_sigma: if true and cutoff < sigma, cutoff = sigma
       (default: false). This is typically used for HardSphere models that
       didn't specify cutoff.
+    - name: set the name of the Configuration (default: 0).
    */
   explicit Configuration(argtype args = argtype());
   explicit Configuration(argtype * args);
@@ -171,8 +178,17 @@ class Configuration {
                        const int site_type2,
                        const double value);
 
-  /// Set mixed model parameters using a file.
-  void set_model_param(const std::string name, const std::string filename);
+  // Deprecated. Set mixed model parameters using the 3-column file format described in
+  // for a parameter of the given name.
+  void set_model_param(const std::string name, const std::string filename,
+    /// Optionally provide a list of names of site types
+    std::vector<std::string> * site_type_names = NULL);
+
+  /// Set mixed model parameters using the 4-column file format described in
+  /// the argument "model_param_file"
+  void set_model_param(const std::string filename,
+    /// Optionally provide a list of names of site types
+    std::vector<std::string> * site_type_names = NULL);
 
   /// Add model parameter of a given name to value.
   void add_model_param(const std::string name, const double value);
@@ -214,6 +230,9 @@ class Configuration {
 
   /// Return the name of a given site type.
   const std::string& site_type_to_name(const int site_type) const;
+
+  /// Obtain the site names in order of their indices;
+  void site_type_names(std::vector<std::string> * names) const;
 
   /// Return the index of a site given the site name.
   int site_name_to_index(const std::string& site_name) const;
@@ -548,6 +567,12 @@ class Configuration {
 
   //@}
 
+  /// Return the name of the Configuration.
+  const std::string& name() const { return name_; }
+
+  /// Set the name of the Configuration.
+  void set_name(const std::string& name) { name_ = name; }
+
   // HWH updates entire particle. Optimize by updating per site.
   void synchronize_(const Configuration& config, const Select& perturbed);
 
@@ -649,6 +674,9 @@ class Configuration {
   /// Store the number of particles of each type.
   std::vector<int> num_particles_of_type_;
   std::vector<std::shared_ptr<NeighborCriteria> > neighbor_criteria_;
+
+  /// Store the name of the Configuration
+  std::string name_;
 
   // Do not serialize possibly huge tables.
   std::vector<std::vector<std::shared_ptr<Table3D> > > table3d_;

@@ -13,6 +13,7 @@ ModifyFactory::ModifyFactory(argtype args) : Modify(&args) {}
 ModifyFactory::~ModifyFactory() {}
 
 void ModifyFactory::initialize(MonteCarlo * mc) {
+  Modify::initialize(mc);
   for (const std::shared_ptr<Modify>& modify : modifiers_) {
     modify->initialize(mc);
   }

@@ -41,8 +41,8 @@ def parse(temperature=298):
     params['system'] = """Configuration cubic_side_length={cubic_side_length} particle_type=fluid:{fstprt} cutoff={cutoff} sigma0_1=2.89170901025674 group=oxygen oxygen_site_type=0
 Potential VisitModel=Ewald alpha={ewald_alpha} kmax_squared=38
 Potential Model=ModelTwoBodyFactory models=LennardJones,ChargeScreened erfc_table_size=2e4 VisitModel=VisitModelCutoffOuter
-RefPotential VisitModel=DontVisitModel
-#RefPotential Model=HardSphere group=oxygen cutoff={dccb_cut} VisitModel=VisitModelCell min_length={dccb_cut} cell_group=oxygen
+RefPotential VisitModel=DontVisitModel ref=noixn
+#RefPotential Model=HardSphere group=oxygen cutoff={dccb_cut} VisitModel=VisitModelCell min_length={dccb_cut} cell_group=oxygen ref=dccb
 Potential Model=ChargeScreenedIntra VisitModel=VisitModelBond
 Potential Model=ChargeSelf
 Potential VisitModel=LongRangeCorrections""".format(**params)
@@ -59,16 +59,16 @@ TrialGrowFile grow_file={prefix}_grow_canonical.txt""".format(**params)
     with open(params['prefix']+'_grow_grand_canonical.txt', 'w') as f:
         f.write("""TrialGrowFile
 
-particle_type=fluid weight=2 transfer=true site=0 num_steps=1 reference_index=0
-bond=true mobile_site=1 anchor_site=0 num_steps=1 reference_index=0
-angle=true mobile_site=2 anchor_site=0 anchor_site2=1 reference_index=0
+particle_type=fluid weight=2 transfer=true site=0 num_steps=1 ref=noixn
+bond=true mobile_site=1 anchor_site=0 num_steps=1 ref=noixn
+angle=true mobile_site=2 anchor_site=0 anchor_site2=1 ref=noixn
 """)
     with open(params['prefix']+'_grow_canonical.txt', 'w') as f:
         f.write("""TrialGrowFile
 
-particle_type=fluid weight=0.1 angle=true mobile_site=2 anchor_site=0 anchor_site2=1 reference_index=0
+particle_type=fluid weight=0.1 angle=true mobile_site=2 anchor_site=0 anchor_site2=1 ref=noixn
 
-particle_type=fluid weight=0.1 angle=true mobile_site=1 anchor_site=0 anchor_site2=2 reference_index=0
+particle_type=fluid weight=0.1 angle=true mobile_site=1 anchor_site=0 anchor_site2=2 ref=noixn
 """)
 
     return params, args

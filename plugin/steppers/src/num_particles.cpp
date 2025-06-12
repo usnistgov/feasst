@@ -25,6 +25,7 @@ std::string NumParticles::header(const MonteCarlo& mc) const {
 }
 
 void NumParticles::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   printer(header(*mc), output_file(mc->criteria()));
   if (particle_type_name_.empty()) {
     particle_type_ = -1;

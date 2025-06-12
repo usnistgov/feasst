@@ -41,6 +41,7 @@ Tune::Tune(std::istream& istr) : Modify(istr) {
 }
 
 void Tune::initialize(MonteCarlo * mc) {
+  Modify::initialize(mc);
   const TrialFactory& tfac = mc->trial_factory();
   const int num_trials = tfac.num();
   values_.resize(num_trials);

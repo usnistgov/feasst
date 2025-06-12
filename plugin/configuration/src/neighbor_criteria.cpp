@@ -12,7 +12,11 @@
 namespace feasst {
 
 NeighborCriteria::NeighborCriteria(argtype * args) {
+  if (used("reference_potential", *args)) {
+    FATAL("Deprecated NeighborCriteria::reference_potential->ref.");
+  }
   reference_potential_ = integer("reference_potential", args, -1);
+  ref_ = str("ref", args, "");
   potential_index_ = integer("potential_index", args, 0);
   energy_maximum_ = dble("energy_maximum", args,
                          std::numeric_limits<double>::max());
@@ -118,8 +122,9 @@ bool NeighborCriteria::is_accepted(const double energy,
 }
 
 void NeighborCriteria::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(905, ostr);
+  feasst_serialize_version(906, ostr);
   feasst_serialize(reference_potential_, ostr);
+  feasst_serialize(ref_, ostr);
   feasst_serialize(potential_index_, ostr);
   feasst_serialize(energy_maximum_, ostr);
   feasst_serialize(minimum_distance_sq_, ostr);
@@ -136,8 +141,11 @@ void NeighborCriteria::serialize(std::ostream& ostr) const {
 
 NeighborCriteria::NeighborCriteria(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 903 && version <= 905, "version: " << version);
+  ASSERT(version >= 903 && version <= 906, "version: " << version);
   feasst_deserialize(&reference_potential_, istr);
+  if (version >= 906) {
+    feasst_deserialize(&ref_, istr);
+  }
   feasst_deserialize(&potential_index_, istr);
   feasst_deserialize(&energy_maximum_, istr);
   feasst_deserialize(&minimum_distance_sq_, istr);
@@ -192,6 +200,11 @@ bool NeighborCriteria::is_position_accepted(
   DEBUG("squared_distance " << squared_distance);
   return squared_distance > minimum_distance_sq_ &&
          squared_distance < maximum_distance_sq_;
+}
+
+int NeighborCriteria::reference_potential() const {
+  //FATAL("used here");
+  return reference_potential_;
 }
 
 }  // namespace feasst

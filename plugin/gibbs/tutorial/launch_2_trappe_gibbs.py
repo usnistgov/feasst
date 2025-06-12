@@ -126,13 +126,13 @@ def sim_node_dependent_params(params):
     params['last_site'] = params['num_sites'] - 1
     params['vapor_cutoff'] = params['vapor_cutoffs'][sim]
     filepre = filename="{}{:03d}".format(params['prefix'], sim)
-    fstio.write_linear_grow_file(filename=filepre+"_c0_grow_canonical.txt", num_sites=params['num_sites'], gce=0, conf=0, reference_index=0, num_steps=1, particle_type='trappe')
+    fstio.write_linear_grow_file(filename=filepre+"_vapor_grow_canonical.txt", num_sites=params['num_sites'], gce=0, conf="vapor", ref="noixn", num_steps=1, particle_type='trappe')
     if params['xyz_vapor'] == '':
-        fstio.write_linear_grow_file(filename=filepre+"_c0_grow_add.txt", num_sites=params['num_sites'], gce=2, conf=0, reference_index=0, num_steps=1, particle_type='trappe')
-    fstio.write_linear_grow_file(filename=filepre+"_c1_grow_canonical.txt", num_sites=params['num_sites'], gce=0, conf=1, reference_index=1, num_steps=4, particle_type='trappe')
+        fstio.write_linear_grow_file(filename=filepre+"_vapor_grow_add.txt", num_sites=params['num_sites'], gce=2, conf="vapor", ref="noixn", num_steps=1, particle_type='trappe')
+    fstio.write_linear_grow_file(filename=filepre+"_liquid_grow_canonical.txt", num_sites=params['num_sites'], gce=0, conf="liquid", ref="dccb", num_steps=4, particle_type='trappe')
     if params['xyz_liquid'] == '':
-        fstio.write_linear_grow_file(filename=filepre+"_c1_grow_add.txt", num_sites=params['num_sites'], gce=2, conf=1, reference_index=1, num_steps=4, particle_type='trappe')
-    fstio.write_linear_grow_file(filename=filepre+"_grow_gibbs.txt", num_sites=params['num_sites'], gce=3, conf=0, conf2=1, reference_index=1, num_steps=4, particle_type='trappe')
+        fstio.write_linear_grow_file(filename=filepre+"_liquid_grow_add.txt", num_sites=params['num_sites'], gce=2, conf="liquid", ref="dccb", num_steps=4, particle_type='trappe')
+    fstio.write_linear_grow_file(filename=filepre+"_grow_gibbs.txt", num_sites=params['num_sites'], gce=3, conf="vapor", conf2="liquid", ref="dccb", num_steps=4, particle_type='trappe')
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -140,30 +140,30 @@ def write_feasst_script(params, script_file):
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed={seed}
-For [config]:[cutoff]:[xyz]=0:{vapor_cutoff}:?{xyz_vapor},1:{liquid_cutoff}:?{xyz_liquid}
-    Let [Config]=Configuration particle_type=trappe:{fstprt} cutoff=[cutoff]
+For [config]:[cutoff]:[xyz]:[pbc]=vapor:{vapor_cutoff}:?{xyz_vapor}:?{vapor_pbc},liquid:{liquid_cutoff}:?{xyz_liquid}:?{liquid_pbc}
+    Let [Config]=Configuration name=[config] particle_type=trappe:{fstprt} cutoff=[cutoff]
     If defined=?[xyz]
-        [Config] xyz_file=?[xyz]
+        [Config] xyz_file=[xyz]
     Else
-        [Config] cubic_side_length=?{vapor_pbc}
+        [Config] cubic_side_length=[pbc]
     Endif
-    Potential Model=LennardJones configuration_index=[config]
-    Potential Model=LennardJones VisitModel=VisitModelIntra intra_cut=3 configuration_index=[config]
-    Potential VisitModel=LongRangeCorrections configuration_index=[config]
-    RefPotential reference_index=0 VisitModel=DontVisitModel configuration_index=[config]
+    Potential Model=LennardJones config=[config]
+    Potential Model=LennardJones VisitModel=VisitModelIntra intra_cut=3 config=[config]
+    Potential VisitModel=LongRangeCorrections config=[config]
+    RefPotential ref=noixn VisitModel=DontVisitModel config=[config]
 EndFor
 # Initialize dual-cut configuration bias reference potential in the liquid but not in the vapor
-RefPotential reference_index=1 configuration_index=0 VisitModel=DontVisitModel
-RefPotential reference_index=1 configuration_index=1 Model=LennardJones VisitModel=VisitModelCell cutoff={dccb_cut} min_length={dccb_cut}
+RefPotential ref=dccb config=vapor VisitModel=DontVisitModel
+RefPotential ref=dccb config=liquid Model=LennardJones VisitModel=VisitModelCell cutoff={dccb_cut} min_length={dccb_cut}
 ThermoParams beta={beta} chemical_potential={mu_init}
 Metropolis
-For [config]:[param]=0:30,1:1
-    TrialTranslate weight=0.5 tunable_param=[param] configuration_index=[config]
-    TrialGrowFile grow_file={prefix}{sim:03d}_c[config]_grow_canonical.txt
+For [config]:[param]=vapor:30,liquid:1
+    TrialTranslate weight=0.5 tunable_param=[param] config=[config]
+    TrialGrowFile grow_file={prefix}{sim:03d}_[config]_grow_canonical.txt
 EndFor
-For [config]:[param]=0:180,1:0.4
+For [config]:[param]=vapor:180,liquid:0.4
     For [last_site]=0,{last_site}
-        TrialParticlePivot weight=0.25 particle_type=trappe tunable_param=[param] pivot_site=[last_site] configuration_index=[config]
+        TrialParticlePivot weight=0.25 particle_type=trappe tunable_param=[param] pivot_site=[last_site] config=[config]
     EndFor
 EndFor
 CheckEnergy trials_per_update={tpc} decimal_places=4
@@ -173,11 +173,11 @@ Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_che
 Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_fill.csv
 Tune
-For [config]:[xyz]=0:?{xyz_vapor},1:?{xyz_liquid}
-    Movie [write]_c[config]_fill.xyz configuration_index=[config]
+For [config]:[xyz]:[num]=vapor:?{xyz_vapor}:?{num_vapor},liquid:?{xyz_liquid}:?{num_liquid}
+    Movie [write]_[config]_fill.xyz config=[config]
     If undefined=[xyz]
-        TrialGrowFile grow_file={prefix}{sim:03d}_c[config]_grow_add.txt
-        Run until_num_particles={num_vapor} configuration_index=[config]
+        TrialGrowFile grow_file={prefix}{sim:03d}_[config]_grow_add.txt
+        Run until_num_particles=[num] config=[config]
         Remove name_contains=add
     EndIf
     Remove name=Movie
@@ -189,13 +189,13 @@ Remove name=Tune,Log
 Metropolis trials_per_cycle=1e9 cycles_to_complete=1e9
 GibbsInitialize updates_density_equil={equil} updates_per_adjust={double_equil}
 TrialGrowFile grow_file={prefix}{sim:03d}_grow_gibbs.txt
-TrialGibbsVolumeTransfer weight=0.006 tunable_param=3000 reference_index=0 print_num_accepted=true
+TrialGibbsVolumeTransfer weight=0.006 tunable_param=3000 ref=noixn print_num_accepted=true configs=vapor,liquid
 # a new tune is required when new Trials are introduced
 # decrease trials per due to infrequency of volume transfer attempts
 Tune trials_per_tune=20
 Log [write]_eq.csv
-For [config]=0,1
-    Movie [write]_c[config]_eq.xyz configuration_index=[config]
+For [config]=vapor,liquid
+    Movie [write]_[config]_eq.xyz config=[config]
 EndFor
 ProfileCPU [write]_eq_profile.csv
 # decrease trials per due to infrequency of volume transfer attempts
@@ -206,8 +206,8 @@ Remove name=GibbsInitialize,Tune,Log,Movie,Movie,ProfileCPU
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
 Log [write].csv
 For [analyze]:[file]=Density:_dens.csv,Movie:.xyz,Energy:_en.csv,Volume:_vol.csv,ProfileCPU:_profile.csv,CPUTime:_cpu.csv
-    For [config]=0,1
-        [analyze] [write]_c[config][file] configuration_index=[config]
+    For [config]=vapor,liquid
+        [analyze] [write]_[config][file] config=[config]
     EndFor
 EndFor
 GhostTrialVolume trials_per_update=1e3 [write]_pressure.csv
@@ -219,7 +219,7 @@ def post_process(params):
     for sim in range(params['num_sims']):
         part = params['particles'][sim]
         temp = params['temperatures'][sim]
-        vapor_density = pd.read_csv("{}{:03d}_c0_dens.csv".format(params['prefix'], sim))
+        vapor_density = pd.read_csv("{}{:03d}_vapor_dens.csv".format(params['prefix'], sim))
         dens_conv = density_convert(params['molecular_weight'][sim])
         vapor_density['average'] *= dens_conv
         vapor_density['stdev'] *= dens_conv
@@ -231,7 +231,7 @@ def post_process(params):
         if len(diverged) > 0:
             print(diverged)
         assert len(diverged) == 0
-        liquid_density = pd.read_csv("{}{:03d}_c1_dens.csv".format(params['prefix'], sim))
+        liquid_density = pd.read_csv("{}{:03d}_vapor_dens.csv".format(params['prefix'], sim))
         liquid_density['average'] *= dens_conv
         liquid_density['stdev'] *= dens_conv
         liquid_density['block_stdev'] *= dens_conv

@@ -45,6 +45,7 @@
 namespace feasst {
 
 const std::vector<argtype> args_ = {{{"particle_type", "0"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}}};
+
 FEASST_MAPPER(TrialGrow, args_);
 
 void TrialGrow::build_(std::vector<argtype> * args) {
@@ -58,6 +59,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
   const std::string default_print_num_accepted  = str("print_num_accepted", &(*args)[0], "false");
   const std::string default_num_steps = str("default_num_steps", &(*args)[0], "1");
   const std::string default_reference_index = str("default_reference_index", &(*args)[0], "-1");
+  const std::string default_ref = str("default_ref", &(*args)[0], "");
   const std::string default_new_only = str("default_new_only", &(*args)[0], "false");
   // First, determine all trial types from args[0]
   std::vector<std::string> trial_types;
@@ -134,8 +136,13 @@ void TrialGrow::build_(std::vector<argtype> * args) {
   const std::string particle_type = str("particle_type", &(*args)[0]);
 
   // Third, determine the configuration_index from args[0]
+  if (used("configuration_index", (*args)[0])) {
+    WARN("Deprecated TrialGrow::configuration_index->config (see Configuration::name)");
+  }
   const std::string configuration_index = str("configuration_index", &(*args)[0], "0");
   const int configuration_index2 = integer("configuration_index2", &(*args)[0], -1);
+  const std::string config_name = str("config", &(*args)[0], "");
+  const std::string config_name2 = str("config2", &(*args)[0], "");
 
   // Finally, add each trial to the factory
   for (int itr = 0; itr < static_cast<int>(trial_types.size()); ++itr) {
@@ -167,6 +174,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
       if (iarg == 0 && trial_type != "partial_regrow") {
         argtype sel_args = {{"particle_type", particle_type},
                             {"configuration_index", configuration_index},
+                            {"config", config_name},
                             {"site", site},
                             {"max_particles", str("max_particles", &iargs, "-1")},
                             {"min_particles", str("min_particles", &iargs, "-1")}};
@@ -189,6 +197,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
         } else if (trial_type == "add_avb") {
           iargs.insert({"particle_type", particle_type});
           iargs.insert({"configuration_index", configuration_index});
+          iargs.insert({"config", config_name});
           iargs.insert({"site", site});
           iargs.insert({"grand_canonical", "true"});
           select = std::make_shared<SelectParticleAVB>(&iargs);
@@ -199,6 +208,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
         } else if (trial_type == "remove_avb") {
           iargs.insert({"particle_type", particle_type});
           iargs.insert({"configuration_index", configuration_index});
+          iargs.insert({"config", config_name});
           iargs.insert({"site", site});
           iargs.insert({"grand_canonical", "true"});
           select = std::make_shared<SelectParticleAVB>(&iargs);
@@ -221,6 +231,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           gen_avb2_args_(out_to_in, &iargs, &perturb_args);
           iargs.insert({"particle_type", particle_type});
           iargs.insert({"configuration_index", configuration_index});
+          iargs.insert({"config", config_name});
           iargs.insert({"site", site});
           select = std::make_shared<SelectParticleAVB>(&iargs);
           perturb = std::make_shared<PerturbMoveAVB>(&perturb_args);
@@ -230,6 +241,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           gen_avb4_args_(&iargs);
           iargs.insert({"particle_type", particle_type});
           iargs.insert({"configuration_index", configuration_index});
+          iargs.insert({"config", config_name});
           iargs.insert({"site", site});
           select = std::make_shared<SelectParticleAVB>(&iargs);
           perturb = std::make_shared<PerturbMoveAVB>(&iargs);
@@ -244,6 +256,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           select = MakeTrialSelectBond({
             {"particle_type", particle_type},
             {"configuration_index", configuration_index},
+            {"config", config_name},
             {"mobile_site", str("mobile_site", &iargs)},
             {"anchor_site", str("anchor_site", &iargs)}});
           perturb = std::make_shared<PerturbDistance>(&iargs);
@@ -254,6 +267,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           select = MakeTrialSelectAngle({
             {"particle_type", particle_type},
             {"configuration_index", configuration_index},
+            {"config", config_name},
             {"mobile_site", str("mobile_site", &iargs)},
             {"anchor_site", str("anchor_site", &iargs)},
             {"anchor_site2", str("anchor_site2", &iargs)}});
@@ -265,6 +279,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           select = MakeTrialSelectDihedral({
             {"particle_type", particle_type},
             {"configuration_index", configuration_index},
+            {"config", config_name},
             {"mobile_site", str("mobile_site", &iargs)},
             {"anchor_site", str("anchor_site", &iargs)},
             {"anchor_site2", str("anchor_site2", &iargs)},
@@ -277,6 +292,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           select = MakeSelectBranch({
             {"particle_type", particle_type},
             {"configuration_index", configuration_index},
+            {"config", config_name},
             {"mobile_site", str("mobile_site", &iargs)},
             {"mobile_site2", str("mobile_site2", &iargs)},
             {"anchor_site", str("anchor_site", &iargs)},
@@ -290,6 +306,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
             {"particle_type", particle_type},
             {"particle_type2", str("particle_type2", &iargs)},
             {"configuration_index", configuration_index},
+            {"config", config_name},
             {"mobile_site", str("mobile_site", &iargs)},
             {"mobile_site2", str("mobile_site2", &iargs)}});
           perturb = std::make_shared<PerturbPositionSwap>(&iargs);
@@ -300,6 +317,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           select = MakeTrialSelectBond({
             {"particle_type", particle_type},
             {"configuration_index", configuration_index},
+            {"config", config_name},
             {"mobile_site", str("mobile_site", &iargs)},
             {"anchor_site", str("anchor_site", &iargs)}});
           perturb = std::make_shared<PerturbConnector>(&iargs);
@@ -310,6 +328,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           select = MakeTrialSelectAngle({
             {"particle_type", particle_type},
             {"configuration_index", configuration_index},
+            {"config", config_name},
             {"mobile_site", str("mobile_site", &iargs)},
             {"anchor_site", str("anchor_site", &iargs)},
             {"anchor_site2", str("anchor_site2", &iargs)}});
@@ -335,6 +354,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
       //  "For " << trial_type << ", num_steps must be 1");
       argtype stage_args = {{"num_steps", num_steps},
         {"reference_index", str("reference_index", &iargs, default_reference_index)},
+        {"ref", str("ref", &iargs, default_ref)},
         {"new_only", str("new_only", &iargs, default_new_only)},
       };
       feasst_check_all_used(iargs);
@@ -344,8 +364,8 @@ void TrialGrow::build_(std::vector<argtype> * args) {
     if (trial_types[0] == "gibbs_transfer") {
       ASSERT(static_cast<int>(trial_types.size()) == 1,
         "gibbs_transfer should only have one trial.");
-      ASSERT(configuration_index2 > 0,
-        "configuration_index2 is a required argument for gibbs_transfer.");
+      ASSERT(configuration_index2 > 0 || !config_name2.empty(),
+        "configuration_index2 or config2 is a required argument for gibbs_transfer.");
       // duplicate all stages again except, for the first new stage, replace
       // PerturbAdd with PerturbRemove and select the other configuration.
       const int num_stages = trial->num_stages();
@@ -355,6 +375,7 @@ void TrialGrow::build_(std::vector<argtype> * args) {
         DEBUG("pert name " << stage.perturb().class_name());
         auto cp_stg = std::make_shared<TrialStage>(deep_copy(stage));
         cp_stg->get_trial_select()->set_configuration_index(configuration_index2);
+        cp_stg->get_trial_select()->set_config(config_name2);
         trial->add_stage(cp_stg);
         if (istage == 0) {
           TrialStage * stg0 = trial->get_stage_(num_stages);
@@ -374,7 +395,9 @@ void TrialGrow::build_(std::vector<argtype> * args) {
       // duplicate gibbs_transfer with reverse configuration_index
       auto cp_trl = std::make_shared<Trial>(deep_copy(*trial));
       const int conf_ind1 = str_to_int(configuration_index);
+      const std::string conf_n1 = config_name;
       const int conf_ind2 = configuration_index2;
+      const std::string conf_n2 = config_name2;
       for (int istage = 0; istage < cp_trl->num_stages(); ++istage) {
 //        TrialStage * stage = cp_trl->get_stage_(istage);
 //        TrialSelect * sel = stage->get_trial_select();
@@ -386,6 +409,13 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           sel->set_configuration_index(conf_ind1);
         } else {
           FATAL("unrecognized conf index: " << sel->configuration_index());
+        }
+        if (sel->config() == conf_n1) {
+          sel->set_config(conf_n2);
+        } else if (sel->config() == conf_n2) {
+          sel->set_config(conf_n1);
+        } else {
+          FATAL("unrecognized conf: " << sel->config());
         }
       }
       add(cp_trl);

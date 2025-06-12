@@ -1,5 +1,5 @@
 TrialGrowFile
 
-particle_type 0 configuration_index 0 site 0 regrow true
+particle_type=0 configuration_index=0 site=0 regrow=true
 
-particle_type 0 configuration_index 1 site 0 regrow true
+particle_type=0 configuration_index=1 site=0 regrow=true

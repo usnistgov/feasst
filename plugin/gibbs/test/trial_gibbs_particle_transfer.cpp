@@ -4,7 +4,7 @@
 namespace feasst {
 
 TEST(TrialGibbsParticleTransferOneWay, serialize) {
-  auto add = MakeTrialGibbsParticleTransferOneWay({{"to_configuration_index", "0"}});
+  auto add = MakeTrialGibbsParticleTransferOneWay({{"to_config", "0"}});
   std::shared_ptr<Trial> trial2 = test_serialize<TrialGibbsParticleTransferOneWay, Trial>(*add);
 }
 

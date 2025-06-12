@@ -27,7 +27,7 @@ class Potential {
  public:
   //@{
   /** @name Arguments
-    - configuration_index: index of Configuration in System (default: 0).
+    - config: name of Configuration in System (default: 0).
     - group_index: set the index of the Group in the Configuration which
       contributes to this Potential (default: 0, representing entire config).
     - group: name of Group defined within System (default: "").
@@ -57,6 +57,16 @@ class Potential {
 
   /// Return the index of the cell
   int cell_index() const;
+
+  /// Return the configuration name
+  const std::string& config() const { return config_; }
+
+  /// Return the configuration index
+  int configuration_index() const { return configuration_index_; }
+
+  /// Set the configuration index
+  void set_configuration_index(const int configuration_index) {
+    configuration_index_ = configuration_index; }
 
   /// Construct with model and default visitor.
   explicit Potential(std::shared_ptr<Model> model, argtype args = argtype());
@@ -179,6 +189,8 @@ class Potential {
   int table_size_;
   double table_hs_threshold_;
   argtype override_args_;
+  int configuration_index_;
+  std::string config_;
 };
 
 inline std::shared_ptr<Potential> MakePotential(argtype args = argtype()) {

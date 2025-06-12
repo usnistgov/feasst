@@ -62,7 +62,7 @@ reactant1:/feasst/particle/lj_new.txt,product1:/feasst/particle/lj_new.txt,\
 reactant2:/feasst/particle/lj_new.txt,product2:/feasst/particle/lj_new.txt add_num_reactant2_particles=1
 Potential Model=LennardJones
 Potential VisitModel=LongRangeCorrections
-RefPotential VisitModel=DontVisitModel
+RefPotential VisitModel=DontVisitModel ref=noixn
 ThermoParams beta={beta} chemical_potential=1,1,1,1
 Metropolis
 # Add weight per num fraction
@@ -83,7 +83,7 @@ Remove name=TrialAdd,Log
 
 # equilibration
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
-Let [TrialMorph]=TrialMorph weight=0.1 reference_index=0 particle_type
+Let [TrialMorph]=TrialMorph weight=0.1 ref=noixn particle_type
 [TrialMorph]=reactant1,reactant2 particle_type_morph=product1,product2
 [TrialMorph]=product1,product2 particle_type_morph=reactant1,reactant2
 [TrialMorph]=product1,reactant1 particle_type_morph=reactant1,product1

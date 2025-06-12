@@ -51,8 +51,8 @@ void FileVMD::write(const std::string file_name,
   double radius, distance;
   int center_index;
   for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
-    vmdf << "set sel [atomselect top \"name " << site_type << "\"]"
-         << std::endl;
+    vmdf << "set sel [atomselect top \"name " <<
+      config.site_type_to_name(site_type) << "\"]" << std::endl;
     get_params(config, site_type, &radius, &distance, &center_index);
     vmdf << "$sel set radius " << radius << std::endl;
   }

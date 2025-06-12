@@ -25,6 +25,12 @@ class PotentialFactory {
  public:
   PotentialFactory() {}
 
+  /// Return the user name.
+  const std::string& user_name() const { return user_name_; }
+
+  /// Set the user name.
+  void set_user_name(const std::string& name) { user_name_ = name; }
+
   /// Add potential.
   void add(std::shared_ptr<Potential> potential);
 
@@ -101,6 +107,7 @@ class PotentialFactory {
   std::vector<std::shared_ptr<Potential> > potentials_;
   int opt_overlap_ = 1;
 //  Timer timer_;
+  std::string user_name_;
 };
 
 }  // namespace feasst

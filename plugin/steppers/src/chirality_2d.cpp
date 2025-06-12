@@ -31,6 +31,7 @@ std::string Chirality2D::header(const MonteCarlo& mc) const {
 }
 
 void Chirality2D::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   System * system = mc->get_system();
   ASSERT(system->configuration().dimension() == 2,
     "dim: " << system->configuration().dimension() << " != 2");

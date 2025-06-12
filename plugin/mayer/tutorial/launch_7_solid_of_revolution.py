@@ -61,11 +61,11 @@ RandomMT19937 seed={seed}
 Configuration cubic_side_length=500 particle_type=cylinder:/feasst/plugin/patch/particle/one_patch.txt add_num_cylinder_particles=2 \
     group=first,centers first_particle_index=0 centers_site_type=0
 Potential Model=IdealGas VisitModelInner=SolidOfRevolutionTable table_file={table_file} group=centers
-RefPotential Model=HardSphere group=centers sigma=0 sigma0=1
+RefPotential ref=hs Model=HardSphere group=centers sigma=0 sigma0=1
 ThermoParams beta=1
 MayerSampling trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
-TrialTranslate new_only=true reference_index=0 tunable_param=1 group=first
-TrialRotate new_only=true reference_index=0 tunable_param=40
+TrialTranslate new_only=true ref=hs tunable_param=1 group=first
+TrialRotate new_only=true ref=hs tunable_param=40
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # tune trial parameters

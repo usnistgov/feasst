@@ -142,7 +142,14 @@ std::unique_ptr<MonteCarlo> restart(const std::string& filename, bool resume = t
   try {
     MakeCheckpoint({{"checkpoint_file", filename}})->read(&cms);
   } catch (const CustomException& e) {
-    MakeCheckpoint({{"checkpoint_file", filename}})->read_unique(mc);
+    try {
+      MakeCheckpoint({{"checkpoint_file", filename}})->read_unique(mc);
+    } catch (const CustomException& e) {
+      std::cout << "# Could not find checkpoint file:" << filename << std::endl
+                << "# Attempting to read backup file:" << filename << ".bak"
+                << std::endl;
+      MakeCheckpoint({{"checkpoint_file", filename+".bak"}})->read_unique(mc);
+    }
     is_mc = true;
   }
   if (is_mc) {

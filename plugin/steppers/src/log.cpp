@@ -23,6 +23,7 @@ Log::Log(argtype * args) : AnalyzeWriteOnly(args) {
 }
 
 void Log::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   printer(header(*mc), output_file(mc->criteria()));
 }
 

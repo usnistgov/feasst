@@ -34,8 +34,7 @@ class TrialStage {
   /**
     args:
     - num_steps: number of Rosenbluth steps (default: 1).
-    - reference_index: index of reference potential.
-      Otherwise, if full potential is desired, set to -1 (default: -1).
+    - ref: name of RefPotential. If empty, use Potential (default: empty).
     - new_only: do not compute the Rosenbluth of the old configuration
       (default: false).
    */
@@ -48,6 +47,9 @@ class TrialStage {
 
   /// Return the index of the reference potential.
   int reference() const { return reference_; }
+
+  /// Return the name of the reference potential.
+  const std::string& ref() const { return ref_; }
 
   /// Return true if the trial computes new configuration only.
   bool is_new_only() const { return is_new_only_; }
@@ -136,6 +138,7 @@ class TrialStage {
   //@}
  private:
   int reference_ = -1;
+  std::string ref_;
   std::shared_ptr<Perturb> perturb_;
   std::shared_ptr<TrialSelect> select_;
   std::shared_ptr<Rosenbluth> rosenbluth_;

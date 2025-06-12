@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include "system/include/potential.h"
 #include "system/include/potential_factory.h"
 
 namespace feasst {
@@ -61,6 +62,15 @@ class System {
   // This interface is to be avoided if possible.
   Configuration* get_configuration(const int config = 0);
 
+  /// Return the index of the Configuration based on the name.
+  int configuration_index(const std::string& name) const;
+
+  /// Return the configuration based on the name.
+  const Configuration& configuration(const std::string& name) const;
+
+  /// Return the configuration pointer based on the name.
+  Configuration * configuration(const std::string& name);
+
   /// Return the dimensionality of the system.
   int dimension(const int config = 0) const;
 
@@ -71,8 +81,7 @@ class System {
   //@{
 
   /// Add a potential. By default, the potential is considered unoptimized.
-  void add(std::shared_ptr<Potential> potential, const int config = 0) {
-    add_to_unoptimized(potential, config); }
+  void add(std::shared_ptr<Potential> potential);
 
   /// Set an unoptimized potential.
   void set_unoptimized(const int index, std::shared_ptr<Potential> potential,
@@ -106,7 +115,7 @@ class System {
   void add_to_reference(std::shared_ptr<Potential> ref,
     /// Store different references by index.
     const int index = 0,
-    const int config = 0);
+    std::string name = "");
 
   /// Return the number of reference potentials.
   int num_references(const int config = 0) const;
@@ -118,6 +127,12 @@ class System {
   /// Return the list of reference potentials.
   const std::vector<std::vector<PotentialFactory> > references() const {
     return references_; }
+
+  /// Return the index of the reference potential based on the name and the
+  /// Configuration.
+  /// If the name is not found, return the number of current reference
+  /// potentials.
+  int reference_index(const int config, const std::string& name) const;
 
   /// Return a constant reference to the full potentials.
   const PotentialFactory& potentials(const int config = 0) const;
@@ -270,6 +285,7 @@ class System {
   explicit System(std::istream& sstr);
 
  private:
+  // The first index is the config, and the second (if available) is ref
   std::vector<std::shared_ptr<Configuration> > configurations_;
   std::vector<std::shared_ptr<BondVisitor> > bonds_;
   std::vector<PotentialFactory> unoptimized_;
@@ -286,6 +302,12 @@ class System {
 
   PotentialFactory * reference_(const int index, const int config);
   PotentialFactory * potentials_(const int config);
+
+  /// Return the index of the reference potential based on the name and the
+  /// Configuration.
+  /// If the name is not found, return the number of current reference
+  /// potentials.
+  int reference_index_(const int config, const std::string& name) const;
 };
 
 inline std::shared_ptr<System> MakeSystem() {

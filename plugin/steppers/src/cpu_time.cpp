@@ -14,6 +14,7 @@ CPUTime::CPUTime(argtype args) : CPUTime(&args) {
 }
 
 void CPUTime::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   num_writes_ = 0;
   initialize_time_ = cpu_hours();
 }

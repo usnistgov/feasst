@@ -10,15 +10,14 @@ namespace feasst {
 
 /**
   Add a reference potential.
-  Unlike Potential, multiple RefPotential can use the same reference_index,
-  which is 0 by default (see args).
+  Each unique name added the potential to a different RefPotential that can be
+  called specifically.
  */
 class RefPotential : public Action {
  public:
   //@{
   /** @name Arguments
-    - reference_index: index of reference potential (default: 0).
-    - configuration_index: index of configuration potential (default: 0).
+    - ref: name of reference potential (default: 0).
     - Potential arguments.
    */
   explicit RefPotential(argtype args = argtype());
@@ -41,7 +40,9 @@ class RefPotential : public Action {
   //@}
  private:
   int reference_index_;
+  std::string ref_;
   int configuration_index_;
+  std::string config_;
   argtype args_;
 };
 

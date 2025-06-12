@@ -26,6 +26,7 @@ RadiusOfGyration::RadiusOfGyration(argtype args) : RadiusOfGyration(&args) {
 }
 
 void RadiusOfGyration::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   printer(header(*mc), output_file(mc->criteria()));
 }
 

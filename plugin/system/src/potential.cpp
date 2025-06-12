@@ -60,6 +60,11 @@ Potential::Potential(argtype * args) {
       }
     }
   }
+  if (used("configuration_index", *args)) {
+    WARN("Deprecated Potential::configuration_index->config (see Configuration::name)");
+  }
+  configuration_index_ = feasst::integer("configuration_index", args, 0);
+  config_ = feasst::str("config", args, "");
 }
 Potential::~Potential() {}
 
@@ -265,7 +270,7 @@ void Potential::check(const Configuration& config) const {
 }
 
 void Potential::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(432, ostr);
+  feasst_serialize_version(433, ostr);
   feasst_serialize(group_index_, ostr);
   feasst_serialize(group_, ostr);
   feasst_serialize_fstdr(visit_model_, ostr);
@@ -280,11 +285,13 @@ void Potential::serialize(std::ostream& ostr) const {
   feasst_serialize(table_size_, ostr);
   feasst_serialize(table_hs_threshold_, ostr);
   feasst_serialize(override_args_, ostr);
+  feasst_serialize(config_, ostr);
+  feasst_serialize(configuration_index_, ostr);
 }
 
 Potential::Potential(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(432 == version, "version mismatch: " << version);
+  ASSERT(version >= 432 && version <= 433, "version mismatch: " << version);
   feasst_deserialize(&group_index_, istr);
   feasst_deserialize(&group_, istr);
   // feasst_deserialize_fstdr(visit_model_, istr);
@@ -329,6 +336,10 @@ Potential::Potential(std::istream& istr) {
   feasst_deserialize(&table_size_, istr);
   feasst_deserialize(&table_hs_threshold_, istr);
   feasst_deserialize(&override_args_, istr);
+  if (version >= 433) {
+    feasst_deserialize(&config_, istr);
+    feasst_deserialize(&configuration_index_, istr);
+  }
 }
 
 void Potential::set_model_params(const Configuration& config) {

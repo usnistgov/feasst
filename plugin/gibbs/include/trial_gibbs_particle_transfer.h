@@ -17,8 +17,8 @@ class TrialGibbsParticleTransfer : public TrialFactoryNamed {
  public:
   //@{
   /** @name Arguments
-    - configuration_index0: index of one of the configurations (default: 0).
-    - configuration_index1: index of the other configuration (default: 1).
+    - configs: two comma-separated names of configurations to transfer between
+      (default: "0,1").
     - TrialSelectParticle arguments.
    */
   explicit TrialGibbsParticleTransfer(argtype args = argtype());
@@ -43,8 +43,8 @@ class TrialGibbsParticleTransferOneWay : public Trial {
  public:
   /**
     args:
-    - to_configuration_index: index of configuration to send the particle.
-    - configuration_index: from TrialSelect, configuration which donates a
+    - to_config: name of configuration to send the particle.
+    - config: from TrialSelect, configuration which donates a
       particle (default: 0).
    */
   explicit TrialGibbsParticleTransferOneWay(argtype args = argtype());

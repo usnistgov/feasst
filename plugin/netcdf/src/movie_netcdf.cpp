@@ -19,6 +19,7 @@ MovieNETCDF::MovieNETCDF(argtype args) : MovieNETCDF(&args) {
 }
 
 void MovieNETCDF::initialize(Criteria * criteria,
+  Analyze::initialize(mc);
     System * system,
     TrialFactory * trial_factory) {
   const std::string name = file_name(*criteria);

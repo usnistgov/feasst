@@ -121,9 +121,9 @@ def sim_node_dependent_params(params):
         params['config'] = """xyz_file={xyz}""".format(**params)
         params['init'] = ''
     prepend="{}{:03d}".format(params['prefix'], sim)
-    fstio.write_linear_grow_file(prepend+"_grow_canonical.txt", num_sites=params['num_sites'], gce=0, reference_index=0, num_steps=1, particle_type='trappe')
+    fstio.write_linear_grow_file(prepend+"_grow_canonical.txt", num_sites=params['num_sites'], gce=0, ref="noixn", num_steps=1, particle_type='trappe')
     if params['xyz'] == '':
-        fstio.write_linear_grow_file(prepend+"_grow_add.txt", num_sites=params['num_sites'], gce=2, reference_index=0, num_steps=1, particle_type='trappe')
+        fstio.write_linear_grow_file(prepend+"_grow_add.txt", num_sites=params['num_sites'], gce=2, ref="noixn", num_steps=1, particle_type='trappe')
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -135,8 +135,8 @@ Configuration {config} particle_type=trappe:{fstprt} cutoff={cutoff}
 Potential Model=LennardJones VisitModel=VisitModelCell min_length=max_cutoff
 Potential Model=LennardJones VisitModel=VisitModelIntra intra_cut=3
 Potential VisitModel=LongRangeCorrections
-RefPotential reference_index=0 VisitModel=DontVisitModel
-#RefPotential reference_index=1 Model=LennardJones VisitModel=VisitModelCell cutoff={dccb_cut} min_length={dccb_cut}
+RefPotential ref=noixn VisitModel=DontVisitModel
+#RefPotential ref=dccb Model=LennardJones VisitModel=VisitModelCell cutoff={dccb_cut} min_length={dccb_cut}
 ThermoParams beta={beta} chemical_potential={mu_init} pressure={pressure}
 Metropolis
 TrialTranslate weight=0.5 tunable_param=1

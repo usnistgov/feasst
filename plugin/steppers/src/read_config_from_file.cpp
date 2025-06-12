@@ -36,6 +36,7 @@ void ReadConfigFromFile::load_(Criteria * criteria, System * system) {
 }
 
 void ReadConfigFromFile::initialize(MonteCarlo * mc) {
+  Modify::initialize(mc);
   file_.open(input_file_);
   ASSERT(file_.good(), "cannot open " << input_file_);
   load_(mc->get_criteria(), mc->get_system());

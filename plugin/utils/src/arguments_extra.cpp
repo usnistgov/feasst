@@ -128,7 +128,7 @@ argtype line_to_argtype(const std::string line) {
       args[vals[0]] = vals[1];
     }
   } else {
-    WARN("Deprecate TrialGrowFile space separated pairs. "
+    WARN("Deprecated space separated pairs. "
       << "Use an equal sign between each argument pair.");
     std::stringstream ss(line);
     std::string key, value;

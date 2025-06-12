@@ -21,6 +21,7 @@ Movie::Movie(argtype args) : Movie(&args) { feasst_check_all_used(args); }
 Movie::~Movie() {}
 
 void Movie::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   const System& system = mc->system();
   const std::string name = output_file(mc->criteria());
   ASSERT(!name.empty(), "output_file argument is required. Did you forget to " <<

@@ -41,6 +41,7 @@ GhostTrialVolume::GhostTrialVolume(argtype args) : GhostTrialVolume(&args) {
 }
 
 void GhostTrialVolume::initialize(MonteCarlo * mc) {
+  Modify::initialize(mc);
 }
 
 void GhostTrialVolume::update(MonteCarlo * mc) {

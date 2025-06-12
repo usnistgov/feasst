@@ -365,13 +365,10 @@ To Do List
 * Optimize BondVisitor that uses deserialize_map and strings in inner loop
 * Add more documentation/examples of analyzing stdev of the mean with block analysis. Output individual block averages for custom analysis? Correlation time? Move Accumulator example to text interface. Expose Accumulator options (stepper takes Accumulator arguments).
 * Have the tests override hours checkpoint, etc so that users don't have bad values
-* Reduce input text file with class that factories the creation of analyze and modify (e.g., all using the same trials_per_iteration, file name prefixes, etc)
-* fstprt files use label strings instead of numbers (document this, 0-O, 1-H for spce, etc)
 * pip install feasst
 * In class documentation, link to tutorials that use the class
 * Every time trial is added, determine which molecules are excluded from weight_per_num_fraction
 * make a gui/software/script that walks through the building of a FEASST input file.
-* Replace particle_index, reference_index, configuration_index etc, with names (like groups have).. (same for sites,bonds,angles in fstprt files)
 * For 0.26, Remove Random::[time, default] arguments
 * For 0.26, Remove ConvertToRefPotential, ProfileTrials, RemoveModify, RemoveAnalyze, RemoveTrial, Run::until_criteria_complete, Criteria/Stepper::iteration
 * For 0.26, Depreciate and update AngleSquareWell::min/max to min_degrees/max_degrees
@@ -382,7 +379,3 @@ To Do List
 * For 0.26, remove Copy[following/next] in favor of For
 * Benchmark FEASST for use with podman or apptainer
 * Search for deprecate Warn in weekly build tests
-* Make a feasst text interface generic for loop with string replacement, For [var]=1,2,3 [var2]=1.csv,2.sv,3.csv. Can it be nested with config index? or 2d->1d [var]=1,1,2,2 [conf]=0,1,0,1
-* Configuration names instead of index. RefPotential names too.
-* Checkpoint shorten: Save save_file={prefix}{sim:03d}_save.fst hours={hours_checkpoint} hours_terminate={hours_terminate}
-* shape plugin needs comma-separated args

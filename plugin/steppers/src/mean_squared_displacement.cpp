@@ -24,6 +24,7 @@ MeanSquaredDisplacement::MeanSquaredDisplacement(argtype args)
 }
 
 void MeanSquaredDisplacement::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   updates_since_origin_ = updates_per_origin_;
   mc->get_system()->get_configuration(configuration_index())->init_wrap(false);
 }

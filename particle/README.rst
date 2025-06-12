@@ -11,7 +11,7 @@ Each plugin many also contain a particle directory as additional examples and fo
 The units used in these files (length, energy, etc) are not assumed (with one exception) and must be consistent with the units to initialize your simulations.
 The :doc:`charge plugin </plugin/charge/README>` is the only plugin that assumes units.
 Otherwise, any other use of FEASST assumes that the user takes care to input values with a consistent set of units of their choosing.
-For example, the units of length for positions in the data file should match whatever is used for defining the Domain, and the :cpp:class:`FileXYZ <feasst::FileXYZ>` positions will also be consistent with that user choice.
+For example, the units of length for positions in the particle file should match whatever is used for defining the Domain, and the :cpp:class:`FileXYZ <feasst::FileXYZ>` positions will also be consistent with that user choice.
 The energy scale is given by epsilon-like parameters, as should be consistent with the beta given to :cpp:class:`ThermoParams <feasst::ThermoParams>`.
 That is, beta has units of inverse energy.
 Similarly, chemical_potential has units of energy.
@@ -98,30 +98,34 @@ Comments
 For comments at the beginning of the file, begin each comment line with the "#" character.
 Otherwise, commends can only be added between sections.
 Use caution when adding comments anywhere else in the file.
-Comments can only be one contiguous group of lines beginning with "#."
-Use caution if you add comments anywhere else in the file.
-End comments with a blank line immediately afterward.
 
 Dimensions
 ================
 
 A two dimensional particle can be initialized by providing the following line: "2 dimensions"
 
+Mixing Files
+================
+
+Site Properties and mixing rules may be input with the model_param_file argument to :cpp:class:`Configuration <feasst::Configuration>`.
+If mixing parameters are not provided, Lorentz-Berthelot mixing rules are assumed.
+Parameter values can be verified with :cpp:class:`WriteModelParams <feasst::WriteModelParams>`.
+
 Differences from LAMMPS
 ========================
 
 LAMMPS data files are defined here: https://docs.lammps.org/read_data.html
 
-The data files used by FEASST have the following major differences:
+The particle files used by FEASST have the following major differences:
 
 - atoms in LAMMPS are analogous to sites in FEASST.
 - molecules in LAMMPS are analogous to particles in FEASST.
-- the numbers of sites, bonds, etc are not given explicitly but instead determined by the number of entries in the corresponding sections described below.
-- FEASST data files contain only one particle.
+- the numbers of sites, bonds, etc are not given explicitly but instead determined by the number of entries in the corresponding sections.
+- FEASST particle files contain only one particle.
 - characters are case sensitive.
 - the number of spaces between characters does not matter.
 - LMP Coeffs sections were replaced by Properties sections, with very different formatting as described below.
 - "2 dimensions" may be specified in the file for a 2D particle.
-- FEASST data files contain no information about the :cpp:class:`Domain <feasst::Domain>` boundaries.
+- FEASST particle files contain no information about the :cpp:class:`Domain <feasst::Domain>` boundaries.
 - The "Sites" section has the following three major differences: (1) these files describe only one particle so, unlike LAMMPS, molecule index is not included, (2) charge is a site-type property, and thus is not given for each site and (3) wrapping is not included.
 

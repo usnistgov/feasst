@@ -151,20 +151,27 @@ void ModelParam::override_resize_() {
   }
 }
 
-std::string ModelParam::str() const {
+std::string ModelParam::str(std::vector<std::string> * site_type_names) const {
   std::stringstream ss;
-  ss << class_name() << std::endl;
   for (int type1 = 0; type1 < size(); ++type1) {
-    for (int type2 = 0; type2 < size(); ++type2) {
-      ss << "type" << type1 << "," << value(type1) << ",";
-      ss << "type" << type2 << "," << value(type2) << ",";
-      if (type1 < static_cast<int>(mixed_values().size())) {
-        if (type2 < static_cast<int>(mixed_values()[type1].size())) {
-          ss << "type" << type1 << "-" << type2 << ","
-             << mixed_value(type1, type2);
-        }
+    ss << class_name() << " ";
+    if (site_type_names) {
+      ss << (*site_type_names)[type1];
+    } else {
+      ss << type1;
+    }
+    ss << " " << MAX_PRECISION << value(type1) << std::endl;
+  }
+  for (int type1 = 0; type1 < size(); ++type1) {
+    for (int type2 = type1; type2 < size(); ++type2) {
+      ss << class_name() << " ";
+      if (site_type_names) {
+        ss << (*site_type_names)[type1] << " " << (*site_type_names)[type2];
+      } else {
+        ss << type1 << " " << type2;
       }
-      ss << std::endl;
+      ss << " " << MAX_PRECISION
+         << mixed_value(type1, type2) << std::endl;
     }
   }
   return ss.str();
@@ -223,8 +230,8 @@ void ModelParams::add(const Particle& particle) {
           DEBUG("automatically adding " << name);
           auto model_param =
             deep_copy_derived(ModelParam().deserialize_map()[name]);
-          // INFO(particle.num_sites());
-          // INFO(size());
+          // DEBUG(particle.num_sites());
+          // DEBUG(size());
           for (int i = 0; i < size(); ++i) {
             model_param->add(0.);  // add the default placeholder value
           }
@@ -291,7 +298,7 @@ std::shared_ptr<ModelParam> ModelParams::select_(
       return param;
     }
   }
-  ASSERT(0, "unrecognized name(" << param_name << ")");
+  ASSERT(0, "Unrecognized ModelParam name(" << param_name << ")");
   return NULL;
 }
 
@@ -309,17 +316,28 @@ void ModelParams::set(const std::string& name,
   select_(name)->set_mixed(site_type1, site_type2, value);
 }
 
-void ModelParams::set(const std::string& name, const std::string& filename) {
+void ModelParams::set(const std::string& name, const std::string& filename,
+    std::vector<std::string> * site_type_names) {
+  WARN("Deprecated.");
   std::ifstream file(filename.c_str());
   ASSERT(file.good(), "cannot find mixing file " << filename.c_str());
   std::shared_ptr<ModelParam> param = select_(name);
   const int size = param->size();
   int site_type1, site_type2;
+  std::string stname1, stname2;
   double value;
   std::string line;
-  bool read = true;
+  bool read = true, found;
   while (read) {
-    file >> site_type1 >> site_type2 >> value;
+    if (site_type_names) {
+      file >> stname1 >> stname2 >> value;
+      found = find_in_list(stname1, *site_type_names, &site_type1);
+      ASSERT(found, "Could not find site type name:" << stname1);
+      found = find_in_list(stname2, *site_type_names, &site_type2);
+      ASSERT(found, "Could not find site type name:" << stname2);
+    } else {
+      file >> site_type1 >> site_type2 >> value;
+    }
     DEBUG("site_type1 " << site_type1 << " site_type2 " << site_type2 <<
       " value " << value << " size " << size);
     ASSERT(site_type1 < size && site_type2 < size,
@@ -330,6 +348,62 @@ void ModelParams::set(const std::string& name, const std::string& filename) {
     std::getline(file, line);
     if (file.peek() == EOF) {
       read = false;
+    }
+  }
+}
+
+void ModelParams::set(const std::string& filename,
+    std::vector<std::string> * site_type_names) {
+  std::ifstream file(filename.c_str());
+  ASSERT(file.good(), "cannot find mixing file " << filename.c_str());
+  std::string line;
+  //std::getline(file, line);
+  bool last_line = false, found;
+  int num = 0;
+  int site_type1, site_type2;
+  std::shared_ptr<ModelParam> param;
+  while (!last_line) {
+    if (file.eof()) last_line = true;
+    std::getline(file, line);
+    ++num;
+    ASSERT(num < 1e9, "The file:" << filename << " has too many lines " <<
+      "or is otherwise improperly formatted.");
+    DEBUG("line:" << line);
+    if (line.front() != '#' && !line.empty()) {
+      DEBUG("parsing");
+      std::vector<std::string> vals = split(line, ' ');
+      param = select_(vals[0]);
+      const int size = param->size();
+      if (static_cast<int>(vals.size()) == 3) {
+        if (site_type_names) {
+          found = find_in_list(vals[1], *site_type_names, &site_type1);
+          ASSERT(found, "Could not find site type name:" << vals[1]);
+        } else {
+          site_type1 = feasst::str_to_int(vals[1]);
+        }
+        ASSERT(site_type1 < size, "given site_type1:" << site_type1 <<
+          " >= size:" << size << ". The file:"<<filename<<" seems to have more "
+          << "sites than the current configuration:"<<param->size());
+        param->set(site_type1, feasst::str_to_double(vals[2]));
+      } else if (static_cast<int>(vals.size()) == 4) {
+        if (site_type_names) {
+          found = find_in_list(vals[1], *site_type_names, &site_type1);
+          ASSERT(found, "Could not find site type name:" << vals[1]);
+          found = find_in_list(vals[2], *site_type_names, &site_type2);
+          ASSERT(found, "Could not find site type name:" << vals[2]);
+        } else {
+          site_type1 = feasst::str_to_int(vals[1]);
+          site_type2 = feasst::str_to_int(vals[2]);
+        }
+        ASSERT(site_type1 < size && site_type2 < size,
+          "given site_type1:" << site_type1 << " or site_type2: " << site_type2
+          << " >= size:" << size << ". The file:"<<filename<<" seems to have "
+          << "more sites than the current configuration:"<<param->size());
+        param->set_mixed(site_type1, site_type2, feasst::str_to_double(vals[3]));
+      } else {
+        FATAL("Unrecognized ModelParams format for file:" << filename <<
+          "on line:\"" << line << "\"");
+      }
     }
   }
 }
@@ -420,10 +494,15 @@ void ModelParams::set_cutoff_min_to_sigma() {
   cutoff->set_max_and_mixed();
 }
 
-std::string ModelParams::str() const {
+std::string ModelParams::str(std::vector<std::string> * site_type_names) const {
   std::stringstream ss;
+  ss << "# This is a FEASST Configuration::model_param_file which may " <<
+    "override the default Lorentz-Berthelot mixing rules." << std::endl <<
+    "# Each line has a 3- or 4-column space-separated format:" << std::endl <<
+    "# [parameter] [site type] [value]" << std::endl <<
+    "# [parameter] [site type 1] [site type 2] [value]" << std::endl << std::endl;
   for (const std::shared_ptr<ModelParam>& param : params_) {
-    ss << param->str();
+    ss << param->str(site_type_names);
   }
   return ss.str();
 }

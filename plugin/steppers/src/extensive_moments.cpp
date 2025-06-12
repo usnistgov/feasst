@@ -20,6 +20,7 @@ ExtensiveMoments::ExtensiveMoments(argtype args) : ExtensiveMoments(&args) {
 }
 
 void ExtensiveMoments::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   const int num_ptypes = configuration(mc->system()).num_particle_types();
   resize(max_order_ + 1,
          max_order_ + 1,

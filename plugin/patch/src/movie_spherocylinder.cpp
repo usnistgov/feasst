@@ -18,6 +18,7 @@ MovieSpherocylinder::MovieSpherocylinder(argtype * args) : AnalyzeWriteOnly(args
 MovieSpherocylinder::MovieSpherocylinder(argtype args) : MovieSpherocylinder(&args) { feasst_check_all_used(args); }
 
 void MovieSpherocylinder::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   const Criteria& criteria = mc->criteria();
   const std::string name = output_file(criteria);
   ASSERT(!name.empty(), "file name required. Did you forget to " <<

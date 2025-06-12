@@ -472,11 +472,29 @@ TEST(Configuration, 2dfstprt_with_xyz) {
 
 TEST(Configuration, param_mixing_file) {
   auto config = MakeConfiguration({
-    {"particle_type0", "../particle/spce.txt"},
+    {"particle_type", "../particle/spce.txt"},
     {"cubic_side_length", "8"},
     {"epsilon_mixing_file", "../plugin/configuration/test/data/eps_mix.txt"}});
   EXPECT_NEAR(1.51, config->model_params().select("epsilon").mixed_value(0, 0), NEAR_ZERO);
   EXPECT_NEAR(6.8, config->model_params().select("epsilon").mixed_value(0, 1), NEAR_ZERO);
+}
+
+TEST(Configuration, model_param_file) {
+  auto config = MakeConfiguration({
+    {"particle_type", "co2:../particle/dimer_mie_CO2.txt,n2:../particle/dimer_mie_N2.txt"},
+    {"cubic_side_length", "8"},
+    {"model_param_file", "../particle/mie_model_parameters.txt"}
+  });
+  std::vector<std::string> site_names;
+  config->site_type_names(&site_names);
+  EXPECT_EQ("CO2", site_names[0]);
+  EXPECT_EQ("N", site_names[1]);
+  EXPECT_EQ(2, static_cast<int>(site_names.size()));
+  EXPECT_NEAR(182.364, config->model_params().select("epsilon").value(0), NEAR_ZERO);
+  EXPECT_NEAR(182.364, config->model_params().select("epsilon").mixed_value(0, 0), NEAR_ZERO);
+  EXPECT_NEAR(121.5, config->model_params().select("epsilon").mixed_value(0, 1), NEAR_ZERO);
+  EXPECT_NEAR(49.590, config->model_params().select("epsilon").mixed_value(1, 1), NEAR_ZERO);
+  EXPECT_NEAR(20.27, config->model_params().select("mie_lambda_r").mixed_value(0, 1), NEAR_ZERO);
 }
 
 }  // namespace feasst

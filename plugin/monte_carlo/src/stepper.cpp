@@ -7,6 +7,7 @@
 #include "utils/include/serialize.h"
 #include "math/include/accumulator.h"
 #include "system/include/system.h"
+#include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/stepper.h"
 #include "monte_carlo/include/criteria.h"
 
@@ -70,7 +71,11 @@ Stepper::Stepper(argtype * args) {
 //  if (used("num_moments", *args)) {
 //    accumulator_.set_moments(integer("num_moments", args));
 //  }
+  if (used("configuration_index", *args)) {
+    WARN("Deprecated Stepper::configuration_index->config (see Configuration::name)");
+  }
   configuration_index_ = integer("configuration_index", args, 0);
+  config_ = str("config", args, "");
 }
 
 bool Stepper::is_time(const int trials_per, int * trials_since) {
@@ -116,7 +121,7 @@ void Stepper::set_state(const int state) {
 
 void Stepper::serialize(std::ostream& ostr) const {
   ostr << class_name() << " ";
-  feasst_serialize_version(497, ostr);
+  feasst_serialize_version(498, ostr);
   feasst_serialize(trials_since_update_, ostr);
   feasst_serialize(trials_since_write_, ostr);
   feasst_serialize(trials_per_update_, ostr);
@@ -132,6 +137,7 @@ void Stepper::serialize(std::ostream& ostr) const {
   feasst_serialize(is_multistate_aggregate_, ostr);
   feasst_serialize(state_, ostr);
   feasst_serialize(configuration_index_, ostr);
+  feasst_serialize(config_, ostr);
   feasst_serialize(rewrite_header_, ostr);
   feasst_serialize(accumulator_, ostr);
   feasst_serialize_endcap("Stepper", ostr);
@@ -141,7 +147,7 @@ Stepper::Stepper(std::istream& istr) {
   std::string name;
   istr >> name;
   const int version = feasst_deserialize_version(istr);
-  ASSERT(497 == version, version);
+  ASSERT(version >= 497 && version <= 498, version);
   feasst_deserialize(&trials_since_update_, istr);
   feasst_deserialize(&trials_since_write_, istr);
   feasst_deserialize(&trials_per_update_, istr);
@@ -157,6 +163,9 @@ Stepper::Stepper(std::istream& istr) {
   feasst_deserialize(&is_multistate_aggregate_, istr);
   feasst_deserialize(&state_, istr);
   feasst_deserialize(&configuration_index_, istr);
+  if (version >= 498) {
+    feasst_deserialize(&config_, istr);
+  }
   feasst_deserialize(&rewrite_header_, istr);
 //  feasst_deserialize(accumulator_, istr);
 // HWH for unknown reasons, this function template does not work.
@@ -177,5 +186,11 @@ const Configuration& Stepper::configuration(const System& system) const {
 const Accumulator& Stepper::accumulator() const { return *accumulator_; }
 
 Accumulator * Stepper::get_accumulator() { return accumulator_.get(); }
+
+void Stepper::initialize(MonteCarlo * mc) {
+  if (!config_.empty()) {
+    configuration_index_ = mc->system().configuration_index(config_);
+  }
+}
 
 }  // namespace feasst

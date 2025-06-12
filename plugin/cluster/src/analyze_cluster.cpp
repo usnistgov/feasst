@@ -17,6 +17,7 @@ AnalyzeCluster::AnalyzeCluster(argtype args) : AnalyzeCluster(&args) {
 }
 
 void AnalyzeCluster::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   printer(header(*mc), output_file(mc->criteria()));
 }
 

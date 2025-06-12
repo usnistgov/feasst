@@ -43,9 +43,9 @@ def parse(temperature=300):
     with open(params['prefix']+'_grow.txt', 'w') as f:
         f.write("""TrialGrowFile
 
-particle_type=water weight=2 transfer=true site=O1 num_steps=10 reference_index=0
-bond=true mobile_site=H1 anchor_site=O1 reference_index=0
-angle=true mobile_site=H2 anchor_site=O1 anchor_site2=H1 reference_index=0
+particle_type=water weight=2 transfer=true site=O1 num_steps=10 ref=dccb
+bond=true mobile_site=H1 anchor_site=O1 ref=dccb
+angle=true mobile_site=H2 anchor_site=O1 anchor_site2=H1 ref=dccb
 """)
 
     return params, args
@@ -63,7 +63,7 @@ def sim_node_dependent_params(params):
     elif params['node'] == 1:
         params['min_particles'] = params['num_particles_first_node']
         params["muvt_trials"]="""TrialGrowFile grow_file={prefix}_grow.txt""".format(**params)
-        params["ref_potential"]="""RefPotential Model=HardSphere group=oxygen cutoff={dccb_cut} VisitModel=VisitModelCell min_length={dccb_cut} cell_group=oxygen""".format(**params)
+        params["ref_potential"]="""RefPotential Model=HardSphere group=oxygen cutoff={dccb_cut} VisitModel=VisitModelCell min_length={dccb_cut} cell_group=oxygen ref=dccb""".format(**params)
         params['min_sweeps'] = 1
         params['window_alpha'] = 1.25
         params['min_window_size'] = 3
@@ -99,6 +99,7 @@ def post_process(params):
     # convert pressure of kJ/mol/A^3 to bar
     pressure_conv = 1e30/physical_constants.AvogadroConstant().value()*1e3/1e5
     for block in range(-1, num_block):
+        print('block', block)
         if block == -1:
             ln_prob_header = 'ln_prob'
             energy_header = 'e_average'

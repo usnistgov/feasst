@@ -25,6 +25,7 @@ DensityProfile::DensityProfile(argtype args) : DensityProfile(&args) {
 }
 
 void DensityProfile::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   const Configuration& config = configuration(mc->system());
   DEBUG("init");
   const int num_site_types = config.num_site_types();

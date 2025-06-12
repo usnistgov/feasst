@@ -54,9 +54,9 @@ def sim_node_dependent_params(params):
         params['min_window_size'] = 5
     elif params['node'] == 1:
         params['min_particles'] = params['num_particles_first_node']
-        params['muvt_trials'] = 'TrialTransfer weight=2 particle_type=lj reference_index=0 num_steps=10'
+        params['muvt_trials'] = 'TrialTransfer weight=2 particle_type=lj ref=dccb num_steps=10'
         params['lj_potential'] = 'Potential Model=LennardJones'
-        params['ref_potential'] = """RefPotential Model=LennardJones cutoff={dccb_cut} VisitModel=VisitModelCell min_length={dccb_cut}""".format(**params)
+        params['ref_potential'] = """RefPotential Model=LennardJones cutoff={dccb_cut} VisitModel=VisitModelCell min_length={dccb_cut} ref=dccb""".format(**params)
         params['avb_trials'] = ''
         params['min_sweeps'] = 2
         params['window_alpha'] = 1

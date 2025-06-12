@@ -29,6 +29,7 @@ std::string AnalyzeExample::header(const MonteCarlo& mc) const {
 }
 
 void AnalyzeExample::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   if (!group_.empty()) {
     group_index_ = mc->configuration().group_index(group_);
   }

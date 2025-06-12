@@ -20,6 +20,7 @@ ProfileTrials::ProfileTrials(argtype args) : ProfileTrials(&args) {
 }
 
 void ProfileTrials::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   profile_.clear();
   profile_.resize(mc->trial_factory().num());
   printer(header(*mc), output_file(mc->criteria()));

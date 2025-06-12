@@ -90,7 +90,7 @@ RandomMT19937 seed={seed}
 Configuration cubic_side_length={cubic_side_length} particle_type=plus:{plus},minus:{minus} cutoff=4.891304347826090 chargeRPM+={charge_plus} chargeRPM-={charge_minus}
 Potential VisitModel=Ewald alpha={alpha} kmax_squared=38
 Potential Model=ModelTwoBodyFactory models=HardSphere,ChargeScreened erfc_table_size=2e4
-RefPotential Model=HardSphere VisitModel=VisitModelCell min_length={dccb_cut}
+RefPotential Model=HardSphere VisitModel=VisitModelCell min_length={dccb_cut} ref=dccb
 Potential Model=ChargeSelf
 ThermoParams beta={beta} chemical_potential={mu},{mu}
 Metropolis Constraint=AEqualB extra_A=1 particle_type_A=plus particle_type_B=minus
@@ -100,7 +100,7 @@ Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_che
 
 # gcmc initialization and nvt equilibration
 For [pt]=plus,minus
-    TrialAdd particle_type=[pt] reference_index=0 num_steps=8
+    TrialAdd particle_type=[pt] ref=dccb num_steps=8
 EndFor
 Let [write]=trials_per_write={tpc} output_file={prefix}n{node}s{sim:03d}
 Log [write]_eq.csv
@@ -116,7 +116,7 @@ FlatHistogram Macrostate=MacrostateNumParticles width=1 max={max_particles} min=
   Bias=WLTM min_sweeps={min_sweeps} min_flatness=25 collect_flatness=20 min_collect_sweeps=1 \
   Constraint=AEqualB extra_A=1 particle_type_A=plus particle_type_B=minus
 For [pt]=plus,minus
-    TrialTransfer particle_type=[pt] reference_index=0 num_steps=8
+    TrialTransfer particle_type=[pt] ref=dccb num_steps=8
 EndFor
 Log [write].csv
 Tune [write]_tune.csv multistate=true stop_after_cycle=1

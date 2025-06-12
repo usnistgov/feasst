@@ -85,7 +85,7 @@ Potential Model=ModelTwoBodyFactory models=LennardJones,ChargeScreened erfc_tabl
 Potential Model=ChargeScreenedIntra VisitModel=VisitModelBond
 Potential Model=ChargeSelf
 Potential VisitModel=LongRangeCorrections
-RefPotential VisitModel=DontVisitModel
+RefPotential VisitModel=DontVisitModel ref=noixn
 ThermoParams beta={beta} chemical_potential={mu_init},{mu_init}
 Metropolis
 TrialTranslate weight=0.5 tunable_param=0.2
@@ -110,8 +110,8 @@ Remove name=Tune,Log
 # gcmc tm production
 FlatHistogram Macrostate=MacrostateNumParticles particle_type=pt1 width=1 max={max_particles} min={min_particles} \
     Bias=WLTM min_sweeps={min_sweeps} min_flatness=25 collect_flatness=20 min_collect_sweeps=1
-TrialMorph particle_type=pt1 particle_type_morph=pt2 reference_index=0
-TrialMorph particle_type=pt2 particle_type_morph=pt1 reference_index=0
+TrialMorph particle_type=pt1 particle_type_morph=pt2 ref=noixn
+TrialMorph particle_type=pt2 particle_type_morph=pt1 ref=noixn
 Log [write].csv
 Tune [write]_tune.csv multistate=true stop_after_cycle=1
 Movie [write]_eq.xyz stop_after_cycle=1

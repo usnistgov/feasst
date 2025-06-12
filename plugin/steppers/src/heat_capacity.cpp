@@ -19,6 +19,7 @@ HeatCapacity::HeatCapacity(argtype args) : HeatCapacity(&args) {
 }
 
 void HeatCapacity::initialize(MonteCarlo * mc) {
+  Analyze::initialize(mc);
   printer(header(*mc), output_file(mc->criteria()));
 }
 
