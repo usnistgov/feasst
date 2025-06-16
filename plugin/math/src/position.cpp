@@ -241,6 +241,10 @@ Position::Position(argtype * args) {
         vals.push_back(str_to_double(x));
       }
       set_vector(vals);
+    } else {
+      const int dimension = integer("dimension", args, 0);
+      ASSERT(dimension >= 0, "dimension cannot be negative.");
+      coord_.resize(dimension, 0.);
     }
   } else {
     WARN("Deprecated Position::x->csv");

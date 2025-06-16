@@ -24,6 +24,7 @@ class Position {
   /** @name Arguments
     args:
     - csv: comma-separated values for the positions in each dimension.
+    - dimension: set to origin with this many dimensions.
    */
   explicit Position(argtype args);
   explicit Position(argtype * args);

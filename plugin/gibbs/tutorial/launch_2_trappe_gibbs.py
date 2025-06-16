@@ -30,7 +30,7 @@ def parse():
     parser.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle')
     parser.add_argument('--equilibration_cycles', type=int, default=int(1e1),
                         help='number of cycles for equilibration')
-    parser.add_argument('--production_cycles', type=int, default=int(1e2),
+    parser.add_argument('--production_cycles', type=int, default=int(2e1),
                         help='number of cycles for production')
     parser.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
     parser.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
@@ -231,7 +231,7 @@ def post_process(params):
         if len(diverged) > 0:
             print(diverged)
         assert len(diverged) == 0
-        liquid_density = pd.read_csv("{}{:03d}_vapor_dens.csv".format(params['prefix'], sim))
+        liquid_density = pd.read_csv("{}{:03d}_liquid_dens.csv".format(params['prefix'], sim))
         liquid_density['average'] *= dens_conv
         liquid_density['stdev'] *= dens_conv
         liquid_density['block_stdev'] *= dens_conv

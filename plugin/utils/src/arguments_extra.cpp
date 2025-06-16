@@ -128,8 +128,8 @@ argtype line_to_argtype(const std::string line) {
       args[vals[0]] = vals[1];
     }
   } else {
-    WARN("Deprecated space separated pairs. "
-      << "Use an equal sign between each argument pair.");
+    WARN("Deprecated space separated pairs. Use an equal sign between the " <<
+      "name and value of each argument pair.");
     std::stringstream ss(line);
     std::string key, value;
     while (!ss.eof()) {

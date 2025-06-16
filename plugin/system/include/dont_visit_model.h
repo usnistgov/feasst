@@ -9,7 +9,9 @@ namespace feasst {
 
 /**
   Return zero energy instead of visiting a model.
-  This may be used for reference potentials of single step trials.
+  This is useful for testing, and for reference potentials of single step trials
+  that do not want to utilize dual-cut configurational bias (e.g., Ewald).
+  If used in PotentialFactory, this will also disable BondVisitor energies.
  */
 class DontVisitModel : public VisitModel {
  public:

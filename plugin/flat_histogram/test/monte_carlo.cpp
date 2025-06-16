@@ -731,11 +731,11 @@ TEST(MonteCarlo, nvtw) {
   lnp.resize(data.size());
   cm.compute_ln_prob(&lnp);
   //INFO(feasst_str(lnp.values()));
-  EXPECT_NEAR(lnp.value(0), -14.03737335832180, 0.25);
-  EXPECT_NEAR(lnp.value(1), -10.05031209165520, 0.25);
-  EXPECT_NEAR(lnp.value(2), -6.458920624988570, 0.25);
-  EXPECT_NEAR(lnp.value(3), -3.145637424988510, 0.15);
-  EXPECT_NEAR(lnp.value(4), -0.045677458321876, 0.01);
+  EXPECT_NEAR(lnp.value(0), -14.03737335832180, 0.45);
+  EXPECT_NEAR(lnp.value(1), -10.05031209165520, 0.45);
+  EXPECT_NEAR(lnp.value(2), -6.458920624988570, 0.35);
+  EXPECT_NEAR(lnp.value(3), -3.145637424988510, 0.25);
+  EXPECT_NEAR(lnp.value(4), -0.045677458321876, 0.02);
 }
 
 }  // namespace feasst

@@ -659,7 +659,7 @@ void test_equipartition(const std::string& data) {
       {"particle_type0", "../plugin/chain/test/data/" + data + ".txt"},
       {"add_particles_of_type0", "1"},
       {"cubic_side_length", "10"}}));
-    mc.add(MakePotential(MakeDontVisitModel()));
+    mc.add(MakePotential(MakeIdealGas()));
     mc.add_to_reference(MakePotential(MakeDontVisitModel()));
     mc.set(MakeThermoParams({{"beta", "1"}}));
     mc.set(MakeMetropolis());
@@ -1042,7 +1042,7 @@ TEST(MonteCarlo, gibbs_trappe_ideal_gas_LONG) {
     {"Configuration", {{"cubic_side_length", "40"}, {"particle_type", "../particle/n-butane.txt"}, {"cutoff", "0"}}},
     {"Configuration", {{"cubic_side_length", "40"}, {"particle_type", "../particle/n-butane.txt"}, {"cutoff", "0"}}},
     {"CopyFollowingLines", {{"for_num_configurations", "2"}}},
-    {"Potential", {{"VisitModel", "DontVisitModel"}}},
+    {"Potential", {{"Model", "IdealGas"}}},
     {"RefPotential", {{"VisitModel", "DontVisitModel"}}},
     {"EndCopy", {{}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "10"}}},

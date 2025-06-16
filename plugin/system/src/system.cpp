@@ -32,7 +32,7 @@ void System::add(std::shared_ptr<Configuration> configuration) {
   }
 
   configurations_.push_back(configuration);
-  bonds_.push_back(std::make_shared<BondVisitor>());
+//  bonds_.push_back(std::make_shared<BondVisitor>());
   unoptimized_.push_back(PotentialFactory());
   optimized_.push_back(PotentialFactory());
 }
@@ -165,8 +165,8 @@ double System::unoptimized_energy(const int config) {
     configurations_[config].get());
   ref_used_last_ = -1;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  bonds_[config]->compute_all(*configurations_[config]);
-  return en + bonds_[config]->energy();
+  //bonds_[config]->compute_all(*configurations_[config]);
+  return en; // + bonds_[config]->energy();
 }
 
 PotentialFactory * System::potentials_(const int config) {
@@ -182,10 +182,10 @@ double System::energy(const int config) {
   finalize(config);
   ref_used_last_ = -1;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  BondVisitor * bonds = bonds_[config].get();
-  bonds->compute_all(*configuration);
-  DEBUG("bond en " << bonds->energy());
-  return en + bonds->energy();
+  //BondVisitor * bonds = bonds_[config].get();
+  //bonds->compute_all(*configuration);
+  //DEBUG("bond en " << bonds->energy());
+  return en;  // + bonds->energy();
 }
 
 double System::perturbed_energy(const Select& select, const int config) {
@@ -193,15 +193,15 @@ double System::perturbed_energy(const Select& select, const int config) {
   DEBUG("ref_used_last_ " << ref_used_last_);
   Configuration * configuration = configurations_[config].get();
   double en = potentials_(config)->select_energy(select, configuration);
-  BondVisitor * bonds = bonds_[config].get();
-  bonds->compute_all(select, *configuration);
-  const double bond_en = bonds->energy();
-  DEBUG("bond en " << bonds->energy());
   ASSERT(!std::isinf(en), "en: " << en << " is inf.");
   ASSERT(!std::isnan(en), "en: " << en << " is nan.");
-  ASSERT(!std::isinf(bond_en), "bond_en: " << bond_en << " is inf.");
-  ASSERT(!std::isnan(bond_en), "bond_en: " << bond_en << " is nan.");
-  return en + bond_en;
+//  BondVisitor * bonds = bonds_[config].get();
+//  bonds->compute_all(select, *configuration);
+//  const double bond_en = bonds->energy();
+//  DEBUG("bond en " << bonds->energy());
+//  ASSERT(!std::isinf(bond_en), "bond_en: " << bond_en << " is inf.");
+//  ASSERT(!std::isnan(bond_en), "bond_en: " << bond_en << " is nan.");
+  return en;  // + bond_en;
 }
 
 double System::reference_energy(const int ref, const int config) {
@@ -210,11 +210,11 @@ double System::reference_energy(const int ref, const int config) {
   Configuration * configuration = configurations_[config].get();
   const double en = reference_(ref, config)->energy(configuration);
   DEBUG("en " << en);
-  BondVisitor * bonds = bonds_[config].get();
-  bonds->compute_all(*configuration);
-  const double bond_en = bonds->energy();
-  DEBUG("bond_en " << bond_en);
-  return en + bond_en;
+//  BondVisitor * bonds = bonds_[config].get();
+//  bonds->compute_all(*configuration);
+//  const double bond_en = bonds->energy();
+//  DEBUG("bond_en " << bond_en);
+  return en;  // + bond_en;
 }
 
 double System::reference_energy(const Select& select,
@@ -227,11 +227,11 @@ double System::reference_energy(const Select& select,
   Configuration * configuration = configurations_[config].get();
   const double en = reference_(ref, config)->select_energy(select, configuration);
   DEBUG("en " << en);
-  BondVisitor * bonds = bonds_[config].get();
-  bonds->compute_all(select, *configuration);
-  const double bond_en = bonds->energy();
-  DEBUG("bond_en " << bond_en);
-  return en + bond_en;
+//  BondVisitor * bonds = bonds_[config].get();
+//  bonds->compute_all(select, *configuration);
+//  const double bond_en = bonds->energy();
+//  DEBUG("bond_en " << bond_en);
+  return en;  // + bond_en;
 }
 
 void System::serialize(std::ostream& sstr) const {

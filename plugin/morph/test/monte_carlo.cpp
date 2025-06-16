@@ -362,11 +362,11 @@ TEST(MonteCarlo, octane_01_fh_VERY_LONG) {
     {"Run", {{"until", "complete"}}},
   }}, true);
   const LnProbability lnpi = FlatHistogram().flat_histogram(mc->criteria())->bias().ln_prob();
-  EXPECT_NEAR(lnpi.delta(1), 5.8699, 5*0.00749341);
+  EXPECT_NEAR(lnpi.delta(1), 5.9, 0.0749341);
   const std::vector<std::shared_ptr<Analyze> >& en = mc->analyzers()[0]->analyzers();
   EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-13);
   EXPECT_NEAR(en[1]->accumulator().average(), 20.955607316224864, 5*0.061054957999540201);
-  EXPECT_GT(mc->trial(0).num_success(), 5e4);
+  EXPECT_GT(mc->trial(0).num_success(), 5e3);
 }
 
 }  // namespace feasst

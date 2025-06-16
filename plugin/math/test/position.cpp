@@ -96,4 +96,16 @@ TEST(Position, torsion_angle_radians) {
   EXPECT_DOUBLE_EQ(ri.torsion_angle_radians(rj, rk, rl), PI/2.);
 }
 
+TEST(Position, dimension) {
+  Position two(argtype({{"dimension", "2"}}));
+  EXPECT_EQ(2, two.dimension());
+  EXPECT_NEAR(0, two.coord(0), NEAR_ZERO);
+  EXPECT_NEAR(0, two.coord(1), NEAR_ZERO);
+  Position three(argtype({{"dimension", "3"}}));
+  EXPECT_EQ(3, three.dimension());
+  EXPECT_NEAR(0, three.coord(0), NEAR_ZERO);
+  EXPECT_NEAR(0, three.coord(1), NEAR_ZERO);
+  EXPECT_NEAR(0, three.coord(2), NEAR_ZERO);
+}
+
 }  // namespace feasst

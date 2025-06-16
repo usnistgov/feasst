@@ -9,12 +9,15 @@
 
 namespace feasst {
 
+class BondVisitor;
 class Configuration;
 class Potential;
 class Select;
 
 /**
   A list of potentials.
+  By default, also contains a BondVisitor, although the BondVisitor will be
+  removed if DontVisitModel is the only Potential.
 
   By default, if one of the potentials returns a large energy, then the rest
   of the potentials are not calculated.
@@ -23,7 +26,7 @@ class Select;
  */
 class PotentialFactory {
  public:
-  PotentialFactory() {}
+  PotentialFactory();
 
   /// Return the user name.
   const std::string& user_name() const { return user_name_; }
@@ -101,13 +104,17 @@ class PotentialFactory {
 
   /// Deserialize.
   explicit PotentialFactory(std::istream& sstr);
-  virtual ~PotentialFactory() {}
+  virtual ~PotentialFactory();
 
  private:
   std::vector<std::shared_ptr<Potential> > potentials_;
+  std::vector<std::shared_ptr<BondVisitor> > bonds_;
   int opt_overlap_ = 1;
 //  Timer timer_;
   std::string user_name_;
+
+  // If only one Potential with DontVisitModel, remove BondVisitor
+  void initialize_bond_visitor_();
 };
 
 }  // namespace feasst

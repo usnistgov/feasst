@@ -5,18 +5,39 @@
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
 #include "system/include/model.h"
+#include "system/include/visit_model.h"
 #include "system/include/potential.h"
+#include "system/include/bond_visitor.h"
 #include "system/include/potential_factory.h"
 
 namespace feasst {
 
+PotentialFactory::PotentialFactory() {
+  initialize_bond_visitor_();
+}
+PotentialFactory::~PotentialFactory() {}
+
+void PotentialFactory::initialize_bond_visitor_() {
+  if (static_cast<int>(potentials_.size()) == 1) {
+    if (potentials_[0]->visit_model().class_name() == "DontVisitModel") {
+      bonds_.clear();
+    }
+  } else {
+    if (static_cast<int>(bonds_.size()) == 0) {
+      bonds_.push_back(std::make_shared<BondVisitor>());
+    }
+  }
+}
+
 void PotentialFactory::add(std::shared_ptr<Potential> potential) {
   potentials_.push_back(potential);
+  initialize_bond_visitor_();
 }
 
 void PotentialFactory::set(const int index,
                            std::shared_ptr<Potential> potential) {
   potentials_[index] = potential;
+  initialize_bond_visitor_();
 }
 
 void PotentialFactory::precompute(Configuration * config) {
@@ -42,7 +63,13 @@ double PotentialFactory::energy(Configuration * config) {
   }
   DEBUG("en " << en);
   DEBUG(str());
-  return en;
+  double bond_en = 0;
+  for (std::shared_ptr<BondVisitor> bn : bonds_) {
+    bn->compute_all(*config);
+    bond_en += bn->energy();
+  }
+  DEBUG("bond_en " << bond_en);
+  return en + bond_en;
 }
 
 double PotentialFactory::select_energy(const Select& select, Configuration * config) {
@@ -57,7 +84,17 @@ double PotentialFactory::select_energy(const Select& select, Configuration * con
   }
   DEBUG("en " << en);
   DEBUG(str());
-  return en;
+  ASSERT(!std::isinf(en), "en: " << en << " is inf.");
+  ASSERT(!std::isnan(en), "en: " << en << " is nan.");
+  double bond_en = 0;
+  for (std::shared_ptr<BondVisitor> bn : bonds_) {
+    bn->compute_all(select, *config);
+    bond_en += bn->energy();
+  }
+  DEBUG("bond en " << bond_en);
+  ASSERT(!std::isinf(bond_en), "bond_en: " << bond_en << " is inf.");
+  ASSERT(!std::isnan(bond_en), "bond_en: " << bond_en << " is nan.");
+  return en + bond_en;
 }
 
 std::vector<double> PotentialFactory::stored_energy_profile() const {
@@ -99,6 +136,7 @@ void PotentialFactory::serialize(std::ostream& sstr) const {
   feasst_serialize(potentials_, sstr);
   feasst_serialize(opt_overlap_, sstr);
   feasst_serialize(user_name_, sstr);
+  feasst_serialize(bonds_, sstr);
 }
 
 PotentialFactory::PotentialFactory(std::istream& sstr) {
@@ -117,8 +155,23 @@ PotentialFactory::PotentialFactory(std::istream& sstr) {
     }
   }
   feasst_deserialize(&opt_overlap_, sstr);
-  if (version <= 8656) {
+  if (version >= 8656) {
     feasst_deserialize(&user_name_, sstr);
+    //  HWH for unknown reasons, this function template does not work.
+    //feasst_deserialize(&bonds_, sstr);
+    {
+      int dim1;
+      sstr >> dim1;
+      bonds_.resize(dim1);
+      for (int index = 0; index < dim1; ++index) {
+        //feasst_deserialize((*vector)[index], istr);
+        int existing;
+        sstr >> existing;
+        if (existing != 0) {
+          bonds_[index] = std::make_shared<BondVisitor>(sstr);
+        }
+      }
+    }
   }
 }
 
