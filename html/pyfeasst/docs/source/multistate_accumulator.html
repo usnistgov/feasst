@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>multistate_accumulator &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>multistate_accumulator &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -89,7 +89,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -232,13 +232,14 @@ by assigning rows based on the maximum in the given column.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="multistate_accumulator.splice">
-<span class="sig-prename descclassname"><span class="pre">multistate_accumulator.</span></span><span class="sig-name descname"><span class="pre">splice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/multistate_accumulator.html#splice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#multistate_accumulator.splice" title="Link to this definition"></a></dt>
-<dd><p>Use splice to combine pandas csv files with matching prefix + index + suffix, where index
-goes from start to stop.
-Then drop 1+extra_overlap at the beginning of each index != 0.</p>
+<span class="sig-prename descclassname"><span class="pre">multistate_accumulator.</span></span><span class="sig-name descname"><span class="pre">splice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/multistate_accumulator.html#splice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#multistate_accumulator.splice" title="Link to this definition"></a></dt>
+<dd><p>Use splice to combine pandas csv files with matching prefix + * + suffix.
+If there are more than ten files, they must contain leading zeros or they will
+be out of order.
+Drop 1+extra_overlap at the beginning of each file after the first.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">multistate_accumulator</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">spliced</span> <span class="o">=</span> <span class="n">multistate_accumulator</span><span class="o">.</span><span class="n">splice</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;../../tests/ljn0s&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;_en.csv&#39;</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spliced</span> <span class="o">=</span> <span class="n">multistate_accumulator</span><span class="o">.</span><span class="n">splice</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;../../tests/ljn0s&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;_en.csv&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">spliced</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">])),</span> <span class="mi">8</span><span class="p">)</span>
 <span class="go">-2.91222716</span>
 </pre></div>

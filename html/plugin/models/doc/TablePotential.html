@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TablePotential &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>TablePotential &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -53,7 +53,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -134,7 +134,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -211,15 +211,15 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst14TablePotentialE">
 <span class="target" id="classfeasst_1_1TablePotential"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TablePotential</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody"><span class="n"><span class="pre">ModelTwoBody</span></span></a><a class="headerlink" href="#_CPPv4N6feasst14TablePotentialE" title="Link to this definition"></a><br /></dt>
 <dd><p>Represent isotropic interactions using a tabular potential that is precomputed and read from a file.</p>
-<p>For an isotropic site, the radial distance, r, between the centers is scaled as <span class="math notranslate nohighlight">\(z=[(r^\gamma - r_h^\gamma)/(r_c^\gamma - r_h^\gamma)]\)</span> which varies from z=0 at the hard contact distance, <span class="math notranslate nohighlight">\(r_h\)</span>, to <span class="math notranslate nohighlight">\(z=1\)</span> at the cutoff, <span class="math notranslate nohighlight">\(r_c\)</span>. A stretching parameter, <span class="math notranslate nohighlight">\(\gamma\)</span>, increases the resolution at shorter distances when negative.</p>
-<p>The default value of <span class="math notranslate nohighlight">\(\gamma=-2\)</span> avoids the expensive sqrt operation, but can also be problematic if <span class="math notranslate nohighlight">\(r_h \approx 0\)</span>. For <span class="math notranslate nohighlight">\(r_h \approx 0\)</span>, <span class="math notranslate nohighlight">\(\gamma=1\)</span> may be more appropriate.</p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> an isotropic site, the radial distance, r, between the centers is scaled as <span class="math notranslate nohighlight">\(z=[(r^\gamma - r_h^\gamma)/(r_c^\gamma - r_h^\gamma)]\)</span> which varies from z=0 at the hard contact distance, <span class="math notranslate nohighlight">\(r_h\)</span>, to <span class="math notranslate nohighlight">\(z=1\)</span> at the cutoff, <span class="math notranslate nohighlight">\(r_c\)</span>. A stretching parameter, <span class="math notranslate nohighlight">\(\gamma\)</span>, increases the resolution at shorter distances when negative.</p>
+<p>The default value of <span class="math notranslate nohighlight">\(\gamma=-2\)</span> avoids the expensive sqrt operation, but can also be problematic if <span class="math notranslate nohighlight">\(r_h \approx 0\)</span>. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> <span class="math notranslate nohighlight">\(r_h \approx 0\)</span>, <span class="math notranslate nohighlight">\(\gamma=1\)</span> may be more appropriate.</p>
 <p>Interpolation uses <a class="reference internal" href="../../math/doc/Table.html#classfeasst_1_1Table1D_1af2cfa0e8c192b8c82897935170ceafbc"><span class="std std-ref">Table1D::forward_difference_interpolation</span></a>.</p>
 <p>The format of the tabular potential stored in a file is as follows.</p>
-<p>The first line should be ‘site_types’ followed by the number of site types and then the identity of each of those site types in order of the tables given below. (e.g., “site_types n i” where n is the number of site types and each following number is the type of each anisotropic site.)</p>
-<p>There is a table for each unique pair of site types. For example, if the first line is as follows: “site_types 2 1 7” then the first table will be for interactions of site type 1 with site type 1 (i.e., 1-1), the second table will be for 1-7 interactions, and the third table will be for 7-7 interactions.</p>
-<p>For each pair of site types, i &lt;= j, a table is given by the following lines.</p>
+<p>The first line should be ‘site_types’ followed by the number of site types and then the name of each of those site types in order of the tables given below. (e.g., “site_types 1 name” where n is the number of site types and each following name is the site type name of each site.)</p>
+<p>There is a table for each unique pair of site types. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> example, if the first line is as follows: “site_types 2 O H” then the first table will be for interactions of site type O with site type O (i.e., O-O), the second table will be for O-H interactions, and the third table will be for H-H interactions.</p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> each pair of site types, a table is given by the following lines.</p>
 <p><ol class="arabic simple">
-<li><p>“gamma [value]” is the optional stretching exponential. If this line is not provided, then the default value of -2 is used.</p></li>
+<li><p>“gamma [value]” is the optional stretching exponential. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> this line is not provided, then the default value of -2 is used.</p></li>
 <li><p>”inner [value]” is the inner hard cutoff distance.</p></li>
 <li><p>”num_z [value]” is the number of energy values along the z parameter.</p></li>
 <li><p>The last line is num_z space-separated values of the potential energy uniformly in the z range of [0, 1]. </p></li>
@@ -228,8 +228,8 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst14TablePotential10precomputeERK11ModelParams">
-<span class="target" id="classfeasst_1_1TablePotential_1a5d95192a3cbe32d160c5afe6a782c039"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">existing</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14TablePotential10precomputeERK11ModelParams" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst14TablePotential10precomputeERK13Configuration">
+<span class="target" id="classfeasst_1_1TablePotential_1a8d1e4e722e0d39070b370987d58bc932"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14TablePotential10precomputeERK13Configuration" title="Link to this definition"></a><br /></dt>
 <dd><p>Precompute model parameters based on existing model parameters. </p>
 </dd></dl>
 

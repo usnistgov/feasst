@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VisitModelCell &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>VisitModelCell &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -149,7 +149,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -226,7 +226,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst14VisitModelCellE">
 <span class="target" id="classfeasst_1_1VisitModelCell"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VisitModelCell</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel"><span class="n"><span class="pre">VisitModel</span></span></a><a class="headerlink" href="#_CPPv4N6feasst14VisitModelCellE" title="Link to this definition"></a><br /></dt>
 <dd><p>Compute many-body inter-particle interactions using a cell list.</p>
-<p>For a triclinic domain, the minimum cell length is increased by the ratio of the minimum side length by the maximum inscribed sphere. Use of <a class="reference internal" href="../../monte_carlo/doc/OptPotential_arguments.html#classfeasst_1_1OptPotential"><span class="std std-ref">OptPotential</span></a> in such a case is recommended to catch possible errors with this assumption. </p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> a triclinic domain, the minimum cell length is increased by the ratio of the minimum side length by the maximum inscribed sphere. Use of <a class="reference internal" href="../../monte_carlo/doc/OptPotential_arguments.html#classfeasst_1_1OptPotential"><span class="std std-ref">OptPotential</span></a> in such a case is recommended to catch possible errors with this assumption. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -269,7 +269,7 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
 <p><ul class="simple">
-<li><p>min_length: build cell list with given minimum distance between cells as a floating point number (default: “max_cutoff”). If “max_sigma” then use the largest mixed sigma value. If “max_cutoff” then use the largest mixed cutoff value.</p></li>
+<li><p>min_length: build cell list with given minimum distance between cells as a floating point number (default: “max_cutoff”). <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> “max_sigma” then use the largest mixed sigma value. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> “max_cutoff” then use the largest mixed cutoff value.</p></li>
 <li><p>cell_group_index: compute cells only in given group index (default: 0).</p></li>
 <li><p>cell_group: as above, but use the name of the group, not the index. Do not use at the same time as cell_group_index (default: “”).</p></li>
 <li><p><a class="reference internal" href="VisitModel_arguments.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a> arguments. </p></li>

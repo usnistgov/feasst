@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Configuration &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>Configuration &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -105,7 +105,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -178,7 +178,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst13ConfigurationE">
 <span class="target" id="classfeasst_1_1Configuration"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Configuration</span></span></span><br /></dt>
 <dd><p>A <a class="reference internal" href="#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> contains both <a class="reference internal" href="Particle_arguments.html#classfeasst_1_1Particle"><span class="std std-ref">Particle</span></a> s and the spatial <a class="reference internal" href="Domain_arguments.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> (boundaries).</p>
-<p>For the particles, this includes both the pool of particles which may exist (referred to as particle types) in addition to the particles which physically exist (referred to as particles). The same is true for site types and sites.</p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> the particles, this includes both the pool of particles which may exist (referred to as particle types) in addition to the particles which physically exist (referred to as particles). The same is true for site types and sites.</p>
 <p>Groups of different <a class="reference internal" href="Particle_arguments.html#classfeasst_1_1Particle"><span class="std std-ref">Particle</span></a> and <a class="reference internal" href="Site_arguments.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> types and other metrics may be defined. These groups then define a selection which can be used to distinguish subsets of the configuration (e.g., types of particles). This selection may be further reduced to single particles. These selections are then used to modify a subset of the configuration (e.g., removal and displacement) of a selection of particles/sites.</p>
 <p>The spatial domain contains periodic boundaries and cells. </p>
 <div class="breathe-sectiondef docutils container">
@@ -187,17 +187,18 @@
 <p><ul class="simple">
 <li><p><a class="reference internal" href="Domain_arguments.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> arguments may be parsed here.</p></li>
 <li><p>physical_constants: optional class_name of <a class="reference internal" href="PhysicalConstants_arguments.html#classfeasst_1_1PhysicalConstants"><span class="std std-ref">PhysicalConstants</span></a>. These are typically only used in charged interactions to compute the conversion factor between squared charge over distance and energy.</p></li>
-<li><p>particle_type[i]: add the i-th type of particle. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one particle type, the “[i]” is optional. See <a class="reference internal" href="FileParticle_arguments.html#classfeasst_1_1FileParticle"><span class="std std-ref">FileParticle</span></a>.</p></li>
-<li><p>add_particles_of_type[i]: add this many of i-th type particles. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
+<li><p>particle_type: dictionary of names and files for different particle types. The dictionary syntax is name1:file_name1,name2:file_name2,etc. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> only file_name are provided without names, the names will default to 0, 1, etc. <a class="reference internal" href="Particle_arguments.html#classfeasst_1_1Particle"><span class="std std-ref">Particle</span></a> names must be unique. See <a class="reference internal" href="FileParticle_arguments.html#classfeasst_1_1FileParticle"><span class="std std-ref">FileParticle</span></a> for description of the file required to define particles.</p></li>
+<li><p>add_num_[type name]_particles: add this many particles of given type name. Particles are added with the coordinates in the file, so adding multiple will overlap.</p></li>
 <li><p>xyz_file: optionally load <a class="reference internal" href="PrinterXYZ_arguments.html#classfeasst_1_1FileXYZ"><span class="std std-ref">FileXYZ</span></a> if not empty (default: empty). Note that <a class="reference internal" href="Domain_arguments.html#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> tilt factors are not read by <a class="reference internal" href="PrinterXYZ_arguments.html#classfeasst_1_1FileXYZ"><span class="std std-ref">FileXYZ</span></a>.</p></li>
 <li><p>xyz_euler_file: optionally load FileXYZEuler if not empty (default: empty).</p></li>
-<li><p>group[i]: set the name of the “i”-th group. The “[i]” is to be substituted for an integer 0, 1, 2, … All following arguments of the group are then expected to have the name prepended (e.g., “group0 water water_particle_type 0”).</p></li>
-<li><p>wrap: wrap particle centers within domain (default: true).</p></li>
+<li><p>group: comma-separated list of group names. All following arguments of the group are then expected to have the name prepended with an underscore (e.g., “group=oxygen oxygen_site_type=O”).</p></li>
+<li><p>model_param_file: input <a class="reference internal" href="ModelParam_arguments.html#classfeasst_1_1ModelParam"><span class="std std-ref">ModelParam</span></a> with this file with either a three- or four-column space-separated format on each line as follows: “[parameter] [site type name] [value]” “[parameter] [site type name 1] [site type name 2] [value]” This file can be used to override the otherwise default Lorentz-Berthelot mixing rules. Mixing is always symmetric (e.g., params[i][j] == param[j][i]) Comment lines beginning with the ‘#’ character are ignored.</p></li>
 <li><p>[parameter]: optionally set the [parameter] of all types to this value. The “[parameter]” is to be substituted for epsilon, sigma, cutoff, etc.</p></li>
-<li><p>[parameter][i]: optionally set the [parameter] of the i-th site type. The “[i]” is to be substituted for an integer 0, 1, 2, … These are applied after (overriding) the above argument for all types.</p></li>
-<li><p>[parameter][i]_[j]: optionally set the [parameter] of the i-j mixed type. The “[i]/[j]” is to be substituted for an integer 0, 1, 2, … These are applied after (overriding) the above argument for single types.</p></li>
-<li><p>[parameter]_mixing_file: override default mixing parameters with this file in the three-column space-separated format of “i j [param]_ij”.</p></li>
-<li><p>set_cutoff_min_to_sigma: if true and cutoff &lt; sigma, cutoff = sigma (default: false). This is typically used for <a class="reference internal" href="../../system/doc/HardSphere_arguments.html#classfeasst_1_1HardSphere"><span class="std std-ref">HardSphere</span></a> models that didn’t specify cutoff. </p></li>
+<li><p>[parameter][site type name]: optionally set the [parameter] value of the given site type name. These are applied after (overriding) the above argument for all types.</p></li>
+<li><p>[parameter][site type name 1]_[site type name 2]: optionally set the [parameter] value of the 1-2 mixed type. These are applied after (overriding) the above argument for single types.</p></li>
+<li><p>wrap: wrap particle centers within domain (default: true).</p></li>
+<li><p>set_cutoff_min_to_sigma: if true and cutoff &lt; sigma, cutoff = sigma (default: false). This is typically used for <a class="reference internal" href="../../system/doc/HardSphere_arguments.html#classfeasst_1_1HardSphere"><span class="std std-ref">HardSphere</span></a> models that didn’t specify cutoff.</p></li>
+<li><p>name: set the name of the <a class="reference internal" href="#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> (default: 0). </p></li>
 </ul>
 </p>
 </div>

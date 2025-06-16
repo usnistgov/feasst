@@ -345,6 +345,30 @@ Below is a list text interface changes that may affect older scripts.
 Backwards incompatibility should remain for deprecated interface on minor version changes.
 Renamed arguments are shown as Class::old_argument->new_argument.
 
+v0.25.12 to v0.25.13
+-----------------------
+
+* FEASST particle (fstprt) files now use strings instead of integers to represent sites, bonds, angles and dihedrals. Previous use of integers is still backwards compatible.
+* Deprecated configuration_index->config in RefPotential,Potential,Stepper,TrialSelect,Run,ZeroBackground,TrialGibbs[Particle,Volume]Transfer(csv)
+* Deprecated reference_index->ref in NeighborCriteria,RefPotential,TrialStage,WriteModelParams
+* Copy[Following,Next]Line::replace0/with0 deprecated. Use For.
+* Configuration::[parameter][i][j] replace with site type names
+* Configuration::particle_type,group csv
+* Configuration::add_particles_of_type[i]->add_num_[name]_particles
+* Cuboid::site_length[i]->side_lengths csv
+* Domain::side_length,periodic csv
+* Group::site_type,particle_type,particle_index csv
+* ModelTwoBodyFactory::model[i]->models csv
+* Position::x,y,z->csv
+* SelectParticleAVBDivalent::site_index->site_name
+* SelectParticleAVBDivalent::target_site_index->target_site_name
+* Remove::name,name_contains csv
+* ThermoParams::chemical_potential csv
+* Trial[Add,Remove,Transfer]Multiple::particle_type csv
+* TrialMorph::particle_type,particle_type_morph csv
+* VisitModelInnerServer::server_site[i]->server_sites csv
+* TrialSelect, Group and NeighborIndex,  also use names instead of integers
+
 v0.25.11 to v0.25.12
 -----------------------
 

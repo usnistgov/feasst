@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Run FEASST as server with Python client &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>Run FEASST as server with Python client &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -54,7 +54,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -117,7 +117,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -208,16 +208,16 @@
     <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
     <span class="n">sock</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">PORT</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;MonteCarlo&#39;</span><span class="p">,</span>
-                 <span class="s1">&#39;Configuration cubic_side_length 8 particle_type0 /feasst/particle/lj.fstprt&#39;</span><span class="p">,</span>
-                 <span class="s1">&#39;Potential Model LennardJones&#39;</span><span class="p">,</span>
-                 <span class="s1">&#39;ThermoParams beta 1 chemical_potential0 1&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Configuration cubic_side_length=8 particle_type=fluid:/feasst/particle/lj.txt&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Potential Model=LennardJones&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;ThermoParams beta=1 chemical_potential=1&#39;</span><span class="p">,</span>
                  <span class="s1">&#39;Metropolis&#39;</span><span class="p">,</span>
                  <span class="s1">&#39;TrialTranslate&#39;</span><span class="p">,</span>
-                 <span class="s1">&#39;TrialAdd particle_type 0&#39;</span><span class="p">,</span>
-                 <span class="s1">&#39;Run until_num_particles 20&#39;</span><span class="p">,</span>
-                 <span class="s1">&#39;Remove name TrialAdd&#39;</span><span class="p">,</span>
-                 <span class="s1">&#39;Log output_file lj.csv&#39;</span><span class="p">,</span>
-                 <span class="s1">&#39;Run num_trials 10&#39;</span><span class="p">]:</span>
+                 <span class="s1">&#39;TrialAdd particle_type=fluid&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Run until_num_particles=20&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Remove name=TrialAdd&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Log output_file=lj.csv clear_file=true&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Run num_trials=10&#39;</span><span class="p">]:</span>
         <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
         <span class="n">message</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">BUFFER_SIZE</span><span class="p">)</span>
         <span class="c1">#print(str(message))</span>
@@ -230,6 +230,9 @@
     <span class="n">proc2</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
     <span class="n">proc1</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
     <span class="n">proc2</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;lj.csv&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">==</span><span class="mi">10</span>  <span class="c1"># Check if simulation printed output</span>
 </pre></div>
 </div>
 </div>
@@ -238,20 +241,10 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# FEASST version: v0.24.4-4-g68448a9657-dirty-user/server
+# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.13
 # initializing server on localhost:54321
-MonteCarlo
-Configuration cubic_side_length 8 particle_type0 /home/user/feasst/particle/lj.fstprt
-Potential Model LennardJones
-ThermoParams beta 1 chemical_potential0 1
-Metropolis
-TrialTranslate
-TrialAdd particle_type 0
-Run until_num_particles 20
-# initializing random number generator with seed: 1706119047
-Remove name TrialAdd
-Log output_file lj.csv
-Run num_trials 10
+# Initializing random number generator with seed: 1749046013
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TransitionMatrix &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>TransitionMatrix &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -115,7 +115,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -192,7 +192,7 @@ may be used to compute phase behavior in the grand canonical ensemble in both
 bulk and confined system, including
 flexibility.<a class="footnote-reference brackets" href="#footcite-shen-elucidating-2014" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p>
 <p>A count of all accepted transitions between macrostates is used for a newly developed sweep metric.</p>
-<p>Note that transitions to macrostates that have not yet been sampled are unbiased. This can lead to long initialization times, depending on your choice of the chemical potential. For example, if a simulation begins with zero particles and attempts a particle insertion, this insertion is unlikely to be accepted if the chemical potential is very low (favoring less particles). This can lead to very low initialization times. This issue can be overcome with the use of <a class="reference internal" href="WLTM_arguments.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a>, which instead uses Wang-Landau to initialize the transition matrix. This makes <a class="reference internal" href="WLTM_arguments.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a> efficiency less sensitive than <a class="reference internal" href="#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> to the choice of chemical potential.</p>
+<p>Note that transitions to macrostates that have not yet been sampled are unbiased. This can lead to long initialization times, depending on your choice of the chemical potential. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> example, if a simulation begins with zero particles and attempts a particle insertion, this insertion is unlikely to be accepted if the chemical potential is very low (favoring less particles). This can lead to very low initialization times. This issue can be overcome with the use of <a class="reference internal" href="WLTM_arguments.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a>, which instead uses Wang-Landau to initialize the transition matrix. This makes <a class="reference internal" href="WLTM_arguments.html#classfeasst_1_1WLTM"><span class="std std-ref">WLTM</span></a> efficiency less sensitive than <a class="reference internal" href="#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> to the choice of chemical potential.</p>
 <p><a class="reference internal" href="../../steppers/doc/CriteriaWriter_arguments.html#classfeasst_1_1CriteriaWriter"><span class="std std-ref">CriteriaWriter</span></a> outputs the following:<ul class="simple">
 <li><p>num_sweeps: A sweep is used as a convergence metric to guage how long a simulation has run. A sweep is performed when all macrostates are visited by another macrostate this number of times. Or, see new_sweep for an alternative definition.</p></li>
 <li><p>rows for each <a class="reference internal" href="Macrostate_arguments.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a> with the following:<ul>

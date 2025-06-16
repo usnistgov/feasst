@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Criteria &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>Criteria &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -172,7 +172,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -291,7 +291,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst8Criteria18set_current_energyEKdKi">
 <span class="target" id="classfeasst_1_1Criteria_1a3ec4980d4af6e3ffe4c17291e975ae22"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_current_energy</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">energy</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">config</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Criteria18set_current_energyEKdKi" title="Link to this definition"></a><br /></dt>
-<dd><p>Set the current total energy based on energy changes per trial in order to avoid recomputation of the energy of the entire configuration. For example, <a class="reference internal" href="Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> Monte Carlo trials are concerned with the change in energy, and this variable tracks the total from the changes. </p>
+<dd><p>Set the current total energy based on energy changes per trial in order to avoid recomputation of the energy of the entire configuration. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> example, <a class="reference internal" href="Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> Monte Carlo trials are concerned with the change in energy, and this variable tracks the total from the changes. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -351,7 +351,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Criteria18cycles_to_completeEv">
 <span class="target" id="classfeasst_1_1Criteria_1aa7bcaba79ce6f79eeb9c6b7deed7b83e"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cycles_to_complete</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Criteria18cycles_to_completeEv" title="Link to this definition"></a><br /></dt>
-<dd><p>Return the number of cycles for a simulation to be complete. Iterations are defined by the Derived class. For example, one <a class="reference internal" href="Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> cycle is 1000 trials. <a class="reference internal" href="../../flat_histogram/doc/FlatHistogram_arguments.html#classfeasst_1_1FlatHistogram"><span class="std std-ref">FlatHistogram</span></a> cycles depend on the <a class="reference internal" href="../../flat_histogram/doc/Bias_arguments.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a>. For <a class="reference internal" href="../../flat_histogram/doc/TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>, one cycle is a sweep. </p>
+<dd><p>Return the number of cycles for a simulation to be complete. Iterations are defined by the Derived class. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> example, one <a class="reference internal" href="Metropolis_arguments.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> cycle is 1000 trials. <a class="reference internal" href="../../flat_histogram/doc/FlatHistogram_arguments.html#classfeasst_1_1FlatHistogram"><span class="std std-ref">FlatHistogram</span></a> cycles depend on the <a class="reference internal" href="../../flat_histogram/doc/Bias_arguments.html#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a>. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> <a class="reference internal" href="../../flat_histogram/doc/TransitionMatrix_arguments.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a>, one cycle is a sweep. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -366,7 +366,7 @@
 <dd><p>Return the current number of cycles. </p>
 <dl class="field-list simple">
 <dt class="field-odd">param state<span class="colon">:</span></dt>
-<dd class="field-odd"><p>If != -1, return cycles of a particular state (TM/WLTM only). </p>
+<dd class="field-odd"><p><a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> != -1, return cycles of a particular state (TM/WLTM only). </p>
 </dd>
 </dl>
 </dd></dl>
