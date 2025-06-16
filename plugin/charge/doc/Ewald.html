@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ewald &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>Ewald &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -53,7 +53,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -131,7 +131,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -269,12 +269,12 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi">
 <span class="target" id="classfeasst_1_1Ewald_1ac08a6e50d67f24e9f91c3038ee940552"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody"><span class="n"><span class="pre">ModelOneBody</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">model</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">model_params</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select"><span class="n"><span class="pre">Select</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">selection</span></span>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">group_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi" title="Link to this definition"></a><br /></dt>
 <dd><p>Compute by selection is optimized for perturbations to the system. Contrary to short range interactions, in this case the energy of the entire system is computed from the structure factor. Thus, to get an energy contribution of a selection, one must take a difference between the configuration with and without the selection’s contributions to the structure factor.</p>
-<p>For <a class="reference internal" href="../../monte_carlo/doc/MonteCarlo_arguments.html#classfeasst_1_1MonteCarlo"><span class="std std-ref">MonteCarlo</span></a> trials, this means that the type of trial must be taken into consideration, which is provided via <a class="reference internal" href="../../configuration/doc/Select.html#classfeasst_1_1Select_1a101c5d7121aec0a384ed76cae9ffe33f"><span class="std std-ref">Select::trial_state()</span></a>.</p>
-<p>For 0, “old”, first prepare to return the (previously computed) energy of the entire system, and then remove the structure factor contributions of the selection, without updating the selection’s eik. This assumes that there will be a follow up of exactly one state 1, “move” which will update the eik. <a class="reference internal" href="Ewald_arguments.html#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> is not currently supported with more than one step in <a class="reference internal" href="../../monte_carlo/doc/TrialStage_arguments.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a>.</p>
-<p>For 1, “move”, eik are updated and their contributions are added to the structure factor. Return the new system energy.</p>
-<p>For 2, “remove”, remove the eik contributions to the structure factor without updating the eik. Return the old minus new energy.</p>
-<p>For 3, “add”, eik are updated and their contributions are added to the structure factor. Return the new minus old energy.</p>
-<p>For 4, “volume”, use the compute without selection. </p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> <a class="reference internal" href="../../monte_carlo/doc/MonteCarlo_arguments.html#classfeasst_1_1MonteCarlo"><span class="std std-ref">MonteCarlo</span></a> trials, this means that the type of trial must be taken into consideration, which is provided via <a class="reference internal" href="../../configuration/doc/Select.html#classfeasst_1_1Select_1a101c5d7121aec0a384ed76cae9ffe33f"><span class="std std-ref">Select::trial_state()</span></a>.</p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> 0, “old”, first prepare to return the (previously computed) energy of the entire system, and then remove the structure factor contributions of the selection, without updating the selection’s eik. This assumes that there will be a follow up of exactly one state 1, “move” which will update the eik. <a class="reference internal" href="Ewald_arguments.html#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> is not currently supported with more than one step in <a class="reference internal" href="../../monte_carlo/doc/TrialStage_arguments.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a>.</p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> 1, “move”, eik are updated and their contributions are added to the structure factor. Return the new system energy.</p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> 2, “remove”, remove the eik contributions to the structure factor without updating the eik. Return the old minus new energy.</p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> 3, “add”, eik are updated and their contributions are added to the structure factor. Return the new minus old energy.</p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> 4, “volume”, use the compute without selection. </p>
 </dd></dl>
 
 <dl class="cpp function">

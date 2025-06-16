@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AnalyzeData &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>AnalyzeData &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -150,7 +150,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -262,7 +262,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11SeekAnalyze5indexEKNSt6stringERK10MonteCarlo">
 <span class="target" id="classfeasst_1_1SeekAnalyze_1a4052504f3dc716b0697499c037b46154"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">index</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">class_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mc</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11SeekAnalyze5indexEKNSt6stringERK10MonteCarlo" title="Link to this definition"></a><br /></dt>
-<dd><p>Return the indices, where the first is mc.analyze index. If inside <a class="reference internal" href="../../monte_carlo/doc/AnalyzeFactory_arguments.html#classfeasst_1_1AnalyzeFactory"><span class="std std-ref">AnalyzeFactory</span></a>, the second is the index of the factory. Otherwise, the second index is -1. Only the first match is returned. </p>
+<dd><p>Return the indices, where the first is mc.analyze index. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> inside <a class="reference internal" href="../../monte_carlo/doc/AnalyzeFactory_arguments.html#classfeasst_1_1AnalyzeFactory"><span class="std std-ref">AnalyzeFactory</span></a>, the second is the index of the factory. Otherwise, the second index is -1. Only the first match is returned. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -274,7 +274,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst11SeekAnalyze15multistate_dataEKNSt6stringERK10MonteCarloRK11AnalyzeData">
 <span class="target" id="classfeasst_1_1SeekAnalyze_1add9da1c844410773b255b2706f5c7f8a"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">multistate_data</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">class_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarloE" title="feasst::MonteCarlo"><span class="n"><span class="pre">MonteCarlo</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mc</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst11AnalyzeDataE" title="feasst::AnalyzeData"><span class="n"><span class="pre">AnalyzeData</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">get</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst18AccumulatorAverageE" title="feasst::AccumulatorAverage"><span class="n"><span class="pre">AccumulatorAverage</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst11SeekAnalyze15multistate_dataEKNSt6stringERK10MonteCarloRK11AnalyzeData" title="Link to this definition"></a><br /></dt>
-<dd><p>For multistate <a class="reference internal" href="../../monte_carlo/doc/Analyze_arguments.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> with given class_name, Return average <a class="reference internal" href="../../math/doc/Accumulator_arguments.html#classfeasst_1_1Accumulator"><span class="std std-ref">Accumulator</span></a> as a function of state. </p>
+<dd><p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> multistate <a class="reference internal" href="../../monte_carlo/doc/Analyze_arguments.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> with given class_name, Return average <a class="reference internal" href="../../math/doc/Accumulator_arguments.html#classfeasst_1_1Accumulator"><span class="std std-ref">Accumulator</span></a> as a function of state. </p>
 <dl class="field-list simple">
 <dt class="field-odd">param get<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Optionally specify where to get data from <a class="reference internal" href="../../monte_carlo/doc/Analyze_arguments.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a></p>

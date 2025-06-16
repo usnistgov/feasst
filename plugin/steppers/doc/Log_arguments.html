@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Log &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>Log &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -125,7 +125,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -199,7 +199,7 @@
 <span class="target" id="classfeasst_1_1Log"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Log</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst16AnalyzeWriteOnlyE" title="feasst::AnalyzeWriteOnly"><span class="n"><span class="pre">AnalyzeWriteOnly</span></span></a><br /></dt>
 <dd><p>Periodically print the status of the Syste, <a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> and Trials in a one-line comma separated value format with headers.</p>
 <p>This log file is designed more for checking status than computing ensemble averages. To compute ensemble averages, consider using a custom <a class="reference internal" href="../../monte_carlo/doc/Analyze_arguments.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> or accumulating the averages every trial step inside your script.</p>
-<p>The ordering of the columns may change at any time. Thus, do not assume a particular order when analyzing the log file. Instead, use the headers to specify columns. For example, the pandas module in python is ideal for this task.</p>
+<p>The ordering of the columns may change at any time. Thus, do not assume a particular order when analyzing the log file. Instead, use the headers to specify columns. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> example, the pandas module in python is ideal for this task.</p>
 <p>By default, the first number printed for a <a class="reference internal" href="../../monte_carlo/doc/Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a> is its <a class="reference internal" href="../../monte_carlo/doc/Trial.html#classfeasst_1_1Trial_1ac2a26211b3e582196cb3ba53df6c3de5"><span class="std std-ref">Trial::acceptance</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ParticleFactory &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>ParticleFactory &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -130,7 +130,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -231,7 +231,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst15ParticleFactory11check_typesEPiPiPiPiPi">
 <span class="target" id="classfeasst_1_1ParticleFactory_1ac64acc5fe77cf26a7c7b838af07eeb95"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check_types</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">num_site_types</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">num_particle_types</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">num_bond_types</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">num_angle_types</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">num_dihedral_types</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory11check_typesEPiPiPiPiPi" title="Link to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="../../steppers/doc/Check_arguments.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site, particle, bond, angle or dihedral type is skipped. As particles and sites are added, a never before seen type must be only one higher than the previous maximum index. Types begin with 0.</p>
-<p>For example, a particle with sites of type {0, 2} is invalid because the second site of type “2” appears without a previous type “1” site.</p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> example, a particle with sites of type {0, 2} is invalid because the second site of type “2” appears without a previous type “1” site.</p>
 <p>In another example, a particle with sites of type {1,2} is invalid because the site type doesn’t begin with 0.</p>
 <p>Note: for partial configurations by groups, these checks may not apply. </p>
 </dd></dl>
@@ -273,14 +273,14 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst15ParticleFactory3addEKNSt6stringE">
-<span class="target" id="classfeasst_1_1ParticleFactory_1ad45e1092645377b55db31c9f0e7fd6ed"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">file_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory3addEKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst15ParticleFactory3addEKNSt6stringEKNSt6stringE">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a0aff6b935320808d97b7e901c7557b35"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">file_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory3addEKNSt6stringEKNSt6stringE" title="Link to this definition"></a><br /></dt>
 <dd><p>Add particle by file. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst15ParticleFactory3addERK8Particle">
-<span class="target" id="classfeasst_1_1ParticleFactory_1a33b62ee06cac412489dcf2a43b566b9d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle"><span class="n"><span class="pre">Particle</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particle</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory3addERK8Particle" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst15ParticleFactory3addERK8ParticleKNSt6stringE">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a49cf852cbe376e851dab173ead917010"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle"><span class="n"><span class="pre">Particle</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particle</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory3addERK8ParticleKNSt6stringE" title="Link to this definition"></a><br /></dt>
 <dd><p>Add a particle. </p>
 </dd></dl>
 
@@ -332,7 +332,7 @@
 <dd><p>Scale particle positions by a constant factor in the given dimension. </p>
 <dl class="field-list simple">
 <dt class="field-odd">param dimen<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Scale in this dimension. If -1, scale in all dimensions. </p>
+<dd class="field-odd"><p>Scale in this dimension. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> -1, scale in all dimensions. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -440,9 +440,25 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst15ParticleFactory15set_model_paramEKNSt6stringEKNSt6stringE">
-<span class="target" id="classfeasst_1_1ParticleFactory_1a931837e34afa77f1c0f1fde1994d0257"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_model_param</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory15set_model_paramEKNSt6stringEKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst15ParticleFactory15set_model_paramEKNSt6stringEKNSt6stringEPNSt6vectorINSt6stringEEE">
+<span class="target" id="classfeasst_1_1ParticleFactory_1ac20e1edc032e4fa48529e58978d2f13f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_model_param</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">filename</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">site_type_names</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">NULL</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory15set_model_paramEKNSt6stringEKNSt6stringEPNSt6vectorINSt6stringEEE" title="Link to this definition"></a><br /></dt>
 <dd><p>Set mixed model parameters using a file. </p>
+<dl class="field-list simple">
+<dt class="field-odd">param site_type_names<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optionally provide a list of names of site types </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst15ParticleFactory15set_model_paramEKNSt6stringEPNSt6vectorINSt6stringEEE">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a80fc98ed202bed040cdc69090b478fa1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_model_param</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">filename</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">site_type_names</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">NULL</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory15set_model_paramEKNSt6stringEPNSt6vectorINSt6stringEEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Set mixed model parameters using a file (see <a class="reference internal" href="Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>). </p>
+<dl class="field-list simple">
+<dt class="field-odd">param site_type_names<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optionally provide a list of names of site types </p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="cpp function">
@@ -515,6 +531,59 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst15ParticleFactory17set_site_propertyEKiKdKiKi">
 <span class="target" id="classfeasst_1_1ParticleFactory_1a1b0c6252a8fa5bdcca7a01bb0e682ecb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_site_property</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory17set_site_propertyEKiKdKiKi" title="Link to this definition"></a><br /></dt>
 <dd><p>Set the property of sites in a particle by index instead of name. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst15ParticleFactory18site_name_to_indexERKNSt6stringEPi">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a3b859d75c515ee8d505941fb36410178"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">site_name_to_index</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">site_name</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">particle_index</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">NULL</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory18site_name_to_indexERKNSt6stringEPi" title="Link to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> unique_particles, return the index of a site given the site name. </p>
+<dl class="field-list simple">
+<dt class="field-odd">param particle_index<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optionally, return the particle index (if not NULL) </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst15ParticleFactory18site_index_to_nameEKiKi">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a2ef772a482cb91c40a37ef7a610eb776"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">site_index_to_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle_type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory18site_index_to_nameEKiKi" title="Link to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> unique_particles, return the name of a site given the site index. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst15ParticleFactory26site_type_to_particle_typeEKi">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a558e38eacaef4d9c04d9f1f50ac996cf"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">site_type_to_particle_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory26site_type_to_particle_typeEKi" title="Link to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> unique_types, return the particle type of a given site type. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst15ParticleFactory11unique_typeEKiKi">
+<span class="target" id="classfeasst_1_1ParticleFactory_1ab7c0518f2b7362510ef438829dc43225"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site"><span class="n"><span class="pre">Site</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">unique_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ptype</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stype</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory11unique_typeEKiKi" title="Link to this definition"></a><br /></dt>
+<dd><p>Return the site of unique type by individual particle and site type. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst15ParticleFactory17site_type_to_nameEKi">
+<span class="target" id="classfeasst_1_1ParticleFactory_1ac489000f1a380efa72ed7035bb428ed4"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">site_type_to_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">site_type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory17site_type_to_nameEKi" title="Link to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> unique_type, return the name of a given site type. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst15ParticleFactory23site_type_name_to_indexERKNSt6stringE">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a87a5df472cefb87b345ffe16565b8b17"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">site_type_name_to_index</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">site_type_name</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory23site_type_name_to_indexERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> unique_type, return index of a given site type name. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst15ParticleFactory13name_to_indexERKNSt6stringE">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a023d7eac43eac8915552be1ca0d67bdb"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">name_to_index</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory13name_to_indexERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> unique_type, return the name given the index. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6feasst15ParticleFactory13index_to_nameEKi">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a5390eba5ea5a83761a3c6872f5700a2f"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">index_to_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory13index_to_nameEKi" title="Link to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> unique_type, return the index given the name. </p>
 </dd></dl>
 
 </div>

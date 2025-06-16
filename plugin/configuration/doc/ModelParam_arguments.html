@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ModelParam &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>ModelParam &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -75,7 +75,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -152,27 +152,27 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst7EpsilonE">
 <span class="target" id="classfeasst_1_1Epsilon"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Epsilon</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam"><span class="n"><span class="pre">ModelParam</span></span></a><br /></dt>
-<dd><p>The epsilon parameter is named “epsilon” in LMP-like data file <a class="reference internal" href="Site_arguments.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties_arguments.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The epsilon parameter has the default mixing rule: <span class="math notranslate nohighlight">\( \epsilon_{ij} = \sqrt{\epsilon_i \epsilon_j} \)</span></p>
+<dd><p>The epsilon parameter is named “epsilon” in the particle file <a class="reference internal" href="Site_arguments.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties_arguments.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The epsilon parameter has the default mixing rule: <span class="math notranslate nohighlight">\( \epsilon_{ij} = \sqrt{\epsilon_i \epsilon_j} \)</span></p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst5SigmaE">
 <span class="target" id="classfeasst_1_1Sigma"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Sigma</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam"><span class="n"><span class="pre">ModelParam</span></span></a><br /></dt>
-<dd><p>The sigma parameter is named “sigma” in LMP-like data file <a class="reference internal" href="Site_arguments.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties_arguments.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The sigma parameter has the default mixing rule:</p>
+<dd><p>The sigma parameter is named “sigma” in the particle file <a class="reference internal" href="Site_arguments.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties_arguments.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The sigma parameter has the default mixing rule:</p>
 <p><span class="math notranslate nohighlight">\( \sigma_{ij} = \left\{ \begin{array}{lr} 0 &amp; : \sigma_i \sigma_j = 0 \\ 0.5(\sigma_i + \sigma_j) &amp; : \sigma_i\sigma_j \neq 0 \end{array} \right. \)</span></p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6CutOffE">
 <span class="target" id="classfeasst_1_1CutOff"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CutOff</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam"><span class="n"><span class="pre">ModelParam</span></span></a><br /></dt>
-<dd><p>The cut off parameter is named “cutoff” in LMP-like data file <a class="reference internal" href="Site_arguments.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties_arguments.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The cut off parameter has the default mixing rule:</p>
+<dd><p>The cut off parameter is named “cutoff” in the particle file <a class="reference internal" href="Site_arguments.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties_arguments.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The cut off parameter has the default mixing rule:</p>
 <p><span class="math notranslate nohighlight">\( r_{c,ij} = \left\{ \begin{array}{lr} 0 &amp; : r_{c,i} r_{c,j} = 0 \\ 0.5(r_{c,i} + r_{c,j}) &amp; : r_{c,i}r_{c,j} \neq 0 \end{array} \right. \)</span></p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6ChargeE">
 <span class="target" id="classfeasst_1_1Charge"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Charge</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="ModelParam.html#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam"><span class="n"><span class="pre">ModelParam</span></span></a><br /></dt>
-<dd><p>The charge parameter is named “charge” in LMP-like data file <a class="reference internal" href="Site_arguments.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties_arguments.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The charge parameter, q, has the default mixing rule: <span class="math notranslate nohighlight">\( q_{ij} = q_i q_j \)</span></p>
+<dd><p>The charge parameter is named “charge” in the particle file <a class="reference internal" href="Site_arguments.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> <a class="reference internal" href="Properties_arguments.html#classfeasst_1_1Properties"><span class="std std-ref">Properties</span></a>. The charge parameter, q, has the default mixing rule: <span class="math notranslate nohighlight">\( q_{ij} = q_i q_j \)</span></p>
 </dd></dl>
 
 <dl class="cpp class">

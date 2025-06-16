@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WindowExponential &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>WindowExponential &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -53,7 +53,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -135,7 +135,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -213,9 +213,9 @@
 <span class="target" id="classfeasst_1_1WindowExponential"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">WindowExponential</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Window.html#_CPPv4N6feasst6WindowE" title="feasst::Window"><span class="n"><span class="pre">Window</span></span></a><a class="headerlink" href="#_CPPv4N6feasst17WindowExponentialE" title="Link to this definition"></a><br /></dt>
 <dd><p>Determine windows based on an expontential factor, <span class="math notranslate nohighlight">\(\alpha\)</span>. The macrostate of the windows, <span class="math notranslate nohighlight">\(m_i\)</span>, is given by</p>
 <p><span class="math notranslate nohighlight">\(m_{i+1} = \left( m_i^{\alpha} + \frac{m_{n+1}^{\alpha} - m_0^{\alpha}}{n} \right)^{1/\alpha}\)</span></p>
-<p>where <span class="math notranslate nohighlight">\(i\)</span> is the index of the window, ranging from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(n+1\)</span> and <span class="math notranslate nohighlight">\(n\)</span> is the number of windows. Thus, <span class="math notranslate nohighlight">\(m_{n+1}\)</span> is the maximum macrostate over the entire range, while <span class="math notranslate nohighlight">\(m_0\)</span> is the minimum macrostate over the entire range. For <span class="math notranslate nohighlight">\(\alpha=1\)</span>, the widths of all windows are the same. For <span class="math notranslate nohighlight">\(\alpha&gt;1\)</span>, the widths of the windows decrease exponentially. For <span class="math notranslate nohighlight">\(\alpha&lt;1\)</span>, the widths of the windows increase exponentially.</p>
-<p>The given formula is continuous and not rounded. Instead, use <a class="reference internal" href="Window.html#classfeasst_1_1Window_1acc6d597e1a924887647ce655f891cc34"><span class="std std-ref">Window::boundaries</span></a> for handling rounding and overlap. For example, 4 windows over a macrostate range of [0, 200], <span class="math notranslate nohighlight">\(\alpha=2\)</span>, results in the following segments: [0, 100.00, 141.42, 173.21, 200].</p>
-<p>The choice of alpha can affect the efficiency of the simulation, depending on the relative speed of the convergence of the low macrostates compared to the higher macrostates. If lower macrostates converge slower, then decrease alpha. If higher macrostates converge slower, then increase alpha. The choice of alpha is dependent on the system, conditions and convergence criteria. </p>
+<p>where <span class="math notranslate nohighlight">\(i\)</span> is the index of the window, ranging from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(n+1\)</span> and <span class="math notranslate nohighlight">\(n\)</span> is the number of windows. Thus, <span class="math notranslate nohighlight">\(m_{n+1}\)</span> is the maximum macrostate over the entire range, while <span class="math notranslate nohighlight">\(m_0\)</span> is the minimum macrostate over the entire range. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> <span class="math notranslate nohighlight">\(\alpha=1\)</span>, the widths of all windows are the same. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> <span class="math notranslate nohighlight">\(\alpha&gt;1\)</span>, the widths of the windows decrease exponentially. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> <span class="math notranslate nohighlight">\(\alpha&lt;1\)</span>, the widths of the windows increase exponentially.</p>
+<p>The given formula is continuous and not rounded. Instead, use <a class="reference internal" href="Window.html#classfeasst_1_1Window_1acc6d597e1a924887647ce655f891cc34"><span class="std std-ref">Window::boundaries</span></a> for handling rounding and overlap. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> example, 4 windows over a macrostate range of [0, 200], <span class="math notranslate nohighlight">\(\alpha=2\)</span>, results in the following segments: [0, 100.00, 141.42, 173.21, 200].</p>
+<p>The choice of alpha can affect the efficiency of the simulation, depending on the relative speed of the convergence of the low macrostates compared to the higher macrostates. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> lower macrostates converge slower, then decrease alpha. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> higher macrostates converge slower, then increase alpha. The choice of alpha is dependent on the system, conditions and convergence criteria. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">

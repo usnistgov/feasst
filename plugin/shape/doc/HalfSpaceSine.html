@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HalfSpaceSine &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>HalfSpaceSine &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -53,7 +53,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -130,7 +130,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -211,7 +211,7 @@
 <p><span class="math notranslate nohighlight">\(D^2 = (x-e)^2 + (y-f)^2\)</span></p>
 <p>should be a minimum. Thus, the derivative should be zero.</p>
 <p><span class="math notranslate nohighlight">\(\frac{d D^2}{2dx} = 0 = x-e+(y-f) \frac{dy}{dx}\)</span></p>
-<p>For this implementation, we begin by finding the limits of the nearest half-wave of interest, in order to bracket the possible solutions to this non-linear equation. When f &gt; y(e), the “x”-values of the half-wave of interest is given by the nearest minimum to e, and then the nearest maximum on the other side of e. Otherwise, when f &lt; y(e), switch the minimum and maximum in above. When f = y(e), (e,f) is on the curve and your nearest distance is 0. </p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> this implementation, we begin by finding the limits of the nearest half-wave of interest, in order to bracket the possible solutions to this non-linear equation. When f &gt; y(e), the “x”-values of the half-wave of interest is given by the nearest minimum to e, and then the nearest maximum on the other side of e. Otherwise, when f &lt; y(e), switch the minimum and maximum in above. When f = y(e), (e,f) is on the curve and your nearest distance is 0. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">

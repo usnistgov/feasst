@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Run FEASST as a server with Python client &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>Run FEASST as a server with Python client &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -114,7 +114,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -238,24 +238,24 @@
     <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
     <span class="n">sock</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]))</span>
     <span class="n">feasst_commands</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;MonteCarlo</span>
-<span class="s2">RandomMT19937 seed </span><span class="si">{seed}</span>
-<span class="s2">Configuration cubic_side_length 8 particle_type0 /feasst/particle/lj.fstprt</span>
-<span class="s2">Potential Model LennardJones</span>
-<span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential0 1</span>
+<span class="s2">RandomMT19937 seed=</span><span class="si">{seed}</span>
+<span class="s2">Configuration cubic_side_length=8 particle_type=fluid:/feasst/particle/lj_new.txt</span>
+<span class="s2">Potential Model=LennardJones</span>
+<span class="s2">ThermoParams beta=</span><span class="si">{beta}</span><span class="s2"> chemical_potential=1</span>
 <span class="s2">Metropolis</span>
 <span class="s2">TrialTranslate</span>
-<span class="s2">TrialAdd particle_type 0</span>
-<span class="s2">Run until_num_particles 20</span>
-<span class="s2">Remove name TrialAdd</span>
-<span class="s2">Log trials_per_write 2e6 output_file </span><span class="si">{prefix}{sim}</span><span class="s2">.csv</span>
-<span class="s2">Run num_trials 2e6&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+<span class="s2">TrialAdd particle_type=fluid</span>
+<span class="s2">Run until_num_particles=20</span>
+<span class="s2">Remove name=TrialAdd</span>
+<span class="s2">Log trials_per_write=2e6 output_file=</span><span class="si">{prefix}{sim:03d}</span><span class="s2">.csv</span>
+<span class="s2">Run num_trials=2e6&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">feasst_commands</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
         <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
         <span class="n">message</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;buffer_size&#39;</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;elapsed&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;terminate&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
     <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">:</span>
-        <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39;Run num_trials 1e5&#39;</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39;Run num_trials=1e5&#39;</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
         <span class="n">message</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;buffer_size&#39;</span><span class="p">])</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;elapsed&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">],</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
     <span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Position &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>Position &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -53,7 +53,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -136,7 +136,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -416,16 +416,16 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position20vertex_angle_radiansERK8PositionRK8Position">
 <span class="target" id="classfeasst_1_1Position_1a1e094a231c9a79de78cdc8aa74ac445f"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vertex_angle_radians</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ri</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rk</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position20vertex_angle_radiansERK8PositionRK8Position" title="Link to this definition"></a><br /></dt>
-<dd><p>Return the angle, in radians, formed by self as vertex, and two points. For example, the angle between i - j - k, which form a line, is PI. While i and k are given, j is self.</p>
+<dd><p>Return the angle, in radians, formed by self as vertex, and two points. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> example, the angle between i - j - k, which form a line, is PI. While i and k are given, j is self.</p>
 <p>In 2D, maintain chirality such that angles are clock-wise rotated. This is implemented by checking that the z-dimension of</p>
 <p><span class="math notranslate nohighlight">\(r_{ij} \times r_{kj} &lt; 0\)</span>.</p>
-<p>If not, then reverse the angle, <span class="math notranslate nohighlight">\(\theta \rightarrow 2\pi - \theta\)</span>. </p>
+<p><a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> not, then reverse the angle, <span class="math notranslate nohighlight">\(\theta \rightarrow 2\pi - \theta\)</span>. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst8Position21torsion_angle_radiansERK8PositionRK8PositionRK8Position">
 <span class="target" id="classfeasst_1_1Position_1a9af6779445374d89f3670b7178ea6967"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">torsion_angle_radians</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rj</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rk</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position"><span class="n"><span class="pre">Position</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rl</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst8Position21torsion_angle_radiansERK8PositionRK8PositionRK8Position" title="Link to this definition"></a><br /></dt>
-<dd><p><a class="reference internal" href="../../configuration/doc/Bond_arguments.html#classfeasst_1_1Dihedral"><span class="std std-ref">Dihedral</span></a> or torsion angles are defined by the angle between planes. For a molecule, these planes may be defined by four positions: l - j - k - i. Note that the order is reversible.</p>
+<dd><p><a class="reference internal" href="../../configuration/doc/Bond_arguments.html#classfeasst_1_1Dihedral"><span class="std std-ref">Dihedral</span></a> or torsion angles are defined by the angle between planes. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> a molecule, these planes may be defined by four positions: l - j - k - i. Note that the order is reversible.</p>
 <p>The normal of the first plane, <span class="math notranslate nohighlight">\(n_1\)</span>, is given by</p>
 <p><span class="math notranslate nohighlight">\(n_1=r_{kl} \times r_{jk}\)</span></p>
 <p>where</p>
@@ -434,7 +434,7 @@
 <p><span class="math notranslate nohighlight">\(n_2=r_{jk} \times r_{ij}\)</span></p>
 <p>and the dihedral angle, <span class="math notranslate nohighlight">\(\phi\)</span>, is given by</p>
 <p><span class="math notranslate nohighlight">\(\cos\phi = \frac{n_1 \cdot n_2}{|n_1||n_2|}\)</span>.</p>
-<p>For more discussion, see <a class="reference external" href="https://en.wikipedia.org/wiki/Dihedral_angle">https://en.wikipedia.org/wiki/Dihedral_angle</a> or <a class="reference external" href="http://trappe.oit.umn.edu/torsion.html">http://trappe.oit.umn.edu/torsion.html</a>.</p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> more discussion, see <a class="reference external" href="https://en.wikipedia.org/wiki/Dihedral_angle">https://en.wikipedia.org/wiki/Dihedral_angle</a> or <a class="reference external" href="http://trappe.oit.umn.edu/torsion.html">http://trappe.oit.umn.edu/torsion.html</a>.</p>
 <p>In this convention, a syn-periplanar (cis) configuration corresponds to 0 while a anti-periplaner (trans) corresponds to PI. </p>
 </dd></dl>
 
@@ -478,9 +478,8 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
 <p>args:<ul class="simple">
-<li><p>x: x-coordinate</p></li>
-<li><p>y: y-coordinate. Requires explicit x.</p></li>
-<li><p>z: z-coordinate. Requires explicit y. </p></li>
+<li><p>csv: comma-separated values for the positions in each dimension.</p></li>
+<li><p>dimension: set to origin with this many dimensions. </p></li>
 </ul>
 </p>
 </div>

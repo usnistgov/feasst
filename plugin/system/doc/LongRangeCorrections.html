@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LongRangeCorrections &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>LongRangeCorrections &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -53,7 +53,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -151,7 +151,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -234,14 +234,14 @@
 <p><span class="math notranslate nohighlight">\(C_{ij} = \frac{8\epsilon_{ij}\pi\sigma_{ij}^3}{3 V}\left[\frac{1}{3}\left(\frac{\sigma_{ij}}{r^c_{ij}}\right)^9 - \left(\frac{\sigma_{ij}}{r^c_{ij}}\right)^3\right]\)</span></p>
 <p>which depends only on the <a class="reference internal" href="LennardJones_arguments.html#classfeasst_1_1LennardJones"><span class="std std-ref">LennardJones</span></a> parameters.</p>
 <p>Only trials that change the number of sites of a type contribute to changes in energy.</p>
-<p>If a selection of sites are to be deleted, the energetic contribution of the selection may be computed as:</p>
+<p><a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> a selection of sites are to be deleted, the energetic contribution of the selection may be computed as:</p>
 <p><span class="math notranslate nohighlight">\(U_{with} - U_{without} \propto n_i n_j - (n_i-n_i^s)(n_j-n_j^s)\)</span></p>
 <p><span class="math notranslate nohighlight">\(U_{with} - U_{without} \propto n_i^s n_j + n_i n_j^s - n_i^s n_j^s\)</span></p>
 <p>where the superscript s refers to the number of sites in the selection.</p>
-<p>If a selection is to be added, the energetic contribution of the selection may be computed as:</p>
+<p><a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> a selection is to be added, the energetic contribution of the selection may be computed as:</p>
 <p><span class="math notranslate nohighlight">\(U_{with} - U_{without} \propto (n_i+n_i^s)(n_j+n_j^s) - n_i n_j\)</span></p>
 <p><span class="math notranslate nohighlight">\(U_{with} - U_{without} \propto n_i^s n_j + n_i n_j^s + n_i^s n_j^s\)</span></p>
-<p>For the <a class="reference internal" href="../../models/doc/Mie_arguments.html#classfeasst_1_1Mie"><span class="std std-ref">Mie</span></a> potential,</p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> the <a class="reference internal" href="../../models/doc/Mie_arguments.html#classfeasst_1_1Mie"><span class="std std-ref">Mie</span></a> potential,</p>
 <p><span class="math notranslate nohighlight">\(C_{ij} = \left(\frac{n}{n-m}\right)\left(\frac{n}{m}\right)^{m/(n-m)} \frac{2\epsilon_{ij}\pi\sigma_{ij}^3}{(\lambda_a-3)V}\left[\frac{\lambda_a-3}{\lambda_r-3}\left(\frac{\sigma_{ij}}{r^c_{ij}}\right)^{\lambda_r-3} - \left(\frac{\sigma_{ij}}{r^c_{ij}}\right)^{\lambda_a-3}\right]\)</span></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>

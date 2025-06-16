@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>utils/include/io &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>utils/include/io &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -62,6 +62,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">C++ Interface</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="definitions.html">utils/include/definitions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html">utils/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ArgumentParse.html">ArgumentParse</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Timer.html">Timer</a></li>
@@ -74,9 +75,15 @@
 <li class="toctree-l3"><a class="reference internal" href="file.html">utils/include/file</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TimerRDTSC.html">TimerRDTSC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="arguments.html">utils/include/arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Else.html">Else</a></li>
 <li class="toctree-l3"><a class="reference internal" href="arguments_extra.html">utils/include/arguments_extra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="For.html">For</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EndIf.html">EndIf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Let.html">Let</a></li>
+<li class="toctree-l3"><a class="reference internal" href="If.html">If</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EndFor.html">EndFor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debug.html">utils/include/debug</a></li>
 <li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="serialize_extra.html">utils/include/serialize_extra</a></li>
@@ -129,7 +136,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -208,18 +215,6 @@
 <dd><div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst11install_dirEv">
-<span class="target" id="namespacefeasst_1acd9da1f51a54bf39c2005aa94a79a0eb"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">install_dir</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst11install_dirEv" title="Link to this definition"></a><br /></dt>
-<dd><p>Return the feasst install directory as a string. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst7versionEv">
-<span class="target" id="namespacefeasst_1a4814ac093e12dde646e9db1d3bf99647"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">version</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst7versionEv" title="Link to this definition"></a><br /></dt>
-<dd><p>Return the feasst version as a string. </p>
-</dd></dl>
-
-<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt6vectorI1TEEKb">
 <span class="target" id="namespacefeasst_1a45c83a3c6b59a8c7a018335c52038da1"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">feasst_str</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt6vectorI1TEEKb" title="feasst::feasst::feasst_str::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vec</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_precision</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt6vectorI1TEEKb" title="Link to this definition"></a><br /></dt>
 <dd><p>Return string representation of vector. </p>
@@ -242,9 +237,9 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst5splitEKNSt6stringE">
-<span class="target" id="namespacefeasst_1a0737a349c88fc17e47df399505080af4"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">split</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">str</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst5splitEKNSt6stringE" title="Link to this definition"></a><br /></dt>
-<dd><p>Split a string into a vector of strings via space delimitors. </p>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst5splitERKNSt6stringEKc">
+<span class="target" id="namespacefeasst_1a73e39c86a005003d421e720f654877f8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">split</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">str_to_split</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">delimitor</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="sc"><span class="pre">'</span> <span class="pre">'</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst5splitERKNSt6stringEKc" title="Link to this definition"></a><br /></dt>
+<dd><p>Split a string into a vector of strings via given delimitor. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -253,7 +248,7 @@
 <dd><p>Return phrase with all characters up to the last specialchr removed. </p>
 <dl class="field-list simple">
 <dt class="field-odd">param from_left<span class="colon">:</span></dt>
-<dd class="field-odd"><p>If 1, remove characters from the left. Otherwise, remove characters from the right. </p>
+<dd class="field-odd"><p><a class="reference internal" href="If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> 1, remove characters from the left. Otherwise, remove characters from the right. </p>
 </dd>
 </dl>
 </dd></dl>

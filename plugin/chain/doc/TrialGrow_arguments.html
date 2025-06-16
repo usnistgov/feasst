@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrialGrow &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>TrialGrow &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -53,7 +53,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -132,7 +132,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -211,7 +211,7 @@
 <li><p>weight: weight of selection of this trial (default: see <a class="reference internal" href="../../monte_carlo/doc/Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>).</p></li>
 <li><p>weight_per_number_fraction: see <a class="reference internal" href="../../monte_carlo/doc/Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>.</p></li>
 <li><p>transfer: if true, create add and remove trial with equal weight (default: false).</p></li>
-<li><p>gibbs_transfer: if true, create two trials which transfer particles between configuration_index and configuration_index2 (default: false).</p></li>
+<li><p>gibbs_transfer: if true, create two trials which transfer particles between config and config2 <a class="reference internal" href="../../configuration/doc/Configuration_arguments.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> names (default: false).</p></li>
 <li><p>regrow: if true, place anywhere in the domain (default: false).</p></li>
 <li><p>transfer_avb: if true, same as transfer but with TrialAddAVB/TrialRemoveAVB for the first stage (default: false).</p></li>
 <li><p>regrow_avb2: if true, regrow using <a class="reference internal" href="../../cluster/doc/TrialAVB2_arguments.html#classfeasst_1_1TrialAVB2"><span class="std std-ref">TrialAVB2</span></a> in the first stage (default: false).</p></li>
@@ -222,11 +222,11 @@
 <li><p>add_avb: if true, create an avb add trial (default: false).</p></li>
 <li><p>remove_avb: if true, create an avb remove trial (default: false).</p></li>
 <li><p>default_num_steps: optional default number of steps for all stages.</p></li>
-<li><p>default_reference_index: optional default reference index for all stages.</p></li>
+<li><p>default_ref: optional default reference name for all stages.</p></li>
 <li><p>default_new_only: optional default new only for all stages.</p></li>
 </ul>
 </p>
-<p>The following options may be used in any argtype. If used in the first, then it is a partial regrowth move.<ul class="simple">
+<p>The following options may be used in any argtype. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> used in the first, then it is a partial regrowth move.<ul class="simple">
 <li><p>bond: if true, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDistance_arguments.html#classfeasst_1_1PerturbDistance"><span class="std std-ref">PerturbDistance</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
 <li><p>angle: if true, adds <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle_arguments.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDistanceAngle_arguments.html#classfeasst_1_1PerturbDistanceAngle"><span class="std std-ref">PerturbDistanceAngle</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle_arguments.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
 <li><p>dihedral: if true, adds <a class="reference internal" href="../../monte_carlo/doc/TrialSelectDihedral_arguments.html#classfeasst_1_1TrialSelectDihedral"><span class="std std-ref">TrialSelectDihedral</span></a> and <a class="reference internal" href="../../monte_carlo/doc/PerturbDihedral_arguments.html#classfeasst_1_1PerturbDihedral"><span class="std std-ref">PerturbDihedral</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectDihedral_arguments.html#classfeasst_1_1TrialSelectDihedral"><span class="std std-ref">TrialSelectDihedral</span></a>, <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle_arguments.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
@@ -234,13 +234,13 @@
 <li><p>position_swap: if true, add <a class="reference internal" href="SelectTwoSites_arguments.html#classfeasst_1_1SelectTwoSites"><span class="std std-ref">SelectTwoSites</span></a> and <a class="reference internal" href="PerturbPositionSwap_arguments.html#classfeasst_1_1PerturbPositionSwap"><span class="std std-ref">PerturbPositionSwap</span></a>. Requires arguments described in <a class="reference internal" href="SelectTwoSites_arguments.html#classfeasst_1_1SelectTwoSites"><span class="std std-ref">SelectTwoSites</span></a>.</p></li>
 <li><p>rigid_body_connector: if true, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a> and <a class="reference internal" href="PerturbConnector_arguments.html#classfeasst_1_1PerturbConnector"><span class="std std-ref">PerturbConnector</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectBond_arguments.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">TrialSelectBond</span></a>.</p></li>
 <li><p>rigid_body_angle: if true, add <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle_arguments.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a> and <a class="reference internal" href="PerturbDistanceAngleConnector_arguments.html#classfeasst_1_1PerturbDistanceAngleConnector"><span class="std std-ref">PerturbDistanceAngleConnector</span></a>. Requires arguments described in <a class="reference internal" href="../../monte_carlo/doc/TrialSelectAngle_arguments.html#classfeasst_1_1TrialSelectAngle"><span class="std std-ref">TrialSelectAngle</span></a>.</p></li>
-<li><p><a class="reference internal" href="../../monte_carlo/doc/TrialStage_arguments.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a> arguments: num_steps, reference_index, new_only, etc.</p></li>
+<li><p><a class="reference internal" href="../../monte_carlo/doc/TrialStage_arguments.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a> arguments: num_steps, ref, new_only, etc.</p></li>
 </ul>
 </p>
 <p>Note that only one of bond, angle or branch may be true for a given stage.</p>
 <p>Derivation of the acceptance criteria follows the procedure described in <a class="reference internal" href="../../monte_carlo/doc/TrialComputeMove_arguments.html#classfeasst_1_1TrialComputeMove"><span class="std std-ref">TrialComputeMove</span></a> and first described in Lecture 9 of Prof. David Kofke’s Molecular Simulation course CE 530</p>
 <p><a class="reference external" href="http://www.eng.buffalo.edu/~kofke/ce530/Lectures/lectures.html">http://www.eng.buffalo.edu/~kofke/ce530/Lectures/lectures.html</a></p>
-<p>For bonds, angles and dihedrals, the relevant forward and reverse probabilities are as follows: <p><table class="docutils align-default">
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> bonds, angles and dihedrals, the relevant forward and reverse probabilities are as follows: <p><table class="docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p>Forward event</p>
 <p>[reverse event]</p>
@@ -320,10 +320,11 @@ excluded from the energy in the acceptance probability.</p>
 <p><ul>
 <li><p>grow_file: name of <a class="reference internal" href="#classfeasst_1_1TrialGrowFile"><span class="std std-ref">TrialGrowFile</span></a> file with the following format:</p>
 <p>line1: <a class="reference internal" href="#classfeasst_1_1TrialGrowFile"><span class="std std-ref">TrialGrowFile</span></a></p>
-<p>line2: optional space</p>
-<p>line3: stage with key pair separated by space (e.g., “transfer true site 0”)</p>
-<p>lineX: additional stages until end of file or empty line.</p>
-<p>lineY: additional trials with additional stages as described above, separated by empty lines.</p>
+<p>line2: empty line</p>
+<p>line3: stage with key pairs separated by spaces, with each pair separated by an equal sign (e.g., “transfer=true site=0”)</p>
+<p>line2+n: n stages until end of file or empty line. This completely describes one <a class="reference internal" href="../../monte_carlo/doc/Trial_arguments.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a>.</p>
+<p>line2+n+1: end of file or empty line</p>
+<p>line2+n+2+: additional trials with additional stages as described above, separated by empty lines.</p>
 <p>See the tutorials for examples. </p>
 </li>
 </ul>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Use a Python client to define interactions between particles &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>Use a Python client to define interactions between particles &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -114,7 +114,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -205,7 +205,7 @@
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentDefaultsHelpFormatter</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--feasst_install&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;../../../build/&#39;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;FEASST install directory (e.g., the path to build)&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--fstprt&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;/feasst/particle/lj.fstprt&#39;</span><span class="p">,</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--fstprt&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;/feasst/particle/lj.txt&#39;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;FEASST particle definition&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--beta&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;1 / kB / T&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--port&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">55555</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;server client interface port&#39;</span><span class="p">)</span>
@@ -251,29 +251,30 @@
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
         <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">MonteCarlo</span>
-<span class="s2">RandomMT19937 seed </span><span class="si">{seed}</span>
-<span class="s2">Configuration cubic_side_length </span><span class="si">{cubic_side_length}</span><span class="s2"> particle_type0 </span><span class="si">{fstprt}</span>
-<span class="s2">Potential Model ModelServer port </span><span class="si">{port}</span><span class="s2"> VisitModel VisitModelCell</span>
-<span class="s2">Potential VisitModel LongRangeCorrections</span>
-<span class="s2">ThermoParams beta </span><span class="si">{beta}</span><span class="s2"> chemical_potential -1</span>
+<span class="s2">RandomMT19937 seed=</span><span class="si">{seed}</span>
+<span class="s2">Configuration cubic_side_length=</span><span class="si">{cubic_side_length}</span><span class="s2"> particle_type=lj:</span><span class="si">{fstprt}</span>
+<span class="s2">Potential Model=ModelServer port=</span><span class="si">{port}</span><span class="s2"> VisitModel=VisitModelCell</span>
+<span class="s2">Potential VisitModel=LongRangeCorrections</span>
+<span class="s2">ThermoParams beta=</span><span class="si">{beta}</span><span class="s2"> chemical_potential=-1</span>
 <span class="s2">Metropolis</span>
-<span class="s2">TrialTranslate tunable_param 2 tunable_target_acceptance 0.2</span>
-<span class="s2">Checkpoint checkpoint_file </span><span class="si">{prefix}{sim}</span><span class="s2">_checkpoint.fst num_hours </span><span class="si">{hours_checkpoint}</span><span class="s2"> num_hours_terminate </span><span class="si">{hours_terminate}</span>
-<span class="s2">TrialAdd particle_type 0</span>
-<span class="s2">Run until_num_particles </span><span class="si">{num_particles}</span>
-<span class="s2">Remove name TrialAdd</span>
-<span class="s2">Metropolis trials_per_cycle </span><span class="si">{tpc}</span><span class="s2"> cycles_to_complete </span><span class="si">{equilibration_cycles}</span>
+<span class="s2">TrialTranslate tunable_param=2</span>
+<span class="s2">Checkpoint checkpoint_file=</span><span class="si">{prefix}{sim:03d}</span><span class="s2">_checkpoint.fst num_hours=</span><span class="si">{hours_checkpoint}</span><span class="s2"> num_hours_terminate=</span><span class="si">{hours_terminate}</span>
+<span class="s2">TrialAdd particle_type=lj</span>
+<span class="s2">Run until_num_particles=</span><span class="si">{num_particles}</span>
+<span class="s2">Remove name=TrialAdd</span>
+<span class="s2">Metropolis trials_per_cycle=</span><span class="si">{tpc}</span><span class="s2"> cycles_to_complete=</span><span class="si">{equilibration_cycles}</span>
 <span class="s2">Tune</span>
-<span class="s2">CheckEnergy trials_per_update </span><span class="si">{tpc}</span><span class="s2"> tolerance 1e-8</span>
-<span class="s2">Log trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_eq.csv</span>
-<span class="s2">Run until complete</span>
-<span class="s2">Remove name0 Tune name1 Log</span>
-<span class="s2">Metropolis trials_per_cycle </span><span class="si">{tpc}</span><span class="s2"> cycles_to_complete </span><span class="si">{production_cycles}</span>
-<span class="s2">Log trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">.csv</span>
-<span class="s2">Movie trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">.xyz</span>
-<span class="s2">Energy trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_en.csv</span>
-<span class="s2">CPUTime trials_per_write </span><span class="si">{tpc}</span><span class="s2"> output_file </span><span class="si">{prefix}{sim}</span><span class="s2">_cpu.txt</span>
-<span class="s2">Run until complete</span>
+<span class="s2">CheckEnergy trials_per_update=</span><span class="si">{tpc}</span><span class="s2"> decimal_places=6</span>
+<span class="s2">Let [write]=trials_per_write=</span><span class="si">{tpc}</span><span class="s2"> output_file=</span><span class="si">{prefix}{sim:03d}</span>
+<span class="s2">Log [write]_eq.csv</span>
+<span class="s2">Run until=complete</span>
+<span class="s2">Remove name=Tune,Log</span>
+<span class="s2">Metropolis trials_per_cycle=</span><span class="si">{tpc}</span><span class="s2"> cycles_to_complete=</span><span class="si">{production_cycles}</span>
+<span class="s2">Log [write].csv</span>
+<span class="s2">Movie [write].xyz</span>
+<span class="s2">Energy [write]_en.csv</span>
+<span class="s2">CPUTime [write]_cpu.txt</span>
+<span class="s2">Run until=complete</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">en_lj</span><span class="p">(</span><span class="n">r2</span><span class="p">):</span>
@@ -300,9 +301,9 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Plot energy and compare with https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm &quot;&quot;&quot;</span>
     <span class="n">ens</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sims&#39;</span><span class="p">],</span> <span class="mi">2</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">sim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sims&#39;</span><span class="p">]):</span>
-        <span class="n">log</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="nb">int</span><span class="p">(</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;num_particles_of_type0&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_particles&#39;</span><span class="p">]</span>
-        <span class="n">energy</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_en.csv&#39;</span><span class="p">)</span>
+        <span class="n">log</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}{:03d}</span><span class="s2">.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">],</span> <span class="n">sim</span><span class="p">))</span>
+        <span class="k">assert</span> <span class="nb">int</span><span class="p">(</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;num_particles_lj&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_particles&#39;</span><span class="p">]</span>
+        <span class="n">energy</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}{:03d}</span><span class="s2">_en.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">],</span> <span class="n">sim</span><span class="p">))</span>
         <span class="n">ens</span><span class="p">[</span><span class="n">sim</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">energy</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
                              <span class="n">energy</span><span class="p">[</span><span class="s1">&#39;block_stdev&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]])</span><span class="o">/</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_particles&#39;</span><span class="p">]</span>
     <span class="n">rhos_srsw</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">]</span>

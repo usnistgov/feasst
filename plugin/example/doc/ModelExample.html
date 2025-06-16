@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ModelExample &mdash; FEASST 0.25.12 0.25.12 documentation</title>
+  <title>ModelExample &mdash; FEASST 0.25.13 0.25.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e6196b9c"></script>
+      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -53,7 +53,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.12
+            FEASST 0.25.13
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -138,7 +138,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.12</a>
+          <a href="../../../index.html">FEASST 0.25.13</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -216,7 +216,7 @@
 <span class="target" id="classfeasst_1_1ModelExample"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelExample</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody"><span class="n"><span class="pre">ModelTwoBody</span></span></a><a class="headerlink" href="#_CPPv4N6feasst12ModelExampleE" title="Link to this definition"></a><br /></dt>
 <dd><p>Add a model to FEASST by using this file as a template and instruction set. Follow the same steps detailed in /feasst/plugin/example/README.rst. In summary, copy model_example.[h/cpp] to new_name.[h/cpp], replace <a class="reference internal" href="ModelExample_arguments.html#classfeasst_1_1ModelExample"><span class="std std-ref">ModelExample</span></a> with NewName, then replace MODEL_EXAMPLE with NEW_NAME.</p>
 <p>In some cases, <a class="reference internal" href="../../models/doc/TablePotential_arguments.html#classfeasst_1_1TablePotential"><span class="std std-ref">TablePotential</span></a> may be a more convenient and efficient approach to implementing a custom potential in FEASST.</p>
-<p>For more inspiration, take a look at other existing <a class="reference internal" href="../../system/doc/ModelTwoBody_arguments.html#classfeasst_1_1ModelTwoBody"><span class="std std-ref">ModelTwoBody</span></a>, such as <a class="reference internal" href="../../system/doc/LennardJones_arguments.html#classfeasst_1_1LennardJones"><span class="std std-ref">LennardJones</span></a> or <a class="reference internal" href="../../models/doc/LennardJonesCutShift_arguments.html#classfeasst_1_1LennardJonesCutShift"><span class="std std-ref">LennardJonesCutShift</span></a>, or the models plugin. Sometimes it is easiest to find an existing model that is the more similar to what you need, and copy/rename those files instead.</p>
+<p><a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> more inspiration, take a look at other existing <a class="reference internal" href="../../system/doc/ModelTwoBody_arguments.html#classfeasst_1_1ModelTwoBody"><span class="std std-ref">ModelTwoBody</span></a>, such as <a class="reference internal" href="../../system/doc/LennardJones_arguments.html#classfeasst_1_1LennardJones"><span class="std std-ref">LennardJones</span></a> or <a class="reference internal" href="../../models/doc/LennardJonesCutShift_arguments.html#classfeasst_1_1LennardJonesCutShift"><span class="std std-ref">LennardJonesCutShift</span></a>, or the models plugin. Sometimes it is easiest to find an existing model that is the more similar to what you need, and copy/rename those files instead.</p>
 <p><p>As an example, consider the Jagla model,<a class="footnote-reference brackets" href="#footcite-jagla-core-softened-1999" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>
 but with the variables renamed as follows:
 <span class="math notranslate nohighlight">\(\epsilon_1 \rightarrow \gamma\)</span>,
@@ -258,8 +258,8 @@ For example, see Fig. 1(d) of de Haro <em>et al.</em><a class="footnote-referen
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst12ModelExample10precomputeERK11ModelParams">
-<span class="target" id="classfeasst_1_1ModelExample_1ad2886861018c09c32a893d5c059d5d6f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams"><span class="n"><span class="pre">ModelParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">existing</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ModelExample10precomputeERK11ModelParams" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst12ModelExample10precomputeERK13Configuration">
+<span class="target" id="classfeasst_1_1ModelExample_1a8a5fb16d71eacf77785fea79a240d1a1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">precompute</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12ModelExample10precomputeERK13Configuration" title="Link to this definition"></a><br /></dt>
 <dd><p>Precompute model parameters based on existing model parameters. </p>
 </dd></dl>
 
@@ -285,7 +285,7 @@ For example, see Fig. 1(d) of de Haro <em>et al.</em><a class="footnote-referen
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
 <p><ul class="simple">
-<li><p>num_discretized_steps: convert the continuous ramp potential into a number of dicontinuous, discretized steps. If 0, then use the linear ramp potential (default: 0).</p></li>
+<li><p>num_discretized_steps: convert the continuous ramp potential into a number of dicontinuous, discretized steps. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> 0, then use the linear ramp potential (default: 0).</p></li>
 </ul>
 </p>
 <p>Use this comment to describe and add any user arguments (or delete if no user arguments are required). Ensure the default value corresponds to the one in the .cpp file. Note that “Site Properties” in fstprt files are not added here. </p>
