@@ -13,6 +13,9 @@ One way to periodically check on the progress of flat histogram simulations is t
 grep num_sweeps lj*_crit.txt
 
 The convergence of the macrostate distrubtion function in the ljn0_lnpi.txt files is also a way to monitor the simulations.
+
+After the simulation is complete, the results are compared against the NIST Standard Reference Simulation Website (SRSW).
+In addition, the results are extrapolated to lower temperatures.
 """
 
 import argparse
@@ -154,6 +157,11 @@ Run until_file_exists={prefix}n{node}_terminate.txt trials_per_file_check={tpc}
 """.format(**params))
 
 def post_process(params):
+    show_plot = True
+    #show_plot = False
+    import copy
+    from pyfeasst import multistate_accumulator
+    from pyfeasst import fstplot
     """ Skip the following checks if temperature is not the default 1.5 """
     if np.abs(params['beta'] - 1./1.5) > 1e-5:
         return
@@ -163,13 +171,53 @@ def post_process(params):
         print('gce_av_num_particles', gce_av_num_particles, 'is not within 2.5 of 310.4179421879679')
         assert False
     srsw = pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat150.csv')
-    plt.plot(lnpi.dataframe()['state'], lnpi.dataframe()['ln_prob'], label='FEASST')
     plt.plot(srsw['N'], srsw['lnPI'], linestyle='dashed', label='SRSW')
+    plt.plot(lnpi.dataframe()['state'], lnpi.dataframe()['ln_prob'], label='simulation')
     plt.xlabel('number of particles', fontsize=16)
     plt.ylabel('ln probability', fontsize=16)
     plt.legend(fontsize=16)
-    #plt.savefig(params['prefix']+'_lnpi.png', bbox_inches='tight', transparent='True')
-    #plt.show()
+    if show_plot: plt.show()
+
+    # extrapolate to lower temperatures (second order) and observe less than 2 percent difference with srsw
+    temps = np.arange(1.1, 1.2001, 0.01)
+    en = multistate_accumulator.splice(prefix=params['prefix']+'n0s', suffix='_en.csv')
+    V = params['cubic_side_length']**3
+    equil = pd.DataFrame(data={'temp': temps, 'rho_vap':None, 'rho_liq':None})
+    color = fstplot.val2map(temps)
+    for itemp,temp in enumerate(temps):
+        try:
+            lnpin = copy.deepcopy(lnpi)
+            lnpin.extrapolate_single_component(delta_beta=1./temp-params['beta'], energy=en)
+            #print(lnpin.dataframe()['ln_prob'])
+            lnpin.equilibrium()
+            lnpin.set_minimum_smoothing(50)
+            lnpin.plot(label=str(temp), color=color.to_rgba(temp))
+            vap, liq = lnpin.split()
+            equil.loc[itemp, 'rho_vap'] = vap.average_macrostate()/V
+            equil.loc[itemp, 'rho_liq'] = liq.average_macrostate()/V
+        except:
+            assert True
+    fstplot.display(temps, label='T')
+    if show_plot: plt.show()
+    plt.clf()
+    equil.to_csv(params['prefix']+'_equil.csv')
+    srsw_eq=pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/lj_srsw_equil.csv', comment='#')
+    srsw_eq=srsw_eq[400::10] # cut data down to the same temps
+    equil['rho_vap_srsw'] = srsw_eq['rho_vap'].to_numpy()
+    equil['rho_liq_srsw'] = srsw_eq['rho_liq'].to_numpy()
+    for phase in ['vap', 'liq']:
+        diverged = equil[np.abs(equil['rho_'+phase] - equil['rho_'+phase+'_srsw']) > 0.02*equil['rho_'+phase+'_srsw']]
+        if len(diverged) != 0:
+            print('diverged', diverged)
+            assert False
+    plt.scatter(equil['rho_vap'], equil['temp'], color='red')
+    plt.scatter(equil['rho_liq'], equil['temp'], color='red', label='extrapolated')
+    plt.xlabel(r'$\rho$', fontsize=16)
+    plt.ylabel(r'$T$', fontsize=16)
+    plt.plot(srsw_eq['rho_vap'], srsw_eq['T'], color='black')
+    plt.plot(srsw_eq['rho_liq'], srsw_eq['T'], color='black', label='SRSW')
+    plt.legend(fontsize=16)
+    if show_plot: plt.show()
 
 if __name__ == '__main__':
     parameters, arguments = parse()

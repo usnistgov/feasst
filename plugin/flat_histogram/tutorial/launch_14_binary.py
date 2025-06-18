@@ -160,6 +160,7 @@ ProfileCPU [write]_profile.csv
 NumParticles [write]_num0.csv particle_type=pt1 multistate=true start_after_cycle=1
 #HeatCapacity [write]_cv.csv multistate=true start_after_cycle=1
 CriteriaWriter [write]_crit.csv
+ExtensiveMoments [write]_ext.csv
 CriteriaUpdater trials_per_update=1e5
 Run until=complete
 

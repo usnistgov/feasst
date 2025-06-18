@@ -142,7 +142,7 @@ def post_process(params):
     srsw = pd.concat([lnpi.dataframe(), srsw], axis=1)
     srsw['deltalnPI'] = srsw.lnPI-srsw.lnPI.shift(1)
     srsw.to_csv(params['prefix']+'_lnpi.csv')
-    diverged = srsw[srsw.deltalnPI-srsw.delta_ln_prob > z_factor*srsw.delta_ln_prob_stdev]
+    diverged = srsw[np.abs(srsw.deltalnPI-srsw.delta_ln_prob) > z_factor*srsw.delta_ln_prob_stdev]
     print('diverged', diverged)
     assert len(diverged) < 10
 

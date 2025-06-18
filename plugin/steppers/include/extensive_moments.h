@@ -34,12 +34,8 @@ class ExtensiveMoments : public Analyze {
   std::string header(const MonteCarlo& mc) const override;
   void initialize(MonteCarlo * mc) override;
   void update(const MonteCarlo& mc) override;
-
-  /// Write the moments by serialization of a 5d accumulator.
-  /// If checkpoints do not work, this file can be read using feasst_deserialize
   std::string write(const MonteCarlo& mc) override;
 
-  //const Accumulator& energy() const { return accumulator(); }
   /// Return the extensive moments
   const Accumulator& moments(const int p, const int m, const int k,
       const int j, const int i) const {

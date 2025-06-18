@@ -129,14 +129,14 @@ def post_process(params):
     lnpi['ln_prob'] -= np.log(sum(np.exp(lnpi['ln_prob'])))  # renormalize
     lnpi['ln_prob_prev'] = [-1.2994315780357, -1.08646312498868, -0.941850889679828]
     lnpi['ln_prob_prev_stdev'] = [0.07, 0.05, 0.05]
-    diverged = lnpi[lnpi.ln_prob-lnpi.ln_prob_prev > 5*lnpi.ln_prob_prev_stdev]
+    diverged = lnpi[np.abs(lnpi.ln_prob-lnpi.ln_prob_prev) > 5*lnpi.ln_prob_prev_stdev]
     print(diverged)
     assert len(diverged) == 0
     energy = pd.read_csv(params['prefix']+'n0s000_en.csv')
     energy = energy[:3]
     energy['prev'] = [0, -0.939408, -2.02625]
     energy['prev_stdev'] = [1e-14, 0.02, 0.04]
-    diverged = energy[energy.average-energy.prev > 10*energy.prev_stdev]
+    diverged = energy[np.abs(energy.average-energy.prev) > 10*energy.prev_stdev]
     print(diverged)
     assert len(diverged) == 0
 

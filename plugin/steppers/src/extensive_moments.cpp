@@ -35,7 +35,8 @@ void ExtensiveMoments::initialize(MonteCarlo * mc) {
 
 std::string ExtensiveMoments::header(const MonteCarlo& mc) const {
   std::stringstream ss;
-  //ss << "max_order," << max_order_ << std::endl;
+  ss << "#{\"max_order\":" << max_order_ << "}" << std::endl
+     << "i,j,k,m,p,average,block_stdev" << std::endl;
   return ss.str();
 }
 
@@ -70,7 +71,19 @@ void ExtensiveMoments::update(const MonteCarlo& mc) {
 
 std::string ExtensiveMoments::write(const MonteCarlo& mc) {
   std::stringstream ss;
-  feasst_serialize_fstobj(moments_, ss);
+  if (rewrite_header()) {
+    ss << header(mc);
+  }
+  const int num_ptypes = configuration(mc.system()).num_particle_types();
+  for (int p = 0; p <= max_order_; ++p) {
+  for (int m = 0; m <= max_order_; ++m) {
+  for (int k = 0; k < num_ptypes; ++k) {
+  for (int j = 0; j <= max_order_; ++j) {
+  for (int i = 0; i < num_ptypes; ++i) {
+    const Accumulator& acc = moments_[p][m][k][j][i];
+    ss << i << "," << j << "," << k << "," << m << "," << p << ","
+       << acc.average() << "," << acc.block_stdev() << std::endl;
+  }}}}}
   return ss.str();
 }
 

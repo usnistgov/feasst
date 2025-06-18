@@ -131,9 +131,9 @@ class MacrostateDistribution:
         """
         return (np.exp(self.ln_prob()) * self._dataframe[header]).sum()
 
-    def plot(self, show=False, label=None, fontsize=16):
+    def plot(self, show=False, label=None, fontsize=16, color=None):
         '''Create a matplotlib.pyplot plot of the ln_prob.'''
-        plt.plot(self.macrostates(), self.ln_prob(), label=label)
+        plt.plot(self.macrostates(), self.ln_prob(), label=label, color=color)
         plt.xlabel('macrostate', fontsize=fontsize)
         plt.ylabel(r'$\ln\Pi$', fontsize=fontsize)
         if show:
@@ -305,6 +305,78 @@ class MacrostateDistribution:
         delta_beta_mu_equilibrium = res["x"]
         self.reweight(delta_beta_mu_equilibrium, inplace=True)
         return delta_beta_mu_equilibrium
+
+    def compute_single_component_derivatives(self, energy, order=2, labels=['dlnp', 'd2lnp']):
+        """
+        Compute derivatives for single component simulations using the moments of the potential energy.
+        """
+        assert order == 2  # hard coded for second order
+        self.concat_dataframe(pd.DataFrame(data={'u1': energy['moment1']/energy['moment0'],
+                                                 'u2': energy['moment2']/energy['moment0']}), 'ce_')
+        gce_u1 = self.ensemble_average('ce_u1')
+        gce_u2 = self.ensemble_average('ce_u2')
+        lnpidf = self.dataframe()
+        lnpidf[labels[0]] = gce_u1 - lnpidf['ce_u1']
+        lnpidf[labels[1]] = lnpidf['ce_u2'] - np.power(lnpidf['ce_u1'], 2) - gce_u2 + gce_u1**2
+        self.set_dataframe(lnpidf)
+
+    def extrapolate_single_component(self, delta_beta, energy, order=2):
+        """
+        Use derivatives to extrapolate with a Taylor series expansion.
+        """
+        self.compute_single_component_derivatives(energy, order)
+        lnpidf = self.dataframe()
+        lnpidf['lnpn'] = lnpidf['ln_prob'] + lnpidf['dlnp']*delta_beta + lnpidf['d2lnp']*delta_beta**2/2
+        self.set_dataframe(lnpidf)
+        self.set_ln_prob(self.dataframe()['lnpn'])
+        self.normalize()
+
+    def init_interpolate(self, macro_dist, beta1, beta2, order=2):
+        """
+        Compute the (2k+1)-order polynomial to interpolate between two simulations at inverse temperatures
+        of beta1 and beta2 using derivataives up to k-th order.
+        Eq 21. of https://doi.org/10.1063/5.0014282
+        """
+        if beta1 > beta2:
+            self._ntrp_beta_upper = beta1
+            self._ntrp_beta_lower = beta2
+        elif beta2 > beta1:
+            self._ntrp_beta_upper = beta2
+            self._ntrp_beta_lower = beta1
+        else:
+            print('beta1', beta1, 'and beta2', beta2, 'cannot be identical')
+            assert False
+        df1 = self.dataframe()
+        df2 = macro_dist.dataframe()
+        assert 'dlnp' in df1.columns
+        assert 'd2lnp' in df1.columns
+        assert 'dlnp' in df2.columns
+        assert 'd2lnp' in df2.columns
+        self._ntrp_A = [
+            [1, beta1, beta1**2, beta1**3, beta1**4, beta1**5],
+            [0, 1, 2*beta1, 3*beta1**2, 4*beta1**3, 5*beta1**4],
+            [0, 0, 2, 6*beta1, 12*beta1**2, 20*beta1**3],
+            [1, beta2, beta2**2, beta2**3, beta2**4, beta2**5],
+            [0, 1, 2*beta2, 3*beta2**2, 4*beta2**3, 5*beta2**4],
+            [0, 0, 2, 6*beta2, 12*beta2**2, 20*beta2**3]]
+        self._ntrp_xs = list()
+        for macro in self.macrostates():
+            B = [df1['ln_prob'][macro], df1['dlnp'][macro], df1['d2lnp'][macro],
+                 df2['ln_prob'][macro], df2['dlnp'][macro], df2['d2lnp'][macro]]
+            x = np.linalg.solve(self._ntrp_A, B)
+            self._ntrp_xs.append(x)
+
+    def interpolate(self, beta):
+        """
+        Use the (2k+1)-order polynomial to interpolate the macrostate distribution between two simulations.
+        """
+        assert beta >= self._ntrp_beta_lower
+        assert beta <= self._ntrp_beta_upper
+        lnp = np.zeros(len(self.macrostates()))
+        for macro in self.macrostates():
+            lnp[macro] = np.polyval(np.flip(self._ntrp_xs[macro]), beta)
+        self.set_ln_prob(lnp)
+        self.normalize()
 
 def splice(windows, extra_overlap=0, shift=True):
     """

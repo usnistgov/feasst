@@ -50,7 +50,7 @@ def post_process(params):
     lnpi=lnpi.dataframe()
     lnpi = pd.concat([lnpi, pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat_spce_525.csv')], axis=1)
     lnpi['deltalnPI'] = lnpi.lnPI - lnpi.lnPI.shift(1)
-    diverged = lnpi[lnpi.deltalnPI-lnpi.delta_ln_prob > 6*lnpi.delta_ln_prob_stdev]
+    diverged = lnpi[np.abs(lnpi.deltalnPI-lnpi.delta_ln_prob) > 6*lnpi.delta_ln_prob_stdev]
     print(diverged)
     assert len(diverged) < int(0.15*len(lnpi))
     plt.plot(lnpi['state'], lnpi['ln_prob'], label='FEASST')

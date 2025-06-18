@@ -33,7 +33,7 @@ def splice_by_max_column(prefix, suffix, column='moment0', crit_prefix=None, cri
     """
     spliced = None
     if crit_prefix is None:
-        for filename in Path('.').rglob(prefix+'*'+suffix):
+        for filename in Path('.').glob(prefix+'*'+suffix):
             if spliced is None:
                 spliced = pd.read_csv(filename)
             else:
@@ -44,7 +44,7 @@ def splice_by_max_column(prefix, suffix, column='moment0', crit_prefix=None, cri
                     spliced.loc[newer['state'].values[0]: newer['state'].values[-1]] = newer
     else:
         rows = list()
-        for filename in sorted(Path('.').rglob(crit_prefix+'*'+crit_suffix)):
+        for filename in sorted(Path('.').glob(crit_prefix+'*'+crit_suffix)):
             #print('filename', filename)
             with open(filename, 'r') as file1:
                 lines = file1.readlines()
@@ -53,7 +53,7 @@ def splice_by_max_column(prefix, suffix, column='moment0', crit_prefix=None, cri
         #print('rows', rows)
         ifile = 0
         lines=list()
-        for filename in sorted(Path('.').rglob(prefix+'*'+suffix)):
+        for filename in sorted(Path('.').glob(prefix+'*'+suffix)):
             #print('filename', filename, 'ifile', ifile)
             with open(filename, 'r') as file1:
                 tlines = file1.readlines()
@@ -130,11 +130,10 @@ def splice(prefix, suffix, extra_overlap=0):
     """
     frames = list()
     first = True
-    for filename in sorted(Path('.').rglob(prefix+'*'+suffix)):
+    for filename in sorted(Path('.').glob(prefix+'*'+suffix)):
         df = pd.read_csv(filename)
         if not first:
             df.drop(df.head(1 + extra_overlap).index, inplace=True)
-        #print('df', df)
         frames.append(df)
         first = False
     combined = pd.concat(frames)
