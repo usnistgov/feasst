@@ -369,7 +369,7 @@ void TabulateTwoRigidBody3D::combine_table(argtype args) const {
   std::vector<std::ifstream> input(num);
   std::string line;
   for (int proc = 0; proc < num; ++proc) {
-    input[proc] = std::ifstream(prefix + str(proc) + suffix);
+    input[proc].open(prefix + str(proc) + suffix);
     for (int i = 0; i < num_header; ++i) {
       std::getline(input[proc], line);
       if (proc == 0) {
