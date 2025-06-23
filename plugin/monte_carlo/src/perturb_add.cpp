@@ -18,6 +18,7 @@ PerturbAdd::PerturbAdd(argtype * args) : Perturb(args) {
   delay_add_ = boolean("delay_add", args, true);
   disable_tunable_();
 }
+PerturbAdd::~PerturbAdd() {}
 
 std::shared_ptr<Perturb> PerturbAdd::create(std::istream& istr) const {
   return std::make_shared<PerturbAdd>(istr);

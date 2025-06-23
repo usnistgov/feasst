@@ -19,6 +19,7 @@ TrialSelectParticle::TrialSelectParticle(argtype * args) : TrialSelect(args) {
   max_particles_ = integer("max_particles", args, -1);
   set_ghost(boolean("ghost", args, false));
   exclude_perturbed_ = boolean("exclude_perturbed", args, false);
+  half_ghost_ = boolean("half_ghost", args, false);
 }
 TrialSelectParticle::TrialSelectParticle(argtype args)
   : TrialSelectParticle(&args) {
@@ -173,6 +174,13 @@ bool TrialSelectParticle::select(const Select& perturbed,
                                  System* system,
                                  Random * random,
                                  TrialSelect * previous_select) {
+  if (half_ghost_) {
+    if (random->coin_flip()) {
+      set_ghost(true);
+    } else {
+      set_ghost(false);
+    }
+  }
   DEBUG("is_ghost " << is_ghost());
   DEBUG("selection from configuration " << configuration_index());
   Configuration * config = get_configuration(system);
@@ -221,7 +229,7 @@ TrialSelectParticle::TrialSelectParticle(std::istream& istr)
   : TrialSelect(istr) {
   // ASSERT(class_name_ == "TrialSelectParticle", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 760 && version <= 762, "mismatch version: " << version);
+  ASSERT(version >= 760 && version <= 763, "mismatch version: " << version);
   feasst_deserialize(&load_coordinates_, istr);
   feasst_deserialize(&site_, istr);
   if (version >= 762) {
@@ -233,11 +241,14 @@ TrialSelectParticle::TrialSelectParticle(std::istream& istr)
     feasst_deserialize(&min_particles_, istr);
     feasst_deserialize(&max_particles_, istr);
   }
+  if (version >= 763) {
+    feasst_deserialize(&half_ghost_, istr);
+  }
 }
 
 void TrialSelectParticle::serialize_trial_select_particle_(std::ostream& ostr) const {
   serialize_trial_select_(ostr);
-  feasst_serialize_version(762, ostr);
+  feasst_serialize_version(763, ostr);
   feasst_serialize(load_coordinates_, ostr);
   feasst_serialize(site_, ostr);
   feasst_serialize(site_name_, ostr);
@@ -245,6 +256,7 @@ void TrialSelectParticle::serialize_trial_select_particle_(std::ostream& ostr) c
   feasst_serialize(exclude_perturbed_, ostr);
   feasst_serialize(min_particles_, ostr);
   feasst_serialize(max_particles_, ostr);
+  feasst_serialize(half_ghost_, ostr);
 }
 
 void TrialSelectParticle::serialize(std::ostream& ostr) const {

@@ -22,6 +22,7 @@
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_add.h"
+#include "monte_carlo/include/trial_add_remove.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
@@ -32,6 +33,7 @@
 #include "steppers/include/check_physicality.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/tune.h"
+#include "steppers/include/log.h"
 #include "charge/include/ewald.h"
 #include "charge/include/charge_screened.h"
 #include "charge/include/charge_self.h"
@@ -56,14 +58,15 @@ double energy_av(const int macro, const MonteCarlo& mc) {
 TEST(MonteCarlo, ideal_gas_fh_eos_LONG) {
   MonteCarlo monte_carlo;
   monte_carlo.add(MakeConfiguration({{"cubic_side_length", "8"},
-    {"particle_type", "../particle/atom.txt"}}));
+    {"particle_type", "fluid:../particle/atom.txt"}}));
   monte_carlo.add(MakePotential(MakeDontVisitModel()));
   monte_carlo.set(MakeThermoParams({{"beta", str(1./1.2)}, {"chemical_potential", "-3"}}));
   auto criteria = MakeFlatHistogram({
     {"Macrostate", "MacrostateNumParticles"}, {"width", "1"}, {"min", "0"}, {"max", "50"},
     {"Bias", "TransitionMatrix"}, {"min_sweeps", "100"}});
   monte_carlo.set(criteria);
-  monte_carlo.add(MakeTrialTransfer({{"particle_type", "0"}}));
+  monte_carlo.add(std::make_shared<TrialAddRemove>(argtype({{"particle_type", "fluid"}})));
+  monte_carlo.add(MakeLog({{"trials_per_write", str(1e5)}, {"output_file", "tmp/id_fh.csv"}}));
   monte_carlo.add(MakeCriteriaUpdater({{"trials_per_update", str(1e5)}}));
   monte_carlo.add(MakeCriteriaWriter({{"trials_per_write", str(1e5)}, {"output_file", "tmp/id_fh.txt"}}));
   monte_carlo.run_until_complete();
@@ -112,6 +115,7 @@ std::unique_ptr<MonteCarlo> test_lj_fh(const int num_steps,
     bool dont_use_multi = false) {
   std::unique_ptr<MonteCarlo> mc = std::make_unique<MonteCarlo>();
   int ref = -1;
+  // mc->set(MakeRandomMT19937({{"seed", "1750278648"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},
                             {"particle_type0", "../particle/lj.txt"}}));
   mc->add(MakePotential(MakeLennardJones()));
@@ -142,16 +146,23 @@ std::unique_ptr<MonteCarlo> test_lj_fh(const int num_steps,
   }
   if (dont_use_multi) {
     ASSERT(!test_multi, "er");
-    mc->add(MakeTrialTransfer({ {"particle_type", "0"},
+    mc->add(std::make_shared<TrialAddRemove>(argtype({
+      {"particle_type", "0"},
       {"reference_index", str(ref)},
       {"num_steps", str(num_steps)},
-      {"weight", "4"}}));
+      {"weight", "4"}})));
   } else {
     mc->add(MakeTrialTransferMultiple(transfer_args));
   }
   EXPECT_EQ(mc->trial(0).weight(), 1);
-  EXPECT_EQ(mc->trial(1).weight(), 2);
-  EXPECT_EQ(mc->trial(2).weight(), 2);
+  if (dont_use_multi) {
+    EXPECT_EQ(mc->trials().num(), 2);
+    EXPECT_EQ(mc->trial(1).weight(), 4);
+  } else {
+    EXPECT_EQ(mc->trials().num(), 3);
+    EXPECT_EQ(mc->trial(1).weight(), 2);
+    EXPECT_EQ(mc->trial(2).weight(), 2);
+  }
   std::shared_ptr<Bias> bias;
   if (bias_name == "TM") {
     bias = MakeTransitionMatrix({{"min_sweeps", str(sweeps)}});

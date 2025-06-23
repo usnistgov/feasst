@@ -35,7 +35,7 @@ RefPotential Model=LennardJonesForceShift cutoff={rwca} VisitModel=VisitModelCel
     params['nvt_trials'] = """TrialTranslate weight=1 tunable_param=0.2
 TrialParticlePivot weight=0.5 tunable_param=0.2 particle_type=trimer
 TrialRigidCluster weight={trial_rigid_cluster_weight} neighbor_index=0""".format(**params)
-    params['muvt_trials'] = "TrialTransfer weight=2 particle_type=trimer ref=dccb num_steps=8"
+    params['muvt_trials'] = "TrialAddRemove weight=2 particle_type=trimer ref=dccb num_steps=8"
     params['init_trials'] = "TrialAdd particle_type=trimer"
     return params, args
 

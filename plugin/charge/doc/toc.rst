@@ -13,6 +13,6 @@
    ChargeScreened
    ElectricField
    ChargeSelf
+   SlabCorrection
    Ewald
    CheckNetCharge
-   SlabCorrection

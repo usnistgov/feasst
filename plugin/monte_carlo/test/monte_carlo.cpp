@@ -264,7 +264,7 @@ TEST(MonteCarlo, ConstrainNumParticles) {
       {"ThermoParams", {{"beta", "0.2"}, {"chemical_potential", "-20."}}},
       {"Metropolis", {{"Constraint", "ConstrainNumParticles"},
         {"minimum", str(minimum)}, {"maximum", str(minimum+1)}}},
-      {"TrialTransfer", {{"particle_type", "0"}}},
+      {"TrialAddRemove", {{"particle_type", "0"}}},
       {"NumParticles", {{"trials_per_write", "10000"}, {"output_file", "tmp/lj.csv"}}},
     }}, true);
     const int index = mc->num_analyzers() - 1;

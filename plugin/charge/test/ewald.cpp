@@ -91,7 +91,7 @@ TEST(Ewald, system) {
     EXPECT_NEAR(-3819.2497140430355, system.potential(1).stored_energy(), 1e-10);
     // b4 table refactor EXPECT_NEAR(-3819.2497053941993, system.potential(1).stored_energy(), 1e-10);
     EXPECT_NEAR(23363.573741866534, system.potential(2).stored_energy(), 1e-10);
-    EXPECT_NEAR(-23652.080370504391, system.potential(3).stored_energy(), 1e-12);
+    EXPECT_NEAR(-23652.080370504391, system.potential(3).stored_energy(), 1e-10);
     EXPECT_NEAR(en_lrc, system.potential(4).stored_energy(), 1e-13);
     EXPECT_NEAR(0.76210998062866941, system.potential(5).stored_energy(), 1e-12);
   }

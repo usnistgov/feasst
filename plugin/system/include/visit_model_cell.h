@@ -107,7 +107,6 @@ class VisitModelCell : public VisitModel {
 
   // temporary and not serialized
   std::shared_ptr<Select> one_site_select_;
-  double opt_r2_;
 
   void position_tracker_(const Select& select, Configuration * config);
   double min_len_(const Configuration& config) const;

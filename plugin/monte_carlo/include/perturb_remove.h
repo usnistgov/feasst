@@ -29,7 +29,7 @@ class PerturbRemove : public Perturb {
   std::shared_ptr<Perturb> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit PerturbRemove(std::istream& istr);
-  virtual ~PerturbRemove() {}
+  virtual ~PerturbRemove();
 
  private:
   std::shared_ptr<Perturb> move_;

@@ -21,6 +21,7 @@ TrialComputeRemove::TrialComputeRemove(argtype args) : TrialComputeRemove(&args)
 TrialComputeRemove::TrialComputeRemove(argtype * args) : TrialCompute(args) {
   class_name_ = "TrialComputeRemove";
 }
+TrialComputeRemove::~TrialComputeRemove() {}
 
 FEASST_MAPPER(TrialComputeRemove,);
 

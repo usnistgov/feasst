@@ -70,8 +70,8 @@ TEST(Matrix, is_identity) {
 }
 
 TEST(Matrix, skew_symmetric_cross_product) {
-  Position a({{"x", "1.6"}, {"y", "2.5"}, {"z", "3.4"}});
-  Position b({{"x", "4.3"}, {"y", "5.2"}, {"z", "6.1"}});
+  Position a(argtype({{"csv", "1.6,2.5,3.4"}}));
+  Position b(argtype({{"csv", "4.3,5.2,6.1"}}));
   Position c = a.cross_product(b);
   Matrix ssc;
   ssc.skew_symmetric_cross_product(a);
@@ -104,8 +104,8 @@ TEST(Matrix, add) {
 }
 
 TEST(Matrix, vector_onto_vector) {
-  Position a({{"x", "1.6"}, {"y", "2.5"}, {"z", "3.4"}});
-  Position b({{"x", "4.3"}, {"y", "5.2"}, {"z", "6.1"}});
+  Position a(argtype({{"csv", "1.6,2.5,3.4"}}));
+  Position b(argtype({{"csv", "4.3,5.2,6.1"}}));
   RotationMatrix rot;
   rot.vector_onto_vector(a, b);
   Position c = rot.multiply(a);

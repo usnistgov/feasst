@@ -37,7 +37,7 @@ Potential Model=ChargeSelf
 Potential VisitModel=LongRangeCorrections""".format(**params)
     params['nvt_trials'] = """TrialTranslate weight=1 tunable_param=0.2
 TrialParticlePivot weight=0.5 particle_type=spce tunable_param=0.5"""
-    params['muvt_trials'] = """TrialTransfer weight=2 particle_type=spce"""
+    params['muvt_trials'] = """TrialAddRemove weight=2 particle_type=spce"""
     params['init_trials'] = "TrialAdd particle_type=spce"
     return params, args
 

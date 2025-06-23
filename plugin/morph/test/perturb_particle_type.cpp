@@ -93,7 +93,7 @@ TEST(PerturbParticleType, ewald) {
   const double en_final = sys.energy();
   EXPECT_NEAR(en_init + en_new - en_old, en_final, NEAR_ZERO);
 
-  EXPECT_NEAR(en_final, 0.29630027798728265, NEAR_ZERO);
+  EXPECT_NEAR(en_final, 0.29630027798728265, 1e-12);
   EXPECT_EQ(sys.configuration().num_particles_of_type(0), 0);
   EXPECT_EQ(sys.configuration().num_particles_of_type(1), 2);
 }

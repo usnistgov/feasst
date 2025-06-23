@@ -9,8 +9,18 @@
 namespace feasst {
 
 /**
-  CheckEnergy ensures this optimized Potential returns the same energy as an optimized Potential.
-  See <a href="../../monte_carlo/tutorial/tutorial_4_lj_triclinic_celllist.html">this tutorial</a> for an example of testing VisitModelCell.
+  OptPotential does not optimize or speed up the potential.
+  CheckEnergy simply ensures this optimized Potential returns the same energy as
+  an unoptimized Potential.
+  Thus, OptPotential can be used for testing alternative implementations which
+  may be faster than the more simple and easier to test algorithms.
+  For example, a cell list may be implemented in the OptPotential but not in the
+  Potential to ensure that the cell list is not missing important interactions.
+  See <a href="../../monte_carlo/tutorial/tutorial_4_lj_triclinic_celllist.html">this tutorial</a>
+  for an example of testing VisitModelCell.
+  If there are multiple Potential, OptPotential must include all Potential
+  even if identical (e.g., in the example, LongRangeCorrections are required in
+  OptPotential if included in Potential).
  */
 class OptPotential : public Action {
  public:

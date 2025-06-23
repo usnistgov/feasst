@@ -6,7 +6,12 @@
 
 namespace feasst {
 
-/// Attempt to add a particle.
+/**
+ * Attempt to add a particle to intialize a Configuration.
+ * This trial does not obey detailed balance without a TrialRemove of the same
+ * weight.
+ * Instead, use TrialTransfer to ensure detailed balance.
+ */
 class TrialAdd : public Trial {
  public:
   //@{

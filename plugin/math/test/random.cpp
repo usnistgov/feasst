@@ -281,7 +281,7 @@ TEST(Random, harmonic_bond_brute) {
   const double l0 = 1;
   auto ran = MakeRandomMT19937();
   double old_dist = l0;
-  Position xn({{"x", feasst::str(old_dist)}, {"y", "0"}, {"z", "0"}});
+  Position xn(argtype({{"csv", feasst::str(old_dist)+",0,0"}}));
   Position old_x = xn;
   Accumulator length;
   double old_en = 0.;
@@ -321,9 +321,9 @@ TEST(Random, harmonic_angle_brute) {
   const double theta0 = PI/2;
   double old_theta = theta0;
   auto ran = MakeRandomMT19937();
-  Position xa1({{"x", "0"}, {"y", "1"}, {"z", "0"}});
-  Position xa0({{"x", "0"}, {"y", "0"}, {"z", "0"}});
-  Position xn({{"x", "1"}, {"y", "0"}, {"z", "0"}});
+  Position xa1(argtype({{"csv", "0,1,0"}}));
+  Position xa0(argtype({{"csv", "0,0,0"}}));
+  Position xn(argtype({{"csv", "1,0,0"}}));
   Position old_x = xn;
   Accumulator angle;
   double old_en = 0.;

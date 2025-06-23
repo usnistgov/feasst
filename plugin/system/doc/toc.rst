@@ -12,12 +12,12 @@
    BondFourBody
    BondSquareWell
    PotentialFactory
-   System
    RigidDihedral
    BondThreeBody
-   RigidAngle
    AngleSquareWell
+   RigidAngle
    Potential
+   System
    Model
    ModelTwoBody
    ModelTwoBodyTable
@@ -31,9 +31,9 @@
    VisitModel
    VisitModelIntraMap
    VisitModelCell
-   VisitModelIntra
    VisitModelBond
-   VisitModelCutoffOuter
-   LongRangeCorrections
    DontVisitModel
+   LongRangeCorrections
+   VisitModelCutoffOuter
+   VisitModelIntra
    Cells

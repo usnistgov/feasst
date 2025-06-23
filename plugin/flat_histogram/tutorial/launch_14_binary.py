@@ -148,8 +148,8 @@ Remove name=Tune,Log
 # gcmc tm production
 FlatHistogram Macrostate=MacrostateNumParticles width=1 max={max_particles} min={min_particles} \
     Bias=WLTM min_sweeps={min_sweeps} min_flatness={min_flatness} collect_flatness={collect_flatness} min_collect_sweeps=1
-TrialTransfer weight=2 particle_type=pt1
-TrialTransfer weight=2 particle_type=pt2
+TrialAddRemove weight=2 particle_type=pt1
+TrialAddRemove weight=2 particle_type=pt2
 Log [write].csv
 Tune [write]_tune.csv multistate=true stop_after_cycle=1
 #To print xyz for each macrostate in separate files, add the following arguments to the "Movie" lines below: multistate true multistate_aggregate false

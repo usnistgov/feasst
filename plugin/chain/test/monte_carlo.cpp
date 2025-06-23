@@ -895,7 +895,7 @@ TEST(MonteCarlo, water) {
 TEST(MonteCarlo, chainarglist) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"cubic_side_length", "20"},
-                       {"particle_type0", "../plugin/chain/particle/chain20.txt"}}},
+                       {"particle_type", "../plugin/chain/particle/chain20.txt"}}},
     {"Potential", {{"Model", "IdealGas"}}},
     {"ThermoParams", {{"beta", "0.1"}, {"chemical_potential", "10"}}},
     {"Metropolis", {{}}},

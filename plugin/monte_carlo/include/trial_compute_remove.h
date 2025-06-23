@@ -29,7 +29,7 @@ class TrialComputeRemove : public TrialCompute {
   std::shared_ptr<TrialCompute> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit TrialComputeRemove(std::istream& istr);
-  virtual ~TrialComputeRemove() {}
+  virtual ~TrialComputeRemove();
 
  protected:
   void serialize_trial_compute_remove_(std::ostream& ostr) const;

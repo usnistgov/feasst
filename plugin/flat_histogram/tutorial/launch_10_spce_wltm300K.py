@@ -55,7 +55,7 @@ def sim_node_dependent_params(params):
     if params['node'] == 0:
         params['min_particles'] = 0
         params['max_particles'] = params['num_particles_first_node']
-        params['muvt_trials'] = 'TrialTransfer weight=2 particle_type=water'
+        params['muvt_trials'] = 'TrialAddRemove weight=2 particle_type=water'
         params['ref_potential'] = ''
         params['min_sweeps'] = 10
         params['window_alpha'] = 1.1

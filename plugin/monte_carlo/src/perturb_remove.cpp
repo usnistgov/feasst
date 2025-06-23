@@ -13,6 +13,7 @@ PerturbRemove::PerturbRemove(std::shared_ptr<Perturb> perturb) {
   disable_tunable_();
 }
 PerturbRemove::PerturbRemove() : PerturbRemove(MakePerturbAnywhere()) {}
+PerturbRemove::~PerturbRemove() {}
 
 FEASST_MAPPER(PerturbRemove,);
 

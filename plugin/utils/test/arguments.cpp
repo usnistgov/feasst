@@ -117,7 +117,7 @@ TEST(Utils, find_in_list) {
 }
 
 TEST(Arguments, line_to_argtype) {
-  argtype args = line_to_argtype("key1 val1 key2 val2");
+  argtype args = line_to_argtype("key1=val1 key2=val2");
   argtype expected = {{"key1", "val1"}, {"key2", "val2"}};
   EXPECT_EQ(args, expected);
 }

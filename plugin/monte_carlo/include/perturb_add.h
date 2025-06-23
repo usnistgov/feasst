@@ -55,7 +55,7 @@ class PerturbAdd : public Perturb {
   std::shared_ptr<Perturb> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit PerturbAdd(std::istream& istr);
-  virtual ~PerturbAdd() {}
+  virtual ~PerturbAdd();
 
  private:
   bool delay_add_;

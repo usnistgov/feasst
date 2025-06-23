@@ -28,11 +28,13 @@
    TrialSelectAngle
    TrialSelectDihedral
    TrialSelectAll
+   TrialComputeAddRemove
    RemoveTrial
    Perturb
    PerturbRemove
    TrialSelectParticle
    WriteModelParams
+   PerturbAddRemove
    Tunable
    PerturbMove
    Run
@@ -48,6 +50,7 @@
    TrialTranslate
    TrialFactory
    TrialTransfer
+   TrialAddRemove
    TrialVolume
    Criteria
    AlwaysReject

@@ -168,7 +168,7 @@ class TrialComputeAdd : public TrialCompute {
   std::shared_ptr<TrialCompute> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit TrialComputeAdd(std::istream& istr);
-  virtual ~TrialComputeAdd() {}
+  virtual ~TrialComputeAdd();
 
  protected:
   void serialize_trial_compute_add_(std::ostream& ostr) const;

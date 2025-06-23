@@ -77,7 +77,7 @@ def parse(fstprt='/feasst/particle/lj_new.txt',
 Potential Model=LennardJones
 Potential VisitModel=LongRangeCorrections""".format(**params)
     params['nvt_trials'] = "TrialTranslate weight=1 tunable_param=0.2"
-    params['muvt_trials'] = "TrialTransfer weight=2 particle_type=lj"
+    params['muvt_trials'] = "TrialAddRemove weight=2 particle_type=lj"
     params['init_trials'] = "TrialAdd particle_type=lj"
     params['init_remove'] = "Remove name=TrialAdd"
     params['min_particles_second_window'] = ""

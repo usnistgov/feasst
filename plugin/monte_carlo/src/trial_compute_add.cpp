@@ -23,6 +23,7 @@ TrialComputeAdd::TrialComputeAdd(argtype args) : TrialComputeAdd(&args) {
 TrialComputeAdd::TrialComputeAdd(argtype * args) : TrialCompute(args) {
   class_name_ = "TrialComputeAdd";
 }
+TrialComputeAdd::~TrialComputeAdd() {}
 
 FEASST_MAPPER(TrialComputeAdd,);
 
