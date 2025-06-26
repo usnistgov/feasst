@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>macrostate_distribution &mdash; FEASST 0.25.13 0.25.13 documentation</title>
+  <title>macrostate_distribution &mdash; FEASST 0.25.14 0.25.14 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=4261ef85"></script>
+      <script src="../../../_static/documentation_options.js?v=89e87f48"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.13
+            FEASST 0.25.14
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -87,6 +87,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.reweight"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.reweight()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.reweight_to_macrostate"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.reweight_to_macrostate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.equilibrium"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.equilibrium()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.compute_single_component_derivatives"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.compute_single_component_derivatives()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.extrapolate_single_component"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.extrapolate_single_component()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.init_interpolate"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.init_interpolate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macrostate_distribution.MacrostateDistribution.interpolate"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.interpolate()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#macrostate_distribution.splice"><code class="docutils literal notranslate"><span class="pre">splice()</span></code></a></li>
@@ -114,7 +118,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.13</a>
+          <a href="../../../index.html">FEASST 0.25.14</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -311,7 +315,7 @@ for example, canonical averages.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.plot">
-<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">16</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.plot" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.plot" title="Link to this definition"></a></dt>
 <dd><p>Create a matplotlib.pyplot plot of the ln_prob.</p>
 </dd></dl>
 
@@ -419,6 +423,32 @@ closer to equilibrium.</p></li>
 <span class="go">0.84304803</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.compute_single_component_derivatives">
+<span class="sig-name descname"><span class="pre">compute_single_component_derivatives</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">energy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['dlnp',</span> <span class="pre">'d2lnp']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.compute_single_component_derivatives"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.compute_single_component_derivatives" title="Link to this definition"></a></dt>
+<dd><p>Compute derivatives for single component simulations using the moments of the potential energy.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.extrapolate_single_component">
+<span class="sig-name descname"><span class="pre">extrapolate_single_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta_beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.extrapolate_single_component"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.extrapolate_single_component" title="Link to this definition"></a></dt>
+<dd><p>Use derivatives to extrapolate with a Taylor series expansion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.init_interpolate">
+<span class="sig-name descname"><span class="pre">init_interpolate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">macro_dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.init_interpolate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.init_interpolate" title="Link to this definition"></a></dt>
+<dd><p>Compute the (2k+1)-order polynomial to interpolate between two simulations at inverse temperatures
+of beta1 and beta2 using derivataives up to k-th order.
+Eq 21. of <a class="reference external" href="https://doi.org/10.1063/5.0014282">https://doi.org/10.1063/5.0014282</a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.interpolate">
+<span class="sig-name descname"><span class="pre">interpolate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.interpolate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.interpolate" title="Link to this definition"></a></dt>
+<dd><p>Use the (2k+1)-order polynomial to interpolate the macrostate distribution between two simulations.</p>
 </dd></dl>
 
 </dd></dl>
