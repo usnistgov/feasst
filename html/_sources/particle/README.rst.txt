@@ -6,7 +6,7 @@ The particle directory is a place for files which describe a single particle.
 Particles could represent an atom, molecule, colloid or coarse-grained model.
 These files are LAMMPS-inspired (https://docs.lammps.org/read_data.html), but deviate significantly from LAMMPS as described in detail below.
 Each file represents only a single particle (or molecule), and these files are used to define the types of particles (or molecules) that can exist in the simulation.
-Each plugin many also contain a particle directory as additional examples and for use in tutorials (list examples with the command "find /path/to/feasst/ -name '\*.fstprt'").
+Each plugin many also contain a particle directory as additional examples and for use in tutorials (list particle directories with the BASH command "find /path/to/feasst -type d -name 'particle').
 
 The units used in these files (length, energy, etc) are not assumed (with one exception) and must be consistent with the units to initialize your simulations.
 The :doc:`charge plugin </plugin/charge/README>` is the only plugin that assumes units.
