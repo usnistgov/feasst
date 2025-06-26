@@ -345,6 +345,10 @@ Below is a list text interface changes that may affect older scripts.
 Backwards incompatibility should remain for deprecated interface on minor version changes.
 Renamed arguments are shown as Class::old_argument->new_argument.
 
+v0.25.13 to v0.25.14
+-----------------------
+* Fixed `issue <https://github.com/usnistgov/feasst/issues/29>`_ when the order of first appearance of site types in the "Sites" section of a particle file did not match the order in "Site Properties"
+
 v0.25.12 to v0.25.13
 -----------------------
 

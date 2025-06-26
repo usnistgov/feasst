@@ -12,6 +12,7 @@ class SelectSiteOfType : public TrialSelect {
   /**
     args:
     - site_type: type of site to select.
+      This is the site index, not the site name.
    */
   explicit SelectSiteOfType(argtype args = argtype());
   explicit SelectSiteOfType(argtype * args);

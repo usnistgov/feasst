@@ -497,4 +497,22 @@ TEST(Configuration, model_param_file) {
   EXPECT_NEAR(20.27, config->model_params().select("mie_lambda_r").mixed_value(0, 1), NEAR_ZERO);
 }
 
+TEST(Configuration, site_name_order) {
+  auto config = MakeConfiguration({{"particle_type", "spce:../plugin/configuration/test/data/spce_inverted.txt"},
+                                   {"add_num_spce_particles", "1"}});
+  EXPECT_EQ(config->unique_type(0).site(0).name(), "H");
+  EXPECT_EQ(config->unique_type(0).site(1).name(), "O");
+  EXPECT_EQ(config->unique_type(0).site(0).type(), 1);
+  EXPECT_EQ(config->unique_type(0).site(1).type(), 0);
+  EXPECT_EQ(config->model_params().select("sigma").value(0), 0);
+  EXPECT_EQ(config->model_params().select("sigma").value(1), 3.16555789);
+  EXPECT_EQ(config->particle_type(0).site(0).name(), "O1");
+  EXPECT_EQ(config->particle_type(0).site(1).name(), "H1");
+  EXPECT_EQ(config->particle_type(0).site(2).name(), "H2");
+  EXPECT_EQ(config->particle_type(0).site(0).type(), 1);
+  EXPECT_EQ(config->particle_type(0).site(1).type(), 0);
+  EXPECT_EQ(config->particle_type(0).site(2).type(), 0);
+  FileXYZ().write("tmp/ttt.xyz", *config);
+}
+
 }  // namespace feasst

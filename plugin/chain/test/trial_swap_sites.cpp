@@ -26,10 +26,10 @@ TEST(TrialSwapSites, swap) {
   auto criteria = MakeMetropolis();
   criteria->set_current_energy(sys.energy());
   criteria->set_current_energy_profile({0.});
-  auto trial = MakeTrialSwapSites({{"particle_type", "0"}, {"site_type1", "1"}, {"site_type2", "0"}});
+  auto trial = MakeTrialSwapSites({{"particle_type", "0"}, {"site_type1", "0"}, {"site_type2", "1"}});
   trial->attempt(criteria.get(), &sys, random.get());
   EXPECT_EQ(trial->num_success(), 1);
-  EXPECT_EQ(sys.configuration().particle(0).site(0).type(), 1);
+  EXPECT_EQ(sys.configuration().particle(0).site(0).type(), 0);
   const int site_index = trial->stage(0).trial_select().mobile().site_index(0, 0);
   EXPECT_TRUE(site_index == 1 ||
               site_index == 3 ||
@@ -39,7 +39,7 @@ TEST(TrialSwapSites, swap) {
               site_index == 7 ||
               site_index == 8 ||
               site_index == 9);
-  EXPECT_EQ(sys.configuration().particle(0).site(site_index).type(), 0);
+  EXPECT_EQ(sys.configuration().particle(0).site(site_index).type(), 1);
 }
 
 }  // namespace feasst

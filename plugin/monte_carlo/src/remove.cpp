@@ -125,7 +125,7 @@ void Remove::run(MonteCarlo * mc) {
       }
     }
     if (removed) continue;
-    FATAL("Nothing found to removed with the given name:" << name);
+    WARN("Nothing found to remove with the given name:" << name);
   }
 
   DEBUG("search name_contains");
@@ -141,7 +141,9 @@ void Remove::run(MonteCarlo * mc) {
         DEBUG("removing trial: " << trial);
       }
     }
-    ASSERT(removed, "Nothing found to removed which contains:" << contains);
+    if (!removed) {
+      WARN("Nothing found to remove which contains:" << contains);
+    }
   }
   if (all_trials_) {
     for (int trial = mc->trials().num() - 1; trial >= 0; --trial) {

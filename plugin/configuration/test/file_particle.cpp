@@ -36,8 +36,16 @@ TEST(FileParticle, data_spce) {
   for (std::string data : {"../particle/spce.txt",
                            "../plugin/configuration/test/data/spce.txt.new",
                            "../plugin/configuration/test/data/spce.txt.old"}) {
+    INFO("data:" << data);
     FileParticle file;
-    EXPECT_EQ(3, file.read_num_in_section("Sites", data));
+    EXPECT_EQ(3, file.read_section("Sites", data));
+    std::vector<std::string> stype;
+    EXPECT_EQ(2, file.read_section("Site Properties", data, "#", &stype));
+    if (data == "../plugin/configuration/test/data/spce.txt.new") {
+      EXPECT_EQ(static_cast<int>(stype.size()), 2);
+      EXPECT_EQ(stype[0], "O");
+      EXPECT_EQ(stype[1], "H");
+    }
     Particle particle = file.read(data);
     EXPECT_EQ(particle.num_sites(), 3);
     Site site = particle.site(0);

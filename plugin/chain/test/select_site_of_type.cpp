@@ -11,7 +11,7 @@ TEST(SelectSiteOfType, serialize) {
   auto config = MakeConfiguration({{"cubic_side_length", "20"},
     {"particle_type", "../particle/chain10_3types.txt"},
     {"add_particles_of_type0", "1"}});
-  auto sel = MakeSelectSiteOfType({{"site_type", "0"}});
+  auto sel = MakeSelectSiteOfType({{"site_type", "1"}});
   Select site;
   auto random = MakeRandomMT19937();
   sel->random_site_in_particle(*config, &site, random.get());
@@ -20,7 +20,7 @@ TEST(SelectSiteOfType, serialize) {
   sel2->random_site_in_particle(*config, &site, random.get());
   EXPECT_TRUE(site.site_index(0, 0) == 2 ||
               site.site_index(0, 0) == 9);
-  auto sel3 = MakeSelectSiteOfType({{"site_type", "1"}});
+  auto sel3 = MakeSelectSiteOfType({{"site_type", "0"}});
   sel3->random_site_in_particle(*config, &site, random.get());
   EXPECT_TRUE(site.site_index(0, 0) == 1 ||
               site.site_index(0, 0) == 3 ||

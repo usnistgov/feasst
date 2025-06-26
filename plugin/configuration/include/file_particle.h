@@ -21,7 +21,10 @@ class FileParticle {
   /// Return the number of enteries in a given section, which is defined by
   /// an empty line at the beginning and end.
   /// Ignore lines beginning with a comment character.
-  int read_num_in_section(const std::string& section, const std::string& file_name, const std::string comment = "#") const;
+  int read_section(const std::string& section, const std::string& file_name,
+    const std::string comment = "#",
+    // Optionally, if not NULL, return names from first column of each line
+    std::vector<std::string> * names = NULL) const;
 
   int num_sites() const { return num_sites_; }
   int num_site_types() const { return num_site_types_; }
@@ -46,6 +49,7 @@ class FileParticle {
   int num_dihedral_types_ = 0;
   int num_impropers_ = 0;
   int num_improper_types_ = 0;
+  std::vector<std::string> stypes_, btypes_, atypes_, dtypes_;
 
   void read_num_and_types_(const std::string file_name);
 
@@ -56,10 +60,14 @@ class FileParticle {
 
   // return the type as an index given type name and list of types
   int find_type_index_(const std::string& type,
-    std::vector<std::string> * types) const;
+    const std::vector<std::string>& types) const;
 
   // return the index given the name
   int name_to_index(const std::string& name, const std::vector<std::string>& names) const;
+
+  void read_name_in_section_(const std::string& file_name,
+                             const std::string& section,
+                             std::vector<std::string> * names);
 };
 
 }  // namespace feasst

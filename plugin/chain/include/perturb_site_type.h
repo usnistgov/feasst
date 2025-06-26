@@ -14,6 +14,7 @@ class PerturbSiteType : public Perturb {
   /**
     args:
     - type: type to set for site.
+      This is the site index, not the site name.
    */
   explicit PerturbSiteType(argtype args = argtype());
   explicit PerturbSiteType(argtype * args);

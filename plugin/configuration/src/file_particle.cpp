@@ -10,9 +10,10 @@
 
 namespace feasst {
 
-int FileParticle::read_num_in_section(const std::string& section,
+int FileParticle::read_section(const std::string& section,
     const std::string& file_name,
-    const std::string comment) const {
+    const std::string comment,
+    std::vector<std::string> * names) const {
   std::ifstream file(file_name.c_str());
   ASSERT(file.good(), "cannot find file " << file_name.c_str());
   if (!find(section, file)) {
@@ -26,9 +27,16 @@ int FileParticle::read_num_in_section(const std::string& section,
   ASSERT(!line.empty(), "The \"" << section << "\" section in file:" <<
     file_name << " must begin with only one empty line.");
   DEBUG("line: " << line << " eof? " << file.eof());
+  if (names) names->clear();
   int num = 0;
   bool last_line = false;
   while (!line.empty() && !last_line) {
+    if (line.front() != comment.front()) {
+      if (names && !line.empty()) {
+        DEBUG("line: " << line);
+        names->push_back(split(line, ' ')[0]);
+      }
+    }
     if (file.eof()) last_line = true;
     std::getline(file, line);
     DEBUG("line: " << line << " eof? " << file.eof());
@@ -39,8 +47,12 @@ int FileParticle::read_num_in_section(const std::string& section,
     ASSERT(num < 1e8, "The \"" << section << "\" section in file:" <<
       file_name << " must end with an empty line.");
   }
-  DEBUG("num: " << num << " in Seciton: " << section);
+  DEBUG("num: " << num << " in Section: " << section);
   return num;
+}
+
+void read_name_in_section_(const std::string& section,
+                           std::vector<std::string> * names) {
 }
 
 void FileParticle::read_num_and_types_(const std::string file_name) {
@@ -50,28 +62,34 @@ void FileParticle::read_num_and_types_(const std::string file_name) {
   if (find("2 dimensions", file)) {
     num_dimensions_ = 2;
   }
-  num_sites_ = read_num_in_section("Sites", file_name);
-  num_site_types_ = read_num_in_section("Site Properties", file_name);
-  num_bond_types_ = read_num_in_section("Bond Properties", file_name);
-  num_angle_types_ = read_num_in_section("Angle Properties", file_name);
-  num_dihedral_types_ = read_num_in_section("Dihedral Properties", file_name);
-  num_bonds_ = read_num_in_section("Bonds", file_name);
-  num_angles_ = read_num_in_section("Angles", file_name);
-  num_dihedrals_ = read_num_in_section("Dihedrals", file_name);
-  num_improper_types_ = read_num_in_section("Improper Properties", file_name);
+  num_sites_ = read_section("Sites", file_name);
+  num_site_types_ = read_section("Site Properties", file_name, "#", &stypes_);
+  DEBUG("read site types: " << feasst_str(stypes_));
+  num_bond_types_ = read_section("Bond Properties", file_name, "#", &btypes_);
+  DEBUG("read bond types: " << feasst_str(btypes_));
+  num_angle_types_ = read_section("Angle Properties", file_name, "#", &atypes_);
+  DEBUG("read angle types: " << feasst_str(atypes_));
+  num_dihedral_types_ = read_section("Dihedral Properties", file_name, "#", &dtypes_);
+  DEBUG("read dihdl types: " << feasst_str(dtypes_));
+  num_bonds_ = read_section("Bonds", file_name);
+  num_angles_ = read_section("Angles", file_name);
+  num_dihedrals_ = read_section("Dihedrals", file_name);
+  num_improper_types_ = read_section("Improper Properties", file_name);
   ASSERT(num_improper_types_ == 0, "Impropers not implemented");
-  num_impropers_ = read_num_in_section("Impropers", file_name);
+  num_impropers_ = read_section("Impropers", file_name);
   ASSERT(num_impropers_ == 0, "Impropers not implemented");
 }
 
 int FileParticle::find_type_index_(const std::string& type,
-    std::vector<std::string> * types) const {
+    const std::vector<std::string>& types) const {
   int type_index;
-  if (!find_in_list(type, *types, &type_index)) {
-    types->push_back(type);
-  }
-  const bool found = find_in_list(type, *types, &type_index);
-  ASSERT(found, "error");
+  //if (!find_in_list(type, *types, &type_index)) {
+  //  FATAL("type:" << type << " is not found in types:" << feasst_str(*types));
+  //  types->push_back(type);
+  //}
+  const bool found = find_in_list(type, types, &type_index);
+  ASSERT(found, "type:" << type << " is not found in types:" << feasst_str(types));
+  DEBUG("type_index:" << type_index);
   return type_index;
 }
 
@@ -111,11 +129,15 @@ Particle FileParticle::read(const std::string file_name) {
     }
     position.set_vector(xtmp);
     site.set_position(position);
-    site.set_type(find_type_index_(stype, &stypes));
+    const int type = find_type_index_(stype, stypes_);
+    site.set_type(type);
     site.set_name(sname);
+    DEBUG("stype: " << stype << " sname: " << sname << " type: " << type);
     snames[site_index] = sname;
     particle.add(site);
   }
+  DEBUG("snames:" << feasst_str(snames));
+  DEBUG("stypes:" << feasst_str(stypes_));
 
   // read Bonds section
   if (num_bonds_ > 0) {
@@ -129,7 +151,7 @@ Particle FileParticle::read(const std::string file_name) {
       a2 = name_to_index(al2, snames);
       bond.add_site_index(a1);
       bond.add_site_index(a2);
-      bond.set_type(find_type_index_(btype, &btypes));
+      bond.set_type(find_type_index_(btype, btypes_));
       bond.set_name(bname);
       particle.add_bond(bond);
     }
@@ -149,7 +171,7 @@ Particle FileParticle::read(const std::string file_name) {
       angle.add_site_index(a1);
       angle.add_site_index(a2);
       angle.add_site_index(a3);
-      angle.set_type(find_type_index_(atype, &atypes));
+      angle.set_type(find_type_index_(atype, atypes_));
       angle.set_name(aname);
       particle.add_angle(angle);
     }
@@ -172,7 +194,7 @@ Particle FileParticle::read(const std::string file_name) {
       dihedral.add_site_index(a2);
       dihedral.add_site_index(a3);
       dihedral.add_site_index(a4);
-      dihedral.set_type(find_type_index_(dtype, &dtypes));
+      dihedral.set_type(find_type_index_(dtype, dtypes_));
       dihedral.set_name(dname);
       particle.add_dihedral(dihedral);
     }
@@ -184,6 +206,7 @@ Particle FileParticle::read(const std::string file_name) {
 
 void FileParticle::read_properties(const std::string file_name,
                                Particle* particle) {
+  DEBUG("file_name: " << file_name);
   std::ifstream file(file_name.c_str());
   ASSERT(file.good(), "cannot find file " << file_name.c_str());
 
@@ -219,7 +242,6 @@ void FileParticle::read_properties_(const std::string property_type,
   std::getline(file, line);
   DEBUG("property_type " << property_type);
   DEBUG("read properties: " << line);
-  std::vector<std::string> types;
   for (int i = 0; i < num_types; ++i) {
     int shift = 0;
     if (property_type == "bond" || property_type == "angle" ||
@@ -252,7 +274,26 @@ void FileParticle::read_properties_(const std::string property_type,
       properties = split(line, ' ');
     }
     ASSERT(properties.size() >= 3, "Missing properties for: " << property_type);
-    const int type = find_type_index_(properties[0], &types);
+    std::vector<std::string> types;
+    if (property_type == "site") {
+      types = stypes_;
+    } else if (property_type == "bond") {
+      types = btypes_;
+    } else if (property_type == "angle") {
+      types = atypes_;
+    } else if (property_type == "dihedral") {
+      types = dtypes_;
+    } else {
+      FATAL("Unrecognized property_type:" << property_type);
+    }
+    DEBUG("properties[0]:" << properties[0]);
+    const int type = find_type_index_(properties[0], types);
+    DEBUG("property_type: " << property_type);
+    DEBUG("type: " << type);
+    DEBUG("types: " << feasst_str(types));
+    ASSERT(type < num_types, "type: " << type << " is too large for the number "
+      << "of types: " << num_types << " of property: " << property_type
+      << ". See /path/to/feasst/particle/README.rst for more details.");
     if (property_type == "bond") {
       particle->add_bond_model(type, properties[1]);
     } else if (property_type == "angle") {
@@ -262,11 +303,6 @@ void FileParticle::read_properties_(const std::string property_type,
     }
     ASSERT((properties.size() - shift) % 2 == 1, "size error");
     const int num_properties = (properties.size() - 1 - shift)/2;
-    DEBUG("type: " << type);
-    ASSERT(type < num_types, "type: " << type << " is too large for the number "
-      << "of types: " << num_types << " of property: " << property_type
-      << " . Properties are listed from indices of 0 to n-1, not 1 to n. "
-      << "See /path/to/feasst/particle/README.rst for more details.");
     for (int index = 0; index < num_properties; ++index) {
       const std::string name = properties[2*index + 1 + shift];
       const double value = stod(properties[2*index + 2 + shift]);
