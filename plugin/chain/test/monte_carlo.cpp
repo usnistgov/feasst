@@ -902,8 +902,6 @@ TEST(MonteCarlo, chainarglist) {
     {"TrialTranslate", {{"tunable_param", "0.2"},
                         {"tunable_target_acceptance", "0.2"}}},
     {"TrialAdd", {{"particle_type", "0"}}},
-    //{"TrialAddMultiple", {{"particle_type0", "0"}, {"particle_type1", "1"}}},
-//    {"TrialAddMultiple", {{"particle_type0", "0"}, {"particle_type1", "1"}, {"reference_index", "0"}}},
     {"TrialGrowFile", {{"grow_file", "../plugin/chain/test/data/dimer_grow_file.txt"}}},
     {"Log", {{"trials_per_write", str(1e2)}, {"output_file", "tmp/lj.txt"}}},
     {"Movie", {{"trials_per_write", str(1e2)}, {"output_file", "tmp/lj.xyz"}}},
@@ -952,8 +950,7 @@ TEST(MonteCarlo, lj_position_swap) {
   auto mc = MakeMonteCarlo();
   mc->set(MakeRandomMT19937({{"seed", "123"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},
-                             {"particle_type0", "../particle/lj.txt"},
-                             {"particle_type1", "../particle/lj.txt"}}));
+    {"particle_type", "../particle/lj.txt,../particle/lj.txt"}}));
   mc->add(MakePotential(MakeLennardJones()));
   mc->add(MakePotential(MakeLongRangeCorrections()));
   mc->set(MakeThermoParams({{"beta", str(1./1.5)},
