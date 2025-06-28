@@ -60,10 +60,13 @@ def write_feasst_script(params, script_file):
 MonteCarlo
 RandomMT19937 seed={seed}
 Configuration cubic_side_length={cubic_side_length} particle_type=lj:{fstprt} xy=5 xz=5 yz=5
-Potential Model=LennardJones
-OptPotential Model=LennardJones VisitModel=VisitModelCell min_length=3
-Potential VisitModel=LongRangeCorrections
-OptPotential VisitModel=LongRangeCorrections
+Let [lj]=Potential Model=LennardJones
+Let [ljcell]=[lj] VisitModel=VisitModelCell min_length=3
+Let [lrc]=Potential VisitModel=LongRangeCorrections
+[lj]
+Opt[ljcell]
+[lrc]
+Opt[lrc]
 ThermoParams beta={beta} chemical_potential=-1
 Metropolis
 TrialTranslate weight=1 tunable_param=2 tunable_target_acceptance=2
