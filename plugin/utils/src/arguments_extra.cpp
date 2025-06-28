@@ -24,9 +24,7 @@ std::pair<std::string, argtype> parse_line(const std::string line,
       std::stringstream ss3(line);
       std::string major3;
       ss3 >> major3;
-      if (major3 != "Let") {
-        replace(pair.first, pair.second, &new_line);
-      }
+      replace(pair.first, pair.second, &new_line);
     }
   }
   std::stringstream ss(new_line);

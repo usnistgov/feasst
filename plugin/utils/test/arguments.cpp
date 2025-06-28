@@ -264,4 +264,11 @@ TEST(Arguments, IF) {
   EXPECT_EQ("True", list[0][0].first);
 }
 
+TEST(Arguments, Let) {
+  std::stringstream ss;
+  ss << "Let [hi]=yo\nLet [hi2]=[hi]2\n[hi2]";
+  std::vector<arglist> list = parse_mcs(ss);
+  EXPECT_EQ("yo2", list[0][0].first);
+}
+
 }  // namespace feasst
