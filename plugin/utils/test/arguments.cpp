@@ -228,12 +228,6 @@ Endfor";
 TEST(Arguments, IF) {
   TRY(
     std::stringstream ss;
-    ss << "If something=something";
-    parse_mcs(ss);
-    CATCH_PHRASE("syntax is");
-  );
-  TRY(
-    std::stringstream ss;
     ss << "If defined=?";
     parse_mcs(ss);
     CATCH_PHRASE("If without a corresponding EndIf");
@@ -261,6 +255,10 @@ TEST(Arguments, IF) {
   std::stringstream ss3;
   ss3 << "If undefined=?Yes\nNot\nElse\nTrue\nEndIf";
   list = parse_mcs(ss3);
+  EXPECT_EQ("True", list[0][0].first);
+  std::stringstream ss4;
+  ss4 << "Let [var]=hi\nIf [var]=hi\nTrue\nEndIf";
+  list = parse_mcs(ss4);
   EXPECT_EQ("True", list[0][0].first);
 }
 

@@ -242,25 +242,27 @@ arglist parse_if(const arglist& list, int * first_end_if, int *last_if, int *las
       ASSERT(*last_else < *last_if, "found an Else without a corresponding If.");
       *last_else = iarg;
     } else if (arg.first == "If") {
+      ASSERT(arg.second.size() == 1, "If statement requires only one condition.");
       *last_if = iarg;
       DEBUG("true " << str(arg.second));
-      const auto pair1 = arg.second.find("defined");
-      const auto pair2 = arg.second.find("undefined");
-      ASSERT(arg.second.size() == 1 && (pair1 != arg.second.end() || pair2 != arg.second.end()),
-       "If syntax is \"If defined=?optional\" or \"If undefined=?opt\". " <<
-       "If statement requires only one condition.");
-      if (pair1 != arg.second.end()) {
-        if (pair1->second == "?") {
-          is_true = false;
-        } else {
-          is_true = true;
-        }
-      } else if (pair2 != arg.second.end()) {
-        if (pair2->second == "?") {
-          is_true = true;
-        } else {
-          is_true = false;
-        }
+      if (arg.second.begin()->first == arg.second.begin()->second) {
+        is_true = true;
+      } else {
+        const auto pair1 = arg.second.find("defined");
+        const auto pair2 = arg.second.find("undefined");
+        if (pair1 != arg.second.end()) {
+          if (pair1->second == "?") {
+            is_true = false;
+          } else {
+            is_true = true;
+          }
+        } else if (pair2 != arg.second.end()) {
+          if (pair2->second == "?") {
+            is_true = true;
+          } else {
+            is_true = false;
+	  }
+	}
       }
     }
   }

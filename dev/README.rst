@@ -379,5 +379,4 @@ To Do List
 * For 0.26, remove Copy[following/next] in favor of For
 * Benchmark FEASST for use with podman or apptainer
 * Search for deprecate Warn in weekly build tests
-* Implement "If [pt]=1" type of statements.
 * Allow comments with preceeding whitespace
