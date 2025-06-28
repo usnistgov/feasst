@@ -19,6 +19,9 @@ std::pair<std::string, argtype> parse_line(const std::string line,
   bool * assign_to_list) {
   // variable replacement if not Let
   std::string new_line = line;
+  // remove anything after the # comment character
+  new_line = feasst::trim("#", line.c_str(), 0);
+  if (new_line.back() == '#') new_line.pop_back();
   if (variables) {
     for (const auto& pair : *variables) {
       std::stringstream ss3(line);

@@ -269,4 +269,11 @@ TEST(Arguments, Let) {
   EXPECT_EQ("yo2", list[0][0].first);
 }
 
+TEST(Arguments, comments) {
+  std::stringstream ss;
+  ss << "Write #ok this is a comment";
+  std::vector<arglist> list = parse_mcs(ss);
+  EXPECT_EQ("Write", list[0][0].first);
+}
+
 }  // namespace feasst
