@@ -4,6 +4,7 @@ import os
 
 class cd:
     """
+    Deprecated and moved to fstio module.
     Context manager for changing the current working directory.
     Author: Brian Hunt on Stack Overflow.
     https://stackoverflow.com/questions/431684/how-do-i-change-directory-cd-in-python/13197763#13197763

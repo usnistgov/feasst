@@ -423,8 +423,7 @@ TEST(MonteCarlo, argslist_order) {
   auto mc = MakeMonteCarlo({{
     {"RandomModulo", {{"seed", "123"}}},
     {"Configuration", {{"cubic_side_length", "8"},
-                       {"particle_type0", "../particle/lj.txt"},
-                       {"particle_type1", "../particle/atom.txt"}}},
+                       {"particle_type", "lj:../particle/lj_new.txt,atom:../particle/atom_new.txt"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"ThermoParams", {{"beta", "0.1"}}},
     {"ThermoParams", {{"beta", "1.2"}}},

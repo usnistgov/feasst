@@ -19,14 +19,15 @@ std::pair<std::string, argtype> parse_line(const std::string line,
   bool * assign_to_list) {
   // variable replacement if not Let
   std::string new_line = line;
+  // remove anything after the # comment character
+  new_line = feasst::trim("#", line.c_str(), 0);
+  if (new_line.back() == '#') new_line.pop_back();
   if (variables) {
     for (const auto& pair : *variables) {
       std::stringstream ss3(line);
       std::string major3;
       ss3 >> major3;
-      if (major3 != "Let") {
-        replace(pair.first, pair.second, &new_line);
-      }
+      replace(pair.first, pair.second, &new_line);
     }
   }
   std::stringstream ss(new_line);
@@ -244,25 +245,27 @@ arglist parse_if(const arglist& list, int * first_end_if, int *last_if, int *las
       ASSERT(*last_else < *last_if, "found an Else without a corresponding If.");
       *last_else = iarg;
     } else if (arg.first == "If") {
+      ASSERT(arg.second.size() == 1, "If statement requires only one condition.");
       *last_if = iarg;
       DEBUG("true " << str(arg.second));
-      const auto pair1 = arg.second.find("defined");
-      const auto pair2 = arg.second.find("undefined");
-      ASSERT(arg.second.size() == 1 && (pair1 != arg.second.end() || pair2 != arg.second.end()),
-       "If syntax is \"If defined=?optional\" or \"If undefined=?opt\". " <<
-       "If statement requires only one condition.");
-      if (pair1 != arg.second.end()) {
-        if (pair1->second == "?") {
-          is_true = false;
-        } else {
-          is_true = true;
-        }
-      } else if (pair2 != arg.second.end()) {
-        if (pair2->second == "?") {
-          is_true = true;
-        } else {
-          is_true = false;
-        }
+      if (arg.second.begin()->first == arg.second.begin()->second) {
+        is_true = true;
+      } else {
+        const auto pair1 = arg.second.find("defined");
+        const auto pair2 = arg.second.find("undefined");
+        if (pair1 != arg.second.end()) {
+          if (pair1->second == "?") {
+            is_true = false;
+          } else {
+            is_true = true;
+          }
+        } else if (pair2 != arg.second.end()) {
+          if (pair2->second == "?") {
+            is_true = true;
+          } else {
+            is_true = false;
+	  }
+	}
       }
     }
   }

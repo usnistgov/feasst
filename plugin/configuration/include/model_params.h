@@ -292,6 +292,7 @@ class ModelParams : public PropertiedEntity {
   /// Add built-in types to params
   void add_();
 
+  void factory_(const std::string& name);
   std::shared_ptr<ModelParam> select_(const std::string name);
 };
 

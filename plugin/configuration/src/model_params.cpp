@@ -228,14 +228,7 @@ void ModelParams::add(const Particle& particle) {
         }
         if (!found) {
           DEBUG("automatically adding " << name);
-          auto model_param =
-            deep_copy_derived(ModelParam().deserialize_map()[name]);
-          // DEBUG(particle.num_sites());
-          // DEBUG(size());
-          for (int i = 0; i < size(); ++i) {
-            model_param->add(0.);  // add the default placeholder value
-          }
-          add(model_param);
+          factory_(name);
         }
       }
     }
@@ -287,8 +280,16 @@ const ModelParam& ModelParams::select(const int index) const {
 
 const ModelParam& ModelParams::select(const std::string& name) const {
   const int indx = index(name);
-  ASSERT(indx != -1, "name: " << name << " not found");
+  ASSERT(indx != -1, "name: " << name << " not found in ModelParams.");
   return const_cast<const ModelParam&>(*params_[indx]);
+}
+
+void ModelParams::factory_(const std::string& name) {
+  auto model_param = deep_copy_derived(ModelParam().deserialize_map()[name]);
+  for (int i = 0; i < size(); ++i) {
+    model_param->add(0.);  // add the default placeholder value
+  }
+  add(model_param);
 }
 
 std::shared_ptr<ModelParam> ModelParams::select_(
@@ -298,8 +299,8 @@ std::shared_ptr<ModelParam> ModelParams::select_(
       return param;
     }
   }
-  ASSERT(0, "Unrecognized ModelParam name(" << param_name << ")");
-  return NULL;
+  factory_(param_name);
+  return params_.back();
 }
 
 void ModelParams::set(const std::string& name,
