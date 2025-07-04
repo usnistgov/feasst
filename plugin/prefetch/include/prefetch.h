@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <cstdint>
 #include "monte_carlo/include/monte_carlo.h"
 
 namespace feasst {
@@ -109,7 +110,7 @@ class Prefetch : public MonteCarlo {
   void run(std::shared_ptr<Action> action) override;
 
   /// Run a number of trials.
-  void run_num_trials(int num_trials) override;
+  void run_num_trials(int64_t num_trials) override;
   void run_until_num_particles(const int num_particles,
                                const std::string& particle_type,
                                const int configuration_index) override;

@@ -7,6 +7,7 @@
 #include <vector>
 #include <deque>
 #include <map>
+#include <cstdint>
 #include "utils/include/max_precision.h"
 #include "utils/include/definitions.h"
 
@@ -80,6 +81,11 @@ bool replace(const std::string& from, const std::string& to, std::string * str);
 
 /// Convert a string to an integer.
 int str_to_int(const std::string& str,
+  /// Return a FATAL error if impossible. Otherwise, return -1.
+  const bool fatal = true);
+
+/// Convert a string to a 64-bit integer.
+int64_t str_to_int64(const std::string& str,
   /// Return a FATAL error if impossible. Otherwise, return -1.
   const bool fatal = true);
 

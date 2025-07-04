@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <cstdint>
 
 namespace feasst {
 
@@ -61,6 +62,13 @@ int integer(const std::string& key, argtype * args);
 /// Same as above, but with a default value should key not be in args.
 int integer(const std::string& key, argtype * args,
   const int dflt);
+
+/// Read an argument and remove it from args, then return as 64-bit integer.
+int64_t integer64(const std::string& key, argtype * args);
+
+/// Same as above, but with a default value should key not be in args.
+int64_t integer64(const std::string& key, argtype * args,
+  const int64_t dflt);
 
 /// Read an argument and remove it from args, then return as a boolean.
 bool boolean(const std::string& key, argtype * args);

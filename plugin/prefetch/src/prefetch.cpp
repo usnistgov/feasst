@@ -528,7 +528,7 @@ void Prefetch::run(std::shared_ptr<Action> action) {
   }
 }
 
-void Prefetch::run_num_trials(int num_trials) {
+void Prefetch::run_num_trials(int64_t num_trials) {
   if (num_trials < 0) {
     return;
   }

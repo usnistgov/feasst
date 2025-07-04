@@ -7,6 +7,7 @@
 #include <string>
 #include <memory>
 #include <map>
+#include <cstdint>
 
 namespace feasst {
 
@@ -266,7 +267,7 @@ class MonteCarlo {
   virtual void reset_trial_stats();
 
   /// Run a number of trials.
-  virtual void run_num_trials(int num_trials);
+  virtual void run_num_trials(int64_t num_trials);
 
   /// Run until a number of particles is reached.
   virtual void run_until_num_particles(const int num_particles,
