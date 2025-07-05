@@ -1,6 +1,7 @@
 #include <cmath>
 #include <iterator>
 #include <algorithm>
+#include <limits>
 #include "utils/include/io.h"
 #include "utils/include/debug.h"
 #include "utils/include/definitions.h"
@@ -72,18 +73,31 @@ bool is_found_in(const std::string& str, const std::string& substr) {
 }
 
 int str_to_int(const std::string& str, const bool fatal) {
+  const int64_t val64 = str_to_int64(str, fatal);
+  if (val64 > std::numeric_limits<int>::max() ||
+      val64 < std::numeric_limits<int>::min()) {
+    if (fatal) {
+      FATAL(str << " was expected to be within int range.");
+    } else {
+      return -1;
+    }
+  }
+  return static_cast<int>(val64);
+}
+
+int64_t str_to_int64(const std::string& str, const bool fatal) {
   std::stringstream errmsg;
-  int intVal = -1;
+  int64_t intVal = -1;
   errmsg << str << " was " << "expected to be an integer.";
   if (str.find('e') != std::string::npos) {
     const double dble = str_to_double(str);
-    const int intt = static_cast<int>(dble);
+    const int64_t intt = static_cast<int64_t>(dble);
     ASSERT(std::abs(dble - static_cast<double>(intt)) < 1e-14,
       errmsg.str());
     return intt;
   }
   try {
-    intVal = stoi(str);
+    intVal = std::stoll(str);
   } catch (...) {
     if (fatal) {
       FATAL(errmsg.str());
@@ -91,7 +105,7 @@ int str_to_int(const std::string& str, const bool fatal) {
       return -1;
     }
   }
-  const double dble = stod(str);
+  const double dble = std::stod(str);
   ASSERT(std::abs(dble - static_cast<double>(intVal)) < 1e-14,
     errmsg.str());
   return intVal;

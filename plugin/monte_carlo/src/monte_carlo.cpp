@@ -923,7 +923,7 @@ void MonteCarlo::write_to_file() {
   modify_factory_->write_to_file(this);
 }
 
-void MonteCarlo::run_num_trials(int num_trials) {
+void MonteCarlo::run_num_trials(int64_t num_trials) {
   while (num_trials > 0) {
     attempt(1);
     --num_trials;

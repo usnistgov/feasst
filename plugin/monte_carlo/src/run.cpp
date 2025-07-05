@@ -11,7 +11,7 @@
 namespace feasst {
 
 Run::Run(argtype * args) {
-  num_trials_ = integer("num_trials", args, -1);
+  num_trials_ = integer64("num_trials", args, -1);
   until_num_particles_ = integer("until_num_particles", args, -1);
   if (used("configuration_index", *args)) {
     WARN("Deprecated Run::configuration_index->config (see Configuration::name)");
