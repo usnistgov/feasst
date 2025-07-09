@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <cstdint>
 #include "monte_carlo/include/action.h"
 
 namespace feasst {
@@ -52,7 +53,7 @@ class Run : public Action {
 
   //@}
  private:
-  int num_trials_;
+  int64_t num_trials_;
   int until_num_particles_;
   int configuration_index_;
   std::string config_;

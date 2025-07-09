@@ -79,6 +79,22 @@ int integer(const std::string& key, argtype * args,
   }
 }
 
+int64_t integer64(const std::string& key, argtype * args) {
+  return str_to_int64(str(key, args));
+}
+
+int64_t integer64(const std::string& key, argtype * args,
+    const int64_t dflt) {
+  auto pair = args->find(key);
+  if (pair != args->end()) {
+    const std::string return_str = pair->second;
+    args->erase(pair);
+    return str_to_int64(return_str);
+  } else {
+    return dflt;
+  }
+}
+
 bool boolean(const std::string& key, argtype * args) {
   return str_to_bool(str(key, args));
 }

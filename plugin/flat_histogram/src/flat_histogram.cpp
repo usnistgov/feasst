@@ -34,13 +34,21 @@ FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,
   class_name_ = "FlatHistogram";
   init_(macrostate, bias);
 }
-FlatHistogram::FlatHistogram(argtype * args) : Criteria(args) {
+
+FlatHistogram::FlatHistogram(argtype * args)
+ : Criteria(
+     [&]() {
+       ASSERT(!used("cycles_to_complete", *args),
+         "FlatHistogram does not use the argument cycles_to_complete");
+       return args;
+     }()
+   )
+{
   class_name_ = "FlatHistogram";
-  ASSERT(!used("cycles_to_complete", *args),
-    "FlatHistogram does not use the argument cycles_to_complete");
   init_(MacrostateEnergy().factory(str("Macrostate", args), args),
         MakeWangLandau({{"min_flatness", "1"}})->factory(str("Bias", args), args));
 }
+
 FlatHistogram::FlatHistogram(argtype args) : FlatHistogram(&args) {
   feasst_check_all_used(args);
 }
