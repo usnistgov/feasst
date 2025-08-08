@@ -121,8 +121,8 @@ TEST(Configuration, type_to_file_name) {
 
 TEST(Configuration, coordinates_and_wrapping) {
   auto config = MakeConfiguration({{"cubic_side_length", "5"},
-    {"particle_type0", "../particle/atom.txt"},
-    {"add_particles_of_type0", "2"}});
+    {"particle_type", "atom:../particle/atom_new.txt"},
+    {"add_num_atom_particles", "2"}});
   Position pos;
   pos.set_to_origin_3D();
   pos.set_coord(0, -583);
@@ -156,7 +156,7 @@ TEST(Configuration, coordinates_and_wrapping) {
 }
 
 TEST(Configuration, particle_types_lj) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.txt"}});
+  auto config = MakeConfiguration({{"particle_type", "lj:../particle/lj_new.txt"}});
   config->check();
   EXPECT_EQ(1, config->particle_types().num());
   EXPECT_EQ(1, config->particle_types().num());
@@ -174,7 +174,7 @@ TEST(Configuration, particle_types_lj) {
 }
 
 TEST(Configuration, particle_types_spce) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/spce.txt"}});
+  auto config = MakeConfiguration({{"particle_type", "spce:../particle/spce_new.txt"}});
   config->check();
   EXPECT_EQ(2, config->particle_types().num_site_types());
   EXPECT_EQ(3, config->particle_types().num_sites());
@@ -218,7 +218,7 @@ TEST(Configuration, bonds_spce) {
 
 TEST(Configuration, order) {
   auto config = MakeConfiguration({{"cubic_side_length", "7"},
-                                   {"particle_type0", "../particle/spce.txt"}});
+                                   {"particle_type", "spce:../particle/spce_new.txt"}});
   config->add_particle_of_type(0);
   TRY(
     config->add_particle_type("../particle/lj.txt");
@@ -294,14 +294,14 @@ TEST(Configuration, group) {
 TEST(Configuration, group_as_arg) {
   auto config = MakeConfiguration({
     {"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
-    {"particle_type0", "../particle/lj.txt"},
-    {"group", "first"}, {"first_particle_type", "0"}});
+    {"particle_type", "lj:../particle/lj_new.txt"},
+    {"group", "first"}, {"first_particle_type", "lj"}});
   EXPECT_EQ(2, config->num_groups());
 }
 
 TEST(Configuration, select_particle_by_group) {
   Configuration config = spce_sample1();
-  config.add(MakeGroup({{"site_type", "0"}}));
+  config.add(MakeGroup({{"site_type", "O"}}));
   Particle part = config.particle(2, 1);
   EXPECT_EQ(1, part.num_sites());
 }
@@ -422,13 +422,13 @@ TEST(Configuration, dihedrals) {
 }
 
 TEST(Configuration, set_param) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/spce.txt"},
-    {"sigma1", "0.1"},
-    {"epsilon0", "5.2"},
+  auto config = MakeConfiguration({{"particle_type", "spce:../particle/spce_new.txt"},
+    {"sigmaH", "0.1"},
+    {"epsilonO", "5.2"},
     {"cutoff", "2.3"},
-    {"cutoff0", "12.3"},
-    {"charge1", "3.3"},
-    {"charge1_1", "-7.3"},
+    {"cutoffO", "12.3"},
+    {"chargeH", "3.3"},
+    {"chargeH_H", "-7.3"},
     });
   EXPECT_DOUBLE_EQ(config->model_params().select("sigma").value(1), 0.1);
   EXPECT_DOUBLE_EQ(config->model_params().select("epsilon").value(0), 5.2);
@@ -440,11 +440,7 @@ TEST(Configuration, set_param) {
 }
 
 TEST(Configuration, particle_with_different_params) {
-  auto config = MakeConfiguration({
-    {"particle_type0", "../particle/lj.txt"},
-    {"particle_type1", "../particle/atom.txt"},
-    {"particle_type2", "../particle/spce.txt"},
-  });
+  auto config = MakeConfiguration({{"particle_type", "lj:../particle/lj_new.txt,atom:../particle/atom_new.txt,spce:../particle/spce_new.txt"}});
   EXPECT_EQ(config->model_params().select("charge").value(0), 0.);
   EXPECT_EQ(config->model_params().select("charge").value(1), 0.);
   EXPECT_EQ(config->model_params().select("charge").value(2), -0.8476);
@@ -454,7 +450,7 @@ TEST(Configuration, particle_with_different_params) {
 
 TEST(Configuration, xyz_euler_file) {
   auto config = MakeConfiguration({
-    {"particle_type0", "../particle/euler.txt"},
+    {"particle_type", "euler:../particle/euler.txt"},
     {"xyz_euler_file", "../plugin/configuration/test/data/euler.xyze"}});
   EXPECT_NEAR(200, config->domain().side_length(0), 1e-6);
   EXPECT_NEAR(35.652456, config->particle(0).site(0).position().coord(0), 1e-6);
@@ -463,11 +459,8 @@ TEST(Configuration, xyz_euler_file) {
 
 TEST(Configuration, 2dfstprt_with_xyz) {
   auto config = MakeConfiguration({
-    //{"particle_type0", "../particle/atom2d.txt"}});
-    {"particle_type0", "../particle/atom2d.txt"},
+    {"particle_type", "atom:../particle/atom2d.txt"},
     {"xyz_file", "../plugin/configuration/test/data/2d.xyz"}});
-//  EXPECT_EQ(2, config->domain().dimension());
-//  EXPECT_EQ(2, config->particle_type(0).site(0).position().dimension());
 }
 
 TEST(Configuration, param_mixing_file) {

@@ -78,7 +78,7 @@ def pdb_to_fstprt(subset, fstprt_file, add_com=True, skip_hydrogens=False):
     """
     myfile = open(fstprt_file, 'w')
     params = {'num_sites': len(subset) + 1}
-    params['htype'] = '4 sigma 0.4 cutoff 0.4'
+    params['htype'] = 'H sigma=0.4 cutoff=0.4'
     params['num_site_types'] = 5
     if skip_hydrogens:
         params['htype'] = ''
@@ -86,48 +86,28 @@ def pdb_to_fstprt(subset, fstprt_file, add_com=True, skip_hydrogens=False):
     if add_com:
         params['num_site_types'] += 1
         if skip_hydrogens:
-            params['htype'] = '4 sigma 0.0 cutoff 0.0'
+            params['htype'] = 'COM sigma=0.0 cutoff=0.0'
             params['com_prop'] = ''
-            params['com_type'] = '4'
         else:
-            params['com_prop'] = '5 sigma 0.0 cutoff 0.0'
-            params['com_type'] = '5'
-    myfile.write("""# FEASST particle file
-# site types are H, C, N, O, S, in order
-
-{num_sites} sites
-
-{num_site_types} site types
+            params['com_prop'] = 'COM sigma=0.0 cutoff=0.0'
+    myfile.write("""# FEASST particle file (https://doi.org/10.18434/M3S095)
 
 Site Properties
 
-0 sigma 3.7 cutoff 3.7
-1 sigma 3.3 cutoff 3.3
-2 sigma 3.1 cutoff 3.1
-3 sigma 3.9 cutoff 3.9
+C sigma=3.7 cutoff=3.7
+N sigma=3.3 cutoff=3.3
+O sigma=3.1 cutoff=3.1
+S sigma=3.9 cutoff=3.9
 {htype}
 {com_prop}
 
 Sites
 
-0 {com_type} 0 0 0
+0 COM 0 0 0
 """.format(**params))
     r_com = center_of_mass(subset)
     for index, atom in enumerate(subset['element_symbol']):
-        if atom == "H":
-            atom_type = 4
-        elif atom == "C":
-            atom_type = 0
-        elif atom == "N":
-            atom_type = 1
-        elif atom == "O":
-            atom_type = 2
-        elif atom == "S":
-            atom_type = 3
-        else:
-            print('unrecognized atom:', atom)
-            assert(False)
-        myfile.write(str(index + 1) + " " + str(atom_type) + " " +
+        myfile.write(str(index + 1) + " " + atom + " " +
                      str(subset['x_coord'].values[index] - r_com[0]) + " " +
                      str(subset['y_coord'].values[index] - r_com[1]) + " " +
                      str(subset['z_coord'].values[index] - r_com[2]) + "\n")

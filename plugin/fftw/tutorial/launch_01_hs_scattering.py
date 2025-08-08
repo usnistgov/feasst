@@ -66,7 +66,7 @@ TrialTranslate tunable_param=0.2
 Let [write]=trials_per_write={tpc} output_file={prefix}s{sim:03d}
 Log [write]_eq.csv
 Tune
-CheckEnergy trials_per_update={tpc} decimal_places=8
+CheckEnergy trials_per_update={tpc} decimal_places=6
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type=fluid

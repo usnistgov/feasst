@@ -1,5 +1,5 @@
 """
-Generate and simulate a coarse-grained potential of a protein.
+Generate and simulate a coarse-grained potential of a protein (see https://doi.org/10.1063/5.0224809).
 This is done in a number of steps.
 
 In the first step, generate an orientation file.

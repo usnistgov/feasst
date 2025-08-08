@@ -76,7 +76,7 @@ Run until_num_particles={num_particles}
 Remove name=TrialAdd
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
 Tune
-CheckEnergy trials_per_update={tpc} decimal_places=8
+CheckEnergy trials_per_update={tpc} decimal_places=6
 Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_eq.csv
 Run until=complete

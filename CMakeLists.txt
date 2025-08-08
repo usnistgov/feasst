@@ -456,6 +456,8 @@ if (USE_SPHINX)
     ${CMAKE_SOURCE_DIR}/dev/sphinx/_build/_templates/boilerplate-footer.html ${BINARY_BUILD_DIR}/_templates/boilerplate-footer.html COPYONLY)
   configure_file(
     ${CMAKE_SOURCE_DIR}/dev/sphinx/_build/_templates/searchbox.html ${BINARY_BUILD_DIR}/_templates/searchbox.html COPYONLY)
+  configure_file(
+    ${CMAKE_SOURCE_DIR}/dev/sphinx/refs.bib ${BINARY_BUILD_DIR}/refs.bib COPYONLY)
 
   add_custom_target(html ALL
     ${SPHINX_EXECUTABLE}

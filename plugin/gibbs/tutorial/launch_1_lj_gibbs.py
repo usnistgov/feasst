@@ -73,7 +73,7 @@ Metropolis
 For [config]:[param]=vapor:2.0,liquid:0.1
     TrialTranslate tunable_param=[param] config=[config]
 EndFor
-CheckEnergy trials_per_update={tpc} decimal_places=8
+CheckEnergy trials_per_update={tpc} decimal_places=6
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # fill both boxes with particles

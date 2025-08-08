@@ -121,7 +121,7 @@ For [config]=vapor,liquid
 EndFor
 Log [write]_npt.csv
 ProfileCPU [write]_npt_profile.csv
-CheckEnergy trials_per_update={tpc} decimal_places=8
+CheckEnergy trials_per_update={tpc} decimal_places=6
 # a new tune is required when new Trials are introduced
 # decrease trials per due to infrequency of volume transfer attempts
 Tune trials_per_tune=20

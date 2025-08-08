@@ -57,6 +57,10 @@ def write_feasst_script(params, script_file):
         print('pressure', pressure)
         params['pressure'] = pressure
         params['sim'] = sim
+        if sim == 0:
+            params['let_write'] = """Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}""".format(**params)
+        else:
+            params['let_write'] = ""
         script += one_sim(params) + '\n'
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write(script)
@@ -76,7 +80,7 @@ CheckEnergy trials_per_update={tpc} decimal_places=4
 
 # gcmc initialization
 TrialAdd particle_type=lj
-Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
+{let_write}
 Log [write]_init.csv
 Tune
 Run until_num_particles={num_particles}

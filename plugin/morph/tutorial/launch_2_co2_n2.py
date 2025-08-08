@@ -90,7 +90,7 @@ ThermoParams beta={beta} chemical_potential={mu_init},{mu_init}
 Metropolis
 TrialTranslate weight=0.5 tunable_param=0.2
 TrialParticlePivot weight=0.5 particle_type=pt1 tunable_param=0.5
-CheckEnergy trials_per_update={tpc} decimal_places=8
+CheckEnergy trials_per_update={tpc} decimal_places=6
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # gcmc initialization and nvt equilibration

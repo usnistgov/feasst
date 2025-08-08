@@ -52,7 +52,8 @@ breathe_projects = {
 
 breathe_domain_by_extension = {"h" : "cc"}
 
-bibtex_bibfiles = ['dev/sphinx/refs.bib']
+bibtex_bibfiles = ['refs.bib']
+#bibtex_bibfiles = ['dev/sphinx/refs.bib']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

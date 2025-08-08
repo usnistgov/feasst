@@ -50,19 +50,6 @@ def parse():
     params['hours_terminate'] = 0.99*params['hours_terminate'] - 0.0333 # terminate before queue
     params['procs_per_sim'] = 1
     params['num_sims'] = params['num_nodes']*params['procs_per_node']
-    return params, args
-
-def sim_node_dependent_params(params):
-    """ Set parameters that depent upon the sim or node here. """
-    if params['sim'] == 0: params['domain'] = 'fc'
-    if params['sim'] == 1: params['domain'] = 'fab1'
-    if params['sim'] == 2: params['domain'] = 'fab2'
-    if params['sim'] == 3: params['domain'] = 'fv1'
-    if params['sim'] == 4: params['domain'] = 'fv2'
-    if params['sim'] == 5: params['domain'] = 'ch1_1'
-    if params['sim'] == 6: params['domain'] = 'ch1_2'
-    if params['sim'] == 7: params['domain'] = 'ch2'
-    if params['sim'] == 8: params['domain'] = 'ch3'
 
     # From table S2 of https://doi.org/10.1016/j.xphs.2018.12.013
     # Heavy chains are B and D, while light chains are A and C, for fab1 and fab2, respectively.
@@ -89,10 +76,10 @@ def sim_node_dependent_params(params):
     fab2 = coarse_grain_pdb.subset(pdb_file=params['pdb_file'], chains=chains['fab2'])
     r_com_fab2 = coarse_grain_pdb.center_of_mass(fab2)/10
 
-    coarse_grain_pdb.pdb_to_fstprt(hinge, '1igt_hinge.txt')
-    coarse_grain_pdb.pdb_to_fstprt(fc, '1igt_fc.txt')
-    coarse_grain_pdb.pdb_to_fstprt(fab1, '1igt_fab1.txt')
-    coarse_grain_pdb.pdb_to_fstprt(fab2, '1igt_fab2.txt')
+    coarse_grain_pdb.pdb_to_fstprt(hinge, '1igt_hinge.fstprt')
+    coarse_grain_pdb.pdb_to_fstprt(fc, '1igt_fc.fstprt')
+    coarse_grain_pdb.pdb_to_fstprt(fab1, '1igt_fab1.fstprt')
+    coarse_grain_pdb.pdb_to_fstprt(fab2, '1igt_fab2.fstprt')
 
     # 7 bead (fv[1,2], ch1_[1,2], ch2, ch3 and hinge)
     fv1 = coarse_grain_pdb.subset(pdb_file=params['pdb_file'], chains=chains['fv1'])
@@ -108,12 +95,12 @@ def sim_node_dependent_params(params):
     ch3 = coarse_grain_pdb.subset(pdb_file=params['pdb_file'], chains=chains['ch3'])
     r_com_ch3 = coarse_grain_pdb.center_of_mass(ch3)/10
 
-    coarse_grain_pdb.pdb_to_fstprt(fv1, '1igt_fv1.txt')
-    coarse_grain_pdb.pdb_to_fstprt(fv2, '1igt_fv2.txt')
-    coarse_grain_pdb.pdb_to_fstprt(ch1_1, '1igt_ch1_1.txt')
-    coarse_grain_pdb.pdb_to_fstprt(ch1_2, '1igt_ch1_2.txt')
-    coarse_grain_pdb.pdb_to_fstprt(ch2, '1igt_ch2.txt')
-    coarse_grain_pdb.pdb_to_fstprt(ch3, '1igt_ch3.txt')
+    coarse_grain_pdb.pdb_to_fstprt(fv1, '1igt_fv1.fstprt')
+    coarse_grain_pdb.pdb_to_fstprt(fv2, '1igt_fv2.fstprt')
+    coarse_grain_pdb.pdb_to_fstprt(ch1_1, '1igt_ch1_1.fstprt')
+    coarse_grain_pdb.pdb_to_fstprt(ch1_2, '1igt_ch1_2.fstprt')
+    coarse_grain_pdb.pdb_to_fstprt(ch2, '1igt_ch2.fstprt')
+    coarse_grain_pdb.pdb_to_fstprt(ch3, '1igt_ch3.fstprt')
 
     # compute the distances and angles between the COM of pairs and triplets of domains
     # compare with table S1 of https://doi.org/10.1016/j.xphs.2018.12.013
@@ -164,16 +151,30 @@ def sim_node_dependent_params(params):
     rg2 /= len(hinge['x_coord'])
     print('2rg=sigma_hinge', 2*np.sqrt(rg2)/10, 'nm vs 1.52')
 
+    return params, args
+
+def sim_node_dependent_params(params):
+    """ Set parameters that depent upon the sim or node here. """
+    if params['sim'] == 0: params['domain'] = 'fc'
+    if params['sim'] == 1: params['domain'] = 'fab1'
+    if params['sim'] == 2: params['domain'] = 'fab2'
+    if params['sim'] == 3: params['domain'] = 'fv1'
+    if params['sim'] == 4: params['domain'] = 'fv2'
+    if params['sim'] == 5: params['domain'] = 'ch1_1'
+    if params['sim'] == 6: params['domain'] = 'ch1_2'
+    if params['sim'] == 7: params['domain'] = 'ch2'
+    if params['sim'] == 8: params['domain'] = 'ch3'
+
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
 RandomMT19937 seed={seed}
-Configuration cubic_side_length=200 particle_type=domain:1igt_{domain}.txt add_num_domain_particles 2 \
-    group=first,com first_particle_index=0 com_site_type=5
+Configuration cubic_side_length=200 particle_type=domain:1igt_{domain}.fstprt add_num_domain_particles=2 \
+    group=first,com first_particle_index=0 com_site_type=COM
 Potential Model=HardSphere VisitModel=VisitModelCell min_length=3.9 energy_cutoff=1e100
-RefPotential ref=hs Model=HardSphere sigma=0 sigma5=30 cutoff=0 cutoff5=30 group=com
+RefPotential ref=hs Model=HardSphere sigma=0 sigmaCOM=30 cutoff=0 cutoffCOM=30 group=com
 ThermoParams beta=1
 MayerSampling trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
 TrialTranslate new_only=true ref=hs tunable_param=1 group=first

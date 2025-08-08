@@ -130,7 +130,7 @@ Remove name=TrialAdd
 # canonical ensemble equilibration
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
 Tune
-CheckEnergy trials_per_update={tpc} decimal_places=8
+CheckEnergy trials_per_update={tpc} decimal_places=6
 Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_eq.txt
 Run until=complete

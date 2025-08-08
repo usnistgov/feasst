@@ -16,12 +16,15 @@ typedef std::map<std::string, std::string> argtype;
 class TrialSelectParticle : public TrialSelect {
  public:
   //@{
-  /** @name Arguments
+  /*
+    Users typically do not set the following values:
     - load_coordinates: load the coordinates into the selection (default: true)
-    - site: site name to select. If all sites, set to -1 (default).
     - ghost: select ghost particles (default: false).
     - half_ghost: select ghost particles half of the time (default: false).
     - exclude_perturbed: if true, exclude perturbed particle (default: false)
+   */
+  /** @name Arguments
+    - site: site name to select. If all sites, set to -1 (default).
     - min_particles: do not select if less than min number of particles.
       If -1, no constraint (default: -1).
       Note that this is the number of particles before the Trial.

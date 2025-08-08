@@ -17,6 +17,7 @@ std::string str(const std::string& key, const argtype& args) {
 std::pair<std::string, argtype> parse_line(const std::string line,
   argtype * variables,
   bool * assign_to_list) {
+  DEBUG("line: " << line);
   // variable replacement if not Let
   std::string new_line = line;
   // remove anything after the # comment character
@@ -30,6 +31,7 @@ std::pair<std::string, argtype> parse_line(const std::string line,
       replace(pair.first, pair.second, &new_line);
     }
   }
+  DEBUG("new_line: " << new_line);
   std::stringstream ss(new_line);
   std::string major;
   ss >> major;
@@ -40,7 +42,8 @@ std::pair<std::string, argtype> parse_line(const std::string line,
     ASSERT(ss.str().find('=') != std::string::npos,
       "Let requires an \"=\" to define a variable value");
     ASSERT(ss.str().find('[') != std::string::npos,
-      "Let requires a [ to enclose a [variable].");
+      "Let requires a [ to enclose a [variable]. " <<
+      "Also check that the variable was not preivously defined.");
     ASSERT(ss.str().find("]=") != std::string::npos,
       "Let requires a \"]=\" to enclose a [variable] and define its value.");
     std::stringstream ss2(new_line);

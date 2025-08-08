@@ -38,7 +38,7 @@ TEST(VisitModelCell, lj_reference_config) {
   EXPECT_NEAR(-15.076312312129405, visit.energy(), 5e-12);
 
   /// test energy of selection
-  auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
+  auto tsel = MakeTrialSelectParticle({{"particle_type", "lj"}});
   { System sys;
     sys.add(std::make_shared<Configuration>(config));
     tsel->precompute(&sys);
@@ -82,7 +82,7 @@ TEST(VisitModelCell, spce_reference_config) {
   EXPECT_NEAR(896.85497602741475, visit.energy(), 5e-12);
 
   /// test energy of selection
-  auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
+  auto tsel = MakeTrialSelectParticle({{"particle_type", "spce"}});
   {
     System sys;
     sys.add(std::make_shared<Configuration>(config));

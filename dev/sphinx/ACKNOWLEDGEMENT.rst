@@ -15,6 +15,7 @@ For `contributing <https://github.com/usnistgov/feasst/graphs/contributors>`_, t
 * Bartosz Mazur
 
   * TablePotential fix https://github.com/usnistgov/feasst/pull/25
+  * Run::num_trials int64 https://github.com/usnistgov/feasst/pull/31
 
 For testing and discussion:
 

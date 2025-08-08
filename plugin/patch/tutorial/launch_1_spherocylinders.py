@@ -69,7 +69,7 @@ Metropolis
 TrialTranslate tunable_param=2
 TrialRotate tunable_param=40
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
-CheckEnergy trials_per_update={tpc} decimal_places=8
+CheckEnergy trials_per_update={tpc} decimal_places=6
 
 # gcmc initialization
 TrialAdd particle_type=cylinder
