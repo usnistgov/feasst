@@ -121,7 +121,7 @@ void Stepper::set_state(const int state) {
 
 void Stepper::serialize(std::ostream& ostr) const {
   ostr << class_name() << " ";
-  feasst_serialize_version(498, ostr);
+  feasst_serialize_version(499, ostr);
   feasst_serialize(trials_since_update_, ostr);
   feasst_serialize(trials_since_write_, ostr);
   feasst_serialize(trials_per_update_, ostr);
@@ -140,6 +140,7 @@ void Stepper::serialize(std::ostream& ostr) const {
   feasst_serialize(config_, ostr);
   feasst_serialize(rewrite_header_, ostr);
   feasst_serialize(accumulator_, ostr);
+  feasst_serialize_fstobj(data_, ostr);
   feasst_serialize_endcap("Stepper", ostr);
 }
 
@@ -147,7 +148,7 @@ Stepper::Stepper(std::istream& istr) {
   std::string name;
   istr >> name;
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 497 && version <= 498, version);
+  ASSERT(version >= 497 && version <= 499, version);
   feasst_deserialize(&trials_since_update_, istr);
   feasst_deserialize(&trials_since_write_, istr);
   feasst_deserialize(&trials_per_update_, istr);
@@ -175,6 +176,9 @@ Stepper::Stepper(std::istream& istr) {
     if (existing != 0) {
       accumulator_ = std::make_shared<Accumulator>(istr);
     }
+  }
+  if (version >= 499) {
+    feasst_deserialize_fstobj(&data_, istr);
   }
   feasst_deserialize_endcap("Stepper", istr);
 }

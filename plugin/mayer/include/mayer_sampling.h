@@ -22,6 +22,13 @@ Extrapolation in temperature is performed as descirbed in :footcite:t:`hatch_com
 The coefficients for the Taylor series extrapolation are written to file
 and include the factorial division.
 
+The RefPotential may need to be carefully adjusted when the tutorials are changed.
+Typically, the RefPotential is a HardSphere with a given ModelParams::sigma.
+For example, in <a href="../tutorial/tutorial_4_cgmab.html">this tutorial</a>, the size of the HardSphere RefPotential is given by "sigmaCOM=30 cutoffCOM=30".
+Too small of a sigma leads to high error bars because the RefPotential will not often be sampled while sampling the Potential.
+Too large of a sigma means the RefPotential will not be fully sampled while sampling the Potential, and therefore gives incorrect results.
+A more optimal value of sigma typically results in a mayer_ref() of approximately 0.3 to 0.5.
+
 References:
 
 .. footbibliography::

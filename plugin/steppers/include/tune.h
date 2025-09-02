@@ -43,10 +43,13 @@ class Tune : public Modify {
   //@}
  private:
   int trials_per_tune_;
-  std::vector<double> values_;
-  std::vector<int> num_attempts_;
-  std::vector<int> num_accepted_;
 
+  std::vector<double> * get_values_() { return &((*data_.get_dble_2D())[0]); }
+  const std::vector<double>& values_() const { return data_.dble_2D()[0]; }
+  std::vector<int> * get_num_attempts_() { return &((*data_.get_int_2D())[0]); }
+  const std::vector<int>& num_attempts_() const { return data_.int_2D()[0]; }
+  std::vector<int> * get_num_accepted_() { return &((*data_.get_int_2D())[1]); }
+  const std::vector<int>& num_accepted_() const { return data_.int_2D()[1]; }
   int min_num(const TrialFactory& trial_factory) const;
 };
 

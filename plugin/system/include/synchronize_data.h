@@ -9,8 +9,8 @@
 
 namespace feasst {
 
-typedef std::vector<std::vector<std::vector<std::vector<
-  std::vector<double> > > > > vec5;
+typedef std::vector<std::vector<std::vector<std::vector<double> > > > vec4;
+typedef std::vector<vec4> vec5;
 typedef std::vector<vec5> vec6;
 typedef std::vector<std::pair<int, std::vector<double> > > vpv;
 typedef std::vector<std::pair<int, vpv> > vpvpv;
@@ -42,6 +42,12 @@ class SynchronizeData {
   /// Get 1D 32-bit integer data.
   std::vector<int> * get_int_1D() { return &int_1D_; }
 
+  /// Return 2D 32-bit integer data.
+  const std::vector<std::vector<int> >& int_2D() const { return int_2D_; }
+
+  /// Get 1D 32-bit integer data.
+  std::vector<std::vector<int> > * get_int_2D() { return &int_2D_; }
+
   /// Get 1D 64-bit integer data.
   std::vector<int64_t> * get_int64_1D() { return &int64_1D_; }
 
@@ -58,6 +64,12 @@ class SynchronizeData {
   /// Get 3D data.
   std::vector<std::vector<std::vector<double> > > * get_dble_3D() {
     return &dble_3D_; }
+
+  /// Return 4D data.
+  const vec4& dble_4D() const { return dble_4D_; }
+
+  /// Get 4D data.
+  vec4 * get_dble_4D() { return &dble_4D_; }
 
   /// Return 5D data.
   const vec5& dble_5D() const { return dble_5D_; }
@@ -90,8 +102,10 @@ class SynchronizeData {
   std::vector<double> dble_1D_;
   std::vector<int> int_1D_;
   std::vector<int64_t> int64_1D_;
+  std::vector<std::vector<int> > int_2D_;
   std::vector<std::vector<double> > dble_2D_;
   std::vector<std::vector<std::vector<double> > > dble_3D_;
+  vec4 dble_4D_;
   vec5 dble_5D_;
   vec6 dble_6D_;
   vpvpvpvpv vpvpvpvpv_;

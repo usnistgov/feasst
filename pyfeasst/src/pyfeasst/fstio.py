@@ -14,6 +14,7 @@ import multiprocessing
 from itertools import repeat
 import numpy as np
 from pathlib import Path
+import itertools
 
 def dict_to_argparse(dictionary):
     """
@@ -616,6 +617,40 @@ def write_linear_grow_file(filename, num_sites=None, gce=0, ref="", num_steps=4,
 
                 if wrote:
                     file1.write("\n")
+
+def prefetch_acceptance(acceptance, num_processors):
+    """
+    Given the desired acceptance, output the target acceptance for a parallelized trial move to
+    achieve that acceptance.
+    Prefetch trial moves are biased because the last trial in each cycle is updated with modify
+    a number of times equal to the minimum of the number of processors or first accepted thread.
+
+    >>> from pyfeasst import fstio
+    >>> round(fstio.prefetch_acceptance(0.5, 2), 8)
+    0.66666667
+    >>> round(fstio.prefetch_acceptance(0.25, 2), 8)
+    0.35714286
+    >>> round(fstio.prefetch_acceptance(0.25, 3), 8)
+    0.4527027
+    """
+    top=0
+    bottom=0
+    for comb in itertools.product(range(2), repeat=num_processors):
+        sm=sum(comb)
+        prob = acceptance**(sm)*(1-acceptance)**(num_processors - sm)
+        should_count = 0
+        for c in comb:
+            if c == 1:
+                should_count = 1
+                break
+        count = 0
+        for ic,c in enumerate(comb):
+            if c == 1:
+                count = ic + 1
+                break
+        top += count*prob
+        bottom += should_count*prob
+    return acceptance*top/bottom
 
 class cd:
     """

@@ -1,5 +1,5 @@
 ==================================================================
-Canonical ensemble Lennard-Jones with Prefetching
+Prefetching Gibbs Ensemble Monte Carlo LJ simulation
 ==================================================================
 
-.. literalinclude:: launch_2_lj_nvt_prefetch.py
+.. literalinclude:: launch_4_lj_gibbs_prefetch.py

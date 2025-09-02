@@ -1,8 +1,8 @@
 
 .. toctree::
 
+   PerturbBeta
    ComputeBeta
    SelectNothing
-   PerturbBeta
    TrialBeta
    MacrostateBeta

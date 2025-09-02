@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <memory>
+#include "system/include/synchronize_data.h"
 
 namespace feasst {
 
@@ -175,6 +176,12 @@ class Stepper {
   /// Replicate the stepper individually for each state during initialization
   /// of the factory.
   void set_multistate(const bool multi) { is_multistate_ = multi; }
+
+  // prefetch synchronization
+  const SynchronizeData& data() const { return data_; }
+
+ protected:
+  SynchronizeData data_;
 
  private:
   int trials_per_update_;

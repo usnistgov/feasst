@@ -82,10 +82,14 @@ class Prefetch : public MonteCarlo {
   /**
     args:
     - trials_per_check: number of steps between check (default: 1e6)
-    - load_balance: batches contain all of the same trial type (default: false).
-      This violates detailed balance, and is known in cases of high acceptance
-      to give erroneous results.
-      Only use load_balance for equilibration and never for production simulations.
+    - load_balance: number of trials in a batch of attempted trials of the same
+      trial type (default: -1).
+      If < 1, do not load balance.
+      If == 1 (not recommended), load balance more efficiently by breaking
+      detailed balance, where each batch is simply the number of processors
+      regardless of first accepted trial.
+      If > 1, load balance by performing this many attempted trials, not
+      counting trials after the first accepted.
     - synchronize: synchronize data with accepted thread (default: false).
     - ghost: update transition matrix even for trials after acceptance (default: false).
    */
@@ -131,7 +135,9 @@ class Prefetch : public MonteCarlo {
   bool is_synchronize_;
   int trials_per_check_;
   int trials_since_check_ = 0;
-  bool load_balance_;
+  int trials_since_balance_ = 0;
+  int load_balance_;
+  int load_balance_trial_;
   bool ghost_;
 
   // temporary

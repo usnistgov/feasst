@@ -243,7 +243,7 @@ int main() {
       auto mc = std::make_shared<MonteCarlo>(list);
     }
   } else if (line.substr(0, 8) == "Prefetch") {
-    std::cout << "Prefetch" << std::endl;
+    std::cout << line << std::endl;
     parse_prefetch(line);
   } else if (line.substr(0, 22) == "CollectionMatrixSplice") {
     parse_cm(line);

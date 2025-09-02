@@ -41,6 +41,8 @@ class Modify : public Stepper {
   virtual const Modify& modify(const int index) const;
   virtual Modify * get_modify(const int index);
 
+  virtual void synchronize_(const Modify& modify) { data_ = modify.data(); }
+
   // serialization
   std::string class_name() const override { return std::string("Modify"); }
   virtual void serialize(std::ostream& ostr) const;

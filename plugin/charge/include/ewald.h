@@ -167,8 +167,8 @@ class Ewald : public VisitModel {
   /// Return the wave vector number for a given dimension.
   int wave_num(const int vector_index, const int dim) const;
 
-  /// Return the prefactor in the fourier-space term for each vector.
-  const std::vector<double>& wave_prefactor() const { return wave_prefactor_; }
+  // Return the prefactor in the fourier-space term for each vector.
+  //const std::vector<double>& wave_prefactor() const { return wave_prefactor_; }
 
   /// Return the number of vectors in the x dimension.
   int num_kx() const { return num_kx_; }
@@ -188,8 +188,9 @@ class Ewald : public VisitModel {
   /// Return the cutoff of the wave vector in the z dimension.
   int kzmax() const { return kzmax_; }
 
-  /// Return the spherical cutoff of the wave vectors.
-  double kmax_squared() const { return kmax_squared_; }
+  // See synchronize data:
+  // Return the spherical cutoff of the wave vectors.
+  // double kmax_squared() const { return kmax_squared_; }
 
 //  /// Return the eik vectors directly.
 //  double eik(const int part_index, const int site_index,
@@ -232,47 +233,66 @@ class Ewald : public VisitModel {
 
   //@}
  private:
+  const int dimension_ = 3;
   // HWH serialize
-  std::shared_ptr<double> tolerance_, alpha_arg_;
+  std::shared_ptr<double> tolerance_;
+  std::shared_ptr<double> alpha_arg_;
   std::shared_ptr<int> tolerance_num_sites_, kxmax_arg_, kymax_arg_, kzmax_arg_, kmax_sq_arg_;
-  int kxmax_, kymax_, kzmax_;
-  double kmax_squared_;
-  double kmax_squared_new_;
+  int kxmax_;
+  int kymax_;
+  int kzmax_;
   int num_kx_;
   int num_ky_;
   int num_kz_;
-  std::vector<double> wave_prefactor_;
-  std::vector<double> wave_prefactor_new_;
+  double uy_, uz_, vz_;
+  double uy_new_, uz_new_, vz_new_;
   std::vector<int> wave_num_;
   std::vector<int> wave_num_new_;
-  const int dimension_ = 3;
-  //double stored_energy_ = 0.;
-  double ux_, uy_, uz_, vy_, vz_, wz_;
-  double ux_new_, uy_new_, uz_new_, vy_new_, vz_new_, wz_new_;
 
   // synchronization data
   double stored_energy() const { return data_.dble_1D()[0]; }
   double * stored_energy_() { return &((*data_.get_dble_1D())[0]); }
-  std::vector<double> * struct_fact_real_();
-  std::vector<double> * struct_fact_imag_();
+  double * kmax_squared_() { return &(*data_.get_dble_1D())[1]; }
+  const double kmax_squared() const { return data_.dble_1D()[1]; }
+  double * kmax_squared_new_() { return &(*data_.get_dble_1D())[2]; }
+  const double kmax_squared_new() const { return data_.dble_1D()[2]; }
+  double * ux_() { return &(*data_.get_dble_1D())[3]; }
+  const double ux() const { return data_.dble_1D()[3]; }
+  double * vy_() { return &(*data_.get_dble_1D())[4]; }
+  const double vy() const { return data_.dble_1D()[4]; }
+  double * wz_() { return &(*data_.get_dble_1D())[5]; }
+  const double wz() const { return data_.dble_1D()[5]; }
+  double * ux_new_() { return &(*data_.get_dble_1D())[6]; }
+  const double ux_new() const { return data_.dble_1D()[6]; }
+  double * vy_new_() { return &(*data_.get_dble_1D())[7]; }
+  const double vy_new() const { return data_.dble_1D()[7]; }
+  double * wz_new_() { return &(*data_.get_dble_1D())[8]; }
+  const double wz_new() const { return data_.dble_1D()[8]; }
+  std::vector<double> * struct_fact_real_() { return &((*data_.get_dble_2D())[0]); }
+  std::vector<double> * struct_fact_imag_() { return &((*data_.get_dble_2D())[1]); }
+  std::vector<double> * struct_fact_real_new_() { return &((*data_.get_dble_2D())[2]); }
+  const std::vector<double>& struct_fact_real_new() const { return data_.dble_2D()[2]; }
+  std::vector<double> * struct_fact_imag_new_() { return &((*data_.get_dble_2D())[3]); }
+  const std::vector<double>& struct_fact_imag_new() const { return data_.dble_2D()[3]; }
+  std::vector<double> * wave_prefactor_() { return &((*data_.get_dble_2D())[4]); }
+  const std::vector<double>& wave_prefactor() const { return data_.dble_2D()[4]; }
+  std::vector<double> * wave_prefactor_new_() { return &((*data_.get_dble_2D())[5]); }
+  const std::vector<double>& wave_prefactor_new() const { return data_.dble_2D()[5]; }
 
-  // new eik implementation, Ewald contains all eik information.
+  // Ewald contains all eik information.
   // eik_[particle_index][site_index][eik_index]
   std::vector<std::vector<std::vector<double> > > * eik_();
   // temporary
-  std::vector<std::vector<std::vector<double> > > eik_new_;
+  std::vector<std::vector<std::vector<double> > > * eik_new_();
+  const std::vector<std::vector<std::vector<double> > >& eik_new() const;
 
-  // not temporary (for sizing)
-  std::vector<double> struct_fact_real_new_;
-  std::vector<double> struct_fact_imag_new_;
   // temporary
   double stored_energy_new_ = 0.;
-
-  // temporary
   bool finalizable_ = false;
 
   /// Return the sum of the squared charge.
-  double sum_squared_charge_(const Configuration& config);
+  /// If Configuraiton has no particles but num_sites != 0, assume first particle type.
+  double sum_squared_charge_(const Configuration& config, const int num_sites);
 
   /// Return the Fourier root mean squared accuracy for a given dimension.
   double fourier_rms_(

@@ -138,6 +138,13 @@ void ModifyFactory::set_timer() {
   timer_ = std::make_unique<TimerRDTSC>(num());
 }
 
+void ModifyFactory::synchronize_(const Modify& modify) {
+  Modify::synchronize_(modify);
+  for (int imod = 0; imod < num(); ++imod) {
+    modifiers_[imod]->synchronize_(modify.modify(imod));
+  }
+}
+
 ModifyFactory::ModifyFactory(std::istream& istr) : Modify(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 7177, "unrecognized verison: " << version);

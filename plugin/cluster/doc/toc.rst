@@ -1,35 +1,35 @@
 
 .. toctree::
 
+   TrialRemoveAVBDivalent
    ComputeMoveCluster
-   SelectCluster
-   TrialRemoveAVB
-   TrialTransferAVB
-   TrialRigidCluster
-   TrialTranslateCluster
+   ComputeGCA
+   ComputeRemoveAVB
    TrialAddAVB
    TrialAddAVBDivalent
-   TrialRemoveAVBDivalent
-   TrialTransferAVBDivalent
-   TrialAVB2
    TrialRotateCluster
-   TrialAVB4
-   EnergyMapNeighbor
-   EnergyMapNeighborCriteria
+   ComputeAVB4
+   ComputeAddAVB
+   TrialTranslateCluster
    EnergyMapAll
    EnergyMapAllCriteria
-   ComputeAVB4
    ComputeAVB2
-   ComputeRemoveAVB
-   ComputeAddAVB
-   ComputeGCA
+   TrialTransferAVBDivalent
+   TrialRigidCluster
+   TrialAVB2
+   TrialTransferAVB
+   EnergyMapNeighbor
+   EnergyMapNeighborCriteria
+   TrialRemoveAVB
+   TrialAVB4
+   SelectCluster
+   CalculateCluster
+   AnalyzeCluster
    PerturbPointReflect
+   PerturbRotateCOM
    PerturbMoveAVB
    PerturbAddAVB
-   PerturbRotateCOM
-   ComputeAddAVBDivalent
    ComputeRemoveAVBDivalent
-   SelectParticleAVBDivalent
    SelectParticleAVB
-   AnalyzeCluster
-   CalculateCluster
+   ComputeAddAVBDivalent
+   SelectParticleAVBDivalent

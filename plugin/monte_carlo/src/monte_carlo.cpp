@@ -873,6 +873,7 @@ void MonteCarlo::synchronize_(const MonteCarlo& mc,
   system_->synchronize_(mc.system(), perturbed);
   criteria_->synchronize_(mc.criteria());
   trial_factory_->synchronize_(mc.trials());
+  modify_factory_->synchronize_(mc.modify_factory());
 }
 
 std::shared_ptr<MonteCarlo> MakeMonteCarlo(const std::string file_name) {

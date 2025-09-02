@@ -27,7 +27,11 @@ namespace feasst {
 Prefetch::Prefetch(argtype args) {
   activate_prefetch();
   trials_per_check_ = integer("trials_per_check", &args, 1e6);
-  load_balance_ = boolean("load_balance", &args, false);
+  load_balance_ = integer("load_balance", &args, -1);
+  if (load_balance_ == 1) {
+    WARN("load_balance=1 breaks detailed balance but is more efficient.");
+  }
+  DEBUG("load_balance:" << load_balance_);
   ghost_ = boolean("ghost", &args, false);
   is_synchronize_ = boolean("synchronize", &args, false);
   #ifdef DEBUG_SERIAL_MODE_5324634
@@ -132,6 +136,8 @@ void Prefetch::attempt_(
     create(&pool_);
   }
 
+  int num_threads_batch = num_threads_;
+  load_balance_trial_ = trial_factory->random_index(random);
   int itrial = 0;
   int first_thread_accepted;
   int proc_id = 0;
@@ -165,14 +171,33 @@ void Prefetch::attempt_(
 
       // ordered list of index of trial to perform on each thread.
       if (proc_id == 0) {
-        if (load_balance_) {
-          // perform the same type of trial on each thread.
-          const int index = trial_factory->random_index(random);
+        if (load_balance_ == 1) {
+          load_balance_trial_ = trial_factory->random_index(random);
           for (int ithread = 0; ithread < num_threads_; ++ithread) {
-            pool_[ithread].set_index(index);
+            pool_[ithread].set_index(load_balance_trial_);
           }
+        } else if (load_balance_ > 1) {
+          // perform the same type of trial on each thread.
+          num_threads_batch = 0;
+          ASSERT(trials_since_balance_ <= load_balance_,
+            "trials_since_balance:" << trials_since_balance_ <<
+            "load_balance:" << load_balance_);
+          if (trials_since_balance_ == load_balance_) {
+            trials_since_balance_ = 0;
+            load_balance_trial_ = trial_factory->random_index(random);
+          }
+          for (int ithread = 0; ithread < num_threads_; ++ithread) {
+            if (trials_since_balance_ + ithread < load_balance_) {
+              pool_[ithread].set_index(load_balance_trial_);
+              ++num_threads_batch;
+            } else {
+              pool_[ithread].set_index(-1);
+            }
+          }
+          DEBUG("num_threads_batch:" << num_threads_batch);
+          DEBUG("trials_since_balance:" << trials_since_balance_);
         } else {
-          // randomly generator the type of trial for each thread.
+          // randomly generate the type of trial for each thread.
           for (int ithread = 0; ithread < num_threads_; ++ithread) {
             pool_[ithread].set_index(trial_factory->random_index(random));
           }
@@ -206,13 +231,17 @@ void Prefetch::attempt_(
       // Each processor attempts their trial in parallel,
       // without analyze modify or checkpoint.
       // Store new macrostate and acceptance prob
-      pool->set_accepted(mc->attempt_trial(pool->index()));
-      pool->set_auto_rejected(mc->trial(pool->index()).accept().reject());
-      pool->set_endpoint(mc->trial(pool->index()).accept().endpoint());
-      pool->set_ln_prob(mc->trial(pool->index()).accept().ln_metropolis_prob());
-      DEBUG("proc id " << proc_id << " ln prob " << pool->ln_prob());
-      DEBUG("critical proc_id " << proc_id << " " << pool->str());
-      DEBUG("nump " << mc->system().configuration().num_particles());
+      if (pool->index() != -1) {
+        pool->set_accepted(mc->attempt_trial(pool->index()));
+        pool->set_auto_rejected(mc->trial(pool->index()).accept().reject());
+        pool->set_endpoint(mc->trial(pool->index()).accept().endpoint());
+        pool->set_ln_prob(mc->trial(pool->index()).accept().ln_metropolis_prob());
+        DEBUG("proc id " << proc_id << " ln prob " << pool->ln_prob());
+        DEBUG("critical proc_id " << proc_id << " " << pool->str());
+        DEBUG("nump " << mc->system().configuration().num_particles());
+      } else {
+        DEBUG("idling batch thread:" << proc_id);
+      }
 
       #ifdef DEBUG_SERIAL_MODE_5324634
       }
@@ -224,10 +253,10 @@ void Prefetch::attempt_(
 
       // Determine first trial accepted (if any).
       if (proc_id == 0) {
-        first_thread_accepted = num_threads_;
-        for (int ithread = 0; ithread < num_threads_; ++ithread) {
+        first_thread_accepted = num_threads_batch;
+        for (int ithread = 0; ithread < num_threads_batch; ++ithread) {
           if (pool_[ithread].accepted() &&
-              first_thread_accepted == num_threads_) {
+              first_thread_accepted == num_threads_batch) {
             first_thread_accepted = ithread;
             DEBUG(MAX_PRECISION << ithread << " accepted, en: " << clone_(ithread)->criteria().current_energy());
           }
@@ -243,7 +272,7 @@ void Prefetch::attempt_(
       if (proc_id == 0 && ghost_) {
         DEBUG("Update criteria with ghost trials (for TM) for each thread after first accepted");
         for (int ithread = first_thread_accepted + 1;
-             ithread < num_threads_;
+             ithread < num_threads_batch;
              ++ithread) {
           const Criteria& old_criteria = clone_(ithread)->criteria();
           for (int jthread = 0; jthread < num_threads_; ++jthread) {
@@ -268,8 +297,9 @@ void Prefetch::attempt_(
       #endif
 
       // revert trials after accepted trial.
-      if (first_thread_accepted != num_threads_) {
-        if (proc_id > first_thread_accepted) {
+      if (first_thread_accepted != num_threads_batch) {
+        if (proc_id > first_thread_accepted &&
+            proc_id < num_threads_batch) {
           DEBUG("reverting trial " << proc_id);
           mc->revert_(pool->index(), pool->accepted(), pool->endpoint(),
                       pool->auto_rejected(), pool->ln_prob());
@@ -343,7 +373,7 @@ void Prefetch::attempt_(
       {
       #endif
 
-      if (first_thread_accepted < num_threads_) {
+      if (first_thread_accepted < num_threads_batch) {
         DEBUG("Replicate first accepted trial in all other threads in proc_id " << proc_id);
         Pool * accepted_pool = &pool_[first_thread_accepted];
         if (proc_id != first_thread_accepted) {
@@ -369,7 +399,7 @@ void Prefetch::attempt_(
       {
       #endif
 
-      if (first_thread_accepted < num_threads_) {
+      if (first_thread_accepted < num_threads_batch) {
         if (is_synchronize_) {
           DEBUG("synchronize other threads with first accepted thread " << proc_id);
           Pool * accepted_pool = &pool_[first_thread_accepted];
@@ -439,12 +469,13 @@ void Prefetch::attempt_(
       //  ++itrial;
       //  ++trials_since_check_;
       if (proc_id == 0) {
-        int increment = num_threads_;
-        if (first_thread_accepted < num_threads_) {
+        int increment = num_threads_batch;
+        if (first_thread_accepted < num_threads_batch) {
           increment = first_thread_accepted + 1;
         }
         itrial += increment;
         trials_since_check_ += increment;
+        trials_since_balance_ += increment;
       }
 
 //      #ifdef DEBUG_SERIAL_MODE_5324634
@@ -560,10 +591,12 @@ void Prefetch::run_until_file_exists(const std::string& file_name,
 
 void Prefetch::serialize(std::ostream& ostr) const {
   MonteCarlo::serialize(ostr);
-  feasst_serialize_version(5686, ostr);
+  feasst_serialize_version(5687, ostr);
   feasst_serialize(is_activated_, ostr);
   feasst_serialize(trials_per_check_, ostr);
   feasst_serialize(trials_since_check_, ostr);
+  feasst_serialize(trials_since_balance_, ostr);
+  feasst_serialize(load_balance_trial_, ostr);
   feasst_serialize(load_balance_, ostr);
   feasst_serialize(is_synchronize_, ostr);
   feasst_serialize(ghost_, ostr);
@@ -571,10 +604,14 @@ void Prefetch::serialize(std::ostream& ostr) const {
 
 Prefetch::Prefetch(std::istream& istr) : MonteCarlo(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 5686, "version: " << version);
+  ASSERT(version >= 5686 && version >= 5687, "version: " << version);
   feasst_deserialize(&is_activated_, istr);
   feasst_deserialize(&trials_per_check_, istr);
   feasst_deserialize(&trials_since_check_, istr);
+  if (version >= 5687) {
+    feasst_deserialize(&trials_since_balance_, istr);
+    feasst_deserialize(&load_balance_trial_, istr);
+  }
   feasst_deserialize(&load_balance_, istr);
   feasst_deserialize(&is_synchronize_, istr);
   feasst_deserialize(&ghost_, istr);

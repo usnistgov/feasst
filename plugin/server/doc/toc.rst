@@ -2,6 +2,6 @@
 .. toctree::
 
    Listen
-   Server
    ModelServer
+   Server
    VisitModelInnerServer

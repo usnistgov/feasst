@@ -10,13 +10,13 @@
 #include "configuration/include/model_params.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/visit_configuration.h"
+#include "system/include/synchronize_data.h"
 #include "charge/include/ewald.h"
 
 namespace feasst {
 
 FEASST_MAPPER(Ewald,);
 
-Ewald::Ewald(argtype args) : Ewald(&args) { feasst_check_all_used(args); }
 Ewald::Ewald(argtype * args) {
   class_name_ = "Ewald";
   if (used("tolerance", *args)) {
@@ -40,9 +40,11 @@ Ewald::Ewald(argtype * args) {
   if (used("kmax_squared", *args)) {
     kmax_sq_arg_ = std::make_shared<int>(integer("kmax_squared", args));
   }
-  data_.get_dble_1D()->resize(1);
-  data_.get_dble_2D()->resize(2);
+  data_.get_dble_1D()->resize(9);
+  data_.get_dble_2D()->resize(6);
+  data_.get_dble_4D()->resize(1);
 }
+Ewald::Ewald(argtype args) : Ewald(&args) { feasst_check_all_used(args); }
 
 void Ewald::tolerance_to_alpha_ks(const double tolerance,
     const Configuration& config, double * alpha,
@@ -57,7 +59,7 @@ void Ewald::tolerance_to_alpha_ks(const double tolerance,
 
   // determine alpha
   *alpha = std::sqrt(num_sites*cutoff*config.domain().volume());
-  *alpha *= tolerance/(2.*sum_squared_charge_(config));
+  *alpha *= tolerance/(2.*sum_squared_charge_(config, num_sites));
   if (*alpha >= 1.) {
     *alpha = (1.35 - 0.15*log(tolerance))/cutoff; // from LAMMPS
   } else {
@@ -123,8 +125,8 @@ void Ewald::update_wave_vectors(const Configuration& config,
 }
 
 void Ewald::resize_struct_fact_new_(const int num_vectors) {
-  struct_fact_real_new_.resize(num_vectors);
-  struct_fact_imag_new_.resize(num_vectors);
+  struct_fact_real_new_()->resize(num_vectors);
+  struct_fact_imag_new_()->resize(num_vectors);
 }
 
 void Ewald::update_kmax_squared_(const Configuration& config,
@@ -142,7 +144,7 @@ void Ewald::update_kmax_squared_(const Configuration& config,
     *kmax_squared = std::max(*kmax_squared, gsqzmx);
   }
   *kmax_squared *= 1. - 1e-7;
-  DEBUG("kmax_squared_ " << *kmax_squared);
+  DEBUG("kmax_squared " << *kmax_squared);
 }
 
 void Ewald::precompute(Configuration * config) {
@@ -178,14 +180,14 @@ void Ewald::precompute(Configuration * config) {
   num_kx_ = kxmax_ + 1;
   num_ky_ = 2*kymax_ + 1;
   num_kz_ = 2*kzmax_ + 1;
-  update_kmax_squared_(*config, &kmax_squared_);
-  update_wave_vectors(*config, kmax_squared_, &wave_prefactor_, &wave_num_,
-                      &ux_, &uy_, &uz_, &vy_, &vz_, &wz_);
-  struct_fact_real_()->resize(wave_prefactor_.size());
-  struct_fact_imag_()->resize(wave_prefactor_.size());
-  resize_struct_fact_new_(wave_prefactor_.size());
+  update_kmax_squared_(*config, kmax_squared_());
+  update_wave_vectors(*config, kmax_squared(), wave_prefactor_(), &wave_num_,
+                      ux_(), &uy_, &uz_, vy_(), &vz_, wz_());
+  struct_fact_real_()->resize(wave_prefactor().size());
+  struct_fact_imag_()->resize(wave_prefactor().size());
+  resize_struct_fact_new_(wave_prefactor().size());
   std::cout << "# Ewald alpha: " << config->model_params().property("alpha") << std::endl;
-  std::cout << "# Ewald kmax_squared " << kmax_squared_ << std::endl;
+  std::cout << "# Ewald kmax_squared " << kmax_squared() << std::endl;
 }
 
 void Ewald::resize_eik_(const Configuration& config) {
@@ -250,6 +252,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
   // resize eik_new
   {
     int num_p = selection.num_particles();
+    DEBUG("sizing eik_new " << num_p);
     int extra = num_p - eik_new->size();
     if (extra > 0) {
       eik_new->resize(eik_new->size() + extra);
@@ -398,7 +401,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
 void Ewald::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_(ostr);
-  feasst_serialize_version(319, ostr);
+  feasst_serialize_version(320, ostr);
   feasst_serialize_sp(tolerance_, ostr);
   feasst_serialize_sp(tolerance_num_sites_, ostr);
   feasst_serialize_sp(alpha_arg_, ostr);
@@ -409,26 +412,26 @@ void Ewald::serialize(std::ostream& ostr) const {
   feasst_serialize(kxmax_, ostr);
   feasst_serialize(kymax_, ostr);
   feasst_serialize(kzmax_, ostr);
-  feasst_serialize(kmax_squared_, ostr);
+  //feasst_serialize(kmax_squared_, ostr);
   feasst_serialize(num_kx_, ostr);
   feasst_serialize(num_ky_, ostr);
   feasst_serialize(num_kz_, ostr);
-  feasst_serialize(wave_prefactor_, ostr);
+  //feasst_serialize(wave_prefactor_, ostr);
   feasst_serialize(wave_num_, ostr);
-  feasst_serialize(ux_, ostr);
+  //feasst_serialize(ux_, ostr);
   feasst_serialize(uy_, ostr);
   feasst_serialize(uz_, ostr);
-  feasst_serialize(vy_, ostr);
+  //feasst_serialize(vy_, ostr);
   feasst_serialize(vz_, ostr);
-  feasst_serialize(wz_, ostr);
-  feasst_serialize(struct_fact_real_new_, ostr);
-  feasst_serialize(struct_fact_imag_new_, ostr);
+  //feasst_serialize(wz_, ostr);
+//  feasst_serialize(struct_fact_real_new_, ostr);
+//  feasst_serialize(struct_fact_imag_new_, ostr);
   DEBUG("size: " << ostr.tellp());
 }
 
 Ewald::Ewald(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(319 == version, version);
+  ASSERT(version >= 320 && version <= 320, version);
 //  feasst_deserialize(tolerance_, istr);
 //  feasst_deserialize(alpha_arg_, istr);
   double value;
@@ -476,20 +479,30 @@ Ewald::Ewald(std::istream& istr) : VisitModel(istr) {
   feasst_deserialize(&kxmax_, istr);
   feasst_deserialize(&kymax_, istr);
   feasst_deserialize(&kzmax_, istr);
-  feasst_deserialize(&kmax_squared_, istr);
+  if (version <= 319) {
+    double a;
+    feasst_deserialize(&a, istr);
+    *kmax_squared_() = a;
+  }
   feasst_deserialize(&num_kx_, istr);
   feasst_deserialize(&num_ky_, istr);
   feasst_deserialize(&num_kz_, istr);
-  feasst_deserialize(&wave_prefactor_, istr);
+  //feasst_deserialize(&wave_prefactor_, istr);
   feasst_deserialize(&wave_num_, istr);
-  feasst_deserialize(&ux_, istr);
+  //feasst_deserialize(&ux_, istr);
   feasst_deserialize(&uy_, istr);
   feasst_deserialize(&uz_, istr);
-  feasst_deserialize(&vy_, istr);
+  //feasst_deserialize(&vy_, istr);
   feasst_deserialize(&vz_, istr);
-  feasst_deserialize(&wz_, istr);
-  feasst_deserialize(&struct_fact_real_new_, istr);
-  feasst_deserialize(&struct_fact_imag_new_, istr);
+  //feasst_deserialize(&wz_, istr);
+  if (version <= 319) {
+    WARN("Not exact deserialization due to version differences.");
+    std::vector<double> a, b;
+    feasst_deserialize(&a, istr);
+    feasst_deserialize(&b, istr);
+    *struct_fact_real_new_() = a;
+    *struct_fact_imag_new_() = b;
+  }
 }
 
 class SumCharge : public LoopConfigOneBody {
@@ -519,26 +532,27 @@ void Ewald::compute(
     const ModelParams& model_params,
     Configuration * config,
     const int group_index) {
-  update_kmax_squared_(*config, &kmax_squared_new_);
-  std::fill(struct_fact_real_new_.begin(), struct_fact_real_new_.end(), 0.);
-  std::fill(struct_fact_imag_new_.begin(), struct_fact_imag_new_.end(), 0.);
+  DEBUG("compute");
+  update_kmax_squared_(*config, kmax_squared_new_());
+  std::fill(struct_fact_real_new_()->begin(), struct_fact_real_new_()->end(), 0.);
+  std::fill(struct_fact_imag_new_()->begin(), struct_fact_imag_new_()->end(), 0.);
   resize_eik_(*config);
-  update_wave_vectors(*config, kmax_squared_new_, &wave_prefactor_new_,
-                      &wave_num_new_, &ux_new_, &uy_new_, &uz_new_,
-                      &vy_new_, &vz_new_, &wz_new_);
-  resize_struct_fact_new_(wave_prefactor_new_.size());
+  update_wave_vectors(*config, kmax_squared_new(), wave_prefactor_new_(),
+                      &wave_num_new_, ux_new_(), &uy_new_, &uz_new_,
+                      vy_new_(), &vz_new_, wz_new_());
+  resize_struct_fact_new_(wave_prefactor_new().size());
   update_struct_fact_eik(config->group_select(group_index), *config,
-                         wave_prefactor_new_,
+                         wave_prefactor_new(),
                          wave_num_new_,
-                         ux_new_, uy_new_, uz_new_,
-                         vy_new_, vz_new_, wz_new_,
-                         &struct_fact_real_new_,
-                         &struct_fact_imag_new_,
-                         &eik_new_);
+                         ux_new(), uy_new_, uz_new_,
+                         vy_new(), vz_new_, wz_new(),
+                         struct_fact_real_new_(),
+                         struct_fact_imag_new_(),
+                         eik_new_());
   const double conversion = model_params.constants().charge_conversion();
-  stored_energy_new_ = conversion*fourier_energy_(struct_fact_real_new_,
-                                                  struct_fact_imag_new_,
-                                                  wave_prefactor_new_);
+  stored_energy_new_ = conversion*fourier_energy_(struct_fact_real_new(),
+                                                  struct_fact_imag_new(),
+                                                  wave_prefactor_new());
   DEBUG("stored_energy_ " << stored_energy_new_);
   set_energy(stored_energy_new_);
   finalizable_ = true;
@@ -568,24 +582,24 @@ void Ewald::compute(
 
   // initialize new structure factor, unless its a new move position
   if (state != 1) {
-    struct_fact_real_new_ = struct_fact_real();
-    DEBUG("size " << struct_fact_real_new_.size() << " " <<
+    *struct_fact_real_new_() = struct_fact_real();
+    DEBUG("size " << struct_fact_real_new().size() << " " <<
           struct_fact_real().size());
-    struct_fact_imag_new_ = struct_fact_imag();
+    *struct_fact_imag_new_() = struct_fact_imag();
   }
   resize_eik_(*config);
-  DEBUG("old struct fact " << struct_fact_real_new_[0]);
+  DEBUG("old struct fact " << struct_fact_real_new()[0]);
   update_struct_fact_eik(selection, *config,
-    wave_prefactor_, wave_num_, ux_, uy_, uz_, vy_, vz_, wz_,
-    &struct_fact_real_new_, &struct_fact_imag_new_, &eik_new_);
-  DEBUG("updated struct fact " << struct_fact_real_new_[0]);
+    wave_prefactor(), wave_num_, ux(), uy_, uz_, vy(), vz_, wz(),
+    struct_fact_real_new_(), struct_fact_imag_new_(), eik_new_());
+  DEBUG("updated struct fact " << struct_fact_real_new()[0]);
 
   // compute new energy
   if (state != 0) {
     const double conversion = model_params.constants().charge_conversion();
-    stored_energy_new_ = conversion*fourier_energy_(struct_fact_real_new_,
-                                                    struct_fact_imag_new_,
-                                                    wave_prefactor_);
+    stored_energy_new_ = conversion*fourier_energy_(struct_fact_real_new(),
+                                                    struct_fact_imag_new(),
+                                                    wave_prefactor());
   }
   if (state == 0) {
     enrg = stored_energy();
@@ -611,13 +625,13 @@ void Ewald::finalize(const Select& select, Configuration * config) {
   VisitModel::finalize(select, config);
   if (finalizable_) {
     DEBUG("finalizing");
-    ASSERT(struct_fact_real_new_.size() > 0, "error");
+    ASSERT(struct_fact_real_new().size() > 0, "error");
     *stored_energy_() = stored_energy_new_;
     DEBUG("old struct fact " << struct_fact_real()[0]);
-    DEBUG("new struct fact num " << struct_fact_real_new_.size());
-    *struct_fact_real_() = struct_fact_real_new_;
+    DEBUG("new struct fact num " << struct_fact_real_new().size());
+    *struct_fact_real_() = struct_fact_real_new();
     DEBUG("updated struct fact " << struct_fact_real()[0]);
-    *struct_fact_imag_() = struct_fact_imag_new_;
+    *struct_fact_imag_() = struct_fact_imag_new();
     finalizable_ = false;
     DEBUG("select " << select.str());
 
@@ -627,28 +641,33 @@ void Ewald::finalize(const Select& select, Configuration * config) {
     DEBUG(select.trial_state());
     if (select.trial_state() != 2) {
       for (int ipart = 0; ipart < select.num_particles(); ++ipart) {
+        DEBUG("ipart " << ipart);
         const int part_index = select.particle_index(ipart);
         for (int isite = 0; isite < select.num_sites(ipart); ++isite) {
+          DEBUG("isite " << isite);
           const int site_index = select.site_index(ipart, isite);
-          const std::vector<double>& eik_new = eik_new_[ipart][isite];
-          for (int k = 0; k < static_cast<int>(eik_new.size()); ++k) {
-            TRACE("part_index " << part_index << " sz " << (*eik_()).size());
-            (*eik_())[part_index][site_index][k] = eik_new[k];
+          DEBUG("eik new size " << eik_new().size());
+          if (ipart < static_cast<int>(eik_new().size())) {
+            const std::vector<double>& eiknew = eik_new()[ipart][isite];
+            for (int k = 0; k < static_cast<int>(eiknew.size()); ++k) {
+              TRACE("part_index " << part_index << " sz " << (*eik_()).size());
+              (*eik_())[part_index][site_index][k] = eiknew[k];
+            }
           }
         }
       }
     }
 
     if (select.trial_state() == 4) {
-      wave_prefactor_ = wave_prefactor_new_;
+      *wave_prefactor_() = wave_prefactor_new();
       wave_num_ = wave_num_new_;
-      kmax_squared_ = kmax_squared_new_;
-      ux_ = ux_new_;
+      *kmax_squared_() = kmax_squared_new();
+      *ux_() = ux_new();
       uy_ = uy_new_;
       uz_ = uz_new_;
-      vy_ = vy_new_;
+      *vy_() = vy_new();
       vz_ = vz_new_;
-      wz_ = wz_new_;
+      *wz_() = wz_new();
     }
   }
 }
@@ -663,7 +682,9 @@ double Ewald::fourier_rms_(
   ASSERT(!std::isnan(alpha), "alpha is nan");
   DEBUG("alpha: " << alpha);
   const double side_length = config.domain().side_length(dimen);
-  return 2.*sum_squared_charge_(config)*alpha/side_length *
+  DEBUG("side_length " << side_length);
+  DEBUG("num_sites " << num_sites);
+  return 2.*sum_squared_charge_(config, num_sites)*alpha/side_length *
     std::sqrt(1./(PI*kmax*num_sites)) *
     exp(-std::pow(PI*kmax/alpha/side_length, 2));
 }
@@ -679,6 +700,7 @@ int Ewald::estimate_kmax_(
   while (err > tolerance) {
     kmax += 1;
     err = fourier_rms_(alpha, kmax, config, dimen, num_sites);
+    DEBUG("err " << err);
   }
   return kmax;
 }
@@ -704,16 +726,16 @@ double Ewald::sign_(const Select& select, const int pindex) const {
   return 1.0;
 }
 
-std::vector<double> * Ewald::struct_fact_real_() {
-  return &((*data_.get_dble_2D())[0]);
-}
-
-std::vector<double> * Ewald::struct_fact_imag_() {
-  return &((*data_.get_dble_2D())[1]);
-}
-
 std::vector<std::vector<std::vector<double> > > * Ewald::eik_() {
   return &(*manual_data_.get_dble_3D());
+}
+
+std::vector<std::vector<std::vector<double> > > * Ewald::eik_new_() {
+  return &(*data_.get_dble_4D())[0];
+}
+
+const std::vector<std::vector<std::vector<double> > >& Ewald::eik_new() const {
+  return data_.dble_4D()[0];
 }
 
 void Ewald::change_volume(const double delta_volume, const int dimension,
@@ -751,55 +773,55 @@ void Ewald::check(const Configuration& config) const {
   std::vector<double> wavep;
   std::vector<int> waven;
   DEBUG("vol " << config.domain().volume());
-  double ux, uy, uz, vy, vz, wz, kmax_squared;
-  update_kmax_squared_(config, &kmax_squared);
-  update_wave_vectors(config, kmax_squared, &wavep, &waven, &ux, &uy, &uz, &vy, &vz, &wz);
+  double tux, tuy, tuz, tvy, tvz, twz, kmaxsq;
+  update_kmax_squared_(config, &kmaxsq);
+  update_wave_vectors(config, kmaxsq, &wavep, &waven, &tux, &tuy, &tuz, &tvy, &tvz, &twz);
   std::vector<double> sf_real(wavep.size());
   std::vector<double> sf_imag(wavep.size());
   std::vector<std::vector<std::vector<double> > > eikn;
   const Select& sel = config.selection_of_all();
   DEBUG("sel " << sel.str());
-  update_struct_fact_eik(sel, config, wavep, waven, ux, uy, uz, vy, vz, wz,
+  update_struct_fact_eik(sel, config, wavep, waven, tux, tuy, tuz, tvy, tvz, twz,
                          &sf_real, &sf_imag, &eikn);
   DEBUG(config.selection_of_all().str());
   DEBUG(eikn.size());
   const double tolerance = 1e-4;
   std::stringstream ss;
-  if (wavep.size() != wave_prefactor_.size()) {
+  if (wavep.size() != wave_prefactor().size()) {
     ss << "wavep size: " << wavep.size()
-       << " wave_prefactor size: " << wave_prefactor_.size() << std::endl;
+       << " wave_prefactor size: " << wave_prefactor().size() << std::endl;
   }
   if (waven.size() != wave_num_.size()) {
     ss << "waven size: " << waven.size()
        << " wave_num size: " << wave_num_.size() << std::endl;
   }
-  if (std::abs(kmax_squared - kmax_squared_) > tolerance) {
-    ss << "kmax_squared: " << kmax_squared
-       << " kmax_squared_: " << kmax_squared_ << std::endl;
+  if (std::abs(kmaxsq - kmax_squared()) > tolerance) {
+    ss << "kmaxsq: " << kmaxsq
+       << " kmax_squared: " << kmax_squared() << std::endl;
   }
-  if (std::abs(ux - ux_) > tolerance) {
-    ss << "ux: " << ux << " ux_: " << ux_ << std::endl;
+  if (std::abs(tux - ux()) > tolerance) {
+    ss << "ux: " << tux << " ux_: " << ux() << std::endl;
   }
-  if (std::abs(uy - uy_) > tolerance) {
-    ss << "uy: " << uy << " uy_: " << uy_ << std::endl;
+  if (std::abs(tuy - uy_) > tolerance) {
+    ss << "uy: " << tuy << " uy_: " << uy_ << std::endl;
   }
-  if (std::abs(uz - uz_) > tolerance) {
-    ss << "uz: " << uz << " uz_: " << uz_ << std::endl;
+  if (std::abs(tuz - uz_) > tolerance) {
+    ss << "uz: " << tuz << " uz_: " << uz_ << std::endl;
   }
-  if (std::abs(vy - vy_) > tolerance) {
-    ss << "vy: " << vy << " vy_: " << vy_ << std::endl;
+  if (std::abs(tvy - vy()) > tolerance) {
+    ss << "vy: " << tvy << " vy_: " << vy() << std::endl;
   }
-  if (std::abs(vz - vz_) > tolerance) {
-    ss << "vz: " << vz << " vz_: " << vz_ << std::endl;
+  if (std::abs(tvz - vz_) > tolerance) {
+    ss << "vz: " << tvz << " vz_: " << vz_ << std::endl;
   }
-  if (std::abs(wz - wz_) > tolerance) {
-    ss << "wz: " << wz << " wz_: " << wz_ << std::endl;
+  if (std::abs(twz - wz()) > tolerance) {
+    ss << "wz: " << twz << " wz_: " << wz() << std::endl;
   }
-  if (!is_equal(wavep, wave_prefactor_, tolerance)) {
+  if (!is_equal(wavep, wave_prefactor(), tolerance)) {
     for (int ik = 0; ik < static_cast<int>(wavep.size()); ++ik) {
-      if (std::abs(wavep[ik] - wave_prefactor_[ik]) > tolerance) {
+      if (std::abs(wavep[ik] - wave_prefactor()[ik]) > tolerance) {
         ss << "wavep(" << ik << "): " << wavep[ik]
-           << " wave_prefactor_[" << ik << "]:" << wave_prefactor_[ik]
+           << " wave_prefactor()[" << ik << "]:" << wave_prefactor()[ik]
            << std::endl;
       }
     }
@@ -873,14 +895,20 @@ int Ewald::wave_num(const int vector_index, const int dim) const {
 //  return eik()[part_index][site_index][index];
 //}
 
-double Ewald::sum_squared_charge_(const Configuration& config) {
+double Ewald::sum_squared_charge_(const Configuration& config, const int num_sites) {
   double sum_sq_q = 0.;
-  const std::vector<int> num_sites_of_type = config.num_sites_of_type();
-  for (int type = 0;
-       type < static_cast<int>(num_sites_of_type.size());
-       ++type) {
-    const double charge = config.model_params().select(charge_index()).value(type);
-    sum_sq_q += charge*charge*num_sites_of_type[type];
+  if (config.num_sites() == 0) {
+    ASSERT(num_sites != 0, "error");
+    const double charge = config.model_params().select(charge_index()).value(0);
+    sum_sq_q += charge*charge*num_sites;
+  } else {
+    const std::vector<int> num_sites_of_type = config.num_sites_of_type();
+    for (int type = 0;
+         type < static_cast<int>(num_sites_of_type.size());
+         ++type) {
+      const double charge = config.model_params().select(charge_index()).value(type);
+      sum_sq_q += charge*charge*num_sites_of_type[type];
+    }
   }
   return sum_sq_q;
 }

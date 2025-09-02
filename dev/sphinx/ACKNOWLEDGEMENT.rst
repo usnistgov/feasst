@@ -62,7 +62,10 @@ Publications
 
 Publications which use FEASST include:
 
+#. https://doi.org/10.48550/arXiv.2501.04825
+#. https://doi.org/10.33011/livecoms.6.1.3289
 #. https://doi.org/10.1021/acs.jpcb.5c02389
+#. https://doi.org/10.1021/acs.jpcc.4c06889
 #. https://doi.org/10.1021/acs.energyfuels.5c00420
 #. https://doi.org/10.1021/acs.jpcb.5c00536
 #. https://doi.org/10.1063/5.0224809

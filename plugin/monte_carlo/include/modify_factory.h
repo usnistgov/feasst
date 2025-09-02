@@ -55,6 +55,8 @@ class ModifyFactory : public Modify {
   /// Return timer
   const TimerRDTSC * const timer() const { return timer_.get(); }
 
+  void synchronize_(const Modify& modify) override;
+
   std::string class_name() const override {
     return std::string("ModifyFactory"); }
   std::shared_ptr<Modify> create(std::istream& istr) const override {

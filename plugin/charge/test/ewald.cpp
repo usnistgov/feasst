@@ -165,7 +165,6 @@ TEST(Ewald, triclinic) {
   DEBUG("kxmax " << ewald.kxmax());
   DEBUG("kymax " << ewald.kymax());
   DEBUG("kzmax " << ewald.kzmax());
-  DEBUG("kmax_squared " << ewald.kmax_squared());
   DEBUG(system.configuration().num_particles());
   DEBUG(system.stored_energy());
   for (const std::shared_ptr<Potential>& pot : system.potentials().potentials()) {

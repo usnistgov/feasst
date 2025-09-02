@@ -77,7 +77,7 @@ Potential Model=LennardJones VisitModel=VisitModelCell
 Potential VisitModel=LongRangeCorrections
 ThermoParams beta={beta} chemical_potential=-1
 Metropolis
-TrialTranslate tunable_param=2 tunable_target_acceptance=0.2
+TrialTranslate tunable_param=2
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # grand canonical ensemble initalization
