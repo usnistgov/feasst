@@ -42,7 +42,7 @@
       "Movie output_file=chain5.xyz trials_per_write=100000.0\n",
       "Energy output_file=chain5en.txt trials_per_write=100000.0\n",
       "RadiusOfGyration output_file=chain5rg.txt trials_per_write=100000.0\n",
-      "CheckEnergy decimal_places=8 trials_per_update=100000.0\n",
+      "CheckEnergy decimal_places=6 trials_per_update=100000.0\n",
       "Run num_trials=100000.0\n",
       " \n",
       " exit: 0\n"
@@ -86,7 +86,7 @@
     "Movie [write].xyz\n",
     "Energy [write]en.txt\n",
     "RadiusOfGyration [write]rg.txt\n",
-    "CheckEnergy trials_per_update={trials_per} decimal_places=8\n",
+    "CheckEnergy trials_per_update={trials_per} decimal_places=6\n",
     "Run num_trials={production}\n",
     "\"\"\".format(**params))\n",
     "\n",

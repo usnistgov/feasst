@@ -374,9 +374,9 @@ To Do List
 * For 0.26, Depreciate and update AngleSquareWell::min/max to min_degrees/max_degrees
 * For 0.26, https://github.com/usnistgov/feasst/issues/23
 * For 0.26, Remove serialization version checks grep "if (version >"
-* For 0.26, move pyfeasst.cd to pyfeasst.fstio
+* For 0.26, deprecate move pyfeasst.cd in favor of pyfeasst.fstio.cd
 * For 0.26, TrialMorph becomes TrialFactoryNamed with reverse and half weights
 * For 0.26, remove Copy[following/next] in favor of For
 * Benchmark FEASST for use with podman or apptainer
 * Search for deprecate Warn in weekly build tests
-* Substitute previous Let variables in subsequent Let (e.g., Let [lj]=Model=LennardJones; Let [ljcell]=[lj] VisitModel=VisitModelCell min_length=3)
+* Tune output should include trial description like Log

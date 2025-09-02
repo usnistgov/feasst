@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pool &mdash; FEASST 0.25.14 0.25.14 documentation</title>
+  <title>Pool &mdash; FEASST 0.25.15 0.25.15 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=89e87f48"></script>
+      <script src="../../../_static/documentation_options.js?v=2d90fb51"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.14
+            FEASST 0.25.15
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -116,7 +116,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.14</a>
+          <a href="../../../index.html">FEASST 0.25.15</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -213,7 +213,7 @@
 <span class="target" id="classfeasst_1_1Prefetch_1a16207eb2763de1c2f41797cb1c0f4ded"></span><span class="sig-name descname"><span class="n"><span class="pre">Prefetch</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Prefetch8PrefetchE7argtype" title="Link to this definition"></a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>trials_per_check: number of steps between check (default: 1e6)</p></li>
-<li><p>load_balance: batches contain all of the same trial type (default: false). This violates detailed balance, and is known in cases of high acceptance to give erroneous results. Only use load_balance for equilibration and never for production simulations.</p></li>
+<li><p>load_balance: number of trials in a batch of attempted trials of the same trial type (default: -1). <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> &lt; 1, do not load balance. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> == 1 (not recommended), load balance more efficiently by breaking detailed balance, where each batch is simply the number of processors regardless of first accepted trial. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> &gt; 1, load balance by performing this many attempted trials, not counting trials after the first accepted.</p></li>
 <li><p>synchronize: synchronize data with accepted thread (default: false).</p></li>
 <li><p>ghost: update transition matrix even for trials after acceptance (default: false). </p></li>
 </ul>
@@ -245,8 +245,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Prefetch14run_num_trialsEi">
-<span class="target" id="classfeasst_1_1Prefetch_1a97737261f3e45c2693db82cda8ea2d5c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_num_trials</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_trials</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Prefetch14run_num_trialsEi" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst8Prefetch14run_num_trialsE7int64_t">
+<span class="target" id="classfeasst_1_1Prefetch_1a06e25af6bfc3a44d219970fcd42b602c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_num_trials</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_trials</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Prefetch14run_num_trialsE7int64_t" title="Link to this definition"></a><br /></dt>
 <dd><p><a class="reference internal" href="../../monte_carlo/doc/Run_arguments.html#classfeasst_1_1Run"><span class="std std-ref">Run</span></a> a number of trials. </p>
 </dd></dl>
 
