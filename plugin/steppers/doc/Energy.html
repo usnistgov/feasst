@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Energy &mdash; FEASST 0.25.14 0.25.14 documentation</title>
+  <title>Energy &mdash; FEASST 0.25.15 0.25.15 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=89e87f48"></script>
+      <script src="../../../_static/documentation_options.js?v=2d90fb51"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -26,8 +26,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Density" href="Density.html" />
-    <link rel="prev" title="MeanSquaredDisplacement" href="MeanSquaredDisplacement.html" />
+    <link rel="next" title="ProfileTrials" href="ProfileTrials.html" />
+    <link rel="prev" title="CheckProperties" href="CheckProperties.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.14
+            FEASST 0.25.15
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -68,40 +68,42 @@
 <li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Steppers</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="DensityProfile.html">DensityProfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="IncrementPhase.html">IncrementPhase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html">MeanSquaredDisplacement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tune.html">Tune</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SpecificEnergy.html">SpecificEnergy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PairDistributionInner.html">PairDistributionInner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Chirality2D.html">Chirality2D</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Check.html">Check</a></li>
-<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html">AnalyzeData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="WriteStepper.html">WriteStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Scattering.html">Scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CheckPhysicality.html">CheckPhysicality</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Movie.html">Movie</a></li>
 <li class="toctree-l3"><a class="reference internal" href="WallClockLimit.html">WallClockLimit</a></li>
-<li class="toctree-l3"><a class="reference internal" href="NumParticles.html">NumParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ProfileCPU.html">ProfileCPU</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CheckPhysicality.html">CheckPhysicality</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="IncrementPhase.html">IncrementPhase</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SeekModify.html">SeekModify</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeData.html">AnalyzeData</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ReadConfigFromFile.html">ReadConfigFromFile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CheckEnergy.html">CheckEnergy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="WrapParticles.html">WrapParticles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="GhostTrialVolume.html">GhostTrialVolume</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Tune.html">Tune</a></li>
-<li class="toctree-l3"><a class="reference internal" href="WriteStepper.html">WriteStepper</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PairDistributionInner.html">PairDistributionInner</a></li>
-<li class="toctree-l3"><a class="reference internal" href="DensityProfile.html">DensityProfile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Volume.html">Volume</a></li>
-<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html">HeatCapacity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NumParticles.html">NumParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ProfileCPU.html">ProfileCPU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Density.html">Density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="WrapParticles.html">WrapParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeekModify.html">SeekModify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ExtensiveMoments.html">ExtensiveMoments</a></li>
-<li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html">MeanSquaredDisplacement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SpecificVolume.html">SpecificVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HeatCapacity.html">HeatCapacity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Check.html">Check</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CheckEnergy.html">CheckEnergy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Energy</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst6EnergyE"><code class="docutils literal notranslate"><span class="pre">Energy</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="Density.html">Density</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ProfileTrials.html">ProfileTrials</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Scattering.html">Scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Volume.html">Volume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -145,7 +147,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.14</a>
+          <a href="../../../index.html">FEASST 0.25.15</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -270,8 +272,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="MeanSquaredDisplacement.html" class="btn btn-neutral float-left" title="MeanSquaredDisplacement" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Density.html" class="btn btn-neutral float-right" title="Density" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="CheckProperties.html" class="btn btn-neutral float-left" title="CheckProperties" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ProfileTrials.html" class="btn btn-neutral float-right" title="ProfileTrials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

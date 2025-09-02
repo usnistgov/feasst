@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Virial coefficients of all-atom mAb domains. &mdash; FEASST 0.25.14 0.25.14 documentation</title>
+  <title>Virial coefficients of all-atom mAb domains. &mdash; FEASST 0.25.15 0.25.15 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=89e87f48"></script>
+      <script src="../../../_static/documentation_options.js?v=2d90fb51"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.14
+            FEASST 0.25.15
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -114,7 +114,10 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial_6_spherocylinder.html">Virial coefficients of spherocylinders.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_7_solid_of_revolution.html">Virial coefficients of solids of revolusion.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_8_b2_pdb.html">Virial coefficients of atomistic proteins in implicit solvent</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_2_lj_nvt_prefetch.html">Canonical ensemble Lennard-Jones with Prefetching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_1_lj_nvt_prefetch.html">Prefetching Canonical Ensemble Monte Carlo LJ simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_2_lj_muvt_prefetch.html">Prefetching Grand Canonical Ensemble Monte Carlo LJ simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_3_lj_npt_prefetch.html">Prefetching Isothermal-Isobaric Ensemble Monte Carlo LJ simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_4_lj_gibbs_prefetch.html">Prefetching Gibbs Ensemble Monte Carlo LJ simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../aniso/tutorial/tutorial_0_sqw_t1.15.html">Test of an anisotropic, textured square well potential.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../aniso/tutorial/tutorial_1_cg_protein.html">CG simulation of a protein using anisotropic precomputed potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../fftw/tutorial/tutorial_01_hs_scattering.html">Compare standard vs FFTW scattering calculations for hard spheres</a></li>
@@ -146,7 +149,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.14</a>
+          <a href="../../../index.html">FEASST 0.25.15</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -267,19 +270,6 @@
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.99</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.0333</span> <span class="c1"># terminate before queue</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_sim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sims&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">sim_node_dependent_params</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Set parameters that depent upon the sim or node here. &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;fc&#39;</span>
-    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;fab1&#39;</span>
-    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;fab2&#39;</span>
-    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;fv1&#39;</span>
-    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;fv2&#39;</span>
-    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ch1_1&#39;</span>
-    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ch1_2&#39;</span>
-    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ch2&#39;</span>
-    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ch3&#39;</span>
 
     <span class="c1"># From table S2 of https://doi.org/10.1016/j.xphs.2018.12.013</span>
     <span class="c1"># Heavy chains are B and D, while light chains are A and C, for fab1 and fab2, respectively.</span>
@@ -306,10 +296,10 @@
     <span class="n">fab2</span> <span class="o">=</span> <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">subset</span><span class="p">(</span><span class="n">pdb_file</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;pdb_file&#39;</span><span class="p">],</span> <span class="n">chains</span><span class="o">=</span><span class="n">chains</span><span class="p">[</span><span class="s1">&#39;fab2&#39;</span><span class="p">])</span>
     <span class="n">r_com_fab2</span> <span class="o">=</span> <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">center_of_mass</span><span class="p">(</span><span class="n">fab2</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span>
 
-    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">hinge</span><span class="p">,</span> <span class="s1">&#39;1igt_hinge.txt&#39;</span><span class="p">)</span>
-    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span> <span class="s1">&#39;1igt_fc.txt&#39;</span><span class="p">)</span>
-    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">fab1</span><span class="p">,</span> <span class="s1">&#39;1igt_fab1.txt&#39;</span><span class="p">)</span>
-    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">fab2</span><span class="p">,</span> <span class="s1">&#39;1igt_fab2.txt&#39;</span><span class="p">)</span>
+    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">hinge</span><span class="p">,</span> <span class="s1">&#39;1igt_hinge.fstprt&#39;</span><span class="p">)</span>
+    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span> <span class="s1">&#39;1igt_fc.fstprt&#39;</span><span class="p">)</span>
+    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">fab1</span><span class="p">,</span> <span class="s1">&#39;1igt_fab1.fstprt&#39;</span><span class="p">)</span>
+    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">fab2</span><span class="p">,</span> <span class="s1">&#39;1igt_fab2.fstprt&#39;</span><span class="p">)</span>
 
     <span class="c1"># 7 bead (fv[1,2], ch1_[1,2], ch2, ch3 and hinge)</span>
     <span class="n">fv1</span> <span class="o">=</span> <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">subset</span><span class="p">(</span><span class="n">pdb_file</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;pdb_file&#39;</span><span class="p">],</span> <span class="n">chains</span><span class="o">=</span><span class="n">chains</span><span class="p">[</span><span class="s1">&#39;fv1&#39;</span><span class="p">])</span>
@@ -325,12 +315,12 @@
     <span class="n">ch3</span> <span class="o">=</span> <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">subset</span><span class="p">(</span><span class="n">pdb_file</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;pdb_file&#39;</span><span class="p">],</span> <span class="n">chains</span><span class="o">=</span><span class="n">chains</span><span class="p">[</span><span class="s1">&#39;ch3&#39;</span><span class="p">])</span>
     <span class="n">r_com_ch3</span> <span class="o">=</span> <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">center_of_mass</span><span class="p">(</span><span class="n">ch3</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span>
 
-    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">fv1</span><span class="p">,</span> <span class="s1">&#39;1igt_fv1.txt&#39;</span><span class="p">)</span>
-    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">fv2</span><span class="p">,</span> <span class="s1">&#39;1igt_fv2.txt&#39;</span><span class="p">)</span>
-    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">ch1_1</span><span class="p">,</span> <span class="s1">&#39;1igt_ch1_1.txt&#39;</span><span class="p">)</span>
-    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">ch1_2</span><span class="p">,</span> <span class="s1">&#39;1igt_ch1_2.txt&#39;</span><span class="p">)</span>
-    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">ch2</span><span class="p">,</span> <span class="s1">&#39;1igt_ch2.txt&#39;</span><span class="p">)</span>
-    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">ch3</span><span class="p">,</span> <span class="s1">&#39;1igt_ch3.txt&#39;</span><span class="p">)</span>
+    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">fv1</span><span class="p">,</span> <span class="s1">&#39;1igt_fv1.fstprt&#39;</span><span class="p">)</span>
+    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">fv2</span><span class="p">,</span> <span class="s1">&#39;1igt_fv2.fstprt&#39;</span><span class="p">)</span>
+    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">ch1_1</span><span class="p">,</span> <span class="s1">&#39;1igt_ch1_1.fstprt&#39;</span><span class="p">)</span>
+    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">ch1_2</span><span class="p">,</span> <span class="s1">&#39;1igt_ch1_2.fstprt&#39;</span><span class="p">)</span>
+    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">ch2</span><span class="p">,</span> <span class="s1">&#39;1igt_ch2.fstprt&#39;</span><span class="p">)</span>
+    <span class="n">coarse_grain_pdb</span><span class="o">.</span><span class="n">pdb_to_fstprt</span><span class="p">(</span><span class="n">ch3</span><span class="p">,</span> <span class="s1">&#39;1igt_ch3.fstprt&#39;</span><span class="p">)</span>
 
     <span class="c1"># compute the distances and angles between the COM of pairs and triplets of domains</span>
     <span class="c1"># compare with table S1 of https://doi.org/10.1016/j.xphs.2018.12.013</span>
@@ -381,16 +371,30 @@
     <span class="n">rg2</span> <span class="o">/=</span> <span class="nb">len</span><span class="p">(</span><span class="n">hinge</span><span class="p">[</span><span class="s1">&#39;x_coord&#39;</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;2rg=sigma_hinge&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">rg2</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;nm vs 1.52&#39;</span><span class="p">)</span>
 
+    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sim_node_dependent_params</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Set parameters that depent upon the sim or node here. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;fc&#39;</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;fab1&#39;</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;fab2&#39;</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;fv1&#39;</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;fv2&#39;</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ch1_1&#39;</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ch1_2&#39;</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ch2&#39;</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ch3&#39;</span>
+
 <span class="k">def</span><span class="w"> </span><span class="nf">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Write fst script for a single simulation with keys of params {} enclosed. &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
         <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">MonteCarlo</span>
 <span class="s2">RandomMT19937 seed=</span><span class="si">{seed}</span>
-<span class="s2">Configuration cubic_side_length=200 particle_type=domain:1igt_</span><span class="si">{domain}</span><span class="s2">.txt add_num_domain_particles 2 </span><span class="se">\</span>
-<span class="s2">    group=first,com first_particle_index=0 com_site_type=5</span>
+<span class="s2">Configuration cubic_side_length=200 particle_type=domain:1igt_</span><span class="si">{domain}</span><span class="s2">.fstprt add_num_domain_particles=2 </span><span class="se">\</span>
+<span class="s2">    group=first,com first_particle_index=0 com_site_type=COM</span>
 <span class="s2">Potential Model=HardSphere VisitModel=VisitModelCell min_length=3.9 energy_cutoff=1e100</span>
-<span class="s2">RefPotential ref=hs Model=HardSphere sigma=0 sigma5=30 cutoff=0 cutoff5=30 group=com</span>
+<span class="s2">RefPotential ref=hs Model=HardSphere sigma=0 sigmaCOM=30 cutoff=0 cutoffCOM=30 group=com</span>
 <span class="s2">ThermoParams beta=1</span>
 <span class="s2">MayerSampling trials_per_cycle=</span><span class="si">{tpc}</span><span class="s2"> cycles_to_complete=</span><span class="si">{equilibration_cycles}</span>
 <span class="s2">TrialTranslate new_only=true ref=hs tunable_param=1 group=first</span>

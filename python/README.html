@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Python Interface &mdash; FEASST 0.25.14 0.25.14 documentation</title>
+  <title>Python Interface &mdash; FEASST 0.25.15 0.25.15 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=89e87f48"></script>
+      <script src="../_static/documentation_options.js?v=2d90fb51"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            FEASST 0.25.14
+            FEASST 0.25.15
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -75,7 +75,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">FEASST 0.25.14</a>
+          <a href="../index.html">FEASST 0.25.15</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -174,8 +174,8 @@ python<span class="w"> </span>../python/tutorial/test.py
 <p>Python usage is as follows:</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">feasst</span>
 <span class="n">mc</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
-<span class="n">text_input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;RandomMT19937 seed 123</span>
-<span class="s2">Configuration cubic_side_length 8 particle_type0 /feasst/particle/lj.txt&quot;&quot;&quot;</span>
+<span class="n">text_input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;RandomMT19937 seed=123</span>
+<span class="s2">Configuration cubic_side_length=8 particle_type=lj:/feasst/particle/lj.txt&quot;&quot;&quot;</span>
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">text_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
     <span class="n">feasst</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 </pre></div>
