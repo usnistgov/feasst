@@ -1,4 +1,7 @@
 import feasst
+random = feasst.RandomMT19937({'seed': '123'})
+print('Random number(0,1):', random.uniform())
+
 mc = feasst.MonteCarlo()
 text_input = """RandomMT19937 seed=123
 Configuration cubic_side_length=8 particle_type=lj:/feasst/particle/lj.txt"""

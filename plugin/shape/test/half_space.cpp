@@ -64,8 +64,8 @@ TEST(HalfSpace, integrate) {
   auto random = MakeRandomMT19937();
   const double inte = half_space.integrate(
     Position({0., 0., 0.}), random.get(), {
-      {"alpha0", str(alpha0)},
-      {"epsilon0", str(epsilon0)},
+      {"wall_alpha0", str(alpha0)},
+      {"wall_epsilon0", str(epsilon0)},
       {"max_radius", "10"},
       {"num_shells", "1000"},
       {"points_per_shell", "100"}});

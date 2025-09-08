@@ -27,6 +27,77 @@
 
 namespace feasst {
 
+FEASST_MAPPER(ModelTableCart1D,);
+
+ModelTableCart1D::ModelTableCart1D(argtype * args) {
+  class_name_ = "ModelTableCart1D";
+  dimension_ = integer("dimension", args, 2);
+  table_file_ = str("table_file", args, "");
+}
+ModelTableCart1D::ModelTableCart1D(argtype args) : ModelTableCart1D(&args) {
+  feasst_check_all_used(args);
+}
+ModelTableCart1D::~ModelTableCart1D() {}
+  
+void ModelTableCart1D::precompute(const Configuration& config) {
+  if (static_cast<int>(tables_.size()) != 0) {
+    return;
+  }
+  tables_.resize(config.num_site_types());
+  DEBUG("Read table");
+  std::ifstream file(table_file_);
+  ASSERT(file.good(), "cannot find " << table_file_);
+  std::string line;
+  std::getline(file, line);
+  const std::vector<std::string> types = split(line, '=');
+  ASSERT(types[0] == "site_types", "format error: " << types[0]);
+  ASSERT(static_cast<int>(types.size()) == 2, "Error in formating of file:" <<
+    table_file_);
+  for (const std::string& type : split(types[1], ',')) {
+    const int index = config.site_type_name_to_index(type);
+    std::getline(file, line);
+    std::vector<std::string> values = split(line, ' '); 
+    const int num_values = values.size();
+    tables_[index] = std::make_unique<Table1D>(argtype({{"num", str(num_values)}}));
+    for (int v = 0; v < num_values; ++v) {
+      tables_[index]->set_data(v, str_to_double(values[v]));
+    }
+  }
+  ASSERT(file.eof(), "Extra lines in file:" << table_file_ << " . The number of "
+    << "lines should be the number of site_types + 1");
+}
+
+double ModelTableCart1D::energy(
+    const Position& wrapped_site,
+    const Site& site,
+    const Configuration& config,
+    const ModelParams& model_params) {
+  TRACE(tables_.size());
+  TRACE(site.type());
+  const Table1D* table = tables_[site.type()].get();
+  if (!table) {
+    return 0.;
+  }
+  const double length = config.domain().side_length(dimension_);
+  double val = wrapped_site.coord(dimension_)/length + 0.5;
+  return table->forward_difference_interpolation(val);
+}
+
+void ModelTableCart1D::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_model_(ostr);
+  feasst_serialize_version(7890, ostr);
+  feasst_serialize(dimension_, ostr);
+  feasst_serialize(tables_, ostr);
+}
+
+ModelTableCart1D::ModelTableCart1D(std::istream& istr) : ModelOneBody(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version >= 7890 && version <= 7890, "unrecognized verison: " << version);
+  feasst_deserialize(&dimension_, istr);
+  feasst_deserialize(&tables_, istr);
+}
+
 FEASST_MAPPER(ModelTableCart1DHard, MakeTable1D());
 
 ModelTableCart1DHard::ModelTableCart1DHard(std::shared_ptr<Table1D> table) {
@@ -126,15 +197,7 @@ void ModelTableCart1DHard::compute_table(
   feasst_check_all_used(args);
 }
 
-class MapModelTableCart2DIntegr {
- public:
-  MapModelTableCart2DIntegr() {
-    auto model = MakeModelTableCart2DIntegr(MakeTable2D());
-    model->deserialize_map()["ModelTableCart2DIntegr"] = model;
-  }
-};
-
-static MapModelTableCart2DIntegr map_model_table_cart2d_ = MapModelTableCart2DIntegr();
+FEASST_MAPPER(ModelTableCart2DIntegr, MakeTable2D());
 
 ModelTableCart2DIntegr::ModelTableCart2DIntegr(std::shared_ptr<Table2D> table) {
   class_name_ = "ModelTableCart2DIntegr";
@@ -261,15 +324,7 @@ void ModelTableCart2DIntegr::compute_table_omp(
   #endif // _OPENMP
 }
 
-class MapModelTableCart3DIntegr {
- public:
-  MapModelTableCart3DIntegr() {
-    auto model = MakeModelTableCart3DIntegr(MakeTable3D());
-    model->deserialize_map()["ModelTableCart3DIntegr"] = model;
-  }
-};
-
-static MapModelTableCart3DIntegr map_model_table_cart3d_ = MapModelTableCart3DIntegr();
+FEASST_MAPPER(ModelTableCart3DIntegr, MakeTable3D());
 
 ModelTableCart3DIntegr::ModelTableCart3DIntegr(std::shared_ptr<Table3D> table) {
   class_name_ = "ModelTableCart3DIntegr";
@@ -285,27 +340,28 @@ ModelTableCart3DIntegr::ModelTableCart3DIntegr(
 
 ModelTableCart3DIntegr::ModelTableCart3DIntegr(argtype *args) {
   class_name_ = "ModelTableCart3DIntegr";
+  scale_ = dble("scale", args, 1.);
   const std::string table_file = str("table_file", args);
   // if table_file is the only argument, then read from file
-  INFO(args->size());
+  DEBUG(args->size());
   if (static_cast<int>(args->size()) == 0) {
     read(table_file);
     return;
   }
   // otherwise, generate the table and write
   auto random = RandomMT19937().factory(str("random", args, "RandomMT19937"), args);
-  INFO(random->class_name());
+  DEBUG(random->class_name());
   auto domain = std::make_shared<Domain>(args);
   ASSERT(domain->dimension() != 0, "Domain arguments are required.");
-  INFO("args " << str(*args));
+  DEBUG("args " << str(*args));
   auto shape = MakeShapeFile({{"shape_file", str("shape_file", args)}});
-  INFO(shape->class_name());
+  DEBUG(shape->class_name());
   //ASSERT(config.num_site_types() <= 1, "only implemented for single site");
   const int site_type = 0;
   tables_.push_back(std::make_shared<Table3D>(args));
   site_types_.push_back(site_type);
   const bool use_omp = boolean("use_omp", args, false);
-  INFO("use_omp " << use_omp);
+  DEBUG("use_omp " << use_omp);
   if (use_omp) {
     const int node = integer("node", args, 0);
     const int num_node = integer("num_node", args, 1);
@@ -363,15 +419,16 @@ void ModelTableCart3DIntegr::write(const std::string file_name) const {
 void ModelTableCart3DIntegr::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_model_(ostr);
-  feasst_serialize_version(6937, ostr);
+  feasst_serialize_version(6938, ostr);
   feasst_serialize(tables_, ostr);
   feasst_serialize(site_types_, ostr);
+  feasst_serialize(scale_, ostr);
 }
 
 ModelTableCart3DIntegr::ModelTableCart3DIntegr(std::istream& istr)
   : ModelOneBody(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 6937, "unrecognized verison: " << version);
+  ASSERT(version >= 6937 && version <= 6938, "unrecognized verison: " << version);
   int dim1;
   istr >> dim1;
   tables_.resize(dim1);
@@ -385,6 +442,9 @@ ModelTableCart3DIntegr::ModelTableCart3DIntegr(std::istream& istr)
     }
   }
   feasst_deserialize(&site_types_, istr);
+  if (version >= 6938) {
+    feasst_deserialize(&scale_, istr);
+  }
 }
 
 double ModelTableCart3DIntegr::energy(
@@ -403,7 +463,7 @@ double ModelTableCart3DIntegr::energy(
   if (val2 < 0) val2 *= -1;
   TRACE(tables_.size());
   TRACE(site.type());
-  return tables_[site.type()]->linear_interpolation(val0, val1, val2);
+  return scale_*tables_[site.type()]->linear_interpolation(val0, val1, val2);
 }
 
 const Table3D& ModelTableCart3DIntegr::table(const int site_type) const {

@@ -3,7 +3,7 @@
 
    Background
    ZeroBackground
-   ModelTableCart1DHard
+   ModelTableCart1D
    HenryCoefficient
    trial_anywhere
    ModelLJShape

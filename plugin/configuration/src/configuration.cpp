@@ -136,6 +136,7 @@ Configuration::Configuration(argtype * args) {
       const std::string param = iter->first;
       if (args->size() != 0) {
         if (used(param, *args)) {
+          DEBUG("overriding:" << param);
           const double value = dble(param, args);
           for (int site_type = 0; site_type < num_site_types(); ++site_type) {
             set_model_param(param, site_type, value);
@@ -146,6 +147,7 @@ Configuration::Configuration(argtype * args) {
         for (int site_type = 0; site_type < num_site_types(); ++site_type) {
           std::string param_arg = param + site_type_to_name(site_type);
           if (used(param_arg, *args)) {
+            DEBUG("overriding:" << param_arg);
             set_model_param(param, site_type, dble(param_arg, args));
           }
         }
@@ -156,6 +158,7 @@ Configuration::Configuration(argtype * args) {
             std::string param_arg = param + site_type_to_name(site1) + "_" +
                                             site_type_to_name(site2);
             if (used(param_arg, *args)) {
+              DEBUG("overriding:" << param_arg);
               set_model_param(param, site1, site2, dble(param_arg, args));
             }
           }

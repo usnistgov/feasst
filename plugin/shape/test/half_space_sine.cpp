@@ -151,10 +151,10 @@ TEST(HalfSpaceSine, integrate) {
   for (double y = 0; y < 1; y += 0.1) {
     const double inte = half_space.integrate(
       Position({0.2, y, 0.}), random.get(), {
-        {"alpha0", "6"},
-        {"epsilon0", "-1"},
-        {"alpha1", "50"},
-        {"epsilon1", "0.01"},
+        {"wall_alpha0", "6"},
+        {"wall_epsilon0", "-1"},
+        {"wall_alpha1", "50"},
+        {"wall_epsilon1", "0.01"},
         {"max_radius", "10"},
         {"num_shells", "100"},
         {"points_per_shell", "100"}});

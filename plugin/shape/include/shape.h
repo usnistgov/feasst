@@ -65,10 +65,10 @@ class Shape {
 
     args:
     - invert: consider the inverse shape (default: true)
-    - alpha[i]: add the i-th exponential parameter (default: 6).
+    - wall_alpha[i]: add the i-th exponential parameter (default: 6).
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
       If only only alpha, the "[i]" is optional.
-    - epsilon[i]: add the i-th constant factor (default: -1).
+    - wall_epsilon[i]: add the i-th constant factor (default: -1).
       The "[i]" is as described above, and each alpha must have
       a corresponding epsilon.
     - max_radius: maximum radial extent of spherical shells.

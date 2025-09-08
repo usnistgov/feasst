@@ -16,6 +16,11 @@ class Position;
 
 // HWH consider applying Shapes from confinement into NeighborCriteria
 // For now, it assumes spheres/circles
+// HWH Implement a NeighborCriteriaFactory to allow for AV definitions of
+// multiple site types with different distances. OR,
+// HWH Implement a csv for energy, dist and type (used in is_accepted).
+// But no, each Trial needs to know volume for acceptance
+// What I need to support is multiple NeighborCriteria in EnergyMap ?
 /**
   Criteria for defining neighbors.
  */
