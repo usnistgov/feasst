@@ -168,6 +168,8 @@ class Potential {
 
   void set_model_index(const int index);
 
+  VisitModel * get_visit_model_() { return visit_model_.get(); }
+
   /// Serialize.
   void serialize(std::ostream& ostr) const;
 

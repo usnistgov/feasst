@@ -41,11 +41,13 @@ double EnergyMapNeighborCriteria::update(
     const double squared_distance,
     const Position * pbc,
     const Configuration& config) {
+  TRACE("updating neighbor_index:" << neighbor_index_);
   if (config.neighbor_criteria(neighbor_index_).is_accepted(energy, squared_distance,
                                       site1_type, site2_type)) {
     return EnergyMapNeighbor::update(energy, part1_index, site1_index, site1_type,
       part2_index, site2_index, site2_type, squared_distance, pbc, config);
   }
+  finalizable_ = true;
   return energy;
 }
 

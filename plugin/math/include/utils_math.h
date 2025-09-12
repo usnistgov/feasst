@@ -337,6 +337,10 @@ int has_bad_value(const std::vector<T>& vec) {
   return false;
 }
 
+/// Return true if u1 and u2 are the same within decimal_places
+bool is_equal_within_decimal_places(const double u1, const double u2,
+                                    const int decimal_places);
+
 }  // namespace feasst
 
 #endif  // FEASST_MATH_UTILS_MATH_H_

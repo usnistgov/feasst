@@ -46,6 +46,7 @@ class EnergyMapAll : public EnergyMap {
     const int new_map = 0) const override;
   void check(const Configuration& config) const override;
   void synchronize_(const EnergyMap& map, const Select& perturbed) override;
+  void clear() override;
 
   // serialization
   std::string class_name() const override { return class_name_; }
@@ -54,7 +55,7 @@ class EnergyMapAll : public EnergyMap {
   std::shared_ptr<EnergyMap> create(argtype * args) const override {
     return std::make_shared<EnergyMapAll>(args); }
   void serialize(std::ostream& ostr) const override;
-  EnergyMapAll(std::istream& istr);
+  explicit EnergyMapAll(std::istream& istr);
   virtual ~EnergyMapAll() {}
 
  protected:

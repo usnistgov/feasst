@@ -13,6 +13,17 @@ double Acceptance::ln_metropolis_prob() const {
   return ln_metropolis_prob_;
 }
 
+void Acceptance::set_ln_metropolis_prob(const double prob) {
+  ASSERT(!std::isinf(prob), "prob is inf");
+  ln_metropolis_prob_ = prob;
+}
+
+/// Add to the above quantity.
+void Acceptance::add_to_ln_metropolis_prob(const double prob) {
+  ASSERT(!std::isinf(prob), "prob is inf");
+  ln_metropolis_prob_ += prob;
+}
+
 void Acceptance::reset() {
   set_ln_metropolis_prob();
   set_reject();

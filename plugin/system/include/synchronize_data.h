@@ -95,6 +95,9 @@ class SynchronizeData {
   /// Get vvvpvpv data.
   vvvpvpv * get_vvvpvpv() { return &vvvpvpv_; }
 
+  /// Clear all data
+  void clear();
+
   void serialize(std::ostream& ostr) const;
   explicit SynchronizeData(std::istream& istr);
 

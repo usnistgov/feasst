@@ -112,6 +112,8 @@ class EnergyMap {
     const int new_map = 0) const;
 
   virtual void check(const Configuration& config) const {}
+  virtual void is_equal(const EnergyMap& map) const {}
+  virtual void clear() { data_.clear(); }
 
   // virtual const std::vector<double>& map(const int part1, const int part2,
   //   const int site1, const int site2) const;

@@ -57,7 +57,9 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file,
 
   /// read the site types and coordinates (eulers optional)
   std::vector<int> site_types;
+  std::vector<std::string> site_type_names;
   site_types.resize(num_sites);
+  site_type_names.resize(num_sites);
   std::vector<std::vector<double> > coords, eulers;
   coords.resize(num_sites, std::vector<double>(config->dimension()));
   eulers.resize(num_sites, std::vector<double>(config->dimension()));
@@ -66,6 +68,7 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file,
     std::istringstream iss(line);
     std::string type;
     iss >> type;
+    site_type_names[i] = type;
     site_types[i] = str_to_int(type, false); // Read -1 if string
     for (int dim = 0; dim < config->dimension(); ++dim) {
       iss >> coords[i][dim];
@@ -95,12 +98,13 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file,
     } else {
       int read_sites = 0;
       while (read_sites < num_sites) {
-        const int st = site_types[read_sites];
-        ASSERT(st != -1, "Trying to determine the order of particles in an "
-          << "XYZ file that is apparently multicomponent, but the site types "
-          << "were not given in integers so FEASST cannot determine the "
-          << "appropriate order.");
+        int st = site_types[read_sites];
+        DEBUG("read_sites:" << read_sites << " st:" << st);
+        if (st == -1) {
+          st = config->site_type_name_to_index(site_type_names[read_sites]);
+        }
         const int pt = config->site_type_to_particle_type(st);
+        DEBUG("read_sites:" << read_sites << " st:" << st << " pt:" << pt);
         ASSERT(pt < npt,
           "unrecognized particle type " << pt << " for site of type " << st);
         config->add_particle_of_type(pt);

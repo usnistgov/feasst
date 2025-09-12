@@ -181,6 +181,8 @@ class VisitModel {
   /// Return the ModelParams index of charge.
   int charge_index() const { return charge_index_; }
 
+  VisitModelInner * get_inner_() const;
+
   // serialization
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
@@ -198,7 +200,6 @@ class VisitModel {
  protected:
   std::string class_name_ = "VisitModel";
   void serialize_visit_model_(std::ostream& ostr) const;
-  VisitModelInner * get_inner_() const;
 
   // HWH hacky addition for optimization: also, prep inner for reverting,
   // because this is called at beginning of every pair-wise selection compute

@@ -238,13 +238,14 @@ void TrialGrow::build_(std::vector<argtype> * args) {
           compute = std::make_shared<ComputeAVB2>(&iargs);
         } else if (trial_type == "regrow_avb4") {
           //argtype args_sel, args_mv;
-          gen_avb4_args_(&iargs);
+          argtype perturb_args;
+          gen_avb4_args_(&iargs, &perturb_args);
           iargs.insert({"particle_type", particle_type});
           iargs.insert({"configuration_index", configuration_index});
           iargs.insert({"config", config_name});
           iargs.insert({"site", site});
           select = std::make_shared<SelectParticleAVB>(&iargs);
-          perturb = std::make_shared<PerturbMoveAVB>(&iargs);
+          perturb = std::make_shared<PerturbMoveAVB>(&perturb_args);
           compute = std::make_shared<ComputeAVB4>();
         } else {
           FATAL("unreocgnized trial_type: " << trial_type);

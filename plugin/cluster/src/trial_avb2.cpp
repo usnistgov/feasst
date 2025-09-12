@@ -20,8 +20,13 @@ void gen_avb2_args_(const bool out_to_in, argtype * args,
     args->insert({"out_to_in", "false"});
   }
   if (used("neighbor_index", *args)) {
-    perturb_args->insert({"neighbor_index", str("neighbor_index", args)});
+    const std::string nindex = str("neighbor_index", args);
+    for (argtype * args : {args, perturb_args}) {
+      args->insert({"neighbor_index", nindex});
+    }
   }
+  DEBUG("perturb_args " << str(*perturb_args));
+  DEBUG("args " << str(*args));
 }
 
 FEASST_MAPPER(TrialAVB2Half, argtype({{"out_to_in", "true"}}));

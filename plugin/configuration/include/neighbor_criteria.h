@@ -5,6 +5,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace feasst {
 
@@ -13,6 +14,7 @@ typedef std::map<std::string, std::string> argtype;
 class Domain;
 class ParticleFactory;
 class Position;
+class ncrit;
 
 // HWH consider applying Shapes from confinement into NeighborCriteria
 // For now, it assumes spheres/circles
@@ -27,10 +29,19 @@ class Position;
 class NeighborCriteria {
  public:
   //@{
+  /* HWH Deprecated arguments
+    - site_type0_alt: consider interactions between another specific site type.
+      If -1, ignore (default: -1).
+      Otherwise, site_type1_alt must also be included.
+    - site_type1_alt: consider interactions between another specific site type.
+      If -1, ignore (default: -1).
+   */
   /** @name Arguments
     - ref: name of RefPotential. If empty, use Potential (default: empty)
     - potential_index: index of potential for pair interaction (default: 0).
     - energy_maximum: maximum energy to be in cluster (default: largest double precision).
+      Multiple values can be provided as a CSV, which requires the following arguments
+      to also be provided in CSV with the same number of values.
     - minimum_distance: minimum separation distance (default: 0).
     - maximum_distance: maximum separation distance (default: NEAR_INFINITY).
     - site_type0: consider only interactions between a specific site type.
@@ -38,11 +49,6 @@ class NeighborCriteria {
       Otherwise, site_type1 must also be included.
     - site_type1: consider only interactions between a specific site type.
       If -1, consider all sites (default: -1).
-    - site_type0_alt: consider interactions between another specific site type.
-      If -1, ignore (default: -1).
-      Otherwise, site_type1_alt must also be included.
-    - site_type1_alt: consider interactions between another specific site type.
-      If -1, ignore (default: -1).
    */
   explicit NeighborCriteria(argtype args = argtype());
   explicit NeighborCriteria(argtype * args);
@@ -59,7 +65,7 @@ class NeighborCriteria {
   int reference_potential() const;
   const std::string& ref() const { return ref_; }
   int potential_index() const { return potential_index_; }
-  double energy_maximum() const { return energy_maximum_; }
+  double energy_maximum() const;
   double minimum_distance() const;
   double maximum_distance() const;
 
@@ -77,6 +83,9 @@ class NeighborCriteria {
     const Position& position,
     const Domain& domain);
 
+  int site_type0() const { return site_type0_; }
+  int site_type1() const { return site_type1_; }
+
   /// Serialize.
   void serialize(std::ostream& ostr) const;
 
@@ -87,6 +96,7 @@ class NeighborCriteria {
  private:
   int reference_potential_, potential_index_;
   std::string ref_;
+  std::vector<std::unique_ptr<ncrit> > criterion_;
   double energy_maximum_, minimum_distance_sq_, maximum_distance_sq_;
   int site_type0_, site_type1_, site_type0_alt_, site_type1_alt_;
   std::string site_type0_name_, site_type1_name_;
@@ -100,6 +110,21 @@ inline std::shared_ptr<NeighborCriteria> MakeNeighborCriteria(
     argtype args = argtype()) {
   return std::make_shared<NeighborCriteria>(args);
 }
+
+class ncrit {
+ public:
+  ncrit();
+  double energy_max, max_dist_sq, min_dist_sq;
+  std::string site_type0_name, site_type1_name;
+  int site_type0, site_type1;
+  bool is_accepted(const double energy,
+                   const double squared_distance,
+                   const int site_type0,
+                   const int site_type1) const;
+  void serialize(std::ostream& ostr) const;
+  explicit ncrit(std::istream& istr);
+  ~ncrit();
+};
 
 }  // namespace feasst
 

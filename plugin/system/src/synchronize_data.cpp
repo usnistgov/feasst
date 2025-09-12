@@ -3,6 +3,20 @@
 
 namespace feasst {
 
+void SynchronizeData::clear() {
+  dble_1D_.clear();
+  int_1D_.clear();
+  int_2D_.clear();
+  int64_1D_.clear();
+  dble_2D_.clear();
+  dble_3D_.clear();
+  dble_4D_.clear();
+  dble_5D_.clear();
+  dble_6D_.clear();
+  vpvpvpvpv_.clear();
+  vvvpvpv_.clear();
+}
+
 void SynchronizeData::serialize(std::ostream& ostr) const {
   feasst_serialize_version(2464, ostr);
   feasst_serialize(dble_1D_, ostr);

@@ -58,13 +58,11 @@ TEST(FileXYZ, multicomponent) {
   FileXYZ().write("tmp/print.xyz", *config);
 }
 
-TEST(FileXYZ, multicomponent_failure) {
-  TRY(
-    auto config = MakeConfiguration({{"particle_type0", "../particle/lj.txt"},
-                                     {"particle_type1", "../particle/spce.txt"},
-                                     {"xyz_file", "../plugin/configuration/test/data/multicomponent2.xyz"}});
-    CATCH_PHRASE("not given in integers");
-  );
+TEST(FileXYZ, multicomponent2) {
+  auto config = MakeConfiguration({{"particle_type", "LJ:../particle/lj_new.txt,SPCE:../particle/spce_new.txt"},
+                                   {"xyz_file", "../plugin/configuration/test/data/multicomponent2.xyz"}});
+  EXPECT_EQ(config->num_particles_of_type(0), 2);
+  EXPECT_EQ(config->num_particles_of_type(1), 1);
 }
 
 }  // namespace feasst

@@ -20,6 +20,7 @@ SelectParticleAVB::SelectParticleAVB(argtype args) : SelectParticleAVB(&args) {
 SelectParticleAVB::SelectParticleAVB(argtype * args) : TrialSelect(args) {
   class_name_ = "SelectParticleAVB";
   neighbor_ = integer("neighbor_index", args, 0);
+  DEBUG("neighbor_ " << neighbor_);
   grand_canonical_ = boolean("grand_canonical", args);
   inside_ = boolean("inside", args, true);
   is_second_target_ = boolean("second_target", args, false);
@@ -96,6 +97,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
   }
   ASSERT(target_.num_sites() == 1, "Error");
   // HWH update with configuration_index_
+  DEBUG("neighbor_ " << neighbor_);
   const NeighborCriteria& neighbor = system->neighbor_criteria(neighbor_, 0);
   map_(*system, neighbor_).neighbors(
     neighbor,

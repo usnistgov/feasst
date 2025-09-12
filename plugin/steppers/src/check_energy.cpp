@@ -2,9 +2,15 @@
 #include "utils/include/io.h"
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
+#include "utils/include/serialize_extra.h"
+#include "math/include/utils_math.h"
 #include "math/include/accumulator.h"
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
+#include "system/include/visit_model.h"
+#include "system/include/visit_model_inner.h"
+#include "system/include/energy_map.h"
+#include "cluster/include/energy_map_neighbor.h" // HWH remove this
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/check_energy.h"
@@ -27,11 +33,7 @@ bool CheckEnergy::is_within_tolerance_(const double u1, const double u2) const {
   DEBUG(MAX_PRECISION << "u1 " << u1 << " u2 " << u2);
   if (decimal_places_ > 0) {
     DEBUG("decimal_places_ " << decimal_places_);
-    const double max_abs = std::max(std::abs(u1), std::abs(u2));
-    const double tol = std::pow(10, -decimal_places_);
-    if (std::abs(u1 - u2)/max_abs > tol && max_abs > tol) {
-      pass = false;
-    }
+    pass = is_equal_within_decimal_places(u1, u2, decimal_places_);
   } else {
     if (std::abs(u1 - u2) > tolerance_) {
       pass = false;
@@ -55,6 +57,41 @@ void CheckEnergy::update(MonteCarlo * mc) {
   System * system = mc->get_system();
   check_->update(*mc);
   DEBUG("computing unoptimized energy for check");
+
+  DEBUG("Check EnergyMap. Expensive due to deep_copy, so check if skipping.");
+  bool skip_map = true; //, clear_map = false;
+  std::unique_ptr<MonteCarlo> copy;
+  for (int config = 0; config < system->num_configurations(); ++config) {
+    for (int pot = 0; pot < system->unoptimized().num(); ++pot) {
+      const VisitModelInner inner = system->potential(pot, config).visit_model().inner();
+      if (inner.is_energy_map()) {
+        skip_map = false;
+        if (inner.energy_map().class_name() == "EnergyMapNeighborCriteria") {
+//          clear_map = true;
+        }
+      }
+    }
+  }
+  if (!skip_map) {
+    std::stringstream ss;
+    mc->serialize(ss);
+    copy = std::make_unique<MonteCarlo>(ss);
+    //deep_copy(*mc);
+//    if (clear_map) {
+//      for (int config = 0; config < system->num_configurations(); ++config) {
+//        for (int pot = 0; pot < system->unoptimized().num(); ++pot) {
+//          VisitModelInner * inner = system->get_potential(pot, config)->get_visit_model_()->get_inner_();
+//          if (inner->is_energy_map()) {
+//            inner->get_energy_map_()->clear();
+////            ss.str("");
+////            inner->energy_map().serialize(ss);
+////            EnergyMapNeighbor mp(ss);
+////            DEBUG(mp.map_str());
+//          }
+//        }
+//      }
+//    }
+  }
 
   for (int config = 0; config < system->num_configurations(); ++config) {
     DEBUG("config " << config);
@@ -100,8 +137,23 @@ void CheckEnergy::update(MonteCarlo * mc) {
       "greater than the " << err_msg_() << " "
       << system->unoptimized().str());
     criteria->set_current_energy(energy, config);
+  }
 
-    // loop over all queryable maps and check those as well.
+  if (!skip_map) {
+    for (int config = 0; config < system->num_configurations(); ++config) {
+      for (int pot = 0; pot < system->unoptimized().num(); ++pot) {
+        const VisitModelInner& inner = copy->system().potential(pot, config).visit_model().inner();
+        if (inner.is_energy_map()) {
+//          try {
+            const EnergyMap& new_map = system->potential(pot, config).visit_model().inner().energy_map();
+            new_map.is_equal(inner.energy_map());
+//          } catch (...) {
+//            FATAL("CheckEnergy found a problem with the neighbor list in config:"
+//              << config << " potential:" << pot);
+//          }
+        }
+      }
+    }
   }
 }
 

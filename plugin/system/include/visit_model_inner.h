@@ -92,6 +92,8 @@ class VisitModelInner {
 
   bool is_energy_map_queryable() const;
 
+  EnergyMap * get_energy_map_() { return energy_map_.get(); }
+
   void check(const Configuration& config) const;
 
   void synchronize_(const VisitModelInner& inner, const Select& perturbed);

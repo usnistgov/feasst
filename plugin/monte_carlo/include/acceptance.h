@@ -21,12 +21,10 @@ class Acceptance {
   double ln_metropolis_prob() const;
 
   /// Set the above quantity.
-  void set_ln_metropolis_prob(const double prob = 0) {
-    ln_metropolis_prob_ = prob; }
+  void set_ln_metropolis_prob(const double prob = 0);
 
   /// Add to the above quantity.
-  void add_to_ln_metropolis_prob(const double prob = 0) {
-    ln_metropolis_prob_ += prob; }
+  void add_to_ln_metropolis_prob(const double prob = 0);
 
   /// Return whether or not to reject the trial outright.
   bool reject() const { return reject_; }

@@ -15,10 +15,15 @@ FEASST_MAPPER(EnergyMapAll,);
 
 EnergyMapAll::EnergyMapAll(argtype * args) : EnergyMap(args) {
   class_name_ = "EnergyMapAll";
-  data_.get_dble_6D()->resize(2);
+  clear(); // resize
 }
 EnergyMapAll::EnergyMapAll(argtype args) : EnergyMapAll(&args) {
   feasst_check_all_used(args);
+}
+
+void EnergyMapAll::clear() {
+  EnergyMap::clear();
+  data_.get_dble_6D()->resize(2);
 }
 
 EnergyMapAll::EnergyMapAll(std::istream& istr) : EnergyMap(istr) {
@@ -190,7 +195,7 @@ bool EnergyMapAll::is_cluster_(
 }
 
 void EnergyMapAll::check(const Configuration& config) const {
-  if (!is_equal(map(), map_new(), NEAR_ZERO)) {
+  if (!feasst::is_equal(map(), map_new(), NEAR_ZERO)) {
 //    DEBUG(feasst_str(map()));
 //    DEBUG(feasst_str(map_new()));
     ERROR("maps are not equal");

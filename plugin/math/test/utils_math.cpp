@@ -58,4 +58,11 @@ TEST(UtilsMath, factorial) {
   );
 }
 
+TEST(UtilsMath, is_equal_within_decimal_places) {
+  EXPECT_TRUE(is_equal_within_decimal_places(1.0123, 1.0223, 1));
+  EXPECT_TRUE(is_equal_within_decimal_places(1.0123, 1.0223, 2));
+  EXPECT_FALSE(is_equal_within_decimal_places(1.0123, 1.0223, 3));
+  EXPECT_FALSE(is_equal_within_decimal_places(1.0123, 1.0223, 4));
+}
+
 }  // namespace feasst

@@ -78,6 +78,7 @@ class EnergyMapNeighbor : public EnergyMap {
 
   const std::vector<map4type>& const_map_() const;
   const std::vector<std::pair<int, mn4type> >& const_map_new_() const;
+  void is_equal(const EnergyMap& map) const override;
 
   // serialization
   std::string class_name() const override { return class_name_; }
@@ -86,9 +87,10 @@ class EnergyMapNeighbor : public EnergyMap {
   std::shared_ptr<EnergyMap> create(argtype * args) const override {
     return std::make_shared<EnergyMapNeighbor>(args); }
   void serialize(std::ostream& ostr) const override;
-  EnergyMapNeighbor(std::istream& istr);
+  explicit EnergyMapNeighbor(std::istream& istr);
   virtual ~EnergyMapNeighbor() {}
 
+  std::string map_str() const; // move back to protected?
  protected:
   void serialize_energy_map_neighbor_(std::ostream& ostr) const;
   void resize_(const int part1, const int site1, const int part2, const int site2) override;
@@ -101,6 +103,13 @@ class EnergyMapNeighbor : public EnergyMap {
                                   const int part2_index,
                                   const int site2_index) override;
   const std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > >& map() const override;
+
+  // DEBUG util
+  std::string map_new_str() const;
+  std::string map_str(const map3type& map3) const;
+
+  // temporary and not serialized
+  bool finalizable_ = false;
 
  private:
   /// map_[part1][site1][pneigh].first -> part2
@@ -200,20 +209,17 @@ class EnergyMapNeighbor : public EnergyMap {
     }
   }
 
-  // DEBUG util
-  std::string map_new_str() const;
-  std::string map_str() const;
-  std::string map_str(const map3type& map3) const;
-
+  void sort_clean_map_();
   void sort_map_new_();
   void size_map_();
   void remove_from_map_nvt_(const Select& select);
   void add_to_map_nvt_();
   void remove_particle_from_map_(const Select& select);
   void add_particle_to_map_();
+  bool is_map4_empty_(map4type * map4);
+  std::string map_comp_(const EnergyMapNeighbor& map2) const;
 
   // temporary and not serialized
-  bool finalizable_ = false;
   std::vector<std::vector<double> > energy_;
 };
 

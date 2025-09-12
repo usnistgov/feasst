@@ -17,8 +17,11 @@ class PerturbAddAVB : public Perturb {
     - neighbor_index: NeighborCriteria index contained in System (default: 0).
     - delay_add: If true, don't add particle until finalize (default: true).
    */
-  PerturbAddAVB(argtype args = argtype());
-  PerturbAddAVB(argtype * args);
+  explicit PerturbAddAVB(argtype args = argtype());
+  explicit PerturbAddAVB(argtype * args);
+
+  /// Return neighbor_index
+  int neighbor_index() const { return move_->neighbor_index(); }
 
   /// Return if the particle isn't added until finalized.
   bool delay_add() const { return delay_add_; }

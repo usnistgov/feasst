@@ -22,6 +22,9 @@ class PerturbMoveAVB : public PerturbMove {
   explicit PerturbMoveAVB(argtype args = argtype());
   explicit PerturbMoveAVB(argtype * args);
 
+  /// Return neighbor_index
+  int neighbor_index() const { return neighbor_; }
+
   void move(const bool is_position_held,
             System * system,
             TrialSelect * select,

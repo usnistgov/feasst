@@ -14,7 +14,9 @@ TrialAddAVB::TrialAddAVB(argtype * args) : Trial(args) {
   class_name_ = "TrialAddAVB";
   set_description("TrialAddAVB");
   args->insert({"grand_canonical", "true"});
+  DEBUG("args " << str(*args));
   auto perturb = std::make_shared<PerturbAddAVB>(args);
+  args->insert({"neighbor_index", str(perturb->neighbor_index())});
   ASSERT(perturb->delay_add(), "ComputeAddAVB assumes delay_add is true");
   add_stage(
     std::make_shared<SelectParticleAVB>(args),

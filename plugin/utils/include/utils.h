@@ -147,7 +147,37 @@ bool has_duplicate(const std::vector<T>& vec) {
   return false;
 }
 
-template<class T>
+bool is_equal(double val1, double val2, const double tolerance = 1e-15);
+
+template<typename T1, typename T2>
+bool is_equal(const std::pair<T1, std::vector<T2> >& pr1,
+              const std::pair<T1, std::vector<T2> >& pr2,
+              const double tolerance = 1e-15) {
+  if (!is_equal(pr1.first, pr2.first, tolerance)) {
+    return false;
+  }
+  for (int index = 0; index < static_cast<int>(pr1.second.size()); ++index) {
+    if (!is_equal(pr1.second[index], pr2.second[index], tolerance)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+template<typename T1, typename T2>
+bool is_equal(const std::pair<T1, T2>& pr1,
+              const std::pair<T1, T2>& pr2,
+              const double tolerance = 1e-15) {
+  if (!is_equal(pr1.first, pr2.first, tolerance)) {
+    return false;
+  }
+  if (!is_equal(pr1.second, pr2.second, tolerance)) {
+    return false;
+  }
+  return true;
+}
+
+template<typename T>
 bool is_equal(const std::vector<T>& vec1,
               const std::vector<T>& vec2,
               const double tolerance = 1e-15) {
@@ -155,59 +185,11 @@ bool is_equal(const std::vector<T>& vec1,
     return false;
   }
   for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {
-    if (std::abs(vec1[index] - vec2[index]) > tolerance) {
+    if (!is_equal(vec1[index], vec2[index], tolerance)) {
 //      TRACE(MAX_PRECISION << "vec1[" << index << "]:" << vec1[index] << " != "
 //        << "vec2[" << index << "]:" << vec2[index]);
       return false;
     }
-  }
-  return true;
-}
-
-template<class T>
-bool is_equal(const std::vector<std::vector<T> >& vec1,
-              const std::vector<std::vector<T> >& vec2,
-              const double tolerance = 1e-15) {
-  if (vec1.size() != vec2.size()) return false;
-  for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {
-    if (!is_equal(vec1[index], vec2[index], tolerance)) return false;
-  }
-  return true;
-}
-
-template<class T>
-bool is_equal(const std::vector<std::vector<std::vector<T> > >& vec1,
-              const std::vector<std::vector<std::vector<T> > >& vec2,
-              const double tolerance = 1e-15) {
-  if (vec1.size() != vec2.size()) return false;
-  for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {
-    if (!is_equal(vec1[index], vec2[index])) return false;
-  }
-  return true;
-}
-
-template<class T>
-bool is_equal(const std::vector<std::vector<std::vector<
-              std::vector<T> > > >& vec1,
-              const std::vector<std::vector<std::vector<
-              std::vector<T> > > >& vec2,
-              const double tolerance = 1e-15) {
-  if (vec1.size() != vec2.size()) return false;
-  for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {
-    if (!is_equal(vec1[index], vec2[index])) return false;
-  }
-  return true;
-}
-
-template<class T>
-bool is_equal(const std::vector<std::vector<std::vector<std::vector<
-              std::vector<T> > > > >& vec1,
-              const std::vector<std::vector<std::vector<std::vector<
-              std::vector<T> > > > >& vec2,
-              const double tolerance = 1e-15) {
-  if (vec1.size() != vec2.size()) return false;
-  for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {
-    if (!is_equal(vec1[index], vec2[index])) return false;
   }
   return true;
 }

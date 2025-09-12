@@ -153,7 +153,7 @@ void VisitModel::compute(
     const Select& selection,
     Configuration * config,
     const int group_index) {
-  DEBUG("VistModel selection " << selection.str());
+  TRACE("VistModel selection " << selection.str());
   VisitModelInner * inner = get_inner_();
   zero_energy();
   const Domain& domain = config->domain();
@@ -161,6 +161,7 @@ void VisitModel::compute(
   const Select& select_all = config->group_select(group_index);
   const bool is_old_config = is_old_config_(selection);
   if (is_queryable_(selection, is_old_config, inner)) {
+    TRACE("queried");
     return;
   }
 
@@ -728,6 +729,7 @@ bool VisitModel::is_queryable_(const Select& selection, const bool is_old_config
     if (selection.num_particles() == 1) {
       if (inner->is_energy_map_queryable()) {
         inner->query_ixn(selection);
+        TRACE("en: " << inner->energy());
         set_energy(inner->energy());
         return true;
       }

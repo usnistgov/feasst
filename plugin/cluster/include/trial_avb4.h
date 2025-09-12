@@ -144,7 +144,7 @@ class TrialAVB4 : public Trial {
 inline std::shared_ptr<TrialAVB4> MakeTrialAVB4(argtype args = argtype()) {
   return std::make_shared<TrialAVB4>(args); }
 
-void gen_avb4_args_(argtype * args);
+void gen_avb4_args_(argtype * args, argtype * perturb_args);
 
 }  // namespace feasst
 
