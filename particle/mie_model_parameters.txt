@@ -4,4 +4,8 @@
 # [site type 1] [site type 2] [property name] [value]
 
 epsilon CO2 N 121.5
+epsilon CO2 CH4 156.0
+epsilon CO2 CH3 143.0
+epsilon CH4 CH3 127.50
 mie_lambda_r CO2 N 20.27
+mie_lambda_r CH4 CH3 12.628

@@ -359,7 +359,7 @@ void ModelParams::set(const std::string& filename,
   ASSERT(file.good(), "cannot find mixing file " << filename.c_str());
   std::string line;
   //std::getline(file, line);
-  bool last_line = false, found;
+  bool last_line = false;
   int num = 0;
   int site_type1, site_type2;
   std::shared_ptr<ModelParam> param;
@@ -375,23 +375,25 @@ void ModelParams::set(const std::string& filename,
       std::vector<std::string> vals = split(line, ' ');
       param = select_(vals[0]);
       const int size = param->size();
+      bool found1, found2;
       if (static_cast<int>(vals.size()) == 3) {
         if (site_type_names) {
-          found = find_in_list(vals[1], *site_type_names, &site_type1);
-          ASSERT(found, "Could not find site type name:" << vals[1]);
+          found1 = find_in_list(vals[1], *site_type_names, &site_type1);
+          //ASSERT(found, "Could not find site type name:" << vals[1]);
         } else {
+          found1 = true;
           site_type1 = feasst::str_to_int(vals[1]);
         }
         ASSERT(site_type1 < size, "given site_type1:" << site_type1 <<
           " >= size:" << size << ". The file:"<<filename<<" seems to have more "
           << "sites than the current configuration:"<<param->size());
-        param->set(site_type1, feasst::str_to_double(vals[2]));
+        if (found1) param->set(site_type1, feasst::str_to_double(vals[2]));
       } else if (static_cast<int>(vals.size()) == 4) {
         if (site_type_names) {
-          found = find_in_list(vals[1], *site_type_names, &site_type1);
-          ASSERT(found, "Could not find site type name:" << vals[1]);
-          found = find_in_list(vals[2], *site_type_names, &site_type2);
-          ASSERT(found, "Could not find site type name:" << vals[2]);
+          found1 = find_in_list(vals[1], *site_type_names, &site_type1);
+          //ASSERT(found, "Could not find site type name:" << vals[1]);
+          found2 = find_in_list(vals[2], *site_type_names, &site_type2);
+          //ASSERT(found, "Could not find site type name:" << vals[2]);
         } else {
           site_type1 = feasst::str_to_int(vals[1]);
           site_type2 = feasst::str_to_int(vals[2]);
@@ -400,7 +402,9 @@ void ModelParams::set(const std::string& filename,
           "given site_type1:" << site_type1 << " or site_type2: " << site_type2
           << " >= size:" << size << ". The file:"<<filename<<" seems to have "
           << "more sites than the current configuration:"<<param->size());
-        param->set_mixed(site_type1, site_type2, feasst::str_to_double(vals[3]));
+        if (found1 && found2) {
+          param->set_mixed(site_type1, site_type2, feasst::str_to_double(vals[3]));
+        }
       } else {
         FATAL("Unrecognized ModelParams format for file:" << filename <<
           "on line:\"" << line << "\"");

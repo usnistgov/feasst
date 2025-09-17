@@ -68,7 +68,7 @@ void Tune::update(MonteCarlo * mc) {
   TrialFactory * tfac = mc->get_trial_factory();
   const int trial = tfac->last_index();
   DEBUG("last trial attempted: " << trial);
-  if (trial < min_num(*tfac)) {
+  if (trial >= 0 && trial < min_num(*tfac)) {
     if (!tfac->trial(trial).accept().reject()) {
       // update acceptance statistics
       int * num_attempts = &(*get_num_attempts_())[trial];

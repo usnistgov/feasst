@@ -1,0 +1,24 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+#
+# CH3 - CH3
+#
+# Units
+# Length: Angstrom
+# Energy: Kelvin
+
+Site Properties
+
+CH3 sigma=3.68 epsilon=131.8 cutoff=12.0 mie_lambda_r=15.05 mie_lambda_a=6.0
+
+Sites
+
+CH3_1 CH3 0.00 0 0
+CH3_2 CH3 1.84 0 0
+
+Bond Properties
+
+CC RigidBond length=1.84 delta=0.001
+
+Bonds
+
+CC1 CC CH3_1 CH3_2

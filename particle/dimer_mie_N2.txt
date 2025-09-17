@@ -1,6 +1,11 @@
 # FEASST particle file (https://doi.org/10.18434/M3S095)
+# N2 as described in https://doi.org/10.1021/acs.jpcb.5c00536
 #
 # N1 - N2
+#
+# Units
+# Length: Angstrom
+# Energy: Kelvin
 
 Site Properties
 
