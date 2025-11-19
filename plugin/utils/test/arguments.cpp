@@ -106,7 +106,7 @@ TEST(Utils, find_in_list) {
     {"major_key", {{"minor_key", "value1"}}},
     {"major_key2", {{"minor_key2", "value2"}, {"minor_key3", "value3"}}}
   }};
-  int find;
+  int find = -1;
   find_in_list(std::string("major_key2"), args, &find);
   EXPECT_EQ(1, find);
   // DEBUG(str(args));

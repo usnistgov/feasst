@@ -28,6 +28,7 @@ class Cylinder : public Shape {
    */
   //@{
 
+  const double radius() const { return radius_; }
   const Position& first_point() const { return point0_; }
   const Position& second_point() const { return point1_; }
 

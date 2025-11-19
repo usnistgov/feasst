@@ -15,14 +15,20 @@ class Random;
 class Shape;
 class System;
 
+void precompute_table1D(const Configuration& config, std::string table_file,
+  std::vector<std::unique_ptr<Table1D> > * tables);
+
+/// HWH: Add HalfSpace or some other Shape instead of dimension argument,
+/// or maybe make it work with all Shapes? but how to scale the coordinate?
+
 /**
-  A tabular potential for interactions in one dimension.
+  A tabular potential for interactions in one Cartesian dimension.
   The table file is formatted as follows:
 
   The first line should be "site_types=" followed by a comma-separated list of
   the labels of each site type.
   The remaining lines are the individual tables for each of the site types.
-  For example, "site_types O,H" will then contain a line for the table of "O"
+  For example, "site_types=O,H" will then contain a line for the table of "O"
   sites, then another line for the table of "H" sites.
   Each table is given in a single line by a number of space-separated values
   that represent the interaction energy spanning the range of a coordinate, z,
@@ -47,7 +53,8 @@ class ModelTableCart1D : public ModelOneBody {
    */
   //@{
 
-  void precompute(const Configuration& config) override;
+  void precompute(const Configuration& config) override {
+    precompute_table1D(config, table_file_, &tables_); }
 
   double energy(
     const Position& wrapped_site,

@@ -13,6 +13,11 @@
 
 namespace feasst {
 
+TEST(MacrostateMorph, serialize) {
+  auto obj = std::make_unique<MacrostateMorph>(argtype({{"morph_sequence", "1,0"}}));
+  std::unique_ptr<MacrostateMorph> obj2 = test_serialize_unique(*obj);
+}
+
 TEST(MacrostateMorph, lj) {
   auto conf = MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.txt"}});
   conf->add_particle_type("../particle/lj.txt");

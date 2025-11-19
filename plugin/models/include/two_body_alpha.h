@@ -17,7 +17,7 @@ typedef std::map<std::string, std::string> argtype;
   where \f$s\f$ is the prefactor and \f$\alpha\f$ is the power,
   both of which are given as class-specific parameters.
   Note that \f$s\f$ is required for negative values because \f$\epsilon\f$
-  cannot be negative due to the standard mixing rules.
+  cannot be negative due to the standard combining rules.
  */
 class TwoBodyAlpha : public ModelTwoBody {
  public:

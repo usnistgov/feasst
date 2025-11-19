@@ -151,12 +151,18 @@ def post_process(params):
     import numpy as np
     import pandas as pd
     ns = list()
+    nsa = list()
     sim = 0
     nexp = [267, 237, 244]
+    frac = nexp/np.sum(nexp)
     for i,n in enumerate([1,2,3]):
         ns.append(pd.read_csv("{}{:03d}_vapor_n{}.csv".format(params['prefix'], sim, n)))
-        diff = np.abs(ns[i]['average'][0] - nexp[i])
-        if diff > 10:
+        nsa.append(ns[-1]['average'][0])
+    for i,n in enumerate([1,2,3]):
+        diff = np.abs(ns[i]['average'][0]/np.sum(nsa) - frac[i])
+        #print('n', ns[-1])
+        #print('diff', diff)
+        if diff > 0.03:
             print('n', n, 'nexp', nexp[i], 'n', ns[-1], 'diff', diff)
             assert False
 

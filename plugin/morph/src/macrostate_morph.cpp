@@ -4,15 +4,30 @@
 #include "math/include/histogram.h"
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
+#include "morph/include/trial_morph_expanded.h"
 #include "morph/include/macrostate_morph.h"
 
 namespace feasst {
+
+MacrostateMorph::MacrostateMorph(argtype * args) : Macrostate(args) {
+  class_name_ = "MacrostateMorph";
+  std::vector<std::vector<int> > grow_seq = parse_morph_seq(args);
+  //args->insert({"width", std::to_string(1./grow_seq.size())});
+  init_(grow_seq);
+}
+MacrostateMorph::MacrostateMorph(argtype args) : MacrostateMorph(&args) {
+  //feasst_check_all_used(args);
+}
 
 MacrostateMorph::MacrostateMorph(
     const std::vector<std::vector<int> > grow_seq,
     const Histogram& histogram,
     const argtype& args) : Macrostate(histogram, args) {
   class_name_ = "MacrostateMorph";
+  init_(grow_seq);
+}
+
+void MacrostateMorph::init_(const std::vector<std::vector<int> > grow_seq) {
   grow_seq_ = grow_seq;
   ASSERT(grow_seq.size() > 1, "The particle growth sequence is of size: " <<
     grow_seq.size() << " but must be 2 or more");
@@ -92,6 +107,10 @@ static MapMacrostateMorph mapper_ = MapMacrostateMorph();
 
 std::shared_ptr<Macrostate> MacrostateMorph::create(std::istream& istr) const {
   return std::make_shared<MacrostateMorph>(istr);
+}
+
+std::shared_ptr<Macrostate> MacrostateMorph::create(argtype * args) const {
+  return std::make_shared<MacrostateMorph>(args);
 }
 
 MacrostateMorph::MacrostateMorph(std::istream& istr)

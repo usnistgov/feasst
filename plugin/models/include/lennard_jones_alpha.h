@@ -140,7 +140,7 @@ inline std::shared_ptr<DeltaSigma> MakeDeltaSigma() {
 }
 
 /**
- The lambda parameter has the default mixing rule:
+ The lambda parameter has the default combining rule:
  \f$ \lambda_{ij} = \sqrt{\lambda_i \lambda_j} \f$
  */
 class Lambda : public ModelParam {

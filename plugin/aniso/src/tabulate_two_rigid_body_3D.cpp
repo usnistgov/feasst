@@ -103,8 +103,8 @@ double TabulateTwoRigidBody3D::max_cubic_side_length(const int particle_type,
   const double max_cutoff = config.model_params().select("cutoff").mixed_max();
   //DEBUG("max_sigma " << max_sigma);
   //DEBUG("max_cutoff " << max_cutoff);
-  length += 10 + max_sigma + max_cutoff;
-  //length += 10 + max_sigma + max_sigma; // assuming hard sphere only
+  length += 20 + max_sigma + max_cutoff;
+  //length += 20 + max_sigma + max_sigma; // assuming hard sphere only
   length *= 2; // double for two particles.
   return length;
 }
@@ -127,19 +127,13 @@ void TabulateTwoRigidBody3D::run(MonteCarlo * mc) {
   System * system = mc->get_system();
   adjust_domain(system);
   rotator_.init(system, xyz_file_, contact_xyz_file_);
-//  std::shared_ptr<ProgressReport> report;
   if (!input_table_file_.empty()) {
     read_contact_table(mc);
-//    report = MakeProgressReport({{"num", str(rotator_.num_orientations())},
-//                                 {"percent_per_write", "0.1"}});
   } else {
     DEBUG("Determining orientations.");
     if (input_orientation_file_.empty()) {
       rotator_.gen_orientations(num_orientations_per_pi_, mc->configuration());
-//      report = MakeProgressReport({{"num", str(rotator_.num_orientations())},
-//                                   {"percent_per_write", "0.1"}});
       const double displacement = 40.;
-
       DEBUG("num orientations: " << rotator_.num_orientations());
       ASSERT(rotator_.num_proc_ == 1, "unique orientation search is not parallelized in the same way as the rest.");
       DEBUG("Set last three");
@@ -149,7 +143,6 @@ void TabulateTwoRigidBody3D::run(MonteCarlo * mc) {
         rotator_.set_last_three_sites(ior, system);
         //DEBUG("ior " << ior << " unique " << rotator_.unique_[ior]); // << " last three " << last_three[0].str() << " " << last_three[1].str() << " " << last_three[2].str());
         rotator_.revert(system);
-//        report->check();
       }
       rotator_.check_last_three_sites(0, system);
       DEBUG("Determining unique orientations.");
@@ -163,13 +156,20 @@ void TabulateTwoRigidBody3D::run(MonteCarlo * mc) {
         auto thread = MakeThreadOMP();
         const int num_threads = thread->num();
         const int proc = thread->thread();
+        std::unique_ptr<ProgressReport> report;
         if (proc == 0) {
           iors.resize(num_threads);
+          report = std::make_unique<ProgressReport>(argtype({
+            {"num", str(int(rotator_.num_orientations()/num_threads))},
+            {"task", "determine unique orientations"}}));
         }
         #pragma omp barrier
         for (int ior = proc; ior < rotator_.num_orientations(); ior += num_threads) {
           rotator_.determine_if_unique(ior, iors, num_threads, system);
           iors[proc] = ior;
+          if (proc == 0) {
+            report->check();
+          }
         }
       }
       //#pragma omp parallel for schedule(static,1)
@@ -183,7 +183,6 @@ void TabulateTwoRigidBody3D::run(MonteCarlo * mc) {
         DEBUG("fraction unique: " << rotator_.fraction_unique());
         return;
       }
-//      report->reset();
     } else {
       read_input_orientations_(mc->configuration());
     }
@@ -195,18 +194,23 @@ void TabulateTwoRigidBody3D::run(MonteCarlo * mc) {
       ior_first = contact_xyz_index_;
       ior_less_than = ior_first + 1;
     }
+    auto report = std::make_unique<ProgressReport>(argtype({
+      {"num", str(rotator_.num_orientations())},
+      {"task", "obtain contact distances."}}));
     for (int ior = ior_first; ior < ior_less_than; ++ior) {
       rotator_.contact_distance(ior, system);
       //const double dist = rotator_.contact_distance(ior, system);
       //DEBUG("ior " << ior << " dist " << MAX_PRECISION << dist);
-//      report->check();
+      report->check();
     }
   }
 
   if (num_z_ != -1) {
     DEBUG("Obtaining energies for each orientation.");
     resize(rotator_.num_orientations(), num_z_, &rotator_.energy_);
-    //report->reset();
+    auto report = std::make_unique<ProgressReport>(argtype({
+      {"num", str(rotator_.num_orientations())},
+      {"task", "obtain energies"}}));
     const double dz = 1./static_cast<double>(num_z_ - 1);
     const double rc = mc->configuration().model_params().select("cutoff").mixed_max();
     //for (int ior = 0; ior < 1; ++ior) {
@@ -234,7 +238,7 @@ void TabulateTwoRigidBody3D::run(MonteCarlo * mc) {
 //          rotator_.energy_[ior][iz] = rotator_.energy_[unique_ior][iz];
 //        }
       }
-//        report->check();
+      report->check();
     }
   }
   DEBUG("Outputing table");

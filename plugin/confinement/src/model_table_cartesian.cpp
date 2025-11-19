@@ -38,32 +38,33 @@ ModelTableCart1D::ModelTableCart1D(argtype args) : ModelTableCart1D(&args) {
   feasst_check_all_used(args);
 }
 ModelTableCart1D::~ModelTableCart1D() {}
-  
-void ModelTableCart1D::precompute(const Configuration& config) {
-  if (static_cast<int>(tables_.size()) != 0) {
+
+void precompute_table1D(const Configuration& config, std::string table_file,
+    std::vector<std::unique_ptr<Table1D> > * tables) {
+  if (static_cast<int>(tables->size()) != 0) {
     return;
   }
-  tables_.resize(config.num_site_types());
+  tables->resize(config.num_site_types());
   DEBUG("Read table");
-  std::ifstream file(table_file_);
-  ASSERT(file.good(), "cannot find " << table_file_);
+  std::ifstream file(table_file);
+  ASSERT(file.good(), "cannot find " << table_file);
   std::string line;
   std::getline(file, line);
   const std::vector<std::string> types = split(line, '=');
   ASSERT(types[0] == "site_types", "format error: " << types[0]);
   ASSERT(static_cast<int>(types.size()) == 2, "Error in formating of file:" <<
-    table_file_);
+    table_file);
   for (const std::string& type : split(types[1], ',')) {
     const int index = config.site_type_name_to_index(type);
     std::getline(file, line);
-    std::vector<std::string> values = split(line, ' '); 
+    std::vector<std::string> values = split(line, ' ');
     const int num_values = values.size();
-    tables_[index] = std::make_unique<Table1D>(argtype({{"num", str(num_values)}}));
+    (*tables)[index] = std::make_unique<Table1D>(argtype({{"num", str(num_values)}}));
     for (int v = 0; v < num_values; ++v) {
-      tables_[index]->set_data(v, str_to_double(values[v]));
+      (*tables)[index]->set_data(v, str_to_double(values[v]));
     }
   }
-  ASSERT(file.eof(), "Extra lines in file:" << table_file_ << " . The number of "
+  ASSERT(file.eof(), "Extra lines in file:" << table_file << " . The number of "
     << "lines should be the number of site_types + 1");
 }
 

@@ -111,7 +111,7 @@ void ModelLJShape::precompute(const Configuration& config) {
     DEBUG("mixed eps " << mixed_epsilon_.str());
     ASSERT(mixed_epsilon_.size() == fluid_eps.size(), "error");
   }
-  // compute shift after possible mixing with all parameters
+  // compute shift after possible combining rules with all parameters
   shift_->set_model(this); // note the model is used here for the computation
   shift_->set_param(existing);
   shift_->set_model(NULL); // remove model immediately

@@ -20,7 +20,7 @@ typedef std::map<std::string, std::string> argtype;
 /**
   Model parameters depend upon site types, such as epsilon, sigma, etc.
   These parameters may also be mixed between two different site types.
-  Each model parameter has an assumed mixing behavior.
+  Each model parameter has an assumed combining rule.
  */
 class ModelParam {
  public:
@@ -111,7 +111,7 @@ class ModelParam {
   double max_mixed_value_;
   std::vector<std::vector<bool> > is_mixed_override_;
 
-  /// Define mixing rules in the derived class.
+  /// Define combining rules in the derived class.
   /// The default is a simple average, unless one of the values is zero.
   virtual double mix_(const double value1, const double value2);
 
@@ -122,7 +122,7 @@ class ModelParam {
 
 /**
  The epsilon parameter is named "epsilon" in the particle file Site Properties.
- The epsilon parameter has the default mixing rule:
+ The epsilon parameter has the default combining rule:
  \f$ \epsilon_{ij} = \sqrt{\epsilon_i \epsilon_j} \f$
  */
 class Epsilon : public ModelParam {
@@ -142,7 +142,7 @@ class Epsilon : public ModelParam {
 
 /**
   The sigma parameter is named "sigma" in the particle file Site Properties.
-  The sigma parameter has the default mixing rule:
+  The sigma parameter has the default combining rule:
 
   \f$ \sigma_{ij} = \left\{
     \begin{array}{lr}
@@ -165,7 +165,7 @@ class Sigma : public ModelParam {
 
 /**
   The cut off parameter is named "cutoff" in the particle file Site Properties.
-  The cut off parameter has the default mixing rule:
+  The cut off parameter has the default combining rule:
 
   \f$ r_{c,ij} = \left\{
     \begin{array}{lr}
@@ -188,7 +188,7 @@ class CutOff : public ModelParam {
 
 /**
  The charge parameter is named "charge" in the particle file Site Properties.
- The charge parameter, q, has the default mixing rule:
+ The charge parameter, q, has the default combining rule:
  \f$ q_{ij} = q_i q_j \f$
  */
 class Charge : public ModelParam {

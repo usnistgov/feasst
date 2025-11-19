@@ -44,8 +44,7 @@ def parse():
 
     # additional in contact step (or more)
     parser.add_argument('--pH', type=float, default=6, help='pH')
-    parser.add_argument('--domain1', type=str, default='4lyt', help='fstprt file')
-    parser.add_argument('--domain2', type=str, default='4lyt', help='fstprt file')
+    parser.add_argument('--domains', type=str, default='4lyt', help='comma-separated values for fstprt files')
     parser.add_argument('--contact_xyz_file', type=str, default='',
                         help='If not empty, print contact configuration for each orientation')
     parser.add_argument('--contact_xyz_index', type=int, default=-1,
@@ -59,7 +58,7 @@ def parse():
     parser.add_argument('--smoothing_distance', type=float, default=2, help='distance from cutoff to smooth to zero')
 
     # additional in b2 step
-    parser.add_argument('--table_file', type=str, default='energy.txt', help='file describe cg table potential.')
+    parser.add_argument('--table_file', type=str, default='energy_table.txt', help='file describe cg table potential.')
     parser.add_argument('--cubic_side_length', type=float, default=1e4, help='cubic side length')
     parser.add_argument('--molecular_weight', type=float, default=14315.03534, help='molecular weight of protein in g/mol')
     parser.add_argument('--reference_sigma', type=float, default=30, help='size of hard sphere on COM of rigid domain')
@@ -80,14 +79,16 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-Configuration cubic_side_length=2e2 particle_type=pt1:/feasst/particle/spce.txt,pt2:/feasst/particle/spce.txt \
+Configuration cubic_side_length=2e2 particle_type=pt1:/feasst/particle/spce_new.txt,pt2:/feasst/particle/spce_new.txt \
   add_num_pt1_particles=1 add_num_pt2_particles=1 \
   group=fixed,mobile fixed_particle_type=pt1 mobile_particle_type=pt2
 Potential Model ModelEmpty
 TabulateTwoRigidBody3D num_orientations_per_pi={num_orientations_per_pi} output_orientation_file={prefix}{num_orientations_per_pi}.txt
-
+""".format(**params))
+        if len(params['domains'].split(',')) > 1:
+            myfile.write("""
 MonteCarlo
-Configuration cubic_side_length=2e2 particle_type=pt1:/feasst/particle/spce.txt,pt2:/feasst/particle/propane.txt \
+Configuration cubic_side_length=2e2 particle_type=pt1:/feasst/particle/spce_new.txt,pt2:/feasst/particle/propane.txt \
   add_num_pt1_particles=1 add_num_pt2_particles=1 \
   group=fixed,mobile fixed_particle_type=pt1 mobile_particle_type=pt2
 Potential Model=ModelEmpty
@@ -97,18 +98,33 @@ TabulateTwoRigidBody3D num_orientations_per_pi={num_orientations_per_pi} output_
 def post_process(params):
     """ Check the final file length and then launch the next step. """
     nk = params['num_orientations_per_pi']
-    for ij in [True, False]:
+
+    # The following checks for the expected number of values but can be skipped
+    ijs = [False]
+    if len(params['domains'].split(',')) > 1:
+        ijs.append('True')
+    for ij in ijs:
         extra = ''
         expected = (2*nk+1)**2 * (nk+1)**3
         if ij:
             expected = (2*nk+1)**3 * (nk+1)**2
             extra = '_ij'
-        #print('expected number of orientations:', expected)
-        df = pd.read_csv('''{prefix}{num_orientations_per_pi}'''.format(**params)+extra+'.txt', skiprows=1, sep=r'\s+')
-        assert expected == len(df.columns)
+        with open('''{prefix}{num_orientations_per_pi}'''.format(**params)+extra+'.txt') as file1:
+            num = len(file1.readlines()[1].split())
+        if expected != num:
+            print('Found', num, 'orientations for nk=', params['num_orientations_per_pi'], ', but expected', expected)
+            assert False
+
     print('launching after_1_1_contact.py')
     subprocess.check_call('python after_1_1_contact.py '+fstio.dict_to_argparse(params['original_args']),
                           shell=True, executable='/bin/bash')
+
+def generate_domain_pairs(params):
+    params['domain_pairs'] = []
+    for idx1, domain1 in enumerate(params['domains'].split(',')):
+        for idx2, domain2 in enumerate(params['domains'].split(',')):
+            if idx1 <= idx2:
+                params['domain_pairs'].append([domain1, domain2])
 
 if __name__ == '__main__':
     prsr = parse()
@@ -125,6 +141,7 @@ if __name__ == '__main__':
     prms['num_nodes'] = 1
     prms['num_sims'] = prms['num_nodes']
     orient_file_prefix = '''{prefix}{num_orientations_per_pi}'''.format(**prms)
+    generate_domain_pairs(prms)
     if os.path.isfile(orient_file_prefix+'.txt') and \
        os.path.isfile(orient_file_prefix+'_ij.txt'):
         print('using existing:', orient_file_prefix)

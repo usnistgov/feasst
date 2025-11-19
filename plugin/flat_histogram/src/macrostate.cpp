@@ -32,8 +32,8 @@ Macrostate::Macrostate(const Histogram& histogram, argtype * args) {
   DEBUG("edges " << feasst_str(histogram_->edges()));
 }
 
-Macrostate::Macrostate(argtype args) :
-    Macrostate(Histogram(&args), &args) {
+Macrostate::Macrostate(argtype * args) : Macrostate(Histogram(args), args) {}
+Macrostate::Macrostate(argtype args) : Macrostate(&args) {
   feasst_check_all_used(args);
 }
 Macrostate::~Macrostate() {}

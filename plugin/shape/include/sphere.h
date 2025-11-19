@@ -27,6 +27,8 @@ class Sphere : public Shape {
   /** @name Public Functions
    */
   //@{
+
+  const double radius() const { return radius_; }
   const Position& center() const { return center_; }
   double nearest_distance(const Position& point) const override;
   double surface_area() const override;

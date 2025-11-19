@@ -9,7 +9,7 @@ TEST(ProgressReport, percent) {
   ProgressReport report({{"num", str(num)}, {"percent_per_write", "0.01"},
                          {"file_name", "tmp/prog.txt"},
                          {"double_percent_per_write", "0"}});
-  ProgressReport report2({{"num", str(num)}, {"percent_per_write", "1e-4"},
+  ProgressReport report2({{"num", str(num)}, {"percent_per_write", "1e-7"},
                           {"file_name", "tmp/prog2.txt"},
                           {"double_percent_per_write", "1"}});
   for (int i = 0; i < num; ++i) {

@@ -35,6 +35,7 @@ class Macrostate {
     - Histogram arguments.
    */
   explicit Macrostate(argtype args = argtype());
+  explicit Macrostate(argtype * args);
 
   //@}
   /** @name Public Functions

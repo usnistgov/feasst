@@ -7,7 +7,7 @@
 namespace feasst {
 
 /**
-  The mie_lambda_r parameter has the default mixing rule:
+  The mie_lambda_r parameter has the default combining rule:
   \f$ \lambda_{r,ij} - 3 = \sqrt{(\lambda_{r,ii} - 3)(\lambda_{r,jj}-3)} \f$
  */
 class MieLambdaR : public ModelParam {
@@ -27,7 +27,7 @@ inline std::shared_ptr<MieLambdaR> MakeMieLambdaR() {
 }
 
 /**
-  The mie_lambda_a parameter has the default mixing rule:
+  The mie_lambda_a parameter has the default combining rule:
   \f$ \lambda_{a,ij} - 3 = \sqrt{(\lambda_{a,ii} - 3)(\lambda_{a,jj}-3)} \f$
  */
 class MieLambdaA : public ModelParam {
@@ -68,7 +68,7 @@ class MiePrefactor : public ModelParam {
 };
 
 ///**
-//  The mie_ideal_deviation parameter has the default mixing rule:
+//  The mie_ideal_deviation parameter has the default combining rule:
 //  \f$ \lambda_{ij} = 0 \f$
 //  and must be input manually.
 // */

@@ -76,7 +76,7 @@ class Configuration {
       "[parameter] [site type name] [value]"
       "[parameter] [site type name 1] [site type name 2] [value]"
       This file can be used to override the otherwise default Lorentz-Berthelot
-      mixing rules.
+      combining rules.
       Mixing is always symmetric (e.g., params[i][j] == param[j][i])
       Comment lines beginning with the '#' character are ignored.
     - [parameter]: optionally set the [parameter] of all types to this value.

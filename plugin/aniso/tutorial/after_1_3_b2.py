@@ -9,12 +9,12 @@ from pyfeasst import accumulator
 from pyfeasst import fstio
 from pyfeasst import physical_constants
 from launch_1_cg_protein import parse
+from launch_1_cg_protein import generate_domain_pairs
 
-def write_feasst_script(params, script_file):
-    """ Write fst script for a single simulation with keys of params {} enclosed. """
-    with open(script_file, 'w', encoding='utf-8') as myfile:
-        myfile.write("""
-MonteCarlo
+def generate_domain_pair(params):
+    tabsuffix = '_' + params['domain1'] + '_' + params['domain2'] + '_table.txt'
+    params['table_file'] = 'energy' + tabsuffix
+    return """MonteCarlo
 RandomMT19937 seed={seed}
 Configuration cubic_side_length={cubic_side_length} particle_type=pt1:{fstprt} add_num_pt1_particles=2 group=mobile mobile_particle_index=1
 Potential Model=TwoBodyTable VisitModelInner=VisitModelInnerTable table_file={table_file} ignore_energy={ignore_energy}
@@ -25,7 +25,7 @@ TrialTranslate new_only=true reference_index=0 tunable_param=35 group=mobile
 TrialRotate new_only=true reference_index=0 tunable_param=40
 
 # tune trial parameters
-Let [write]=trials_per_write={trials_per} output_file={prefix}_{sim}
+Let [write]=trials_per_write={trials_per} output_file={prefix}{sim:03d}
 Log [write]_eq.txt
 CriteriaWriter [write]_b2_eq.txt
 Tune
@@ -38,7 +38,16 @@ Log [write].txt
 #Movie [write].xyz
 MayerSampling num_beta_taylor={num_beta_taylor} trials_per_cycle={trials_per} cycles_to_complete={production}
 Run until=complete
-""".format(**params))
+""".format(**params)
+
+def write_feasst_script(params, script_file):
+    """ Write fst script for a single simulation with keys of params {} enclosed. """
+    with open(script_file, 'w', encoding='utf-8') as myfile:
+        for domain_pair in params['domain_pairs']:
+            #print('domain_pair', domain_pair)
+            params['domain1'] = domain_pair[0]
+            params['domain2'] = domain_pair[1]
+            myfile.write(generate_domain_pair(params))
 
 def post_process(params):
     """ Compute statistics and output B2 value in appropriate units. """
@@ -48,8 +57,7 @@ def post_process(params):
     mw = params['molecular_weight']/1e3 # kDa
     ref *= 1e-26*physical_constants.AvogadroConstant().value()/mw/mw # A3 to 10^4 molml/g2
     for p in range(params['procs_per_node']):
-        with open(params['prefix']+'_'+str(p)+"_b2.txt", 'r', encoding="utf-8") as file1:
-#        with open(params['prefix']+'_'+str(p)+"_b2_eq.txt", 'r') as file1:
+        with open(params['prefix']+"{:03d}".format(p)+"_b2.txt", 'r', encoding="utf-8") as file1:
             lines = file1.readlines()
         if len(lines) != 0:
             #print('p', p, 'lines[0]', lines[0])
@@ -80,6 +88,7 @@ if __name__ == '__main__':
     prms['hours_terminate'] = 0.99*prms['hours_terminate'] - 0.0333 # terminate before queue
     prms['procs_per_sim'] = 1
     prms['num_sims'] = prms['num_nodes']*prms['procs_per_node']
+    generate_domain_pairs(prms)
     prms['beta'] = 1./(prms['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
 
     fstio.run_simulations(params=prms,

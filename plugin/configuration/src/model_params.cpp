@@ -321,7 +321,7 @@ void ModelParams::set(const std::string& name, const std::string& filename,
     std::vector<std::string> * site_type_names) {
   WARN("Deprecated.");
   std::ifstream file(filename.c_str());
-  ASSERT(file.good(), "cannot find mixing file " << filename.c_str());
+  ASSERT(file.good(), "cannot find file " << filename.c_str());
   std::shared_ptr<ModelParam> param = select_(name);
   const int size = param->size();
   int site_type1, site_type2;
@@ -343,7 +343,7 @@ void ModelParams::set(const std::string& name, const std::string& filename,
       " value " << value << " size " << size);
     ASSERT(site_type1 < size && site_type2 < size,
       "given site_type1:" << site_type1 << " or site_type2: " << site_type2
-      << " >= size:" << size << ". The mixing file seems to have more sites"
+      << " >= size:" << size << ". The file seems to have more sites"
       << " than the current configuration.");
     param->set_mixed(site_type1, site_type2, value);
     std::getline(file, line);
@@ -356,12 +356,12 @@ void ModelParams::set(const std::string& name, const std::string& filename,
 void ModelParams::set(const std::string& filename,
     std::vector<std::string> * site_type_names) {
   std::ifstream file(filename.c_str());
-  ASSERT(file.good(), "cannot find mixing file " << filename.c_str());
+  ASSERT(file.good(), "cannot find file " << filename.c_str());
   std::string line;
   //std::getline(file, line);
   bool last_line = false;
   int num = 0;
-  int site_type1, site_type2;
+  int site_type1 = -1, site_type2 = -1;
   std::shared_ptr<ModelParam> param;
   while (!last_line) {
     if (file.eof()) last_line = true;
@@ -375,7 +375,7 @@ void ModelParams::set(const std::string& filename,
       std::vector<std::string> vals = split(line, ' ');
       param = select_(vals[0]);
       const int size = param->size();
-      bool found1, found2;
+      bool found1 = false, found2 = false;
       if (static_cast<int>(vals.size()) == 3) {
         if (site_type_names) {
           found1 = find_in_list(vals[1], *site_type_names, &site_type1);
@@ -502,7 +502,7 @@ void ModelParams::set_cutoff_min_to_sigma() {
 std::string ModelParams::str(std::vector<std::string> * site_type_names) const {
   std::stringstream ss;
   ss << "# This is a FEASST Configuration::model_param_file which may " <<
-    "override the default Lorentz-Berthelot mixing rules." << std::endl <<
+    "override the default Lorentz-Berthelot combining rules." << std::endl <<
     "# Each line has a 3- or 4-column space-separated format:" << std::endl <<
     "# [parameter] [site type] [value]" << std::endl <<
     "# [parameter] [site type 1] [site type 2] [value]" << std::endl << std::endl;

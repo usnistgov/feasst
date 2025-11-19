@@ -34,6 +34,27 @@ class Random;
  */
 class TrialMorphExpanded : public Trial {
  public:
+  //@{
+  /** @name Arguments
+    - morph_sequence: For each microstate, a comma-separated list of particle
+      types, where the last particle type is the fully-morphed particle.
+      For example, a value of "1,2,3,0" would have a fully-morphed particle of
+      type 0, that can change from 0 to 1, 1 to 2, 2 to 3 and 3 to 0, and vice-
+      versa.
+      Multiple particles can be simultaneously changed using semicolon-
+      separated lists.
+      For example, a value of "1;1,0,0" would change two particles from types
+      0 and 1.
+      Currently only implemented for particle types with integer numbers.
+   */
+  explicit TrialMorphExpanded(argtype args = argtype());
+  explicit TrialMorphExpanded(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   /**
     Typically requires RefPotential if multiple particles are to be morphed
     simultaneously.
@@ -45,14 +66,20 @@ class TrialMorphExpanded : public Trial {
     argtype args = argtype());
   void precompute(Criteria * criteria, System * system) override;
   bool attempt(Criteria * criteria, System * system, Random * random) override;
-  std::shared_ptr<Trial> create(std::istream& istr) const override;
+  std::shared_ptr<Trial> create(std::istream& istr) const override {
+    return std::make_shared<TrialMorphExpanded>(istr); }
+  std::shared_ptr<Trial> create(argtype * args) const override {
+    return std::make_shared<TrialMorphExpanded>(args); }
   void serialize(std::ostream& ostr) const override;
   explicit TrialMorphExpanded(std::istream& istr);
   virtual ~TrialMorphExpanded() {}
+  //@}
  private:
   std::vector<std::shared_ptr<Trial> > grow_;
   std::vector<std::shared_ptr<Trial> > shrink_;
   int current_state_;
+  void init_(std::vector<std::vector<int> > grow_seq,
+             argtype args);
 };
 
 inline std::shared_ptr<TrialMorphExpanded> MakeTrialMorphExpanded(
@@ -61,6 +88,8 @@ inline std::shared_ptr<TrialMorphExpanded> MakeTrialMorphExpanded(
   return std::make_shared<TrialMorphExpanded>(particle_type_growth_sequence,
                                               args);
 }
+
+std::vector<std::vector<int> > parse_morph_seq(argtype * args);
 
 }  // namespace feasst
 

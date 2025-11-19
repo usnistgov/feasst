@@ -43,6 +43,21 @@ namespace feasst {
  */
 class MacrostateMorph : public Macrostate {
  public:
+  //@{
+  /** @name Arguments
+    - morph_sequence: See TrialMorphExpanded for description.
+      Ideally, this would also set the width of the Histogram.
+      However, the width of the Histogram must be input manually here.
+    - Histogram arguments.
+   */
+  explicit MacrostateMorph(argtype args = argtype());
+  explicit MacrostateMorph(argtype * args);
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
   MacrostateMorph(
     const std::vector<std::vector<int> > particle_type_growth_sequence,
     const Histogram& histogram,
@@ -51,14 +66,17 @@ class MacrostateMorph : public Macrostate {
     const Criteria& criteria,
     const Acceptance& acceptance) override;
   std::shared_ptr<Macrostate> create(std::istream& istr) const override;
+  std::shared_ptr<Macrostate> create(argtype * args) const override;
   void serialize(std::ostream& ostr) const override;
   explicit MacrostateMorph(std::istream& istr);
   virtual ~MacrostateMorph() {}
+  //@}
 
  private:
   std::vector<std::vector<int> > grow_seq_;
   std::vector<ConstrainNumParticles> num_first_;
   bool is_row_all_populated_(const int row, const Matrix& matrix) const;
+  void init_(const std::vector<std::vector<int> > grow_seq);
 };
 
 inline std::shared_ptr<MacrostateMorph> MakeMacrostateMorph(

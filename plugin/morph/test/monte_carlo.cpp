@@ -81,7 +81,6 @@ TEST(MonteCarlo, TrialMorphCO2N2) {
 }
 
 std::unique_ptr<MonteCarlo> test_morph_expanded_lj(
-  const std::vector<std::vector<int> > grow_sequence,
   const int max = 5) {
   auto mc = std::make_unique<MonteCarlo>();
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},
@@ -93,20 +92,23 @@ std::unique_ptr<MonteCarlo> test_morph_expanded_lj(
   mc->add(MakePotential(MakeLennardJones()));
   mc->add(MakePotential(MakeLongRangeCorrections()));
   mc->add_to_reference(MakePotential(MakeDontVisitModel()));
-  const double num_parts_in_grow = static_cast<double>(grow_sequence[0].size());
+  //const double num_parts_in_grow = static_cast<double>(grow_sequence[0].size());
   //INFO(str(num_parts_in_grow/grow_sequence.size()));
   mc->set(MakeThermoParams({
     {"beta", str(1./1.5)},
     {"chemical_potential", "-2.352321,-2.352321"}}));
   auto criteria = MakeFlatHistogram(
-    MakeMacrostateMorph(grow_sequence,
-      Histogram({{"width", str(num_parts_in_grow/grow_sequence.size())},
-                 {"max", str(max)}, {"min", "1"}})),
+    std::make_shared<MacrostateMorph>(argtype({{"max", str(max)}, {"min", "1"}, {"width", "1"}, {"morph_sequence", "1;1,0;0"}})),
+    //MakeMacrostateMorph(grow_sequence,
+    //  //Histogram({{"width", str(num_parts_in_grow/grow_sequence.size())},
+    //  Histogram({{"width", str(2/2))},
+    //             {"max", str(max)}, {"min", "1"}})),
     MakeTransitionMatrix({{"min_sweeps", "1000"}}));
   mc->set(criteria);
   mc->add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "1."}}));
-  mc->add(MakeTrialMorphExpanded(grow_sequence,
-    {{"reference_index", "0"}}));//, {"shift", str(-1*num_parts_in_grow)}}));
+  mc->add(std::make_shared<TrialMorphExpanded>(argtype({{"morph_sequence", "1;1,0;0"}, {"reference_index", "0"}})));
+  //mc->add(MakeTrialMorphExpanded(grow_sequence,
+  //  {{"reference_index", "0"}}));//, {"shift", str(-1*num_parts_in_grow)}}));
   const std::string trials_per = str(int(1e3));
 //  mc->add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/grow_fh"}}));
   mc->add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
@@ -131,10 +133,13 @@ std::unique_ptr<MonteCarlo> test_morph_expanded_lj(
 //}
 
 TEST(MonteCarlo, TrialMorphExpanded_2_lj_LONG) {
-  auto mc = test_morph_expanded_lj({{1, 1}, {0, 0}}, 5);
+  auto mc = test_morph_expanded_lj(5);
+  //auto mc = test_morph_expanded_lj({{1, 1}, {0, 0}}, 5);
   mc->run_until_complete();
   //INFO(FlatHistogram(mc->criteria()).write());
+  INFO("here1");
   const LnProbability lnpi = FlatHistogram().flat_histogram(mc->criteria())->bias().ln_prob().reduce(2);
+  INFO("here1");
   EXPECT_NEAR(lnpi.value(0), -13.9933350923078, 0.04);
   EXPECT_NEAR(lnpi.value(1), -6.41488235897456, 0.04);
   EXPECT_NEAR(lnpi.value(2), -0.00163919230786818, 0.005);
@@ -203,7 +208,7 @@ std::unique_ptr<MonteCarlo> test_morph_expanded(const std::string trials_per) {
     // MakeWangLandau({{"min_flatness", "25"}}),
     MakeTransitionMatrix({{"min_sweeps", "10"}})));
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc->add(MakeTrialMorphExpanded(grow_sequence));
+  mc->add(std::make_shared<TrialMorphExpanded>(argtype({{"morph_sequence", "1,2,3,0"}})));
 //  mc->add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/growth"}}));
   mc->add(MakeCheckEnergy({{"trials_per_update", trials_per}}));
   mc->add(MakeTune());
@@ -260,18 +265,15 @@ TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
                             {"particle_type3", "../particle/lj.txt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add_to_reference(MakePotential(MakeDontVisitModel()));
-  const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};
   mc.set(MakeThermoParams({
     {"beta", str(1./1.5)},
     {"chemical_potential", "-2.352321,-2,-2.1,-2.2"}}));
   mc.set(MakeFlatHistogram(
-    MakeMacrostateMorph(
-      grow_sequence,
-      Histogram({{"width", str(1./grow_sequence.size())}, {"max", "5"}, {"min", "0"}})),
+    std::make_shared<MacrostateMorph>(argtype({{"max", "5"}, {"min", "0"}, {"width", "0.5"}, {"morph_sequence", "2;3;3,0;1;1"}})),
     // MakeWangLandau({{"min_flatness", "25"}}),
     MakeTransitionMatrix({{"min_sweeps", "10"}})));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc.add(MakeTrialMorphExpanded(grow_sequence, {{"reference_index", "0"}}));
+  mc.add(std::make_shared<TrialMorphExpanded>(argtype({{"morph_sequence", "2;3;3,0;1;1"}, {"reference_index", "0"}})));
   const std::string trials_per = str(int(1e3));
 //  mc.add(MakeLogAndMovie({{"trials_per_write", trials_per}, {"output_file", "tmp/growth"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", trials_per}}));

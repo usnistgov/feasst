@@ -22,10 +22,37 @@ class MapTrialMorphExpanded {
 
 static MapTrialMorphExpanded mapper_trial_morph_expanded_ = MapTrialMorphExpanded();
 
+std::vector<std::vector<int> > parse_morph_seq(argtype * args) {
+  std::vector<std::vector<int> > grow_seq;
+  const std::vector<std::string> states = split(feasst::str("morph_sequence", args), ',');
+  for (const auto& state : states) {
+    const std::vector<std::string> types = split(state, ';');
+    std::vector<int> seq;
+    for (const auto& type : types) {
+      seq.push_back(str_to_int(type));
+    }
+    grow_seq.push_back(seq);
+  }
+  return grow_seq;
+}
+
+TrialMorphExpanded::TrialMorphExpanded(argtype * args) : Trial(args) {
+  class_name_ = "TrialMorphExpanded";
+  std::vector<std::vector<int> > grow_seq = parse_morph_seq(args);
+  init_(grow_seq, *args);
+}
+TrialMorphExpanded::TrialMorphExpanded(argtype args) : TrialMorphExpanded(&args) {
+  //feasst_check_all_used(args);
+}
+
 TrialMorphExpanded::TrialMorphExpanded(
     const std::vector<std::vector<int> > grow_seq,
     argtype args) : Trial(&args) {
   class_name_ = "TrialMorphExpanded";
+  init_(grow_seq, args);
+}
+
+void TrialMorphExpanded::init_(const std::vector<std::vector<int> > grow_seq, argtype args) {
   bool add_previously = false;
   for (int step = 0;
        step < static_cast<int>(grow_seq.size());
@@ -144,10 +171,6 @@ bool TrialMorphExpanded::attempt(Criteria * criteria,
   }
   DEBUG("current_state: " << current_state_);
   return accepted;
-}
-
-std::shared_ptr<Trial> TrialMorphExpanded::create(std::istream& istr) const {
-  return std::make_shared<TrialMorphExpanded>(istr);
 }
 
 TrialMorphExpanded::TrialMorphExpanded(std::istream& istr) : Trial(istr) {

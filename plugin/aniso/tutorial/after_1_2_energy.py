@@ -11,35 +11,54 @@ import numpy as np
 from pyfeasst import fstio
 from pyfeasst import physical_constants
 from launch_1_cg_protein import parse
+from launch_1_cg_protein import generate_domain_pairs
+from after_1_1_contact import tables_exist
 
-def write_feasst_script(params, script_file):
-    """ Write fst script for a single simulation with keys of params {} enclosed. """
-    with open(script_file, 'w', encoding='utf-8') as myfile:
-        myfile.write("""
-MonteCarlo
+def generate_domain_pair(params):
+    params['orientation_file'] = 'orientations' + str(params['num_orientations_per_pi'])
+    tabsuffix = '_' + params['domain1'] + '_' + params['domain2'] + '_table.txt'
+    params['contact_file'] = 'contact' + tabsuffix
+    if params['domain1'] != params['domain2']:
+        params['orientation_file'] += '_ij'
+    params['orientation_file'] += '.txt'
+    return """MonteCarlo
 Configuration cubic_side_length={initial_box} particle_type=pt1:{domain1}.txt,pt2:{domain2}.txt \
   add_num_pt1_particles=1 add_num_pt2_particles=1 cutoff={cutoff} \
   group=fixed,mobile fixed_particle_type=pt1 mobile_particle_type=pt2
 Potential Model=ModelTwoBodyFactory models=HardSphere,LennardJones,DebyeHuckel kappa={kappa} dielectric={dielectric_water} smoothing_distance={smoothing_distance} \
   VisitModel=VisitModelCell energy_cutoff=1e100
-TabulateTwoRigidBody3D proc={sim} num_proc={num_sims} input_orientation_file={orientation_file} num_z={num_z} smoothing_distance={smoothing_distance} input_table_file={contact_file} output_table_file={prefix}{sim}.txt gamma={gamma}
-""".format(**params))
+TabulateTwoRigidBody3D proc={sim} num_proc={num_sims} input_orientation_file={orientation_file} num_z={num_z} smoothing_distance={smoothing_distance} input_table_file={contact_file} output_table_file={prefix}{sim}_{domain1}_{domain2}_table.txt gamma={gamma}
+""".format(**params)
+
+def write_feasst_script(params, script_file):
+    """ Write fst script for a single simulation with keys of params {} enclosed. """
+    with open(script_file, 'w', encoding='utf-8') as myfile:
+        for domain_pair in params['domain_pairs']:
+            #print('domain_pair', domain_pair)
+            params['domain1'] = domain_pair[0]
+            params['domain2'] = domain_pair[1]
+            myfile.write(generate_domain_pair(params))
 
 def post_process(params):
     """ Combine tables, check their length and launch the next step """
     subprocess.check_call(['sleep', '15']) # without this command, combine doesn't read all tables?
-    if not os.path.isfile('''{prefix}.txt'''.format(**params)):
-        fstio.combine_tables_two_rigid_body(prefix=params['prefix'], suffix='.txt',
-                                            num_procs=params['num_sims'])
-        if params['num_orientations_per_pi'] == 6 and params['domain1'] == '4lyt' and \
-           params['domain2'] == params['domain1']:
-            with open("""{prefix}.txt""".format(**params), 'r', encoding="utf-8") as file1:
-                lines = file1.readlines()
-            #print(len(lines))
-            assert len(lines) == 681
-            assert lines[0] == 'site_types 1 0\n'
-            assert lines[6] == '3.762260e+01 -4.069026e+00 -7.593451e-04\n'
-            assert lines[-1] == '-1 160\n'
+    for domain_pair in params['domain_pairs']:
+        #print('domain_pair', domain_pair)
+        params['domain1'] = domain_pair[0]
+        params['domain2'] = domain_pair[1]
+        tabsuffix = '_' + params['domain1'] + '_' + params['domain2'] + '_table.txt'
+        if not os.path.isfile(params['prefix'] + tabsuffix):
+            fstio.combine_tables_two_rigid_body(prefix=params['prefix'], suffix=tabsuffix,
+                                                num_procs=params['num_sims'])
+            if params['num_orientations_per_pi'] == 6 and params['domain1'] == '4lyt' and \
+               params['domain2'] == params['domain1']:
+                with open("""{prefix}_table.txt""".format(**params), 'r', encoding="utf-8") as file1:
+                    lines = file1.readlines()
+                #print(len(lines))
+                assert len(lines) == 681
+                assert lines[0] == 'site_types 1 0\n'
+                assert lines[6] == '3.762260e+01 -4.069026e+00 -7.593451e-04\n'
+                assert lines[-1] == '-1 160\n'
     print('launching after_1_3_b2.py')
     subprocess.check_call('python after_1_3_b2.py '+fstio.dict_to_argparse(params['original_args']),
                           shell=True, executable='/bin/bash')
@@ -52,20 +71,16 @@ if __name__ == '__main__':
     prms['original_args'] = copy.deepcopy(prms)
     prms['script'] = __file__
     prms['prefix'] = 'energy'
-    if os.path.isfile('''{prefix}.txt'''.format(**prms)):
-        print('using existing:', '''{prefix}.txt'''.format(**prms))
-        post_process(prms)
-        sys.exit()
     prms['sim_id_file'] = prms['prefix'] + '_sim_ids.txt'
     prms['minutes'] = int(prms['hours_terminate']*60) # minutes allocated on queue
     prms['hours_terminate'] = 0.99*prms['hours_terminate'] - 0.0333 # terminate before queue
-    prms['orientation_file'] = 'orientations' + str(prms['num_orientations_per_pi'])
-    if prms['domain1'] != prms['domain2']:
-        prms['orientation_file'] += '_ij'
-    prms['orientation_file'] += '.txt'
-    prms['contact_file'] = 'contact.txt'
     prms['procs_per_sim'] = 1
     prms['num_sims'] = prms['num_nodes']*prms['procs_per_node']
+    generate_domain_pairs(prms)
+    if tables_exist(prms):
+        print('Using existing table(s)')
+        post_process(prms)
+        sys.exit()
     temp_cel = prms['temperature'] - 273.15
     prms['dielectric_water'] = 87.74 - 0.40008*temp_cel + 9.398e-4*temp_cel**2 - 1.4e-6*temp_cel**3
     eps_0 = physical_constants.VacuumElectricPermittivity().value()

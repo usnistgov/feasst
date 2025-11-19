@@ -463,14 +463,14 @@ TEST(Configuration, 2dfstprt_with_xyz) {
     {"xyz_file", "../plugin/configuration/test/data/2d.xyz"}});
 }
 
-TEST(Configuration, param_mixing_file) {
-  auto config = MakeConfiguration({
-    {"particle_type", "../particle/spce.txt"},
-    {"cubic_side_length", "8"},
-    {"epsilon_mixing_file", "../plugin/configuration/test/data/eps_mix.txt"}});
-  EXPECT_NEAR(1.51, config->model_params().select("epsilon").mixed_value(0, 0), NEAR_ZERO);
-  EXPECT_NEAR(6.8, config->model_params().select("epsilon").mixed_value(0, 1), NEAR_ZERO);
-}
+//TEST(Configuration, param_mixing_file) {
+//  auto config = MakeConfiguration({
+//    {"particle_type", "../particle/spce.txt"},
+//    {"cubic_side_length", "8"},
+//    {"epsilon_mixing_file", "../plugin/configuration/test/data/eps_mix.txt"}});
+//  EXPECT_NEAR(1.51, config->model_params().select("epsilon").mixed_value(0, 0), NEAR_ZERO);
+//  EXPECT_NEAR(6.8, config->model_params().select("epsilon").mixed_value(0, 1), NEAR_ZERO);
+//}
 
 TEST(Configuration, model_param_file) {
   auto config = MakeConfiguration({

@@ -168,7 +168,7 @@ Configuration::Configuration(argtype * args) {
         std::string param_arg = param + "_mixing_file";
         if (used(param_arg, *args)) {
           WARN("Deprecated argument [parameter]_mixing_file. " <<
-            "Use mixing_file instead.");
+            "Use model_param_file instead.");
           DEBUG("param " << param << " param_arg " << param_arg);
           std::vector<std::string> names;
           site_type_names(&names);

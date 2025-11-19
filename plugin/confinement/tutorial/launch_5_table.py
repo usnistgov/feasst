@@ -66,7 +66,7 @@ Potential Model=ModelTableCart1D dimension=0 table_file={prefix}_table_file.txt
 ThermoParams beta={beta} chemical_potential={mu}
 AlwaysReject
 TrialAdd particle_type=fluid new_only=true
-HenryCoefficient trials_per_write={tpc} file_name={prefix}.csv write_precision=12 num_beta_taylor=4
+HenryCoefficient trials_per_write={tpc} output_file={prefix}.csv write_precision=12 num_beta_taylor=4
 Run num_trials=1e6
 """.format(**params))
 

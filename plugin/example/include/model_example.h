@@ -90,8 +90,8 @@ class ModelExample : public ModelTwoBody {
 
   /*
     Precompute is called before the simulation starts and is used to update
-    the ModelParams, including their mixing, which could include relatively
-    costly sqrt operations.
+    the ModelParams, including their combining rules, which could include
+    relatively costly square root operations.
     Precompute is also searches the names of the model parameters for their
     appropriate numerical index, so they can be more quickly accessed by
     index during the simulation.

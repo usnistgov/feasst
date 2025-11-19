@@ -1,18 +1,18 @@
 
 .. toctree::
 
-   Shape
-   ShapeUnion
-   ShapeFile
-   ShapeIntersect
-   Slab
-   Cuboid
    FormulaSineWave
-   FiniteCylinder
+   Shape
+   Sphere
+   ShapeUnion
    HalfSpace
    HalfSpaceSine
-   SlabSine
    HalfSpaceTilted
-   Cylinder
-   Sphere
+   ShapeIntersect
+   FiniteCylinder
+   SlabSine
+   Slab
+   Cuboid
    Supertoroid
+   ShapeFile
+   Cylinder
