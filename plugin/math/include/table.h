@@ -375,6 +375,7 @@ class Table5D : public Table {
 
   /// The inverse of above.
   int value_to_nearest_bin(const int dim, const double value) const;
+  int value_to_lowest_bin(const int dim, const double value) const;
 
   /// Set data.
   void set_data(const int dim0, const int dim1, const int dim2, const int dim3,

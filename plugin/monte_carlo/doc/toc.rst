@@ -27,8 +27,8 @@
    TrialComputeVolume
    Action
    OptPotential
-   RefPotential
    Run
+   RefPotential
    RemoveTrial
    WriteModelParams
    ConvertToRefPotential

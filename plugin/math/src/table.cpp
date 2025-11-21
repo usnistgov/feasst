@@ -714,6 +714,10 @@ int Table5D::value_to_nearest_bin(const int dim, const double value) const {
   return feasst::round(value*(num(dim) - 1));
 }
 
+int Table5D::value_to_lowest_bin(const int dim, const double value) const {
+  return static_cast<int>(value*(num(dim) - 1));
+}
+
 void Table5D::add(const Table5D& table) { feasst::add(table.data_, &data_); }
 
 void Table5D::write(const std::string file_name) const {

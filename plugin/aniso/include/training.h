@@ -19,6 +19,7 @@ class Training : public Action {
   //@{
   /** @name Arguments
     - training_file: file name of comma-separated values of 3D rigid body degrees of freedom (spherical, euler and energy).
+    - output_file: analysis output, if not empty (default: empty).
    */
   explicit Training(argtype args = argtype());
   explicit Training(argtype * args);
@@ -39,7 +40,7 @@ class Training : public Action {
   //@}
 
  private:
-  std::string training_file_;
+  std::string training_file_, output_file_;
 };
 
 }  // namespace feasst

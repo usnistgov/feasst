@@ -34,11 +34,14 @@ void ComputeGibbsParticleTransfer::perturb_and_acceptance(
   // find del and add stages
   std::vector<TrialStage*> del_stages;
   std::vector<TrialStage*> add_stages;
+  const int config_add = (*stages)[0]->trial_select().configuration_index();
+  int config_del;
   bool add = true;
   for (TrialStage * stage : *stages) {
     DEBUG("stage name: " << stage->perturb().class_name());
     if (stage->perturb().class_name() == "PerturbRemove") {
       add = false;
+      config_del = stage->trial_select().configuration_index();
     }
     if (add) {
       add_stages.push_back(stage);
@@ -48,14 +51,6 @@ void ComputeGibbsParticleTransfer::perturb_and_acceptance(
   }
   ASSERT(del_stages.size() > 0, "no deletion stages in Gibbs");
   ASSERT(add_stages.size() > 0, "no insertion stages in Gibbs");
-
-  // find config of del and add
-  int config_del = 0;
-  int config_add = 1;
-  if ((*stages)[0]->trial_select().configuration_index() == 0) {
-    config_del = 1;
-    config_add = 0;
-  }
   DEBUG("config_add " << config_add);
   DEBUG("config_del " << config_del);
 

@@ -1,0 +1,5 @@
+TrialGrowFile
+
+particle_type=lj config=0 site=LJ1 regrow=true
+
+particle_type=lj config=1 site=LJ1 regrow=true

@@ -44,13 +44,14 @@ void PerturbParticleType::perturb(
     select->set_trial_state(0);
     return;
   }
-  set_particle_type(system, select->mobile(), new_particle_type_);
+  set_particle_type(select->get_configuration(system), select->mobile(), new_particle_type_);
+  old_config_index_ = select->configuration_index();
   const int num_sites = select->mobile().num_sites();
   if (num_sites > 1) {
     DEBUG("rotating because num_sites:" << num_sites << " >1");
     // use particle_type to set the coordinates, and randomly rotate them about the anchor.
     // then set to position of existing anchor
-    const Configuration& config = system->configuration();
+    const Configuration& config = select->configuration(*system);
     const Particle& ref_part = config.particle_type(new_particle_type_);
     ASSERT(num_sites == ref_part.num_sites(), "num sites mismatch");
     ASSERT(select->mobile().num_particles() == 1,
@@ -75,23 +76,22 @@ void PerturbParticleType::perturb(
 }
 
 void PerturbParticleType::set_particle_type(
-    System * system,
+    Configuration * config,
     const Select& select,
     const int type) {
   ASSERT(select.num_particles() == 1, "assumes 1 particle: " << select.str() <<
     " or else haven't implemented revert correctly");
   const int particle_index = select.particle_index(0);
-  const Configuration& config = system->configuration();
-  old_particle_type_ = config.select_particle(particle_index).type();
+  old_particle_type_ = config->select_particle(particle_index).type();
   DEBUG("changing particle type " << old_particle_type_ << " to " << type);
-  system->get_configuration()->set_particle_type(type, select);
+  config->set_particle_type(type, select);
 }
 
 void PerturbParticleType::revert(System * system) {
   DEBUG("revert_possible " << revert_possible());
   if (revert_possible()) {
-    set_particle_type(system, revert_select()->mobile(), old_particle_type_);
-    Configuration* config = system->get_configuration();
+    Configuration* config = system->get_configuration(old_config_index_);
+    set_particle_type(config, revert_select()->mobile(), old_particle_type_);
     config->update_positions(revert_select()->mobile_original(),
       // don't wrap if reverting
       false);

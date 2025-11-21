@@ -281,6 +281,87 @@ double VisitModelInnerTable::compute_aniso(const int type1, const int type2,
   return en;
 }
 
+void VisitModelInnerTable::compute_scaled_coords(const int part1_index,
+    const int part2_index, const Site& site1, const Site& site2,
+    const Configuration * config, int * type1, int * type2, Position * relative,
+    double * s1, double * s2, double * e1, double * e2, double * e3) {
+  bool flip = false;
+  // enforce type1 <= type2 to avoid redundant tables and keep the reference
+  // as the smallest possible type.
+  // also, if types are the same, and x>0(note,rel is inv), flip 1 and 2
+  if (*type1 > *type2) {
+    flip = true;
+  } else if (*type1 == *type2) {
+    if (relative->coord(0) > 0) {
+      flip = true;
+    } else if (relative->coord(0) == 0) {
+      if (part1_index > part2_index) {
+        flip = true;
+      }
+    }
+  }
+  if (flip) {
+    feasst_swap(type1, type2);
+  }
+  TRACE("flip " << flip);
+
+  // obtain the inverse rotation matrix that sets the reference frame on site 1
+  if (flip) {
+    site2.euler().compute_rotation_matrix(&rot1_);
+  } else {
+    site1.euler().compute_rotation_matrix(&rot1_);
+  }
+  rot1_.transpose();
+  TRACE("rot1 " << rot1_.str());
+
+  // obtain the relative orientation of the centers in spherical coordinates
+  if (!flip) {
+    relative->multiply(-1); // r12 point toward 1, so reverse direction.
+  }
+  if (sph_.size() == 0) {
+    sph_.set_to_origin(config->dimension());
+    pos1_.set_to_origin(config->dimension());
+    pos2_.set_to_origin(config->dimension());
+  }
+  pos1_ = *relative;
+  rot1_.multiply(*relative, &pos1_);
+  TRACE("pos1 " << pos1_.str());
+  pos1_.spherical(&sph_);
+  TRACE("sph " << sph_.str());
+
+  // obtain the relative orientation of site 2 in frame of site 1.
+  if (flip) {
+    site1.euler().compute_rotation_matrix(&rot2_);
+  } else {
+    site2.euler().compute_rotation_matrix(&rot2_);
+  }
+  rot1_.multiply(rot2_, &rot3_, &pos1_, &pos2_);
+  euler_.set(rot3_);
+  TRACE("euler " << euler_.str());
+
+  // obtain the scaled orientational coordinates
+  *s1 = 0;
+//  *s1 = sph_.coord(1)/2/PI;
+  if (*type1 == *type2) {
+    *s1 = sph_.coord(1)/PI;
+  } else {
+    *s1 = sph_.coord(1)/2/PI;
+  }
+  if (*s1 < 0) {
+    *s1 += 1;
+  }
+  *s2 = sph_.coord(2)/PI;
+  *e1 = euler_.phi()/2/PI + 0.5;
+  *e2 = euler_.theta()/PI;
+  *e3 = euler_.psi()/2/PI + 0.5;
+  TRACE("s1 " << *s1 << " s2 " << *s2 << " e1 " << *e1 << " e2 " << *e2 << " e3 " << *e3);
+  ASSERT(*s1 >= 0 && *s1 <= 1, "*s1: " << *s1);
+  ASSERT(*s2 >= 0 && *s2 <= 1, "*s2: " << *s2);
+  ASSERT(*e1 >= 0 && *e1 <= 1, "*e1: " << *e1);
+  ASSERT(*e2 >= 0 && *e2 <= 1, "*e2: " << *e2);
+  ASSERT(*e3 >= 0 && *e3 <= 1, "*e3: " << *e3);
+}
+
 void VisitModelInnerTable::compute(
     const int part1_index,
     const int site1_index,
@@ -324,82 +405,8 @@ void VisitModelInnerTable::compute(
     return;
   }
   TRACE("inside global cut");
-
-  bool flip = false;
-  // enforce type1 <= type2 to avoid redundant tables and keep the reference
-  // as the smallest possible type.
-  // also, if types are the same, and x>0(note,rel is inv), flip 1 and 2
-  if (type1 > type2) {
-    flip = true;
-  } else if (type1 == type2) {
-    if (relative->coord(0) > 0) {
-      flip = true;
-    } else if (relative->coord(0) == 0) {
-      if (part1_index > part2_index) {
-        flip = true;
-      }
-    }
-  }
-  if (flip) {
-    feasst_swap(&type1, &type2);
-  }
-  TRACE("flip " << flip);
-
-  // obtain the inverse rotation matrix that sets the reference frame on site 1
-  if (flip) {
-    site2.euler().compute_rotation_matrix(&rot1_);
-  } else {
-    site1.euler().compute_rotation_matrix(&rot1_);
-  }
-  rot1_.transpose();
-  TRACE("rot1 " << rot1_.str());
-
-  // obtain the relative orientation of the centers in spherical coordinates
-  if (!flip) {
-    relative->multiply(-1); // r12 point toward 1, so reverse direction.
-  }
-  if (sph_.size() == 0) {
-    sph_.set_to_origin(config->dimension());
-    pos1_.set_to_origin(config->dimension());
-    pos2_.set_to_origin(config->dimension());
-  }
-  pos1_ = *relative;
-  rot1_.multiply(*relative, &pos1_);
-  TRACE("pos1 " << pos1_.str());
-  pos1_.spherical(&sph_);
-  TRACE("sph " << sph_.str());
-
-  // obtain the relative orientation of site 2 in frame of site 1.
-  if (flip) {
-    site1.euler().compute_rotation_matrix(&rot2_);
-  } else {
-    site2.euler().compute_rotation_matrix(&rot2_);
-  }
-  rot1_.multiply(rot2_, &rot3_, &pos1_, &pos2_);
-  euler_.set(rot3_);
-  TRACE("euler " << euler_.str());
-
-  // obtain the scaled orientational coordinates
-  double s1 = 0;
-//  s1 = sph_.coord(1)/2/PI;
-  if (type1 == type2) {
-    s1 = sph_.coord(1)/PI;
-  } else {
-    s1 = sph_.coord(1)/2/PI;
-  }
-  if (s1 < 0) {
-    s1 += 1;
-  }
-  double s2 = sph_.coord(2)/PI;
-  const double e1 = euler_.phi()/2/PI + 0.5;
-  const double e2 = euler_.theta()/PI;
-  const double e3 = euler_.psi()/2/PI + 0.5;
-  TRACE("s1 " << s1 << " s2 " << s2 << " e1 " << e1 << " e2 " << e2 << " e3 " << e3);
-  ASSERT(s1 >= 0 && s1 <= 1, "s1: " << s1);
-  ASSERT(s2 >= 0 && s2 <= 1, "s2: " << s2);
-  ASSERT(e1 >= 0 && e1 <= 1, "e1: " << e1);
-  ASSERT(e2 >= 0 && e2 <= 1, "e2: " << e2);
-  ASSERT(e3 >= 0 && e3 <= 1, "e3: " << e3);
+  double s1, s2, e1, e2, e3;
+  compute_scaled_coords(part1_index, part2_index, site1, site2, config, &type1, &type2, relative, &s1, &s2, &e1, &e2, &e3);
 
 //  // check the outer cutoff, if applicable.
 //  float outer = 0.;

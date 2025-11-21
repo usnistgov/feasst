@@ -24,7 +24,7 @@ TrialGibbsParticleTransferOneWay::TrialGibbsParticleTransferOneWay(argtype * arg
     std::make_shared<PerturbAdd>(),
     &add_args);
   feasst_check_all_used(add_args);
-  args->insert({"config", str(config)});
+  args->insert({"config", config});
   add_stage(
     std::make_shared<TrialSelectParticle>(args),
     std::make_shared<PerturbRemove>(),

@@ -28,18 +28,18 @@ void ComputeMorph::perturb_and_acceptance(
   for (TrialStage * stage : *stages) stage->mid_stage(system);
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
   if (!acceptance->reject()) {
-    ASSERT(system->num_configurations() == 1, "not implemented for multiple configs");
-    DEBUG("old: " << criteria->current_energy() << " " << acceptance->energy_old());
-    DEBUG("new: " << acceptance->energy_new());
-    DEBUG("energy change: " << acceptance->energy_new() - acceptance->energy_old());
-    const double delta_energy = acceptance->energy_new() - acceptance->energy_old();
-    acceptance->set_energy_new(criteria->current_energy() + delta_energy);
-    acceptance->add_to_energy_profile_new(criteria->current_energy_profile());
-    acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old());
-    const Configuration& config = system->configuration();
+    const int config = stages->front()->select().configuration_index();
+    DEBUG("old: " << criteria->current_energy(config) << " " << acceptance->energy_old(config));
+    DEBUG("new: " << acceptance->energy_new(config));
+    DEBUG("energy change: " << acceptance->energy_new(config) - acceptance->energy_old(config));
+    const double delta_energy = acceptance->energy_new(config) - acceptance->energy_old(config);
+    acceptance->set_energy_new(criteria->current_energy(config) + delta_energy, config);
+    acceptance->add_to_energy_profile_new(criteria->current_energy_profile(config), config);
+    acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old(config), config);
+    const Configuration& configuration = system->configuration(config);
 
     // initialize delta_
-    const int num_ptypes = config.num_particle_types();
+    const int num_ptypes = configuration.num_particle_types();
     if (static_cast<int>(delta_top_.size()) < num_ptypes) {
       delta_top_.resize(num_ptypes);
       delta_bottom_.resize(num_ptypes);
@@ -56,7 +56,7 @@ void ComputeMorph::perturb_and_acceptance(
       const TrialSelect& select = stage->trial_select();
       const int particle_index = select.mobile().particle_index(0);
       const int particle_type = select.particle_type();
-      const int particle_type_morph = config.select_particle(particle_index).type();
+      const int particle_type_morph = configuration.select_particle(particle_index).type();
 
       ++delta_bottom_[particle_type];
       --delta_bottom_[particle_type_morph];
@@ -66,13 +66,13 @@ void ComputeMorph::perturb_and_acceptance(
         const TrialSelect& jselect = (*stages)[jstage]->trial_select();
         const int particle_jindex = jselect.mobile().particle_index(0);
         const int particle_jtype = jselect.particle_type();
-        const int particle_jtype_morph = config.select_particle(particle_jindex).type();
+        const int particle_jtype_morph = configuration.select_particle(particle_jindex).type();
         ++delta_top_[particle_jtype];
         --delta_top_[particle_jtype_morph];
       }
 
-      const double num_type = config.num_particles_of_type(particle_type);
-      const double num_type_morph = config.num_particles_of_type(particle_type_morph);
+      const double num_type = configuration.num_particles_of_type(particle_type);
+      const double num_type_morph = configuration.num_particles_of_type(particle_type_morph);
       ASSERT(particle_type != particle_type_morph, "err");
       DEBUG("betamu " << system->thermo_params().beta_mu(particle_type));
       acceptance->add_to_ln_metropolis_prob(

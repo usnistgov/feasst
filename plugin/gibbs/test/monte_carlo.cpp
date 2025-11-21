@@ -85,11 +85,9 @@ TEST(MonteCarlo, gibbs_ensemble) {
 
 TEST(MonteCarlo, gibbs_adjust) {
   auto mc = MakeMonteCarlo({{
-    //{"RandomMT19937", {{"seed", "1728330862"}}},
-    //{"CopyNextLine", {{}}},
-    {"Configuration", {{"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
-      {"particle_type0", "../particle/lj.txt"}, {"cutoff", "2"}}},
-    {"Configuration", {{"cubic_side_length", "20"}, {"particle_type0", "../particle/lj.txt"}, {"add_particles_of_type0", "1"}}},
+    {"Configuration", {{"name", "0"}, {"xyz_file", "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz"},
+      {"particle_type", "lj:../particle/lj_new.txt"}, {"cutoff", "2"}}},
+    {"Configuration", {{"name", "1"}, {"cubic_side_length", "20"}, {"particle_type", "lj:../particle/lj_new.txt"}, {"add_num_lj_particles", "1"}}},
     {"CopyFollowingLines", {{"for_num_configurations", "2"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
@@ -99,8 +97,46 @@ TEST(MonteCarlo, gibbs_adjust) {
     {"Metropolis", {{}}},
     {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
     {"TrialTranslate", {{"configuration_index", "1"}}},
-    {"TrialGrowFile", {{"grow_file", "../plugin/gibbs/test/data/grow.txt"}}},
-    {"TrialGibbsParticleTransfer", {{"particle_type", "0"}, {"reference_index", "0"}}},
+    {"TrialGrowFile", {{"grow_file", "../plugin/gibbs/test/data/grow2.txt"}}},
+    {"TrialGibbsParticleTransfer", {{"particle_type", "lj"}, {"reference_index", "0"}}},
+    {"TrialGibbsVolumeTransfer", {{"tunable_param", "0.1"}, {"reference_index", "0"}}},
+    {"Tune", {{"trials_per_tune", "4"}}},
+    {"Log", {{"trials_per_write", "1e0"}, {"output_file", "tmp/lj.txt"}}},
+    {"CopyFollowingLines", {{"for_num_configurations", "2"}, {"replace_with_index", "[config]"}}},
+    {"Movie", {{"trials_per_write", "1e0"}, {"output_file", "tmp/ljc[config].xyz"}}},
+    {"Density", {{"trials_per_write", "1e0"}, {"output_file", "tmp/ljc[config]dens.xyz"}}},
+    {"EndCopy", {{}}},
+    {"CheckEnergy", {{"trials_per_update", "1e0"}, {"tolerance", str(1e-9)}}},
+    {"GibbsInitialize", {{"trials_per_update", "1e0"}}},
+    {"Run", {{"num_trials", "1e2"}}},
+  //}});
+  }}, true);
+  auto mc2 = test_serialize_unique(*mc);
+  EXPECT_EQ(2, mc2->system().num_configurations());
+}
+
+TEST(MonteCarlo, gibbs_morph_binary) {
+  auto mc = MakeMonteCarlo({{
+    //{"RandomMT19937", {{"seed", "123"}}},
+    {"Configuration", {{"name", "0"}, {"xyz_file", "../plugin/configuration/test/data/lj.xyz"},
+      {"particle_type", "lj:../particle/lj_new.txt,atom:../particle/atom_new.txt"}, {"cutoff", "2"}}},
+    {"Configuration", {{"name", "1"}, {"xyz_file", "../plugin/configuration/test/data/atom.xyz"},
+      {"particle_type", "lj:../particle/lj_new.txt,atom:../particle/atom_new.txt"}, {"cutoff", "2"}}},
+    {"CopyFollowingLines", {{"for_num_configurations", "2"}}},
+    {"Potential", {{"Model", "LennardJones"}}},
+    {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
+    {"RefPotential", {{"VisitModel", "DontVisitModel"}}},
+    {"EndCopy", {{}}},
+    {"ThermoParams", {{"beta", str(1/0.8)}, {"chemical_potential", "1."}, {"pressure", "1"}}},
+    {"Metropolis", {{}}},
+    {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
+    {"TrialTranslate", {{"configuration_index", "1"}}},
+    {"CopyNextLine", {{"replace", "configuration_index"}, {"with", "0"}}},
+    {"TrialPositionSwap", {{"particle_type", "lj"}, {"particle_type_morph", "atom"}, {"configuration_index", "1"}, {"reference_index", "0"}}},
+    //{"TrialGrowFile", {{"grow_file", "../plugin/gibbs/test/data/grow2.txt"}}},
+    //{"TrialGibbsParticleTransfer", {{"particle_type", "lj"}, {"reference_index", "0"}}},
+    //{"TrialGibbsParticleTransfer", {{"particle_type", "atom"}, {"reference_index", "0"}}},
+    {"TrialGibbsMorph", {{"particle_type", "lj"}, {"particle_type_morph", "atom"}, {"reference_index", "0"}}},
     {"TrialGibbsVolumeTransfer", {{"tunable_param", "0.1"}, {"reference_index", "0"}}},
     {"Tune", {{"trials_per_tune", "4"}}},
     {"Log", {{"trials_per_write", "1e0"}, {"output_file", "tmp/lj.txt"}}},

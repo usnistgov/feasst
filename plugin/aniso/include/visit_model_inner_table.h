@@ -11,6 +11,8 @@
 
 namespace feasst {
 
+class Site;
+
 typedef std::map<std::string, std::string> argtype;
 
 /**
@@ -150,6 +152,10 @@ class VisitModelInnerTable : public VisitModelInner {
     Position * relative,
     Position * pbc,
     const double factor = 1.) override;
+  void compute_scaled_coords(const int part1_index, const int part2_index,
+    const Site& site1, const Site& site2, const Configuration * config,
+    int * type1, int * type2, Position * relative, double * s1,
+    double * s2, double * e1, double * e2, double * e3);
 
   std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
     return std::make_shared<VisitModelInnerTable>(istr); }

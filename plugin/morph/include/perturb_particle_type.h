@@ -7,6 +7,7 @@
 
 namespace feasst {
 
+class Configuration;
 class Select;
 
 /**
@@ -27,12 +28,12 @@ class PerturbParticleType : public Perturb {
   explicit PerturbParticleType(argtype * args);
 
   void set_particle_type(
-    System * system,
+    Configuration * config,
     const Select& select,
     const int type);
 
   void precompute(TrialSelect * select, System * system) override;
-  
+
   void perturb(
     System * system,
     TrialSelect * select,
@@ -58,6 +59,7 @@ class PerturbParticleType : public Perturb {
 
   // temporary
   int old_particle_type_;
+  int old_config_index_;
   Position tmp_pos_;
 };
 
