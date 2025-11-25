@@ -44,8 +44,8 @@ TEST(VisitModelInnerPatch, patch_one) {
 TEST(VisitModelInnerPatch, patch_one_2body) {
   System system;
   { auto config = MakeConfiguration({{"cubic_side_length", "10"},
-      {"particle_type", "../plugin/patch/particle/janus.txt"},
-      {"add_particles_of_type0", "2"},
+      {"particle_type", "janus:../plugin/patch/particle/janus.txt"},
+      {"add_num_janus_particles", "2"},
       {"patch_angle1", "5"}});
     config->add(MakeGroup({{"site_type", "0"}}));
     system.add(config);

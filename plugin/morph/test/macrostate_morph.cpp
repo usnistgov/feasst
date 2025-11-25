@@ -19,7 +19,7 @@ TEST(MacrostateMorph, serialize) {
 }
 
 TEST(MacrostateMorph, lj) {
-  auto conf = MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.txt"}});
+  auto conf = MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type", "../particle/lj.txt"}});
   conf->add_particle_type("../particle/lj.txt");
   conf->set_model_param("sigma", 1, 0.25);
   conf->set_model_param("cutoff", 1, 1.0);

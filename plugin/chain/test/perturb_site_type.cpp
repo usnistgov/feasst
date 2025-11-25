@@ -12,11 +12,11 @@ namespace feasst {
 TEST(PerturbSiteType, serialize) {
   System sys;
   sys.add(MakeConfiguration({{"cubic_side_length", "20"},
-    {"particle_type", "../particle/chain10_3types.txt"},
-    {"add_particles_of_type0", "1"}}));
+    {"particle_type", "chain:../particle/chain10_3types.txt"},
+    {"add_num_chain_particles", "1"}}));
   const Configuration& config = sys.configuration();
   auto morph = MakePerturbSiteType({{"type", "1"}});
-  auto sel = MakeTrialSelectParticle({{"particle_type", "0"}, {"site", "1"}});
+  auto sel = MakeTrialSelectParticle({{"particle_type", "chain"}, {"site", "1"}});
   sel->precompute(&sys);
   auto random = MakeRandomMT19937();
   sel->select(Select(), &sys, random.get(), NULL);

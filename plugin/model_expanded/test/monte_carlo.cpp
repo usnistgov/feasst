@@ -7,7 +7,7 @@ namespace feasst {
 TEST(MonteCarlo, TrialModel) {
   auto mc = MakeMonteCarlo({{
     //{"RandomMT19937", {{"seed", "123"}}},
-    {"Configuration", {{"particle_type0", "../particle/lj.txt"},
+    {"Configuration", {{"particle_type", "../particle/lj_new.txt"},
       {"cubic_side_length", "8"}}},
     //{"Potential", {{"Model", "LennardJones"}}},
     {"Potential", {{"Model", "ModelExpanded"}, {"model_file", "../plugin/model_expanded/test/data/models.txt"}}},

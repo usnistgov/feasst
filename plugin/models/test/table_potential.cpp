@@ -9,7 +9,7 @@ TEST(TablePotential, serialize) {
   auto config = MakeConfiguration({
     {"cubic_side_length", "8"},
     {"particle_type", "lj:../particle/lj_new.txt"},
-    {"add_particles_of_type0", "2"}});
+    {"add_num_lj_particles", "2"}});
   config->update_positions({{0, 0, 0}, {2, 0, 0}});
   auto table = MakeTablePotential({{"table_file", "../plugin/models/test/data/lj_table.txt"}});
   table->precompute(*config);

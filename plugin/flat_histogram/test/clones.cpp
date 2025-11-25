@@ -32,15 +32,15 @@ std::unique_ptr<MonteCarlo> monte_carlo(const int thread, const int min, const i
   auto mc = std::make_unique<MonteCarlo>();
   //mc->set(MakeRandomMT19937({{"seed", "1635444301"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../particle/lj.txt"},
-                            {"add_particles_of_type0", "1"}}));
+                            {"particle_type", "lj:../particle/lj_new.txt"},
+                            {"add_num_lj_particles", "1"}}));
   mc->add(MakePotential(MakeLennardJones()));
   mc->add(MakePotential(MakeLongRangeCorrections()));
   mc->set(MakeThermoParams({{"beta", str(1./1.5)},
     {"chemical_potential", "-2.352321"}}));
   mc->set(MakeMetropolis());
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc->add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
+  mc->add(MakeTrialTransfer({{"particle_type", "lj"}, {"weight", "4"}}));
   mc->run(MakeRun({{"until_num_particles", str(min)}}));
   mc->set(MakeFlatHistogram(
     MakeMacrostateNumParticles(

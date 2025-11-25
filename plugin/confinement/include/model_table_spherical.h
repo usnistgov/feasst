@@ -26,11 +26,14 @@ class Table1D;
   sites, then another line for the table of "H" sites.
   Each table is given in a single line by a number of space-separated values
   that represent the interaction energy spanning the range of the nearest
-  distance, r, from the center of the sphere, scaled by the radius, R, with the
-  range z = r/R = [0, 1] and linearly-spaced.
+  distance, r, from the inner surface of the sphere, scaled by the radius, R,
+  with the range z = r/R = [0, 1] and linearly-spaced.
   For example, if the line contains 5 values, then z=r/R=[0, 0.25, 0.5, 0.75, 1]
   and the potential will be interpolated with
   Table1D::forward_difference_interpolation.
+  Note that r is not the radial distance.
+  Instead, r=0 at the radius (e.g., the inner surface of the sphere),
+  and r=radius at the center.
  */
 class ModelTableSphere1D : public ModelOneBody {
  public:

@@ -24,7 +24,7 @@ TEST(SelectParticleAVB, serialize) {
     {
       auto config = MakeConfiguration({{"cubic_side_length", "8"},
         {"particle_type", "../particle/lj.txt"},
-        {"add_particles_of_type0", "3"}});
+        {"add_num_0_particles", "3"}});
       config->update_positions({{0, 0, 0},
                                 {-1.25, 0, 0},
                                 {2.9, 0, 0}});

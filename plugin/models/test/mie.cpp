@@ -7,8 +7,8 @@
 namespace feasst {
 
 TEST(Mie, analytical) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/mie.txt"},
-                                   {"add_particles_of_type0", "2"},
+  auto config = MakeConfiguration({{"particle_type", "../particle/mie.txt"},
+                                   {"add_num_0_particles", "2"},
                                    {"cubic_side_length", "8"}});
   auto model1 = MakeMie();
   model1->precompute(*config);

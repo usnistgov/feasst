@@ -18,8 +18,8 @@ class System;
 void precompute_table1D(const Configuration& config, std::string table_file,
   std::vector<std::unique_ptr<Table1D> > * tables);
 
-/// HWH: Add HalfSpace or some other Shape instead of dimension argument,
-/// or maybe make it work with all Shapes? but how to scale the coordinate?
+// HWH: Add HalfSpace or some other Shape instead of dimension argument,
+// or maybe make it work with all Shapes? but how to scale the coordinate?
 
 /**
   A tabular potential for interactions in one Cartesian dimension.

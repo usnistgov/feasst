@@ -64,8 +64,14 @@ void precompute_table1D(const Configuration& config, std::string table_file,
       (*tables)[index]->set_data(v, str_to_double(values[v]));
     }
   }
-  ASSERT(file.eof(), "Extra lines in file:" << table_file << " . The number of "
-    << "lines should be the number of site_types + 1");
+  std::stringstream errmsg;
+  errmsg << "Extra lines in file:" << table_file << " . The number of lines "
+    << "should be the number of site_types + 1.";
+  if (!file.eof()) {
+    std::getline(file, line);
+    ASSERT(line.empty(), errmsg.str());
+  }
+  ASSERT(file.eof(), errmsg.str());
 }
 
 double ModelTableCart1D::energy(

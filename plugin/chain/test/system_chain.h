@@ -9,8 +9,8 @@ namespace feasst {
 
 inline Configuration config() {
   return *MakeConfiguration({{"cubic_side_length", "12"},
-    {"particle_type0", "../particle/chain10.txt"},
-    {"add_particles_of_type0", "1"}});
+    {"particle_type", "../particle/chain10.txt"},
+    {"add_num_0_particles", "1"}});
 }
 
 inline std::shared_ptr<Potential> lj_dual_cut(const Configuration config) {

@@ -41,7 +41,7 @@ std::unique_ptr<MonteCarlo> patchmc(const int min, const int max) {
     {"RandomMT19937", {{"seed", "123"}}},
     {"Configuration", {{"cubic_side_length", "8"},
       {"patch_angleP", str(patch_angle_degrees)},
-      {"particle_type0", "../plugin/patch/particle/two_patch_linear.txt"},
+      {"particle_type", "../plugin/patch/particle/two_patch_linear.txt"},
       {"group", "centers"}, {"centers_site_type", "C"}}},
     {"Potential", {{"Model", "HardSphere"},
                    {"VisitModel", "VisitModelCell"}, {"min_length", "1"}, {"cell_group_index", "1"},
@@ -82,7 +82,7 @@ TEST(MonteCarlo, patch_LONG) {
 
 TEST(MonteCarlo, patch_arglist) {
   auto mc = MakeMonteCarlo({{
-    {"Configuration", {{"particle_type0", "../plugin/patch/particle/janus.txt"},
+    {"Configuration", {{"particle_type", "../plugin/patch/particle/janus.txt"},
       {"xyz_file", "../plugin/patch/test/data/patch5.xyz"},
       {"cutoff", "3"},
       {"group0", "centers"}, {"centers_site_type", "0"}}},
@@ -96,7 +96,7 @@ TEST(MonteCarlo, patch_arglist) {
 
 TEST(MonteCarlo, spherocylinder) {
   auto mc = MakeMonteCarlo({{
-    {"Configuration", {{"particle_type0", "../plugin/patch/particle/spherocylinder.txt"},
+    {"Configuration", {{"particle_type", "../plugin/patch/particle/spherocylinder.txt"},
       {"cubic_side_length", "8"}, {"group0", "centers"}, {"centers_site_type", "0"}}},
     {"Potential", {{"Model", "SquareWell"}, {"VisitModelInner", "Spherocylinder"}, {"group", "centers"}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "-1"}}},
@@ -119,7 +119,7 @@ TEST(MonteCarlo, spherocylinder) {
 TEST(MonteCarlo, SolidOfRevolution) {
   auto mc = MakeMonteCarlo({{
     //{"RandomMT19937", {{"seed", "123"}}},
-    {"Configuration", {{"particle_type0", "../plugin/patch/particle/one_patch.txt"},
+    {"Configuration", {{"particle_type", "../plugin/patch/particle/one_patch.txt"},
       {"cubic_side_length", "8"}, {"group0", "centers"}, {"centers_site_type", "0"}, {"cutoff", "4"}}},
     {"Potential", {{"Model", "HardSphere"}, {"VisitModelInner", "SolidOfRevolutionTable"}, {"group", "centers"}, {"table_file", "../plugin/patch/test/data/tablek5l1.0d1.txt"}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "-1"}}},

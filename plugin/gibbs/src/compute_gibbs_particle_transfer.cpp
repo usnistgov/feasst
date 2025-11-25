@@ -35,7 +35,7 @@ void ComputeGibbsParticleTransfer::perturb_and_acceptance(
   std::vector<TrialStage*> del_stages;
   std::vector<TrialStage*> add_stages;
   const int config_add = (*stages)[0]->trial_select().configuration_index();
-  int config_del;
+  int config_del = -1;
   bool add = true;
   for (TrialStage * stage : *stages) {
     DEBUG("stage name: " << stage->perturb().class_name());

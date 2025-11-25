@@ -22,13 +22,13 @@ TEST(PerturbMoveAVB, move) {
       if (mol == "lj") {
         auto config = MakeConfiguration({{"cubic_side_length", "8"},
           {"particle_type", "../particle/lj.txt"},
-          {"add_particles_of_type0", "2"}});
+          {"add_num_0_particles", "2"}});
         config->update_positions({{0, 0, 0}, {1.5, 0, 0}});
         system.add(config);
       } else if (mol == "spce") {
         auto config = MakeConfiguration({{"cubic_side_length", "20"},
           {"particle_type", "../plugin/cluster/test/data/spce_no_bonds.txt"},
-          {"add_particles_of_type0", "2"}});
+          {"add_num_0_particles", "2"}});
         config->update_positions({{0, 0, 0}, {1, 0, 0}, {-0.333313247568237, 0.942816142731718, 0},
                                  {4, 0, 0}, {4+1, 0, 0}, {4+-0.333313247568237, 0.942816142731718, 0}});
         system.add(config);
@@ -143,7 +143,7 @@ TEST(PerturbMoveAVB, AVB4) {
   {
     auto config = MakeConfiguration({{"cubic_side_length", "8"},
       {"particle_type", "../particle/lj.txt"},
-      {"add_particles_of_type0", "3"}});
+      {"add_num_0_particles", "3"}});
     config->update_positions({{0, 0, 0},
                              {1.5, 0, 0},
                              {-3, 0, 0},

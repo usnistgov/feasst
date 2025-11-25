@@ -17,8 +17,8 @@ TEST(ModelLJShape, half_space) {
   });
   ModelLJShape model(std::make_shared<HalfSpace>(half_space));
   auto config = MakeConfiguration({{"cubic_side_length", "8"},
-    {"particle_type", "../particle/atom.txt"},
-    {"add_particles_of_type0", "1"}});
+    {"particle_type", "atom:../particle/atom_new.txt"},
+    {"add_num_atom_particles", "1"}});
   const ModelParams model_params = config->model_params();
   model.precompute(*config);
   std::shared_ptr<Model> model2 = test_serialize<ModelLJShape, Model>(model);
@@ -56,8 +56,8 @@ TEST(ModelLJShape, wall_sigma) {
   ModelLJShape model(std::make_shared<HalfSpace>(half_space),
     {{"wall_sigma", "5"}, {"wall_epsilon", "6"}});
   auto config = MakeConfiguration({{"cubic_side_length", "8"},
-    {"particle_type", "../particle/atom.txt"},
-    {"add_particles_of_type0", "1"}});
+    {"particle_type", "atom:../particle/atom_new.txt"},
+    {"add_num_atom_particles", "1"}});
   const ModelParams model_params = config->model_params();
   model.precompute(*config);
   std::shared_ptr<Model> model2 = test_serialize<ModelLJShape, Model>(model);

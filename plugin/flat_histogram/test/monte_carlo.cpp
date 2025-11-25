@@ -117,7 +117,7 @@ std::unique_ptr<MonteCarlo> test_lj_fh(const int num_steps,
   int ref = -1;
   // mc->set(MakeRandomMT19937({{"seed", "1750278648"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../particle/lj.txt"}}));
+                             {"particle_type", "../particle/lj.txt"}}));
   mc->add(MakePotential(MakeLennardJones()));
   mc->add(MakePotential(MakeLongRangeCorrections()));
   if (num_steps == 1) {
@@ -136,12 +136,11 @@ std::unique_ptr<MonteCarlo> test_lj_fh(const int num_steps,
   mc->run(MakeRun({{"until_num_particles", str(min)}}));
   mc->run(MakeRemove({{"name", "TrialAdd"}}));
   argtype transfer_args =
-    { {"particle_type0", "0"},
-      {"reference_index", str(ref)},
+    { {"reference_index", str(ref)},
       {"num_steps", str(num_steps)},
       {"weight", "4"}};
   if (test_multi) {
-    transfer_args.insert({"particle_type1", "0"});
+    transfer_args.insert({"particle_types", "0,0"});
     transfer_args.insert({"shift", "-2"});
   }
   if (dont_use_multi) {
@@ -152,7 +151,13 @@ std::unique_ptr<MonteCarlo> test_lj_fh(const int num_steps,
       {"num_steps", str(num_steps)},
       {"weight", "4"}})));
   } else {
-    mc->add(MakeTrialTransferMultiple(transfer_args));
+    if (test_multi) {
+      transfer_args.insert({"particle_types", "0,0"});
+      mc->add(MakeTrialTransferMultiple(transfer_args));
+    } else {
+      transfer_args.insert({"particle_type", "0"});
+      mc->add(std::make_shared<TrialTransfer>(transfer_args));
+    }
   }
   EXPECT_EQ(mc->trial(0).weight(), 1);
   if (dont_use_multi) {
@@ -266,7 +271,7 @@ TEST(MonteCarlo, lj_fh_block) {
 
 TEST(MonteCarlo, soft_min_macro) {
   auto mc = MakeMonteCarlo({{
-    {"Configuration", {{"particle_type0", "../particle/lj.txt"},
+    {"Configuration", {{"particle_type", "../particle/lj.txt"},
                        {"cubic_side_length", "8"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"ThermoParams", {{"beta", "1.2"}, {"chemical_potential", "1."}}},
@@ -540,8 +545,7 @@ std::shared_ptr<MonteCarlo> rpm_fh_test(
     rpm_args.insert({"dual_cut", "1"});
   }
   mc.add(MakeConfiguration({{"cubic_side_length", "12"},
-    {"particle_type0", "../plugin/charge/particle/rpm_plus.txt"},
-    {"particle_type1", "../plugin/charge/particle/rpm_minus.txt"},
+    {"particle_type", "../plugin/charge/particle/rpm_plus.txt,../plugin/charge/particle/rpm_minus.txt"},
     {"cutoff", "4.891304347826090"},
     {"charge0", str( 1/std::sqrt(CODATA2018().charge_conversion()))},
     {"charge1", str(-1/std::sqrt(CODATA2018().charge_conversion()))}}));
@@ -570,8 +574,7 @@ std::shared_ptr<MonteCarlo> rpm_fh_test(
     {"tunable_param", "0.1"}}));
   mc.add(MakeTrialTransferMultiple({
     {"weight", "4."},
-    {"particle_type0", "0"},
-    {"particle_type1", "1"},
+    {"particle_types", "0,1"},
     {"reference_index", "0"},
     {"num_steps", str(num_steps)}}));
   if (criteria->bias().class_name() == "TransitionMatrix") {
@@ -635,9 +638,7 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.add(MakeTrialTransferMultiple({
     {"weight", "1."},
-    {"particle_type0", "0"},
-    {"particle_type1", "1"},
-    {"particle_type2", "1"},
+    {"particle_types", "0,1,1"},
     {"reference_index", "0"}}));
   const int trials_per = 1e3;
   mc.add(MakeCriteriaUpdater({{"trials_per_update", str(trials_per)}}));
@@ -693,7 +694,7 @@ std::unique_ptr<MonteCarlo> nvtw(const int num) {
   auto mc = std::make_unique<MonteCarlo>();
   //mc->set(MakeRandomMT19937({{"seed", "1633373249"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},
-                            {"particle_type0", "../particle/lj.txt"}}));
+                             {"particle_type", "../particle/lj.txt"}}));
   mc->add(MakePotential(MakeLennardJones()));
   mc->add(MakePotential(MakeLongRangeCorrections()));
   mc->set(MakeThermoParams({{"beta", str(1./1.5)}, {"chemical_potential", "-2.352321"}}));

@@ -19,7 +19,7 @@ TEST(TrialGrowLinear, chain10) {
   System system;
   system.add(MakeConfiguration({{"cubic_side_length", "12"},
     {"particle_type", "../particle/chain10.txt"},
-    {"add_particles_of_type0", "1"}}));
+    {"add_num_0_particles", "1"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.set(MakeThermoParams({{"beta", "100.0"}}));
   auto criteria = MakeMetropolis();

@@ -11,7 +11,7 @@ TEST(Remove, serialize) {
 
 TEST(Remove, comma_separated) {
   auto mc = MakeMonteCarlo({{
-    {"Configuration", {{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.txt"}}},
+    {"Configuration", {{"cubic_side_length", "8"}, {"particle_type", "../particle/lj_new.txt"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1."}}},
     {"Metropolis", {{}}},

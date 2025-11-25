@@ -7,7 +7,7 @@
 namespace feasst {
 
 TEST(LennardJonesCutShift, analytical) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.txt"}});
+  auto config = MakeConfiguration({{"particle_type", "../particle/lj_new.txt"}});
   auto shift = std::make_shared<LennardJonesCutShift>();
   shift->precompute(*config);
   EXPECT_NEAR(0., shift->energy(3*3, 0, 0, config->model_params()), NEAR_ZERO);
@@ -15,7 +15,7 @@ TEST(LennardJonesCutShift, analytical) {
 }
 
 TEST(LennardJonesCutShift, analytical_delta) {
-  auto config = MakeConfiguration({{"particle_type0", "../plugin/models/particle/ljdelta.txt"}});
+  auto config = MakeConfiguration({{"particle_type", "../plugin/models/particle/ljdelta.txt"}});
   //auto shift = std::make_shared<LennardJonesAlpha>();
   auto shift = std::make_shared<LennardJonesCutShift>();
   shift->precompute(*config);
@@ -25,7 +25,7 @@ TEST(LennardJonesCutShift, analytical_delta) {
 }
 
 //TEST(LennardJonesCutShift, wca) {
-//  auto config = MakeConfiguration({{"particle_type0", "../particle/lj.txt"}});
+//  auto config = MakeConfiguration({{"particle_type", "../particle/lj.txt"}});
 //  auto wca = std::make_shared<LennardJonesCutShift>();
 //  ModelParams wca_params = deep_copy(config->model_params());
 //  EXPECT_NEAR(3., config->model_params().select("cutoff").mixed_values()[0][0], NEAR_ZERO);
@@ -39,16 +39,16 @@ TEST(LennardJonesCutShift, analytical_delta) {
 //}
 
 TEST(LennardJonesCutShift, serialize) {
-  auto config = MakeConfiguration({{"particle_type0", "../particle/spce.txt"}});
+  auto config = MakeConfiguration({{"particle_type", "../particle/spce_new.txt"}});
   auto shift = MakeLennardJonesCutShift({{"alpha", "12"},
                                          {"hard_sphere_threshold", "0.3"}});
   shift->precompute(*config);
   std::shared_ptr<Model> model2 = test_serialize<LennardJonesCutShift, Model>(*shift,
-    "LennardJonesCutShift 2094 1 0 2 3 763 0.089999999999999997 714 12 -1 -1 1.0594630943592953 644 energy_at_cutoff 4795 2 0 0 2 2 -2.6332331818264547e-06 0 2 0 0 2 2 1 1 2 1 1 ");
+    "LennardJonesCutShift 2094 3 2 0 1 763 0.089999999999999997 714 12 -1 -1 1.0594630943592953 644 energy_at_cutoff 4795 2 0 0 2 2 -2.6332331818264547e-06 0 2 0 0 2 2 1 1 2 1 1 ");
 }
 
 TEST(LennardJonesCutShift, analytical_lambda) {
-  auto config = MakeConfiguration({{"particle_type0", "../plugin/models/particle/ljlambda.txt"}});
+  auto config = MakeConfiguration({{"particle_type", "../plugin/models/particle/ljlambda.txt"}});
   auto shift = MakeLennardJonesCutShift();
   shift->precompute(*config);
   EXPECT_NEAR(-0.002739720872119390 - -0.001087390195827500, shift->energy(2.5*2.5, 0, 0, config->model_params()), NEAR_ZERO);

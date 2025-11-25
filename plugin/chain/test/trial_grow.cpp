@@ -47,13 +47,13 @@ TEST(TrialGrow, bond_harmonic) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(MakeConfiguration({{"cubic_side_length", "10"},
-    {"particle_type0", "../plugin/chain/test/data/dimer_harmonic.txt"},
-    {"add_particles_of_type0", "1"}}));
+    {"particle_type", "chain::../plugin/chain/test/data/dimer_harmonic.txt"},
+    {"add_num_chain_particles", "1"}}));
   mc.add(MakePotential(MakeIdealGas()));
   mc.set(MakeThermoParams({{"beta", "1"}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialGrow({
-    {{"bond", "true"}, {"particle_type", "0"}, {"mobile_site", "1"}, {"anchor_site", "0"}}}));
+    {{"bond", "true"}, {"particle_type", "chain"}, {"mobile_site", "1"}, {"anchor_site", "0"}}}));
   mc.add(MakeMovie({{"output_file", "tmp/bond"}}));
   while (mc.trial(0).num_success() < 2) {
     mc.attempt(1);

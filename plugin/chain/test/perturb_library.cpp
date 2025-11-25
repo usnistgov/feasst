@@ -16,9 +16,9 @@ TEST(PerturbLibrary, dimer) {
   System sys;
   sys.add(MakeConfiguration({
     {"cubic_side_length", "8"},
-    {"particle_type0", "../particle/dimer.txt"}}));
+    {"particle_type", "dimer:../particle/dimer.txt"}}));
   sys.precompute();
-  auto sel = MakeTrialSelectParticle({{"particle_type", "0"}});
+  auto sel = MakeTrialSelectParticle({{"particle_type", "dimer"}});
   auto pert = MakePerturbLibrary({{"library_xyz",
     "../plugin/configuration/test/data/dimer4.xyz"}});
   sel->precompute(&sys);

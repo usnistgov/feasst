@@ -15,7 +15,7 @@ TEST(SelectCrankshaftSmall, serialize) {
     sel = MakeSelectCrankshaftSmall({{"site", "0"}, {"anchor_site0", "1"}});
     CATCH_PHRASE("key(anchor_site1) is required");
   );
-  auto config = MakeConfiguration({{"cubic_side_length", "20"}, {"particle_type0", "../particle/chain10.txt"}});
+  auto config = MakeConfiguration({{"cubic_side_length", "20"}, {"particle_type", "../particle/chain10.txt"}});
   System sys;
   sys.add(config);
   sel = MakeSelectCrankshaftSmall({{"site", "0"}, {"site1", "3"}, {"site2", "4"}, {"anchor_site0", "1"}, {"anchor_site1", "2"}});

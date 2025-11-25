@@ -307,7 +307,7 @@ TEST(MonteCarlo, lj_npt) {
   const std::string trials_per = "1e0";
   auto mc = MakeMonteCarlo({{
     // {"RandomMT19937", {{"seed", "1757619601"}}},
-    {"Configuration", {{"cubic_side_length", "8"}, {"particle_type", "atom:../particle/atom_new.txt"}}},
+    {"Configuration", {{"cubic_side_length", "8"}, {"particle_type", "atom:../particle/atom_new.txt"}, {"cutoff", "2"}}},
     {"Potential", {{"Model", "LennardJones"}}},
     {"ThermoParams", {{"beta", str(beta)}, {"pressure", str(pressure)}, {"chemical_potential", "-1"}}},
     {"Metropolis", {{}}},

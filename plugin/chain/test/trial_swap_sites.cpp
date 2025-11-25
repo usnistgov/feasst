@@ -17,8 +17,8 @@ namespace feasst {
 TEST(TrialSwapSites, swap) {
   System sys;
   sys.add(MakeConfiguration({{"cubic_side_length", "20"},
-    {"particle_type", "../particle/chain10_3types.txt"},
-    {"add_particles_of_type0", "1"}}));
+    {"particle_type", "chain:../particle/chain10_3types.txt"},
+    {"add_num_chain_particles", "1"}}));
   sys.add(MakePotential(MakeLennardJones()));
   sys.energy();
   sys.set(MakeThermoParams({{"beta", "1.0"}}));
@@ -26,7 +26,7 @@ TEST(TrialSwapSites, swap) {
   auto criteria = MakeMetropolis();
   criteria->set_current_energy(sys.energy());
   criteria->set_current_energy_profile({0.});
-  auto trial = MakeTrialSwapSites({{"particle_type", "0"}, {"site_type1", "0"}, {"site_type2", "1"}});
+  auto trial = MakeTrialSwapSites({{"particle_type", "chain"}, {"site_type1", "0"}, {"site_type2", "1"}});
   trial->attempt(criteria.get(), &sys, random.get());
   EXPECT_EQ(trial->num_success(), 1);
   EXPECT_EQ(sys.configuration().particle(0).site(0).type(), 0);

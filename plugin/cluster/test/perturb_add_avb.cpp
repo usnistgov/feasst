@@ -19,7 +19,7 @@ TEST(PerturbAddAVB, gce_add) {
   {
     auto config = MakeConfiguration({{"cubic_side_length", "8"},
       {"particle_type", "../particle/lj.txt"},
-      {"add_particles_of_type0", "1"}});
+      {"add_num_0_particles", "1"}});
     config->update_positions({{0, 0, 0}});
     system.add(config);
   }

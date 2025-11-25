@@ -17,8 +17,8 @@ namespace feasst {
 TEST(TrialPivot, chain10) {
   System system;
   system.add(MakeConfiguration({{"cubic_side_length", "12"},
-    {"particle_type", "../particle/chain10.txt"},
-    {"add_particles_of_type0", "1"}}));
+    {"particle_type", "chain:../particle/chain10.txt"},
+    {"add_num_chain_particles", "1"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.set(MakeThermoParams({{"beta", "100.0"}}));
   auto criteria = MakeMetropolis();

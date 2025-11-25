@@ -129,7 +129,7 @@ TEST(MonteCarlo, TrialGrow_LONG) {
     MonteCarlo mc;
     //mc.set(MakeRandomMT19937({{"seed", "1635356012"}}));
     mc.add(MakeConfiguration({{"cubic_side_length", str(box_length)},
-                              {"particle_type0", data}}));
+                              {"particle_type", data}}));
     mc.add(MakePotential(MakeLennardJones()));
     mc.add(MakePotential(MakeLongRangeCorrections()));
     mc.add_to_reference(MakePotential(MakeLennardJones()));
@@ -269,8 +269,8 @@ TEST(MonteCarlo, cg7mab2_LONG) {
 TEST(System, Angles2D) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"side_length", "6,6"},
-    {"particle_type", "../plugin/chain/particle/heterotrimer2d.txt"},
-    {"add_particles_of_type0", "1"}}));
+    {"particle_type", "trimer:../plugin/chain/particle/heterotrimer2d.txt"},
+    {"add_num_trimer_particles", "1"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.set(MakeThermoParams({{"beta", "1"}}));
   mc.set(MakeMetropolis());
@@ -784,8 +784,8 @@ TEST(MonteCarlo, single_butane) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(MakeConfiguration({
-    {"particle_type0", "../particle/n-butane.txt"},
-    {"add_particles_of_type0", "1"},
+    {"particle_type", "../particle/n-butane.txt"},
+    {"add_num_0_particles", "1"},
     {"cubic_side_length", "100"}}));
   mc.add(MakePotential(MakeLennardJones(),
                        MakeVisitModelIntra({{"intra_cut",  "3"}})));
@@ -826,7 +826,7 @@ TEST(MonteCarlo, ethane) {
   auto mc = MakeMonteCarlo();
   //mc->set(MakeRandomMT19937({{"seed", "123"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "30"},
-                             {"particle_type0", "../particle/ethane.txt"},
+                             {"particle_type", "../particle/ethane.txt"},
                              {"cutoff", "15"}}));
   mc->add(MakePotential(MakeLennardJones()));
   mc->add(MakePotential(MakeLongRangeCorrections()));
@@ -864,7 +864,7 @@ TEST(MonteCarlo, water) {
   auto mc = MakeMonteCarlo();
   mc->set(MakeRandomMT19937({{"seed", "123"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "20"},
-                             {"particle_type0", "../particle/spce.txt"},
+                             {"particle_type", "../particle/spce.txt"},
                              {"cutoff", "10"}}));
   mc->add(MakePotential(MakeLennardJones(),
                         MakeVisitModelCutoffOuter()));
@@ -938,9 +938,9 @@ TEST(MonteCarlo, angle_square_well) {
   auto mc = MakeMonteCarlo();
   mc->set(MakeRandomMT19937({{"seed", "123"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "20"},
-                             {"particle_type0", "../plugin/chain/particle/chain3.txt"},
+                             {"particle_type", "../plugin/chain/particle/chain3.txt"},
                              {"cutoff", "10"},
-                             {"add_particles_of_type0", "1"},
+                             {"add_num_0_particles", "1"},
                              {"group0", "end"},
                              {"end_site_type", "1"}}));
   mc->add(MakePotential(MakeLennardJones(),

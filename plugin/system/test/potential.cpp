@@ -18,8 +18,8 @@ TEST(Potential, args) {
 }
 
 TEST(Potential, model_params) {
-  auto config = MakeConfiguration({{"cubic_side_length", "20"}, {"particle_type0", "../particle/spce.txt"}});
-  auto potential = MakePotential({{"Model", "LennardJones"}, {"cutoff", "0"}, {"cutoff1", "5"}});
+  auto config = MakeConfiguration({{"cubic_side_length", "20"}, {"particle_type", "../particle/spce_new.txt"}});
+  auto potential = MakePotential({{"Model", "LennardJones"}, {"cutoff", "0"}, {"cutoffH", "5"}});
   potential->precompute(config.get());
   EXPECT_EQ(0, potential->model_params().select("cutoff").value(0));
   EXPECT_EQ(5, potential->model_params().select("cutoff").value(1));

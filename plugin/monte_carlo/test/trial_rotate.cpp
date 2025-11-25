@@ -15,8 +15,8 @@ namespace feasst {
 TEST(TrialRotate, spce) {
   System system;
   system.add(MakeConfiguration({{"cubic_side_length", "20"},
-    {"particle_type", "../particle/spce.txt"},
-    {"add_particles_of_type0", "1"}}));
+    {"particle_type", "spce:../particle/spce_new.txt"},
+    {"add_num_spce_particles", "1"}}));
   system.add(MakePotential(MakeLennardJones()));
   system.set(MakeThermoParams({{"beta", "1.0"}}));
   Metropolis criteria;

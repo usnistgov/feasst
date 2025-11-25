@@ -58,7 +58,9 @@ void TrialMorphExpanded::init_(const std::vector<std::vector<int> > grow_seq, ar
        step < static_cast<int>(grow_seq.size());
        ++step) {
     const std::vector<int>& seq = grow_seq[step];
+    std::vector<std::string> grows, grow_morphs;
     argtype grow_args = args;
+    std::vector<std::string> shrinks, shrink_morphs;
     argtype shrink_args = args;
     bool add = false;
     bool remove = false;
@@ -75,11 +77,14 @@ void TrialMorphExpanded::init_(const std::vector<std::vector<int> > grow_seq, ar
         if (ptypem1 == -1) {
           add = true;
           ++num_added;
-          grow_args.insert({"particle_type" + str(noskipgstage), str(ptype0)});
+          grows.push_back(str(ptype0));
+          //grow_args.insert({"particle_type" + str(noskipgstage), str(ptype0)});
         } else {
           ASSERT(!add, "cant have add and morph in same stage");
-          grow_args.insert({"particle_type" + str(noskipgstage), str(ptypem1)});
-          grow_args.insert({"particle_type_morph" + str(noskipgstage), str(ptype0)});
+          grows.push_back(str(ptypem1));
+          //grow_args.insert({"particle_type" + str(noskipgstage), str(ptypem1)});
+          //grow_args.insert({"particle_type_morph" + str(noskipgstage), str(ptype0)});
+          grow_morphs.push_back(str(ptype0));
         }
         ++noskipgstage;
       }
@@ -91,7 +96,8 @@ void TrialMorphExpanded::init_(const std::vector<std::vector<int> > grow_seq, ar
           remove = true;
           ++num_removed;
           DEBUG("particle_type" + str(noskipsstage));
-          shrink_args.insert({"particle_type" + str(noskipsstage), str(ptypem1)});
+          shrinks.push_back(str(ptypem1));
+          //shrink_args.insert({"particle_type" + str(noskipsstage), str(ptypem1)});
           ++noskipsstage;
         }
       } else {
@@ -105,17 +111,31 @@ void TrialMorphExpanded::init_(const std::vector<std::vector<int> > grow_seq, ar
           new_type = grow_seq[step - 2][stage];
         }
         if (current_type != -1 && new_type != -1) {
-          shrink_args.insert({"particle_type" + str(noskipsstage),
-                              str(current_type)});
-          shrink_args.insert({"particle_type_morph" + str(noskipsstage),
-                              str(new_type)});
+          shrinks.push_back(str(current_type));
+          //shrink_args.insert({"particle_type" + str(noskipsstage),
+          //                    str(current_type)});
+          shrink_morphs.push_back(str(new_type));
+          //shrink_args.insert({"particle_type_morph" + str(noskipsstage),
+          //                    str(new_type)});
           ++noskipsstage;
         }
       }
     }
     if (add) {
+      grow_args.insert({"particle_types", feasst_str(grows)});
+    } else {
+      grow_args.insert({"particle_type", feasst_str(grows)});
+      grow_args.insert({"particle_type_morph", feasst_str(grow_morphs)});
+    }
+    if (remove) {
+      shrink_args.insert({"particle_types", feasst_str(shrinks)});
+    } else {
+      shrink_args.insert({"particle_type", feasst_str(shrinks)});
+      shrink_args.insert({"particle_type_morph", feasst_str(shrink_morphs)});
+    }
+    DEBUG(str(grow_args));
+    if (add) {
       grow_args.insert({"shift", str(num_added)});
-      DEBUG(str(grow_args));
       grow_.push_back(MakeTrialAddMultiple(grow_args));
       DEBUG(str(grow_args));
       add = false;

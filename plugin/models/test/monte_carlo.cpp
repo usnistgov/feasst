@@ -32,8 +32,8 @@ TEST(MonteCarlo, trimer) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "123"}}));
   { { auto config = MakeConfiguration({{"cubic_side_length", "12"},
-        {"particle_type", "../particle/trimer.txt"},
-        {"add_particles_of_type0", "2"}});
+        {"particle_type", "trimer:../particle/trimer.txt"},
+        {"add_num_trimer_particles", "2"}});
       TrialSelectParticle sel;
       sel.select_particle(1, *config);
       const Position disp = Position().set_vector({4, 4, 4});
@@ -55,7 +55,7 @@ TEST(MonteCarlo, trimer) {
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
+  mc.add(MakeTrialTransfer({{"particle_type", "trimer"}}));
 //  mc.add(MakeLogAndMovie({{"file_name", "tmp/trimer"}, {"trials_per_write", "1e2"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", "100"}, {"tolerance", "1e-10"}}));
   mc.attempt(1e3);

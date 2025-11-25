@@ -9,8 +9,8 @@ namespace feasst {
 
 TEST(SelectSiteOfType, serialize) {
   auto config = MakeConfiguration({{"cubic_side_length", "20"},
-    {"particle_type", "../particle/chain10_3types.txt"},
-    {"add_particles_of_type0", "1"}});
+    {"particle_type", "chain:../particle/chain10_3types.txt"},
+    {"add_num_chain_particles", "1"}});
   auto sel = MakeSelectSiteOfType({{"site_type", "1"}});
   Select site;
   auto random = MakeRandomMT19937();

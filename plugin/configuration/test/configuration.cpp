@@ -404,7 +404,7 @@ TEST(Configuration, add_particles_of_type) {
 }
 
 TEST(Configuration, dihedrals) {
-  auto config = MakeConfiguration({{"particle_type", "../particle/n-decane.txt"}, {"add_particles_of_type0", "1"}});
+  auto config = MakeConfiguration({{"particle_type", "alkane:../particle/n-decane.txt"}, {"add_num_alkane_particles", "1"}});
   EXPECT_EQ(1, config->num_particles());
   EXPECT_EQ(7, config->particle_type(0).num_dihedrals());
   EXPECT_EQ(1, config->unique_type(0).num_dihedrals());

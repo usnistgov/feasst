@@ -18,7 +18,7 @@ void test_energy_jagla(const double distance, const double energy,
 }
 
 TEST(Jagla, analytical) {
-  auto config = MakeConfiguration({{"particle_type0", "../plugin/example/particle/jagla.txt"}});
+  auto config = MakeConfiguration({{"particle_type", "../plugin/example/particle/jagla.txt"}});
   auto jagla = std::make_shared<Jagla>();
   jagla->precompute(*config);
   EXPECT_NEAR(1.5, config->model_params().select("lambda").value(0), NEAR_ZERO);

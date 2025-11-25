@@ -10,10 +10,9 @@ inline void run_hs(const int num_orientations_per_pi, const int proc, const int 
   auto mc_hs = MakeMonteCarlo({{
     {"Configuration", {
       {"cubic_side_length", "2e2"},
-      {"particle_type0", "../plugin/aniso/test/data/fc.txt"},
-      {"particle_type1", "../plugin/aniso/test/data/fc.txt"},
-      {"add_particles_of_type0", "1"},
-      {"add_particles_of_type1", "1"},
+      {"particle_type", "../plugin/aniso/test/data/fc.txt,../plugin/aniso/test/data/fc.txt"},
+      {"add_num_0_particles", "1"},
+      {"add_num_1_particles", "1"},
       {"group0", "fixed"},
       {"fixed_particle_type", "0"},
       {"group1", "mobile"},
@@ -30,10 +29,10 @@ inline void run_hs(const int num_orientations_per_pi, const int proc, const int 
     {"num_z", "-1"},
     {"output_table_file", "tmp/contact_table"+str(proc)+".txt"},
   }));
-  EXPECT_NEAR(207.84639874816824, table_hs->max_cubic_side_length(0, mc_hs->configuration()), NEAR_ZERO);
+  EXPECT_NEAR(227.84639874816824, table_hs->max_cubic_side_length(0, mc_hs->configuration()), NEAR_ZERO);
   table_hs->run(mc_hs.get());
   EXPECT_NEAR(1./9., table_hs->rotator().fraction_unique(), NEAR_ZERO);
-  EXPECT_NEAR(8978990.5049453303, mc_hs->configuration().domain().volume(), 1e-6);
+  EXPECT_NEAR(11828413.711798051, mc_hs->configuration().domain().volume(), 1e-6);
   if (num_proc == 1) {
     EXPECT_EQ(72, table_hs->rotator().num_orientations());
   } else if (num_proc == 2) {
@@ -77,20 +76,17 @@ inline void run(const int num_orientations_per_pi, const int proc, const int num
   auto mc = MakeMonteCarlo({{
     {"Configuration", {
       {"cubic_side_length", "2e2"},
-      {"particle_type0", "../plugin/aniso/test/data/fc.txt"},
-      {"particle_type1", "../plugin/aniso/test/data/fc.txt"},
-      {"add_particles_of_type0", "1"},
-      {"add_particles_of_type1", "1"},
+      {"particle_type", "../plugin/aniso/test/data/fc.txt,../plugin/aniso/test/data/fc.txt"},
+      {"add_num_0_particles", "1"},
+      {"add_num_1_particles", "1"},
       {"group0", "fixed"},
       {"fixed_particle_type", "0"},
       {"group1", "mobile"},
       {"mobile_particle_type", "1"},
       {"cutoff", str(cutoff)},
     }},
-    {"Potential", {{"Model", "ModelTwoBodyFactory"},
-      {"model0", "HardSphere"},
-      {"model1", "LennardJones"},
-      {"model2", "DebyeHuckel"}, {"kappa", str(kappa)}, {"dielectric", str(dielectric_water)}, {"smoothing_distance", str(smoothing_distance)},
+    {"Potential", {{"Model", "ModelTwoBodyFactory"}, {"models", "HardSphere,LennardJones,DebyeHuckel"},
+      {"kappa", str(kappa)}, {"dielectric", str(dielectric_water)}, {"smoothing_distance", str(smoothing_distance)},
       {"VisitModel", "VisitModelCell"}, {"min_length", "max_cutoff"}, {"energy_cutoff", "1e100"}}},
   }});
   auto table = std::make_shared<TabulateTwoRigidBody3D>(argtype({
@@ -112,7 +108,7 @@ inline void run(const int num_orientations_per_pi, const int proc, const int num
         //expect1 = -6.835550;
         expect2 = -0.001538283;
       } else if (iorall == 1) {
-        expect1 = -6.7353038787841797;
+        expect1 = -6.73602294921875;
         //expect1 = -6.736353;
         expect2 = 0.001778595;
       } else if (iorall == 2) {
@@ -136,12 +132,11 @@ TEST(MonteCarlo, tabulate_rigid_bodies_LONG) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {
       {"cubic_side_length", "2e2"},
-      {"particle_type0", "../particle/spce.txt"},
-      {"particle_type1", "../particle/spce.txt"},
+      {"particle_type", "../particle/spce.txt,../particle/spce.txt"},
       //{"particle_type0", "../plugin/aniso/test/data/fc.txt"},
       //{"particle_type1", "../plugin/aniso/test/data/fc.txt"},
-      {"add_particles_of_type0", "1"},
-      {"add_particles_of_type1", "1"},
+      {"add_num_0_particles", "1"},
+      {"add_num_1_particles", "1"},
       {"group0", "fixed"},
       {"fixed_particle_type", "0"},
       {"group1", "mobile"},

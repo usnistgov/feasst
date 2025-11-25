@@ -52,6 +52,7 @@ def parse():
         values = 50*[1e9] + 51*[0]
         for v in values:
             file1.write(str(v)+" ")
+        file1.write("\n")
     return params, args
 
 def write_feasst_script(params, script_file):

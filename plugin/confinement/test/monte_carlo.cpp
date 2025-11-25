@@ -49,7 +49,7 @@ namespace feasst {
 TEST(MonteCarlo, ShapeUnion) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_side_length", "8"},
-    {"particle_type0", "../particle/lj.txt"}}));
+    {"particle_type", "../particle/lj_new.txt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(MakeShapeUnion(
     MakeSphere({{"radius", "2"}}),
@@ -70,7 +70,7 @@ TEST(MonteCarlo, ShapeUnion) {
 TEST(MonteCarlo, ShapeUnion_LONG) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_side_length", "20"},
-    {"particle_type", "../particle/lj.txt"}}));
+    {"particle_type", "../particle/lj_new.txt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape({{"shape_file", "../plugin/shape/test/data/network.txt"}})));
   mc.set(MakeThermoParams({{"beta", "1.5"}, {"chemical_potential", "1."}}));
@@ -141,12 +141,10 @@ System slab(const int num0 = 0, const int num1 = 0, const int num2 = 0) {
   System system;
   system.add(MakeConfiguration({
     {"cubic_side_length", "5"},
-    {"particle_type0", "../particle/dimer.txt"},
-    {"particle_type1", "../plugin/confinement/particle/slab5x5.txt"},
-    {"particle_type2", "../particle/lj.txt"},
-    {"add_particles_of_type0", str(num0)},
-    {"add_particles_of_type1", str(num1)},
-    {"add_particles_of_type2", str(num2)},
+    {"particle_type", "../particle/dimer.txt,../plugin/confinement/particle/slab5x5.txt,../particle/lj.txt"},
+    {"add_num_0_particles", str(num0)},
+    {"add_num_1_particles", str(num1)},
+    {"add_num_2_particles", str(num2)},
     {"cutoff", "2.5"}}));
   EXPECT_EQ(3, system.configuration().num_site_types());
   EXPECT_EQ(2.5, system.configuration().model_params().select("cutoff").value(0));
@@ -161,8 +159,7 @@ System slab(const int num0 = 0, const int num1 = 0, const int num2 = 0) {
 
 Accumulator henry(System system,
   const double beta = 1.0,
-  const int num_trials = 1e6
-) {
+  const int num_trials = 1e6) {
   MonteCarlo mc;
   //WARN("remove seed");
   //mc.set(MakeRandomMT19937({{"seed", "123"}}));
@@ -265,9 +262,8 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
 TEST(Ewald, henry_coefficient_LONG) {
   System system;
   auto config = MakeConfiguration({{"cubic_side_length", "20"},
-      {"particle_type0", "../particle/spce.txt"},
-      {"particle_type1", "../plugin/confinement/particle/slab20x20.txt"},
-      {"add_particles_of_type1", "1"}});
+      {"particle_type", "../particle/spce.txt,../plugin/confinement/particle/slab20x20.txt"},
+      {"add_num_1_particles", "1"}});
   for (int site_type = 0; site_type < config->num_site_types(); ++site_type) {
     config->set_model_param("cutoff", site_type, 2.5);
   }
@@ -291,7 +287,7 @@ TEST(HardShape, henry_LONG) {
   for (const double length : {10, 20}) {
     System system;
     system.add(MakeConfiguration({{"cubic_side_length", str(length)},
-      {"particle_type0", "../particle/hard_sphere.txt"},
+      {"particle_type", "../particle/hard_sphere.txt"},
       {"periodic2", "false"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlab({
       {"dimension", "2"},
@@ -307,7 +303,7 @@ TEST(HardShape, henry2_LONG) {
   for (const double length : {10, 20}) {
     System system;
     system.add(MakeConfiguration({{"cubic_side_length", str(length)},
-      {"particle_type0", "../particle/hard_sphere.txt"},
+      {"particle_type", "../particle/hard_sphere.txt"},
       {"periodic2", "false"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlabSine(
       {{"dimension", "2"},
@@ -326,7 +322,7 @@ TEST(HardShape, henry_dimer_LONG) {
   //for (const double length : {10, 20}) {
     System system;
     system.add(MakeConfiguration({{"cubic_side_length", str(length)},
-      {"particle_type0", "../particle/dimer.txt"}}));
+      {"particle_type", "../particle/dimer.txt"}}));
     system.add(MakePotential(MakeModelHardShape(MakeSlab({
       {"dimension", "2"},
       {"bound0", "3"},
@@ -341,9 +337,8 @@ TEST(HardShape, henry_dimer_LONG) {
 TEST(MonteCarlo, henry_MOF_LONG) {
   System system;
   auto config = MakeConfiguration({{"cubic_side_length", "34.0232403"},
-      {"particle_type0", "../particle/co2.txt"},
-      {"particle_type1", "../plugin/confinement/particle/ZIF8_rep222_PerezPellitero.txt"},
-      {"add_particles_of_type1", "1"},
+      {"particle_type", "../particle/co2.txt,../plugin/confinement/particle/ZIF8_rep222_PerezPellitero.txt"},
+      {"add_num_1_particles", "1"},
       {"cutoff", "12.0"}});
   system.add(config);
   system.add(MakePotential(
@@ -362,9 +357,8 @@ TEST(MonteCarlo, henry_MOF_LONG) {
 TEST(MonteCarlo, henry_LJMOF_LONG) {
   System system;
   auto config = MakeConfiguration({{"cubic_side_length", "34.0232403"},
-      {"particle_type0", "../particle/co2.txt"},
-      {"particle_type1", "../plugin/confinement/particle/ZIF8_rep222_PerezPellitero.txt"},
-      {"add_particles_of_type1", "1"},
+      {"particle_type", "../particle/co2.txt,../plugin/confinement/particle/ZIF8_rep222_PerezPellitero.txt"},
+      {"add_num_1_particles", "1"},
       {"cutoff", "12.0"}});
   system.add(config);
   system.add(MakePotential(MakeLennardJones()));
@@ -377,8 +371,7 @@ TEST(MonteCarlo, henry_LJMOF_LONG) {
 TEST(DensityProfile, ig_hard_slab) {
   MonteCarlo mc;
   mc.add(MakeConfiguration({{"cubic_side_length", "10"},
-    {"particle_type0", "../particle/hard_sphere.txt"},
-    {"particle_type1", "../particle/lj.txt"}}));
+    {"particle_type", "../particle/hard_sphere.txt,../particle/lj.txt"}}));
   // mc.add(MakePotential(MakeHardSphere()));
   mc.add(MakePotential(MakeModelHardShape(MakeSlab({
     {"dimension", "2"},
@@ -412,7 +405,7 @@ TEST(MonteCarlo, SineSlab) {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(MakeConfiguration({{"cubic_side_length", "16"},
-    {"particle_type0", "../particle/lj.txt"}}));
+    {"particle_type", "../particle/lj.txt"}}));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelHardShape(MakeSlabSine(
     { {"dimension", "0"}, {"wave_dimension", "1"}, {"average_bound0", "-5"},
@@ -463,7 +456,7 @@ TEST(MonteCarlo, SineSlabTable_LONG) {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(MakeConfiguration({{"cubic_side_length", "16"},
-    {"particle_type0", "../particle/lj.txt"}}));
+    {"particle_type", "../particle/lj.txt"}}));
   mc.add(MakePotential(MakeModelHardShape(pore)));
   mc.add(MakePotential(MakeLennardJones()));
   mc.add(MakePotential(MakeModelTableCart3DIntegr(table2)));

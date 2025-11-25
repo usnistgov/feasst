@@ -44,24 +44,43 @@ NeighborCriteria::NeighborCriteria(argtype * args) {
   ref_ = str("ref", args, "");
   potential_index_ = integer("potential_index", args, 0);
 
+  // set default values, which are not used if multiple site_types but need
+  // to be set to avoid memory issues.
+  const double dflt_energy_maximum = std::numeric_limits<double>::max();
+  energy_maximum_ = dflt_energy_maximum;
+  const double dflt_minimum_distance = 0;
+  minimum_distance_sq_ = dflt_minimum_distance;
+  const double dflt_maximum_distance = std::sqrt(NEAR_INFINITY);
+  maximum_distance_sq_ = dflt_maximum_distance;
+  const int dflt_site_type = -1;
+  site_type0_ = dflt_site_type;
+  site_type1_ = dflt_site_type;
+  site_type0_alt_ = dflt_site_type;
+  site_type1_alt_ = dflt_site_type;
+  const std::string dflt_site_type_name = "-1";
+  site_type0_name_ = dflt_site_type_name;
+  site_type1_name_ = dflt_site_type_name;
+  site_type0_alt_name_ = dflt_site_type_name;
+  site_type1_alt_name_ = dflt_site_type_name;
+
   std::vector<std::string> umaxs = split(
-    str("energy_maximum", args, str(std::numeric_limits<double>::max())), ',');
+    str("energy_maximum", args, str(dflt_energy_maximum)), ',');
   DEBUG("umaxs: " << feasst_str(umaxs));
+
   const int num = static_cast<int>(umaxs.size());
   if (num == 1) {
     energy_maximum_ = str_to_double(umaxs[0]);
     DEBUG("energy_maximum " << energy_maximum_);
-    minimum_distance_sq_ = std::pow(dble("minimum_distance", args, 0), 2);
-    maximum_distance_sq_ = std::pow(
-      dble("maximum_distance", args, std::sqrt(NEAR_INFINITY)), 2);
-    site_type0_name_ = str("site_type0", args, "-1");
-    site_type1_name_ = str("site_type1", args, "-1");
+    minimum_distance_sq_ = std::pow(dble("minimum_distance", args, dflt_minimum_distance), 2);
+    maximum_distance_sq_ = std::pow(dble("maximum_distance", args, dflt_maximum_distance), 2);
+    site_type0_name_ = str("site_type0", args, dflt_site_type_name);
+    site_type1_name_ = str("site_type1", args, dflt_site_type_name);
     ASSERT((site_type0_name_ == "-1" && site_type1_name_ == "-1") ||
            (site_type0_name_ != "-1" && site_type1_name_ != "-1"),
       "site_type0: " << site_type0_name_ << " and site_type1: " << site_type1_name_ <<
       " must be either both -1 or neither -1");
-    site_type0_alt_name_ = str("site_type0_alt", args, "-1");
-    site_type1_alt_name_ = str("site_type1_alt", args, "-1");
+    site_type0_alt_name_ = str("site_type0_alt", args, dflt_site_type_name);
+    site_type1_alt_name_ = str("site_type1_alt", args, dflt_site_type_name);
     ASSERT((site_type0_alt_name_ == "-1" && site_type1_alt_name_ == "-1") ||
            (site_type0_alt_name_ != "-1" && site_type1_alt_name_ != "-1"),
       "site_type0_alt: " << site_type0_alt_name_ << " and site_type1_alt: " << site_type1_alt_name_ <<

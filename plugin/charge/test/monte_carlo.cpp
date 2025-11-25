@@ -191,10 +191,9 @@ TEST(MonteCarlo, rpm) {
 TEST(MonteCarlo, spcearglist) {
   auto mc = MakeMonteCarlo({{
     {"Configuration", {{"cubic_side_length", "20"},
-                       {"particle_type0", "../particle/spce.txt"},
-                       {"particle_type1", "../plugin/charge/particle/rpm_plus.txt"}}},
+                       {"particle_type", "../particle/spce.txt,../plugin/charge/particle/rpm_plus.txt"}}},
     {"Potential", {{"VisitModel", "Ewald"}, {"alpha", str(5.6/20)}, {"kmax_squared", "38"}}},
-    {"Potential", {{"Model", "ModelTwoBodyFactory"}, {"model0", "LennardJones"}, {"model1", "ChargeScreened"}, {"VisitModel", "VisitModelCutoffOuter"}, {"erfc_table_size", "2e4"}}},
+    {"Potential", {{"Model", "ModelTwoBodyFactory"}, {"models", "LennardJones,ChargeScreened"}, {"VisitModel", "VisitModelCutoffOuter"}, {"erfc_table_size", "2e4"}}},
     {"Potential", {{"Model", "ChargeScreenedIntra"}, {"VisitModel", "VisitModelBond"}}},
     {"Potential", {{"Model", "ChargeSelf"}}},
     {"Potential", {{"VisitModel", "LongRangeCorrections"}}},
@@ -222,10 +221,10 @@ TEST(MonteCarlo, spce_npt) {
   auto mc = MakeMonteCarlo({{
     //{"RandomMT19937", {{"seed", "123"}}},
     {"Configuration", {{"cubic_side_length", "40"},
-                       {"particle_type0", "../particle/spce.txt"}}},
+                       {"particle_type", "../particle/spce.txt"}}},
     {"Potential", {{"VisitModel", "Ewald"}, {"alpha", str(5.6/20)}, {"kmax_squared", "38"}}},
     //{"Potential", {{"Model", "ModelTwoBodyFactory"}, {"model0", "LennardJones"}, {"model1", "ChargeScreened"}, {"erfc_table_size", "2e4"}}},
-    {"Potential", {{"Model", "ModelTwoBodyFactory"}, {"model0", "LennardJones"}, {"model1", "ChargeScreened"}, {"VisitModel", "VisitModelCutoffOuter"}, {"erfc_table_size", "2e4"}}},
+    {"Potential", {{"Model", "ModelTwoBodyFactory"}, {"models", "LennardJones,ChargeScreened"}, {"VisitModel", "VisitModelCutoffOuter"}, {"erfc_table_size", "2e4"}}},
     {"Potential", {{"Model", "ChargeScreenedIntra"}, {"VisitModel", "VisitModelBond"}}},
     {"Potential", {{"Model", "ChargeSelf"}}},
     {"Potential", {{"VisitModel", "LongRangeCorrections"}}},

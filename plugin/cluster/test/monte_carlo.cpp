@@ -111,7 +111,7 @@ TEST(MonteCarlo, GCMCmap) {
     INFO(mapstr);
     MonteCarlo mc;
     mc.set(MakeRandomMT19937({{"seed", "123"}}));
-    mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type0", "../particle/lj.txt"}}));
+    mc.add(MakeConfiguration({{"cubic_side_length", "8"}, {"particle_type", "../particle/lj_new.txt"}}));
     mc.add(MakePotential(MakeLennardJones()));
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
     mc.set(MakeMetropolis());

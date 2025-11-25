@@ -17,8 +17,8 @@ TEST(ModelHardShape, half_space) {
   });
   ModelHardShape model(std::make_shared<HalfSpace>(half_space));
   auto config = MakeConfiguration({{"cubic_side_length", "8"},
-    {"particle_type", "../particle/atom.txt"},
-    {"add_particles_of_type0", "1"}});
+    {"particle_type", "atom:../particle/atom_new.txt"},
+    {"add_num_atom_particles", "1"}});
   const ModelParams model_params = config->model_params();
   model.precompute(*config);
   EXPECT_LT(1e100, model.energy_no_wrap(config->particle(0).site(0), *config, model_params));

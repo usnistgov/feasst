@@ -13,8 +13,6 @@ typedef std::map<std::string, std::string> argtype;
 Attempt to change the identity of two particles of different types in
 the same configuration.
 This trial is only valid for rigid particles.
-This implementation is extremely similar to TrialPositionSwap over different
-configurations.
 
 \rst
 The limiting distribution in the canonical ensemble is given by

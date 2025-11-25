@@ -12,7 +12,7 @@ TEST(ActionExample, serialize) {
 
 TEST(ActionExample, fh) {
   auto mc = MakeMonteCarlo({{
-    {"Configuration", {{"particle_type0", "../particle/atom.txt"},
+    {"Configuration", {{"particle_type", "../particle/atom_new.txt"},
                        {"cubic_side_length", "8"}}},
     {"Potential", {{"Model", "IdealGas"}}},
     {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1"}}},

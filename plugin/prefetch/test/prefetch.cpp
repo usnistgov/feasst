@@ -44,7 +44,7 @@ void run_prefetch(const int trials, const int trials_per) {
 //  mc->set(MakeRandomMT19937({{"seed", "1592943710"}}));
   mc->set(MakeRandomMT19937({{"seed", "1596650884"}}));
   mc->add(MakeConfiguration({{"cubic_side_length", "8"},
-                             {"particle_type0", "../particle/lj.txt"}}));
+                             {"particle_type", "lj:../particle/lj_new.txt"}}));
   mc->add(MakePotential(MakeLennardJones()));
   mc->add(MakePotential(MakeLongRangeCorrections()));
   mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
@@ -55,7 +55,7 @@ void run_prefetch(const int trials, const int trials_per) {
   mc->add(MakeTune());
   //mc->add(MakeTune({{"trials_per_tune", "1"}}));
   //mc->activate_prefetch(false);
-  mc->add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc->add(MakeTrialAdd({{"particle_type", "lj"}}));
   mc->run(MakeRun({{"until_num_particles", "50"}}));
   mc->run(MakeRemove({{"name", "TrialAdd"}}));
   // activate prefetch after initial configuration
@@ -73,7 +73,7 @@ TEST(Prefetch, NVT_benchmark_LONG) {
   run_prefetch(1e6, 1e3); // 5.4s on 4 cores of i7-4770K @ 3.5GHz
 }
 
-void prefetch(System system, const int sync = 0) {
+void prefetch(System system, const int sync = 0, const std::string ptype = "lj") {
   auto mc = MakePrefetch({{"trials_per_check", "1"}, {"synchronize", str(sync)}});
   mc->set(MakeRandomMT19937({{"seed", "123"}}));
   //mc->set(MakeRandomMT19937({{"seed", "time"}}));
@@ -89,8 +89,8 @@ void prefetch(System system, const int sync = 0) {
   // mc->set(MakeRandomMT19937({{"seed", "1578665877"}}));
   // mc->set(MakeRandomMT19937({{"seed", "1578667496"}}));
   //mc->set(MakeRandomMT19937({{"seed", "1804289383"}}));
-  mc->add(MakeTrialAdd({{"particle_type", "0"}}));
-  mc->add(MakeTrialRemove({{"particle_type", "0"}}));
+  mc->add(MakeTrialAdd({{"particle_type", ptype}}));
+  mc->add(MakeTrialRemove({{"particle_type", ptype}}));
   // mc->set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-2"}}));
   mc->set(MakeThermoParams({{"beta", str(1./1.5)},
      {"chemical_potential", "-2.352321"}}));
@@ -131,14 +131,14 @@ void prefetch(System system, const int sync = 0) {
 TEST(Prefetch, MUVT_LONG) {
   System sys;
   sys.add(MakeConfiguration({{"cubic_side_length", "8"},
-                             {"particle_type0", "../particle/lj.txt"}}));
+                             {"particle_type", "lj:../particle/lj_new.txt"}}));
   sys.add(MakePotential(MakeLennardJones()));
   sys.add(MakePotential(MakeLongRangeCorrections()));
   prefetch(sys);
 }
 
 TEST(Prefetch, MUVT_spce_LONG) {
-  prefetch(spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"erfc_table_size", str(2e4)}}), 1);
+  prefetch(spce({{"alpha", str(5.6/20)}, {"kmax_squared", "38"}, {"erfc_table_size", str(2e4)}}), 1, "0");
 }
 
 TEST(Prefetch, NVT_spce) {

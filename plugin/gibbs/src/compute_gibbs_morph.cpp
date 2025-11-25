@@ -34,18 +34,18 @@ void ComputeGibbsMorph::perturb_and_acceptance(
   // find first and second morph stages
   const TrialStage * first_stage = (*stages)[0];
   const int config_first = first_stage->trial_select().configuration_index();
-  const TrialSelect * select_first = const_cast<const TrialSelect *>(&first_stage->select());
+//  const TrialSelect * select_first = const_cast<const TrialSelect *>(&first_stage->select());
   const int particle_type_first = first_stage->trial_select().particle_type();
-  const TrialSelect * select_second;
-  int config_second;
-  int particle_type_second;
+//  const TrialSelect * select_second;
+  int config_second = -1;
+  int particle_type_second = -1;
   bool first = false; // on first PerturbParticleType, reverts to true
   for (TrialStage * stage : *stages) {
     DEBUG("stage name: " << stage->perturb().class_name());
     if (stage->perturb().class_name() == "PerturbParticleType") {
       if (first) {
         config_second = stage->trial_select().configuration_index();
-        select_second = const_cast<const TrialSelect *>(&stage->select());
+//        select_second = const_cast<const TrialSelect *>(&stage->select());
         particle_type_second = stage->trial_select().particle_type();
       }
       first = !first;

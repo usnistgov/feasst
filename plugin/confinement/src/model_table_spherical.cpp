@@ -47,8 +47,12 @@ double ModelTableSphere1D::energy(
     TRACE(MAX_PRECISION << distance);
     TRACE("en: "  << NEAR_INFINITY);
     return NEAR_INFINITY;
-  } else if (distance < radius) {
+  } else if (distance <= radius) {
     const double en = table->forward_difference_interpolation(distance/radius);
+    TRACE("en: " << en);
+    return en;
+  } else if (distance < radius + NEAR_ZERO) {
+    const double en = table->forward_difference_interpolation(1.);
     TRACE("en: " << en);
     return en;
   }

@@ -66,8 +66,8 @@ MayerSampling ljb2(const int trials, const int num_beta_taylor = 0) {
   MonteCarlo mc;
   { // initialize system
     auto config = MakeConfiguration({{"cubic_side_length", "1000"},
-                                     {"particle_type0", "../particle/lj.txt"},
-                                     {"add_particles_of_type0", "2"}});
+                                     {"particle_type", "lj:../particle/lj_new.txt"},
+                                     {"add_num_lj_particles", "2"}});
     config->set_model_param("cutoff", 0, config->domain().side_length(0)/2.);
     mc.add(config);
     mc.add(MakePotential(MakeLennardJones()));

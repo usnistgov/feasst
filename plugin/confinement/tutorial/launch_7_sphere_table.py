@@ -52,7 +52,8 @@ def parse():
     params['procs_per_sim'] = params['procs_per_node']
     with open(params['prefix']+'_shape.txt', 'w') as file1:
         file1.write("Sphere radius=3 center=0,0,0")
-    def user_potential(r, radius):
+    def user_potential(r, # distance from inner surface, not radial distance from center
+                       radius):
         return 1./np.power(r, 3) - 1./np.power(radius, 3)
     with open(params['prefix']+'_table.txt', 'w') as file1:
         file1.write("site_types=LJ\n")
@@ -63,6 +64,7 @@ def parse():
         values = user_potential(r, radius)
         for v in values:
             file1.write(str(v)+" ")
+        file1.write("\n")
     if args.plot_table == 1:
         # check the energy interpolated from the table against the analytical value
         dists = np.arange(0.5, params['radius'], 0.033)

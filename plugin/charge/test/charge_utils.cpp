@@ -69,8 +69,7 @@ System rpm(argtype args) {
   System system;
   double dual_cut = dble("dual_cut", &args, -1);
   add_if_not_used("cubic_side_length", &args, "20");
-  add_if_not_used("particle_type0", &args, "../plugin/charge/particle/rpm_plus.txt");
-  add_if_not_used("particle_type1", &args, "../plugin/charge/particle/rpm_minus.txt");
+  add_if_not_used("particle_type", &args, "../plugin/charge/particle/rpm_plus.txt,../plugin/charge/particle/rpm_minus.txt");
   {
     Configuration config(&args);
     if (used("cutoff", args)) {

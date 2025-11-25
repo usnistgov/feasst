@@ -19,8 +19,8 @@ TEST(SolidOfRevolutionTable, serialize) {
 TEST(SolidOfRevolutionTable, test_two) {
   System system;
   system.add(MakeConfiguration({{"cubic_side_length", "10"},
-    {"particle_type", "../plugin/patch/particle/one_patch.txt"},
-    {"add_particles_of_type0", "2"},
+    {"particle_type", "patch:../plugin/patch/particle/one_patch.txt"},
+    {"add_num_patch_particles", "2"},
     {"group0", "centers"}, {"centers_site_type", "0"}}));
 
   system.add(MakePotential(MakeSquareWell(),

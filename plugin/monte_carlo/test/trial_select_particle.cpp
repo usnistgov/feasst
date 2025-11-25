@@ -21,15 +21,14 @@ TEST(TrialSelectParticle, serialize) {
 TEST(TrialSelectParticle, exclude_perturbed) {
   System system;
   { auto config = MakeConfiguration({
-      {"particle_type0", "../particle/lj.txt"},
-      {"particle_type1", "../particle/atom.txt"}});
+      {"particle_type", "lj:../particle/lj_new.txt,atom:../particle/atom_new.txt"}});
     config->add_particle_of_type(0);
     config->add_particle_of_type(0);
     config->add_particle_of_type(1);
     system.add(config);
   }
-  auto sel1 = MakeTrialSelectParticle({{"particle_type", "0"}});
-  auto sel2 = MakeTrialSelectParticle({{"particle_type", "0"},
+  auto sel1 = MakeTrialSelectParticle({{"particle_type", "lj"}});
+  auto sel2 = MakeTrialSelectParticle({{"particle_type", "lj"},
                                        {"exclude_perturbed", "true"}});
   sel1->precompute(&system);
   sel2->precompute(&system);
@@ -49,8 +48,8 @@ TEST(TrialSelectParticle, exclude_perturbed) {
   test_serialize(*sel2);
 
   // now try the same with ghosts
-  sel1 = MakeTrialSelectParticle({{"particle_type", "0"}, {"ghost", "true"}});
-  sel2 = MakeTrialSelectParticle({{"particle_type", "0"}, {"ghost", "true"},
+  sel1 = MakeTrialSelectParticle({{"particle_type", "lj"}, {"ghost", "true"}});
+  sel2 = MakeTrialSelectParticle({{"particle_type", "lj"}, {"ghost", "true"},
                                   {"exclude_perturbed", "true"}});
   sel1->precompute(&system);
   sel1->sel(&system, ran.get());

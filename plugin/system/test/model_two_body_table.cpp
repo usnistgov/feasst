@@ -12,10 +12,9 @@ namespace feasst {
 
 TEST(ModelTwoBodyTable, lj) {
   auto config = MakeConfiguration({{"cubic_side_length", "8"},
-      {"particle_type0", "../particle/lj.txt"},
-      {"particle_type1", "../particle/atom.txt"},
-      {"add_particles_of_type0", "1"},
-      {"add_particles_of_type1", "1"}});
+      {"particle_type", "lj:../particle/lj_new.txt,atom:../particle/atom_new.txt"},
+      {"add_num_lj_particles", "1"},
+      {"add_num_atom_particles", "1"}});
   config->update_positions({{0, 0, 0}, {0, 0, 2}});
   auto model = MakeLennardJones();
   //auto model = MakeModelTwoBodyFactory({MakeLennardJones()});

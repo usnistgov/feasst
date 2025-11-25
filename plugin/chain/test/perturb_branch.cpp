@@ -13,7 +13,7 @@ TEST(PerturbBranch, tip4p) {
 //  System sys;
 //  sys.add(MakeConfiguration({{"cubic_side_length", "10"},
 //    {"particle_type", "../plugin/charge/particle/tip4p.txt"},
-//    {"add_particles_of_type0", "1"}}));
+//    {"add_num_0_particles", "1"}}));
 //  sys.add(MakePotential(MakeHardSphere(), MakeDontVisitModel()));
 //  sys.precompute();
 //  PerturbBranch perturb;

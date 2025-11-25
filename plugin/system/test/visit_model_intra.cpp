@@ -9,8 +9,8 @@ namespace feasst {
 
 TEST(VisitModelIntra, energy) {
   auto config = MakeConfiguration({{"cubic_side_length", "10"},
-    {"particle_type", "../particle/chain10.txt"},
-    {"add_particles_of_type0", "1"}});
+    {"particle_type", "chain:../particle/chain10.txt"},
+    {"add_num_chain_particles", "1"}});
   LennardJones model;
   model.precompute(*config);
   // don't compute intraparticle interactions between bonded sites.

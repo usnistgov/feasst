@@ -50,11 +50,12 @@ def parse():
     params['hours_terminate'] = 0.95*params['hours_terminate'] - 0.05 # terminate FEASST before SLURM
     params['num_sims'] = params['num_nodes']
     params['procs_per_sim'] = params['procs_per_node']
-    with open(params['prefix']+'_shape.txt', 'w') as file1:
+    with open(params['prefix']+'_shape.txt', 'w', encoding='utf-8') as file1:
         file1.write("Cylinder radius=3 first_point=0,0,0 second_point=0,0,1")
-    def user_potential(r, radius):
+    def user_potential(r, # distance from inner surface, not radial distance from center
+                       radius):
         return 1./np.power(r, 3) - 1./np.power(radius, 3)
-    with open(params['prefix']+'_table.txt', 'w') as file1:
+    with open(params['prefix']+'_table.txt', 'w', encoding='utf-8') as file1:
         file1.write("site_types=LJ\n")
         radius = 3
         dr = 0.01
@@ -63,6 +64,7 @@ def parse():
         values = user_potential(r, radius)
         for v in values:
             file1.write(str(v)+" ")
+        file1.write("\n")
     if args.plot_table == 1:
         # check the energy interpolated from the table against the analytical value
         dists = np.arange(0.5, params['radius'], 0.033)
@@ -87,11 +89,11 @@ def run_en(params):
     """
     Run a simulation to obtain the energy of a particle in confinement using params['dist'].
     """
-    with open(params['prefix']+"_one.xyz", "w") as file1: file1.write(
+    with open(params['prefix']+"_one.xyz", "w", encoding='utf-8') as file1: file1.write(
 """1
 -1 8 8 8
 0 {dist} 0 0""".format(**params))
-    with open(params['prefix']+"_launch.txt", "w") as myfile: myfile.write("""
+    with open(params['prefix']+"_launch.txt", "w", encoding='utf-8') as myfile: myfile.write("""
 MonteCarlo
 RandomMT19937 seed={seed}
 Configuration xyz_file={prefix}_one.xyz particle_type={fstprt}
@@ -126,7 +128,7 @@ def post_process(params):
     df = pd.read_csv(params['prefix'] + '.csv', comment='#')
     print(df)
     assert np.abs(df['average'][0] - 0.129407) < 3*df['block_stdev'][0]
-    with open(params['prefix']+'.csv') as f:
+    with open(params['prefix']+'.csv', encoding='utf-8') as f:
         firstline = f.readline().rstrip()
         henry=eval(firstline[1:])
         print(henry)

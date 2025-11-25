@@ -19,7 +19,7 @@ Configuration spce_sample1() {
 Configuration two_particle_configuration(argtype args) {
   const double cubic_side_length = dble("cubic_side_length", &args, 6.);
   Configuration config({{"cubic_side_length", feasst::str(cubic_side_length)},
-                        {"particle_type0", "../particle/atom.txt"}});
+                        {"particle_type", "../particle/atom.txt"}});
   config.add_particle_of_type(0);
   config.add_particle_of_type(0);
   config.update_positions({{0, 0, 0}, {1.25, 0, 0}});

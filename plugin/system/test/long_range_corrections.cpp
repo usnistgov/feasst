@@ -24,10 +24,9 @@ TEST(LongRangeCorrections, LRC) {
 
 TEST(LongRangeCorrections, many_types) {
   auto config = MakeConfiguration({{"cubic_side_length", "8.5"},
-    {"particle_type0", "../particle/atom.txt"},
-    {"particle_type1", "../particle/lj.txt"},
-    {"add_particles_of_type0", "4"},
-    {"add_particles_of_type1", "3"}});
+    {"particle_type", "atom:../particle/atom_new.txt,lj:../particle/lj_new.txt"},
+    {"add_num_atom_particles", "4"},
+    {"add_num_lj_particles", "3"}});
   ModelEmpty empty;
   LongRangeCorrections lrc;
   lrc.precompute(config.get());

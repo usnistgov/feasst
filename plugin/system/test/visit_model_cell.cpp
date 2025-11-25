@@ -14,9 +14,9 @@ namespace feasst {
 
 TEST(VisitModelCell, cells) {
   auto config = MakeConfiguration({{"cubic_side_length", "7"},
-    {"particle_type0", "../particle/spce.txt"},
-    {"add_particles_of_type0", "1"}});
-  config->add(MakeGroup({{"site_type", "0"}}));
+    {"particle_type", "spce:../particle/spce_new.txt"},
+    {"add_num_spce_particles", "1"}});
+  config->add(MakeGroup({{"site_type", "O"}}));
 
   auto visit = MakeVisitModelCell({{"min_length", "1.4"}});
   visit->precompute(config.get());
@@ -67,8 +67,8 @@ TEST(VisitModelCell, cells) {
 /// Use a 5 angstrom cut off
 TEST(VisitModelCell, simple_lj) {
   auto config = MakeConfiguration({{"cubic_side_length", "15"},
-    {"particle_type", "../particle/lj.txt"},
-    {"add_particles_of_type0", "2"}});
+    {"particle_type", "lj:../particle/lj.txt"},
+    {"add_num_lj_particles", "2"}});
   Select select(config->newest_particle_index(), config->newest_particle());
   config->add_particle_of_type(0);
   Select select2(config->newest_particle_index(), config->newest_particle());
