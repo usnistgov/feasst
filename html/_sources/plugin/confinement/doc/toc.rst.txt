@@ -1,11 +1,13 @@
 
 .. toctree::
 
-   Background
-   ZeroBackground
-   ModelTableCart1DHard
-   HenryCoefficient
+   ModelTableCylinder1D
+   ModelTableSphere1D
    trial_anywhere
+   ZeroBackground
+   ModelTableCart1D
    ModelLJShape
-   ModelHardShape
    ModelSquareWellShape
+   ModelHardShape
+   Background
+   HenryCoefficient

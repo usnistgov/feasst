@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>macrostate_distribution &mdash; FEASST 0.25.15 0.25.15 documentation</title>
+  <title>macrostate_distribution &mdash; FEASST 0.25.16 0.25.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=2d90fb51"></script>
+      <script src="../../../_static/documentation_options.js?v=1a68713b"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.15
+            FEASST 0.25.16
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -118,7 +118,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.15</a>
+          <a href="../../../index.html">FEASST 0.25.16</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -192,13 +192,13 @@ flat-histogram simulations.
 See more information on FEASST at <a class="reference external" href="https://doi.org/10.18434/M3S095">https://doi.org/10.18434/M3S095</a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">macrostate_distribution.</span></span><span class="sig-name descname"><span class="pre">MacrostateDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">macrostate_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'state'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ln_prob_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ln_prob'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">macrostate_distribution.</span></span><span class="sig-name descname"><span class="pre">MacrostateDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">macrostate_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'state'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ln_prob_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ln_prob'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">integer_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution" title="Link to this definition"></a></dt>
 <dd><p>Contains macrostates, the natural logarithm of the macrostate probability and other
 per-macrostate quantities generated by a FEASST flat histogram simulation.
 This may include canonical ensemble averages and blocks.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="macrostate_distribution.MacrostateDistribution.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">macrostate_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'state'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ln_prob_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ln_prob'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">macrostate_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'state'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ln_prob_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ln_prob'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">integer_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#MacrostateDistribution.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.MacrostateDistribution.__init__" title="Link to this definition"></a></dt>
 <dd><p>Constructs all the necessary attributes for a MacrostateDistribution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -208,6 +208,7 @@ If None, do not read a file, and instead use set_dataframe later.</p></li>
 <li><p><strong>macrostate_header</strong> (<em>str</em>) – In the grand canonical ensemble, the macrostates are the number of particles.
 This is the header for that column in a pandas data frame.</p></li>
 <li><p><strong>ln_prob_header</strong> (<em>str</em>) – The natural logarithm of the probability of observing each macrostate.</p></li>
+<li><p><strong>ignore_expanded</strong> (<em>bool</em>) – Ignore expanded ensemble microstates with non-integer values.</p></li>
 </ul>
 </dd>
 </dl>
@@ -494,7 +495,7 @@ starts at 0, then shift should be true).</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="macrostate_distribution.splice_files">
-<span class="sig-prename descclassname"><span class="pre">macrostate_distribution.</span></span><span class="sig-name descname"><span class="pre">splice_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ln_prob_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#splice_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.splice_files" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">macrostate_distribution.</span></span><span class="sig-name descname"><span class="pre">splice_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ln_prob_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">integer_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/macrostate_distribution.html#splice_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#macrostate_distribution.splice_files" title="Link to this definition"></a></dt>
 <dd><p>As above, Return a MacrostateDistribution that is spliced together.
 But this time, provide the prefix and suffix of the filenames and search the files.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyfeasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">macrostate_distribution</span>

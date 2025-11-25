@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Testing angles and branches &mdash; FEASST 0.25.15 0.25.15 documentation</title>
+  <title>Testing angles and branches &mdash; FEASST 0.25.16 0.25.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=2d90fb51"></script>
+      <script src="../../../_static/documentation_options.js?v=1a68713b"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -54,7 +54,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.15
+            FEASST 0.25.16
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -152,7 +152,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.15</a>
+          <a href="../../../index.html">FEASST 0.25.16</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -270,27 +270,27 @@
     <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;molecule&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;propane&#39;</span><span class="p">:</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Configuration cubic_side_length=30 particle_type=pt1:/feasst/particle/propane.txt add_num_pt1_particles=1&quot;</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;potential&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Potential Model=LennardJones&quot;</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;branch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;particle_type pt1 angle true mobile_site 2 anchor_site 1 anchor_site2 0&#39;</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;grow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;particle_type pt1 transfer true mobile_site 0</span>
-<span class="s2">bond true mobile_site 1 anchor_site 0</span>
-<span class="s2">angle true mobile_site 2 anchor_site 1 anchor_site2 0&quot;&quot;&quot;</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;branch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;particle_type=pt1 angle=true mobile_site=2 anchor_site=1 anchor_site2=0&#39;</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;grow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;particle_type=pt1 transfer=true mobile_site=0</span>
+<span class="s2">bond=true mobile_site=1 anchor_site=0</span>
+<span class="s2">angle=true mobile_site=2 anchor_site=1 anchor_site2=0&quot;&quot;&quot;</span>
     <span class="k">elif</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;molecule&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;floppy_angle&#39;</span><span class="p">:</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;branch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;particle_type pt1 angle true mobile_site 2 anchor_site 1 anchor_site2 0&#39;</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;grow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;particle_type pt1 transfer true site 0</span>
-<span class="s2">bond true mobile_site 1 anchor_site 0</span>
-<span class="s2">angle true mobile_site 2 anchor_site 1 anchor_site2 0&quot;&quot;&quot;</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;branch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;particle_type=pt1 angle=true mobile_site=2 anchor_site=1 anchor_site2=0&#39;</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;grow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;particle_type=pt1 transfer=true site=0</span>
+<span class="s2">bond=true mobile_site=1 anchor_site=0</span>
+<span class="s2">angle=true mobile_site=2 anchor_site=1 anchor_site2=0&quot;&quot;&quot;</span>
     <span class="k">elif</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;molecule&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;floppy_dihedral&#39;</span><span class="p">:</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;branch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;particle_type pt1 angle true mobile_site 2 anchor_site 1 anchor_site2 0</span>
-<span class="s2">dihedral true mobile_site 3 anchor_site 2 anchor_site2 1 anchor_site3 0&quot;&quot;&quot;</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;grow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;particle_type pt1 transfer true site 0</span>
-<span class="s2">bond true mobile_site 1 anchor_site 0</span>
-<span class="s2">angle true mobile_site 2 anchor_site 1 anchor_site2 0</span>
-<span class="s2">dihedral true mobile_site 3 anchor_site 2 anchor_site2 1 anchor_site3 0&quot;&quot;&quot;</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;branch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;particle_type=pt1 angle=true mobile_site=2 anchor_site=1 anchor_site2=0</span>
+<span class="s2">dihedral=true mobile_site=3 anchor_site=2 anchor_site2=1 anchor_site3=0&quot;&quot;&quot;</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;grow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;particle_type=pt1 transfer=true site=0</span>
+<span class="s2">bond=true mobile_site=1 anchor_site=0</span>
+<span class="s2">angle=true mobile_site=2 anchor_site=1 anchor_site2=0</span>
+<span class="s2">dihedral=true mobile_site=3 anchor_site=2 anchor_site2=1 anchor_site3=0&quot;&quot;&quot;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;branch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;particle_type pt1 branch true mobile_site 2 mobile_site2 3 anchor_site 0 anchor_site2 1&#39;</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;grow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;particle_type pt1 transfer true site 0</span>
-<span class="s2">bond true mobile_site 1 anchor_site 0</span>
-<span class="s2">branch true mobile_site 2 mobile_site2 3 anchor_site 0 anchor_site2 1&quot;&quot;&quot;</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;branch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;particle_type=pt1 branch=true mobile_site=2 mobile_site2=3 anchor_site=0 anchor_site2=1&#39;</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;grow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;particle_type=pt1 transfer=true site=0</span>
+<span class="s2">bond=true mobile_site=1 anchor_site=0</span>
+<span class="s2">branch=true mobile_site=2 mobile_site2=3 anchor_site=0 anchor_site2=1&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;molecule&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;2-methylpropane&#39;</span><span class="p">:</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Configuration cubic_side_length=30 particle_type=pt1:/feasst/particle/2-methylpropane.txt add_num_pt1_particles=1&quot;</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;potential&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Potential Model=LennardJones&quot;</span>
@@ -322,7 +322,7 @@
 
 <span class="s2">Bond Properties</span>
 
-<span class="s2">0 RigidBond length 1 delta 0.0001</span>
+<span class="s2">0 RigidBond length=1 delta=0.0001</span>
 
 <span class="s2">Angles</span>
 
@@ -332,7 +332,7 @@
 
 <span class="s2">Angle Properties</span>
 
-<span class="s2">0 AngleHarmonic equilibrium_degrees 60 k_energy_per_radian_sq </span><span class="si">{k}</span><span class="s2"> num_jacobian_gaussian </span><span class="si">{num_jacobian_gaussian}</span>
+<span class="s2">0 AngleHarmonic equilibrium_degrees=60 k_energy_per_radian_sq=</span><span class="si">{k}</span><span class="s2"> num_jacobian_gaussian=</span><span class="si">{num_jacobian_gaussian}</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
     <span class="k">elif</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;molecule&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;floppy_angle&#39;</span><span class="p">:</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Configuration cubic_side_length=30 particle_type=pt1:</span><span class="si">{prefix}</span><span class="s2">.txt add_num_pt1_particles 1 &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
@@ -352,7 +352,7 @@
 
 <span class="s2">Bond Properties</span>
 
-<span class="s2">0 RigidBond length 1 delta 0.0001</span>
+<span class="s2">0 RigidBond length=1 delta=0.0001</span>
 
 <span class="s2">Bonds</span>
 
@@ -361,7 +361,7 @@
 
 <span class="s2">Angle Properties</span>
 
-<span class="s2">0 AngleHarmonic equilibrium_degrees 60 k_energy_per_radian_sq </span><span class="si">{k}</span>
+<span class="s2">0 AngleHarmonic equilibrium_degrees=60 k_energy_per_radian_sq=</span><span class="si">{k}</span>
 
 <span class="s2">Angles</span>
 
@@ -375,7 +375,7 @@
 
 <span class="s2">Site Properties</span>
 
-<span class="s2">0 epsilon 1 sigma 1 cutoff 1</span>
+<span class="s2">0 epsilon=1 sigma=1 cutoff=1</span>
 
 <span class="s2">Sites</span>
 
@@ -386,7 +386,7 @@
 
 <span class="s2">Bond Properties</span>
 
-<span class="s2">0 RigidBond length 1 delta 0.0001</span>
+<span class="s2">0 RigidBond length=1 delta=0.0001</span>
 
 <span class="s2">Bonds</span>
 
@@ -396,7 +396,7 @@
 
 <span class="s2">Angle Properties</span>
 
-<span class="s2">0 AngleHarmonic equilibrium_degrees 60 k_energy_per_radian_sq 0</span>
+<span class="s2">0 AngleHarmonic equilibrium_degrees=60 k_energy_per_radian_sq=0</span>
 
 <span class="s2">Angles</span>
 
@@ -405,7 +405,7 @@
 
 <span class="s2">Dihedral Properties</span>
 
-<span class="s2">0 DihedralTraPPE c0 0 c1 0 c2 0 c3 0</span>
+<span class="s2">0 DihedralTraPPE c0=0 c1=0 c2=0 c3=0</span>
 
 <span class="s2">Dihedrals</span>
 
@@ -499,11 +499,11 @@
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=464498080
-# Initializing random number generator with seed: 464498080
+RandomMT19937 seed=51376018
+# Initializing random number generator with seed: 51376018
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:floppy_angle.txt
 Potential Model=HardSphere
 ThermoParams beta=0.4009078501424201 chemical_potential=1
@@ -553,11 +553,11 @@ Run num_trials=1000000.0
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=106926204
-# Initializing random number generator with seed: 106926204
+RandomMT19937 seed=863675017
+# Initializing random number generator with seed: 863675017
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:floppy_dihedral.txt
 Potential Model=HardSphere
 ThermoParams beta=0.4009078501424201 chemical_potential=1
@@ -608,11 +608,11 @@ Run num_trials=1000000.0
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=742220871
-# Initializing random number generator with seed: 742220871
+RandomMT19937 seed=627491116
+# Initializing random number generator with seed: 627491116
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:/feasst/particle/propane.txt
 Potential Model=LennardJones
 ThermoParams beta=0.4009078501424201 chemical_potential=1
@@ -663,11 +663,11 @@ Run num_trials=1000000.0
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=56179832
-# Initializing random number generator with seed: 56179832
+RandomMT19937 seed=592833805
+# Initializing random number generator with seed: 592833805
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:/feasst/particle/2-methylpropane.txt
 Potential Model=LennardJones
 ThermoParams beta=0.4009078501424201 chemical_potential=1
@@ -728,11 +728,11 @@ Run num_trials=1000000.0
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=546964109
-# Initializing random number generator with seed: 546964109
+RandomMT19937 seed=656680569
+# Initializing random number generator with seed: 656680569
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk0i0.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk0i0.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk0i0.txt
@@ -750,11 +750,11 @@ Run num_trials=100000.0
 
  exit: 0
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=965216498
-# Initializing random number generator with seed: 965216498
+RandomMT19937 seed=791754052
+# Initializing random number generator with seed: 791754052
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk0i1.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk0i1.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk0i1.txt
@@ -773,11 +773,11 @@ Run num_trials=100000.0
 
  exit: 0
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=49576794
-# Initializing random number generator with seed: 49576794
+RandomMT19937 seed=570428588
+# Initializing random number generator with seed: 570428588
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk0i0.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk0i0.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk0i0.txt
@@ -795,11 +795,11 @@ Run num_trials=100000.0
 
  exit: 0
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=833521789
-# Initializing random number generator with seed: 833521789
+RandomMT19937 seed=633455370
+# Initializing random number generator with seed: 633455370
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk0i1.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk0i1.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk0i1.txt
@@ -818,11 +818,11 @@ Run num_trials=100000.0
 
  exit: 0
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=172008195
-# Initializing random number generator with seed: 172008195
+RandomMT19937 seed=192639018
+# Initializing random number generator with seed: 192639018
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk0i0.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk0i0.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk0i0.txt
@@ -840,11 +840,11 @@ Run num_trials=100000.0
 
  exit: 0
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=926832678
-# Initializing random number generator with seed: 926832678
+RandomMT19937 seed=267590325
+# Initializing random number generator with seed: 267590325
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk0i1.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk0i1.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk0i1.txt
@@ -863,11 +863,11 @@ Run num_trials=100000.0
 
  exit: 0
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=509031663
-# Initializing random number generator with seed: 509031663
+RandomMT19937 seed=385578983
+# Initializing random number generator with seed: 385578983
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk10i0.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk10i0.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk10i0.txt
@@ -885,11 +885,11 @@ Run num_trials=100000.0
 
  exit: 0
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=539809929
-# Initializing random number generator with seed: 539809929
+RandomMT19937 seed=979224303
+# Initializing random number generator with seed: 979224303
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk10i1.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk10i1.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk10i1.txt
@@ -908,11 +908,11 @@ Run num_trials=100000.0
 
  exit: 0
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=275031964
-# Initializing random number generator with seed: 275031964
+RandomMT19937 seed=994542371
+# Initializing random number generator with seed: 994542371
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk10i0.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk10i0.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk10i0.txt
@@ -930,11 +930,11 @@ Run num_trials=100000.0
 
  exit: 0
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=486210854
-# Initializing random number generator with seed: 486210854
+RandomMT19937 seed=464190821
+# Initializing random number generator with seed: 464190821
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk10i1.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk10i1.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk10i1.txt
@@ -953,11 +953,11 @@ Run num_trials=100000.0
 
  exit: 0
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=803034985
-# Initializing random number generator with seed: 803034985
+RandomMT19937 seed=903843675
+# Initializing random number generator with seed: 903843675
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk10i0.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk10i0.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk10i0.txt
@@ -975,11 +975,11 @@ Run num_trials=100000.0
 
  exit: 0
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=274724731
-# Initializing random number generator with seed: 274724731
+RandomMT19937 seed=881915403
+# Initializing random number generator with seed: 881915403
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk10i1.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk10i1.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk10i1.txt
@@ -1054,11 +1054,11 @@ Run num_trials=100000.0
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=831621889
-# Initializing random number generator with seed: 831621889
+RandomMT19937 seed=338534626
+# Initializing random number generator with seed: 338534626
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk10i0.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk10i0.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk10i0.txt
@@ -1077,11 +1077,11 @@ Run num_trials=1000000.0
 
  exit: 0
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=273644159
-# Initializing random number generator with seed: 273644159
+RandomMT19937 seed=327568917
+# Initializing random number generator with seed: 327568917
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk10i0.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk10i0.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk10i0.txt
@@ -1100,11 +1100,11 @@ Run num_trials=1000000.0
 
  exit: 0
 running
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: /home/hwh/feasst/build/bin/fst &lt; file.txt
+FEASST version 0.25.16
 MonteCarlo
-RandomMT19937 seed=392305367
-# Initializing random number generator with seed: 392305367
+RandomMT19937 seed=875465004
+# Initializing random number generator with seed: 875465004
 Configuration add_num_pt1_particles=1 cubic_side_length=30 particle_type=pt1:branchk10i0.txt
 # Renamed Bond name:0-&gt;1 for particle_type:0 in:branchk10i0.txt
 # Renamed Bond name:0-&gt;2 for particle_type:0 in:branchk10i0.txt

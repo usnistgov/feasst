@@ -380,3 +380,4 @@ To Do List
 * Benchmark FEASST for use with podman or apptainer
 * Search for deprecate Warn in weekly build tests
 * Tune output should include trial description like Log
+* neighbor_index should have a name string

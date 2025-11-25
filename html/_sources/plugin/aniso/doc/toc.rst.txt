@@ -1,8 +1,9 @@
 
 .. toctree::
 
-   Backmap
    Anisotropic
+   Backmap
+   Training
    VisitModelInnerTable
    VisitModelInnerNN
    ContactObjective

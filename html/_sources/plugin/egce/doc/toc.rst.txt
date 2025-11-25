@@ -1,5 +1,5 @@
 
 .. toctree::
 
-   AHalfB
    AEqualB
+   AHalfB

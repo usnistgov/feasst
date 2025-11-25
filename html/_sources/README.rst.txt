@@ -6,6 +6,6 @@ View the documentation by `downloading FEASST <https://github.com/usnistgov/feas
 
 .. code-block:: bash
 
-    curl -OL https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.15.tar.gz
-    tar -xf v0.25.15.tar.gz
-    open feasst-0.25.15/html/index.html
+    curl -OL https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.16.tar.gz
+    tar -xf v0.25.16.tar.gz
+    open feasst-0.25.16/html/index.html
