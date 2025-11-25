@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>macrostate_distribution &mdash; FEASST 0.25.15 0.25.15 documentation</title>
+  <title>macrostate_distribution &mdash; FEASST 0.25.16 0.25.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -14,7 +14,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=2d90fb51"></script>
+      <script src="../_static/documentation_options.js?v=1a68713b"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -48,7 +48,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            FEASST 0.25.15
+            FEASST 0.25.16
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -72,7 +72,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">FEASST 0.25.15</a>
+          <a href="../index.html">FEASST 0.25.16</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -163,7 +163,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="MacrostateDistribution.__init__">
 <a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">macrostate_header</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">ln_prob_header</span><span class="o">=</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">macrostate_header</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">ln_prob_header</span><span class="o">=</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="n">integer_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs all the necessary attributes for a MacrostateDistribution.</span>
 
@@ -175,6 +175,8 @@
 <span class="sd">            This is the header for that column in a pandas data frame.</span>
 <span class="sd">        :param str ln_prob_header:</span>
 <span class="sd">            The natural logarithm of the probability of observing each macrostate.</span>
+<span class="sd">        :param bool ignore_expanded:</span>
+<span class="sd">            Ignore expanded ensemble microstates with non-integer values.</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyfeasst import macrostate_distribution</span>
 <span class="sd">        &gt;&gt;&gt; import pandas as pd</span>
@@ -183,7 +185,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_macrostate_header</span> <span class="o">=</span> <span class="n">macrostate_header</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ln_prob_header</span> <span class="o">=</span> <span class="n">ln_prob_header</span>
         <span class="k">if</span> <span class="n">file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">))</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">integer_only</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">%</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_minimum_smoothing</span><span class="p">()</span></div>
 
 
@@ -648,7 +653,7 @@
 
 <div class="viewcode-block" id="splice_files">
 <a class="viewcode-back" href="../pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.splice_files">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">splice_files</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">ln_prob_header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">extra_overlap</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">splice_files</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">ln_prob_header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">extra_overlap</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">integer_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    As above, Return a MacrostateDistribution that is spliced together.</span>
 <span class="sd">    But this time, provide the prefix and suffix of the filenames and search the files.</span>
@@ -666,9 +671,9 @@
     <span class="n">lnpis</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;*&#39;</span><span class="o">+</span><span class="n">suffix</span><span class="p">)):</span>
         <span class="k">if</span> <span class="n">ln_prob_header</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">lnpis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">filename</span><span class="p">))</span>
+            <span class="n">lnpis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">integer_only</span><span class="o">=</span><span class="n">integer_only</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">lnpis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">ln_prob_header</span><span class="o">=</span><span class="n">ln_prob_header</span><span class="p">))</span>
+            <span class="n">lnpis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MacrostateDistribution</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">integer_only</span><span class="o">=</span><span class="n">integer_only</span><span class="p">,</span> <span class="n">ln_prob_header</span><span class="o">=</span><span class="n">ln_prob_header</span><span class="p">))</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lnpis</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No files found that match&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;*&#39;</span><span class="o">+</span><span class="n">suffix</span><span class="p">))</span>
         <span class="k">assert</span> <span class="kc">False</span>

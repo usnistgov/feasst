@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MonteCarlo &mdash; FEASST 0.25.15 0.25.15 documentation</title>
+  <title>MonteCarlo &mdash; FEASST 0.25.16 0.25.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=2d90fb51"></script>
+      <script src="../../../_static/documentation_options.js?v=1a68713b"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -26,8 +26,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Tunable" href="Tunable.html" />
-    <link rel="prev" title="TrialComputeRemove" href="TrialComputeRemove.html" />
+    <link rel="next" title="TrialFactory" href="TrialFactory.html" />
+    <link rel="prev" title="Tunable" href="Tunable.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.15
+            FEASST 0.25.16
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -69,66 +69,66 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Action.html">Action</a></li>
-<li class="toctree-l4"><a class="reference internal" href="RemoveModify.html">RemoveModify</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WriteCheckpoint.html">WriteCheckpoint</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ConstrainVolumeByCutoff.html">ConstrainVolumeByCutoff</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Run.html">Run</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Remove.html">Remove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WriteModelParams.html">WriteModelParams</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Criteria.html">Criteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeAddRemove.html">TrialComputeAddRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectAll.html">TrialSelectAll</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
-<li class="toctree-l4"><a class="reference internal" href="RefPotential.html">RefPotential</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbAddRemove.html">PerturbAddRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="AlwaysReject.html">AlwaysReject</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeTranslate.html">TrialComputeTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="RemoveTrial.html">RemoveTrial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialVolume.html">TrialVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAddRemove.html">TrialAddRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
-<li class="toctree-l4"><a class="reference internal" href="RemoveAnalyze.html">RemoveAnalyze</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">MonteCarlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransfer.html">TrialTransfer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeTranslate.html">TrialComputeTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Stepper.html">Stepper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialVolume.html">TrialVolume</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTransfer.html">TrialTransfer</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialAddRemove.html">TrialAddRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Action.html">Action</a></li>
 <li class="toctree-l4"><a class="reference internal" href="OptPotential.html">OptPotential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Run.html">Run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RefPotential.html">RefPotential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RemoveTrial.html">RemoveTrial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WriteModelParams.html">WriteModelParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAddRemove.html">PerturbAddRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RemoveModify.html">RemoveModify</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectDihedral.html">TrialSelectDihedral</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAll.html">TrialSelectAll</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Criteria.html">Criteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AlwaysReject.html">AlwaysReject</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ConstrainVolumeByCutoff.html">ConstrainVolumeByCutoff</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Remove.html">Remove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RemoveAnalyze.html">RemoveAnalyze</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WriteCheckpoint.html">WriteCheckpoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDihedral.html">PerturbDihedral</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 </ul>
 </li>
@@ -175,7 +175,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.15</a>
+          <a href="../../../index.html">FEASST 0.25.16</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -305,7 +305,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo6randomEv">
-<span class="target" id="classfeasst_1_1MonteCarlo_1a26872813ba226ba9f29801abd52e6138"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">random</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo6randomEv" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1a3d75b1c5b72c33132eafe32d8ce09f17"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">random</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo6randomEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the random number generator. </p>
 </dd></dl>
 
@@ -323,7 +323,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo13configurationEKi">
-<span class="target" id="classfeasst_1_1MonteCarlo_1a9dcb9c4726d2ac63fa5a48673842334e"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">configuration</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo13configurationEKi" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1a1cc0ef35e0eac5a6a6531568111387c1"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">configuration</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo13configurationEKi" title="Link to this definition"></a><br /></dt>
 <dd><p>The configuration may be accessed read-only. </p>
 </dd></dl>
 
@@ -376,7 +376,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo13thermo_paramsEv">
-<span class="target" id="classfeasst_1_1MonteCarlo_1af8a50500b32cd26a3b624e6e455a30c0"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/ThermoParams.html#_CPPv4N6feasst12ThermoParamsE" title="feasst::ThermoParams"><span class="n"><span class="pre">ThermoParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">thermo_params</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo13thermo_paramsEv" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1aadc2fce8352aaa943dc85b0dbd28be49"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/ThermoParams.html#_CPPv4N6feasst12ThermoParamsE" title="feasst::ThermoParams"><span class="n"><span class="pre">ThermoParams</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">thermo_params</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo13thermo_paramsEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the <a class="reference internal" href="../../system/doc/ThermoParams_arguments.html#classfeasst_1_1ThermoParams"><span class="std std-ref">ThermoParams</span></a>. </p>
 </dd></dl>
 
@@ -388,7 +388,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo6systemEv">
-<span class="target" id="classfeasst_1_1MonteCarlo_1a3fb2fc865809be07e35841ad937e8c4f"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">system</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo6systemEv" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1aeac33a4035a96573fdca5863ca87bcc5"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System"><span class="n"><span class="pre">System</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">system</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo6systemEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Once the <a class="reference internal" href="../../system/doc/System_arguments.html#classfeasst_1_1System"><span class="std std-ref">System</span></a> is set, it may be accessed on a read-only basis. </p>
 </dd></dl>
 
@@ -400,19 +400,19 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo13trial_factoryEv">
-<span class="target" id="classfeasst_1_1MonteCarlo_1a4e27bd3461ae4053f2061437e8aad7ca"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">trial_factory</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo13trial_factoryEv" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1a9450967baa4e604ab7f63a50ae1eb1b6"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">trial_factory</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo13trial_factoryEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the trials. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo15analyze_factoryEv">
-<span class="target" id="classfeasst_1_1MonteCarlo_1a0092d5d0b362304a9329e8974677d47a"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="AnalyzeFactory.html#_CPPv4N6feasst14AnalyzeFactoryE" title="feasst::AnalyzeFactory"><span class="n"><span class="pre">AnalyzeFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">analyze_factory</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo15analyze_factoryEv" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1af9875566e7a4f8fd7fac30b02c5a6bb7"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="AnalyzeFactory.html#_CPPv4N6feasst14AnalyzeFactoryE" title="feasst::AnalyzeFactory"><span class="n"><span class="pre">AnalyzeFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">analyze_factory</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo15analyze_factoryEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the analyzers. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo14modify_factoryEv">
-<span class="target" id="classfeasst_1_1MonteCarlo_1a1a5a9368922ec1bddda7cd7f15b237e8"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="ModifyFactory.html#_CPPv4N6feasst13ModifyFactoryE" title="feasst::ModifyFactory"><span class="n"><span class="pre">ModifyFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">modify_factory</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo14modify_factoryEv" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1a26bb984eb43c6e2f84c673706ed9e866"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="ModifyFactory.html#_CPPv4N6feasst13ModifyFactoryE" title="feasst::ModifyFactory"><span class="n"><span class="pre">ModifyFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">modify_factory</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo14modify_factoryEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the modifiers. </p>
 </dd></dl>
 
@@ -424,7 +424,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo8criteriaEv">
-<span class="target" id="classfeasst_1_1MonteCarlo_1afeeb589eedc5324663e83781161a3bf5"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">criteria</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo8criteriaEv" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1af320ef0e7aada8a70e279324f0933b5f"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria"><span class="n"><span class="pre">Criteria</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">criteria</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo8criteriaEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Once <a class="reference internal" href="Criteria_arguments.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> is set, it may be accessed on a read-only basis. </p>
 </dd></dl>
 
@@ -454,13 +454,13 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo6trialsEv">
-<span class="target" id="classfeasst_1_1MonteCarlo_1af9b2ba54274d2a7342e1821cac5d1b5c"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">trials</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo6trialsEv" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1a7e705082f411d30cd8c58e29af464815"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory"><span class="n"><span class="pre">TrialFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">trials</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo6trialsEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Access the trials on a read-only basis. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo5trialEKi">
-<span class="target" id="classfeasst_1_1MonteCarlo_1aa98898fe4e5d86243bbbdd887d8ceb06"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><span class="n"><span class="pre">Trial</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">trial</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo5trialEKi" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1a3e26495bbe77fe36cb09f9b32d9a1154"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><span class="n"><span class="pre">Trial</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">trial</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo5trialEKi" title="Link to this definition"></a><br /></dt>
 <dd><p>Access the trials on a read-only basis. </p>
 </dd></dl>
 
@@ -484,13 +484,13 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo9analyzersEv">
-<span class="target" id="classfeasst_1_1MonteCarlo_1ab7b045e700b8c7a182553bdde8143c90"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze"><span class="n"><span class="pre">Analyze</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">analyzers</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo9analyzersEv" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1a3eb966b6eb4a5300e6705ca088f4bd1b"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze"><span class="n"><span class="pre">Analyze</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">analyzers</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo9analyzersEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return all analyzers. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo7analyzeEKi">
-<span class="target" id="classfeasst_1_1MonteCarlo_1adf861ea4a03ad14892184c8e2c01e803"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze"><span class="n"><span class="pre">Analyze</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">analyze</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo7analyzeEKi" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1a186c4ddd0e81fda8b4738f122a623043"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Analyze.html#_CPPv4N6feasst7AnalyzeE" title="feasst::Analyze"><span class="n"><span class="pre">Analyze</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">analyze</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo7analyzeEKi" title="Link to this definition"></a><br /></dt>
 <dd><p>Return an <a class="reference internal" href="Analyze_arguments.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> by index. </p>
 </dd></dl>
 
@@ -520,13 +520,13 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo9modifiersEv">
-<span class="target" id="classfeasst_1_1MonteCarlo_1a5ff8d15dece493dec7f8c26a50528027"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Modify.html#_CPPv4N6feasst6ModifyE" title="feasst::Modify"><span class="n"><span class="pre">Modify</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">modifiers</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo9modifiersEv" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1a750ee85d438d160769efd20c99c0f5da"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Modify.html#_CPPv4N6feasst6ModifyE" title="feasst::Modify"><span class="n"><span class="pre">Modify</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">modifiers</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo9modifiersEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return all modifiers. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo6modifyEKi">
-<span class="target" id="classfeasst_1_1MonteCarlo_1a0936c6cf4e3b8c271cfec9f278ca5446"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Modify.html#_CPPv4N6feasst6ModifyE" title="feasst::Modify"><span class="n"><span class="pre">Modify</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">modify</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo6modifyEKi" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1af8fe7c7d91f0758abb406db55414de8e"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Modify.html#_CPPv4N6feasst6ModifyE" title="feasst::Modify"><span class="n"><span class="pre">Modify</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">modify</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo6modifyEKi" title="Link to this definition"></a><br /></dt>
 <dd><p>Return an <a class="reference internal" href="Modify_arguments.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> by index. </p>
 </dd></dl>
 
@@ -617,7 +617,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo8next_argEv">
-<span class="target" id="classfeasst_1_1MonteCarlo_1ab6a696ac80fcd89db5ee7578116e6911"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">next_arg</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo8next_argEv" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1ad7ea626668ea0e43b05636536770e38e"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">next_arg</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo8next_argEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return the last argument parsed. </p>
 </dd></dl>
 
@@ -653,7 +653,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6feasst10MonteCarlo5timerEv">
-<span class="target" id="classfeasst_1_1MonteCarlo_1a21a8471ffc63a0297b8d6e4accc19cfe"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/TimerRDTSC.html#_CPPv4N6feasst10TimerRDTSCE" title="feasst::TimerRDTSC"><span class="n"><span class="pre">TimerRDTSC</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">timer</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo5timerEv" title="Link to this definition"></a><br /></dt>
+<span class="target" id="classfeasst_1_1MonteCarlo_1ac6edba6346637293a8bf28f6fe4377e4"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../utils/doc/TimerRDTSC.html#_CPPv4N6feasst10TimerRDTSCE" title="feasst::TimerRDTSC"><span class="n"><span class="pre">TimerRDTSC</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">timer</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6feasst10MonteCarlo5timerEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Return timer. </p>
 </dd></dl>
 
@@ -666,8 +666,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="TrialComputeRemove.html" class="btn btn-neutral float-left" title="TrialComputeRemove" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Tunable.html" class="btn btn-neutral float-right" title="Tunable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Tunable.html" class="btn btn-neutral float-left" title="Tunable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="TrialFactory.html" class="btn btn-neutral float-right" title="TrialFactory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

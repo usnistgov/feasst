@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NeighborCriteria &mdash; FEASST 0.25.15 0.25.15 documentation</title>
+  <title>NeighborCriteria &mdash; FEASST 0.25.16 0.25.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=2d90fb51"></script>
+      <script src="../../../_static/documentation_options.js?v=1a68713b"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.15
+            FEASST 0.25.16
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -68,6 +68,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../../text_interface.html#neighbor-lists">Neighbor Lists</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">NeighborCriteria</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst16NeighborCriteriaE"><code class="docutils literal notranslate"><span class="pre">NeighborCriteria</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst5ncritE"><code class="docutils literal notranslate"><span class="pre">ncrit</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../system/doc/VisitModelInner_arguments.html">VisitModelInner</a></li>
@@ -109,7 +110,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.15</a>
+          <a href="../../../index.html">FEASST 0.25.16</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -187,17 +188,20 @@
 <p><ul class="simple">
 <li><p>ref: name of <a class="reference internal" href="../../monte_carlo/doc/RefPotential_arguments.html#classfeasst_1_1RefPotential"><span class="std std-ref">RefPotential</span></a>. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> empty, use <a class="reference internal" href="../../system/doc/Potential_arguments.html#classfeasst_1_1Potential"><span class="std std-ref">Potential</span></a> (default: empty)</p></li>
 <li><p>potential_index: index of potential for pair interaction (default: 0).</p></li>
-<li><p>energy_maximum: maximum energy to be in cluster (default: largest double precision).</p></li>
+<li><p>energy_maximum: maximum energy to be in cluster (default: largest double precision). Multiple values can be provided as a CSV, which requires the following arguments to also be provided in CSV with the same number of values.</p></li>
 <li><p>minimum_distance: minimum separation distance (default: 0).</p></li>
 <li><p>maximum_distance: maximum separation distance (default: NEAR_INFINITY).</p></li>
 <li><p>site_type0: consider only interactions between a specific site type. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> -1, consider all sites (default: -1). Otherwise, site_type1 must also be included.</p></li>
-<li><p>site_type1: consider only interactions between a specific site type. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> -1, consider all sites (default: -1).</p></li>
-<li><p>site_type0_alt: consider interactions between another specific site type. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> -1, ignore (default: -1). Otherwise, site_type1_alt must also be included.</p></li>
-<li><p>site_type1_alt: consider interactions between another specific site type. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> -1, ignore (default: -1). </p></li>
+<li><p>site_type1: consider only interactions between a specific site type. <a class="reference internal" href="../../utils/doc/If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> -1, consider all sites (default: -1). </p></li>
 </ul>
 </p>
 </div>
 </dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst5ncritE">
+<span class="target" id="classfeasst_1_1ncrit"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ncrit</span></span></span><br /></dt>
+<dd></dd></dl>
 
 </section>
 
