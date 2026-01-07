@@ -78,7 +78,7 @@ ModelLJShape::ModelLJShape(std::istream& istr)
   feasst_deserialize_fstobj(&mixed_epsilon_, istr);
 }
 
-double ModelLJShape::energy(const double epsilon,
+double ModelLJShape::en(const double epsilon,
               const double sigma,
               const double distance) const {
   TRACE("epsilon: " << epsilon);
@@ -150,14 +150,14 @@ double ModelLJShape::energy(
     return 0.;
   } else {
     const double sig = sigma(type, model_params);
-    const double en = energy(eps, sig, distance);
+    const double e = en(eps, sig, distance);
     if (disable_shift_) {
-      TRACE("en " << en);
-      return en;
+      TRACE("e " << e);
+      return e;
     } else {
       TRACE("shift " << shift_->value(type));
-      TRACE("en " << en - shift_->value(type));
-      return en - shift_->value(type);
+      TRACE("e " << e - shift_->value(type));
+      return e - shift_->value(type);
     }
   }
 }
@@ -171,7 +171,7 @@ double ModelLJShapeEnergyAtCutoff::compute(const int type1, const ModelParams& m
   TRACE("cut " << cutoff);
   double en = 0.;
   if (cutoff > 0) {
-    en = model_->energy(eps, sig, cutoff);
+    en = model_->en(eps, sig, cutoff);
   }
   TRACE("en " << en);
   return en;

@@ -17,5 +17,6 @@
    AngleHarmonic
    F3C
    TwoBodyAlpha
+   RecursiveTablePotential
    SquareWell
    TablePotential

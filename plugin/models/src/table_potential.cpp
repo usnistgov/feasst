@@ -26,7 +26,7 @@ TablePotential::TablePotential(argtype args) : TablePotential(&args) {
   feasst_check_all_used(args);
 }
 
-void TablePotential::read_inner_(const int itype, const int jtype, const std::string& descript, const double value, std::ifstream& file) {
+void TablePotential::read_inner_(const int itype, const int jtype, const std::string& descript, const double value) {
   ASSERT(descript == "inner", "format error: " << descript);
   const double inner = value;
   DEBUG("inner " << inner);
@@ -47,69 +47,146 @@ void TablePotential::read_table_(const std::string file_name) {
     return;
   }
   std::string line, descript;
+  std::getline(file, line);
+  std::stringstream errmsg;
+  errmsg << "unrecognized format of TablePotential::table_file (" << file_name
+    << ") on line:" << line;
+  std::vector<std::string> args = split(line, '=');
+  int num_sites = -1, int_val;
   double double_val;
-  int int_val;
-  std::string str_val;
-  file >> descript >> int_val;
-  ASSERT(descript == "site_types", "format error: " << descript);
-  const int num_sites = int_val;
-  DEBUG("num_sites " << num_sites);
+  if (args.size() == 1) {
+    WARN("Deprecated table_file format with space-separated values.");
+    args = split(line, ' ');
+    std::string str_val;
+    descript = args[0];
+    //file >> descript >> int_val;
+    ASSERT(descript == "site_types", "format error: " << descript);
+    num_sites = str_to_int(args[1]);
+    DEBUG("num_sites " << num_sites);
+    ASSERT(static_cast<int>(args.size()) == num_sites + 2, errmsg.str());
+
+    site_type_names_.resize(num_sites);
+    for (int type = 0; type < num_sites; ++type) {
+      //file >> str_val;
+      str_val = args[2 + type];
+      DEBUG("site name " << str_val);
+      site_type_names_[type] = str_val;
+    }
+  } else if (args.size() == 2) {
+    ASSERT(args[0] == "site_types", errmsg.str());
+    site_type_names_ = split(args[1], ',');
+    num_sites = static_cast<int>(site_type_names_.size());
+  } else {
+    FATAL(errmsg.str());
+  }
 
   // size arrays
-  site_type_names_.resize(num_sites);
   resize(num_sites, num_sites, &inner_);
   resize(num_sites, num_sites, &inner_g_);
   resize(num_sites, num_sites, &cutoff_g_);
   resize(num_sites, num_sites, &energy_table_);
   resize(num_sites, num_sites, &gamma_);
-  for (int type = 0; type < num_sites; ++type) {
-    file >> str_val;
-    DEBUG("site name " << str_val);
-    site_type_names_[type] = str_val;
-  }
 
+  bool deprecated = false;
   for (int itype = 0; itype < num_sites; ++itype) {
     for (int jtype = itype; jtype < num_sites; ++jtype) {
-      // read optional "gamma" (default -2) and required "inner"
-      file >> descript >> double_val;
-      if (descript == "gamma") {
-        const double gamma = double_val;
-        DEBUG("gamma " << gamma);
-        gamma_[itype][jtype] = gamma;
+      // If not provided, set the default value
+      gamma_[itype][jtype] = -2;
+      bool inner_set = false;
 
-        // read inner
-        file >> descript >> double_val;
-        read_inner_(itype, jtype, descript, double_val, file);
-      } else if (descript == "inner") {
-        // If no gamma provided, set the default value
-        gamma_[itype][jtype] = -2;
-        read_inner_(itype, jtype, descript, double_val, file);
+      DEBUG("itype:" << itype << " jtype:" << jtype);
+      DEBUG("line: " << line);
+      std::getline(file, line);
+      args = split(line, '=');
+      int num_z = -1;
+      if (static_cast<int>(args.size()) == 1) {
+        deprecated = true;
+        WARN("Deprecated table_file format with space-separated values.");
+        // read optional "gamma" (default -2) and required "inner"
+        //file >> descript >> double_val;
+        args = split(line, ' ');
+        DEBUG("line:" << line);
+        descript = args[0];
+        double_val = str_to_double(args[1]);
+        if (descript == "gamma") {
+          const double gamma = double_val;
+          DEBUG("gamma " << gamma);
+          gamma_[itype][jtype] = gamma;
+
+          // read inner
+          file >> descript >> double_val;
+          read_inner_(itype, jtype, descript, double_val);
+        } else if (descript == "inner") {
+          read_inner_(itype, jtype, descript, double_val);
+        } else {
+          FATAL("table format error. Expected either \"gamma\" or \"inner\""
+            << " but instead read: " << descript);
+        }
+
+        // read num_z
+        file >> descript >> int_val;
+        ASSERT(descript == "num_z", "format error: " << descript);
+        num_z = int_val;
+        DEBUG("num_z " << num_z);
+        ASSERT(num_z > 0, "num_z: " << num_z << " must be > 0");
+      } else if (static_cast<int>(args.size()) == 2) {
+        num_z = -1;
+        bool read_data = false;
+        while (!read_data) {
+          DEBUG("args[0]:" << args[0]);
+          if (args[0] == "gamma") {
+            gamma_[itype][jtype] = str_to_double(args[1]);
+            DEBUG("gamma " << gamma_[itype][jtype]);
+          } else if (args[0] == "inner") {
+            read_inner_(itype, jtype, "inner", str_to_double(args[1]));
+            DEBUG("inner " << inner_[itype][jtype]);
+            inner_set = true;
+          } else if (args[0] == "num_z") {
+            // No need to read num_z, but if set then check it
+            num_z = str_to_int(args[1]);
+            DEBUG("num_z " << num_z);
+          } else {
+            read_data = true;
+          }
+          if (!read_data) {
+            std::getline(file, line);
+            args = split(line, '=');
+            DEBUG("line " << line);
+          }
+        }
+        ASSERT(inner_set, "TablePotential requires inner argument not provided"
+         << " by itype:" << itype << " jtype:" << jtype);
       } else {
-        FATAL("table format error. Expected either \"gamma\" or \"inner\""
-          << " but instead read: " << descript);
+        FATAL(errmsg.str());
       }
-
-      // read num_z
-      file >> descript >> int_val;
-      ASSERT(descript == "num_z", "format error: " << descript);
-      const int num_z = int_val;
-      DEBUG("num_z " << num_z);
-      ASSERT(num_z > 0, "num_z: " << num_z << " must be > 0");
-
       // read energies
+      std::vector<std::string> dat;
+      if (!deprecated) {
+        dat = split(line, ' ');
+        if (num_z != -1) {
+          ASSERT(num_z == static_cast<int>(dat.size()), "mismatch");
+        } else {
+          num_z = static_cast<int>(dat.size());
+        }
+      }
       Table1D * en = &energy_table_[itype][jtype];
       *en = Table1D({{"num", str(num_z)}});
       for (int z = 0; z < num_z; ++z) {
-        file >> double_val;
+        if (deprecated) {
+          file >> double_val;
+        } else {
+          double_val = str_to_double(dat[z]);
+        }
         en->set_data(z, double_val);
       }
     }
   }
 
   // check for eof
-  ASSERT(!file.eof(), "improper table file: " << file_name);
-  file >> double_val;
-  ASSERT(file.eof(), "improper table file: " << file_name);
+  if (!file.eof()) {
+    file >> double_val;
+    ASSERT(file.eof(), "improper table file: " << file_name);
+  }
 }
 
 void TablePotential::precompute(const Configuration& config) {
@@ -130,7 +207,10 @@ void TablePotential::precompute(const Configuration& config) {
     for (int t2 = 0; t2 < static_cast<int>(site_types_.size()); ++t2) {
       const int type2 = site_types_[t2];
       const double rc = cutoff.mixed_value(type1, type2);
+      DEBUG("rc " << rc);
+      DEBUG("gamma_[" << t1 << "][" << t2 << "]=" << gamma_[t1][t2]);
       cutoff_g_[t1][t2] = std::pow(rc, gamma_[t1][t2]);
+      DEBUG("cutoff_g_[" << t1 << "][" << t2 << "]=" << cutoff_g_[t1][t2]);
     }
   }
 }
@@ -140,11 +220,11 @@ double TablePotential:: energy(
     const int type1,
     const int type2,
     const ModelParams& model_params) {
-  DEBUG("*** TablePotential ***");
-  DEBUG("type1 " << type1 << " type2 " << type2);
+  TRACE("*** TablePotential ***");
+  TRACE("type1 " << type1 << " type2 " << type2);
   int ttype1 = type1;
   int ttype2 = type2;
-  DEBUG("ttype1 " << ttype1 << " ttype2 " << ttype2);
+  TRACE("ttype1 " << ttype1 << " ttype2 " << ttype2);
 
   // enforce type1 <= type2 to avoid redundant tables.
   bool flip = false;
@@ -154,13 +234,13 @@ double TablePotential:: energy(
   if (flip) {
     feasst_swap(&ttype1, &ttype2);
   }
-  DEBUG("flip " << flip);
+  TRACE("flip " << flip);
 
   // convert site type to table type
-  DEBUG("t2size " << t2index_.size());
+  TRACE("t2size " << t2index_.size());
   int tabtype1 = t2index_[ttype1];
   int tabtype2 = t2index_[ttype2];
-  DEBUG("tabtype1 " << tabtype1 << " tabtype2 " << tabtype2);
+  TRACE("tabtype1 " << tabtype1 << " tabtype2 " << tabtype2);
 
   // Do not compute energy if either site is not represented.
   if (tabtype1 == -1 || tabtype2 == -1) {
@@ -169,31 +249,31 @@ double TablePotential:: energy(
 
   // check the inner cutoff.
   const double inner = inner_[tabtype1][tabtype2];
-  DEBUG("squared_distance " << squared_distance);
+  TRACE("squared_distance " << squared_distance);
   if (squared_distance < inner*inner) {
     TRACE("hard overlap");
     return NEAR_INFINITY;
   } else {
     const double gamma = gamma_[tabtype1][tabtype2];
-    DEBUG("gamma " << gamma);
+    TRACE("gamma " << gamma);
     const double rhg = inner_g_[tabtype1][tabtype2];
-    DEBUG("rhg " << rhg);
+    TRACE("rhg " << rhg);
     const double rcg = cutoff_g_[tabtype1][tabtype2];
-    DEBUG("rcg " << rcg);
+    TRACE("rcg " << rcg);
     double rg;
     if (gamma == -2) {
       rg = 1./squared_distance;
     } else {
       rg = std::pow(squared_distance, gamma/2.);
     }
-    DEBUG("rg " << rg);
+    TRACE("rg " << rg);
     const double z = (rg - rhg)/(rcg - rhg);
-    DEBUG("z " << z);
+    TRACE("z " << z);
     ASSERT(z >= 0 && z <= 1, "z: " << z);
-    DEBUG("tab size " << energy_table_.size());
-    DEBUG("tab size " << energy_table_[0].size());
+    TRACE("tab size " << energy_table_.size());
+    TRACE("tab size " << energy_table_[0].size());
     const double en = energy_table_[tabtype1][tabtype2].forward_difference_interpolation(z);
-    DEBUG("en " << en);
+    TRACE("en " << en);
     return en;
   }
 }

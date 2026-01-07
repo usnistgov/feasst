@@ -1,9 +1,8 @@
 
 .. toctree::
 
-   TrialMorph
    TrialMorphExpanded
+   TrialMorph
    TrialPositionSwap
    ComputeMorph
    MacrostateMorph
-   PerturbParticleType

@@ -8,6 +8,7 @@
    ComputeGibbsMorph
    TrialGibbsParticleTransfer
    GibbsInitialize
+   PerturbParticleType
    TrialGibbsVolumeTransfer
    TrialGibbsMorph
    EndCopy

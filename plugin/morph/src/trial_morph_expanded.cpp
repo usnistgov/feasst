@@ -141,7 +141,7 @@ void TrialMorphExpanded::init_(const std::vector<std::vector<int> > grow_seq, ar
       add = false;
       add_previously = true;
     } else {
-      grow_.push_back(std::make_shared<TrialMorph>(grow_args));
+      grow_.push_back(std::make_shared<TrialMorphOneWay>(grow_args));
       add_previously = false;
     }
     if (remove) {
@@ -150,7 +150,7 @@ void TrialMorphExpanded::init_(const std::vector<std::vector<int> > grow_seq, ar
       shrink_.push_back(MakeTrialRemoveMultiple(shrink_args));
       remove = false;
     } else {
-      shrink_.push_back(std::make_shared<TrialMorph>(shrink_args));
+      shrink_.push_back(std::make_shared<TrialMorphOneWay>(shrink_args));
     }
   }
   current_state_ = 0;

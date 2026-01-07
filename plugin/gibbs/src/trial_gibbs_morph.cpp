@@ -2,7 +2,7 @@
 #include "utils/include/io.h"
 #include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_select_particle.h"
-#include "morph/include/perturb_particle_type.h"
+#include "gibbs/include/perturb_particle_type.h"
 #include "gibbs/include/compute_gibbs_morph.h"
 #include "gibbs/include/trial_gibbs_morph.h"
 

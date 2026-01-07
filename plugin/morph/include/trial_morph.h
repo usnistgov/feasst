@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include "monte_carlo/include/trial.h"
+#include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
 
@@ -15,7 +15,7 @@ namespace feasst {
   be morphed simultaneously.
   See ComputeMorph.
  */
-class TrialMorph : public Trial {
+class TrialMorph : public TrialFactoryNamed {
  public:
   //@{
   /** @name Arguments
@@ -35,14 +35,23 @@ class TrialMorph : public Trial {
   /** @name Public Functions
    */
   //@{
-
-  std::shared_ptr<Trial> create(std::istream& istr) const override {
-    return std::make_shared<TrialMorph>(istr); }
-  std::shared_ptr<Trial> create(argtype * args) const override {
+  std::shared_ptr<TrialFactoryNamed> create(argtype * args) const override {
     return std::make_shared<TrialMorph>(args); }
-  void serialize(std::ostream& ostr) const override;
-  explicit TrialMorph(std::istream& istr);
   virtual ~TrialMorph() {}
+  //@}
+};
+
+class TrialMorphOneWay : public Trial {
+ public:
+  explicit TrialMorphOneWay(argtype args = argtype());
+  explicit TrialMorphOneWay(argtype * args);
+  std::shared_ptr<Trial> create(std::istream& istr) const override {
+    return std::make_shared<TrialMorphOneWay>(istr); }
+  std::shared_ptr<Trial> create(argtype * args) const override {
+    return std::make_shared<TrialMorphOneWay>(args); }
+  void serialize(std::ostream& ostr) const override;
+  explicit TrialMorphOneWay(std::istream& istr);
+  virtual ~TrialMorphOneWay() {}
   //@}
 };
 

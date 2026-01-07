@@ -119,7 +119,7 @@ def generate_table(params):
     rhg = params['inner']**params['gamma']
     rcg = params['cutoff']**params['gamma']
     with open(params['table_file'], 'w') as file1:
-        file1.write("""site_types 1 LJ\ngamma {gamma}\ninner {inner}\nnum_z {num_z}\n""".format(**params))
+        file1.write("""site_types=LJ\ngamma={gamma}\ninner={inner}\n""".format(**params))
         for z in np.arange(0, 1 + dz/2, dz):
             if z == 0:
                 distance = params['inner']
@@ -129,6 +129,7 @@ def generate_table(params):
             en = user_potential(distance)
             #print('distance', distance, 'en', en)
             file1.write(str(en) + " ")
+        file1.write("\n")
 
 # write fst script to run a simulation
 def write_feasst_script(params, script_file):

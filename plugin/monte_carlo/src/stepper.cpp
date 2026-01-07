@@ -197,4 +197,13 @@ void Stepper::initialize(MonteCarlo * mc) {
   }
 }
 
+bool Stepper::is_multistate(const Criteria& criteria) const {
+  if (is_multistate()) {
+    if (criteria.num_states() > 1) {
+      return true;
+    }
+  }
+  return false;
+}
+
 }  // namespace feasst

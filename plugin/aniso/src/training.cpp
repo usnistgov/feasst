@@ -154,15 +154,43 @@ void Training::run(MonteCarlo * mc) {
     << " soft:" << static_cast<double>(soft)/num
   );
   if (output.good()) {
+    std::vector<int> med_size;
     for (const auto& st1 : dat) {
     for (const auto& st2 : st1) {
     for (const auto& st3 : st2) {
     for (const auto& st4 : st3) {
     for (const auto& st5 : st4) {
       if (st5.num != 0) {
+        med_size.push_back(st5.num);
+      }
+    }}}}}
+
+    // find the median count
+    const int med = *median(med_size);
+    INFO(med);
+
+    for (int in0 = 0; in0 < static_cast<int>(dat.size()); ++in0) {
+      const auto& st1 = dat[in0];
+    for (int in1 = 0; in1 < static_cast<int>(st1.size()); ++in1) {
+      const auto& st2 = st1[in1];
+    for (int in2 = 0; in2 < static_cast<int>(st2.size()); ++in2) {
+      const auto& st3 = st2[in2];
+    for (int in3 = 0; in3 < static_cast<int>(st3.size()); ++in3) {
+      const auto& st4 = st3[in3];
+    for (int in4 = 0; in4 < static_cast<int>(st4.size()); ++in4) {
+      const auto& st5 = st4[in4];
+    //for (const auto& st1 : dat) {
+    //for (const auto& st2 : st1) {
+    //for (const auto& st3 : st2) {
+    //for (const auto& st4 : st3) {
+    //for (const auto& st5 : st4) {
+      if (st5.num != 0) {
+        const bool nest = st5.num > med;
         output << st5.num << " " << static_cast<double>(st5.match)/st5.num
                << " " << static_cast<double>(st5.hard)/st5.num
                << " " << static_cast<double>(st5.soft)/st5.num
+               << " " << nest
+               << " " << in0 << " " << in1 << " " << in2 << " " << in3 << " " << in4
                << std::endl;
       }
     }}}}}

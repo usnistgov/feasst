@@ -311,7 +311,7 @@ endif()
 # morph
 list (FIND FEASST_PLUGINS "morph" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstmorph feasstchain feasstflat_histogram feasstcharge)
+  target_link_libraries(feasstmorph feasstchain feasstflat_histogram feasstcharge feasstgibbs)
 endif()
 
 # prefetch

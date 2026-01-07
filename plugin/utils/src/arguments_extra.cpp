@@ -43,7 +43,8 @@ std::pair<std::string, argtype> parse_line(const std::string line,
       "Let requires an \"=\" to define a variable value");
     ASSERT(ss.str().find('[') != std::string::npos,
       "Let requires a [ to enclose a [variable]. " <<
-      "Also check that the variable was not preivously defined.");
+      "Also check that the variable was not preivously defined. " <<
+      "Stopping at line:" << line);
     ASSERT(ss.str().find("]=") != std::string::npos,
       "Let requires a \"]=\" to enclose a [variable] and define its value.");
     std::stringstream ss2(new_line);

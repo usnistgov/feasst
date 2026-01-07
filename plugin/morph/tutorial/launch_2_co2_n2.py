@@ -111,7 +111,6 @@ Remove name=Tune,Log
 FlatHistogram Macrostate=MacrostateNumParticles particle_type=pt1 width=1 max={max_particles} min={min_particles} \
     Bias=WLTM min_sweeps={min_sweeps} min_flatness=25 collect_flatness=20 min_collect_sweeps=1
 TrialMorph particle_type=pt1 particle_type_morph=pt2 ref=noixn
-TrialMorph particle_type=pt2 particle_type_morph=pt1 ref=noixn
 Log [write].csv
 Tune [write]_tune.csv multistate=true stop_after_cycle=1
 Movie [write]_eq.xyz stop_after_cycle=1

@@ -33,7 +33,7 @@ class Table {
 };
 
 /**
-  This is a one-dimensional implementation of a table.
+  One-dimensional implementation of a table.
  */
 class Table1D : public Table {
  public:
@@ -48,6 +48,9 @@ class Table1D : public Table {
   /// Return the number of values.
   int num() const { return static_cast<int>(data_.size()); }
 
+  /// Return the bin spacing.
+  double bin_spacing() const { return bin_spacing_; }
+
   /// For a given dimension, return the value of a bin.
   double bin_to_value(const int bin) const {
     return bin_spacing_*bin; }
@@ -55,21 +58,27 @@ class Table1D : public Table {
   /// The inverse of above.
   int value_to_nearest_bin(const double value) const;
 
+  /// Return the bin just below the value.
+  int value_to_lowest_bin(const double value) const;
+
   /// Set data.
   void set_data(const int dim0, const double value) { data_[dim0] = value; }
 
   /// Return the data.
   const std::vector<double>& data() const { return data_; }
 
+  /// Return the data.
+  double data(const int index) const { return data_[index]; }
+
   /// Add the values of the given table.
   void add(const Table1D& table);
 
   /// Return linear interpolation of data given normalized values.
-  double linear_interpolation(const double value0) const;
+  virtual double linear_interpolation(const double value0) const;
 
   /// Return the Newton-Gregory forward difference interpolation.
   /// See Allen and Tildesley, 5.2.2, Booth 1972
-  double forward_difference_interpolation(const double value0) const;
+  virtual double forward_difference_interpolation(const double value0) const;
 
   double minimum() const override;
   double maximum() const override;
@@ -95,7 +104,7 @@ inline std::shared_ptr<Table1D> MakeTable1D(argtype args = argtype()) {
 typedef std::vector<std::vector<double> > vec2;
 
 /**
-  This is a two-dimensional implementation of a table.
+  Two-dimensional implementation of a table.
  */
 class Table2D : public Table {
  public:
@@ -163,7 +172,7 @@ inline std::shared_ptr<Table2D> MakeTable2D(argtype args = argtype()) {
 typedef std::vector<vec2> vec3;
 
 /**
-  This is a three-dimensional implementation of a table.
+  Three-dimensional implementation of a table.
  */
 class Table3D : public Table {
  public:
@@ -246,7 +255,7 @@ inline std::shared_ptr<Table3D> MakeTable3D(const std::string file_name) {
 typedef std::vector<vec3> vec4;
 
 /**
-  This is a four-dimensional implementation of a table.
+  Four-dimensional implementation of a table.
  */
 class Table4D : public Table {
  public:
@@ -335,7 +344,7 @@ typedef std::vector<std::vector<std::vector<std::vector<float> > > > fvec4;
 typedef std::vector<fvec4> fvec5;
 
 /**
-  This is a five-dimensional implementation of a table.
+  Five-dimensional implementation of a table.
  */
 class Table5D : public Table {
  public:
@@ -430,7 +439,7 @@ inline std::shared_ptr<Table5D> MakeTable5D(const std::string file_name) {
 typedef std::vector<fvec5> fvec6;
 
 /**
-  This is a six-dimensional implementation of a table.
+  Six-dimensional implementation of a table.
  */
 class Table6D : public Table {
  public:

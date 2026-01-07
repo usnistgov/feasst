@@ -6,7 +6,7 @@
 #include "configuration/include/configuration.h"
 #include "system/include/system.h"
 #include "monte_carlo/include/trial_select.h"
-#include "morph/include/perturb_particle_type.h"
+#include "gibbs/include/perturb_particle_type.h"
 
 namespace feasst {
 

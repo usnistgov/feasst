@@ -77,7 +77,7 @@ class ModelLJShape : public ModelOneBody,
   /// Return the epsilon (in case optionally mixed)
   double epsilon(const int site_type, const ModelParams& params);
 
-  double energy(const double epsilon, const double sigma,
+  double en(const double epsilon, const double sigma,
     const double distance) const;
 
   void serialize(std::ostream& ostr) const override;

@@ -115,6 +115,9 @@ class Stepper {
   /// Return if multistate.
   bool is_multistate() const { return is_multistate_; }
 
+  /// Return if multistate and Criteria has more than one state.
+  bool is_multistate(const Criteria& criteria) const;
+
   /// Return the state.
   int state() const { return state_; }
 

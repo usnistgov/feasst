@@ -87,7 +87,7 @@ def generate_table(params):
     assert params['num_z'] > 1
     dz = 1./(params['num_z'] - 1)
     with open(params['table_file'], 'w') as file1:
-        file1.write("""site_types 2 A R""")
+        file1.write("""site_types=A,R""")
         for site1 in [0, 1]:
             for site2 in [0, 1]:
                 if site1 <= site2:
@@ -97,7 +97,7 @@ def generate_table(params):
                         cutoff = params['rwca']
                     rcg = cutoff**params['gamma']
                     rhg = params['inner']**params['gamma']
-                    file1.write("""\ninner {inner}\nnum_z {num_z}\n""".format(**params))
+                    file1.write("""\ninner={inner}\n""".format(**params))
                     for z in np.arange(0, 1 + dz/2, dz):
                         if z == 0:
                             distance = params['inner']

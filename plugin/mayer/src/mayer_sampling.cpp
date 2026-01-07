@@ -55,13 +55,16 @@ bool MayerSampling::is_accepted(
   double energy_new = acceptance->energy_new();
   if (!training_file_.empty()) {
     const Site& mobile = system.configuration().particle(1).site(0);
-    Position spherical = mobile.position().spherical();
-    DEBUG(mobile.euler().str());
-    data_.push_back(std::vector<double>({
-      spherical.coord(0), spherical.coord(1), spherical.coord(2),
-      mobile.euler().phi(), mobile.euler().theta(), mobile.euler().psi(),
-      energy_new}));
-    //DEBUG(feasst_str(data_.back()));
+    if (mobile.is_anisotropic()) {
+      Position spherical = mobile.position().spherical();
+      DEBUG(mobile.euler().str());
+      data_.push_back(std::vector<double>({
+        spherical.coord(0), spherical.coord(1), spherical.coord(2),
+        mobile.euler().phi(), mobile.euler().theta(), mobile.euler().psi(),
+        energy_new}));
+    } else {
+      data_.push_back(std::vector<double>{mobile.position().squared_distance(), energy_new});
+    }
     if (static_cast<int>(data_.size()) >= training_per_write_) {
       std::ofstream file;
       file.open(training_file_, std::ofstream::out | std::ofstream::app);

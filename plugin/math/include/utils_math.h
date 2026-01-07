@@ -341,6 +341,30 @@ int has_bad_value(const std::vector<T>& vec) {
 bool is_equal_within_decimal_places(const double u1, const double u2,
                                     const int decimal_places);
 
+/// Find the median from https://stackoverflow.com/a/35325265/31990915
+template<class C>
+auto median(C const& c) {
+  using std::begin; using std::end;
+  auto start = begin(c);
+  auto finish = end(c);
+  using iterator = decltype(start);
+  std::vector<iterator> working;
+  for (auto it = start; it != finish; ++it)
+    working.push_back(it);
+  if (working.empty())
+    return start;
+  std::nth_element(
+    begin(working), begin(working) + working.size() / 2, end(working),
+    [](iterator lhs, iterator rhs){
+      return *lhs < *rhs;
+    }
+  );
+  return *(begin(working) + working.size() / 2);
+}
+
+/// Return a vector of num equally-spaced values from lower to upper.
+std::vector<double> range(const double lower, const double upper, const int num);
+
 }  // namespace feasst
 
 #endif  // FEASST_MATH_UTILS_MATH_H_

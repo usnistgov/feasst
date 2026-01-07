@@ -75,7 +75,7 @@ void AnalyzeFactory::trial(const MonteCarlo& mc) {
   DEBUG(" class? " << class_name());
   const Criteria& criteria = mc.criteria();
   int stt = -1;
-  if (is_multistate()) {
+  if (is_multistate(criteria)) {
     stt = criteria.state();
   }
   DEBUG("criteria.num_cycles(" << stt << ") " << criteria.num_cycles(stt)  <<
@@ -86,7 +86,7 @@ void AnalyzeFactory::trial(const MonteCarlo& mc) {
        (criteria.num_cycles(stt) <= start_after_cycle()) ) {
     return;
   }
-  if (is_multistate()) {
+  if (is_multistate(criteria)) {
     DEBUG("multistate");
     DEBUG("state? " << criteria.state());
     if (is_multistate_aggregate()) {
@@ -144,7 +144,7 @@ void AnalyzeFactory::trial(const MonteCarlo& mc) {
 
 void AnalyzeFactory::write_to_file(const MonteCarlo& mc) {
   const Criteria& criteria = mc.criteria();
-  if (is_multistate()) {
+  if (is_multistate(criteria)) {
     if (is_multistate_aggregate()) {
       const int min_block = min_block_(criteria);
       std::stringstream ss;

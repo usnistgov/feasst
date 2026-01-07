@@ -1,8 +1,9 @@
 #include <cmath>
 #include "utils/test/utils.h"
+#include "utils/include/debug.h"
 #include "math/include/constants.h"
 #include "math/include/random_mt19937.h"
-#include "utils/include/debug.h"
+#include "math/include/position.h"
 
 namespace feasst {
 

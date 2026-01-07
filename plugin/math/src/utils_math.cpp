@@ -72,4 +72,14 @@ bool is_equal_within_decimal_places(const double u1, const double u2,
   return true;
 }
 
+std::vector<double> range(const double lower, const double upper, const int num) {
+  std::vector<double> xs(num);
+  xs[0] = lower;
+  const double dx = (upper - lower) / static_cast<double>(num - 1);
+  for (int i = 1; i < num; ++i) {
+    xs[i] = xs[i - 1] + dx;
+  }
+  return xs;
+}
+
 }  // namespace feasst

@@ -48,8 +48,6 @@ void test_morph(const System& system) {
   EXPECT_EQ(mc.configuration().num_particles_of_type(1), 2);
   mc.add(std::make_shared<TrialMorph>(argtype({{"particle_type", "1"},
                          {"particle_type_morph", "0"}, {"reference_index", "0"}})));
-  mc.add(std::make_shared<TrialMorph>(argtype({{"particle_type", "0"},
-                         {"particle_type_morph", "1"}, {"reference_index", "0"}})));
 //  mc.add(MakeLogAndMovie({{"trials_per_write", str(1e2)}, {"output_file", "tmp/growth"}}));
   mc.add(MakeCheckEnergy({{"trials_per_update", str(1e2)}}));
   mc.add(MakeTune());
@@ -311,8 +309,6 @@ TEST(MonteCarlo, morphrxn) {
     {"Remove", {{"name", "TrialAdd"}}},
     {"TrialMorph", {{"weight", "0.1"}, {"reference_index", "0"},
                     {"particle_type", "0,2"}, {"particle_type_morph", "1,3"}}},
-    {"TrialMorph", {{"weight", "0.1"}, {"reference_index", "0"},
-                    {"particle_type", "1,3"}, {"particle_type_morph", "0,2"}}},
     {"TrialMorph", {{"weight", "0.1"}, {"reference_index", "0"},
                     {"particle_type", "0,1"}, {"particle_type_morph", "1,0"}}},
     {"CheckEnergy", {{"trials_per_update", tpis}, {"decimal_places", "8"}}},

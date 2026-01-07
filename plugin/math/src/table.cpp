@@ -22,12 +22,13 @@ double Table::bin_spacing(const int num) {
 }
 
 void Table1D::calc_d_() {
-  bin_spacing_ = bin_spacing(num());
+  bin_spacing_ = Table::bin_spacing(num());
 }
 
 Table1D::Table1D(argtype args) : Table1D(&args) { feasst_check_all_used(args); }
 Table1D::Table1D(argtype * args) : Table() {
   const int num = integer("num", args, 1);
+  ASSERT(num > 0, "num:" << num << " must be > 0");
   data_.resize(num, dble("default_value", args, 0.));
   calc_d_();
 }
@@ -102,6 +103,10 @@ double Table1D::maximum() const { return feasst::maximum(data_); }
 
 int Table1D::value_to_nearest_bin(const double value) const {
   return feasst::round(value*(num() - 1));
+}
+
+int Table1D::value_to_lowest_bin(const double value) const {
+  return int(value*(num() - 1));
 }
 
 void Table1D::add(const Table1D& table) { feasst::add(table.data_, &data_); }

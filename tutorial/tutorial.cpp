@@ -36,11 +36,11 @@ int main(int argc, char ** argv) {
     {"TrialTranslate", {{"tunable_param", "2."},
                         {"tunable_target_acceptance", "0.2"}}},
     {"TrialAdd", {{"particle_type", "0"}}},
-    {"Run", {{"until_num_particles", "50"}}}
+    {"Run", {{"until_num_particles", args.get("--num")}}}
   }});
 
-  ASSERT(mc->configuration().num_particles() == 50,
-    "There should be 50 particles");
+  ASSERT(mc->configuration().num_particles() == args.get_int("--num"),
+    "There should be " << args.get("--num") << " particles");
   ASSERT(mc->trials().num() == 2, "There should be two Trials");
 
   // nvt equilibration

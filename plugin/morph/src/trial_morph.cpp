@@ -1,18 +1,18 @@
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "monte_carlo/include/trial_select_particle.h"
-#include "morph/include/perturb_particle_type.h"
+#include "gibbs/include/perturb_particle_type.h"
 #include "morph/include/compute_morph.h"
 #include "morph/include/trial_morph.h"
 
 namespace feasst {
 
-FEASST_MAPPER(TrialMorph, argtype({{"particle_type", "0"},
-                                   {"particle_type_morph", "1"}}));
+FEASST_MAPPER(TrialMorphOneWay, argtype({{"particle_type", "0"},
+                                         {"particle_type_morph", "1"}}));
 
-TrialMorph::TrialMorph(argtype * args) : Trial(args) {
-  class_name_ = "TrialMorph";
-  set_description("TrialMorph");
+TrialMorphOneWay::TrialMorphOneWay(argtype * args) : Trial(args) {
+  class_name_ = "TrialMorphOneWay";
+  set_description("TrialMorphOneWay");
   argtype stage_args = get_stage_args(args);
   if (used("particle_type", *args)) {
     std::vector<std::string> pts = split(str("particle_type", args), ',');
@@ -52,23 +52,46 @@ TrialMorph::TrialMorph(argtype * args) : Trial(args) {
       key << start << type;
     }
     ASSERT(type > 0, "required arguments not used");
-    WARN("Deprecated TrialMorph::particle_type[i]->particle_type");
+    WARN("Deprecated TrialMorphOneWay::particle_type[i]->particle_type");
   }
   set(MakeComputeMorph());
 }
-TrialMorph::TrialMorph(argtype args) : TrialMorph(&args) {
+TrialMorphOneWay::TrialMorphOneWay(argtype args) : TrialMorphOneWay(&args) {
   feasst_check_all_used(args);
 }
 
-TrialMorph::TrialMorph(std::istream& istr) : Trial(istr) {
+TrialMorphOneWay::TrialMorphOneWay(std::istream& istr) : Trial(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 8967, "mismatch version: " << version);
 }
 
-void TrialMorph::serialize(std::ostream& ostr) const {
+void TrialMorphOneWay::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_trial_(ostr);
   feasst_serialize_version(8967, ostr);
+}
+
+FEASST_MAPPER(TrialMorph, argtype({{"particle_type", "0"},
+                                   {"particle_type_morph", "1"}}));
+
+TrialMorph::TrialMorph(argtype * args) : TrialFactoryNamed() {
+  class_name_ = "TrialMorph";
+  std::string pt = str("particle_type", args, "0");
+  std::string ptm = str("particle_type_morph", args, "1");
+  argtype orig_args = *args;
+  orig_args.insert({"particle_type", pt});
+  orig_args.insert({"particle_type_morph", ptm});
+  args->insert({"particle_type", ptm});
+  args->insert({"particle_type_morph", pt});
+  auto trial_first = std::make_shared<TrialMorphOneWay>(orig_args);
+  trial_first->set_weight(trial_first->weight()/2.);
+  add(trial_first);
+  auto trial_second = std::make_shared<TrialMorphOneWay>(args);
+  trial_second->set_weight(trial_second->weight()/2.);
+  add(trial_second);
+}
+TrialMorph::TrialMorph(argtype args) : TrialMorph(&args) {
+  feasst_check_all_used(args);
 }
 
 }  // namespace feasst

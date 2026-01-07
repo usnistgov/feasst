@@ -29,14 +29,13 @@ typedef std::map<std::string, std::string> argtype;
 
   The format of the tabular potential stored in a file is as follows.
 
-  The first line should be 'site_types' followed by the number of site types
-  and then the name of each of those site types in order of the tables
-  given below. (e.g., "site_types 1 name" where n is the number of site types and
-  each following name is the site type name of each site.)
+  The first line should be 'site_types=' followed by comma-separated values for
+  the names of each of the site types
+  (e.g., "site_types=O,H" will expect tables for sites of type name "O" and H").
 
-  There is a table for each unique pair of site types.
+  The table for each unique pair of site types is required.
   For example, if the first line is as follows:
-  "site_types 2 O H"
+  "site_types=O,H"
   then the first table will be for interactions of site type O with
   site type O (i.e., O-O), the second table will be for O-H interactions,
   and the third table will be for H-H interactions.
@@ -45,9 +44,8 @@ typedef std::map<std::string, std::string> argtype;
 
   1. "gamma [value]" is the optional stretching exponential.
      If this line is not provided, then the default value of -2 is used.
-  2. "inner [value]" is the inner hard cutoff distance.
-  3. "num_z [value]" is the number of energy values along the z parameter.
-  4. The last line is num_z space-separated values of the potential
+  2. "inner [value]" is the inner hard cutoff distance (required).
+  3. The last line is space-separated values of the potential
      energy uniformly in the z range of [0, 1].
  */
 class TablePotential : public ModelTwoBody {
@@ -92,7 +90,7 @@ class TablePotential : public ModelTwoBody {
   std::vector<std::vector<Table1D> > energy_table_;
 
   void read_table_(const std::string table_file);
-  void read_inner_(const int itype, const int jtype, const std::string& description, const double value, std::ifstream& file);
+  void read_inner_(const int itype, const int jtype, const std::string& description, const double value);
 };
 
 inline std::shared_ptr<TablePotential> MakeTablePotential(

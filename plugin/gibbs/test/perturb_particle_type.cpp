@@ -6,9 +6,9 @@
 #include "system/include/potential.h"
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/trial_select_particle.h"
-#include "morph/include/perturb_particle_type.h"
 #include "charge/include/utils.h"
 #include "charge/test/charge_utils.h"
+#include "gibbs/include/perturb_particle_type.h"
 
 namespace feasst {
 

@@ -3,7 +3,7 @@
 #include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/trial_compute_move.h"
-#include "morph/include/perturb_particle_type.h"
+#include "gibbs/include/perturb_particle_type.h"
 #include "morph/include/trial_position_swap.h"
 
 namespace feasst {

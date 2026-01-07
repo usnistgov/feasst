@@ -85,7 +85,6 @@ Remove name=TrialAdd,Log
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
 Let [TrialMorph]=TrialMorph weight=0.1 ref=noixn particle_type
 [TrialMorph]=reactant1,reactant2 particle_type_morph=product1,product2
-[TrialMorph]=product1,product2 particle_type_morph=reactant1,reactant2
 [TrialMorph]=product1,reactant1 particle_type_morph=reactant1,product1
 [TrialMorph]=product2,reactant2 particle_type_morph=reactant2,product2
 Log [write]_eq.csv

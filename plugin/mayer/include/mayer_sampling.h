@@ -46,6 +46,11 @@ class MayerSampling : public Criteria {
       respect to beta. (default: 0).
     - training_file: if not empty, file name to write training data
       (default: empty).
+      Training data considers only the first site of the second particle,
+      assuming the first particle is centered on the origin.
+      Multisite particles are not currently supported.
+      If the site is isotropic, output is the squared distance and the energy.
+      Otherwise, spherical coordinates, euler angles and energy is output.
     - training_per_write: write every this many sets of data (default: 1e4).
     - Criteria arguments.
    */

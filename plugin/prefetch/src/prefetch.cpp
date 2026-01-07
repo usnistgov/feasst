@@ -117,7 +117,6 @@ void Prefetch::attempt_(
   if (num_trials < 10 && num_trials > 0) {
     WARN("inefficient use of prefetching with num_trials: " << num_trials
      << ". Consider using mc.attempt() instead of mc.run(MakeRun())");
-
   }
 
   // Require OPENMP; however, maintain ability to compile without.

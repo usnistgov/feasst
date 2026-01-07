@@ -65,4 +65,12 @@ TEST(UtilsMath, is_equal_within_decimal_places) {
   EXPECT_FALSE(is_equal_within_decimal_places(1.0123, 1.0223, 4));
 }
 
+TEST(UtilsMath, range) {
+  std::vector<double> xs = range(0.75, 3, 16);
+  EXPECT_NEAR(xs[0], 0.75, NEAR_ZERO);
+  EXPECT_NEAR(xs[1], 0.9, NEAR_ZERO);
+  EXPECT_NEAR(xs[2], 1.05, NEAR_ZERO);
+  EXPECT_NEAR(xs.back(), 3, NEAR_ZERO);
+}
+
 }  // namespace feasst
