@@ -103,14 +103,14 @@ int RecursiveTablePotential::analyze_table_(const double lower, const double upp
   return max_bin;
 }
 
-void RecursiveTablePotential::precompute(const Configuration& config) {
+void RecursiveTablePotential::precompute(Configuration * config) {
   Model::precompute(config);
-  const ModelParams& existing = config.model_params();
+  const ModelParams& existing = config->model_params();
   //const ModelParam& cutoff = existing.select("cutoff");
   t2index_.assign(existing.size(), -1);
   site_types_.clear();
   for (const std::string& sname : site_type_names_) {
-    site_types_.push_back(config.site_type_name_to_index(sname));
+    site_types_.push_back(config->site_type_name_to_index(sname));
   }
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
@@ -121,7 +121,7 @@ void RecursiveTablePotential::precompute(const Configuration& config) {
   WARN("Assumes one site type.");
   t2index_.resize(1);
   t2index_[0] = 0;
-  cutoff_sq_[0][0] = std::pow(config.model_params().select("cutoff").value(0), 2);
+  cutoff_sq_[0][0] = std::pow(config->model_params().select("cutoff").value(0), 2);
   if (energy_table_.size() == 0) {
     ASSERT(!mayer_training_file_.empty(), "requires mayer_training_file");
     std::ifstream file(mayer_training_file_);

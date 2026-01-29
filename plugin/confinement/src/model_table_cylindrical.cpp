@@ -24,8 +24,8 @@ ModelTableCylinder1D::ModelTableCylinder1D(argtype args) : ModelTableCylinder1D(
 }
 ModelTableCylinder1D::~ModelTableCylinder1D() {}
 
-void ModelTableCylinder1D::precompute(const Configuration& config) {
-  precompute_table1D(config, table_file_, &tables_);
+void ModelTableCylinder1D::precompute(Configuration * config) {
+  precompute_table1D(*config, table_file_, &tables_);
 }
 
 double ModelTableCylinder1D::energy(

@@ -96,7 +96,7 @@ class ModelExample : public ModelTwoBody {
     appropriate numerical index, so they can be more quickly accessed by
     index during the simulation.
    */
-  void precompute(const Configuration& config) override;
+  void precompute(Configuration * config) override;
 
   /**
     The energy between two site types depends upon the distance between

@@ -78,8 +78,8 @@ Model::Model(std::istream& istr) {
   feasst_deserialize(&charge_index_, istr);
 }
 
-void Model::precompute(const Configuration& config) {
-  const ModelParams& existing = config.model_params();
+void Model::precompute(Configuration * config) {
+  const ModelParams& existing = config->model_params();
   epsilon_index_ = existing.index("epsilon");
   sigma_index_ = existing.index("sigma");
   cutoff_index_ = existing.index("cutoff");

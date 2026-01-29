@@ -12,7 +12,7 @@ TEST(TablePotential, serialize) {
     {"add_num_lj_particles", "2"}});
   config->update_positions({{0, 0, 0}, {2, 0, 0}});
   auto table = MakeTablePotential({{"table_file", "../plugin/models/test/data/lj_table.txt"}});
-  table->precompute(*config);
+  table->precompute(config.get());
   TablePotential table2 = test_serialize(*table);
   EXPECT_EQ(1, table2.energy_table().size());
   EXPECT_EQ(1, table2.energy_table()[0].size());

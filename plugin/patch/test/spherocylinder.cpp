@@ -26,7 +26,7 @@ TEST(Spherocylinder, patch_one) {
   config.set_model_param("cutoff", 1, 3.);
   FileXYZ().load("../plugin/patch/test/data/spherocylinder.xyz", &config);
   SquareWell model;
-  model.precompute(config);
+  model.precompute(&config);
   VisitModel visit;
   auto patch = std::make_shared<Spherocylinder>();
   visit.set_inner(patch);

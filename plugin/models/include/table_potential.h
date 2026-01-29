@@ -64,7 +64,7 @@ class TablePotential : public ModelTwoBody {
 
   const std::vector<std::vector<Table1D> >& energy_table() const { return energy_table_; }
 
-  void precompute(const Configuration& config) override;
+  void precompute(Configuration * config) override;
   double energy(
     const double squared_distance,
     const int type1,

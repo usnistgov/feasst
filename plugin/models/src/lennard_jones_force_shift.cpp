@@ -35,9 +35,9 @@ LennardJonesForceShift::LennardJonesForceShift(std::istream& istr)
   feasst_deserialize(&precomputed_, istr);
 }
 
-void LennardJonesForceShift::precompute(const Configuration& config) {
+void LennardJonesForceShift::precompute(Configuration * config) {
   LennardJonesAlpha::precompute(config);
-  const ModelParams& existing = config.model_params();
+  const ModelParams& existing = config->model_params();
   precomputed_ = true;
   shift_.set_model(this); // note the model is used here for the computation
   shift_.set_param(existing);

@@ -53,8 +53,8 @@ class ModelTableCart1D : public ModelOneBody {
    */
   //@{
 
-  void precompute(const Configuration& config) override {
-    precompute_table1D(config, table_file_, &tables_); }
+  void precompute(Configuration * config) override {
+    precompute_table1D(*config, table_file_, &tables_); }
 
   double energy(
     const Position& wrapped_site,

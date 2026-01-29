@@ -62,7 +62,7 @@ void ModelTwoBodyFactory::add(
   }
 }
 
-void ModelTwoBodyFactory::precompute(const Configuration& config) {
+void ModelTwoBodyFactory::precompute(Configuration * config) {
   for (const std::shared_ptr<Model>& model : models_) {
     model->precompute(config);
   }

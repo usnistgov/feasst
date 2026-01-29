@@ -30,7 +30,7 @@ class Mie : public ModelTwoBody {
    */
   //@{
 
-  void precompute(const Configuration& config) override;
+  void precompute(Configuration * config) override;
 
   double energy(
       const double squared_distance,

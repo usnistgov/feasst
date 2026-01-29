@@ -34,9 +34,9 @@ F3C::F3C(std::istream& istr) : ModelTwoBody(istr) {
   feasst_deserialize(&Asc_, istr);
 }
 
-void F3C::precompute(const Configuration& config) {
+void F3C::precompute(Configuration * config) {
   Model::precompute(config);
-  const ModelParams& existing = config.model_params();
+  const ModelParams& existing = config->model_params();
   conversion_factor_ = existing.constants().charge_conversion();
 }
 

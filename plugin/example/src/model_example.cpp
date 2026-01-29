@@ -38,9 +38,9 @@ ModelExample::ModelExample(argtype args) : ModelExample(&args) {
   feasst_check_all_used(args);
 }
 
-void ModelExample::precompute(const Configuration& config) {
+void ModelExample::precompute(Configuration * config) {
   Model::precompute(config);  // find sigma, epsilon, cutoff, charge index
-  const ModelParams& existing = config.model_params();
+  const ModelParams& existing = config->model_params();
   lambda_index_ = existing.index("lambda");
   gamma_index_ = existing.index("gamma");
 }

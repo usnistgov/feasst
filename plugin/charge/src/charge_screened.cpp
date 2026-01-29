@@ -76,9 +76,9 @@ double ChargeScreened::energy(
   }
 }
 
-void ChargeScreened::precompute(const Configuration& config) {
+void ChargeScreened::precompute(Configuration * config) {
   Model::precompute(config);
-  const ModelParams& existing = config.model_params();
+  const ModelParams& existing = config->model_params();
   alpha_ = existing.property("alpha");
   conversion_factor_ = existing.constants().charge_conversion();
   init_erfc_(existing.select("cutoff").mixed_max());

@@ -39,9 +39,9 @@ double ChargeScreenedIntra::energy(
   return -mixed_charge*conversion_factor_*erf(alpha_*distance)/distance;
 }
 
-void ChargeScreenedIntra::precompute(const Configuration& config) {
+void ChargeScreenedIntra::precompute(Configuration * config) {
   Model::precompute(config);
-  const ModelParams& existing = config.model_params();
+  const ModelParams& existing = config->model_params();
   alpha_ = existing.property("alpha");
   conversion_factor_ = existing.constants().charge_conversion();
 }

@@ -27,7 +27,7 @@ TEST(VisitModelCell, lj_reference_config) {
   config.set(domain);
   config.check();
   LennardJones model;
-  model.precompute(config);
+  model.precompute(&config);
   auto cell_visit = MakeVisitModelCell({{"min_length", feasst::str(rcut)}});
   VisitModel visit;
   cell_visit->precompute(&config);
@@ -71,7 +71,7 @@ TEST(VisitModelCell, spce_reference_config) {
   config.set(domain);
   config.check();
   LennardJones model;
-  model.precompute(config);
+  model.precompute(&config);
   auto cell_visit = MakeVisitModelCell({{"min_length", feasst::str(rcut)}});
   VisitModel visit;
   cell_visit->precompute(&config);

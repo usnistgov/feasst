@@ -31,9 +31,9 @@ LennardJonesCutShift::LennardJonesCutShift(std::istream& istr)
   shift_ = EnergyAtCutOff(istr);
 }
 
-void LennardJonesCutShift::precompute(const Configuration& config) {
+void LennardJonesCutShift::precompute(Configuration * config) {
   LennardJonesAlpha::precompute(config);
-  const ModelParams& existing = config.model_params();
+  const ModelParams& existing = config->model_params();
   shift_.set_model(this); // note the model is used here for the computation
   shift_.set_param(existing);
   shift_.set_model(NULL); // remove model immediately

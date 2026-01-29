@@ -87,9 +87,9 @@ double ModelLJShape::en(const double epsilon,
   return epsilon * std::pow(sigma/(distance + delta_), alpha_);
 }
 
-void ModelLJShape::precompute(const Configuration& config) {
+void ModelLJShape::precompute(Configuration * config) {
   ModelOneBody::precompute(config);
-  const ModelParams& existing = config.model_params();
+  const ModelParams& existing = config->model_params();
   if (std::abs(wall_sigma_) > NEAR_ZERO && mixed_sigma_.size() == 0) {
     //mixed_sigma_ = Sigma();  // reset in case multiple precompute
     const ModelParam& fluid_sig = existing.select("sigma");

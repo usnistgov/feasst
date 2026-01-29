@@ -23,8 +23,8 @@ ModelTableSphere1D::ModelTableSphere1D(argtype args) : ModelTableSphere1D(&args)
 }
 ModelTableSphere1D::~ModelTableSphere1D() {}
 
-void ModelTableSphere1D::precompute(const Configuration& config) {
-  precompute_table1D(config, table_file_, &tables_);
+void ModelTableSphere1D::precompute(Configuration * config) {
+  precompute_table1D(*config, table_file_, &tables_);
 }
 
 double ModelTableSphere1D::energy(

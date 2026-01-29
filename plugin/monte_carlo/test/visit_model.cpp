@@ -15,7 +15,7 @@ namespace feasst {
 TEST(VisitModel, spce_reference_config) {
   Configuration config = spce_sample1();
   LennardJones model;
-  model.precompute(config);
+  model.precompute(&config);
   VisitModel visit;
   visit.precompute(&config);
   visit.compute(&model, &config);

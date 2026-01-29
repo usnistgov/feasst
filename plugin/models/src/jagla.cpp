@@ -20,9 +20,9 @@ Jagla::Jagla(argtype args) : Jagla(&args) {
   feasst_check_all_used(args);
 }
 
-void Jagla::precompute(const Configuration& config) {
+void Jagla::precompute(Configuration * config) {
   Model::precompute(config);
-  const ModelParams& existing = config.model_params();
+  const ModelParams& existing = config->model_params();
   lambda_index_ = existing.index("lambda");
   gamma_index_ = existing.index("gamma");
 }

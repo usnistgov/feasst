@@ -246,7 +246,7 @@ void Potential::precompute(Configuration * config) {
 
   visit_model_->precompute(config);
   //const ModelParams& params = model_params(*config);
-  model_->precompute(*config);
+  model_->precompute(config);
   does_cutoff_fit_domain(*config, true);
 
   if (table_size_ > 0) {
@@ -254,7 +254,7 @@ void Potential::precompute(Configuration * config) {
       << "body simulations");
     auto table = MakeModelTwoBodyTable({{"hard_sphere_threshold",
                                          str(table_hs_threshold_)}});
-    table->precompute(*config);
+    table->precompute(config);
     table->set(model_params(*config),
       table_size_,
       model_);

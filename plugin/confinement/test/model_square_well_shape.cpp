@@ -20,7 +20,7 @@ TEST(ModelSquareWellShape, half_space) {
     {"particle_type", "atom:../particle/atom_new.txt"},
     {"add_num_atom_particles", "1"}});
   const ModelParams model_params = config->model_params();
-  model.precompute(*config);
+  model.precompute(config.get());
   EXPECT_LT(1e100, model.energy_no_wrap(config->particle(0).site(0), *config, model_params));
   Position pos;
   pos.set_vector({-24.23, 35.45, 1.5000001});

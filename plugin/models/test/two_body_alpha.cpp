@@ -11,7 +11,7 @@ TEST(TwoBodyAlpha, serialize) {
     {"epsilonLJ", "3.7"}});
   auto model = MakeTwoBodyAlpha({
     {"alpha", "12,6"}, {"s", "1,-1"}});
-  model->precompute(*config);
+  model->precompute(config.get());
   EXPECT_NEAR(39.727706462144852,
     model->energy(2.*2., 0, 0, config->model_params()),
     NEAR_ZERO);
