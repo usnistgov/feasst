@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>math/include/utils_math &mdash; FEASST 0.25.16 0.25.16 documentation</title>
+  <title>math/include/utils_math &mdash; FEASST 0.25.17 0.25.17 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=1a68713b"></script>
+      <script src="../../../_static/documentation_options.js?v=be10f522"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -26,7 +26,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="math/include/constants" href="constants.html" />
+    <link rel="next" title="RecursiveTable1D" href="RecursiveTable1D.html" />
     <link rel="prev" title="Table" href="Table.html" />
 
 	<!-- frame blocking -->
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.16
+            FEASST 0.25.17
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -63,6 +63,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="LinearSpline1D.html">LinearSpline1D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Minimize.html">Minimize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Random.html">Random</a></li>
@@ -73,6 +74,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv46feasst"><code class="docutils literal notranslate"><span class="pre">feasst</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="RecursiveTable1D.html">RecursiveTable1D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="quadratic_equation.html">math/include/quadratic_equation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
@@ -95,6 +97,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../actions/README.html">Actions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
@@ -134,7 +137,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.16</a>
+          <a href="../../../index.html">FEASST 0.25.17</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -228,6 +231,12 @@
 <dt class="sig sig-object cpp" id="_CPPv4I0EN6feasst6feasst7productE1TRKNSt6vectorI1TEE">
 <span class="target" id="namespacefeasst_1a7ba948aff3444a9c5082b7038b3d2a97"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7productE1TRKNSt6vectorI1TEE" title="feasst::feasst::product::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">product</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7productE1TRKNSt6vectorI1TEE" title="feasst::feasst::product::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vec</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst7productE1TRKNSt6vectorI1TEE" title="Link to this definition"></a><br /></dt>
 <dd><p>Return product of all elements of a vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6feasst6feasst7minimumE1TRK1TRK1T">
+<span class="target" id="namespacefeasst_1a54b090e9345036a4e32e08017bf692d1"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7minimumE1TRK1TRK1T" title="feasst::feasst::minimum::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">minimum</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7minimumE1TRK1TRK1T" title="feasst::feasst::minimum::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">val1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7minimumE1TRK1TRK1T" title="feasst::feasst::minimum::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">val2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst7minimumE1TRK1TRK1T" title="Link to this definition"></a><br /></dt>
+<dd><p>Return the minimum element. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -434,6 +443,18 @@
 <dd><p>Return true if u1 and u2 are the same within decimal_places. </p>
 </dd></dl>
 
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6feasst6feasst6medianEDaRK1C">
+<span class="target" id="namespacefeasst_1aa453eaefbc221590fdc0c1af61e2c701"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">C</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="kt"><span class="pre">auto</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">median</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst6medianEDaRK1C" title="feasst::feasst::median::C"><span class="n"><span class="pre">C</span></span></a><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">c</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst6medianEDaRK1C" title="Link to this definition"></a><br /></dt>
+<dd><p>Find the median from <a class="reference external" href="https://stackoverflow.com/a/35325265/31990915">https://stackoverflow.com/a/35325265/31990915</a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst5rangeEKdKdKi">
+<span class="target" id="namespacefeasst_1a7d5236207b222bd453d0066f772b6a56"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">range</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">lower</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">upper</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst5rangeEKdKdKi" title="Link to this definition"></a><br /></dt>
+<dd><p>Return a vector of num equally-spaced values from lower to upper. </p>
+</dd></dl>
+
 </div>
 </dd></dl>
 
@@ -444,7 +465,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Table.html" class="btn btn-neutral float-left" title="Table" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="constants.html" class="btn btn-neutral float-right" title="math/include/constants" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="RecursiveTable1D.html" class="btn btn-neutral float-right" title="RecursiveTable1D" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

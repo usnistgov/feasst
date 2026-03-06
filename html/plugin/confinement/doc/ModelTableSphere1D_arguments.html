@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ModelTableSphere1D &mdash; FEASST 0.25.16 0.25.16 documentation</title>
+  <title>ModelTableSphere1D &mdash; FEASST 0.25.17 0.25.17 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=1a68713b"></script>
+      <script src="../../../_static/documentation_options.js?v=be10f522"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -49,7 +49,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.16
+            FEASST 0.25.17
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -73,7 +73,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.16</a>
+          <a href="../../../index.html">FEASST 0.25.17</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -144,7 +144,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst18ModelTableSphere1DE">
 <span class="target" id="classfeasst_1_1ModelTableSphere1D"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelTableSphere1D</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody"><span class="n"><span class="pre">ModelOneBody</span></span></a><br /></dt>
 <dd><p>A tabular potential for interactions in one spherical dimension. The table file is formatted as follows:</p>
-<p>As described in <a class="reference internal" href="ModelTableCart1D_arguments.html#classfeasst_1_1ModelTableCart1D"><span class="std std-ref">ModelTableCart1D</span></a>, the first line should be “site_types=” followed by a comma-separated list of the labels of each site type. The remaining lines are the individual tables for each of the site types. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> example, “site_types=O,H” will then contain a line for the table of “O” sites, then another line for the table of “H” sites. Each table is given in a single line by a number of space-separated values that represent the interaction energy spanning the range of the nearest distance, r, from the inner surface of the sphere, scaled by the radius, R, with the range z = r/R = [0, 1] and linearly-spaced. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> example, if the line contains 5 values, then z=r/R=[0, 0.25, 0.5, 0.75, 1] and the potential will be interpolated with <a class="reference internal" href="../../math/doc/Table.html#classfeasst_1_1Table1D_1af2cfa0e8c192b8c82897935170ceafbc"><span class="std std-ref">Table1D::forward_difference_interpolation</span></a>. Note that r is not the radial distance. Instead, r=0 at the radius (e.g., the inner surface of the sphere), and r=radius at the center. </p>
+<p>As described in <a class="reference internal" href="ModelTableCart1D_arguments.html#classfeasst_1_1ModelTableCart1D"><span class="std std-ref">ModelTableCart1D</span></a>, the first line should be “site_types=” followed by a comma-separated list of the labels of each site type. The remaining lines are the individual tables for each of the site types. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> example, “site_types=O,H” will then contain a line for the table of “O” sites, then another line for the table of “H” sites. Each table is given in a single line by a number of space-separated values that represent the interaction energy spanning the range of the nearest distance, r, from the inner surface of the sphere, scaled by the radius, R, with the range z = r/R = [0, 1] and linearly-spaced. <a class="reference internal" href="../../utils/doc/For_arguments.html#classfeasst_1_1For"><span class="std std-ref">For</span></a> example, if the line contains 5 values, then z=r/R=[0, 0.25, 0.5, 0.75, 1] and the potential will be interpolated with <a class="reference internal" href="../../math/doc/Table.html#classfeasst_1_1Table1D_1a4dd8796563c1d4c860cdfbf0dfed3b9c"><span class="std std-ref">Table1D::forward_difference_interpolation</span></a>. Note that r is not the radial distance. Instead, r=0 at the radius (e.g., the inner surface of the sphere), and r=radius at the center. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
 <p><ul class="simple">

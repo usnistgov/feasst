@@ -56,6 +56,7 @@ The plugins and classes listed below represent all the publicly available capabi
    monte_carlo/README
    models/README
    steppers/README
+   actions/README
    flat_histogram/README
    patch/README
    mayer/README
