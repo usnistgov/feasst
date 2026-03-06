@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example Table with multiple site types &mdash; FEASST 0.25.16 0.25.16 documentation</title>
+  <title>Example Table with multiple site types &mdash; FEASST 0.25.17 0.25.17 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=1a68713b"></script>
+      <script src="../../../_static/documentation_options.js?v=be10f522"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.16
+            FEASST 0.25.17
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -149,7 +149,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.16</a>
+          <a href="../../../index.html">FEASST 0.25.17</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -307,7 +307,7 @@
     <span class="k">assert</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_z&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span>
     <span class="n">dz</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_z&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;table_file&#39;</span><span class="p">],</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
-        <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;site_types 2 A R&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;site_types=A,R&quot;&quot;&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">site1</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
             <span class="k">for</span> <span class="n">site2</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="n">site1</span> <span class="o">&lt;=</span> <span class="n">site2</span><span class="p">:</span>
@@ -317,7 +317,7 @@
                         <span class="n">cutoff</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;rwca&#39;</span><span class="p">]</span>
                     <span class="n">rcg</span> <span class="o">=</span> <span class="n">cutoff</span><span class="o">**</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
                     <span class="n">rhg</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;inner&#39;</span><span class="p">]</span><span class="o">**</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
-                    <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">inner </span><span class="si">{inner}</span><span class="se">\n</span><span class="s2">num_z </span><span class="si">{num_z}</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
+                    <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">inner=</span><span class="si">{inner}</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
                     <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">dz</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">dz</span><span class="p">):</span>
                         <span class="k">if</span> <span class="n">z</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                             <span class="n">distance</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;inner&#39;</span><span class="p">]</span>

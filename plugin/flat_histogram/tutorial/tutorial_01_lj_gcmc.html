@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST 0.25.16 0.25.16 documentation</title>
+  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST 0.25.17 0.25.17 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=1a68713b"></script>
+      <script src="../../../_static/documentation_options.js?v=be10f522"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -54,7 +54,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.16
+            FEASST 0.25.17
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -152,7 +152,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.16</a>
+          <a href="../../../index.html">FEASST 0.25.17</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -223,7 +223,7 @@
 <h1>Grand canonical ensemble transition-matrix Monte Carlo<a class="headerlink" href="#Grand-canonical-ensemble-transition-matrix-Monte-Carlo" title="Link to this heading"></a></h1>
 <p>In this example, <a class="reference internal" href="../doc/FlatHistogram_arguments.html"><span class="doc">FlatHistogram</span></a> methods are employed for a small <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostate</span></a> range from 0 to 5 particles. To begin, the system is initialized with the minimum number of particles by setting <a class="reference internal" href="../../monte_carlo/doc/Metropolis_arguments.html"><span class="doc">Metropolis</span></a> acceptance <a class="reference internal" href="../../monte_carlo/doc/Criteria_arguments.html"><span class="doc">Criteria</span></a> with favorable conditions for adding particles. The
 <a class="reference internal" href="../../monte_carlo/doc/Metropolis_arguments.html"><span class="doc">Metropolis</span></a> criteria are then replaced with <a class="reference internal" href="../doc/FlatHistogram_arguments.html"><span class="doc">FlatHistogram</span></a>. Typical analysis from the previous tutorials are added, and we add <a class="reference internal" href="../../utils/doc/Checkpoint_arguments.html"><span class="doc">Checkpoint</span></a> files, <a class="reference internal" href="../../steppers/doc/CriteriaUpdater_arguments.html"><span class="doc">CriteriaUpdater</span></a>, <a class="reference internal" href="../../steppers/doc/CriteriaWriter_arguments.html"><span class="doc">CriteriaWriter</span></a>, and average
-<a class="reference internal" href="../../steppers/doc/Energy_arguments.html"><span class="doc">Energy</span></a> of a given <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostate</span></a>. Finally, the simulation is run until the requested convergence criteria for the <a class="reference internal" href="../doc/FlatHistogram_arguments.html"><span class="doc">FlatHistogram</span></a> algorithm are <a class="reference internal" href="../../monte_carlo/doc/Run_arguments.html"><span class="doc">complete</span></a>.</p>
+<a class="reference internal" href="../../steppers/doc/Energy_arguments.html"><span class="doc">Energy</span></a> of a given <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostate</span></a>. Finally, the simulation is run until the requested convergence criteria for the <a class="reference internal" href="../doc/FlatHistogram_arguments.html"><span class="doc">FlatHistogram</span></a> algorithm are <a class="reference internal" href="../../actions/doc/Run_arguments.html"><span class="doc">complete</span></a>.</p>
 <p>A small <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostate</span></a> range allows the simulation to run quickly with ample sampling, and thus it is an ideal starting point to test the simulations. To begin, read the previous <a class="reference external" href="https://www.nist.gov/programs-projects/nist-standard-reference-simulation-website">NIST SRSW</a> values <a class="reference external" href="https://mmlapps.nist.gov/srs/LJ_PURE/eostmmc.htm">for LJ</a> from file for comparison.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:

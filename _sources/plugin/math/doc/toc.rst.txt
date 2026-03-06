@@ -1,6 +1,7 @@
 
 .. toctree::
 
+   LinearSpline1D
    Matrix
    Minimize
    Random
@@ -8,6 +9,7 @@
    Euler
    Table
    utils_math
+   RecursiveTable1D
    constants
    quadratic_equation
    Formula

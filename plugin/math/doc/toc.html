@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; FEASST 0.25.16 0.25.16 documentation</title>
+  <title>&lt;no title&gt; &mdash; FEASST 0.25.17 0.25.17 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=1a68713b"></script>
+      <script src="../../../_static/documentation_options.js?v=be10f522"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -28,7 +28,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Matrix" href="Matrix.html" />
+    <link rel="next" title="LinearSpline1D" href="LinearSpline1D.html" />
     <link rel="prev" title="Math" href="../README.html" />
 
 	<!-- frame blocking -->
@@ -53,7 +53,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.16
+            FEASST 0.25.17
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -77,7 +77,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.16</a>
+          <a href="../../../index.html">FEASST 0.25.17</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -148,6 +148,24 @@
              
   <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="LinearSpline1D.html">LinearSpline1D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="LinearSpline1D.html#_CPPv4N6feasst14LinearSpline1DE"><code class="docutils literal notranslate"><span class="pre">LinearSpline1D</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="LinearSpline1D.html#_CPPv4N6feasst14LinearSpline1D14LinearSpline1DERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">LinearSpline1D()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LinearSpline1D.html#_CPPv4NK6feasst14LinearSpline1D11interpolateEKd"><code class="docutils literal notranslate"><span class="pre">interpolate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="LinearSpline1D.html#_CPPv4N6feasst14LinearSpline2DE"><code class="docutils literal notranslate"><span class="pre">LinearSpline2D</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="LinearSpline1D.html#_CPPv4N6feasst14LinearSpline2D14LinearSpline2DERK4vec2"><code class="docutils literal notranslate"><span class="pre">LinearSpline2D()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LinearSpline1D.html#_CPPv4NK6feasst14LinearSpline2D11interpolateEKdKd"><code class="docutils literal notranslate"><span class="pre">interpolate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="LinearSpline1D.html#_CPPv4N6feasst17QuadraticSpline1DE"><code class="docutils literal notranslate"><span class="pre">QuadraticSpline1D</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="LinearSpline1D.html#_CPPv4N6feasst17QuadraticSpline1D17QuadraticSpline1DERKNSt6vectorIdEEKd"><code class="docutils literal notranslate"><span class="pre">QuadraticSpline1D()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LinearSpline1D.html#_CPPv4NK6feasst17QuadraticSpline1D11interpolateEKd"><code class="docutils literal notranslate"><span class="pre">interpolate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Matrix.html">Matrix</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Matrix.html#_CPPv4N6feasst6MatrixE"><code class="docutils literal notranslate"><span class="pre">Matrix</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="Matrix.html#_CPPv4N6feasst6Matrix8set_sizeEKiKi"><code class="docutils literal notranslate"><span class="pre">set_size()</span></code></a></li>
@@ -257,17 +275,20 @@
 <li class="toctree-l2"><a class="reference internal" href="Table.html#_CPPv4N6feasst5TableE"><code class="docutils literal notranslate"><span class="pre">Table</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst5Table7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst5Table7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4N6feasst5Table11bin_spacingEKi"><code class="docutils literal notranslate"><span class="pre">bin_spacing()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4N6feasst5Table16calc_bin_spacingEKi"><code class="docutils literal notranslate"><span class="pre">calc_bin_spacing()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst5Table5writeEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Table.html#_CPPv4N6feasst7Table1DE"><code class="docutils literal notranslate"><span class="pre">Table1D</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4N6feasst7Table1D7Table1DE7argtype"><code class="docutils literal notranslate"><span class="pre">Table1D()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table1D3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table1D11bin_spacingEv"><code class="docutils literal notranslate"><span class="pre">bin_spacing()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table1D12bin_to_valueEKi"><code class="docutils literal notranslate"><span class="pre">bin_to_value()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table1D20value_to_nearest_binEKd"><code class="docutils literal notranslate"><span class="pre">value_to_nearest_bin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table1D19value_to_lowest_binEKd"><code class="docutils literal notranslate"><span class="pre">value_to_lowest_bin()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4N6feasst7Table1D8set_dataEKiKd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table1D4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table1D4dataEKi"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4N6feasst7Table1D3addERK7Table1D"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table1D20linear_interpolationEKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table1D32forward_difference_interpolationEKd"><code class="docutils literal notranslate"><span class="pre">forward_difference_interpolation()</span></code></a></li>
@@ -280,6 +301,7 @@
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table2D4num0Ev"><code class="docutils literal notranslate"><span class="pre">num0()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table2D4num1Ev"><code class="docutils literal notranslate"><span class="pre">num1()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table2D3numEKi"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table2D11bin_spacingEKi"><code class="docutils literal notranslate"><span class="pre">bin_spacing()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table2D12bin_to_valueEKiKi"><code class="docutils literal notranslate"><span class="pre">bin_to_value()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table2D20value_to_nearest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_nearest_bin()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4N6feasst7Table2D8set_dataEKiKiKd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
@@ -296,6 +318,7 @@
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table3D4num1Ev"><code class="docutils literal notranslate"><span class="pre">num1()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table3D4num2Ev"><code class="docutils literal notranslate"><span class="pre">num2()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table3D3numEKi"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table3D11bin_spacingEKi"><code class="docutils literal notranslate"><span class="pre">bin_spacing()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table3D12bin_to_valueEKiKi"><code class="docutils literal notranslate"><span class="pre">bin_to_value()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table3D20value_to_nearest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_nearest_bin()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4N6feasst7Table3D8set_dataEKiKiKiKd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
@@ -315,6 +338,7 @@
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table4D4num2Ev"><code class="docutils literal notranslate"><span class="pre">num2()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table4D4num3Ev"><code class="docutils literal notranslate"><span class="pre">num3()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table4D3numEKi"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table4D11bin_spacingEKi"><code class="docutils literal notranslate"><span class="pre">bin_spacing()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table4D12bin_to_valueEKiKi"><code class="docutils literal notranslate"><span class="pre">bin_to_value()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table4D20value_to_nearest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_nearest_bin()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4N6feasst7Table4D8set_dataEKiKiKiKiKd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
@@ -335,6 +359,7 @@
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table5D4num3Ev"><code class="docutils literal notranslate"><span class="pre">num3()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table5D4num4Ev"><code class="docutils literal notranslate"><span class="pre">num4()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table5D3numEKi"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table5D11bin_spacingEKi"><code class="docutils literal notranslate"><span class="pre">bin_spacing()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table5D12bin_to_valueEKiKi"><code class="docutils literal notranslate"><span class="pre">bin_to_value()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table5D20value_to_nearest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_nearest_bin()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4N6feasst7Table5D8set_dataEKiKiKiKiKiKd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
@@ -356,6 +381,7 @@
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table6D4num4Ev"><code class="docutils literal notranslate"><span class="pre">num4()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table6D4num5Ev"><code class="docutils literal notranslate"><span class="pre">num5()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table6D3numEKi"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table6D11bin_spacingEKi"><code class="docutils literal notranslate"><span class="pre">bin_spacing()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table6D12bin_to_valueEKiKi"><code class="docutils literal notranslate"><span class="pre">bin_to_value()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4NK6feasst7Table6D20value_to_nearest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_nearest_bin()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Table.html#_CPPv4N6feasst7Table6D8set_dataEKiKiKiKiKiKiKd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
@@ -375,6 +401,7 @@
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html#_CPPv4N6feasst6feasst5roundEd"><code class="docutils literal notranslate"><span class="pre">feasst::round()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html#_CPPv4I0EN6feasst6feasst7averageEdRKNSt6vectorI1TEE"><code class="docutils literal notranslate"><span class="pre">feasst::average()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html#_CPPv4I0EN6feasst6feasst7productE1TRKNSt6vectorI1TEE"><code class="docutils literal notranslate"><span class="pre">feasst::product()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils_math.html#_CPPv4I0EN6feasst6feasst7minimumE1TRK1TRK1T"><code class="docutils literal notranslate"><span class="pre">feasst::minimum()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html#_CPPv4I0EN6feasst6feasst7minimumE1TRKNSt6vectorI1TEE"><code class="docutils literal notranslate"><span class="pre">feasst::minimum()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html#_CPPv4I0EN6feasst6feasst7minimumE1TRKNSt6vectorINSt6vectorI1TEEEE"><code class="docutils literal notranslate"><span class="pre">feasst::minimum()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html#_CPPv4I0EN6feasst6feasst7minimumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE"><code class="docutils literal notranslate"><span class="pre">feasst::minimum()</span></code></a></li>
@@ -409,6 +436,28 @@
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html#_CPPv4I0EN6feasst6feasst13has_bad_valueEbRK1T"><code class="docutils literal notranslate"><span class="pre">feasst::has_bad_value()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html#_CPPv4I0EN6feasst6feasst13has_bad_valueEiRKNSt6vectorI1TEE"><code class="docutils literal notranslate"><span class="pre">feasst::has_bad_value()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html#_CPPv4N6feasst6feasst30is_equal_within_decimal_placesEKdKdKi"><code class="docutils literal notranslate"><span class="pre">feasst::is_equal_within_decimal_places()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils_math.html#_CPPv4I0EN6feasst6feasst6medianEDaRK1C"><code class="docutils literal notranslate"><span class="pre">feasst::median()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils_math.html#_CPPv4N6feasst6feasst5rangeEKdKdKi"><code class="docutils literal notranslate"><span class="pre">feasst::range()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="RecursiveTable1D.html">RecursiveTable1D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable1DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable1D</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable1D16RecursiveTable1DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable1D()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable1D6insertEKiRK16RecursiveTable1D"><code class="docutils literal notranslate"><span class="pre">insert()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable1D20linear_interpolationEKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable1D32forward_difference_interpolationEKd"><code class="docutils literal notranslate"><span class="pre">forward_difference_interpolation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable5DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable5D</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable5D16RecursiveTable5DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable5D()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable5D20linear_interpolationEKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable6DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable6D</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable6D16RecursiveTable6DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable6D()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable6D20linear_interpolationEKdKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -416,6 +465,7 @@
 <li class="toctree-l1"><a class="reference internal" href="constants.html">math/include/constants</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="constants.html#_CPPv46feasst"><code class="docutils literal notranslate"><span class="pre">feasst</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="constants.html#_CPPv4N6feasst13NEAR_INFINITYE"><code class="docutils literal notranslate"><span class="pre">feasst::NEAR_INFINITY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="constants.html#_CPPv4N6feasst19NEAR_INFINITY_FLOATE"><code class="docutils literal notranslate"><span class="pre">feasst::NEAR_INFINITY_FLOAT</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="constants.html#_CPPv4N6feasst9NEAR_ZEROE"><code class="docutils literal notranslate"><span class="pre">feasst::NEAR_ZERO</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="constants.html#_CPPv4N6feasst2PIE"><code class="docutils literal notranslate"><span class="pre">feasst::PI</span></code></a></li>
 </ul>
@@ -610,7 +660,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../README.html" class="btn btn-neutral float-left" title="Math" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Matrix.html" class="btn btn-neutral float-right" title="Matrix" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="LinearSpline1D.html" class="btn btn-neutral float-right" title="LinearSpline1D" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

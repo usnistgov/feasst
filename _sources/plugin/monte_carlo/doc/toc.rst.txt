@@ -26,15 +26,9 @@
    TrialSelectBond
    TrialComputeVolume
    Action
-   OptPotential
-   Run
-   RefPotential
-   RemoveTrial
-   WriteModelParams
    ConvertToRefPotential
    PerturbAddRemove
    TrialSelectParticle
-   RemoveModify
    TrialSelectAngle
    TrialSelectDihedral
    Acceptance
@@ -45,13 +39,10 @@
    Constraint
    ConstrainNumParticles
    ConstrainVolumeByCutoff
-   Remove
    TrialMove
    TrialTranslate
    TrialRotate
    TrialAdd
-   RemoveAnalyze
-   WriteCheckpoint
    AnalyzeFactory
    PerturbVolume
    ModifyFactory

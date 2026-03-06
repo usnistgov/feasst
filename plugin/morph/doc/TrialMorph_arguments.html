@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrialMorph &mdash; FEASST 0.25.16 0.25.16 documentation</title>
+  <title>TrialMorph &mdash; FEASST 0.25.17 0.25.17 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=1a68713b"></script>
+      <script src="../../../_static/documentation_options.js?v=be10f522"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.16
+            FEASST 0.25.17
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -100,6 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../cluster/doc/TrialRemoveAVBDivalent_arguments.html">TrialRemoveAVBDivalent</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">TrialMorph</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst10TrialMorphE"><code class="docutils literal notranslate"><span class="pre">TrialMorph</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6feasst16TrialMorphOneWayE"><code class="docutils literal notranslate"><span class="pre">TrialMorphOneWay</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -129,7 +130,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.16</a>
+          <a href="../../../index.html">FEASST 0.25.17</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -200,7 +201,7 @@
 <h1>TrialMorph<a class="headerlink" href="#trialmorph" title="Link to this heading"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst10TrialMorphE">
-<span class="target" id="classfeasst_1_1TrialMorph"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialMorph</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><span class="n"><span class="pre">Trial</span></span></a><br /></dt>
+<span class="target" id="classfeasst_1_1TrialMorph"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialMorph</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst17TrialFactoryNamedE" title="feasst::TrialFactoryNamed"><span class="n"><span class="pre">TrialFactoryNamed</span></span></a><br /></dt>
 <dd><p>Morph random particle(s) of given type into a different particle type(s). Typically requires the use of a reference index if multiple particles are to be morphed simultaneously. See <a class="reference internal" href="ComputeMorph_arguments.html#classfeasst_1_1ComputeMorph"><span class="std std-ref">ComputeMorph</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-arguments">Arguments</p>
@@ -213,6 +214,11 @@
 </p>
 </div>
 </dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6feasst16TrialMorphOneWayE">
+<span class="target" id="classfeasst_1_1TrialMorphOneWay"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrialMorphOneWay</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../charge/doc/utils.html#_CPPv46feasst" title="feasst"><span class="n"><span class="pre">feasst</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../monte_carlo/doc/Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial"><span class="n"><span class="pre">Trial</span></span></a><br /></dt>
+<dd></dd></dl>
 
 </section>
 
