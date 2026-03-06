@@ -1,5 +1,5 @@
 #include "utils/test/utils.h"
-#include "monte_carlo/include/opt_potential.h"
+#include "actions/include/opt_potential.h"
 
 namespace feasst {
 

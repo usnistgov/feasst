@@ -23,7 +23,7 @@
 #include "monte_carlo/include/trial_volume.h"
 #include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/trial_translate.h"
-#include "monte_carlo/include/run.h"
+#include "actions/include/run.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/tune.h"

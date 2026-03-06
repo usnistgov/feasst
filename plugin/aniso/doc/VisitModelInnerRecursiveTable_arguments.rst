@@ -1,7 +1,7 @@
-RecursiveTablePotential
+VisitModelInnerRecursiveTable
 =====================================================
 
-.. doxygenclass:: feasst::RecursiveTablePotential
+.. doxygenclass:: feasst::VisitModelInnerRecursiveTable
    :project: FEASST
    :members:
    :membergroups: Arguments

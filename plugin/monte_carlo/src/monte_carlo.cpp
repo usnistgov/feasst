@@ -490,6 +490,12 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
     }
   }
 
+  // Error check TrialParticlePivot with MayerSampling
+  if (trial->class_name() == "TrialParticlePivot") {
+    if (criteria_->class_name() == "MayerSampling") {
+      FATAL("Use TrialRotate with MayerSampling, because whole particle moves are expected by new_only.");
+    }
+  }
 //  // Need to implement some way to handle profiles when config is only in the first select
 //  if (trial->num_stages() > 1) {
 //    ASSERT(system_->num_configurations() == 1,

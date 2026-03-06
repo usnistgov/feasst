@@ -38,6 +38,15 @@ T product(const std::vector<T> &vec) {
   return prod;
 }
 
+/// Return the minimum element.
+template<class T>
+T minimum(const T& val1, const T& val2) {
+  if (val1 < val2) {
+    return val1;
+  }
+  return val2;
+}
+
 /// Return the minimum element of a vector.
 template<class T>
 T minimum(const std::vector<T> &vec) {

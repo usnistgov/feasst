@@ -1,6 +1,6 @@
 #include "utils/test/utils.h"
-#include "monte_carlo/include/remove.h"
 #include "monte_carlo/include/monte_carlo.h"
+#include "actions/include/remove.h"
 
 namespace feasst {
 

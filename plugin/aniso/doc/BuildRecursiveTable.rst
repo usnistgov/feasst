@@ -1,7 +1,7 @@
-RecursiveTablePotential
+BuildRecursiveTable
 =====================================================
 
-.. doxygenclass:: feasst::RecursiveTablePotential
+.. doxygenclass:: feasst::BuildRecursiveTable
    :project: FEASST
    :members:
    

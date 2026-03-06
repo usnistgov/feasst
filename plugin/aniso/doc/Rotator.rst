@@ -1,10 +1,5 @@
-ContactObjective
+Rotator
 =====================================================
-
-.. doxygenclass:: feasst::ContactObjective
-   :project: FEASST
-   :members:
-   
 
 .. doxygenclass:: feasst::Rotator
    :project: FEASST

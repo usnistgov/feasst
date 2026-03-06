@@ -82,11 +82,12 @@ class SlabCorrection : public VisitModel {
   //@}
  private:
   double dimension_;
-  double dipole_;
 
   // synchronization data
   double stored_energy() const { return data_.dble_1D()[0]; }
   double * stored_energy_() { return &((*data_.get_dble_1D())[0]); }
+  double dipole() const { return data_.dble_1D()[1]; }
+  double * dipole_() { return &((*data_.get_dble_1D())[1]); }
 
   // temporary
   double dipole_new_;

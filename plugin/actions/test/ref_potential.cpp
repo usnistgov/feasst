@@ -1,5 +1,5 @@
 #include "utils/test/utils.h"
-#include "monte_carlo/include/ref_potential.h"
+#include "actions/include/ref_potential.h"
 
 namespace feasst {
 

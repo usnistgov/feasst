@@ -9,9 +9,9 @@
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/trial_translate.h"
-#include "monte_carlo/include/run.h"
-#include "monte_carlo/include/remove.h"
 #include "monte_carlo/include/metropolis.h"
+#include "actions/include/run.h"
+#include "actions/include/remove.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
 //#include "system/include/energy_map_all.h"
 

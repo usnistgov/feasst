@@ -13,7 +13,7 @@
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/metropolis.h"
-#include "monte_carlo/include/run.h"
+#include "actions/include/run.h"
 #include "steppers/include/log.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/check_energy.h"

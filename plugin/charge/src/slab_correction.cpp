@@ -19,7 +19,7 @@ FEASST_MAPPER(SlabCorrection, argtype({{"dimension", "0"}}));
 SlabCorrection::SlabCorrection(argtype * args) {
   class_name_ = "SlabCorrection";
   dimension_ = integer("dimension", args);
-  data_.get_dble_1D()->resize(1);
+  data_.get_dble_1D()->resize(2);
 }
 SlabCorrection::SlabCorrection(argtype args) : SlabCorrection(&args) {
   feasst_check_all_used(args);
@@ -143,13 +143,13 @@ void SlabCorrection::compute(ModelOneBody * model,
   DEBUG("state " << state);
   DEBUG("sel_dipole " << sel_dipole);
   if (state == 0) {
-    dipole_new_ = dipole_ - sel_dipole;
+    dipole_new_ = dipole() - sel_dipole;
   } else if (state == 1) {
     dipole_new_ += sel_dipole;
   } else if (state == 2) {
-    dipole_new_ = dipole_ - sel_dipole;
+    dipole_new_ = dipole() - sel_dipole;
   } else if (state == 3) {
-    dipole_new_ = dipole_ + sel_dipole;
+    dipole_new_ = dipole() + sel_dipole;
   } else {
     FATAL("unrecognized state: " << state);
   }
@@ -181,7 +181,7 @@ void SlabCorrection::compute(ModelOneBody * model,
 
 void SlabCorrection::finalize(const Select& select, Configuration * config) {
   VisitModel::finalize(select, config);
-  dipole_ = dipole_new_;
+  *dipole_() = dipole_new_;
   *stored_energy_() = stored_energy_new_;
   finalizable_ = false;
 }

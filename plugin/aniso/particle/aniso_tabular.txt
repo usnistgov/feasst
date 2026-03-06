@@ -2,7 +2,7 @@
 
 Site Properties
 
-0 sigma 1.0 epsilon 1.0 cutoff 3.0 anisotropic 1
+0 sigma=1.0 epsilon=1.0 cutoff=3.0 anisotropic=1
 
 Sites
 

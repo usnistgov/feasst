@@ -13,8 +13,8 @@
 #include "configuration/include/domain.h"
 #include "configuration/include/model_params.h"
 #include "configuration/include/configuration.h"
-#include "monte_carlo/include/run.h"
 #include "monte_carlo/include/monte_carlo.h"
+#include "actions/include/run.h"
 #include "aniso/include/rotator.h"
 #include "aniso/include/tabulate_two_rigid_body_3D.h"
 
@@ -132,50 +132,7 @@ void TabulateTwoRigidBody3D::run(MonteCarlo * mc) {
   } else {
     DEBUG("Determining orientations.");
     if (input_orientation_file_.empty()) {
-      rotator_.gen_orientations(num_orientations_per_pi_, mc->configuration());
-      const double displacement = 40.;
-      DEBUG("num orientations: " << rotator_.num_orientations());
-      ASSERT(rotator_.num_proc_ == 1, "unique orientation search is not parallelized in the same way as the rest.");
-      DEBUG("Set last three");
-      //#pragma omp parallel for
-      for (int ior = 0; ior < rotator_.num_orientations(); ++ior) {
-        rotator_.update_xyz(ior, displacement, system);
-        rotator_.set_last_three_sites(ior, system);
-        //DEBUG("ior " << ior << " unique " << rotator_.unique_[ior]); // << " last three " << last_three[0].str() << " " << last_three[1].str() << " " << last_three[2].str());
-        rotator_.revert(system);
-      }
-      rotator_.check_last_three_sites(0, system);
-      DEBUG("Determining unique orientations.");
-//      //#pragma omp parallel for
-      for (int ior = 0; ior < rotator_.num_orientations(); ++ior) {
-        rotator_.unique_[ior] = -2;
-      }
-      std::vector<int> iors;
-      #pragma omp parallel shared(iors)
-      {
-        auto thread = MakeThreadOMP();
-        const int num_threads = thread->num();
-        const int proc = thread->thread();
-        std::unique_ptr<ProgressReport> report;
-        if (proc == 0) {
-          iors.resize(num_threads);
-          report = std::make_unique<ProgressReport>(argtype({
-            {"num", str(int(rotator_.num_orientations()/num_threads))},
-            {"task", "determine unique orientations"}}));
-        }
-        #pragma omp barrier
-        for (int ior = proc; ior < rotator_.num_orientations(); ior += num_threads) {
-          rotator_.determine_if_unique(ior, iors, num_threads, system);
-          iors[proc] = ior;
-          if (proc == 0) {
-            report->check();
-          }
-        }
-      }
-      //#pragma omp parallel for schedule(static,1)
-      //for (int ior = 0; ior < rotator_.num_orientations(); ++ior) {
-      //  rotator_.determine_if_unique(ior, system);
-      //}
+      rotator_.gen_unique_orientations(num_orientations_per_pi_, system);
       if (!output_orientation_file_.empty()) {
         ouput_orientations_();
         DEBUG("num orientations: " << rotator_.num_orientations());
@@ -199,8 +156,6 @@ void TabulateTwoRigidBody3D::run(MonteCarlo * mc) {
       {"task", "obtain contact distances."}}));
     for (int ior = ior_first; ior < ior_less_than; ++ior) {
       rotator_.contact_distance(ior, system);
-      //const double dist = rotator_.contact_distance(ior, system);
-      //DEBUG("ior " << ior << " dist " << MAX_PRECISION << dist);
       report->check();
     }
   }
@@ -231,12 +186,6 @@ void TabulateTwoRigidBody3D::run(MonteCarlo * mc) {
           }
           rotator_.energy_[ior][iz] = en;
         }
-        //const double dist = rotator_.contact_distance(ior, system);
-        //DEBUG("ior " << ior);
-//      } else {
-//        for (int iz = 0; iz < num_z_; ++iz) {
-//          rotator_.energy_[ior][iz] = rotator_.energy_[unique_ior][iz];
-//        }
       }
       report->check();
     }

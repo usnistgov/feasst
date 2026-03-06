@@ -17,7 +17,7 @@
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/run.h"
+#include "actions/include/run.h"
 #include "mayer/include/mayer_sampling.h"
 #include "charge/include/coulomb.h"
 #include "charge/include/utils.h"

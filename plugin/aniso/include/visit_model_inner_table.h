@@ -140,6 +140,9 @@ class VisitModelInnerTable : public VisitModelInner {
   virtual double compute_aniso(const int type1, const int type2,
     const double squared_distance, const double s1, const double s2,
     const double e1, const double e2, const double e3, const Configuration& config) const;
+  virtual double compute_aniso(const int type1, const int type2,
+    const double squared_distance, const double s1, const double s2,
+    const Configuration& config) const;
   void compute(
     const int part1_index,
     const int site1_index,
@@ -155,8 +158,11 @@ class VisitModelInnerTable : public VisitModelInner {
   void compute_scaled_coords(const int part1_index, const int part2_index,
     const Site& site1, const Site& site2, const Configuration * config,
     int * type1, int * type2, Position * relative, double * s1,
+    double * s2);
+  void compute_scaled_coords(const int part1_index, const int part2_index,
+    const Site& site1, const Site& site2, const Configuration * config,
+    int * type1, int * type2, Position * relative, double * s1,
     double * s2, double * e1, double * e2, double * e3);
-
   std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
     return std::make_shared<VisitModelInnerTable>(istr); }
   std::shared_ptr<VisitModelInner> create(argtype * args) const override {
@@ -169,13 +175,13 @@ class VisitModelInnerTable : public VisitModelInner {
 
  protected:
   void serialize_visit_model_inner_table_(std::ostream& ostr) const;
+  std::vector<int> t2index_;
+  bool ignore_energy_;
 
  private:
   int aniso_index_ = -1;
   std::string table_file_;
-  bool ignore_energy_;
   std::vector<int> site_types_;
-  std::vector<int> t2index_;
   std::vector<std::vector<double> > gamma_;
   std::vector<std::vector<double> > delta_;
   std::vector<std::vector<double> > smoothing_distance_;

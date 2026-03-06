@@ -5,7 +5,7 @@
 #include "math/include/utils_math.h"
 #include "system/include/potential.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/opt_potential.h"
+#include "actions/include/opt_potential.h"
 
 namespace feasst {
 

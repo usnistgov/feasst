@@ -10,7 +10,6 @@
 #include "system/include/visit_model.h"
 #include "system/include/visit_model_inner.h"
 #include "system/include/energy_map.h"
-#include "cluster/include/energy_map_neighbor.h" // HWH remove this
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/check_energy.h"

@@ -13,7 +13,7 @@
 #include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_translate.h"
-#include "monte_carlo/include/run.h"
+#include "actions/include/run.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/check_physicality.h"
 #include "steppers/include/cpu_time.h"

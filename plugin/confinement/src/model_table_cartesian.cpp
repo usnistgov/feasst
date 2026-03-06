@@ -10,6 +10,7 @@
 #include "math/include/golden_search.h"
 #include "math/include/formula.h"
 #include "math/include/random_mt19937.h"
+#include "math/include/utils_math.h"
 #include "shape/include/shape.h"
 #include "shape/include/shape_file.h"
 #include "configuration/include/select.h"
@@ -279,8 +280,8 @@ void ModelTableCart2DIntegr::compute_table(
       point.set_coord(1,
         table->bin_to_value(1, bin1)*domain->side_length(1)/2.);
       if (shape->is_inside(point)) {
-        table->set_data(bin0, bin1,
-          -1*shape->integrate(point, random, integration_args));
+        const double en = -1*shape->integrate(point, random, integration_args);
+        table->set_data(bin0, bin1, minimum(en, std::numeric_limits<float>::max()/1e10));
       }
       report->check();
     }
@@ -317,8 +318,8 @@ void ModelTableCart2DIntegr::compute_table_omp(
         point.set_coord(1,
           table->bin_to_value(1, bin1)*domain_t.side_length(1)/2.);
         if (shape_t->is_inside(point)) {
-          table->set_data(bin0, bin1,
-            shape_t->integrate(point, random_t.get(), integration_args));
+          const double en = shape_t->integrate(point, random_t.get(), integration_args);
+          table->set_data(bin0, bin1, minimum(en, std::numeric_limits<float>::max()/1e10));
         }
         report->check();
       }
@@ -468,9 +469,12 @@ double ModelTableCart3DIntegr::energy(
   if (val1 < 0) val1 *= -1;
   double val2 = 2.*wrapped_site.coord(2)/sides[2];
   if (val2 < 0) val2 *= -1;
+  TRACE(val0 << " " << val1 << " " << val2);
   TRACE(tables_.size());
   TRACE(site.type());
-  return scale_*tables_[site.type()]->linear_interpolation(val0, val1, val2);
+  const double en = scale_*tables_[site.type()]->linear_interpolation(val0, val1, val2);
+  TRACE("en " << en);
+  return en;
 }
 
 const Table3D& ModelTableCart3DIntegr::table(const int site_type) const {
@@ -500,8 +504,9 @@ void ModelTableCart3DIntegr::compute_table(
         point.set_coord(2,
           table->bin_to_value(2, bin2)*domain.side_length(2)/2.);
         if (shape->is_inside(point)) {
-          table->set_data(bin0, bin1, bin2,
-            shape->integrate(point, random, integration_args_copy));
+          const double en = shape->integrate(point, random, integration_args_copy);
+          DEBUG("en:" << en);
+          table->set_data(bin0, bin1, bin2, minimum(en, std::numeric_limits<float>::max()/1e10));
         }
         report->check();
       }
@@ -551,8 +556,9 @@ void ModelTableCart3DIntegr::compute_table_omp(
         point.set_coord(2,
           table->bin_to_value(2, bin2)*domain_t.side_length(2)/2.);
         if (shape_t->is_inside(point)) {
-          table->set_data(bin0, bin1, bin2,
-            shape_t->integrate(point, random_t.get(), integration_args_copy));
+          const double en = shape_t->integrate(point, random_t.get(), integration_args_copy);
+          DEBUG("en: " << en);
+          table->set_data(bin0, bin1, bin2, minimum(en, std::numeric_limits<float>::max()/1e10));
         }
         report->check();
       }
@@ -610,8 +616,9 @@ void ModelTableCart3DIntegr::compute_table(
         system->energy(0);
         // HWH configuration_index_
         const double energy = system->perturbed_energy(*select, 0);
+        DEBUG("energy:" << energy);
         TRACE(system->configuration().select_particle(0).site(0).position().str() << " " << energy);
-        table->set_data(bin0, bin1, bin2, energy);
+        table->set_data(bin0, bin1, bin2, minimum(energy, std::numeric_limits<float>::max()/1e10));
         perturb.finalize(system);
         system->finalize(*select);
         report->check();
@@ -662,9 +669,11 @@ void ModelTableCart3DIntegr::compute_table_omp(
         // HWH configuration_index_
         system_t.energy(0);
         // HWH configuration_index_
-        const double energy = system_t.perturbed_energy(select_t, 0);
+        double energy = system_t.perturbed_energy(select_t, 0);
+        TRACE("energy:" << energy);
         TRACE(system_t.configuration().select_particle(0).site(0).position().str() << " " << energy);
-        table->set_data(bin0, bin1, bin2, energy);
+        table->set_data(bin0, bin1, bin2, minimum(energy, std::numeric_limits<float>::max()/1e10));
+        TRACE("dat:" << table->data()[bin0][bin1][bin2]);
         perturb.finalize(&system_t);
         system_t.finalize(select_t);
 

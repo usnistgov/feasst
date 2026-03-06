@@ -6,7 +6,7 @@
 #include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/trial_factory.h"
-#include "monte_carlo/include/remove_trial.h"
+#include "actions/include/remove_trial.h"
 
 namespace feasst {
 

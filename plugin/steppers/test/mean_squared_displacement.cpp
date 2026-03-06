@@ -10,11 +10,11 @@
 #include "steppers/include/tune.h"
 #include "steppers/include/check_energy.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/run.h"
-#include "monte_carlo/include/remove.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/trial_translate.h"
+#include "actions/include/run.h"
+#include "actions/include/remove.h"
 
 namespace feasst {
 

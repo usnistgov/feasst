@@ -35,6 +35,9 @@ MayerSampling::MayerSampling(argtype * args) : Criteria(args) {
   }
   training_file_ = str("training_file", args, "");
   training_per_write_ = integer("training_per_write", args, 1e4);
+  if (!training_file_.empty()) {
+    WARN("training_file will have extra unnecessary positions for debugging.");
+  }
 }
 MayerSampling::MayerSampling(argtype args) : MayerSampling(&args) {
   feasst_check_all_used(args);
@@ -54,16 +57,37 @@ bool MayerSampling::is_accepted(
   ASSERT(system.num_configurations() == 1, "assumes 1 config");
   double energy_new = acceptance->energy_new();
   if (!training_file_.empty()) {
+    const Particle& p0 = system.configuration().particle(0);
+    const int p0t = p0.type();
+    const Site& rt = system.configuration().unique_type(p0t).site(0);
+    const Particle& p1 = system.configuration().particle(1);
+    const int p1t = p1.type();
+    const Site& mt = system.configuration().unique_type(p1t).site(0);
+    //INFO("rt " << rt.is_anisotropic() << " mt " << mt.is_anisotropic());
     const Site& mobile = system.configuration().particle(1).site(0);
-    if (mobile.is_anisotropic()) {
+    const Configuration& config = system.configuration();
+    if (rt.is_anisotropic() && mt.is_anisotropic()) {
       Position spherical = mobile.position().spherical();
       DEBUG(mobile.euler().str());
-      data_.push_back(std::vector<double>({
-        spherical.coord(0), spherical.coord(1), spherical.coord(2),
+      double s1, s2, e1, e2, e3;
+      scaled_relative_orientation(spherical.coord(1), spherical.coord(2),
         mobile.euler().phi(), mobile.euler().theta(), mobile.euler().psi(),
-        energy_new}));
-    } else {
+        config.particle(0).type() == config.particle(1).type(),
+        &s1, &s2, &e1, &e2, &e3);
+      data_.push_back(std::vector<double>({spherical.coord(0), s1, s2, e1, e2,
+        e3, energy_new, mobile.position().coord(0), mobile.position().coord(1), mobile.position().coord(2), spherical.coord(1), spherical.coord(2)}));
+    } else if (rt.is_anisotropic() && !mt.is_anisotropic()) {
+      Position spherical = mobile.position().spherical();
+      double s1, s2;
+      scaled_relative_orientation(spherical.coord(1), spherical.coord(2),
+        config.particle(0).type() == config.particle(1).type(), &s1, &s2);
+      data_.push_back(std::vector<double>({spherical.coord(0), s1, s2, energy_new}));
+    } else if (!rt.is_anisotropic() && mt.is_anisotropic()) {
+      FATAL("The reference particle should be the anisotropic one.");
+    } else if (!rt.is_anisotropic() && !mt.is_anisotropic()) {
       data_.push_back(std::vector<double>{mobile.position().squared_distance(), energy_new});
+    } else {
+      FATAL("Unrecognized option");
     }
     if (static_cast<int>(data_.size()) >= training_per_write_) {
       std::ofstream file;
@@ -77,6 +101,17 @@ bool MayerSampling::is_accepted(
       }
       file.close();
       data_.clear();
+      if (mobile.is_anisotropic()) {
+        DEBUG("test that the first particle is fixed.");
+        const Position& fixed = system.configuration().particle(0).sites().back().position();
+        if (last_pos_) {
+          ASSERT(fixed.squared_distance(*last_pos_) < 1e-6,
+            "The first particle for Mayer training must be fixed.");
+            *last_pos_ = fixed;
+        } else {
+          last_pos_ = std::make_shared<Position>(fixed);
+        }
+      }
     }
   }
   const double beta = system.thermo_params().beta();

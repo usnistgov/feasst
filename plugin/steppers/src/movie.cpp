@@ -33,9 +33,7 @@ void Movie::initialize(MonteCarlo * mc) {
   }
 
   // write vmd
-  std::stringstream ss;
-  ss << name << ".vmd";
-  vmd_->write(ss.str(), configuration(system), name);
+  vmd_->write(name + ".vmd", configuration(system), name);
 }
 
 std::string Movie::write(const MonteCarlo& mc) {

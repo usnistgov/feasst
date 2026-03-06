@@ -5,7 +5,7 @@
 #include "monte_carlo/include/modify_factory.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/remove.h"
+#include "actions/include/remove.h"
 
 namespace feasst {
 

@@ -65,6 +65,14 @@ void feasst_serialize(const double val, std::ostream& ostr) {
   }
 }
 
+void feasst_serialize(const float val, std::ostream& ostr) {
+  if (std::abs(val) < std::numeric_limits<float>::min()) {
+    ostr << "0 ";
+  } else {
+    ostr << MAX_FLOAT_PRECISION << val << " ";
+  }
+}
+
 void feasst_deserialize(double * val, std::istream& ostr) {
   std::string valstr;
   ostr >> valstr;

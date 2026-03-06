@@ -294,12 +294,12 @@ Actions
 .. toctree::
    :maxdepth: 1
 
-   monte_carlo/doc/Run_arguments
-   monte_carlo/doc/Remove_arguments
-   monte_carlo/doc/WriteCheckpoint_arguments
-   monte_carlo/doc/WriteModelParams_arguments
-   monte_carlo/doc/RefPotential_arguments
-   monte_carlo/doc/OptPotential_arguments
+   actions/doc/Run_arguments
+   actions/doc/Remove_arguments
+   actions/doc/WriteCheckpoint_arguments
+   actions/doc/WriteModelParams_arguments
+   actions/doc/RefPotential_arguments
+   actions/doc/OptPotential_arguments
    steppers/doc/WriteStepper_arguments
    example/doc/ActionExample_arguments
 

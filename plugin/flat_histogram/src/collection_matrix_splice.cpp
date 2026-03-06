@@ -17,7 +17,7 @@
 #include "math/include/histogram.h"
 #include "math/include/utils_math.h"
 #include "monte_carlo/include/acceptance.h"
-#include "monte_carlo/include/run.h"
+#include "actions/include/run.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/wltm.h"

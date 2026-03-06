@@ -16,19 +16,6 @@ namespace feasst {
 
 typedef std::map<std::string, std::string> argtype;
 
-class Rotator;
-
-class ContactObjective : public Formula {
- public:
-  ContactObjective(Rotator * rotator, System * system, const double ior, const int ref_pot);
-  double evaluate(const double distance) const override;
- private:
-  Rotator * rotator_;
-  System * system_;
-  int ior_;
-  int ref_pot_;
-};
-
 class Rotator {
  public:
   //@{
@@ -38,6 +25,10 @@ class Rotator {
     - contact_tolerance: contact distance tolerance (default: 1e-4).
     - num_proc: number of processors (default: 1).
     - proc: index of processor (default: 0).
+    - hard_limit_u: potential energy that is considered contact.
+      A user may set to positive values.
+      By default, it is set to 1e10, which uses an objective function
+      specificly for the HardSphere Potential.
    */
   explicit Rotator(argtype args = argtype());
   explicit Rotator(argtype * args);
@@ -47,10 +38,15 @@ class Rotator {
    */
   //@{
 
-  void gen_orientations(const int num_orientations_per_pi, const Configuration& config);
+  std::vector<std::vector<double> > gen_global_bounds(const Configuration& config) const;
+  void gen_orientations(const int num_orientations_per_pi, const Configuration& config,
+    /// optional custom bounds. If empty, use full bounds.
+    std::vector<std::vector<double> > bounds = std::vector<std::vector<double> >());
+  void gen_unique_orientations(const int num_orientations_per_pi, System * system,
+    std::vector<std::vector<double> > bounds = std::vector<std::vector<double> >());
   void init(System * system, const std::string xyz_file,
     const std::string contact_xyz_file);
-  int num_orientations() const { return static_cast<int>(eulers_.size()); }
+  int num_orientations() const { return static_cast<int>(stheta_.size()); }
   int num_orientations_all_proc() const { return num_orientations_all_proc_; }
   void determine_if_unique(const int ior, const std::vector<int>& iors, const int num_threads, System * system);
   void update_xyz(const int ior, const double displacement, System * system);
@@ -68,8 +64,10 @@ class Rotator {
 //  }
   double fraction_unique() const {
     return num_unique()/static_cast<double>(unique_.size()); };
-  double energy(const int ior, const double displacement, System * system, const int ref_potential = -1);
-  double contact_distance(const int ior, System * system, const int ref_potential = 0);
+  double energy(const int ior, const double displacement, System * system);
+  double contact_distance(const int ior, System * system);
+  double hard_limit_u_;
+  constexpr static double hard_u_ = 1e10; // ensure this matches hard_limit_u doc
   std::string xyz_file_name_;
   std::string contact_xyz_file_name_;
   Position com1_;
@@ -85,6 +83,8 @@ class Rotator {
   std::vector<Euler> eulers_;
   std::vector<float> contact_;
   std::vector<std::vector<float> > energy_;
+  std::vector<std::vector<int> > indices_;
+  std::vector<int> sizes_;
   int num_proc_;
   int proc_;
   int num_orientations_all_proc_;

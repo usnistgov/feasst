@@ -66,8 +66,8 @@ void TrialMorphExpanded::init_(const std::vector<std::vector<int> > grow_seq, ar
     bool remove = false;
     int num_removed = 0;
     int num_added = 0;
-    int noskipgstage = 0;
-    int noskipsstage = 0;
+    //int noskipgstage = 0;
+    //int noskipsstage = 0;
     for (int stage = 0; stage < static_cast<int>(seq.size()); ++stage) {
       // grow
       const int ptype0 = grow_seq[step][stage];
@@ -86,7 +86,7 @@ void TrialMorphExpanded::init_(const std::vector<std::vector<int> > grow_seq, ar
           //grow_args.insert({"particle_type_morph" + str(noskipgstage), str(ptype0)});
           grow_morphs.push_back(str(ptype0));
         }
-        ++noskipgstage;
+        //++noskipgstage;
       }
 
       // shrink
@@ -95,10 +95,10 @@ void TrialMorphExpanded::init_(const std::vector<std::vector<int> > grow_seq, ar
         if (ptypem1 != -1) {
           remove = true;
           ++num_removed;
-          DEBUG("particle_type" + str(noskipsstage));
+          //DEBUG("particle_type" + str(noskipsstage));
           shrinks.push_back(str(ptypem1));
           //shrink_args.insert({"particle_type" + str(noskipsstage), str(ptypem1)});
-          ++noskipsstage;
+          //++noskipsstage;
         }
       } else {
         int current_type, new_type;
@@ -117,7 +117,7 @@ void TrialMorphExpanded::init_(const std::vector<std::vector<int> > grow_seq, ar
           shrink_morphs.push_back(str(new_type));
           //shrink_args.insert({"particle_type_morph" + str(noskipsstage),
           //                    str(new_type)});
-          ++noskipsstage;
+          //++noskipsstage;
         }
       }
     }

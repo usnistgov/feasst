@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.5)
 project (FEASST)
 set (CMAKE_CXX_STANDARD 14)
 cmake_policy(SET CMP0042 NEW) # removes warning about macosx_rpath
-set(FEASST_VERSION 0.25.16)
+set(FEASST_VERSION 0.25.17)
 
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
@@ -41,8 +41,8 @@ if (NOT FEASST_PLUGINS)
   #set(FEASST_PLUGINS "threads;utils;math")
   #set(FEASST_PLUGINS "threads;utils;math;configuration")
   #set(FEASST_PLUGINS "threads;utils;math;configuration;system")
-  #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;models;monte_carlo")
-  set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;gibbs;model_expanded;server")
+  #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;models;monte_carlo;actions")
+  set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;actions;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;gibbs;model_expanded;server")
 else()
   # Note: "cmake -DEV=ON" must be enabled if FEASST_PLUGINS are changed in order to update feasst.h
   set(EV ON)
@@ -242,6 +242,12 @@ if (${_index} GREATER -1)
   target_link_libraries(feasstmonte_carlo feasstsystem)
 endif()
 
+# actions
+list (FIND FEASST_PLUGINS "actions" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstactions feasstmonte_carlo)
+endif()
+
 # steppers
 list (FIND FEASST_PLUGINS "steppers" _index)
 if (${_index} GREATER -1)
@@ -299,7 +305,7 @@ endif()
 # flat_histogram
 list (FIND FEASST_PLUGINS "flat_histogram" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstflat_histogram feasstmonte_carlo feasststeppers feasstthreads)
+  target_link_libraries(feasstflat_histogram feasstmonte_carlo feasststeppers feasstthreads feasstactions)
 endif()
 
 # charge
@@ -335,7 +341,7 @@ endif()
 # aniso
 list (FIND FEASST_PLUGINS "aniso" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstaniso feasstmonte_carlo)
+  target_link_libraries(feasstaniso feasstmonte_carlo feasstmodels)
 endif()
 
 # gibbs

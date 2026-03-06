@@ -69,6 +69,7 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file,
     std::string type;
     iss >> type;
     site_type_names[i] = type;
+    DEBUG("type:" << type);
     site_types[i] = str_to_int(type, false); // Read -1 if string
     for (int dim = 0; dim < config->dimension(); ++dim) {
       iss >> coords[i][dim];

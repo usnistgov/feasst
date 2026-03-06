@@ -381,3 +381,4 @@ To Do List
 * Tune output should include trial description like Log
 * neighbor_index should have a name string
 * Remove TrialFactoryNamed fso it works well with Prefetch
+* make a plugin full of actions?

@@ -80,6 +80,7 @@ double PotentialFactory::select_energy(const Select& select, Configuration * con
          (opt_overlap_ == 0 || (en < NEAR_INFINITY))) {
     DEBUG("index " << index);
     en += potentials_[index]->select_energy(select, config);
+    DEBUG("en " << en);
     ++index;
   }
   DEBUG("en " << en);

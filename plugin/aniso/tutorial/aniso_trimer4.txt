@@ -1,0 +1,18 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+# equilateral triangle with unit side length and centroid on origin
+# See https://dx.doi.org/10.1063/1.4918557
+#
+#       T1
+#     /    \
+#   T2 ---- T3
+
+Site Properties
+
+A1 sigma=1.0 epsilon=1.0 cutoff=3.0 anisotropic=1
+R1 sigma=0.0 epsilon=0.0 cutoff=0.0
+
+Sites
+
+T11 A1  0    0                  0
+T12 R1 -0.5 -0.8660254037844390 0
+T13 R1  0.5 -0.8660254037844390 0

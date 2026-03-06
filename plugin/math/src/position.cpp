@@ -376,4 +376,31 @@ double Position::torsion_angle_radians(const Position& rj, const Position& rk,
   return angle;
 }
 
+void scaled_relative_orientation(const double stheta, const double sphi,
+    const bool identical_sites, double * s1, double * s2) {
+  *s1 = 0;
+  if (identical_sites) {
+    *s1 = stheta/PI;
+  } else {
+    *s1 = stheta/2/PI;
+  }
+  if (*s1 < 0) {
+    *s1 += 1;
+  }
+  *s2 = sphi/PI;
+}
+
+void scaled_relative_orientation(const double stheta, const double sphi, const double ephi, const double etheta, const double epsi, const bool identical_sites, double * s1, double * s2, double * e1, double * e2, double *e3) {
+  scaled_relative_orientation(stheta, sphi, identical_sites, s1, s2);
+  *e1 = ephi/2/PI + 0.5;
+  *e2 = etheta/PI;
+  *e3 = epsi/2/PI + 0.5;
+  TRACE("s1 " << *s1 << " s2 " << *s2 << " e1 " << *e1 << " e2 " << *e2 << " e3 " << *e3);
+  ASSERT(*s1 >= 0 && *s1 <= 1, "*s1: " << *s1);
+  ASSERT(*s2 >= 0 && *s2 <= 1, "*s2: " << *s2);
+  ASSERT(*e1 >= 0 && *e1 <= 1, "*e1: " << *e1);
+  ASSERT(*e2 >= 0 && *e2 <= 1, "*e2: " << *e2);
+  ASSERT(*e3 >= 0 && *e3 <= 1, "*e3: " << *e3);
+}
+
 }  // namespace feasst

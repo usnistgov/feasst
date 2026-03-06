@@ -841,7 +841,8 @@ void EnergyMapNeighbor::is_equal(const EnergyMap& map) const {
             const map1type& map1 = map2[site2].second;
             const map1type& cmap1 = cmap2[site2].second;
             ASSERT(map1.size() == cmap1.size(), "err");
-            for (int dat = 0; dat < static_cast<int>(map1.size()); ++dat) {
+            for (int dat = 0; dat < 2; ++dat) {  // HWH skip the pbc shifts for cluster rotation
+            //for (int dat = 0; dat < static_cast<int>(map1.size()); ++dat) {
               ASSERT(is_equal_within_decimal_places(map1[dat], cmap1[dat], 6), "p1,s1:" << part1 << "," << site1 << " p2,s2:" << part2 << "," << site2 << " dat:" << dat << " " << MAX_PRECISION << map1[dat] << " != " << cmap1[dat]);
             }
           }

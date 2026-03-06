@@ -27,9 +27,9 @@
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/metropolis.h"
-#include "monte_carlo/include/run.h"
-#include "monte_carlo/include/remove.h"
 #include "monte_carlo/include/always_reject.h"
+#include "actions/include/run.h"
+#include "actions/include/remove.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/tune.h"
 #include "steppers/include/log.h"
@@ -430,9 +430,9 @@ TEST(MonteCarlo, SineSlabTable_LONG) {
     { {"dimension", "1"}, {"wave_dimension", "0"}, {"average_bound0", "-5"},
       {"average_bound1", "5"}, {"amplitude", "2"}, {"width", "20"}});
   auto table = MakeTable3D({
-    {"num0", "101"},
-    {"num1", "101"},
-    {"num2", "1"},
+    {"num0", "11"}, // 101 is more accurate
+    {"num1", "11"}, // 101 is more accurate
+    {"num2", "2"},
     {"default_value", "0."}});
   auto model = MakeModelTableCart3DIntegr(table);
   argtype table_args = {

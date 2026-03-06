@@ -9,6 +9,9 @@ namespace feasst {
 /// An almost infinity large number to the limits of double precision
 constexpr double NEAR_INFINITY = std::numeric_limits<double>::max()/1e10;
 
+/// An almost infinity large number to the limits of single precision
+constexpr float NEAR_INFINITY_FLOAT = std::numeric_limits<float>::max()/1e10;
+
 /// The smallest number within numerical precision
 constexpr double NEAR_ZERO = 1e-15;
 

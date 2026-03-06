@@ -4,7 +4,7 @@
 #include "utils/include/timer.h"
 #include "math/include/utils_math.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/write_checkpoint.h"
+#include "actions/include/write_checkpoint.h"
 
 namespace feasst {
 

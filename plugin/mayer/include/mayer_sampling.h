@@ -11,6 +11,7 @@
 
 namespace feasst {
 
+class Position;
 class Random;
 
 typedef std::map<std::string, std::string> argtype;
@@ -125,6 +126,7 @@ class MayerSampling : public Criteria {
   std::string training_file_;
   std::vector<std::vector<double> > data_;
   int training_per_write_;
+  std::shared_ptr<Position> last_pos_;
 };
 
 inline std::shared_ptr<MayerSampling> MakeMayerSampling(

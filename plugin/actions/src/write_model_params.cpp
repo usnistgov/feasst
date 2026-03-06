@@ -10,7 +10,7 @@
 #include "system/include/potential.h"
 #include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/write_model_params.h"
+#include "actions/include/write_model_params.h"
 
 namespace feasst {
 

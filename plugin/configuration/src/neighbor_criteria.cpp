@@ -186,6 +186,10 @@ void NeighborCriteria::name_to_index(const ParticleFactory& unique_types) {
       DEBUG("crit->site_type1:" << crit->site_type1);
     }
   }
+  DEBUG("site_type0_ " << site_type0_);
+  DEBUG("site_type1_ " << site_type1_);
+  DEBUG("site_type0_name_ " << site_type0_name_);
+  DEBUG("site_type1_name_ " << site_type1_name_);
 }
 
 // HWH copied from NeighborCriteria. Deprecate NeighborCriteria version with alt_ option

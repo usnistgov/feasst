@@ -13,7 +13,7 @@ void Table::write(const std::string file_name) const {
   FATAL("not implemented");
 }
 
-double Table::bin_spacing(const int num) {
+double Table::calc_bin_spacing(const int num) {
   if (num > 1) {
     return 1./static_cast<double>(num - 1);
   } else {
@@ -22,7 +22,7 @@ double Table::bin_spacing(const int num) {
 }
 
 void Table1D::calc_d_() {
-  bin_spacing_ = Table::bin_spacing(num());
+  bin_spacing_ = calc_bin_spacing(num());
 }
 
 Table1D::Table1D(argtype args) : Table1D(&args) { feasst_check_all_used(args); }
@@ -34,27 +34,45 @@ Table1D::Table1D(argtype * args) : Table() {
 }
 Table1D::~Table1D() {}
 
-double Table1D::linear_interpolation(const double value0) const {
-  const int n0 = num();
+double table_xd_(const double value0, const double d0, const int n0, int * i0, int * i02) {
+  ASSERT(value0 >= 0 && value0 <= 1,
+    "value: " << MAX_PRECISION << value0 << " out of bounds."
+    << " If periodicity is disabled, place a hard wall at the boundaries.");
   TRACE("num0 " << n0);
-  const int i0 = value0*(n0 - 1);
+  *i0 = value0*(n0 - 1);
   TRACE("value0 " << value0);
-  TRACE("i0 " << i0);
-  int i02 = i0 + 1;
-  if (i02 == n0) i02 = i0;
-  TRACE("i02 " << i02);
-  const double d0 = bin_spacing_;
-  const double v0 = i0 * d0, vv0 = v0 + d0;
+  TRACE("i0 " << *i0);
+  *i02 = *i0 + 1;
+  if (*i02 == n0) *i02 = *i0;
+  TRACE("i02 " << *i02);
+  const double v0 = *i0 * d0, vv0 = v0 + d0;
   TRACE("v0 " << v0);
   TRACE("vv0 " << vv0);
-  const double xd0 = (value0 - v0) / (vv0 - v0);
+  const double xd0 = (value0 - v0) / d0;
   TRACE("xd0 " << xd0);
-  TRACE("size0 " << data_.size());
+  if (xd0 < 0) {
+    if (-xd0 < 1e-14) {
+      return 0;
+    } else if (xd0 - 1. < 1e-14) {
+      return 1.;
+    }
+  }
+  ASSERT(xd0 >= 0 && xd0 <= 1, "xd0 " << xd0);
+  return xd0;
+}
+
+double Table1D::c00_(const double xd0, const int i0, const int i02) const {
   const double c00 = data_[i0] * (1-xd0) + xd0*data_[i02];
   TRACE("c000 " << data_[i0]);
   TRACE("c100 " << data_[i02]);
   TRACE("c00 " << c00);
   return c00;
+}
+
+double Table1D::linear_interpolation(const double value0) const {
+  int i0, i02;
+  const double xd0 = table_xd_(value0, bin_spacing_, num(), &i0, &i02);
+  return c00_(xd0, i0, i02);
 }
 
 double Table1D::forward_difference_interpolation(const double value0) const {
@@ -113,8 +131,8 @@ void Table1D::add(const Table1D& table) { feasst::add(table.data_, &data_); }
 
 void Table2D::calc_d_() {
   bin_spacing_ = std::vector<double>({
-    bin_spacing(num0()),
-    bin_spacing(num1())});
+    calc_bin_spacing(num0()),
+    calc_bin_spacing(num1())});
 }
 
 Table2D::Table2D(argtype args) : Table2D(&args) { feasst_check_all_used(args); }
@@ -122,36 +140,12 @@ Table2D::Table2D(argtype * args) : Table() {
   const int num0 = integer("num0", args, 1);
   const int num1 = integer("num1", args, 1);
   resize(num0, num1, &data_);
-  fill(dble("default_value", args, 0.), &data_);
+  fill(flt("default_value", args, 0.), &data_);
   calc_d_();
 }
 
-double Table2D::linear_interpolation(const double value0,
-    const double value1) const {
-  const int n0 = num0();
-  const int n1 = num1();
-  TRACE("num0 " << n0);
-  TRACE("num1 " << n1);
-  const int i0 = value0*(n0 - 1);
-  const int i1 = value1*(n1 - 1);
-  TRACE("value0 " << value0);
-  TRACE("value1 " << value1);
-  TRACE("i0 " << i0 << " i1 " << i1);
-  int i02 = i0 + 1, i12 = i1 + 1;
-  if (i02 == n0) i02 = i0;
-  if (i12 == n1) i12 = i1;
-  TRACE("i02 " << i02 << " i12 " << i12);
-  const double d0 = bin_spacing_[0];
-  const double d1 = bin_spacing_[1];
-  const double v0 = i0 * d0, vv0 = v0 + d0;
-  const double v1 = i1 * d1, vv1 = v1 + d1;
-  TRACE("v0 " << v0 << " v1 " << v1);
-  TRACE("vv0 " << vv0 << " vv1 " << vv1);
-  const double xd0 = (value0 - v0) / (vv0 - v0);
-  const double xd1 = (value1 - v1) / (vv1 - v1);
-  TRACE("xd0 " << xd0 << " xd1 " << xd1);
-  TRACE("size0 " << data_.size());
-  TRACE("size1 " << data_[0].size());
+double Table2D::c00_(const double xd0, const double xd1, const int i0,
+    const int i02, const int i1, const int i12) const {
   const double c00 = data_[i0][i1] *(1-xd0) + xd0*data_[i02][i1];
   const double c10 = data_[i0][i12]*(1-xd0) + xd0*data_[i02][i12];
   TRACE("c000 " << data_[i0][i1] << " c010 " << data_[i0][i12]);
@@ -160,6 +154,14 @@ double Table2D::linear_interpolation(const double value0,
   const double c0 = c00 * (1-xd1) + xd1*c10;
   TRACE("c0 " << c0);
   return c0;
+}
+
+double Table2D::linear_interpolation(const double value0,
+    const double value1) const {
+  int i0, i02, i1, i12;
+  const double xd0 = table_xd_(value0, bin_spacing_[0], num0(), &i0, &i02);
+  const double xd1 = table_xd_(value1, bin_spacing_[1], num1(), &i1, &i12);
+  return c00_(xd0, xd1, i0, i02, i1, i12);
 }
 
 void Table2D::serialize(std::ostream& ostr) const {
@@ -191,13 +193,18 @@ int Table2D::value_to_nearest_bin(const int dim, const double value) const {
   return feasst::round(value*(num(dim) - 1));
 }
 
+int Table2D::value_to_lowest_bin(const int dim, const double value) const {
+  return static_cast<int>(value*(num(dim) - 1));
+}
+
+
 void Table2D::add(const Table2D& table) { feasst::add(table.data_, &data_); }
 
 void Table3D::calc_d_() {
   bin_spacing_ = std::vector<double>({
-    bin_spacing(num0()),
-    bin_spacing(num1()),
-    bin_spacing(num2())});
+    calc_bin_spacing(num0()),
+    calc_bin_spacing(num1()),
+    calc_bin_spacing(num2())});
 }
 
 Table3D::Table3D(argtype args) : Table3D(&args) { feasst_check_all_used(args); }
@@ -206,70 +213,13 @@ Table3D::Table3D(argtype * args) : Table() {
   const int num1 = integer("num1", args, 1);
   const int num2 = integer("num2", args, 1);
   resize(num0, num1, num2, &data_);
-  fill(dble("default_value", args, 0.), &data_);
+  fill(flt("default_value", args, 0.), &data_);
   calc_d_();
 }
 
-double Table3D::linear_interpolation(const double value0,
-    const double value1, const double value2) const {
-  const int n0 = num0();
-  TRACE("num0 " << n0);
-  const int n1 = num1();
-  TRACE("num1 " << n1);
-  const int n2 = num2();
-  TRACE("num2 " << n2);
-  const int i0 = value0*(n0 - 1);
-  const int i1 = value1*(n1 - 1);
-  const int i2 = value2*(n2 - 1);
-  TRACE("value0 " << value0);
-  TRACE("value1 " << value1);
-  TRACE("value2 " << value2);
-  ASSERT(value0 >= 0 && value0 <= 1,
-    "value: " << MAX_PRECISION << value0 << " out of bounds."
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value1 >= 0 && value1 <= 1,
-    "value: " << MAX_PRECISION << value1 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value2 >= 0 && value2 <= 1,
-    "value: " << MAX_PRECISION << value2 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  TRACE("i0 " << i0 << " i1 " << i1 << " i2 " << i2);
-  int i02 = i0 + 1, i12 = i1 + 1, i22 = i2 + 1;
-  if (i02 == n0) i02 = i0;
-  if (i12 == n1) i12 = i1;
-  if (i22 == n2) i22 = i2;
-  TRACE("i02 " << i02 << " i12 " << i12 << " i22 " << i22);
-  const double d0 = bin_spacing_[0];
-  const double d1 = bin_spacing_[1];
-  const double d2 = bin_spacing_[2];
-  TRACE("d0 " << d0 << " d1 " << d1 << " d2 " << d2);
-  const double v0 = i0 * d0, vv0 = v0 + d0;
-  const double v1 = i1 * d1, vv1 = v1 + d1;
-  const double v2 = i2 * d2, vv2 = v2 + d2;
-  TRACE("v0 " << v0 << " v1 " << v1 << " v2 " << v2);
-  TRACE("vv0 " << vv0 << " vv1 " << vv1 << " vv2 " << vv2);
-  const double dv0 = vv0 - v0;
-  double xd0 = 0.;
-  if (std::abs(dv0) > NEAR_ZERO) {
-    xd0 = (value0 - v0)/dv0;
-  }
-  const double dv1 = vv1 - v1;
-  double xd1 = 0.;
-  if (std::abs(dv1) > NEAR_ZERO) {
-    xd1 = (value1 - v1)/dv1;
-  }
-  const double dv2 = vv2 - v2;
-  double xd2 = 0.;
-  if (std::abs(dv2) > NEAR_ZERO) {
-    xd2 = (value2 - v2)/dv2;
-  }
-  ASSERT(xd0 >= 0 && xd0 <= 1, "xd0 " << xd0);
-  ASSERT(xd1 >= 0 && xd1 <= 1, "xd1 " << xd1);
-  ASSERT(xd2 >= 0 && xd2 <= 1, "xd2 " << xd2);
-  TRACE("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2);
-  TRACE("size0 " << data_.size());
-  TRACE("size1 " << data_[0].size());
-  TRACE("size2 " << data_[0][0].size());
+double Table3D::c00_(const double xd0, const double xd1, const double xd2,
+    const int i0, const int i02, const int i1, const int i12, const int i2,
+    const int i22) const {
   const double c00 = data_[i0][i1][i2] * (1-xd0) + xd0*data_[i02][i1][i2];
   const double c10 = data_[i0][i12][i2] *(1-xd0) + xd0*data_[i02][i12][i2];
   const double c01 = data_[i0][i1][i22] *(1-xd0) + xd0*data_[i02][i1][i22];
@@ -286,6 +236,15 @@ double Table3D::linear_interpolation(const double value0,
   TRACE("c0 " << c0 << " c1 " << c1);
 
   return c0*(1-xd2)+xd2*c1;
+}
+
+double Table3D::linear_interpolation(const double value0,
+    const double value1, const double value2) const {
+  int i0, i02, i1, i12, i2, i22;
+  const double xd0 = table_xd_(value0, bin_spacing_[0], num0(), &i0, &i02);
+  const double xd1 = table_xd_(value1, bin_spacing_[1], num1(), &i1, &i12);
+  const double xd2 = table_xd_(value2, bin_spacing_[2], num2(), &i2, &i22);
+  return c00_(xd0, xd1, xd2, i0, i02, i1, i12, i2, i22);
 }
 
 void Table3D::serialize(std::ostream& ostr) const {
@@ -336,10 +295,10 @@ Table3D::Table3D(const std::string file_name) {
 
 void Table4D::calc_d_() {
   bin_spacing_ = std::vector<double>({
-    bin_spacing(num0()),
-    bin_spacing(num1()),
-    bin_spacing(num2()),
-    bin_spacing(num3())});
+    calc_bin_spacing(num0()),
+    calc_bin_spacing(num1()),
+    calc_bin_spacing(num2()),
+    calc_bin_spacing(num3())});
 }
 
 Table4D::Table4D(argtype args) : Table4D(&args) { feasst_check_all_used(args); }
@@ -349,79 +308,17 @@ Table4D::Table4D(argtype * args) : Table() {
   const int num2 = integer("num2", args, 1);
   const int num3 = integer("num3", args, 1);
   resize(num0, num1, num2, num3, &data_);
-  fill(dble("default_value", args, 0.), &data_);
+  fill(flt("default_value", args, 0.), &data_);
   calc_d_();
 }
 
 double Table4D::linear_interpolation(const double value0,
     const double value1, const double value2, const double value3) const {
-  const int n0 = num0();
-  TRACE("num0 " << n0);
-  const int n1 = num1();
-  TRACE("num1 " << n1);
-  const int n2 = num2();
-  TRACE("num2 " << n2);
-  const int n3 = num3();
-  TRACE("num3 " << n3);
-  const int i0 = value0*(n0 - 1);
-  const int i1 = value1*(n1 - 1);
-  const int i2 = value2*(n2 - 1);
-  const int i3 = value3*(n3 - 1);
-  TRACE("value0 " << value0);
-  TRACE("value1 " << value1);
-  TRACE("value2 " << value2);
-  TRACE("value3 " << value3);
-  ASSERT(value0 >= 0 && value0 <= 1, "value: " << value0 << " out of bounds."
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value1 >= 0 && value1 <= 1, "value: " << value1 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value2 >= 0 && value2 <= 1, "value: " << value2 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value3 >= 0 && value3 <= 1, "value: " << value3 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  TRACE("i0 " << i0 << " i1 " << i1 << " i2 " << i2 << " i3 " << i3);
-  int i02 = i0 + 1, i12 = i1 + 1, i22 = i2 + 1, i32 = i3 + 1;
-  if (i02 == n0) i02 = i0;
-  if (i12 == n1) i12 = i1;
-  if (i22 == n2) i22 = i2;
-  if (i32 == n3) i32 = i3;
-  TRACE("i02 " << i02 << " i12 " << i12 << " i22 " << i22 << " i32 " << i32);
-  const double d0 = bin_spacing_[0];
-  const double d1 = bin_spacing_[1];
-  const double d2 = bin_spacing_[2];
-  const double d3 = bin_spacing_[3];
-  TRACE("d0 " << d0 << " d1 " << d1 << " d2 " << d2 << " d3 " << d3);
-  const double v0 = i0 * d0, vv0 = v0 + d0;
-  const double v1 = i1 * d1, vv1 = v1 + d1;
-  const double v2 = i2 * d2, vv2 = v2 + d2;
-  const double v3 = i3 * d3, vv3 = v3 + d3;
-  TRACE("v0 " << v0 << " v1 " << v1 << " v2 " << v2 << " v3 " << v3);
-  TRACE("vv0 " << vv0 << " vv1 " << vv1 << " vv2 " << vv2 << " vv3 " << vv3);
-  const double dv0 = vv0 - v0;
-  double xd0 = 0.;
-  if (std::abs(dv0) > NEAR_ZERO) {
-    xd0 = (value0 - v0)/dv0;
-  }
-  const double dv1 = vv1 - v1;
-  double xd1 = 0.;
-  if (std::abs(dv1) > NEAR_ZERO) {
-    xd1 = (value1 - v1)/dv1;
-  }
-  const double dv2 = vv2 - v2;
-  double xd2 = 0.;
-  if (std::abs(dv2) > NEAR_ZERO) {
-    xd2 = (value2 - v2)/dv2;
-  }
-  const double dv3 = vv3 - v3;
-  double xd3 = 0.;
-  if (std::abs(dv3) > NEAR_ZERO) {
-    xd3 = (value3 - v3)/dv3;
-  }
-  ASSERT(xd0 >= 0 && xd0 <= 1, "xd0 " << xd0);
-  ASSERT(xd1 >= 0 && xd1 <= 1, "xd1 " << xd1);
-  ASSERT(xd2 >= 0 && xd2 <= 1, "xd2 " << xd2);
-  ASSERT(xd3 >= 0 && xd3 <= 1, "xd3 " << xd3);
-  TRACE("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2 << " xd3 " << xd3);
+  int i0, i02, i1, i12, i2, i22, i3, i32;
+  const double xd0 = table_xd_(value0, bin_spacing_[0], num0(), &i0, &i02);
+  const double xd1 = table_xd_(value1, bin_spacing_[1], num1(), &i1, &i12);
+  const double xd2 = table_xd_(value2, bin_spacing_[2], num2(), &i2, &i22);
+  const double xd3 = table_xd_(value3, bin_spacing_[3], num3(), &i3, &i32);
   TRACE("size0 " << data_.size());
   TRACE("size1 " << data_[0].size());
   TRACE("size2 " << data_[0][0].size());
@@ -507,11 +404,11 @@ Table4D::Table4D(const std::string file_name) {
 
 void Table5D::calc_d_() {
   bin_spacing_ = std::vector<double>({
-    bin_spacing(num0()),
-    bin_spacing(num1()),
-    bin_spacing(num2()),
-    bin_spacing(num3()),
-    bin_spacing(num4())});
+    calc_bin_spacing(num0()),
+    calc_bin_spacing(num1()),
+    calc_bin_spacing(num2()),
+    calc_bin_spacing(num3()),
+    calc_bin_spacing(num4())});
 }
 
 Table5D::Table5D(argtype args) : Table5D(&args) { feasst_check_all_used(args); }
@@ -526,101 +423,10 @@ Table5D::Table5D(argtype * args) : Table() {
   calc_d_();
 }
 
-double Table5D::linear_interpolation(const double value0, const double value1,
-    const double value2, const double value3, const double value4) const {
-  const int n0 = num0();
-  TRACE("num0 " << n0);
-  const int n1 = num1();
-  TRACE("num1 " << n1);
-  const int n2 = num2();
-  TRACE("num2 " << n2);
-  const int n3 = num3();
-  TRACE("num2 " << n3);
-  const int n4 = num4();
-  TRACE("num2 " << n4);
-  const int i0 = value0*(n0 - 1);
-  const int i1 = value1*(n1 - 1);
-  const int i2 = value2*(n2 - 1);
-  const int i3 = value3*(n3 - 1);
-  const int i4 = value4*(n4 - 1);
-  TRACE("value0 " << value0);
-  TRACE("value1 " << value1);
-  TRACE("value2 " << value2);
-  TRACE("value3 " << value3);
-  TRACE("value4 " << value4);
-  ASSERT(value0 >= 0 && value0 <= 1, "value: " << value0 << " out of bounds."
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value1 >= 0 && value1 <= 1, "value: " << value1 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value2 >= 0 && value2 <= 1, "value: " << value2 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value3 >= 0 && value3 <= 1, "value: " << value3 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value4 >= 0 && value4 <= 1, "value: " << value4 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  TRACE("i0 " << i0 << " i1 " << i1 << " i2 " << i2 << " i3 " << i3 << " i4 "
-    << i4);
-  int i02 = i0 + 1, i12 = i1 + 1, i22 = i2 + 1, i32 = i3 + 1, i42 = i4 + 1;
-  if (i02 == n0) i02 = i0;
-  if (i12 == n1) i12 = i1;
-  if (i22 == n2) i22 = i2;
-  if (i32 == n3) i32 = i3;
-  if (i42 == n4) i42 = i4;
-  TRACE("i02 " << i02 << " i12 " << i12 << " i22 " << i22 << " i32 " << i32 <<
-    " i42 " << i42);
-  const double d0 = bin_spacing_[0];
-  const double d1 = bin_spacing_[1];
-  const double d2 = bin_spacing_[2];
-  const double d3 = bin_spacing_[3];
-  const double d4 = bin_spacing_[4];
-  TRACE("d0 " << d0 << " d1 " << d1 << " d2 " << d2 << " d3 " << d3 << " d4 "
-    << d4);
-  const double v0 = i0 * d0, vv0 = v0 + d0;
-  const double v1 = i1 * d1, vv1 = v1 + d1;
-  const double v2 = i2 * d2, vv2 = v2 + d2;
-  const double v3 = i3 * d3, vv3 = v3 + d3;
-  const double v4 = i4 * d4, vv4 = v4 + d4;
-  TRACE("v0 " << v0 << " v1 " << v1 << " v2 " << v2 << " v3 " << v3 << " v4 "
-    << v4);
-  TRACE("vv0 " << vv0 << " vv1 " << vv1 << " vv2 " << vv2 << " vv3 " << vv3 <<
-    " vv4 " << vv4);
-  const double dv0 = vv0 - v0;
-  double xd0 = 0.;
-  if (std::abs(dv0) > NEAR_ZERO) {
-    xd0 = (value0 - v0)/dv0;
-  }
-  const double dv1 = vv1 - v1;
-  double xd1 = 0.;
-  if (std::abs(dv1) > NEAR_ZERO) {
-    xd1 = (value1 - v1)/dv1;
-  }
-  const double dv2 = vv2 - v2;
-  double xd2 = 0.;
-  if (std::abs(dv2) > NEAR_ZERO) {
-    xd2 = (value2 - v2)/dv2;
-  }
-  const double dv3 = vv3 - v3;
-  double xd3 = 0.;
-  if (std::abs(dv3) > NEAR_ZERO) {
-    xd3 = (value3 - v3)/dv3;
-  }
-  const double dv4 = vv4 - v4;
-  double xd4 = 0.;
-  if (std::abs(dv4) > NEAR_ZERO) {
-    xd4 = (value4 - v4)/dv4;
-  }
-  ASSERT(xd0 >= 0 && xd0 <= 1, "xd0 " << xd0);
-  ASSERT(xd1 >= 0 && xd1 <= 1, "xd1 " << xd1);
-  ASSERT(xd2 >= 0 && xd2 <= 1, "xd2 " << xd2);
-  ASSERT(xd3 >= 0 && xd3 <= 1, "xd3 " << xd3);
-  ASSERT(xd4 >= 0 && xd4 <= 1, "xd4 " << xd4);
-  TRACE("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2 << " xd3 " << xd3 <<
-    " xd4 " << xd4);
-  TRACE("size0 " << data_.size());
-  TRACE("size1 " << data_[0].size());
-  TRACE("size2 " << data_[0][0].size());
-  TRACE("size3 " << data_[0][0][0].size());
-  TRACE("size4 " << data_[0][0][0][0].size());
+double Table5D::c00_(const double xd0, const double xd1, const double xd2,
+    const double xd3, const double xd4, const int i0, const int i02,
+    const int i1, const int i12, const int i2, const int i22, const int i3,
+    const int i32, const int i4, const int i42) const {
   const double c0000 = data_[i0][i1][i2][i3][i4] * (1-xd0) +
                    xd0*data_[i02][i1][i2][i3][i4];
   const double c1000 = data_[i0][i12][i2][i3][i4] *(1-xd0) +
@@ -684,6 +490,22 @@ double Table5D::linear_interpolation(const double value0, const double value1,
   return c0*(1-xd4)+xd4*c1;
 }
 
+double Table5D::linear_interpolation(const double value0, const double value1,
+    const double value2, const double value3, const double value4) const {
+  int i0, i02, i1, i12, i2, i22, i3, i32, i4, i42;
+  const double xd0 = table_xd_(value0, bin_spacing_[0], num0(), &i0, &i02);
+  const double xd1 = table_xd_(value1, bin_spacing_[1], num1(), &i1, &i12);
+  const double xd2 = table_xd_(value2, bin_spacing_[2], num2(), &i2, &i22);
+  const double xd3 = table_xd_(value3, bin_spacing_[3], num3(), &i3, &i32);
+  const double xd4 = table_xd_(value4, bin_spacing_[4], num4(), &i4, &i42);
+  TRACE("size0 " << data_.size());
+  TRACE("size1 " << data_[0].size());
+  TRACE("size2 " << data_[0][0].size());
+  TRACE("size3 " << data_[0][0][0].size());
+  TRACE("size4 " << data_[0][0][0][0].size());
+  return c00_(xd0, xd1, xd2, xd3, xd4, i0, i02, i1, i12, i2, i22, i3, i32, i4, i42);
+}
+
 void Table5D::serialize(std::ostream& ostr) const {
   feasst_serialize_version(6867, ostr);
   feasst_serialize(data_, ostr);
@@ -740,12 +562,12 @@ Table5D::Table5D(const std::string file_name) {
 
 void Table6D::calc_d_() {
   bin_spacing_ = std::vector<double>({
-    bin_spacing(num0()),
-    bin_spacing(num1()),
-    bin_spacing(num2()),
-    bin_spacing(num3()),
-    bin_spacing(num4()),
-    bin_spacing(num5())});
+    calc_bin_spacing(num0()),
+    calc_bin_spacing(num1()),
+    calc_bin_spacing(num2()),
+    calc_bin_spacing(num3()),
+    calc_bin_spacing(num4()),
+    calc_bin_spacing(num5())});
 }
 
 Table6D::Table6D(argtype args) : Table6D(&args) { feasst_check_all_used(args); }
@@ -761,119 +583,10 @@ Table6D::Table6D(argtype * args) : Table() {
   calc_d_();
 }
 
-double Table6D::linear_interpolation(const double value0, const double value1,
-    const double value2, const double value3, const double value4,
-    const double value5) const {
-  const int n0 = num0();
-  TRACE("num0 " << n0);
-  const int n1 = num1();
-  TRACE("num1 " << n1);
-  const int n2 = num2();
-  TRACE("num2 " << n2);
-  const int n3 = num3();
-  TRACE("num3 " << n3);
-  const int n4 = num4();
-  TRACE("num4 " << n4);
-  const int n5 = num5();
-  TRACE("num5 " << n5);
-  const int i0 = value0*(n0 - 1);
-  const int i1 = value1*(n1 - 1);
-  const int i2 = value2*(n2 - 1);
-  const int i3 = value3*(n3 - 1);
-  const int i4 = value4*(n4 - 1);
-  const int i5 = value5*(n5 - 1);
-  TRACE("value0 " << value0);
-  TRACE("value1 " << value1);
-  TRACE("value2 " << value2);
-  TRACE("value3 " << value3);
-  TRACE("value4 " << value4);
-  TRACE("value5 " << value5);
-  ASSERT(value0 >= 0 && value0 <= 1, "value: " << value0 << " out of bounds."
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value1 >= 0 && value1 <= 1, "value: " << value1 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value2 >= 0 && value2 <= 1, "value: " << value2 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value3 >= 0 && value3 <= 1, "value: " << value3 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value4 >= 0 && value4 <= 1, "value: " << value4 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  ASSERT(value5 >= 0 && value5 <= 1, "value: " << value5 << " out of bounds. "
-    << " If periodicity is disabled, place a hard wall at the boundaries.");
-  TRACE("i0 " << i0 << " i1 " << i1 << " i2 " << i2 << " i3 " << i3 << " i4 "
-    << i4 << " i5 " << i5);
-  int i02 = i0 + 1, i12 = i1 + 1, i22 = i2 + 1, i32 = i3 + 1, i42 = i4 + 1,
-      i52 = i5 + 1;
-  if (i02 == n0) i02 = i0;
-  if (i12 == n1) i12 = i1;
-  if (i22 == n2) i22 = i2;
-  if (i32 == n3) i32 = i3;
-  if (i42 == n4) i42 = i4;
-  if (i52 == n5) i52 = i5;
-  TRACE("i02 " << i02 << " i12 " << i12 << " i22 " << i22 << " i32 " << i32 <<
-    " i42 " << i42 << " i52 " << i52);
-  const double d0 = bin_spacing_[0];
-  const double d1 = bin_spacing_[1];
-  const double d2 = bin_spacing_[2];
-  const double d3 = bin_spacing_[3];
-  const double d4 = bin_spacing_[4];
-  const double d5 = bin_spacing_[5];
-  TRACE("d0 " << d0 << " d1 " << d1 << " d2 " << d2 << " d3 " << d3 << " d4 "
-    << d4 << " d5 " << d5);
-  const double v0 = i0 * d0, vv0 = v0 + d0;
-  const double v1 = i1 * d1, vv1 = v1 + d1;
-  const double v2 = i2 * d2, vv2 = v2 + d2;
-  const double v3 = i3 * d3, vv3 = v3 + d3;
-  const double v4 = i4 * d4, vv4 = v4 + d4;
-  const double v5 = i5 * d5, vv5 = v5 + d5;
-  TRACE("v0 " << v0 << " v1 " << v1 << " v2 " << v2 << " v3 " << v3 << " v4 "
-    << v4 << " v5 " << v5);
-  TRACE("vv0 " << vv0 << " vv1 " << vv1 << " vv2 " << vv2 << " vv3 " << vv3 <<
-    " vv4 " << vv4 << " vv5 " << vv5);
-  const double dv0 = vv0 - v0;
-  double xd0 = 0.;
-  if (std::abs(dv0) > NEAR_ZERO) {
-    xd0 = (value0 - v0)/dv0;
-  }
-  const double dv1 = vv1 - v1;
-  double xd1 = 0.;
-  if (std::abs(dv1) > NEAR_ZERO) {
-    xd1 = (value1 - v1)/dv1;
-  }
-  const double dv2 = vv2 - v2;
-  double xd2 = 0.;
-  if (std::abs(dv2) > NEAR_ZERO) {
-    xd2 = (value2 - v2)/dv2;
-  }
-  const double dv3 = vv3 - v3;
-  double xd3 = 0.;
-  if (std::abs(dv3) > NEAR_ZERO) {
-    xd3 = (value3 - v3)/dv3;
-  }
-  const double dv4 = vv4 - v4;
-  double xd4 = 0.;
-  if (std::abs(dv4) > NEAR_ZERO) {
-    xd4 = (value4 - v4)/dv4;
-  }
-  const double dv5 = vv5 - v5;
-  double xd5 = 0.;
-  if (std::abs(dv5) > NEAR_ZERO) {
-    xd5 = (value5 - v5)/dv5;
-  }
-  ASSERT(xd0 >= 0 && xd0 <= 1, "xd0 " << xd0);
-  ASSERT(xd1 >= 0 && xd1 <= 1, "xd1 " << xd1);
-  ASSERT(xd2 >= 0 && xd2 <= 1, "xd2 " << xd2);
-  ASSERT(xd3 >= 0 && xd3 <= 1, "xd3 " << xd3);
-  ASSERT(xd4 >= 0 && xd4 <= 1, "xd4 " << xd4);
-  ASSERT(xd5 >= 0 && xd5 <= 1, "xd5 " << xd5);
-  TRACE("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2 << " xd3 " << xd3 <<
-       " xd4 " << xd4 << " xd5 " << xd5);
-  TRACE("size0 " << data_.size());
-  TRACE("size1 " << data_[0].size());
-  TRACE("size2 " << data_[0][0].size());
-  TRACE("size3 " << data_[0][0][0].size());
-  TRACE("size4 " << data_[0][0][0][0].size());
-  TRACE("size5 " << data_[0][0][0][0][0].size());
+double Table6D::c00_(const double xd0, const double xd1, const double xd2,
+    const double xd3, const double xd4, const double xd5, const int i0, const int i02,
+    const int i1, const int i12, const int i2, const int i22, const int i3,
+    const int i32, const int i4, const int i42, const int i5, const int i52) const {
   const double c00000 = data_[i0][i1][i2][i3][i4][i5]     *(1-xd0) +
                     xd0*data_[i02][i1][i2][i3][i4][i5];
   const double c10000 = data_[i0][i12][i2][i3][i4][i5]    *(1-xd0) +
@@ -969,41 +682,55 @@ double Table6D::linear_interpolation(const double value0, const double value1,
   const double c0 = c00*(1-xd4)+xd4*c10;
   const double c1 = c01*(1-xd4)+xd4*c11;
   const double rtn = c0*(1-xd5)+xd5*c1;
-  if (std::isnan(rtn)) {
-    INFO("num0 " << n0 << " num1 " << n1 << " num2 " << n2 << " num3 " << n3 <<
-      " num4 " << n4 << " num5 " << n5);
-    INFO("value0 " << value0 << "value1 " << value1 << "value2 " << value2 <<
-      " value3 " << value3 << " value4 " << value4 << " value5 " << value5);
-    INFO("i0 " << i0 << " i1 " << i1 << " i2 " << i2 << " i3 " << i3 << " i4 "
-      << i4 << " i5 " << i5);
-    INFO("i02 " << i02 << " i12 " << i12 << " i22 " << i22 << " i32 " << i32 <<
-      " i42 " << i42 << " i52 " << i52);
-    INFO("d0 " << d0 << " d1 " << d1 << " d2 " << d2 << " d3 " << d3 << " d4 "
-      << d4 << " d5 " << d5);
-    INFO("v0 " << v0 << " v1 " << v1 << " v2 " << v2 << " v3 " << v3 << " v4 "
-      << v4 << " v5 " << v5);
-    INFO("vv0 " << vv0 << " vv1 " << vv1 << " vv2 " << vv2 << " vv3 " << vv3 <<
-      " vv4 " << vv4 << " vv5 " << vv5);
-    INFO("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2 << " xd3 " << xd3 <<
-      " xd4 " << xd4 << " xd5 " << xd5);
-    INFO("size0 " << data_.size());
-    INFO("size1 " << data_[0].size());
-    INFO("size2 " << data_[0][0].size());
-    INFO("size3 " << data_[0][0][0].size());
-    INFO("size4 " << data_[0][0][0][0].size());
-    INFO("size5 " << data_[0][0][0][0][0].size());
-    INFO("c0 " << c0 << " c1 " << c1);
-    INFO("c01 " << c01 << " c11 " << c11);
-    INFO("c011 " << c011 << " c111 " << c111);
-    INFO("c0111 " << c0111 << " c1111 " << c1111);
-    INFO("c01111 " << c01111 << " c11111 " << c11111);
-    INFO(data_[i0][i12][i22][i32][i42][i52]);
-    INFO(data_[i02][i12][i22][i32][i42][i52]);
-    INFO(i02 << " " << i12 << " " << i22 << " " << i32 << " " << i42 << " "
-      << i52);
-    FATAL("fatal");
-  }
   return rtn;
+}
+
+double Table6D::linear_interpolation(const double value0, const double value1,
+    const double value2, const double value3, const double value4,
+    const double value5) const {
+  int i0, i02, i1, i12, i2, i22, i3, i32, i4, i42, i5, i52;
+  const double xd0 = table_xd_(value0, bin_spacing_[0], num0(), &i0, &i02);
+  const double xd1 = table_xd_(value1, bin_spacing_[1], num1(), &i1, &i12);
+  const double xd2 = table_xd_(value2, bin_spacing_[2], num2(), &i2, &i22);
+  const double xd3 = table_xd_(value3, bin_spacing_[3], num3(), &i3, &i32);
+  const double xd4 = table_xd_(value4, bin_spacing_[4], num4(), &i4, &i42);
+  const double xd5 = table_xd_(value5, bin_spacing_[5], num5(), &i5, &i52);
+  TRACE("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2 << " xd3 " << xd3 <<
+       " xd4 " << xd4 << " xd5 " << xd5);
+  TRACE("size0 " << data_.size());
+  TRACE("size1 " << data_[0].size());
+  TRACE("size2 " << data_[0][0].size());
+  TRACE("size3 " << data_[0][0][0].size());
+  TRACE("size4 " << data_[0][0][0][0].size());
+  TRACE("size5 " << data_[0][0][0][0][0].size());
+  return c00_(xd0, xd1, xd2, xd3, xd4, xd5, i0, i02, i1, i12, i2, i22, i3, i32, i4, i42, i5, i52);
+//  if (std::isnan(rtn)) {
+//    INFO("value0 " << value0 << "value1 " << value1 << "value2 " << value2 <<
+//      " value3 " << value3 << " value4 " << value4 << " value5 " << value5);
+//    INFO("i0 " << i0 << " i1 " << i1 << " i2 " << i2 << " i3 " << i3 << " i4 "
+//      << i4 << " i5 " << i5);
+//    INFO("i02 " << i02 << " i12 " << i12 << " i22 " << i22 << " i32 " << i32 <<
+//      " i42 " << i42 << " i52 " << i52);
+//    INFO("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2 << " xd3 " << xd3 <<
+//      " xd4 " << xd4 << " xd5 " << xd5);
+//    INFO("size0 " << data_.size());
+//    INFO("size1 " << data_[0].size());
+//    INFO("size2 " << data_[0][0].size());
+//    INFO("size3 " << data_[0][0][0].size());
+//    INFO("size4 " << data_[0][0][0][0].size());
+//    INFO("size5 " << data_[0][0][0][0][0].size());
+//    INFO("c0 " << c0 << " c1 " << c1);
+//    INFO("c01 " << c01 << " c11 " << c11);
+//    INFO("c011 " << c011 << " c111 " << c111);
+//    INFO("c0111 " << c0111 << " c1111 " << c1111);
+//    INFO("c01111 " << c01111 << " c11111 " << c11111);
+//    INFO(data_[i0][i12][i22][i32][i42][i52]);
+//    INFO(data_[i02][i12][i22][i32][i42][i52]);
+//    INFO(i02 << " " << i12 << " " << i22 << " " << i32 << " " << i42 << " "
+//      << i52);
+//    FATAL("fatal");
+//  }
+//  return rtn;
 }
 
 void Table6D::serialize(std::ostream& ostr) const {

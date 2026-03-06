@@ -6,7 +6,7 @@
 #include "system/include/potential.h"
 #include "system/include/system.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/ref_potential.h"
+#include "actions/include/ref_potential.h"
 
 namespace feasst {
 

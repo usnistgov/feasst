@@ -6,7 +6,7 @@
 #include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/analyze_factory.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/remove_analyze.h"
+#include "actions/include/remove_analyze.h"
 
 namespace feasst {
 
