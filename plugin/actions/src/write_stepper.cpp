@@ -7,7 +7,7 @@
 #include "monte_carlo/include/modify_factory.h"
 #include "steppers/include/seek_analyze.h"
 #include "steppers/include/seek_modify.h"
-#include "steppers/include/write_stepper.h"
+#include "actions/include/write_stepper.h"
 
 namespace feasst {
 

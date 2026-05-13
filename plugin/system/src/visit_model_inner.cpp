@@ -115,21 +115,27 @@ std::shared_ptr<VisitModelInner> VisitModelInner::deserialize(
 }
 
 void VisitModelInner::serialize_visit_model_inner_(std::ostream& ostr) const {
-  feasst_serialize_version(8178, ostr);
+  feasst_serialize_version(8179, ostr);
   feasst_serialize(energy_, ostr);
   feasst_serialize(cutoff_index_, ostr);
   feasst_serialize(cutoff_outer_index_, ostr);
+  feasst_serialize(epsilon_index_, ostr);
+  feasst_serialize(sigma_index_, ostr);
   feasst_serialize_fstdr(energy_map_, ostr);
 }
 
 VisitModelInner::VisitModelInner(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 8177 && version <= 8178,
+  ASSERT(version >= 8177 && version <= 8179,
     "unrecognized verison: " << version);
   feasst_deserialize(&energy_, istr);
   feasst_deserialize(&cutoff_index_, istr);
   feasst_deserialize(&cutoff_outer_index_, istr);
+  if (version >= 8179) {
+    feasst_deserialize(&epsilon_index_, istr);
+    feasst_deserialize(&sigma_index_, istr);
+  }
   // HWH for unknown reasons, this function template does not work.
   { int existing;
     istr >> existing;
@@ -162,8 +168,11 @@ void VisitModelInner::precompute(Configuration * config) {
   if (energy_map_) {
     energy_map_->precompute(config);
   }
-  cutoff_index_ = config->model_params().index("cutoff");
-  cutoff_outer_index_ = config->model_params().index("cutoff_outer");
+  const ModelParams& existing = config->model_params();
+  cutoff_index_ = existing.index("cutoff");
+  cutoff_outer_index_ = existing.index("cutoff_outer");
+  epsilon_index_ = existing.index("epsilon");
+  sigma_index_ = existing.index("sigma");
   //TRACE("cutoff_outer_index " << cutoff_outer_index_);
 }
 

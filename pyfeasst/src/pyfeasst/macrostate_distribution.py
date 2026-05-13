@@ -369,6 +369,9 @@ class MacrostateDistribution:
             B = [df1['ln_prob'][macro], df1['dlnp'][macro], df1['d2lnp'][macro],
                  df2['ln_prob'][macro], df2['dlnp'][macro], df2['d2lnp'][macro]]
             x = np.linalg.solve(self._ntrp_A, B)
+            if np.any(np.isnan(x)):
+                print('Check the energy accumulator for macro:', macro, 'which yielded x:', x)
+                assert False
             self._ntrp_xs.append(x)
 
     def interpolate(self, beta):
@@ -453,6 +456,24 @@ def splice_files(prefix, suffix, ln_prob_header=None, extra_overlap=0, shift=Tru
     """
     lnpis = list()
     for filename in sorted(Path('.').glob(prefix+'*'+suffix)):
+        if ln_prob_header is None:
+            lnpis.append(MacrostateDistribution(file_name=filename, integer_only=integer_only))
+        else:
+            lnpis.append(MacrostateDistribution(file_name=filename, integer_only=integer_only, ln_prob_header=ln_prob_header))
+    if len(lnpis) < 1:
+        print('No files found that match', str(prefix+'*'+suffix))
+        assert False
+    return splice(windows=lnpis, extra_overlap=extra_overlap, shift=shift)
+
+def splice_num_files(prefix, suffix, stop, start=1, ln_prob_header=None, extra_overlap=0, shift=True, integer_only=False):
+    lnpis = list()
+    for i in range(start, stop+1):
+        files = sorted(Path('.').glob(prefix+"""{0:03d}""".format(i)+suffix))
+        if len(files) == 1:
+            filename = files[0]
+        else:
+            print('non unique')
+            assert False
         if ln_prob_header is None:
             lnpis.append(MacrostateDistribution(file_name=filename, integer_only=integer_only))
         else:

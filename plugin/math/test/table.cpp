@@ -11,7 +11,7 @@ TEST(Table1D, interpolate) {
   table->set_data(0, 1.);
   auto table2 = std::make_shared<Table1D>(test_serialize(*table));
   EXPECT_NEAR(table2->linear_interpolation(0.5), 1./2., NEAR_ZERO);
-  EXPECT_EQ(table2->bin_to_value(1), 1);
+  EXPECT_EQ(table2->bin_value(1), 1);
   EXPECT_EQ(table2->value_to_nearest_bin(0.45), 0);
   EXPECT_EQ(table2->value_to_nearest_bin(0.501), 1);
 }
@@ -19,7 +19,7 @@ TEST(Table1D, interpolate) {
 TEST(Table1D, forward_difference_interpolate) {
   auto table = MakeTable1D({{"num", str(11)}, {"default_value", "0."}});
   for (int bin = 0; bin < table->num(); ++bin) {
-    const double x = table->bin_to_value(bin);
+    const double x = table->bin_value(bin);
     table->set_data(bin, std::erfc(x));
   }
   Table1D table2 = test_serialize(*table);

@@ -21,6 +21,14 @@ double Table::calc_bin_spacing(const int num) {
   }
 }
 
+int Table::value_to_lowest_bin(const int dim, const double value) const {
+  FATAL("Not Implemented.");
+}
+
+double Table::bin_to_value(const int dim, const int bin) const {
+  FATAL("Not Implemented.");
+}
+
 void Table1D::calc_d_() {
   bin_spacing_ = calc_bin_spacing(num());
 }
@@ -48,6 +56,7 @@ double table_xd_(const double value0, const double d0, const int n0, int * i0, i
   const double v0 = *i0 * d0, vv0 = v0 + d0;
   TRACE("v0 " << v0);
   TRACE("vv0 " << vv0);
+  TRACE("d0 " << d0);
   const double xd0 = (value0 - v0) / d0;
   TRACE("xd0 " << xd0);
   if (xd0 < 0) {
@@ -123,8 +132,25 @@ int Table1D::value_to_nearest_bin(const double value) const {
   return feasst::round(value*(num() - 1));
 }
 
-int Table1D::value_to_lowest_bin(const double value) const {
+int Table1D::value_to_lowest_bin(const int dim, const double value) const {
+  ASSERT(dim == 0, "dim:" << dim);
+  int bin = static_cast<int>(value*(num() - 1));
+  if (bin == num() - 1) {
+    bin -= 1;
+  } else if (bin == -1) {
+    bin = 0;
+  }
+  TRACE("dim " << dim << " value " << value << " bin " << bin << " num " << num());
+  return bin;
+}
+
+int Table1D::value_lowest_bin(const double value) const {
   return int(value*(num() - 1));
+}
+
+double Table1D::bin_to_value(const int dim, const int bin) const {
+  ASSERT(dim == 0, "dim:" << dim);
+  return bin_spacing_*bin;
 }
 
 void Table1D::add(const Table1D& table) { feasst::add(table.data_, &data_); }
@@ -194,7 +220,14 @@ int Table2D::value_to_nearest_bin(const int dim, const double value) const {
 }
 
 int Table2D::value_to_lowest_bin(const int dim, const double value) const {
-  return static_cast<int>(value*(num(dim) - 1));
+  int bin = static_cast<int>(value*(num(dim) - 1));
+  if (bin == num(dim) - 1) {
+    bin -= 1;
+  } else if (bin == -1) {
+    bin = 0;
+  }
+  TRACE("dim " << dim << " value " << value << " bin " << bin << " num " << num(dim));
+  return bin;
 }
 
 
@@ -248,13 +281,13 @@ double Table3D::linear_interpolation(const double value0,
 }
 
 void Table3D::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(6867, ostr);
+  feasst_serialize_version(9826, ostr);
   feasst_serialize(data_, ostr);
 }
 
 Table3D::Table3D(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 6867, "version: " << version);
+  ASSERT(version == 9826 || version == 6867, "version: " << version);
   feasst_deserialize(&data_, istr);
   calc_d_();
 }
@@ -276,6 +309,16 @@ int Table3D::num(const int dim) const {
 
 int Table3D::value_to_nearest_bin(const int dim, const double value) const {
   return feasst::round(value*(num(dim) - 1));
+}
+
+int Table3D::value_to_lowest_bin(const int dim, const double value) const {
+  int bin = static_cast<int>(value*(num(dim) - 1));
+  if (bin == num(dim) - 1) {
+    bin -= 1;
+  } else if (bin == -1) {
+    bin = 0;
+  }
+  return bin;
 }
 
 void Table3D::add(const Table3D& table) { feasst::add(table.data_, &data_); }
@@ -355,13 +398,13 @@ double Table4D::linear_interpolation(const double value0,
 }
 
 void Table4D::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(6867, ostr);
+  feasst_serialize_version(2707, ostr);
   feasst_serialize(data_, ostr);
 }
 
 Table4D::Table4D(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 6867, "version: " << version);
+  ASSERT(version == 2707 || version == 6867, "version: " << version);
   feasst_deserialize(&data_, istr);
   calc_d_();
 }
@@ -507,13 +550,13 @@ double Table5D::linear_interpolation(const double value0, const double value1,
 }
 
 void Table5D::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(6867, ostr);
+  feasst_serialize_version(6268, ostr);
   feasst_serialize(data_, ostr);
 }
 
 Table5D::Table5D(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 6867, "version: " << version);
+  ASSERT(version == 6268 || version == 6867, "version: " << version);
   feasst_deserialize(&data_, istr);
   calc_d_();
 }
@@ -542,7 +585,13 @@ int Table5D::value_to_nearest_bin(const int dim, const double value) const {
 }
 
 int Table5D::value_to_lowest_bin(const int dim, const double value) const {
-  return static_cast<int>(value*(num(dim) - 1));
+  int bin = static_cast<int>(value*(num(dim) - 1));
+  if (bin == num(dim) - 1) {
+    bin -= 1;
+  } else if (bin == -1) {
+    bin = 0;
+  }
+  return bin;
 }
 
 void Table5D::add(const Table5D& table) { feasst::add(table.data_, &data_); }
@@ -768,6 +817,16 @@ int Table6D::num(const int dim) const {
 
 int Table6D::value_to_nearest_bin(const int dim, const double value) const {
   return feasst::round(value*(num(dim) - 1));
+}
+
+int Table6D::value_to_lowest_bin(const int dim, const double value) const {
+  int bin = static_cast<int>(value*(num(dim) - 1));
+  if (bin == num(dim) - 1) {
+    bin -= 1;
+  } else if (bin == -1) {
+    bin = 0;
+  }
+  return bin;
 }
 
 void Table6D::add(const Table6D& table) { feasst::add(table.data_, &data_); }

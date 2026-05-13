@@ -19,17 +19,17 @@ def parse():
     parser.add_argument('--beta', type=float, default=1/1.5, help='1 / kB / T')
     parser.add_argument('--port', type=int, default=54321, help='server client interface port')
     parser.add_argument('--buffer_size', type=int, default=1000, help='server client interface port')
-    parser.add_argument('--procs_per_node', type=int, default=2, help='number of processors')
+    parser.add_argument('--num_jobs', type=int, default=2, help='Number of jobs in queue')
+    parser.add_argument('--procs_per_job', type=int, default=1, help='number of processors')
     parser.add_argument('--seed', type=int, default=-1,
                         help='Random number generator seed. If -1, assign random seed to each sim.')
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')
     parser.add_argument('--hours_terminate', type=float, default=0.04, help='hours until termination')
-    parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
     parser.add_argument('--scratch', type=str, default=None,
                         help='Optionally write scheduled job to scratch/logname/jobid.')
     parser.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
-    parser.add_argument('--node', type=int, default=0, help='node ID')
+    parser.add_argument('--job', type=int, default=0, help='job ID')
     parser.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
     parser.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
@@ -39,11 +39,10 @@ def parse():
     params = vars(args)
     params['prefix'] = 'listen'
     params['script'] = __file__
-    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
     params['hours_terminate'] = 0.99*params['hours_terminate'] - 0.0333 # terminate before queue
     params['procs_per_sim'] = 1
-    params['num_sims'] = params['procs_per_node']
+    params['num_sims'] = params['num_jobs']*params['procs_per_job']
     return params, args
 
 def client(params):
@@ -76,6 +75,6 @@ Run num_trials=2e6""".format(**params)
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=arguments,
                           client=client)

@@ -69,38 +69,40 @@ void Tune::update(MonteCarlo * mc) {
   const int trial = tfac->last_index();
   DEBUG("last trial attempted: " << trial);
   if (trial >= 0 && trial < min_num(*tfac)) {
-    if (!tfac->trial(trial).accept().reject()) {
-      // update acceptance statistics
-      int * num_attempts = &(*get_num_attempts_())[trial];
-      *num_attempts += 1;
-      DEBUG("num_attempts: " << *num_attempts);
-      int * num_accepted = &(*get_num_accepted_())[trial];
-      if (mc->criteria().was_accepted()) {
-        *num_accepted += 1;
-      }
+    if (tfac->trial(trial).accept_ptr()) {
+      if (!tfac->trial(trial).accept().reject()) {
+        // update acceptance statistics
+        int * num_attempts = &(*get_num_attempts_())[trial];
+        *num_attempts += 1;
+        DEBUG("num_attempts: " << *num_attempts);
+        int * num_accepted = &(*get_num_accepted_())[trial];
+        if (mc->criteria().was_accepted()) {
+          *num_accepted += 1;
+        }
 
-      // check for tuning
-      if (tfac->trial(trial).num_stages() > 0) {
-        const Tunable& tunable =
-          tfac->trial(trial).stage(0).perturb().tunable();
-        if (tunable.is_enabled()) {
-          double * value = &(*get_values_())[trial];
-          DEBUG("num_accepted: " << *num_accepted);
-          DEBUG("trials_per_tune_: " << trials_per_tune_);
-          if (*num_attempts == trials_per_tune_) {
-            const double acceptance = *num_accepted/
-                  static_cast<double>(*num_attempts);
-            DEBUG("acceptance: " << acceptance);
-            double val = *value;
-            val *= 1 + tunable.percent_change()*(acceptance - tunable.target());
-            if (!tunable.is_bound() ||
-                (val <= tunable.max() && val >= tunable.min())) {
-              *value = val;
+        // check for tuning
+        if (tfac->trial(trial).num_stages() > 0) {
+          const Tunable& tunable =
+            tfac->trial(trial).stage(0).perturb().tunable();
+          if (tunable.is_enabled()) {
+            double * value = &(*get_values_())[trial];
+            DEBUG("num_accepted: " << *num_accepted);
+            DEBUG("trials_per_tune_: " << trials_per_tune_);
+            if (*num_attempts == trials_per_tune_) {
+              const double acceptance = *num_accepted/
+                    static_cast<double>(*num_attempts);
+              DEBUG("acceptance: " << acceptance);
+              double val = *value;
+              val *= 1 + tunable.percent_change()*(acceptance - tunable.target());
+              if (!tunable.is_bound() ||
+                  (val <= tunable.max() && val >= tunable.min())) {
+                *value = val;
+              }
+              *num_accepted = 0;
+              *num_attempts = 0;
             }
-            *num_accepted = 0;
-            *num_attempts = 0;
+            tfac->set_tunable(trial, *value);
           }
-          tfac->set_tunable(trial, *value);
         }
       }
     }

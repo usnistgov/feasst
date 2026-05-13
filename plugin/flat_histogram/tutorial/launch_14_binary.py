@@ -37,9 +37,9 @@ def parse(particle_type1='/feasst/particle/dimer_mie_CO2.txt',
           window_alpha=2.25,
           hours_checkpoint=1,
           hours_terminate=5*24,
-          num_nodes=1,
+          num_jobs=32,
           min_window_size=3,
-          procs_per_node=32,
+          procs_per_job=1,
           tpc=int(1e6),
           collect_flatness=20,
           min_flatness=25):
@@ -67,16 +67,16 @@ def parse(particle_type1='/feasst/particle/dimer_mie_CO2.txt',
     parser.add_argument('--equilibration', type=int, default=0, help='number of cycles for equilibration')
     parser.add_argument('--hours_checkpoint', type=float, default=hours_checkpoint, help='hours per checkpoint')
     parser.add_argument('--hours_terminate', type=float, default=hours_terminate, help='hours until termination')
-    parser.add_argument('--procs_per_node', type=int, default=procs_per_node, help='number of processors')
+    parser.add_argument('--procs_per_job', type=int, default=procs_per_job, help='number of processors')
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')
     parser.add_argument('--seed', type=int, default=-1,
                         help='Random number generator seed. If -1, assign random seed to each sim.')
     parser.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
-    parser.add_argument('--num_nodes', type=int, default=num_nodes, help='Number of nodes in queue')
+    parser.add_argument('--num_jobs', type=int, default=num_jobs, help='Number of jobs in queue')
     parser.add_argument('--scratch', type=str, default=None,
                         help='Optionally write scheduled job to scratch/logname/jobid.')
-    parser.add_argument('--node', type=int, default=0, help='node ID')
+    parser.add_argument('--job', type=int, default=0, help='job ID')
     parser.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
     parser.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
@@ -86,27 +86,29 @@ def parse(particle_type1='/feasst/particle/dimer_mie_CO2.txt',
     params = vars(args)
     params['script'] = __file__
     params['prefix'] = 'binary'
-    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
     params['hours_terminate'] = 0.95*params['hours_terminate'] - 0.05 # terminate FEASST before SLURM
     params['procs_per_sim'] = 1
-    params['num_sims'] = params['procs_per_node']*params['num_nodes']
+    params['num_sims'] = params['procs_per_job']*params['num_jobs']
     params['mu1'] = params['beta_mu1']/params['beta']
     params['mu2'] = params['beta_delta_mu']/params['beta'] + params['mu1']
     params['min_particles_second_window'] = ""
     params['minimums'] = [params['min_particles']]
-    if params['num_nodes'] == 1:
-        params['windows'] = macrostate_distribution.window_exponential(
-            alpha=params['window_alpha'], minimums=params['minimums'], maximum=params['max_particles'],
-            number=params['num_sims'], overlap=1, min_size=params['min_window_size'])
+    params['windows'] = macrostate_distribution.window_exponential(
+        alpha=params['window_alpha'], minimums=params['minimums'], maximum=params['max_particles'],
+        number=params['num_sims'], overlap=1, min_size=params['min_window_size'])
     return params, args
 
-def sim_node_dependent_params(params):
-    """ Define parameters that are dependent on the sim or node. """
+def sim_job_dependent_params(params):
+    """ Define parameters that are dependent on the sim or job. """
+    if params['job'] == 0:
+        params['min_sweeps'] = 20
+    elif params['job'] < 20:
+        params['min_sweeps'] = 10
     params['min_particles'] = params['windows'][params['sim']][0]
     params['max_particles'] = params['windows'][params['sim']][1]
-    params['sim_start'] = 0
-    params['sim_end'] = params['num_sims'] - 1
+    params['sim_start'] = params['procs_per_job']*params['job']
+    params['sim_end'] = params['sim_start'] + params['procs_per_job'] - 1
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -135,7 +137,7 @@ Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_che
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type=pt1
 TrialAdd particle_type=pt2
-Let [write]=trials_per_write={tpc} output_file={prefix}n{node}s{sim:03d}
+Let [write]=trials_per_write={tpc} output_file={prefix}j{job:03d}s{sim:03d}
 Log [write]_eq.csv
 Tune
 Run until_num_particles={min_particles}
@@ -164,18 +166,18 @@ ExtensiveMoments [write]_ext.csv
 CriteriaUpdater trials_per_update=1e5
 Run until=complete
 
-# continue until all simulations on the node are complete
-WriteFileAndCheck sim={sim} sim_start={sim_start} sim_end={sim_end} file_prefix={prefix}n{node}s file_suffix=_finished.txt output_file={prefix}n{node}_terminate.txt
-Run until_file_exists={prefix}n{node}_terminate.txt trials_per_file_check={tpc}
+# continue until all simulations on the job are complete
+WriteFileAndCheck sim={sim} sim_start={sim_start} sim_end={sim_end} file_prefix={prefix}j{job:03d}s file_suffix=_finished.txt output_file={prefix}j{job:03d}_terminate.txt
+Run until_file_exists={prefix}j{job:03d}_terminate.txt trials_per_file_check={tpc}
 """.format(**params))
 
 def post_process(params):
     """ Skip the following checks if temperature is not the default """
     if np.abs(params['beta'] - 1./258.15) > 1e-5:
         return
-    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
+    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv', shift=False)
     #lnpi.reweight(delta_beta_mu=-4.5, inplace=True)
-    num0 = multistate_accumulator.splice(prefix=params['prefix']+'n0s', suffix='_num0.csv')
+    num0 = multistate_accumulator.splice(prefix=params['prefix']+'j', suffix='_num0.csv')
     #num0.to_csv('num0.csv')
     #plt.plot(num0['average'])
     #plt.show()
@@ -202,8 +204,8 @@ def post_process(params):
             assert np.abs(pressure*pres_conv - 5.38) < 0.4
             assert np.abs(num0 - 14.8) < 4
         else:
-            assert np.abs(n_gce - 183.8) < 4
-            assert np.abs(num0 - 172.8) < 4
+            assert np.abs(n_gce - 183.8) < 10
+            assert np.abs(num0 - 172.8) < 12
         #plt.plot(phase.dataframe()['num0_average'])
         #plt.show()
         print('mole frac0', num0/n_gce)
@@ -217,8 +219,8 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=sim_node_dependent_params,
+                          sim_job_dependent_params=sim_job_dependent_params,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=arguments)

@@ -37,7 +37,7 @@ def parse():
     parser.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
     parser.add_argument('--scratch', type=str, default=None,
                         help='Optionally write scheduled job to scratch/logname/jobid.')
-    parser.add_argument('--node', type=int, default=0, help='node ID')
+    parser.add_argument('--job', type=int, default=0, help='job ID')
     parser.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
     parser.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
@@ -47,11 +47,10 @@ def parse():
     params = vars(args)
     params['script'] = __file__
     params['prefix'] = 'trappe'
-    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
     params['procs_per_sim'] = 1
-    params['num_nodes'] = 1
-    params['procs_per_node'] = 0
+    params['num_jobs'] = 0
+    params['procs_per_job'] = 1
     params['particles'] = list()
     params['temperatures'] = list()
     params['pressures'] = list()
@@ -62,7 +61,7 @@ def parse():
     params['num_sitess'] = list()
     params['initial_density'] = list()
     for _, part in enumerate(params['dictionary_input']):
-        params['procs_per_node'] += len(params['dictionary_input'][part]['temp'])
+        params['num_jobs'] += len(params['dictionary_input'][part]['temp'])
         for index, temp in enumerate(params['dictionary_input'][part]['temp']):
             params['particles'].append(part)
             params['temperatures'].append(temp)
@@ -81,10 +80,10 @@ def parse():
             params['pbcs'].append((params['nums'][-1]/params['initial_density'][-1]*dens_conv)**(1./3.))
             params['xyzs'].append(params['dictionary_input'][part]['xyz'][index])
             params['pressures'].append(params['dictionary_input'][part]['pressure'][index])
-    params['num_sims'] = params['num_nodes']*params['procs_per_node']
+    params['num_sims'] = params['num_jobs']*params['procs_per_job']
     params['hours_terminate'] = 0.95*params['hours_terminate'] - 0.05 # terminate FEASST before SLURM
-    params['hours_terminate'] *= params['procs_per_node'] # real time -> cpu time
-    params['hours_checkpoint'] *= params['procs_per_node']
+    params['hours_terminate'] *= params['procs_per_job'] # real time -> cpu time
+    params['hours_checkpoint'] *= params['procs_per_job']
     #params['temperatures'] = np.linspace(params['temperature_lower'],params['temperature_upper'], num=params['num_sims']).tolist()
     params['mu_init']=10
     params['dccb_cut'] = 3.5 # cutoff for dual-cut cb
@@ -101,8 +100,8 @@ def pressure_convert():
     na = physical_constants.AvogadroConstant().value()
     return 1e33/na
 
-def sim_node_dependent_params(params):
-    """ Set parameters that depend upon the sim or node here. """
+def sim_job_dependent_params(params):
+    """ Set parameters that depend upon the sim or job here. """
     sim = params['sim']
     params['beta'] = 1./(params['temperatures'][sim]*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
     params['pbc'] = params['pbcs'][sim]
@@ -198,8 +197,8 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=sim_node_dependent_params,
+                          sim_job_dependent_params=sim_job_dependent_params,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=arguments)

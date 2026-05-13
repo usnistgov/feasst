@@ -29,16 +29,16 @@ PARSER.add_argument('--equilibration_iterations', type=int, default=0,
                     help='number of iterations for equilibration')
 PARSER.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
 PARSER.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
-PARSER.add_argument('--procs_per_node', type=int, default=4, help='number of processors')
+PARSER.add_argument('--procs_per_job', type=int, default=4, help='number of processors')
 PARSER.add_argument('--run_type', '-r', type=int, default=0,
                     help='0: run, 1: submit to queue, 2: post-process')
 PARSER.add_argument('--seed', type=int, default=-1,
                     help='Random number generator seed. If -1, assign random seed to each sim.')
 PARSER.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
-PARSER.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
+PARSER.add_argument('--num_jobs', type=int, default=1, help='Number of jobs in queue')
 PARSER.add_argument('--scratch', type=str, default=None,
                     help='Optionally write scheduled job to scratch/logname/jobid.')
-PARSER.add_argument('--node', type=int, default=0, help='node ID')
+PARSER.add_argument('--job', type=int, default=0, help='job ID')
 PARSER.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
 PARSER.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
@@ -48,13 +48,12 @@ assert len(UNKNOWN_ARGS) == 0, 'An unknown argument was included: '+str(UNKNOWN_
 PARAMS = vars(ARGS)
 PARAMS['script'] = __file__
 PARAMS['prefix'] = 'lj_fh'
-PARAMS['sim_id_file'] = PARAMS['prefix']+ '_sim_ids.txt'
 PARAMS['minutes'] = int(PARAMS['hours_terminate']*60) # minutes allocated on queue
 PARAMS['hours_terminate'] = 0.95*PARAMS['hours_terminate'] - 0.05 # terminate FEASST before SLURM
-PARAMS['hours_terminate'] *= PARAMS['procs_per_node'] # real time -> cpu time
-PARAMS['hours_checkpoint'] *= PARAMS['procs_per_node']
-PARAMS['num_sims'] = PARAMS['num_nodes']
-PARAMS['procs_per_sim'] = PARAMS['procs_per_node']
+PARAMS['hours_terminate'] *= PARAMS['procs_per_job'] # real time -> cpu time
+PARAMS['hours_checkpoint'] *= PARAMS['procs_per_job']
+PARAMS['num_sims'] = PARAMS['num_jobs']
+PARAMS['procs_per_sim'] = PARAMS['procs_per_job']
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -74,7 +73,7 @@ Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpo
 
 # gcmc initialization and nvt equilibration
 TrialAdd particle_type 0
-Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}_eq.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}n{job}_eq.txt
 Tune
 Run until_num_particles {min_particles}
 Remove name TrialAdd
@@ -87,14 +86,14 @@ Remove name0 Tune name1 Log
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} \
   Bias TransitionMatrix min_sweeps {min_sweeps}
 #Bias WLTM min_sweeps {min_sweeps} min_flatness 25 collect_flatness 20 min_collect_sweeps 1
-Log trials_per_write {trials_per_iteration} output_file {prefix}n{node}.txt
+Log trials_per_write {trials_per_iteration} output_file {prefix}n{job}.txt
 #To print trajectories for each macrostate in separate files, add the following arguments to the "Movie" lines below: multistate true multistate_aggregate false
-Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}_eq.xyz stop_after_iteration 1
-Movie trials_per_write {trials_per_iteration} output_file {prefix}n{node}.xyz start_after_iteration 1
-Tune trials_per_write {trials_per_iteration} output_file {prefix}n{node}_tune.txt multistate true stop_after_iteration 1
-Energy trials_per_write {trials_per_iteration} output_file {prefix}n{node}_en.txt multistate true start_after_iteration 1
+Movie trials_per_write {trials_per_iteration} output_file {prefix}n{job}_eq.xyz stop_after_iteration 1
+Movie trials_per_write {trials_per_iteration} output_file {prefix}n{job}.xyz start_after_iteration 1
+Tune trials_per_write {trials_per_iteration} output_file {prefix}n{job}_tune.txt multistate true stop_after_iteration 1
+Energy trials_per_write {trials_per_iteration} output_file {prefix}n{job}_en.txt multistate true start_after_iteration 1
 CriteriaUpdater trials_per_update 1e5
-CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{node}_crit.txt
+CriteriaWriter trials_per_write {trials_per_iteration} output_file {prefix}n{job}_crit.txt
 Run until_criteria_complete true
 """.format(**params))
 
@@ -118,8 +117,8 @@ def post_process(params):
 
 if __name__ == '__main__':
     fstio.run_simulations(params=PARAMS,
-                          sim_node_dependent_params=None,
+                          sim_job_dependent_params=None,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=ARGS)

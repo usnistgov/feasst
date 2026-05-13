@@ -23,9 +23,11 @@ void VisitModelInnerNN::read_table(const std::string file_name,
   // HWH implement reading of NN here
 }
 
-double VisitModelInnerNN::compute_aniso(const int type1, const int type2,
+double VisitModelInnerNN::compute_aniso(const int tabtype1, const int tabtype2,
     const double squared_distance, const double s1, const double s2,
-    const double e1, const double e2, const double e3, const Configuration& config) const {
+    const double e1, const double e2, const double e3,
+    const Configuration& config, const ModelParams& model_params,
+    const int stype1, const int stype2) const {
   // HWH implement NN predictions here
   double en = 0.;
   return en;

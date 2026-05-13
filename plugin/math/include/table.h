@@ -26,6 +26,10 @@ class Table {
   /// Return the bin spacing for a given number of elements.
   double calc_bin_spacing(const int num);
 
+  /// Return the bin just below the value.
+  virtual int value_to_lowest_bin(const int dim, const double value) const;
+  virtual double bin_to_value(const int dim, const int bin) const;
+
   /// Write to file.
   virtual void write(const std::string file_name) const;
 
@@ -54,14 +58,18 @@ class Table1D : public Table {
   double bin_spacing() const { return bin_spacing_; }
 
   /// For a given dimension, return the value of a bin.
-  double bin_to_value(const int bin) const {
+  double bin_value(const int bin) const {
     return bin_spacing_*bin; }
 
   /// The inverse of above.
   int value_to_nearest_bin(const double value) const;
+  int value_to_lowest_bin(const int dim, const double value) const override;
 
   /// Return the bin just below the value.
-  int value_to_lowest_bin(const double value) const;
+  int value_lowest_bin(const double value) const;
+
+  /// For a given dimension, return the value of a bin.
+  double bin_to_value(const int dim, const int bin) const override;
 
   /// Set data.
   void set_data(const int dim0, const double value) { data_[dim0] = value; }
@@ -135,12 +143,12 @@ class Table2D : public Table {
   double bin_spacing(const int dim) const { return bin_spacing_[dim]; }
 
   /// For a given dimension, return the value of a bin.
-  double bin_to_value(const int dim, const int bin) const {
+  double bin_to_value(const int dim, const int bin) const override {
     return bin_spacing_[dim]*bin; }
 
   /// The inverse of above.
   int value_to_nearest_bin(const int dim, const double value) const;
-  int value_to_lowest_bin(const int dim, const double value) const;
+  int value_to_lowest_bin(const int dim, const double value) const override;
 
   /// Set data.
   void set_data(const int dim0, const int dim1, const double value) {
@@ -215,11 +223,12 @@ class Table3D : public Table {
   double bin_spacing(const int dim) const { return bin_spacing_[dim]; }
 
   /// For a given dimension, return the value of a bin.
-  double bin_to_value(const int dim, const int bin) const {
+  double bin_to_value(const int dim, const int bin) const override {
     return bin_spacing_[dim]*bin; }
 
   /// The inverse of above.
   int value_to_nearest_bin(const int dim, const double value) const;
+  int value_to_lowest_bin(const int dim, const double value) const override;
 
   /// Set data.
   void set_data(const int dim0, const int dim1, const int dim2,
@@ -310,7 +319,7 @@ class Table4D : public Table {
   double bin_spacing(const int dim) const { return bin_spacing_[dim]; }
 
   /// For a given dimension, return the value of a bin.
-  double bin_to_value(const int dim, const int bin) const {
+  double bin_to_value(const int dim, const int bin) const override {
     return bin_spacing_[dim]*bin; }
 
   /// The inverse of above.
@@ -405,12 +414,12 @@ class Table5D : public Table {
   double bin_spacing(const int dim) const { return bin_spacing_[dim]; }
 
   /// For a given dimension, return the value of a bin.
-  double bin_to_value(const int dim, const int bin) const {
+  double bin_to_value(const int dim, const int bin) const override {
     return bin_spacing_[dim]*bin; }
 
   /// The inverse of above.
   int value_to_nearest_bin(const int dim, const double value) const;
-  int value_to_lowest_bin(const int dim, const double value) const;
+  int value_to_lowest_bin(const int dim, const double value) const override;
 
   /// Set data.
   void set_data(const int dim0, const int dim1, const int dim2, const int dim3,
@@ -512,11 +521,12 @@ class Table6D : public Table {
   double bin_spacing(const int dim) const { return bin_spacing_[dim]; }
 
   /// For a given dimension, return the value of a bin.
-  double bin_to_value(const int dim, const int bin) const {
+  double bin_to_value(const int dim, const int bin) const override {
     return bin_spacing_[dim]*bin; }
 
   /// The inverse of above.
   int value_to_nearest_bin(const int dim, const double value) const;
+  int value_to_lowest_bin(const int dim, const double value) const override;
 
   /// Set data.
   void set_data(const int dim0, const int dim1, const int dim2, const int dim3,

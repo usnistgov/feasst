@@ -44,6 +44,16 @@ void RecursiveTable1D::insert(const int bin, const RecursiveTable1D& nested) {
   nested_[bin] = std::make_shared<RecursiveTable1D>(ss);
 }
 
+double RecursiveTable1D::percent_nested() const {
+  int num_nested = 0;
+  for (const std::shared_ptr<RecursiveTable1D>& n : nested_) {
+    if (n) {
+      ++num_nested;
+    }
+  }
+  return static_cast<double>(num_nested)/num();
+}
+
 double RecursiveTable1D::linear_interpolation(const double value0) const {
   int i0, i02;
   const double xd0 = table_xd_(value0, bin_spacing(), num(), &i0, &i02);
@@ -153,7 +163,7 @@ void RecursiveTable3D::serialize(std::ostream& ostr) const {
 RecursiveTable3D::RecursiveTable3D(std::istream& istr) : Table3D(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 6279, "version: " << version);
-//  feasst_deserialize(&nested_, istr);
+  //feasst_deserialize(&nested_, istr);
   int dim0;
   istr >> dim0;
   nested_.resize(dim0);
@@ -183,9 +193,28 @@ void RecursiveTable3D::insert(const int bin0, const int bin1, const int bin2,
   ASSERT(bin0 >= 0 && bin0 < num0(), "bin0:" << bin0 << " must be >0 and < num0:" << num0());
   ASSERT(bin1 >= 0 && bin1 < num1(), "bin1:" << bin1 << " must be >0 and < num1:" << num1());
   ASSERT(bin2 >= 0 && bin2 < num2(), "bin2:" << bin2 << " must be >0 and < num2:" << num2());
-  std::stringstream ss;
-  nested.serialize(ss);
-  nested_[bin0][bin1][bin2] = std::make_shared<RecursiveTable3D>(ss);
+  //INFO("bin0 " << bin0 << " bin1 " << bin1 << " bin2 " << bin2);
+  //INFO("num0 " << num0() << " num1 " << num1() << " num2 " << num2());
+  //WARN("For testing only.");
+  //std::stringstream ss2;
+  //nested.serialize(ss2);
+  //INFO("ss:" << ss2.str());
+  //nested_[bin0][bin1][bin2] = std::make_shared<RecursiveTable3D>(ss2);
+  nested_[bin0][bin1][bin2] = std::make_shared<RecursiveTable3D>(nested);
+}
+
+double RecursiveTable3D::percent_nested() const {
+  int num_nested = 0;
+  for (const std::vector<std::vector<std::shared_ptr<RecursiveTable3D> > >& ns2 : nested_) {
+    for (const std::vector<std::shared_ptr<RecursiveTable3D> >& ns : ns2) {
+      for (const std::shared_ptr<RecursiveTable3D>& n : ns) {
+        if (n) {
+          ++num_nested;
+        }
+      }
+    }
+  }
+  return static_cast<double>(num_nested)/num0()/num1()/num2();
 }
 
 double RecursiveTable3D::linear_interpolation(const double value0, const double value1,

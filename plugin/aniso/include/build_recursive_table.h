@@ -12,7 +12,9 @@ namespace feasst {
 
 class RecursiveTable1D;
 class RecursiveTable2D;
+class RecursiveTable3D;
 class RecursiveTable5D;
+class RecursiveTable6D;
 class System;
 class Table1D;
 
@@ -61,10 +63,15 @@ class BuildRecursiveTable : public Action {
     - output_file: write RecursiveTablePotential checkpoint file.
     - verbose_file: output file for more fitting information.
     - hard_limit_u: determines the inner cutoff distance (default: 100).
-    - size: the size of each of the RecursiveTable s (default: 5).
     - num_orientations_per_pi: angular size of each of the RecursiveTable s (default: 5).
     - beta: parameter which weights low energy configurations (default: 1).
+      Only affects energy tables, so not required for contact_only (see below).
+    - num_z: the number of distances for each of the RecursiveTable s (default: 5).
+      Only affects energy tables, so not required for contact_only (see below).
     - min_criteria: iterative target minimum criteria (default: 0.03).
+    - min_criteria_energy: iterative target minimum criteria for energy. (default: 0).
+      If negative, set to min_criteria above.
+    - contact_only: If true, only consider hard contact (default: false).
    */
   explicit BuildRecursiveTable(argtype args = argtype());
   explicit BuildRecursiveTable(argtype * args);
@@ -86,18 +93,33 @@ class BuildRecursiveTable : public Action {
   //@}
  private:
   std::string mayer_training_file_, verbose_file_, output_file_;
-  double hard_limit_u_, beta_, min_criteria_, cutoff_;
-  int size_, num_orientations_per_pi_;
+  double hard_limit_u_, beta_, min_criteria_, min_criteria_energy_, cutoff_;
+  int num_z_, num_orientations_per_pi_;
+  bool contact_only_;
 
   std::string verbose_name_(const int iteration) const;
   void build_table_(const std::vector<std::vector<double> >& bounds, const std::vector<std::vector<double> >& data, RecursiveTable1D * tab, MonteCarlo * mc) const;
   int analyze_table_(const double lower, const double upper, const std::vector<std::vector<double> >& data, const Table1D& table, const double beta, const std::string& filename, double * criteria);
   RecursiveTable5D build_contact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system);
-  RecursiveTable2D build_2dcontact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system);
+  RecursiveTable2D build_2dcontact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system, const bool cutoff = false);
+  RecursiveTable1D build_1dcontact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system, const bool cutoff = false);
+  RecursiveTable3D build_3denergy_(const std::vector<std::vector<double> >& bounds, const std::vector<double>& zbnds, const std::string& verbf, const RecursiveTable2D& contact, const RecursiveTable2D& cutoff, System * system);
+  RecursiveTable2D build_2denergy_(const std::vector<std::vector<double> >& bounds, const std::vector<double>& zbnds, const std::string& verbf, const RecursiveTable1D& contact, const RecursiveTable1D& cutoff, System * system);
   void analyze_contact_(const std::vector<std::vector<double> >& data,
-    const RecursiveTable5D& contact, const RecursiveTable2D& contact2d, const std::vector<std::vector<double> >& abnd, const std::string& verbf,
+    const RecursiveTable5D& contact, const RecursiveTable2D& contact2d, const RecursiveTable1D& contact1d,
+    const std::vector<std::vector<double> >& abnd, const int dimen, const std::string& verbf, const std::vector<std::vector<int> >& rbins,
     double * criteria, std::vector<int> * max_bins, std::vector<std::vector<double> > * new_bounds,
+    std::vector<double> * max_s, const bool cutoff = false) const;
+  void analyze_energy_(const std::vector<std::vector<double> >& data,
+    const RecursiveTable6D& energy, const RecursiveTable3D& energy3d, const RecursiveTable2D& energy2d,
+    const RecursiveTable2D& contact2d, const RecursiveTable1D& contact1d,
+    const RecursiveTable2D& cutoff2d, const RecursiveTable1D& cutoff1d,
+    const std::vector<std::vector<double> >& abnd, const std::string& verbf,
+    const std::vector<std::vector<int> >& rbins, const bool is_2d,
+    double * criteria, std::vector<int> * max_bins, std::vector<std::vector<double> > * new_bounds,
+    std::vector<double> * new_zbnds,
     std::vector<double> * max_s) const;
+  bool is_iso_(const bool is_2d, const int bsize) const;
 };
 
 }  // namespace feasst

@@ -314,7 +314,7 @@ void FileParticle::read_properties_(const std::string property_type,
         DEBUG("adding " << name << " "  << value);
         site->add_property(name, value);
         if (name == "anisotropic") {
-          site->set_anisotropic("true");
+          site->set_anisotropic(true);
         }
         // particle->set_site(type, site);
       } else if (property_type == "bond") {

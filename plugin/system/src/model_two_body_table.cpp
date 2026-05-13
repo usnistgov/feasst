@@ -79,7 +79,7 @@ void ModelTwoBodyTable::set(const ModelParams& model_params,
       const double rcg = cutoff_inv_sq_->mixed_value(type1, type2);
       auto table = MakeTable1D({{"num", str(size)}});
       for (int bin = 0; bin < size; ++bin) {
-        const double z = table->bin_to_value(bin);
+        const double z = table->bin_value(bin);
         const double r = std::pow(z*(rcg - rhg) + rhg, -0.5);
         const double en = model->energy(r*r, type1, type2, model_params);
         DEBUG("z " << z << " r " << r << " en " << en);

@@ -40,7 +40,7 @@ double PairDistributionInner::energy(
     const int type1,
     const int type2,
     const ModelParams& model_params) {
-  //DEBUG(squared_distance << " " << type1 << " " << type2);
+  DEBUG(squared_distance << " " << type1 << " " << type2);
   const double distance = std::sqrt(squared_distance);
   radial_[type1][type2].add(distance);
   radial_[type2][type1].add(distance);
@@ -97,14 +97,16 @@ void PairDistribution::initialize(MonteCarlo * mc) {
 }
 
 std::string PairDistribution::header(const MonteCarlo& mc) const {
-  const int num_site_types = configuration(mc.system()).num_site_types();
+  const Configuration& config = configuration(mc.system());
+  const int num_site_types = config.num_site_types();
   std::stringstream ss;
   ss << "#\"num_site_types\":" << num_site_types << "," << std::endl;
   ss << "r,";
   for (int itype = 0; itype < num_site_types; ++itype) {
     for (int jtype = itype; jtype < num_site_types; ++jtype) {
       std::stringstream tt;
-      tt << itype << "-" << jtype;
+      tt << config.site_type_to_name(itype) << "-"
+         << config.site_type_to_name(jtype);
       ss << "g" << tt.str() << "," ;
       if (print_intra_) {
         ss << "h"  << tt.str() << "," ;
@@ -129,6 +131,7 @@ std::string PairDistribution::write(MonteCarlo * mc) {
   std::stringstream ss;
   ss << header(*mc);
   const Configuration& config = configuration(mc->system());
+  DEBUG("num_updates_:" << num_updates_);
   if (num_updates_ <= 0) {
     return ss.str();
   }
@@ -136,6 +139,7 @@ std::string PairDistribution::write(MonteCarlo * mc) {
   const std::vector<std::vector<Histogram> >& hr = intra_.radial_;
   //ASSERT(static_cast<int>(rad.size()) == hr[0][0].size(), "err");
   //for (const grbintype& gr : rad) {
+  DEBUG("rad size " << rad.size());
   for (int bin = 0; bin < static_cast<int>(rad.size()); ++bin) {
     const grbintype& gr = rad[bin];
     ss << gr.first << ",";
@@ -166,13 +170,33 @@ const grtype& PairDistribution::radial(const Configuration& config) {
   std::vector<std::vector<int> > num_sites_of_type_in_particle =
     config.num_site_types_per_particle_type();
   const int max_bin = static_cast<int>(0.5*config.domain().inscribed_sphere_diameter()/dr_);
-  for (int bin = 0; bin < max_bin && bin < inter_.radial_[0][0].size(); ++bin) {
+
+  // find maximum bin in radial
+  int maxi = 0, maxj = 0, max_bin_radial = -1;
+  for (int itype = 0; itype < num_site_types; ++itype) {
+    for (int jtype = 0; jtype < num_site_types; ++jtype) {
+      const int mx = inter_.radial_[itype][jtype].size();
+      if (mx > max_bin_radial) {
+        max_bin_radial = mx;
+        maxi = itype;
+        maxj = jtype;
+      }
+    }
+  }
+  const Histogram& maxrad = inter_.radial_[maxi][maxj];
+  const double nn = std::nan("");
+
+  DEBUG("max_bin " << max_bin);
+  DEBUG("inter_.radial_[0][0].size(): " << inter_.radial_[0][0].size());
+  for (int bin = 0; bin < max_bin && bin < max_bin_radial; ++bin) {
+  //for (int bin = 0; bin < max_bin && bin < inter_.radial_[0][0].size(); ++bin) {
     DEBUG("bin: " << bin << " of " << max_bin);
-    const double distance = inter_.radial_[0][0].center_of_bin(bin);
-    const double lower = inter_.radial_[0][0].edges()[bin];
-    const double upper = inter_.radial_[0][0].edges()[bin + 1];
+    const double distance = maxrad.center_of_bin(bin);
+    const double lower = maxrad.edges()[bin];
+    const double upper = maxrad.edges()[bin + 1];
     const double dv = spherical_shell_volume(lower, upper, config.dimension())/
                       config.domain().volume();
+    DEBUG("dv " << dv);
     if (static_cast<int>(radial_.size()) <= bin) {
       radial_.push_back(grbintype());
       resize(num_site_types, num_site_types, &radial_[bin].second);
@@ -189,7 +213,7 @@ const grtype& PairDistribution::radial(const Configuration& config) {
         }
         const double num_jtype = num_sites_of_type[jtype];
         const Histogram& hist = inter_.radial_[itype][jtype];
-        double grbin = 0;
+        double grbin = nn;
         if (bin < hist.size()) {
           grbin = hist.histogram()[bin]
             /(num_itype - norm_fac)

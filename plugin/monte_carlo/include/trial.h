@@ -184,6 +184,7 @@ class Trial {
 
   // Return Acceptance, which is a temporary object.
   const Acceptance& accept() const;
+  const Acceptance * accept_ptr() const { return acceptance_.get(); }
 
   // Check if approximately equal to given trial.
   bool is_equal(const Trial& trial) const;

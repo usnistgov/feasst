@@ -197,7 +197,7 @@ void ModelTableCart1DHard::compute_table(
     {"lower", "0"},
     {"upper", str(domain->side_length(0)/2)}});
   for (int bin = 0; bin < table->num(); ++bin) {
-    point.set_coord(0, table->bin_to_value(bin)*domain->side_length(0)/2);
+    point.set_coord(0, table->bin_value(bin)*domain->side_length(0)/2);
     Objective1DHard objective(shape, &point, diameter);
     table->set_data(bin, minimize.minimum(&objective));
     report->check();

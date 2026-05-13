@@ -6,6 +6,10 @@
 
 namespace feasst {
 
+Acceptance::Acceptance(const std::string& trial_class) {
+  trial_class_ = trial_class;
+  reset();
+}
 Acceptance::~Acceptance() {}
 
 double Acceptance::ln_metropolis_prob() const {

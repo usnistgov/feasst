@@ -49,7 +49,6 @@ Trial::Trial(argtype * args) {
   weight_per_number_fraction_ = dble("weight_per_number_fraction", args, -1);
   number_fraction_exclude_type_ = parse_number_fraction_exclude_type_(args);
   reset_stats();
-  acceptance_ = std::make_shared<Acceptance>();
   print_num_accepted_ = boolean("print_num_accepted", args, false);
 }
 Trial::Trial(argtype args) : Trial(&args) {
@@ -127,6 +126,9 @@ void Trial::tune() {
 }
 
 void Trial::precompute(Criteria * criteria, System * system) {
+  if (!acceptance_) {
+    acceptance_ = std::make_shared<Acceptance>(class_name());
+  }
   for (std::shared_ptr<TrialStage> stage : stages_) {
     stage->precompute(system);
   }
@@ -191,7 +193,7 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
   }
   increment_num_attempts();
   if (!acceptance_) {
-    acceptance_ = std::make_shared<Acceptance>();
+    acceptance_ = std::make_shared<Acceptance>(class_name());
   }
   acceptance_->reset();
   criteria->before_attempt(*system);
@@ -376,7 +378,6 @@ Trial::Trial(std::istream& istr) {
     feasst_deserialize(&print_num_accepted_, istr);
   }
   feasst_deserialize_fstobj(&data_, istr);
-  acceptance_ = std::make_shared<Acceptance>();
 }
 
 const std::vector<std::shared_ptr<Trial> >& Trial::trials() const {

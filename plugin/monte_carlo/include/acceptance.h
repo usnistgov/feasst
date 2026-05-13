@@ -3,6 +3,7 @@
 #define FEASST_MONTE_CARLO_ACCEPTANCE_H_
 
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace feasst {
@@ -15,7 +16,9 @@ class Select;
  */
 class Acceptance {
  public:
-  Acceptance() { reset(); }
+  explicit Acceptance(const std::string& trial_class = "");
+
+  const std::string& trial_class() const { return trial_class_; }
 
   /// Return the natural logarithm of the Metropolis acceptance probability.
   double ln_metropolis_prob() const;
@@ -140,6 +143,7 @@ class Acceptance {
   std::vector<std::vector<double> > energy_profile_old_;
   std::vector<std::shared_ptr<Select> > perturbed_;
   std::vector<int> updated_;
+  std::string trial_class_;
 
   template <typename T>
   void resize_(const int config, std::vector<T> * vec) {

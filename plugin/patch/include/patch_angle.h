@@ -6,6 +6,9 @@
 
 namespace feasst {
 
+/**
+  The patch_angle is given in particle files in units of degrees (not radians).
+ */
 class PatchAngle : public ModelParam {
  public:
   PatchAngle() : ModelParam() { class_name_ = "patch_angle"; }
@@ -18,6 +21,9 @@ class PatchAngle : public ModelParam {
   virtual ~PatchAngle() {}
 };
 
+/**
+  Derived from the patch_angle, not input by user.
+ */
 class CosPatchAngle : public ModelParam {
  public:
   CosPatchAngle() : ModelParam() { class_name_ = "cos_patch_angle"; }
@@ -31,6 +37,9 @@ class CosPatchAngle : public ModelParam {
   virtual ~CosPatchAngle() {}
 };
 
+/**
+  Set to 1 if site determines the direction of a patch.
+ */
 class Director : public ModelParam {
  public:
   Director() : ModelParam() { class_name_ = "director"; }

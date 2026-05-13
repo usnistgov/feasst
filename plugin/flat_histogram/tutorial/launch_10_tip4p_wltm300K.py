@@ -22,15 +22,20 @@ def parse(temperature=300):
           window_alpha=1.5,
           hours_checkpoint=1,
           hours_terminate=5*24,
-          num_nodes=2,
+          num_jobs=64,
           collect_flatness=18,
           min_flatness=22)
     params['script'] = __file__
     params['prefix'] = 'tip4p_lowt'
-    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['dccb_cut'] = 0.75*3.165
     params['ewald_alpha'] = 5.6/params['cubic_side_length']
-    params['num_particles_first_node'] = 180
+    params['num_particles_first_half'] = 180
+    params['windows'] = macrostate_distribution.window_exponential(
+        alpha=2, minimums=[0], maximum=params['num_particles_first_half'],
+        number=int(params['num_jobs']/2), overlap=1, min_size=5) + \
+        macrostate_distribution.window_exponential(
+        alpha=1, minimums=[params['num_particles_first_half']], maximum=params['max_particles'],
+        number=int(params['num_jobs']/2), overlap=1, min_size=3)
 
     # write TrialGrowFile
     with open(params['prefix']+'_grow.txt', 'w') as f:
@@ -45,7 +50,7 @@ branch=true mobile_site2=H1 mobile_site=H2 anchor_site=O1 anchor_site2=M1 ref=dc
 
 def post_process(params):
     import numpy as np
-    lnpi = macrostate_distribution.splice_files(prefix=params['prefix']+'n', suffix='_crit.csv', shift=False)
+    lnpi = macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv', shift=False)
     #lnpi.plot(show=True)
     lnpi.set_minimum_smoothing(50)
     lnpi.reweight(delta_beta_mu=1.5, inplace=True)
@@ -60,8 +65,8 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=launch_10_spce_wltm300K.sim_node_dependent_params,
+                          sim_job_dependent_params=launch_10_spce_wltm300K.sim_job_dependent_params,
                           write_feasst_script=launch_04_lj_tm_parallel.write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=arguments)

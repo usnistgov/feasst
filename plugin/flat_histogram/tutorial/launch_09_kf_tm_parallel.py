@@ -18,13 +18,16 @@ def parse():
           fstprt='/feasst/plugin/patch/particle/two_patch_linear.txt',
           beta=1./0.7,
           beta_mu=-2.14285714285714,
-          min_sweeps=5,
+          min_sweeps=25,
+          num_jobs=1,
           cubic_side_length=8,
-          max_particles=370,
-          window_alpha=2.25)
+          max_particles=5,
+          window_alpha=1)
+          #num_jobs=32,
+          #max_particles=370,
+          #window_alpha=2.25)
     params['script'] = __file__
     params['prefix'] = 'kf'
-    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['chi'] = 0.7
     params['patch_angle'] = 2*np.arcsin(np.sqrt(params['chi']/2))*180/np.pi
     params['system'] = """Configuration cubic_side_length={cubic_side_length} particle_type=lj:{fstprt} \
@@ -37,16 +40,16 @@ TrialRotate weight=1 tunable_param=0.2"""
     return params, args
 
 def post_process(params):
-    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
+    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv', shift=False)
     lnpi=lnpi.dataframe()
-    lnpi = lnpi[:6] # cut down to six rows
-    lnpi['ln_prob'] -= np.log(sum(np.exp(lnpi['ln_prob'])))  # renormalize
+    #lnpi = lnpi[:6] # cut down to six rows
+    #lnpi['ln_prob'] -= np.log(sum(np.exp(lnpi['ln_prob'])))  # renormalize
     lnpi['ln_prob_prev'] = [-15.9976474469475, -11.9104563420586,  -8.48324267323538, -5.42988602574393, -2.64984051640555, -0.07824246342703]
     lnpi['ln_prob_prev_stdev'] = [0.035, 0.03, 0.025, 0.02, 0.015, 0.01]
     diverged = lnpi[np.abs(lnpi.ln_prob-lnpi.ln_prob_prev) > 6*lnpi.ln_prob_prev_stdev]
     print(diverged)
     assert len(diverged) == 0
-    energy = pd.read_csv(params['prefix']+'n0s000_en.csv')
+    energy = pd.read_csv(params['prefix']+'j000s000_en.csv')
     energy = energy[:6]
     energy['prev'] = [0, 0, -0.038758392176564, -0.116517384264731, -0.232665619265520, -0.387804181572135]
     diverged = energy[np.abs(energy.average - energy.prev) > 10*energy.block_stdev]
@@ -56,8 +59,8 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=launch_04_lj_tm_parallel.sim_node_dependent_params,
+                          sim_job_dependent_params=launch_04_lj_tm_parallel.sim_job_dependent_params,
                           write_feasst_script=launch_04_lj_tm_parallel.write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=arguments)

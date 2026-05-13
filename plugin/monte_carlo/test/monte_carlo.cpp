@@ -622,4 +622,28 @@ TEST(MonteCarlo, weight_per_number_fraction) {
   }
 }
 
+// Check if an multisite particle rotation matches with the anisotropic euler
+TEST(MonteCarlo, rotate2d) {
+  auto mc = MakeMonteCarlo({{
+    //{"RandomMT19937", {{"seed", "123"}}},
+    {"Configuration", {{"side_length", "15,15"}, {"add_num_pt_particles", "1"},
+      {"particle_type", "pt:../plugin/aniso/particle/aniso_tabular2d3l.txt"}}},
+    {"Potential", {{"Model", "LennardJones"}}},
+    {"ThermoParams", {{"beta", "1"}, {"chemical_potential", "1,1"}}},
+    {"Metropolis", {{}}},
+    {"TrialRotate", {{"particle_type", "pt"}, {"tunable_param", "100"}}},
+    {"Movie", {{"trials_per_write", str(1e0)}, {"output_file", "tmp/2dl.xyz"}, {"euler", "true"}}},
+  }}, true);
+  for (int i = 0; i < 2e2; ++i) {
+    mc->attempt();
+    const Site& site0 = mc->configuration().particle(0).site(0);
+    const Site& site1 = mc->configuration().particle(0).site(1);
+    DEBUG("xy:" << site1.position().str() << " "
+      << "x(theta):" << 3.*std::cos(site0.euler().phi()) << " "
+      << "eul:" << site0.euler().phi());
+    //ASSERT(std::abs(3.*std::cos(site0.euler().phi()) - site1.position().coord(0)) < 1e-8, "er");
+    EXPECT_NEAR(3.*std::cos(site0.euler().phi()), site1.position().coord(0), 1e-8);
+  }
+}
+
 }  // namespace feasst

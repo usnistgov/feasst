@@ -20,6 +20,9 @@ class Matrix {
   /// Set the size by number of rows and columns
   void set_size(const int num_rows, const int num_columns);
 
+  /// Set the size of the number of rows and columns to the same.
+  void set_size(const int size) { set_size(size, size); }
+
   /// Alternatively, construct with 2d vector data.
   explicit Matrix(std::vector<std::vector<double> > matrix) {
     matrix_ = matrix; }
@@ -137,6 +140,9 @@ class RotationMatrix : public Matrix {
   /// Same as above, but optimized to avoid creating temporary objects.
   void vector_onto_vector(const Position& vec1, const Position& vec2,
     Position * tmp_vec, Matrix * tmp_mat);
+
+  /// Set a 2D rotation matrix
+  void set_2d(const double radian_angle);
 
   /// Check square matrix, unit derminant, in addition to Matrix::check.
   void check() const override;

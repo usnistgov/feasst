@@ -38,6 +38,7 @@ class Rotator {
    */
   //@{
 
+//  bool identical(const Configuration& config) const;
   std::vector<std::vector<double> > gen_global_bounds(const Configuration& config) const;
   void gen_orientations(const int num_orientations_per_pi, const Configuration& config,
     /// optional custom bounds. If empty, use full bounds.
@@ -66,6 +67,7 @@ class Rotator {
     return num_unique()/static_cast<double>(unique_.size()); };
   double energy(const int ior, const double displacement, System * system);
   double contact_distance(const int ior, System * system);
+  double cutoff_distance(const int ior, System * system);
   double hard_limit_u_;
   constexpr static double hard_u_ = 1e10; // ensure this matches hard_limit_u doc
   std::string xyz_file_name_;
@@ -82,6 +84,7 @@ class Rotator {
   std::vector<double> sphi_;
   std::vector<Euler> eulers_;
   std::vector<float> contact_;
+  std::vector<float> cutoff_;
   std::vector<std::vector<float> > energy_;
   std::vector<std::vector<int> > indices_;
   std::vector<int> sizes_;
@@ -92,7 +95,7 @@ class Rotator {
   // uniqueness
   std::vector<std::vector<Position> > last_three_sites_;
   std::vector<Position> last_three_;
-  std::vector<double> tmp_3vec_;
+  std::vector<double> tmp_vec_;
   std::vector<int> unique_;
   double unique_tolerance_;
   double contact_tolerance_;

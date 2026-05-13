@@ -13,14 +13,27 @@ namespace feasst {
 
   \f$N_i^j N_k^m U^p\f$
 
-  where \f$i,k\f$ are particle types, and the powers \f$j,m,p\f$ are collected
-  from 0 to a maximum order cutoff.
+  where i and j are given particle types, U is the energy, and the moments are
+  collected up to the sum of the powers,
+
+  \f$j + m + p \le max_order.\f$
+
+  If triplet N are needed,
+
+  \f$N_i^j N_k^l N_m^o U^p\f$
+
+  is collected up to
+
+  \f$j + l + o + p \le max_order.\f$
  */
 class ExtensiveMoments : public Analyze {
  public:
   //@{
   /** @name Arguments
     - max_order: maximum order cutoff for the powers (default: 3).
+    - particle_types: comma-separated list of particle type names.
+      If empty, use all particle types (default: empty).
+    - triplet: if true, collect number triplets (default: false).
     - Stepper arguments.
    */
   explicit ExtensiveMoments(argtype args = argtype());
@@ -54,8 +67,14 @@ class ExtensiveMoments : public Analyze {
   //@}
  private:
   int max_order_;
+  std::vector<std::string> particle_type_names_;
+  std::vector<int> particle_types_;
+
   // moments_[p][m][k][j][i]
   std::vector<std::vector<std::vector<std::vector<std::vector<Accumulator> > > > > moments_;
+  bool triplet_;
+  // moments3_[p][o][m][l][k][j][i]
+  std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<Accumulator> > > > > > > moments3_;
   std::vector<double> u_p_;
   std::vector<std::vector<double> > n_i_j_;
 };

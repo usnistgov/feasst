@@ -31,6 +31,13 @@ void SelectParticlePivot::precompute(System * system) {
   ASSERT(particle_type() >= 0, "particle_type required and must be >= 0");
   get_anchor()->clear();
   get_anchor()->add_site(0, pivot_site_);
+
+  const int pivot_type = conf.particle_type(particle_type()).site(pivot_site_).type();
+  if (conf.unique_type(particle_type(), pivot_type).is_anisotropic()) {
+    FATAL("The pivot anchor is anisotropic, and will not be rotated properly. "
+      << "SelectParticlePivot assumes the ancho is anisotropic. "
+      << "Use TrialRotate instead.");
+  }
 }
 
 bool SelectParticlePivot::select(const Select& perturbed,

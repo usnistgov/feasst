@@ -21,10 +21,9 @@ def parse():
           cubic_side_length=8,
           max_particles=100,
           window_alpha=1.25,
-          procs_per_node=16)
+          num_jobs=16)
     params['script'] = __file__
     params['prefix'] = 'trimer'
-    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['trial_rigid_cluster_weight'] = 1./params['max_particles']
     params['rwca'] = 2**(1./6.)
     params['system'] = """Configuration cubic_side_length={cubic_side_length} particle_type=trimer:{fstprt} cutoffA_R={rwca} cutoffR_R={rwca}
@@ -46,8 +45,8 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=launch_04_lj_tm_parallel.sim_node_dependent_params,
+                          sim_job_dependent_params=launch_04_lj_tm_parallel.sim_job_dependent_params,
                           write_feasst_script=launch_04_lj_tm_parallel.write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=arguments)

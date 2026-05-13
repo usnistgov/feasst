@@ -1,7 +1,7 @@
-VisitModelInnerRecursiveTable
+RecursiveTable
 =====================================================
 
-.. doxygenclass:: feasst::VisitModelInnerRecursiveTable
+.. doxygenclass:: feasst::RecursiveTable
    :project: FEASST
    :members:
    

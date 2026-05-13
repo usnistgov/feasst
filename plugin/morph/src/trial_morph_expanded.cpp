@@ -159,7 +159,7 @@ void TrialMorphExpanded::init_(const std::vector<std::vector<int> > grow_seq, ar
 void TrialMorphExpanded::precompute(Criteria * criteria,
     System * system) {
   Trial::precompute(criteria, system);
-  for (std::shared_ptr<Trial> g : grow_) g->precompute(criteria, system);
+  for (std::shared_ptr<Trial> gr : grow_) gr->precompute(criteria, system);
   for (std::shared_ptr<Trial> s : shrink_) s->precompute(criteria, system);
 }
 

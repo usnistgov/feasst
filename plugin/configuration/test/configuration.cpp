@@ -508,4 +508,10 @@ TEST(Configuration, site_name_order) {
   FileXYZ().write("tmp/ttt.xyz", *config);
 }
 
+TEST(Configuration, euler2d) {
+  auto config = MakeConfiguration({{"particle_type", "p:../plugin/aniso/particle/aniso_l3_2d.txt"},
+                                   {"add_num_p_particles", "1"}});
+  EXPECT_TRUE(config->unique_type(0).site(0).is_anisotropic());
+}
+
 }  // namespace feasst

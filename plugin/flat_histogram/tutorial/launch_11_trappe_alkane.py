@@ -21,8 +21,9 @@ def parse(temperature=350):
           beta_mu=-6,
           min_sweeps=2,
           cubic_side_length=45,
-          max_particles=285,
-          window_alpha=1.5,
+          max_particles=15,
+          window_alpha=1.,
+          num_jobs=3,
           collect_flatness=18,
           min_flatness=22,
           hours_checkpoint=1,
@@ -30,9 +31,8 @@ def parse(temperature=350):
           min_window_size=3)
     params['script'] = __file__
     params['prefix'] = 'trappe'
-    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['windows'] = macrostate_distribution.window_exponential(
-        alpha=params['window_alpha'], minimums=[params['min_particles'], 17], maximum=params['max_particles'],
+        alpha=params['window_alpha'], minimums=[params['min_particles']], maximum=params['max_particles'],
         number=params['num_sims'], overlap=1, min_size=params['min_window_size'])
     params['cutoff'] = 12
     params['dccb_cut'] = 4.
@@ -63,7 +63,7 @@ TrialGrowFile grow_file {prefix}_grow_canonical.txt""".format(**params)
 
 def post_process(params):
     #lnp = macrostate_distribution.splice_collection_matrix(prefix=params['prefix']+'n0s', suffix='_crit.txt', use_soft=True)
-    lnp = macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
+    lnp = macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv', shift=False)
     print(lnp.ln_prob()[1] - lnp.ln_prob()[0])
     print(lnp.ln_prob()[2] - lnp.ln_prob()[1])
     assert np.abs(lnp.ln_prob()[1] - lnp.ln_prob()[0] - 5.86440399999992) < 0.1
@@ -85,8 +85,8 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=launch_04_lj_tm_parallel.sim_node_dependent_params,
+                          sim_job_dependent_params=launch_04_lj_tm_parallel.sim_job_dependent_params,
                           write_feasst_script=launch_04_lj_tm_parallel.write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=arguments)

@@ -140,6 +140,25 @@ def splice(prefix, suffix, extra_overlap=0):
     combined.reset_index(inplace=True)
     return combined
 
+def splice_num(prefix, suffix, stop, start=0, extra_overlap=0):
+    frames = list()
+    first = True
+    for i in range(start, stop+1):
+        files = sorted(Path('.').glob(prefix+"""{0:03d}""".format(i)+suffix))
+        if len(files) == 1:
+            filename = files[0]
+        else:
+            print('non unique')
+            assert False
+        df = pd.read_csv(filename)
+        if not first:
+            df.drop(df.head(1 + extra_overlap).index, inplace=True)
+        frames.append(df)
+        first = False
+    combined = pd.concat(frames)
+    combined.reset_index(inplace=True)
+    return combined
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()

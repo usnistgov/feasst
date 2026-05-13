@@ -1,7 +1,7 @@
-Training
+Record
 =====================================================
 
-.. doxygenclass:: feasst::Training
+.. doxygenclass:: feasst::Record
    :project: FEASST
    :members:
    :membergroups: Arguments

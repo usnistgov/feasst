@@ -6,6 +6,16 @@ RecursiveTable1D
    :members:
    :membergroups: Arguments
 
+.. doxygenclass:: feasst::RecursiveTable2D
+   :project: FEASST
+   :members:
+   :membergroups: Arguments
+
+.. doxygenclass:: feasst::RecursiveTable3D
+   :project: FEASST
+   :members:
+   :membergroups: Arguments
+
 .. doxygenclass:: feasst::RecursiveTable5D
    :project: FEASST
    :members:

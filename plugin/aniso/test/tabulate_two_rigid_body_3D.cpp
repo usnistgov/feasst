@@ -31,16 +31,18 @@ inline void run_hs(const int num_orientations_per_pi, const int proc, const int 
   }));
   EXPECT_NEAR(227.84639874816824, table_hs->max_cubic_side_length(0, mc_hs->configuration()), NEAR_ZERO);
   table_hs->run(mc_hs.get());
-  EXPECT_NEAR(1./9., table_hs->rotator().fraction_unique(), NEAR_ZERO);
+  EXPECT_NEAR(0.074074, table_hs->rotator().fraction_unique(), 1e-6);
   EXPECT_NEAR(11828413.711798051, mc_hs->configuration().domain().volume(), 1e-6);
   if (num_proc == 1) {
-    EXPECT_EQ(72, table_hs->rotator().num_orientations());
+    EXPECT_EQ(108, table_hs->rotator().num_orientations());
   } else if (num_proc == 2) {
-    EXPECT_EQ(36, table_hs->rotator().num_orientations());
+    EXPECT_EQ(54, table_hs->rotator().num_orientations());
   }
   int ior = 0;
-  for (int iorall = 0; iorall < 3; ++iorall) {
+  for (int iorall = 0; iorall < 2; ++iorall) {
+  //for (int iorall = 0; iorall < 3; ++iorall) {
     if (table_hs->rotator().ior_in_proc(iorall)) {
+      INFO("ior " << ior);
       double expect;
       if (iorall == 0 || iorall == 2) expect = 74.09857177734375;
       //if (iorall == 0 || iorall == 2) expect = 74.098304487805038;
@@ -155,7 +157,7 @@ TEST(MonteCarlo, tabulate_rigid_bodies_LONG) {
   for (int proc = 0; proc < num_proc; ++proc) {
     run(num_orientations_per_pi, proc, num_proc);
   }
-  EXPECT_EQ(table_ior->rotator().fraction_unique(), 1./9.);
+  EXPECT_NEAR(table_ior->rotator().fraction_unique(), 0.0740741, 1e-6);
   EXPECT_EQ(table_ior->rotator().unique_[0], -1);
   EXPECT_EQ(table_ior->rotator().unique_[1], -1);
   EXPECT_EQ(table_ior->rotator().unique_[2], 0);

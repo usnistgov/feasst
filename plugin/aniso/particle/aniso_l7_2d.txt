@@ -1,0 +1,26 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+#
+#   L7
+#   |
+#   L6
+#   |
+#   L5
+#   |
+#   L1--L2--L3--L4
+
+2 dimensions
+
+Site Properties
+
+A sigma=1.0 epsilon=1.0 cutoff=3.0 anisotropic=1
+R sigma=1.0 epsilon=1.0 cutoff=3.0
+
+Sites
+
+L1 A 0 0
+L2 R 2 0
+L3 R 4 0
+L4 R 6 0
+L5 R 0 2
+L6 R 0 4
+L7 R 0 6

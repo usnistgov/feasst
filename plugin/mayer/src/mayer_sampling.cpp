@@ -37,6 +37,7 @@ MayerSampling::MayerSampling(argtype * args) : Criteria(args) {
   training_per_write_ = integer("training_per_write", args, 1e4);
   if (!training_file_.empty()) {
     WARN("training_file will have extra unnecessary positions for debugging.");
+    WARN("Implement i-j symmetry in training data.");
   }
 }
 MayerSampling::MayerSampling(argtype args) : MayerSampling(&args) {
@@ -63,28 +64,50 @@ bool MayerSampling::is_accepted(
     const Particle& p1 = system.configuration().particle(1);
     const int p1t = p1.type();
     const Site& mt = system.configuration().unique_type(p1t).site(0);
-    //INFO("rt " << rt.is_anisotropic() << " mt " << mt.is_anisotropic());
+    //DEBUG("rt " << rt.is_anisotropic() << " mt " << mt.is_anisotropic());
     const Site& mobile = system.configuration().particle(1).site(0);
     const Configuration& config = system.configuration();
     if (rt.is_anisotropic() && mt.is_anisotropic()) {
       Position spherical = mobile.position().spherical();
       DEBUG(mobile.euler().str());
       double s1, s2, e1, e2, e3;
-      scaled_relative_orientation(spherical.coord(1), spherical.coord(2),
-        mobile.euler().phi(), mobile.euler().theta(), mobile.euler().psi(),
-        config.particle(0).type() == config.particle(1).type(),
-        &s1, &s2, &e1, &e2, &e3);
-      data_.push_back(std::vector<double>({spherical.coord(0), s1, s2, e1, e2,
-        e3, energy_new, mobile.position().coord(0), mobile.position().coord(1), mobile.position().coord(2), spherical.coord(1), spherical.coord(2)}));
+      // HWH check for IJ symmetry here and flip, somewhere around or before scaled_relative_orientation
+      if (config.dimension() == 3) {
+        // 3d aniso-aniso has r, spherical theta, phi and euler phi, theta and psi (6 DOF)
+        scaled_relative_orientation(spherical.coord(1), spherical.coord(2),
+          mobile.euler().phi(), mobile.euler().theta(), mobile.euler().psi(),
+          &s1, &s2, &e1, &e2, &e3);
+        data_.push_back(std::vector<double>({spherical.coord(0), s1, s2, e1, e2,
+          e3, energy_new}));
+          //e3, energy_new, mobile.position().coord(0), mobile.position().coord(1), mobile.position().coord(2), spherical.coord(1), spherical.coord(2)}));
+      } else if (config.dimension() == 2) {
+        // 2d aniso-aniso has polar r, theta and orientation etheta (3 DOF)
+        scaled_relative_orientation(spherical.coord(1), mobile.euler().phi(),
+          config.dimension(), &s1, &e1);
+        data_.push_back(std::vector<double>({spherical.coord(0), s1, e1, energy_new}));
+      } else {
+        FATAL("unrecognized dimension:" << config.dimension());
+      }
     } else if (rt.is_anisotropic() && !mt.is_anisotropic()) {
       Position spherical = mobile.position().spherical();
       double s1, s2;
-      scaled_relative_orientation(spherical.coord(1), spherical.coord(2),
-        config.particle(0).type() == config.particle(1).type(), &s1, &s2);
-      data_.push_back(std::vector<double>({spherical.coord(0), s1, s2, energy_new}));
+      if (config.dimension() == 3) {
+        // 3d aniso-iso has spherical r, theta, phi (3 DOF)
+        scaled_relative_orientation(spherical.coord(1), spherical.coord(2),
+          config.dimension(), &s1, &s2);
+        data_.push_back(std::vector<double>({spherical.coord(0), s1, s2, energy_new}));
+      } else if (config.dimension() == 2) {
+        // 2d aniso-iso has polar r and theta (2 DOF)
+        scaled_relative_orientation(spherical.coord(1), &s1);
+        data_.push_back(std::vector<double>({spherical.coord(0), s1, energy_new}));
+        //FATAL("implement " << spherical.str());
+      } else {
+        FATAL("unrecognized dimension:" << config.dimension());
+      }
     } else if (!rt.is_anisotropic() && mt.is_anisotropic()) {
       FATAL("The reference particle should be the anisotropic one.");
     } else if (!rt.is_anisotropic() && !mt.is_anisotropic()) {
+      // For 2d and 3d, iso-iso has r (1 DOF)
       data_.push_back(std::vector<double>{mobile.position().squared_distance(), energy_new});
     } else {
       FATAL("Unrecognized option");
@@ -115,24 +138,27 @@ bool MayerSampling::is_accepted(
     }
   }
   const double beta = system.thermo_params().beta();
-  TRACE("*** MayerSampling ***");
+  DEBUG("*** MayerSampling ***");
   if (intra_pot_ != -1) {
-    TRACE("intra_pot " << intra_pot_);
+    DEBUG("intra_pot " << intra_pot_);
     const double energy_intra = acceptance->energy_profile_new()[intra_pot_];
-    TRACE("energy_intra " << energy_intra);
-    if (random->uniform() < std::exp(-beta*energy_intra)) {
+    DEBUG("energy_intra " << energy_intra);
+    DEBUG("trial class " << acceptance->trial_class());
+    if ( (random->uniform() < std::exp(-beta*energy_intra)) ||
+         (acceptance->trial_class() == "TrialTranslate") ||
+         (acceptance->trial_class() == "TrialRotate") ) {
       energy_new -= energy_intra;
     } else {
       was_accepted_ = false;
-      TRACE("rejected at intra_potential step");
+      DEBUG("rejected at intra_potential step");
       return was_accepted_;
     }
   }
   const double f12 = std::exp(-beta*energy_new) - 1.;
-  TRACE("energy new " << energy_new);
-  TRACE("f12 " << f12);
-  TRACE("f12old " << f12old_);
-  TRACE("acceptance " << std::abs(f12)/std::abs(f12old_));
+  DEBUG("energy new " << energy_new);
+  DEBUG("f12 " << f12);
+  DEBUG("f12old " << f12old_);
+  DEBUG("acceptance " << std::abs(f12)/std::abs(f12old_));
 
   if (!acceptance->reject() &&
       (random->uniform() < std::abs(f12)/std::abs(f12old_))) {
@@ -141,9 +167,9 @@ bool MayerSampling::is_accepted(
     set_current_energy_profile(acceptance->energy_profile_new());
     f12old_ = f12;
     was_accepted_ = true;
-    TRACE("computing ref");
+    DEBUG("computing ref");
     f12ref_ = std::exp(-beta*acceptance->energy_ref()) - 1.;
-    TRACE("f12ref " << f12ref_);
+    DEBUG("f12ref " << f12ref_);
   } else {
     was_accepted_ = false;
   }

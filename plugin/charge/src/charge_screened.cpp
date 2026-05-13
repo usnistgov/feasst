@@ -88,7 +88,7 @@ void ChargeScreened::init_erfc_(const double cutoff) {
   if (erfc_table_size_ > 0) {
     erfc_ = MakeTable1D({{"num", str(erfc_table_size_)}});
     for (int bin = 0; bin < erfc_->num(); ++bin) {
-      const double z = erfc_->bin_to_value(bin);
+      const double z = erfc_->bin_value(bin);
       const double x = std::sqrt(z)*cutoff;
       erfc_->set_data(bin, std::erfc(alpha_*x)/x);
       if (bin == 1) {

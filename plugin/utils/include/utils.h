@@ -104,6 +104,18 @@ void resize(const int dim0, const int dim1, const int dim2, const int dim3,
   }
 }
 
+/// Resize seven dimensional vector.
+template<class T>
+void resize(const int dim0, const int dim1, const int dim2, const int dim3,
+    const int dim4, const int dim5, const int dim6,
+  std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<T> > >
+    > > > > *vec) {
+  vec->resize(dim0);
+  for (int i = 0; i < static_cast<int>(vec->size()); ++i) {
+    resize(dim1, dim2, dim3, dim4, dim5, dim6, &(*vec)[i]);
+  }
+}
+
 /// Fill vector with a constant.
 template<typename T>
 void fill(const T value, std::vector<T> *vec) {

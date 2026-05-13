@@ -132,18 +132,27 @@ RotationMatrix& RotationMatrix::axis_angle(const Position& axis,
   return *this;
 }
 
+void RotationMatrix::set_2d(const double radian_angle) {
+  if (matrix().size() == 0) {
+    set_size(2, 2);
+  }
+  const double s = std::sin(radian_angle);
+  const double c = std::cos(radian_angle);
+  set_value(0, 0, c);
+  set_value(0, 1, -s);
+  set_value(1, 0, s);
+  set_value(1, 1, c);
+}
+
 // thanks to https://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle
 void RotationMatrix::axis_angle_opt(const Position& unit_axis,
     const double degree_angle) {
   const double radian_angle = degrees_to_radians(degree_angle);
-  const double s = std::sin(radian_angle);
-  const double c = std::cos(radian_angle);
   if (unit_axis.size() == 2) {
-    set_value(0, 0, c);
-    set_value(0, 1, -s);
-    set_value(1, 0, s);
-    set_value(1, 1, c);
+    set_2d(radian_angle);
   } else if (unit_axis.size() == 3) {
+    const double s = std::sin(radian_angle);
+    const double c = std::cos(radian_angle);
     const double C = 1-c;
     const double x = unit_axis.coord(0);
     const double y = unit_axis.coord(1);

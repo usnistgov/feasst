@@ -78,7 +78,7 @@ class Site : public PropertiedEntity {
   int num_cells() const { return static_cast<int>(cells_.size()); }
 
   /// Set if anisotropic (default: false).
-  void set_anisotropic(const bool aniso = false);
+  void set_anisotropic(const bool aniso);
 
   /// Set the Euler angles (and sets the site anisotropic).
   void set_euler(const Euler& euler);

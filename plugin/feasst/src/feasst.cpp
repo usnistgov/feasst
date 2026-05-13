@@ -254,7 +254,7 @@ int main() {
   } else {
     FATAL("As currently implemented, all FEASST input text files must begin "
       << "with \"MonteCarlo,\" \"CollectionMatrixSplice,\" \"Prefetch\" "
-      << "or \"Server.\" The first readable line is: " << line);
+      << "\"Server\" or \"Restart\". The first readable line is: " << line);
   }
   return 0;
 }

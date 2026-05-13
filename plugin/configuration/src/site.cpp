@@ -6,8 +6,6 @@ namespace feasst {
 
 Site::Site() : PropertiedEntity() {
   set_physical();
-  set_anisotropic();
-  is_anisotropic_ = false;
 }
 Site::~Site() {}
 

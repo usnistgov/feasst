@@ -26,7 +26,6 @@ def parse():
     """ Parse arguments from command line or change their default values. """
     params['script'] = __file__
     params['prefix'] = 'hs'
-    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['system'] = """Configuration cubic_side_length={cubic_side_length} particle_type=lj:{fstprt}
 Potential Model=HardSphere VisitModel=VisitModelCell min_length=1""".format(**params)
     params['nvt_trials'] = "TrialTranslate weight=1 tunable_param=0.2"
@@ -34,7 +33,7 @@ Potential Model=HardSphere VisitModel=VisitModelCell min_length=1""".format(**pa
 
 def post_process(params):
     # compare to EOS in SRSW: https://www.nist.gov/mml/csd/chemical-informatics-research-group/hard-sphere-thermodynamic-and-transport-properties
-    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
+    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv', shift=False)
     #lnpi = macrostate_distribution.MacrostateDistribution(file_name=params['prefix']+'n0_lnpi.txt')
     volume = 8**3
     srsw = pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat_hs.csv')
@@ -63,8 +62,8 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=launch_04_lj_tm_parallel.sim_node_dependent_params,
+                          sim_job_dependent_params=launch_04_lj_tm_parallel.sim_job_dependent_params,
                           write_feasst_script=launch_04_lj_tm_parallel.write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=arguments)

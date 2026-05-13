@@ -51,6 +51,7 @@ void PerturbMoveAVB::move(const bool is_position_held,
   const Position& anchor_pos = config.select_particle(
     select->anchor().particle_index(0)).site(
     select->anchor().site_index(0, 0)).position();
+  DEBUG("anchor site " << select->anchor().site_index(0, 0));
   DEBUG("anchor_pos " << anchor_pos.str());
 
   DEBUG("inside " << inside_);
@@ -82,6 +83,8 @@ void PerturbMoveAVB::move(const bool is_position_held,
   displace_.add(anchor_pos);
   DEBUG("displace + anchor: " << displace_.str());
   DEBUG("mobile: " << select->mobile().str());
+  ASSERT(select->mobile().num_particles() == 1, "err");
+  DEBUG(select->mobile().num_sites());
   const Position& mobile_pos = select->mobile().site_positions()[0][0];
   DEBUG("mobile_pos " << mobile_pos.str());
   displace_.subtract(mobile_pos);

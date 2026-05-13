@@ -60,6 +60,9 @@ void FileVMD::write(const std::string file_name,
   for (const double length : config.domain().side_lengths().coord()) {
     vmdf << length << " ";
   }
+  if (config.dimension() == 2) {
+    vmdf << "0.1";
+  }
   vmdf << "} -all\npbc box -center origin -color blue";
 }
 

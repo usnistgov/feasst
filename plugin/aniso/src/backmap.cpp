@@ -19,19 +19,28 @@ Backmap::Backmap(argtype * args) : AnalyzeWriteOnly(args) {
   set_append();
   ASSERT(!output_file().empty(), "file name is required");
 
-  DEBUG("parse site types to backmap");
-  int type = 0;
-  std::stringstream key;
-  key << "site" << type;
-  while (used(key.str(), *args)) {
-    site_types_.push_back(integer(key.str(), args));
-    key.str("");
-    key << "fstprt" << type;
-    site_fstprt_.push_back(str(key.str(), args));
-    ++type;
-    ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
-    key.str("");
+  if (used("site0", *args)) {
+    WARN("site[i] is a deprecated argument. Please use sites instead.");
+    DEBUG("parse site types to backmap");
+    int type = 0;
+    std::stringstream key;
     key << "site" << type;
+    while (used(key.str(), *args)) {
+      site_types_.push_back(integer(key.str(), args));
+      key.str("");
+      key << "fstprt" << type;
+      site_fstprt_.push_back(str(key.str(), args));
+      ++type;
+      ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
+      key.str("");
+      key << "site" << type;
+    }
+  } else {
+    site_type_names_ = split(feasst::str("sites", args, ""), ',');
+    site_fstprt_ = split(feasst::str("fstprts", args, ""), ',');
+    ASSERT(site_type_names_.size() == site_fstprt_.size(), "Number of sites:" <<
+      site_type_names_.size() << " != number of fstprts:" << site_fstprt_.size());
+    DEBUG(feasst_str(site_type_names_));
   }
   DEBUG(feasst_str(site_types_));
   DEBUG(feasst_str(site_fstprt_));
@@ -46,11 +55,12 @@ Backmap::Backmap(argtype args) : Backmap(&args) {
 
 void Backmap::add_backmap_particles_() {
   argtype config_args = {{"wrap", "false"}};
-  int type = 0;
-  for (const std::string& fstprt : site_fstprt_) {
-    config_args.insert({"particle_type"+str(type), fstprt});
-    ++type;
-  }
+  config_args.insert({"particle_type",feasst_str(site_fstprt_)});
+//  int type = 0;
+//  for (const std::string& fstprt : site_fstprt_) {
+//    config_args.insert({"particle_type"+str(type), fstprt});
+//    ++type;
+//  }
   all_atom_ = MakeConfiguration(config_args);
 }
 
@@ -60,9 +70,14 @@ void Backmap::initialize(MonteCarlo * mc) {
   ASSERT(!name.empty(), "file name required. Did you forget to " <<
     "Analyze::set_output_file()?");
   const Configuration& config = configuration(mc->system());
+  if (site_type_names_.size() > 0) {
+    for (const std::string& name : site_type_names_) {
+      site_types_.push_back(config.site_type_name_to_index(name));
+    }
+  }
   for (const int site_type : site_types_) {
     const int part_type = config.site_type_to_particle_type(site_type);
-    ASSERT(config.unique_type(part_type).site(site_type).is_anisotropic(),
+    ASSERT(config.unique_type(part_type, site_type).is_anisotropic(),
       "site_type:" << site_type << " is not anisotropic.");
   }
 
@@ -72,6 +87,9 @@ void Backmap::initialize(MonteCarlo * mc) {
   std::stringstream ss;
   ss << name << ".vmd";
   vmd_.write(ss.str(), *all_atom_, name);
+
+  // write immediately like Movie does so trajectories are 1-1
+  write(*mc);
 }
 
 std::string Backmap::write(const MonteCarlo& mc) {
@@ -87,9 +105,10 @@ std::string Backmap::write(const MonteCarlo& mc) {
   PerturbRotate rotate;
   PerturbTranslate translate;
   Position origin;
-  origin.set_to_origin_3D();
+  const int dimen = orig_config.dimension();
+  origin.set_to_origin(dimen);
   RotationMatrix rot_mat;
-  rot_mat.set_size(3, 3);
+  rot_mat.set_size(dimen);
   System sys;
   sys.add(all_atom_);
   Configuration * new_config = sys.get_configuration();
@@ -108,11 +127,12 @@ std::string Backmap::write(const MonteCarlo& mc) {
         const Position& center = site.position();
         const Euler& euler = site.euler();
         new_config->add_particle_of_type(findex);
-        //INFO("euler: " << euler.str());
+        DEBUG("euler: " << euler.str());
         euler.compute_rotation_matrix(&rot_mat);
+        DEBUG("rot_mat " << rot_mat.str());
         sel->select_particle(new_config->num_particles()-1, *new_config);
         DEBUG("size pos:" << site.position().str());
-        //DEBUG("sel: " << sel->mobile().str());
+        DEBUG("sel: " << sel->mobile().str());
         DEBUG("sel prop size:" << sel->mobile().site_properties().size());
         DEBUG("num particles:" << new_config->num_particles());
         sel->set_mobile_original(&sys);

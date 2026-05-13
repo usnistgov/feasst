@@ -141,8 +141,11 @@ double ModelLJShape::energy(
   const double distance = -shape()->nearest_distance(wrapped_site);
   TRACE("distance: " << distance);
   const int type = site.type();
+  TRACE("type: " << type);
   const double cutoff = model_params.select(cutoff_index()).value(type);
+  TRACE("cutoff: " << cutoff);
   const double eps = epsilon(type, model_params);
+  TRACE("eps: " << eps);
   if (distance <= NEAR_ZERO && std::abs(eps) > NEAR_ZERO) {
     TRACE(MAX_PRECISION << distance << " " << eps);
     return NEAR_INFINITY;
@@ -150,6 +153,7 @@ double ModelLJShape::energy(
     return 0.;
   } else {
     const double sig = sigma(type, model_params);
+    TRACE("sig: " << sig);
     const double e = en(eps, sig, distance);
     if (disable_shift_) {
       TRACE("e " << e);

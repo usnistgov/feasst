@@ -1,0 +1,11 @@
+# FEASST particle file (https://doi.org/10.18434/M3S095)
+
+2 dimensions
+
+Site Properties
+
+H sigma=1 epsilon=1 cutoff=1
+
+Sites
+
+H1 H 0 0

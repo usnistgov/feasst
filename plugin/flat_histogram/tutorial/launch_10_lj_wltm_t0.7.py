@@ -1,8 +1,8 @@
 """
 This tutorial is similar to tutorial 4, but for this low temperature simulation,
-we will split the simulation into two different nodes.
-The first node will have less particles but a higher number of sweeps required.
-The second node will have dccb but not avb.
+we will split the simulation into two different jobs.
+The first job will have less particles but a higher number of sweeps required.
+The second job will have dccb but not avb.
 This tutorial uses flat histogram LJ tutorial for most of the simulation setup.
 """
 
@@ -27,40 +27,42 @@ def parse():
           window_alpha=1.5,
           hours_checkpoint=1,
           hours_terminate=5*24,
-          num_nodes=2,
+          num_jobs=64,
           collect_flatness=18,
           min_flatness=22)
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     params['script'] = __file__
     params['prefix'] = 'lj_lowt'
-    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['dccb_cut_min'] = 1
     params['dccb_cut'] = params['cubic_side_length']/int(params['cubic_side_length']/params['dccb_cut_min'])
-    params['num_particles_first_node'] = 375
+    params['num_particles_first_half'] = 375
+    assert params['num_jobs'] % 2 == 0 # assumes even number to split in half
+    params['windows'] = macrostate_distribution.window_exponential(
+        alpha=2, minimums=[0], maximum=params['num_particles_first_half'],
+        number=int(params['num_jobs']/2), overlap=1, min_size=5) + \
+        macrostate_distribution.window_exponential(
+        alpha=1, minimums=[params['num_particles_first_half']], maximum=params['max_particles'],
+        number=int(params['num_jobs']/2), overlap=1, min_size=3)
     return params, args
 
-def sim_node_dependent_params(params):
-    """ Define parameters that are dependent on the sim or node. """
-    if params['node'] == 0:
-        params['min_particles'] = 0
-        params['max_particles'] = params['num_particles_first_node']
-        avb_args = "particle_type=lj site=LJ1 target_particle_type=lj target_site LJ1"
+def sim_job_dependent_params(params):
+    """ Define parameters that are dependent on the sim or job. """
+    if params['job'] < params['num_jobs']/2:
+        avb_args = "particle_type=lj site=LJ1 target_particle_type=lj target_site=LJ1"
         params['muvt_trials'] = "TrialAddRemove weight=2 particle_type=lj\nTrialTransferAVB weight=0.2 "+avb_args
         params['lj_potential'] = 'Potential EnergyMap=EnergyMapNeighborCriteria neighbor_index=0 Model=LennardJones'
         params['ref_potential'] = ''
         params['avb_trials'] = "TrialAVB2 weight=0.1 "+avb_args+"\nTrialAVB4 weight=0.1 "+avb_args
         params['min_sweeps'] = 20
-        params['window_alpha'] = 2
-        params['min_window_size'] = 5
-    elif params['node'] == 1:
-        params['min_particles'] = params['num_particles_first_node']
+    else:
         params['muvt_trials'] = 'TrialAddRemove weight=2 particle_type=lj ref=dccb num_steps=10'
         params['lj_potential'] = 'Potential Model=LennardJones'
         params['ref_potential'] = """RefPotential Model=LennardJones cutoff={dccb_cut} VisitModel=VisitModelCell min_length={dccb_cut} ref=dccb""".format(**params)
         params['avb_trials'] = ''
-        params['min_sweeps'] = 2
-        params['window_alpha'] = 1
-        params['min_window_size'] = 3
+        if params['job'] < params['num_jobs'] - 3:
+            params['min_sweeps'] = 10
+        else:
+            params['min_sweeps'] = 4
     params['system'] = """Configuration cubic_side_length={cubic_side_length} particle_type=lj:{fstprt}
 NeighborCriteria maximum_distance=1.375 minimum_distance=0.9
 {lj_potential}
@@ -68,13 +70,10 @@ NeighborCriteria maximum_distance=1.375 minimum_distance=0.9
 Potential VisitModel=LongRangeCorrections""".format(**params)
     params['nvt_trials'] = """TrialTranslate weight=1 tunable_param=0.2
 {avb_trials}""".format(**params)
-    params['sim_start'] = params['node']*params['procs_per_node']
-    params['sim_end'] = params['sim_start'] + params['procs_per_node'] - 1
-    params['windows'] = macrostate_distribution.window_exponential(
-        alpha=params['window_alpha'], minimums=[params['min_particles']], maximum=params['max_particles'],
-        number=params['procs_per_node'], overlap=1, min_size=params['min_window_size'])
-    params['min_particles'] = params['windows'][params['sim']-params['sim_start']][0]
-    params['max_particles'] = params['windows'][params['sim']-params['sim_start']][1]
+    params['sim_start'] = params['job']*params['procs_per_job']
+    params['sim_end'] = params['sim_start'] + params['procs_per_job'] - 1
+    params['min_particles'] = params['windows'][params['sim']][0]
+    params['max_particles'] = params['windows'][params['sim']][1]
 
 def post_process(params):
     """ Compare the lnpi with the SRSW. """
@@ -92,28 +91,33 @@ def post_process(params):
         else:
             ln_prob_header = 'ln_prob' + str(block)
             energy_header = 'e_block' + str(block)
-        lnpi = macrostate_distribution.splice_files(prefix=params['prefix']+'n', suffix='_crit.csv',
+        lnpi = macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv',
                                                     ln_prob_header=ln_prob_header, shift=False)
         lnpi.set_minimum_smoothing(30)
-        for node in range(params['num_nodes']):
-            prefix = params['prefix']+'n'+str(node)+'s'
-            suffix = '_en.csv'
-            multistate_accumulator.splice(prefix=prefix, suffix=suffix).to_csv(prefix+suffix+'_spliced')
-        energy = multistate_accumulator.splice(prefix=params['prefix']+'n', suffix='s_en.csv_spliced')
+#        for job in range(params['num_jobs']):
+#            prefix = """{0}j{1:03d}s""".format(params['prefix'], job)
+#            #prefix = params['prefix']+'j'+str(job)+'s'
+#            suffix = '_en.csv'
+#            multistate_accumulator.splice(prefix=prefix, suffix=suffix).to_csv(prefix+suffix+'_spliced')
+        energy = multistate_accumulator.splice(prefix=params['prefix']+'j', suffix='_en.csv')
         lnpi.concat_dataframe(dataframe=energy, add_prefix='e_')
-        delta_beta_mu = lnpi.equilibrium()
-        beta_mu_eq.append(params['beta']*params['mu'] + delta_beta_mu)
-        for index, phase in enumerate(lnpi.split()):
-            n_gce = phase.average_macrostate()
-            rho = n_gce/params['cubic_side_length']**3
-            energy = phase.ensemble_average(energy_header)/n_gce
-            if index == 0:
-                pressure.append(-phase.ln_prob()[0]/params['beta']/params['cubic_side_length']**3)
-                rho_vapor.append(rho)
-                en_vapor.append(energy)
-            else:
-                rho_liquid.append(rho)
-                en_liquid.append(energy)
+        try:
+            delta_beta_mu = lnpi.equilibrium()
+            #lnpi.plot(show=True)
+            beta_mu_eq.append(params['beta']*params['mu'] + delta_beta_mu)
+            for index, phase in enumerate(lnpi.split()):
+                n_gce = phase.average_macrostate()
+                rho = n_gce/params['cubic_side_length']**3
+                energy = phase.ensemble_average(energy_header)/n_gce
+                if index == 0:
+                    pressure.append(-phase.ln_prob()[0]/params['beta']/params['cubic_side_length']**3)
+                    rho_vapor.append(rho)
+                    en_vapor.append(energy)
+                else:
+                    rho_liquid.append(rho)
+                    en_liquid.append(energy)
+        except:
+            assert block != -1
     data = pd.DataFrame(data={'rho_vapor': rho_vapor, 'rho_liquid': rho_liquid,
                               'pressure': pressure, 'en_vapor': en_vapor, 'en_liquid': en_liquid,
                               'beta_mu_eq': beta_mu_eq})
@@ -137,7 +141,7 @@ def post_process(params):
 
     # check lnpi
     z_factor = 25
-    lnpi = macrostate_distribution.splice_files(prefix=params['prefix']+'n', suffix='_crit.csv', shift=False)
+    lnpi = macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv', shift=False)
     srsw = pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat070.csv')
     srsw = pd.concat([lnpi.dataframe(), srsw], axis=1)
     srsw['deltalnPI'] = srsw.lnPI-srsw.lnPI.shift(1)
@@ -158,8 +162,8 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=sim_node_dependent_params,
+                          sim_job_dependent_params=sim_job_dependent_params,
                           write_feasst_script=launch_04_lj_tm_parallel.write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=arguments)

@@ -258,6 +258,7 @@ void Random::rotation(const int dimension,
     double max_angle = tunable;
     if (completely_random) max_angle = 180.;
     const double angle = uniform_real(-max_angle, max_angle);
+    DEBUG("angle(deg):" << angle << " angle(rad):" << angle/180*PI);
     rot_mat->axis_angle_opt(*quaternion_or_axis, angle);
   } else {
     ERROR("not implemented for dimension: " << dimension);

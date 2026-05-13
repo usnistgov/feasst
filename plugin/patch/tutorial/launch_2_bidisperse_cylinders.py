@@ -33,11 +33,11 @@ def parse():
     parser.add_argument('--seed', type=int, default=-1,
                         help='Random number generator seed. If -1, assign random seed to each sim.')
     parser.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
-    parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
+    parser.add_argument('--num_jobs', type=int, default=1, help='Number of jobs in queue')
     parser.add_argument('--scratch', type=str, default=None,
                         help='Optionally write scheduled job to scratch/logname/jobid.')
     parser.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
-    parser.add_argument('--node', type=int, default=0, help='node ID')
+    parser.add_argument('--job', type=int, default=0, help='job ID')
     parser.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
     parser.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
@@ -47,12 +47,11 @@ def parse():
     params = vars(args)
     params['script'] = __file__
     params['prefix'] = 'bidisp_cyl'
-    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
     params['hours_terminate'] = 0.99*params['hours_terminate'] - 0.0333 # terminate before queue
-    params['procs_per_node'] = 1
+    params['procs_per_job'] = 1
     params['procs_per_sim'] = 1
-    params['num_sims'] = params['num_nodes']*params['procs_per_node']
+    params['num_sims'] = params['num_jobs']*params['procs_per_job']
 
     for size in ['small', 'large']:
         hard_spherocylinder(length=params[size+'_cylinder_length'],
@@ -120,8 +119,8 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=None,
+                          sim_job_dependent_params=None,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=arguments)

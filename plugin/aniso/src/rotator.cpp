@@ -21,7 +21,6 @@
 namespace feasst {
 
 Rotator::Rotator(argtype * args) {
-  tmp_3vec_.resize(3);
   unique_tolerance_ = dble("unique_tolerance", args, 1e-5);
   contact_tolerance_ = dble("contact_tolerance", args, 1e-4);
   num_proc_ = integer("num_proc", args, 1);
@@ -40,23 +39,34 @@ bool Rotator::ior_in_proc(const int ior) const {
   }
 }
 
+//bool Rotator::identical(const Configuration& config) const {
+//  WARN("remove?");
+//  DEBUG(config.type_to_file_name(0));
+//  if (config.num_particle_types() == 1) {
+//    return true;
+//  } else if (config.num_particle_types() == 2) {
+//    if (config.type_to_file_name(0) == config.type_to_file_name(1)) {
+//      return true;
+//    }
+//  } else {
+//    FATAL("unrecognized number of particle types");
+//  }
+//  return false;
+//}
+
 std::vector<std::vector<double> > Rotator::gen_global_bounds(const Configuration& config) const {
-  double s1max = 2*PI;
-  // if domain1==domain2, avoid x < 0 for i/j swap symmetry;
-  DEBUG(config.type_to_file_name(0));
-  if (config.num_particle_types() == 1) {
-    s1max = PI;
-  } else if (config.num_particle_types() == 2) {
-    if (config.type_to_file_name(0) == config.type_to_file_name(1)) {
-      s1max = PI;
+  if (config.dimension() == 3) {
+    if (config.particle(1).num_sites() == 1) {
+      return {{0, 2*PI}, {0, PI}};
     }
-  } else {
-    FATAL("unrecognized number of particle types");
+    return {{0, 2*PI}, {0, PI}, {-PI, PI}, {0, PI}, {-PI, PI}};
+  } else if (config.dimension() == 2) {
+    if (config.particle(1).num_sites() == 1) {
+      return {{0, 2*PI}};
+    }
+    return {{0, 2*PI}, {-PI, PI}};
   }
-  if (config.particle(1).num_sites() == 1) {
-    return {{0, s1max}, {0, PI}};
-  }
-  return {{0, s1max}, {0, PI}, {-PI, PI}, {0, PI}, {-PI, PI}};
+  FATAL("unrecognized dimension: " << config.dimension());
 }
 
 void Rotator::gen_orientations(const int num_orientations_per_pi, const Configuration& config, std::vector<std::vector<double> > bounds) {
@@ -66,62 +76,101 @@ void Rotator::gen_orientations(const int num_orientations_per_pi, const Configur
   if (bounds.size() == 0) {
     bounds = gen_global_bounds(config);
   }
-  const double dt = (bounds[1][1]-bounds[1][0])/static_cast<double>(num_orientations_per_pi);
   int ior = 0;
   int is1 = 0;
+  sizes_.resize(bounds.size());
   if (config.particle(1).num_sites() == 1) {
-    sizes_.resize(2);
-    for (double s1 = bounds[0][0]; s1 < bounds[0][1] + dt/2; s1 += dt) { // theta
-      int is2 = 0;
-      for (double s2 = bounds[1][0]; s2 < bounds[1][1] + dt/2; s2 += dt) { // phi
+    if (static_cast<int>(bounds.size()) == 1) {
+      double dt = (bounds[0][1]-bounds[0][0])/2./static_cast<double>(num_orientations_per_pi);
+      for (double s1 = bounds[0][0]; s1 < bounds[0][1] + dt/2; s1 += dt) { // theta
         if (ior_in_proc(ior)) {
           stheta_.push_back(s1);
-          sphi_.push_back(s2);
-          indices_.push_back({is1, is2});
-          //INFO(s1 << " " << s2);
+          indices_.push_back({is1});
+          //INFO(s1);
         }
         ++ior;
-        ++is2;
+        ++is1;
       }
-      sizes_[1] = is2;
-      ++is1;
-    }
-    sizes_[0] = is1;
-  } else {
-    sizes_.resize(5);
-    for (double s1 = bounds[0][0]; s1 < bounds[0][1] + dt/2; s1 += dt) { // theta
-      int is2 = 0;
-      for (double s2 = bounds[1][0]; s2 < bounds[1][1] + dt/2; s2 += dt) { // phi
-        int ie1 = 0;
-        for (double e1 = bounds[2][0]; e1 < bounds[2][1] + dt/2; e1 += dt) { // ephi
-          int ie2 = 0;
-          for (double e2 = bounds[3][0]; e2 < bounds[3][1] + dt/2; e2 += dt) { // etheta
-            int ie3 = 0;
-            for (double e3 = bounds[4][0]; e3 < bounds[4][1] + dt/2; e3 += dt) { // epsi
-              if (ior_in_proc(ior)) {
-                Euler euler(e1, e2, e3);
-                eulers_.push_back(euler);
-                stheta_.push_back(s1);
-                sphi_.push_back(s2);
-                indices_.push_back({is1, is2, ie1, ie2, ie3});
-                //INFO(s1 << " " << s2 << " " << e1 << " " << e2 << " " << e3);
-              }
-              ++ior;
-              ++ie3;
-            }
-            sizes_[4] = ie3;
-            ++ie2;
+      sizes_[0] = is1;
+    } else if (static_cast<int>(bounds.size()) == 2) {
+      const double dt = (bounds[1][1]-bounds[1][0])/static_cast<double>(num_orientations_per_pi);
+      for (double s1 = bounds[0][0]; s1 < bounds[0][1] + dt/2; s1 += dt) { // theta
+        int is2 = 0;
+        for (double s2 = bounds[1][0]; s2 < bounds[1][1] + dt/2; s2 += dt) { // phi
+          if (ior_in_proc(ior)) {
+            stheta_.push_back(s1);
+            sphi_.push_back(s2);
+            indices_.push_back({is1, is2});
+            //INFO(s1 << " " << s2);
           }
-          sizes_[3] = ie2;
+          ++ior;
+          ++is2;
+        }
+        sizes_[1] = is2;
+        ++is1;
+      }
+      sizes_[0] = is1;
+    } else {
+      FATAL("unrecognized")
+    }
+  } else {
+    if (static_cast<int>(bounds.size()) == 5) {
+      const double dt = (bounds[1][1]-bounds[1][0])/static_cast<double>(num_orientations_per_pi);
+      for (double s1 = bounds[0][0]; s1 < bounds[0][1] + dt/2; s1 += dt) { // theta
+        int is2 = 0;
+        for (double s2 = bounds[1][0]; s2 < bounds[1][1] + dt/2; s2 += dt) { // phi
+          int ie1 = 0;
+          for (double e1 = bounds[2][0]; e1 < bounds[2][1] + dt/2; e1 += dt) { // ephi
+            int ie2 = 0;
+            for (double e2 = bounds[3][0]; e2 < bounds[3][1] + dt/2; e2 += dt) { // etheta
+              int ie3 = 0;
+              for (double e3 = bounds[4][0]; e3 < bounds[4][1] + dt/2; e3 += dt) { // epsi
+                if (ior_in_proc(ior)) {
+                  Euler euler(e1, e2, e3);
+                  eulers_.push_back(euler);
+                  stheta_.push_back(s1);
+                  sphi_.push_back(s2);
+                  indices_.push_back({is1, is2, ie1, ie2, ie3});
+                  //INFO(s1 << " " << s2 << " " << e1 << " " << e2 << " " << e3);
+                }
+                ++ior;
+                ++ie3;
+              }
+              sizes_[4] = ie3;
+              ++ie2;
+            }
+            sizes_[3] = ie2;
+            ++ie1;
+          }
+          sizes_[2] = ie1;
+          ++is2;
+        }
+        sizes_[1] = is2;
+        ++is1;
+      }
+      sizes_[0] = is1;
+    } else if (static_cast<int>(bounds.size()) == 2) {
+      const double dt = (bounds[1][1]-bounds[1][0])/2./static_cast<double>(num_orientations_per_pi);
+      for (double s1 = bounds[0][0]; s1 < bounds[0][1] + dt/2; s1 += dt) { // theta
+        int ie1 = 0;
+        for (double e1 = bounds[1][0]; e1 < bounds[1][1] + dt/2; e1 += dt) { // ephi
+          if (ior_in_proc(ior)) {
+            Euler euler(e1, 0, 0);
+            eulers_.push_back(euler);
+            stheta_.push_back(s1);
+            indices_.push_back({is1, ie1});
+            //INFO(s1 << " " << e1);
+          }
+          ++ior;
           ++ie1;
         }
-        sizes_[2] = ie1;
-        ++is2;
+        sizes_[1] = ie1;
+        ++is1;
       }
-      sizes_[1] = is2;
-      ++is1;
+      sizes_[0] = is1;
+    } else {
+      FATAL("unrecognized.");
     }
-    sizes_[0] = is1;
   }
   num_orientations_all_proc_ = ior;
   last_three_.clear();
@@ -141,6 +190,8 @@ void Rotator::gen_orientations(const int num_orientations_per_pi, const Configur
   unique_.resize(num_orientations());
   contact_.clear();
   contact_.resize(num_orientations());
+  cutoff_.clear();
+  cutoff_.resize(num_orientations());
   tmp1_.set_to_origin(3);
   tmp2_.set_to_origin(3);
 }
@@ -148,13 +199,16 @@ void Rotator::gen_orientations(const int num_orientations_per_pi, const Configur
 void Rotator::init(System * system, const std::string xyz_file,
     const std::string contact_xyz_file) {
   select_ = MakeTrialSelectParticle({{"particle_type", "1"}});
-  select_->select_particle(1, system->configuration());
+  ASSERT(system->num_configurations() == 1, "Assumes 1 config");
+  const Configuration& config = system->configuration();
+  select_->select_particle(1, config);
   select_->set_mobile_original(system);
   rotate_ = MakePerturbRotate();
   translate_ = MakePerturbTranslate();
   origin_ = MakePosition();
-  origin_->set_to_origin(3);
-  rot_mat_.set_size(3, 3);
+  const int dimen = config.dimension();
+  origin_->set_to_origin(dimen);
+  rot_mat_.set_size(dimen);
   xyz_ = FileXYZ({{"group", "mobile"}, {"append", "true"}});
   contact_f_ = FileXYZ({{"group", "mobile"}, {"append", "true"}});
   FileXYZ xyz_fixed_({{"group", "fixed"}, {"append", "false"}});
@@ -171,16 +225,18 @@ void Rotator::init(System * system, const std::string xyz_file,
     ofs.close();
   }
   if (!xyz_file.empty() || !contact_xyz_file.empty()) {
-    //DEBUG("first site " << system->configuration().particle(0).site(0).position().str());
-    xyz_fixed_.write(xyz_file+"_fixed.xyz", system->configuration());
+    //DEBUG("first site " << config.particle(0).site(0).position().str());
+    xyz_fixed_.write(xyz_file+"_fixed.xyz", config);
   }
-  ASSERT(system->configuration().particle(0).site(0).position().squared_distance(
-         system->configuration().particle(1).site(0).position()) < 1e-8,
-    "The first site of each particle should be on top of each other.");
+  if (config.num_particle_types() == 1) {
+    ASSERT(config.particle(0).site(0).position().squared_distance(
+           config.particle(1).site(0).position()) < 1e-8,
+      "The first site of each particle should be on top of each other.");
+  }
 }
 
 void Rotator::set_last_three_sites(const int ior, System * system) {
-  ASSERT(system->configuration().domain().dimension() == 3, "hard coded for 3d");
+  if (system->configuration().domain().dimension() == 2) return;
   const Particle& part = system->configuration().particle(1);
   DEBUG("num sites:" << part.num_sites());
   DEBUG("ior: " << ior << " " << last_three_sites_.size());
@@ -206,6 +262,7 @@ void Rotator::set_last_three_sites(const int ior, System * system) {
 }
 
 void Rotator::check_last_three_sites(const int ior, System * system) {
+  if (system->configuration().domain().dimension() == 2) return;
   tmp1_.set_from_cartesian(last_three_sites_[ior][1].coord());
   tmp2_.set_from_cartesian(last_three_sites_[ior][2].coord());
   tmp1_.subtract(last_three_sites_[ior][0]);
@@ -219,40 +276,42 @@ void Rotator::check_last_three_sites(const int ior, System * system) {
 void Rotator::determine_if_unique(const int ior, const std::vector<int>& iors, const int num_threads, System * system) {
 //  unique_[ior] = -1;
   int unique = -1;
-  //double x = 0.;
-  DEBUG("ior " << ior << " unique " << unique);
-  for (int past_ior = 0; past_ior < ior; ++past_ior) {
-    DEBUG("past_ior " << past_ior);
-    const int t = past_ior % num_threads;
-    DEBUG("t " << t);
-    //while (past_ior > iors[t]) {
-    #ifdef _OPENMP
-      while (unique_[past_ior] == -2) {
-        //x += unique_[past_ior];
-        //std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        omp_get_thread_num();
-        //INFO("waiting ior " << ior);
-      }
-    #endif // _OPENMP
-    DEBUG("unique_[past_ior] " << unique_[past_ior]);
-    if (unique_[past_ior] == -1) {
-      DEBUG("last three past " << last_three_sites_[past_ior][0].str() << " "
-                              << last_three_sites_[past_ior][1].str() << " "
-                              << last_three_sites_[past_ior][2].str());
-      DEBUG("last three " << last_three_sites_[ior][0].str() << " "
-                         << last_three_sites_[ior][1].str() << " "
-                         << last_three_sites_[ior][2].str());
-      DEBUG("is eq " <<
-        last_three_sites_[past_ior][0].is_equal(last_three_sites_[ior][0], unique_tolerance_) << " " <<
-        last_three_sites_[past_ior][1].is_equal(last_three_sites_[ior][1], unique_tolerance_) << " " <<
-        last_three_sites_[past_ior][2].is_equal(last_three_sites_[ior][2], unique_tolerance_)
-      );
-      if (last_three_sites_[past_ior][0].is_equal(last_three_sites_[ior][0], unique_tolerance_) &&
-          last_three_sites_[past_ior][1].is_equal(last_three_sites_[ior][1], unique_tolerance_) &&
-          last_three_sites_[past_ior][2].is_equal(last_three_sites_[ior][2], unique_tolerance_)) {
-        DEBUG("found");
-        unique = past_ior;
-        break;
+  if (system->configuration().domain().dimension() == 3) {
+    //double x = 0.;
+    DEBUG("ior " << ior << " unique " << unique);
+    for (int past_ior = 0; past_ior < ior; ++past_ior) {
+      DEBUG("past_ior " << past_ior);
+      const int t = past_ior % num_threads;
+      DEBUG("t " << t);
+      //while (past_ior > iors[t]) {
+      #ifdef _OPENMP
+        while (unique_[past_ior] == -2) {
+          //x += unique_[past_ior];
+          //std::this_thread::sleep_for(std::chrono::milliseconds(1));
+          omp_get_thread_num();
+          //INFO("waiting ior " << ior);
+        }
+      #endif // _OPENMP
+      DEBUG("unique_[past_ior] " << unique_[past_ior]);
+      if (unique_[past_ior] == -1) {
+        DEBUG("last three past " << last_three_sites_[past_ior][0].str() << " "
+                                << last_three_sites_[past_ior][1].str() << " "
+                                << last_three_sites_[past_ior][2].str());
+        DEBUG("last three " << last_three_sites_[ior][0].str() << " "
+                           << last_three_sites_[ior][1].str() << " "
+                           << last_three_sites_[ior][2].str());
+        DEBUG("is eq " <<
+          last_three_sites_[past_ior][0].is_equal(last_three_sites_[ior][0], unique_tolerance_) << " " <<
+          last_three_sites_[past_ior][1].is_equal(last_three_sites_[ior][1], unique_tolerance_) << " " <<
+          last_three_sites_[past_ior][2].is_equal(last_three_sites_[ior][2], unique_tolerance_)
+        );
+        if (last_three_sites_[past_ior][0].is_equal(last_three_sites_[ior][0], unique_tolerance_) &&
+            last_three_sites_[past_ior][1].is_equal(last_three_sites_[ior][1], unique_tolerance_) &&
+            last_three_sites_[past_ior][2].is_equal(last_three_sites_[ior][2], unique_tolerance_)) {
+          DEBUG("found");
+          unique = past_ior;
+          break;
+        }
       }
     }
   }
@@ -272,13 +331,29 @@ void Rotator::determine_if_unique(const int ior, const std::vector<int>& iors, c
 }
 
 void Rotator::update_xyz(const int ior, const double displacement, System * system) {
-  tmp_3vec_[0] = displacement;
-  tmp_3vec_[1] = stheta_[ior];
-  tmp_3vec_[2] = sphi_[ior];
-  if (tmp_3vec_[0] < 1e-8) {
-    com1_.set_to_origin(3);
-  } else {
-    com1_.set_from_spherical(tmp_3vec_);
+  if (tmp_vec_.size() == 0) {
+    if (static_cast<int>(sphi_.size()) > 0) {
+      tmp_vec_.resize(3);
+    } else {
+      tmp_vec_.resize(2);
+    }
+  }
+
+  tmp_vec_[0] = displacement;
+  tmp_vec_[1] = stheta_[ior];
+  if (static_cast<int>(tmp_vec_.size()) == 3) {
+    tmp_vec_[2] = sphi_[ior];
+    if (tmp_vec_[0] < 1e-8) {
+      com1_.set_to_origin(3);
+    } else {
+      com1_.set_from_spherical(tmp_vec_);
+    }
+  } else if (static_cast<int>(tmp_vec_.size()) == 2) {
+    if (tmp_vec_[0] < 1e-8) {
+      com1_.set_to_origin(2);
+    } else {
+      com1_.set_from_spherical(tmp_vec_);
+    }
   }
   DEBUG("com1 " << com1_.str());
   select_->select_particle(1, system->configuration());
@@ -340,8 +415,15 @@ class ContactObjective : public Formula {
 
 double Rotator::contact_distance(const int ior, System * system) {
   if (unique_[ior] != -1) {
-    contact_[ior] = contact_[unique_[ior]];
-    return contact_[unique_[ior]];
+    if (num_proc_ == 1) {
+      ASSERT(unique_[ior] >= 0, "ior: " << ior << "has unique:" << unique_[ior]);
+      ASSERT(unique_[ior] < static_cast<int>(contact_.size()), "ior: " << ior <<
+        "has unique:" << unique_[ior] << " that is >= size of contact:" << contact_.size());
+      contact_[ior] = contact_[unique_[ior]];
+    } else {
+      contact_[ior] = -5;
+    }
+    return contact_[ior];
   }
   GoldenSearch minimize({{"tolerance", str(contact_tolerance_)},
     {"lower", "0"},
@@ -360,7 +442,7 @@ double Rotator::contact_distance(const int ior, System * system) {
 
 double ContactObjective::evaluate(const double distance) const {
   const double en = rotator_->energy(ior_, distance, system_);
-  TRACE("dist " << distance << " en " << en << " hu " << hard_u_limit_);
+  TRACE("dist " << distance << " en " << en << " hul " << hard_u_limit_ << " hu " << hard_u_);
   if (hard_u_limit_ == hard_u_) {
     TRACE("hard contact");
     if (en > 1) {
@@ -370,7 +452,7 @@ double ContactObjective::evaluate(const double distance) const {
     }
   } else {
     TRACE("soft contact");
-    if (en < hard_u_) {
+    if (en < hard_u_limit_) {
       if (en > 0.) {
         const double obj = std::pow(en - hard_u_limit_, 2);
         TRACE("obj: " << obj);
@@ -386,6 +468,45 @@ double ContactObjective::evaluate(const double distance) const {
   }
 }
 
+class CutoffObjective : public Formula {
+ public:
+  CutoffObjective(Rotator * rotator, System * system, const double ior) {
+    rotator_ = rotator;
+    system_ = system;
+    ior_ = ior;
+  }
+
+  double evaluate(const double distance) const override;
+ private:
+  Rotator * rotator_;
+  System * system_;
+  int ior_;
+};
+
+double Rotator::cutoff_distance(const int ior, System * system) {
+  if (unique_[ior] != -1) {
+    cutoff_[ior] = cutoff_[unique_[ior]];
+    return cutoff_[unique_[ior]];
+  }
+  GoldenSearch minimize({{"tolerance", str(contact_tolerance_)},
+    {"lower", "0"},
+    {"upper", str(system->configuration().domain().max_side_length()/2)}});
+  CutoffObjective objective(this, system, ior);
+  const double dist = minimize.minimum(&objective) - 2.*contact_tolerance_;
+  cutoff_[ior] = dist;
+  return dist;
+}
+
+double CutoffObjective::evaluate(const double distance) const {
+  const double en = rotator_->energy(ior_, distance, system_);
+  TRACE("dist " << distance << " en " << en);
+  if (en == 0) {
+    return distance + 0.1;
+  } else {
+    return 1e15/(distance + 0.1);
+  }
+}
+
 void Rotator::gen_unique_orientations(const int num_orientations_per_pi, System * system, std::vector<std::vector<double> > bounds) {
   const Configuration& config = system->configuration();
   gen_orientations(num_orientations_per_pi, config, bounds);
@@ -393,7 +514,7 @@ void Rotator::gen_unique_orientations(const int num_orientations_per_pi, System 
   DEBUG("num orientations: " << num_orientations());
   ASSERT(num_proc_ == 1, "unique orientation search is not parallelized in the same way as the rest.");
   DEBUG("Set last three");
-  INFO("num ori: " << num_orientations());
+  DEBUG("num ori: " << num_orientations());
   //#pragma omp parallel for
   for (int ior = 0; ior < num_orientations(); ++ior) {
     update_xyz(ior, displacement, system);

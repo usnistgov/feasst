@@ -470,6 +470,7 @@ int ParticleFactory::site_type_to_particle_type(const int site_type) const {
   ASSERT(unique_types_, "only logical to use for unique_types");
   int particle_type = 0;
   int prev = 0;
+  ASSERT(num() > 0, "No particles defined.");
   for (int site = 0; site <= site_type; ++site) {
     const int num_sites = particle(particle_type).num_sites();
     if (site >= num_sites + prev) {

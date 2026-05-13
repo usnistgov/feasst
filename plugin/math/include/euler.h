@@ -11,7 +11,9 @@ class Matrix;
 class RotationMatrix;
 
 /**
-  There are many ambiguities in Euler angle and rotation matrix definitions.
+  Euler is for 3D space.
+  For 2D, the first angle is simply used as a polar orietation.
+  For 3D, there are many ambiguities in Euler angle and rotation matrix definitions.
   See https://en.wikipedia.org/wiki/Euler_angles
   and https://en.wikipedia.org/wiki/Rotation_matrix#Ambiguities
 
@@ -75,6 +77,8 @@ class Euler {
   double psi() const { return psi_; }
 
   /// Compute a RotationMatrix from Euler angles.
+  /// Determine the dimensionality by the size of the matrix.
+  /// If matrix has no size, then assume three dimensional.
   void compute_rotation_matrix(RotationMatrix * matrix) const;
 
   /// Return true if equal.

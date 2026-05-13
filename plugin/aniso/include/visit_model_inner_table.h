@@ -80,6 +80,9 @@ typedef std::map<std::string, std::string> argtype;
      of the potential energy uniformly in the z range of [0, 1].
      If the orientation is duplicate, then the first number is -1 and the second
      is the integer number of the orientation that it is a duplicate of.
+
+   Finally, the contact and cutoff are scaled by the Sigma of an anisotropic
+   Site, and the energy is scaled by the Epsilon.
  */
 class VisitModelInnerTable : public VisitModelInner {
  public:
@@ -95,6 +98,8 @@ class VisitModelInnerTable : public VisitModelInner {
   /** @name Public Functions
    */
   //@{
+
+  bool ignore_energy() const { return ignore_energy_; }
 
   /// Return true if there is an energy table.
   bool is_energy_table(const std::vector<std::vector<std::shared_ptr<Table6D> > >& energy) const;
@@ -137,12 +142,19 @@ class VisitModelInnerTable : public VisitModelInner {
   virtual void precompute_cutoffs(Configuration * config);
   virtual void read_table(const std::string table_file,
     const bool ignore_energy, Configuration * config);
-  virtual double compute_aniso(const int type1, const int type2,
+  virtual double compute_aniso(const int tabtype1, const int tabtype2,
     const double squared_distance, const double s1, const double s2,
-    const double e1, const double e2, const double e3, const Configuration& config) const;
-  virtual double compute_aniso(const int type1, const int type2,
+    const double e1, const double e2, const double e3,
+    const Configuration& config, const ModelParams& model_params,
+    const int stype1, const int stype2) const;
+  virtual double compute_aniso(const int tabtype1, const int tabtype2,
     const double squared_distance, const double s1, const double s2,
-    const Configuration& config) const;
+    const Configuration& config, const ModelParams& model_params,
+    const int stype1, const int stype2) const;
+  virtual double compute_aniso(const int type1, const int type2,
+    const double squared_distance, const double s1,
+    const Configuration& config, const ModelParams& model_params,
+    const int stype1, const int stype2) const;
   void compute(
     const int part1_index,
     const int site1_index,
@@ -155,14 +167,12 @@ class VisitModelInnerTable : public VisitModelInner {
     Position * relative,
     Position * pbc,
     const double factor = 1.) override;
-  void compute_scaled_coords(const int part1_index, const int part2_index,
+  void set_sph(const int part1_index, const int part2_index,
     const Site& site1, const Site& site2, const Configuration * config,
-    int * type1, int * type2, Position * relative, double * s1,
-    double * s2);
-  void compute_scaled_coords(const int part1_index, const int part2_index,
+    int * type1, int * type2, Position * relative, bool * flip);
+  void set_sph_euler(const int part1_index, const int part2_index,
     const Site& site1, const Site& site2, const Configuration * config,
-    int * type1, int * type2, Position * relative, double * s1,
-    double * s2, double * e1, double * e2, double * e3);
+    int * type1, int * type2, Position * relative, bool * flip);
   std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
     return std::make_shared<VisitModelInnerTable>(istr); }
   std::shared_ptr<VisitModelInner> create(argtype * args) const override {
@@ -190,6 +200,10 @@ class VisitModelInnerTable : public VisitModelInner {
   Position pos1_, pos2_, sph_;
   RotationMatrix rot1_, rot2_, rot3_;
   Euler euler_;
+  bool cutoffs_precomputed_ = false;
+
+  bool is_flip_(const double xpos, const int part1_index, const int part2_index,
+    int * type1, int * type2);
 };
 
 }  // namespace feasst

@@ -56,6 +56,13 @@ class VisitModelInner {
     const double weight = 1.);
 
   virtual void precompute(Configuration * config);
+
+  /// Return the ModelParams index of epsilon.
+  int epsilon_index() const { return epsilon_index_; }
+
+  /// Return the ModelParams index of sigma.
+  int sigma_index() const { return sigma_index_; }
+
   void set_energy(const double energy) { energy_ = energy; }
   void update_ixn(
     const double energy,
@@ -132,6 +139,8 @@ class VisitModelInner {
   int cutoff_outer_index_ = -1;
   std::shared_ptr<EnergyMap> energy_map_;
   int interacted_;
+  int epsilon_index_ = -1;
+  int sigma_index_ = -1;
 
   // temporariy and not serialized
   bool skip_particle_ = false;

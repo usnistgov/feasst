@@ -4,10 +4,9 @@
    Anisotropic
    ModelRecursiveTable
    Backmap
-   Training
    VisitModelInnerTable
+   RecursiveTable
    VisitModelInnerNN
-   VisitModelInnerRecursiveTable
    BuildRecursiveTable
    Rotator
    TabulateTwoRigidBody3D

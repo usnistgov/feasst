@@ -32,12 +32,12 @@ def parse():
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')
     parser.add_argument('--hours_terminate', type=float, default=0.5, help='hours until termination')
-    parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
-    parser.add_argument('--procs_per_node', type=int, default=32, help='Number of nodes in queue')
+    parser.add_argument('--num_jobs', type=int, default=3, help='Number of jobs in queue')
+    parser.add_argument('--procs_per_job', type=int, default=1, help='Number of jobs in queue')
     parser.add_argument('--scratch', type=str, default=None,
                         help='Optionally write scheduled job to scratch/logname/jobid.')
     parser.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
-    parser.add_argument('--node', type=int, default=0, help='node ID')
+    parser.add_argument('--job', type=int, default=0, help='job ID')
     parser.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
     parser.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
@@ -46,12 +46,11 @@ def parse():
     assert len(unknown_args) == 0, 'An unknown argument was included: '+str(unknown_args)
     params = vars(args)
     params['prefix'] = 'b2pdb'
-    params['sim_id_file'] = params['prefix'] + '_sim_ids.txt'
     params['script'] = __file__
     params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
     params['hours_terminate'] = 0.99*params['hours_terminate'] - 0.0333 # terminate before queue
     params['procs_per_sim'] = 1
-    params['num_sims'] = params['num_nodes']*params['procs_per_node']
+    params['num_sims'] = params['num_jobs']*params['procs_per_job']
     params['beta'] = 1./(params['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
     if params['ionic_strength'] != -1:
         temp_cel = params['temperature'] - 273.15
@@ -115,7 +114,7 @@ Run until=complete
 def post_process(params):
     from pyfeasst import accumulator
     b2acc = accumulator.Accumulator()
-    for p in range(params['procs_per_node']):
+    for p in range(params['num_sims']):
         params['sim'] = p
         filename="""{prefix}_{domain1}-{domain2}_{sim:03d}_b2_eq.csv""".format(**params)
         with open(filename, 'r') as file1: lines = file1.readlines()
@@ -130,14 +129,14 @@ def post_process(params):
         b2_molmlg2 = b2*1e-26*physical_constants.AvogadroConstant().value()/mw/mw
         #print(b2_molmlg2, '10^-4 mol*ml*g^-2')
         b2acc.add(b2_molmlg2)
-    print('b2', b2acc.mean(), b2acc.stdev()/np.sqrt(params['procs_per_node']))
+    print('b2', b2acc.mean(), b2acc.stdev()/np.sqrt(params['procs_per_job']))
 
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=None,
-                          #sim_node_dependent_params=sim_node_dependent_params,
+                          sim_job_dependent_params=None,
+                          #sim_job_dependent_params=sim_job_dependent_params,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=arguments)

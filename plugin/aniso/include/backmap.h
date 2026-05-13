@@ -16,12 +16,17 @@ namespace feasst {
 class Backmap : public AnalyzeWriteOnly {
  public:
   //@{
-  /** @name Arguments
+  /* deprecated arguments:
     - site[i]: site type of anisotropic site to backmap.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
     - fstprt[i]: fstprt to backmap anisotropic site into.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
-    - Stepper arguments.
+   */
+  /** @name Arguments
+    - sites: comma-separated list of names of anisotropic sites to backmap.
+    - fstprts: comma-separated list of particle files to backmap anisotropic
+      sites into, with same length as the sites argument.
+    - FileVMD, FileXYZ and Stepper arguments.
     - append is always set to true via Stepper:set_append().
    */
   explicit Backmap(argtype args = argtype());
@@ -50,6 +55,7 @@ class Backmap : public AnalyzeWriteOnly {
   //@}
  private:
   std::vector<int> site_types_;
+  std::vector<std::string> site_type_names_;
   std::vector<std::string> site_fstprt_;
   std::shared_ptr<Configuration> all_atom_;
   FileXYZ xyz_;

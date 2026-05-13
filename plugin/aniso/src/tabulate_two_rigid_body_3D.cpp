@@ -110,15 +110,24 @@ double TabulateTwoRigidBody3D::max_cubic_side_length(const int particle_type,
 }
 
 void TabulateTwoRigidBody3D::adjust_domain(System * system) {
+  ASSERT(system->num_configurations() == 1, "assumes 1 config");
+  const Configuration& config = system->configuration();
   const double length0 = max_cubic_side_length(0, system->configuration());
-  const double length1 = max_cubic_side_length(1, system->configuration());
+  double length1 = length0;
+  if (config.num_particle_types() == 2) {
+    length1 = max_cubic_side_length(1, system->configuration());
+  } else {
+    ASSERT(config.num_particle_types() == 1, "Should only be 1 or 2 particles.");
+  }
   const double length = 0.5*(length0 + length1);
   DEBUG("length " << length);
-  const double volume = system->configuration().domain().volume();
+  const double volume = config.domain().volume();
   DEBUG("volume " << volume);
   const double delta_volume = std::pow(length, 3) - volume;
   DEBUG("delta_volume " << delta_volume);
   system->change_volume(delta_volume, {{"scale_particles", "false"}});
+  std::cout << "# TabulateTwoRigidBody3D set volume:" << config.domain().volume()
+    << " cubic length:" << std::pow(config.domain().volume(), 1./3.) << std::endl;
 }
 
 void TabulateTwoRigidBody3D::run(MonteCarlo * mc) {

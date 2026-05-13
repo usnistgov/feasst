@@ -27,6 +27,7 @@ pyfeasst/docs/build
 *.png
 *phase0
 *phase1
+*verbose*
 
 # interface files
 dev/v0*

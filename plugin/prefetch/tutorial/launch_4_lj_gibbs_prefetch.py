@@ -21,15 +21,15 @@ def parse():
     parser.add_argument('--production_cycles', type=int, default=int(1e3), help='number of cycles for production')
     parser.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
     parser.add_argument('--hours_terminate', type=float, default=1, help='hours until termination')
-    parser.add_argument('--procs_per_node', type=int, default=32, help='number of processors per node')
+    parser.add_argument('--num_jobs', type=int, default=8, help='Number of jobs in queue')
+    parser.add_argument('--procs_per_job', type=int, default=4, help='number of processors per job')
     parser.add_argument('--procs_per_sim', type=int, default=4, help='number of processors per simuilation')
     parser.add_argument('--run_type', '-r', type=int, default=0, help='0: run, 1: submit to queue, 2: post-process')
     parser.add_argument('--seed', type=int, default=-1, help='Random number generator seed. If -1, assign random seed to each sim.')
     parser.add_argument('--max_restarts', type=int, default=0, help='Number of restarts in queue')
-    parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
     parser.add_argument('--scratch', type=str, default=None, help='Optionally write scheduled job to scratch/logname/jobid.')
     parser.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
-    parser.add_argument('--node', type=int, default=0, help='node ID')
+    parser.add_argument('--job', type=int, default=0, help='job ID')
     parser.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
     parser.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
@@ -39,18 +39,17 @@ def parse():
     params = vars(args)
     params['script'] = __file__
     params['prefix'] = 'gibbs'
-    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
     params['hours_terminate'] = 0.99*params['hours_terminate'] - 0.0333 # terminate before queue
-    assert params['procs_per_node'] % params['procs_per_sim'] == 0
-    params['num_sims'] = int(params['num_nodes']*params['procs_per_node']/params['procs_per_sim'])
+    assert params['procs_per_job'] % params['procs_per_sim'] == 0
+    params['num_sims'] = int(params['num_jobs']*params['procs_per_job']/params['procs_per_sim'])
     params['equil'] = params['equilibration_cycles']*params['tpc']
     params['double_equil'] = 2*params['equil']
     params['vapor_weights'] = 4*[0.1, 10]
     return params, args
 
-def sim_node_dependent_params(params):
-    """ Set parameters that depent upon the sim or node here. """
+def sim_job_dependent_params(params):
+    """ Set parameters that depent upon the sim or job here. """
     exp_vapor_dens = 0.012370852011749
     exp_liquid_dens = 0.7629707597552141
     num_total = 600
@@ -169,8 +168,8 @@ def post_process(params):
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=sim_node_dependent_params,
+                          sim_job_dependent_params=sim_job_dependent_params,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=arguments)

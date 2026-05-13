@@ -34,17 +34,17 @@ def parse():
                         help='number of cycles for equilibration')
     parser.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
     parser.add_argument('--hours_terminate', type=float, default=0.2, help='hours until termination')
-    parser.add_argument('--procs_per_node', type=int, default=2, help='number of processors')
+    parser.add_argument('--num_jobs', type=int, default=2, help='Number of jobs in queue')
+    parser.add_argument('--procs_per_job', type=int, default=1, help='number of processors')
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')
     parser.add_argument('--seed', type=int, default=-1,
                         help='Random number generator seed. If -1, assign random seed to each sim.')
     parser.add_argument('--max_restarts', type=int, default=10, help='Number of restarts in queue')
-    parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
     parser.add_argument('--scratch', type=str, default=None,
                         help='Optionally write scheduled job to scratch/logname/jobid.')
     parser.add_argument('--queue_flags', type=str, default="", help='extra flags for queue (e.g., for slurm, "-p queue")')
-    parser.add_argument('--node', type=int, default=0, help='node ID')
+    parser.add_argument('--job', type=int, default=0, help='job ID')
     parser.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
     parser.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
@@ -54,11 +54,10 @@ def parse():
     params = vars(args)
     params['script'] = __file__
     params['prefix'] = 'co2n2_'
-    params['sim_id_file'] = params['prefix']+ '_sim_ids.txt'
     params['minutes'] = int(params['hours_terminate']*60) # minutes allocated on queue
     params['hours_terminate'] = 0.95*params['hours_terminate'] - 0.05 # terminate FEASST before SLURM
     params['procs_per_sim'] = 1
-    params['num_sims'] = params['num_nodes']*params['procs_per_node']
+    params['num_sims'] = params['num_jobs']*params['procs_per_job']
     params['ewald_alpha'] = 5.6/params['cubic_side_length']
     params['beta'] = 1./(params['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
     params['windows'] = macrostate_distribution.window_exponential(
@@ -66,12 +65,12 @@ def parse():
         number=params['num_sims'], overlap=1, min_size=5)
     return params, args
 
-def sim_node_dependent_params(params):
-    """ Define parameters that are dependent on the sim or node. """
+def sim_job_dependent_params(params):
+    """ Define parameters that are dependent on the sim or job. """
     params['min_particles'] = params['windows'][params['sim']][0]
     params['max_particles'] = params['windows'][params['sim']][1]
-    params['sim_start'] = 0
-    params['sim_end'] = params['num_sims'] - 1
+    params['sim_start'] = params['procs_per_job']*params['job']
+    params['sim_end'] = params['sim_start'] + params['procs_per_job'] - 1
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """
@@ -94,7 +93,7 @@ CheckEnergy trials_per_update={tpc} decimal_places=6
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # gcmc initialization and nvt equilibration
-Let [write]=trials_per_write={tpc} output_file={prefix}n{node}s{sim:03d}
+Let [write]=trials_per_write={tpc} output_file={prefix}j{job:03d}s{sim:03d}
 Log [write]_eq.csv
 Tune
 For [pt]:[num]=pt1:{min_particles},pt2:{num_particles}
@@ -120,21 +119,21 @@ CriteriaWriter [write]_crit.csv
 CriteriaUpdater trials_per_update=1e5
 Run until=complete
 
-# continue until all simulations on the node are complete
-WriteFileAndCheck sim={sim} sim_start={sim_start} sim_end={sim_end} file_prefix={prefix}n{node}s file_suffix=_finished.txt output_file={prefix}n{node}_terminate.txt
-Run until_file_exists={prefix}n{node}_terminate.txt trials_per_file_check={tpc}
+# continue until all simulations on the job are complete
+WriteFileAndCheck sim={sim} sim_start={sim_start} sim_end={sim_end} file_prefix={prefix}j{job:03d}s file_suffix=_finished.txt output_file={prefix}j{job:03d}_terminate.txt
+Run until_file_exists={prefix}j{job:03d}_terminate.txt trials_per_file_check={tpc}
 """.format(**params))
 
 def post_process(params):
-    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'n0s', suffix='_crit.csv', shift=False)
+    lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv', shift=False)
     #lnpi.plot(show=True)
     assert np.abs(5.137717334901432 - lnpi.average_macrostate()) < 0.5
 
 if __name__ == '__main__':
     parameters, arguments = parse()
     fstio.run_simulations(params=parameters,
-                          sim_node_dependent_params=sim_node_dependent_params,
+                          sim_job_dependent_params=sim_job_dependent_params,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=arguments)

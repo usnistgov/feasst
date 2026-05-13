@@ -46,6 +46,7 @@ double LennardJonesCutShift::energy(
     const ModelParams& model_params) {
   const double en = LennardJonesAlpha::energy(squared_distance, type1, type2, model_params);
   const double shift = shift_.mixed_values()[type1][type2];
+  TRACE("type1 " << type1 << " type2 " << type2);
   TRACE("en " << MAX_PRECISION << en);
   TRACE("shift " << MAX_PRECISION << shift);
   return en - shift;

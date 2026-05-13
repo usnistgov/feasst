@@ -376,22 +376,41 @@ double Position::torsion_angle_radians(const Position& rj, const Position& rk,
   return angle;
 }
 
-void scaled_relative_orientation(const double stheta, const double sphi,
-    const bool identical_sites, double * s1, double * s2) {
-  *s1 = 0;
-  if (identical_sites) {
-    *s1 = stheta/PI;
-  } else {
-    *s1 = stheta/2/PI;
+void fix_(double * s) {
+  if (*s < 0.) {
+    *s += 1.;
   }
-  if (*s1 < 0) {
-    *s1 += 1;
+  if (*s > 1.) {
+    *s -= 0.;
   }
-  *s2 = sphi/PI;
+  if (*s < 0 && *s > -1e-10) {
+    *s = 0;
+  }
+  if (*s > 1. && *s < 1+1e-10) {
+    *s = 1.;
+  }
 }
 
-void scaled_relative_orientation(const double stheta, const double sphi, const double ephi, const double etheta, const double epsi, const bool identical_sites, double * s1, double * s2, double * e1, double * e2, double *e3) {
-  scaled_relative_orientation(stheta, sphi, identical_sites, s1, s2);
+void scaled_relative_orientation(const double stheta, double * s1) {
+  *s1 = stheta/2./PI;
+  fix_(s1);
+}
+
+void scaled_relative_orientation(const double stheta, const double sphi,
+    const int dimen, double * s1, double * s2) {
+  scaled_relative_orientation(stheta, s1);
+  if (dimen == 3) {
+    *s2 = sphi/PI;
+  } else if (dimen == 2) {
+    *s2 = sphi/2./PI + 0.5;
+  } else {
+    FATAL("unrecognized dimension: " << dimen);
+  }
+  fix_(s2);
+}
+
+void scaled_relative_orientation(const double stheta, const double sphi, const double ephi, const double etheta, const double epsi, double * s1, double * s2, double * e1, double * e2, double *e3) {
+  scaled_relative_orientation(stheta, sphi, 3, s1, s2);
   *e1 = ephi/2/PI + 0.5;
   *e2 = etheta/PI;
   *e3 = epsi/2/PI + 0.5;

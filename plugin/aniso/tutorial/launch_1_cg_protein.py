@@ -30,19 +30,20 @@ def parse():
                         help='maximum number of orientations per 180 degrees')
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')
-    parser.add_argument('--hours_terminate', type=float, default=14*24,
+    parser.add_argument('--hours_terminate', type=float, default=5*24,
                         help='hours until termination')
-    parser.add_argument('--num_nodes', type=int, default=1, help='Number of nodes in queue')
-    parser.add_argument('--procs_per_node', type=int, default=16, help='Number processors in a node')
+    parser.add_argument('--num_jobs_orient', type=int, default=1, help='Number of jobs in queue')
+    parser.add_argument('--procs_per_job', type=int, default=1, help='Number processors in a job')
     parser.add_argument('--scratch', type=str, default=None,
                         help='Optionally write scheduled job to scratch/logname/jobid.')
     parser.add_argument('--queue_flags', type=str, default="",
                         help='extra flags for queue (e.g., for slurm, "-p queue")')
-    parser.add_argument('--node', type=int, default=0, help='node ID')
+    parser.add_argument('--job', type=int, default=0, help='job ID')
     parser.add_argument('--queue_id', type=int, default=-1, help='If != -1, read args from file')
     parser.add_argument('--queue_task', type=int, default=0, help='If > 0, restart from checkpoint')
 
     # additional in contact step (or more)
+    parser.add_argument('--num_jobs_table', type=int, default=16, help='Number of jobs in queue')
     parser.add_argument('--pH', type=float, default=6, help='pH')
     parser.add_argument('--domains', type=str, default='4lyt', help='comma-separated values for fstprt files')
     parser.add_argument('--contact_xyz_file', type=str, default='',
@@ -58,6 +59,7 @@ def parse():
     parser.add_argument('--smoothing_distance', type=float, default=2, help='distance from cutoff to smooth to zero')
 
     # additional in b2 step
+    parser.add_argument('--num_jobs_b2', type=int, default=16, help='Number of jobs in queue')
     parser.add_argument('--table_file', type=str, default='energy_table.txt', help='file describe cg table potential.')
     parser.add_argument('--cubic_side_length', type=float, default=1e4, help='cubic side length')
     parser.add_argument('--molecular_weight', type=float, default=14315.03534, help='molecular weight of protein in g/mol')
@@ -79,41 +81,24 @@ def write_feasst_script(params, script_file):
     with open(script_file, 'w', encoding='utf-8') as myfile:
         myfile.write("""
 MonteCarlo
-Configuration cubic_side_length=2e2 particle_type=pt1:/feasst/particle/spce_new.txt,pt2:/feasst/particle/spce_new.txt \
-  add_num_pt1_particles=1 add_num_pt2_particles=1 \
-  group=fixed,mobile fixed_particle_type=pt1 mobile_particle_type=pt2
-Potential Model ModelEmpty
-TabulateTwoRigidBody3D num_orientations_per_pi={num_orientations_per_pi} output_orientation_file={prefix}{num_orientations_per_pi}.txt
-""".format(**params))
-        if len(params['domains'].split(',')) > 1:
-            myfile.write("""
-MonteCarlo
 Configuration cubic_side_length=2e2 particle_type=pt1:/feasst/particle/spce_new.txt,pt2:/feasst/particle/propane.txt \
   add_num_pt1_particles=1 add_num_pt2_particles=1 \
   group=fixed,mobile fixed_particle_type=pt1 mobile_particle_type=pt2
 Potential Model=ModelEmpty
-TabulateTwoRigidBody3D num_orientations_per_pi={num_orientations_per_pi} output_orientation_file={prefix}{num_orientations_per_pi}_ij.txt
+TabulateTwoRigidBody3D num_orientations_per_pi={num_orientations_per_pi} output_orientation_file={prefix}{num_orientations_per_pi}.txt
 """.format(**params))
 
 def post_process(params):
     """ Check the final file length and then launch the next step. """
     nk = params['num_orientations_per_pi']
 
-    # The following checks for the expected number of values but can be skipped
-    ijs = [False]
-    if len(params['domains'].split(',')) > 1:
-        ijs.append('True')
-    for ij in ijs:
-        extra = ''
-        expected = (2*nk+1)**2 * (nk+1)**3
-        if ij:
-            expected = (2*nk+1)**3 * (nk+1)**2
-            extra = '_ij'
-        with open('''{prefix}{num_orientations_per_pi}'''.format(**params)+extra+'.txt') as file1:
-            num = len(file1.readlines()[1].split())
-        if expected != num:
-            print('Found', num, 'orientations for nk=', params['num_orientations_per_pi'], ', but expected', expected)
-            assert False
+    # Checks for the expected number of values
+    expected = (2*nk+1)**3 * (nk+1)**2
+    with open('''{prefix}{num_orientations_per_pi}'''.format(**params)+'.txt') as file1:
+        num = len(file1.readlines()[1].split())
+    if expected != num:
+        print('Found', num, 'orientations for nk=', params['num_orientations_per_pi'], ', but expected', expected)
+        assert False
 
     print('launching after_1_1_contact.py')
     subprocess.check_call('python after_1_1_contact.py '+fstio.dict_to_argparse(params['original_args']),
@@ -134,22 +119,20 @@ if __name__ == '__main__':
     prms['original_args'] = copy.deepcopy(prms)
     prms['script'] = __file__
     prms['prefix'] = 'orientations'
-    prms['sim_id_file'] = prms['prefix'] + '_sim_ids.txt'
     prms['minutes'] = int(prms['hours_terminate']*60) # minutes allocated on queue
     prms['hours_terminate'] = 0.99*prms['hours_terminate'] - 0.0333 # terminate before queue
-    prms['procs_per_sim'] = prms['procs_per_node']
-    prms['num_nodes'] = 1
-    prms['num_sims'] = prms['num_nodes']
+    prms['procs_per_sim'] = prms['procs_per_job']
+    prms['num_jobs'] = prms['num_jobs_orient']
+    prms['num_sims'] = prms['num_jobs']*prms['procs_per_job']
     orient_file_prefix = '''{prefix}{num_orientations_per_pi}'''.format(**prms)
     generate_domain_pairs(prms)
-    if os.path.isfile(orient_file_prefix+'.txt') and \
-       os.path.isfile(orient_file_prefix+'_ij.txt'):
+    if os.path.isfile(orient_file_prefix+'.txt'):
         print('using existing:', orient_file_prefix)
         post_process(params=prms)
     else:
         fstio.run_simulations(params=prms,
-                              sim_node_dependent_params=None,
+                              sim_job_dependent_params=None,
                               write_feasst_script=write_feasst_script,
                               post_process=post_process,
-                              queue_function=fstio.slurm_single_node,
+                              queue_function=fstio.slurm_single_job,
                               args=args)

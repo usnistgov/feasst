@@ -15,16 +15,16 @@ from launch_1_cg_protein import generate_domain_pairs
 from after_1_1_contact import tables_exist
 
 def generate_domain_pair(params):
-    params['orientation_file'] = 'orientations' + str(params['num_orientations_per_pi'])
+    params['orientation_file'] = 'orientations' + str(params['num_orientations_per_pi']) + '.txt'
     tabsuffix = '_' + params['domain1'] + '_' + params['domain2'] + '_table.txt'
     params['contact_file'] = 'contact' + tabsuffix
     if params['domain1'] != params['domain2']:
-        params['orientation_file'] += '_ij'
-    params['orientation_file'] += '.txt'
+        params['particles'] = """particle_type=pt1:{domain1}j{job}.txt,pt2:{domain2}j{job}.txt add_num_pt1_particles=1 add_num_pt2_particles=1""".format(**params)
+    else:
+        params['particles'] = """particle_type=pt1:{domain1}j{job}.txt add_num_pt1_particles=2""".format(**params)
     return """MonteCarlo
-Configuration cubic_side_length={initial_box} particle_type=pt1:{domain1}.txt,pt2:{domain2}.txt \
-  add_num_pt1_particles=1 add_num_pt2_particles=1 cutoff={cutoff} \
-  group=fixed,mobile fixed_particle_type=pt1 mobile_particle_type=pt2
+Configuration cubic_side_length={initial_box} {particles} cutoff={cutoff} \
+  group=fixed,mobile fixed_particle_index=0 mobile_particle_index=1
 Potential Model=ModelTwoBodyFactory models=HardSphere,LennardJones,DebyeHuckel kappa={kappa} dielectric={dielectric_water} smoothing_distance={smoothing_distance} \
   VisitModel=VisitModelCell energy_cutoff=1e100
 TabulateTwoRigidBody3D proc={sim} num_proc={num_sims} input_orientation_file={orientation_file} num_z={num_z} smoothing_distance={smoothing_distance} input_table_file={contact_file} output_table_file={prefix}{sim}_{domain1}_{domain2}_table.txt gamma={gamma}
@@ -50,12 +50,12 @@ def post_process(params):
         if not os.path.isfile(params['prefix'] + tabsuffix):
             fstio.combine_tables_two_rigid_body(prefix=params['prefix'], suffix=tabsuffix,
                                                 num_procs=params['num_sims'])
-            if params['num_orientations_per_pi'] == 6 and params['domain1'] == '4lyt' and \
+            if params['num_orientations_per_pi'] == 4 and params['domain1'] == '4lyt' and \
                params['domain2'] == params['domain1']:
                 with open("""{prefix}_table.txt""".format(**params), 'r', encoding="utf-8") as file1:
                     lines = file1.readlines()
                 #print(len(lines))
-                assert len(lines) == 681
+                assert len(lines) == 1125 + 6
                 assert lines[0] == 'site_types 1 0\n'
                 assert lines[6] == '3.762260e+01 -4.069026e+00 -7.593451e-04\n'
                 assert lines[-1] == '-1 160\n'
@@ -71,11 +71,11 @@ if __name__ == '__main__':
     prms['original_args'] = copy.deepcopy(prms)
     prms['script'] = __file__
     prms['prefix'] = 'energy'
-    prms['sim_id_file'] = prms['prefix'] + '_sim_ids.txt'
     prms['minutes'] = int(prms['hours_terminate']*60) # minutes allocated on queue
     prms['hours_terminate'] = 0.99*prms['hours_terminate'] - 0.0333 # terminate before queue
-    prms['procs_per_sim'] = 1
-    prms['num_sims'] = prms['num_nodes']*prms['procs_per_node']
+    prms['procs_per_sim'] = prms['procs_per_job']
+    prms['num_jobs'] = prms['num_jobs_table']
+    prms['num_sims'] = prms['num_jobs']*prms['procs_per_job']
     generate_domain_pairs(prms)
     if tables_exist(prms):
         print('Using existing table(s)')
@@ -92,9 +92,9 @@ if __name__ == '__main__':
     prms['initial_box'] = 4*prms['cutoff'] # initial box adjusted by TabulateTwoRigidBody3D
 
     fstio.run_simulations(params=prms,
-                          sim_node_dependent_params=None,
-                          #sim_node_dependent_params=sim_node_dependent_params,
+                          sim_job_dependent_params=None,
+                          #sim_job_dependent_params=sim_job_dependent_params,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=args)

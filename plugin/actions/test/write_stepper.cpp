@@ -1,7 +1,7 @@
 #include <cmath>
 #include "utils/test/utils.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "steppers/include/write_stepper.h"
+#include "actions/include/write_stepper.h"
 
 namespace feasst {
 

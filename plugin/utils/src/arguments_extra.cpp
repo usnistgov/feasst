@@ -384,7 +384,7 @@ std::vector<arglist> parse_mcs(std::istream& is, argtype variables) {
   std::string line;
   while (std::getline(is, line)) {
     if (!line.empty() && line[0] != '#') {
-      if (line == "MonteCarlo") {
+      if (line == "MonteCarlo" || line.substr(0,7) == "Restart") {
         lists.push_back(list);
         list = arglist();
       } else {

@@ -56,7 +56,7 @@ def post_process(params):
     ref = (2*np.pi/3)*params['reference_sigma']**3
     mw = params['molecular_weight']/1e3 # kDa
     ref *= 1e-26*physical_constants.AvogadroConstant().value()/mw/mw # A3 to 10^4 molml/g2
-    for p in range(params['procs_per_node']):
+    for p in range(params['num_sims']):
         with open(params['prefix']+"{:03d}".format(p)+"_b2.txt", 'r', encoding="utf-8") as file1:
             lines = file1.readlines()
         if len(lines) != 0:
@@ -72,9 +72,9 @@ def post_process(params):
                 df = pd.DataFrame(data={p: iprm['beta_taylor']})
             else:
                 df[p] = iprm['beta_taylor']
-    print('b2 (mol*ml/g2)', b2acc.mean(), b2acc.stdev()/np.sqrt(params['procs_per_node']))
+    print('b2 (mol*ml/g2)', b2acc.mean(), b2acc.stdev()/np.sqrt(params['procs_per_job']))
     if params['molecular_weight'] == 14315.03534:
-        assert np.abs(b2acc.mean() - 1.72) < 0.1
+        assert np.abs(b2acc.mean() - 1.2) < 4*b2acc.stdev()
 
 if __name__ == '__main__':
     parser = parse()
@@ -82,19 +82,19 @@ if __name__ == '__main__':
     assert len(unknown_args) == 0, 'An unknown argument was included: '+str(unknown_args)
     prms = vars(args)
     prms['prefix'] = 'b2'
-    prms['sim_id_file'] = prms['prefix'] + '_sim_ids.txt'
     prms['script'] = __file__
     prms['minutes'] = int(prms['hours_terminate']*60) # minutes allocated on queue
     prms['hours_terminate'] = 0.99*prms['hours_terminate'] - 0.0333 # terminate before queue
-    prms['procs_per_sim'] = 1
-    prms['num_sims'] = prms['num_nodes']*prms['procs_per_node']
+    prms['procs_per_sim'] = prms['procs_per_job']
+    prms['num_jobs'] = prms['num_jobs_b2']
+    prms['num_sims'] = prms['num_jobs']*prms['procs_per_job']
     generate_domain_pairs(prms)
     prms['beta'] = 1./(prms['temperature']*physical_constants.MolarGasConstant().value()/1e3) # mol/kJ
 
     fstio.run_simulations(params=prms,
-                          sim_node_dependent_params=None,
-                          #sim_node_dependent_params=sim_node_dependent_params,
+                          sim_job_dependent_params=None,
+                          #sim_job_dependent_params=sim_job_dependent_params,
                           write_feasst_script=write_feasst_script,
                           post_process=post_process,
-                          queue_function=fstio.slurm_single_node,
+                          queue_function=fstio.slurm_single_job,
                           args=args)

@@ -33,7 +33,9 @@ class VisitModelInnerNN : public VisitModelInnerTable {
     const bool ignore_energy, Configuration * config) override;
   double compute_aniso(const int type1, const int type2,
     const double squared_distance, const double s1, const double s2,
-    const double e1, const double e2, const double e3, const Configuration& config) const override;
+    const double e1, const double e2, const double e3,
+    const Configuration& config, const ModelParams& model_params,
+    const int stype1, const int stype2) const override;
 
   std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
     return std::make_shared<VisitModelInnerNN>(istr); }
