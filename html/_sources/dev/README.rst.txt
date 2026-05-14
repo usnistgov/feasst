@@ -381,4 +381,7 @@ To Do List
 * Tune output should include trial description like Log
 * neighbor_index should have a name string
 * Remove TrialFactoryNamed fso it works well with Prefetch
-* make a plugin full of actions?
+* PerturbMoveAVB seems to disconnect molecules if AVB site is not first site
+* Make a Model for VisitModelInnerTable that can use angular dependent parameters
+* MayerSampling Potential ModelParam override epsilon0_H=1 in aniso tut 1l2d causes issues.
+* TrialRotate::site!=0 with mixed iso/aniso sites not accepted.

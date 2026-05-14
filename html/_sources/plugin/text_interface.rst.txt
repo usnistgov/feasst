@@ -300,7 +300,7 @@ Actions
    actions/doc/WriteModelParams_arguments
    actions/doc/RefPotential_arguments
    actions/doc/OptPotential_arguments
-   steppers/doc/WriteStepper_arguments
+   actions/doc/WriteStepper_arguments
    example/doc/ActionExample_arguments
 
 Flat Histogram
@@ -345,6 +345,12 @@ Below is a list text interface changes that may affect older scripts.
 Backwards incompatibility should remain for deprecated interface on minor version changes.
 Renamed arguments are shown as Class::old_argument->new_argument.
 
+v0.25.17 to v0.25.18
+------------------------
+
+* Backmap::site[i]->sites
+* Backmap::fstprt[i]->fstprts
+
 v0.25.15 to v0.25.16
 ------------------------
 
@@ -378,6 +384,15 @@ v0.25.12 to v0.25.13
 * TrialMorph::particle_type,particle_type_morph csv
 * VisitModelInnerServer::server_site[i]->server_sites csv
 * TrialSelect, Group and NeighborIndex,  also use names instead of integers
+
+v0.25.17 to v0.25.18
+-----------------------
+
+* Backmap::site[i]->sites
+* Backmap::fstprt[i]->fstprts
+* pyfeasst.fstio.procs_per_node->procs_per_job
+* pyfeasst.fstio.num_nodes->num_jobs
+* pyfeasst.fstio.node->job
 
 v0.25.11 to v0.25.12
 -----------------------

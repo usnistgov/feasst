@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gibbs Ensemble Simulation of TraPPE alkanes &mdash; FEASST 0.25.17 0.25.17 documentation</title>
+  <title>Gibbs Ensemble Simulation of TraPPE alkanes &mdash; FEASST 0.25.18 0.25.18 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=be10f522"></script>
+      <script src="../../../_static/documentation_options.js?v=560a56e0"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.17
+            FEASST 0.25.18
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -149,7 +149,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.17</a>
+          <a href="../../../index.html">FEASST 0.25.18</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -261,7 +261,7 @@
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--max_restarts&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Number of restarts in queue&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--scratch&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Optionally write scheduled job to scratch/logname/jobid.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--node&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;node ID&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--job&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;job ID&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--queue_id&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;If != -1, read args from file&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--queue_task&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;If &gt; 0, restart from checkpoint&#39;</span><span class="p">)</span>
 
@@ -271,11 +271,10 @@
     <span class="n">params</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;script&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="vm">__file__</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;trappe&#39;</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_id_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span> <span class="s1">&#39;_sim_ids.txt&#39;</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;minutes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span> <span class="c1"># minutes allocated on queue</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_sim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_job&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_jobs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;particles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;temperatures&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;vapor_pbcs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -290,7 +289,7 @@
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;expect_liquid_dens&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;vapor_cutoffs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;dictionary_input&#39;</span><span class="p">]):</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;dictionary_input&#39;</span><span class="p">][</span><span class="n">part</span><span class="p">][</span><span class="s1">&#39;temp&#39;</span><span class="p">])</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_jobs&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;dictionary_input&#39;</span><span class="p">][</span><span class="n">part</span><span class="p">][</span><span class="s1">&#39;temp&#39;</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">temp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;dictionary_input&#39;</span><span class="p">][</span><span class="n">part</span><span class="p">][</span><span class="s1">&#39;temp&#39;</span><span class="p">]):</span>
             <span class="n">params</span><span class="p">[</span><span class="s1">&#39;particles&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
             <span class="n">params</span><span class="p">[</span><span class="s1">&#39;temperatures&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
@@ -314,10 +313,10 @@
             <span class="n">params</span><span class="p">[</span><span class="s1">&#39;vapor_cutoffs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;vapor_pbcs&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;vapor_cutoff_frac_pbc&#39;</span><span class="p">])</span>
             <span class="n">params</span><span class="p">[</span><span class="s1">&#39;xyz_vapors&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;dictionary_input&#39;</span><span class="p">][</span><span class="n">part</span><span class="p">][</span><span class="s1">&#39;xyz_vapor&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">])</span>
             <span class="n">params</span><span class="p">[</span><span class="s1">&#39;xyz_liquids&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;dictionary_input&#39;</span><span class="p">][</span><span class="n">part</span><span class="p">][</span><span class="s1">&#39;xyz_liquid&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">])</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sims&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sims&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_jobs&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_job&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_sim&#39;</span><span class="p">])</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.95</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.05</span> <span class="c1"># terminate FEASST before SLURM</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span> <span class="c1"># real time -&gt; cpu time</span>
-    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_checkpoint&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_node&#39;</span><span class="p">]</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_terminate&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_job&#39;</span><span class="p">]</span> <span class="c1"># real time -&gt; cpu time</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;hours_checkpoint&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_job&#39;</span><span class="p">]</span>
     <span class="c1">#params[&#39;temperatures&#39;] = np.linspace(params[&#39;temperature_lower&#39;],params[&#39;temperature_upper&#39;], num=params[&#39;num_sims&#39;]).tolist()</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;mu_init&#39;</span><span class="p">]</span><span class="o">=</span><span class="mi">10</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;equil&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;equilibration_cycles&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;tpc&#39;</span><span class="p">]</span>
@@ -331,8 +330,8 @@
     <span class="n">na</span> <span class="o">=</span> <span class="n">physical_constants</span><span class="o">.</span><span class="n">AvogadroConstant</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
     <span class="k">return</span> <span class="mf">1.</span><span class="o">/</span><span class="n">na</span><span class="o">*</span><span class="n">molecular_weight</span><span class="o">/</span><span class="mf">1e3</span><span class="o">*</span><span class="mf">1e30</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">sim_node_dependent_params</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Set parameters that depend upon the sim or node here. &quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sim_job_dependent_params</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Set parameters that depend upon the sim or job here. &quot;&quot;&quot;</span>
     <span class="n">sim</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;temperatures&#39;</span><span class="p">][</span><span class="n">sim</span><span class="p">]</span><span class="o">*</span><span class="n">physical_constants</span><span class="o">.</span><span class="n">MolarGasConstant</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">/</span><span class="mf">1e3</span><span class="p">)</span> <span class="c1"># mol/kJ</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;vapor_pbc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;vapor_pbcs&#39;</span><span class="p">][</span><span class="n">sim</span><span class="p">]</span>
@@ -475,10 +474,10 @@
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">parameters</span><span class="p">,</span> <span class="n">arguments</span> <span class="o">=</span> <span class="n">parse</span><span class="p">()</span>
     <span class="n">fstio</span><span class="o">.</span><span class="n">run_simulations</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
-                          <span class="n">sim_node_dependent_params</span><span class="o">=</span><span class="n">sim_node_dependent_params</span><span class="p">,</span>
+                          <span class="n">sim_job_dependent_params</span><span class="o">=</span><span class="n">sim_job_dependent_params</span><span class="p">,</span>
                           <span class="n">write_feasst_script</span><span class="o">=</span><span class="n">write_feasst_script</span><span class="p">,</span>
                           <span class="n">post_process</span><span class="o">=</span><span class="n">post_process</span><span class="p">,</span>
-                          <span class="n">queue_function</span><span class="o">=</span><span class="n">fstio</span><span class="o">.</span><span class="n">slurm_single_node</span><span class="p">,</span>
+                          <span class="n">queue_function</span><span class="o">=</span><span class="n">fstio</span><span class="o">.</span><span class="n">slurm_single_job</span><span class="p">,</span>
                           <span class="n">args</span><span class="o">=</span><span class="n">arguments</span><span class="p">)</span>
 </pre></div>
 </div>
