@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fstplot &mdash; FEASST 0.25.17 0.25.17 documentation</title>
+  <title>fstplot &mdash; FEASST 0.25.18 0.25.18 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -14,7 +14,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=be10f522"></script>
+      <script src="../_static/documentation_options.js?v=560a56e0"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -48,7 +48,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            FEASST 0.25.17
+            FEASST 0.25.18
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -72,7 +72,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">FEASST 0.25.17</a>
+          <a href="../index.html">FEASST 0.25.18</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -161,24 +161,34 @@
 <span class="sd">    fstplot.display(range, label=&#39;label&#39;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">jet</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">cmname</span><span class="p">)</span>
-    <span class="n">c_norm</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vmax</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">mn</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">mx</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">mn</span> <span class="o">&gt;</span> <span class="n">mx</span><span class="p">:</span>
+        <span class="n">mn</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">mx</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">c_norm</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">mn</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">mx</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cmx</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span><span class="n">norm</span><span class="o">=</span><span class="n">c_norm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">jet</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="display">
 <a class="viewcode-back" href="../pyfeasst/docs/source/fstplot.html#fstplot.display">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">display</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cmname</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">display</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cmname</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Display colorbar &quot;&quot;&quot;</span>
-    <span class="n">empty_plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">([[</span><span class="mi">100000</span><span class="p">,</span> <span class="mi">100000</span><span class="p">],</span> <span class="p">[</span><span class="mi">100000</span><span class="p">,</span> <span class="mi">100000</span><span class="p">]],</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmname</span><span class="p">)</span>
-    <span class="c1">#empty_plot = plt.contourf([[0, 0], [0, 0]], np.arange(vals[0], vals[-1] + 0.01, 0.01), cmap=cmname)</span>
+    <span class="n">mn</span><span class="o">=</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">mx</span><span class="o">=</span><span class="n">vals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">mn</span> <span class="o">&gt;</span> <span class="n">mx</span><span class="p">:</span>
+        <span class="n">mn</span><span class="o">=</span><span class="n">vals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">mx</span><span class="o">=</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">empty_plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">([[</span><span class="mi">100000</span><span class="p">,</span> <span class="mi">100000</span><span class="p">],</span> <span class="p">[</span><span class="mi">100000</span><span class="p">,</span> <span class="mi">100000</span><span class="p">]],</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">mn</span><span class="p">,</span> <span class="n">mx</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmname</span><span class="p">)</span>
+<span class="c1">#    empty_plot = plt.contourf([[0, 0], [0, 0]], np.arange(vals[0], vals[-1] + 0.01, 0.01), cmap=cmname)</span>
     <span class="n">bound</span> <span class="o">=</span> <span class="n">vals</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">axes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">empty_plot</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">bound</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">axes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">empty_plot</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">bound</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="n">location</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="n">shrink</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">cbar_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
-        <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">empty_plot</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">bound</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">)</span>
-    <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">empty_plot</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">bound</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="n">location</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="n">shrink</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">)</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cbar</span></div>
 
 

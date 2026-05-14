@@ -15,7 +15,6 @@
    CheckProperties
    WrapParticles
    Movie
-   WriteStepper
    Tune
    WallClockLimit
    Check
