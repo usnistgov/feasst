@@ -11,10 +11,10 @@ namespace feasst {
 typedef std::map<std::string, std::string> argtype;
 
 /**
- * Attempt to remove a particle to intialize a Configuration.
- * This trial does not obey detailed balance without a TrialAdd of the same
- * weight.
- * Instead, use TrialTransfer to ensure detailed balance.
+ Attempt to remove a particle to intialize a Configuration.
+ This trial does not obey detailed balance without a TrialAdd of the same
+ weight.
+ Instead, use TrialTransfer to ensure detailed balance.
  */
 class TrialRemove : public Trial {
  public:

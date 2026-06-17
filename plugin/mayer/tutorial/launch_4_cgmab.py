@@ -8,15 +8,13 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import coarse_grain_pdb
+from feasst import fstio
+from feasst import coarse_grain_pdb
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--pdb_file', type=str, default="../../../pyfeasst/tests/1igt.pdb",
+    parser.add_argument('--pdb_file', type=str, default="../../../src/feasst/tests/1igt.pdb",
                         help='pdb file that describes a mAb')
     parser.add_argument('--tpc', type=int, default=int(1e5), help='trials per cycle, but not necessary num_particles')
     parser.add_argument('--equilibration_cycles', type=int, default=int(1e0),
@@ -166,6 +164,7 @@ MayerSampling trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
 TrialTranslate new_only=true ref=hs tunable_param=1 group=first
 TrialRotate new_only=true ref=hs tunable_param=40
 Checkpoint checkpoint_file={prefix}_{domain}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
+CheckEnergy trials_per_update={tpc} decimal_places=4
 
 # tune trial parameters
 Let [write]=trials_per_write={tpc} output_file={prefix}_{domain}

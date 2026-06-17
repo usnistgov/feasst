@@ -7,15 +7,13 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import physical_constants
-from pyfeasst import macrostate_distribution
+from feasst import fstio
+from feasst import physical_constants
+from feasst import macrostate_distribution
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fluid', type=str, default='/feasst/particle/co2.txt',
                         help='FEASST particle definition of a fluid particle / adsorbate.')
     parser.add_argument('--cutoff', type=float, default=15, help='site-site cutoff distance in Angstroms')

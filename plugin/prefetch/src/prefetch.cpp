@@ -616,12 +616,6 @@ Prefetch::Prefetch(std::istream& istr) : MonteCarlo(istr) {
   feasst_deserialize(&ghost_, istr);
 }
 
-const std::string Pool::str() const {
-  std::stringstream ss;
-  ss << index_ << " " << ln_prob_ << " " << accepted_;
-  return ss.str();
-}
-
 void Prefetch::run_until_complete() {
   DEBUG("here");
   run_until_complete_(get_trial_factory(), get_random());

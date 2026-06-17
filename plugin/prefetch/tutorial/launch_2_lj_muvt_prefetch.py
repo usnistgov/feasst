@@ -4,12 +4,11 @@ Prefetching Grand Canonical Ensemble Monte Carlo simulation of Lennard Jones par
 
 import os
 import argparse
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/', help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt', help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./0.88, help='inverse temperature')
     parser.add_argument('--beta_mu', type=float, default=-2.837, help='beta mu')

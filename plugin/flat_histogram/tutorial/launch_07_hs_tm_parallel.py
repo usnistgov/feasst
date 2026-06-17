@@ -10,8 +10,8 @@ import numpy as np
 import pandas as pd
 import copy
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import macrostate_distribution
+from feasst import fstio
+from feasst import macrostate_distribution
 import launch_04_lj_tm_parallel
 
 def parse():

@@ -111,9 +111,9 @@ class Domain {
  public:
   //@{
   /** @name Arguments
-    - side_length: set the side length(s) of each dimension.
-      Multiple side lengths may be provided as a comma-separated list.
-    - cubic_side_length: side length of cubic perioidic boundary conditions.
+    - side_length: comma-separated values for the side length of each
+      dimension.
+    - cubic_side_length: side length of a cubic boundary.
     - periodic: set if the side length(s) are periodic (default: true).
       If given, multiple must be provided as a comma-separated list equal to the
       number of dimensions.

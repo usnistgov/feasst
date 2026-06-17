@@ -86,21 +86,4 @@ Modify * Modify::get_modify(const int index) {
   FATAL("not implemented");
 }
 
-ModifyUpdateOnly::ModifyUpdateOnly(argtype * args) : Modify(args) {
-  // disable write
-  Modify::set_trials_per_write(-1);
-
-  // parse
-  if (used("trials_per", *args)) {
-    WARN("ModifyUpdateOnly::trials_per is deprecated. Use trials_per_update.");
-    set_trials_per(integer("trials_per", args));
-  }
-  ASSERT(output_file().empty(),
-    "ModifyUpdateOnly does not use the argument output_file.");
-}
-
-void ModifyUpdateOnly::set_trials_per_write(const int trials) {
-  ERROR("This modify is update only.");
-}
-
 }  // namespace feasst

@@ -6,7 +6,7 @@
 #include "shape/include/cylinder.h"
 #include "configuration/include/site.h"
 #include "configuration/include/configuration.h"
-#include "confinement/include/model_table_cartesian.h" // precompute_table1D
+#include "confinement/include/model_table_cartesian_1d.h" // precompute_table1D
 #include "confinement/include/model_table_cylindrical.h"
 
 namespace feasst {

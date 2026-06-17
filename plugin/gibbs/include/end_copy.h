@@ -11,6 +11,7 @@ namespace feasst {
 
 /**
   Copy the following lines for each configuration_index until EndCopy is reached.
+  This class is deprecated.
  */
 class EndCopy : public Action {
  public:

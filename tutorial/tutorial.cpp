@@ -35,21 +35,21 @@ int main(int argc, char ** argv) {
     {"Metropolis", {{}}},
     {"TrialTranslate", {{"tunable_param", "2."},
                         {"tunable_target_acceptance", "0.2"}}},
-    {"TrialAdd", {{"particle_type", "0"}}},
-    {"Run", {{"until_num_particles", args.get("--num")}}}
+    {"Run", {{"until_num_particles", args.get("--num")}, {"Trial", "TrialAdd"},
+             {"particle_type", "0"}}}
   }});
 
   ASSERT(mc->configuration().num_particles() == args.get_int("--num"),
     "There should be " << args.get("--num") << " particles");
-  ASSERT(mc->trials().num() == 2, "There should be two Trials");
+  ASSERT(mc->trials().num() == 1, "There should be one Trial");
 
   // nvt equilibration
   mc->begin({{
-    {"Remove", {{"name", "TrialAdd"}}},
     {"ThermoParams", {{"beta", args.get("--beta")}}},
     {"CheckEnergy", {{"trials_per_update", "1e5"}, {"tolerance", "1e-8"}}},
-    {"Tune", {{}}},
-    {"Run", {{"num_trials", "1e5"}}}
+    {"Log",    {{"trials_per_write", "1e5"}, {"output_file", "lj_eq.csv"}}},
+    {"Run", {{"num_trials", "1e5"}, {"Stepper", "Tune"}}},
+    {"Remove", {{"name", "Log"}}},
   }});
 
   ASSERT(mc->trials().num() == 1, "There should be one Trial");

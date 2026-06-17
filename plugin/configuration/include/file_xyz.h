@@ -59,7 +59,6 @@ class FileXYZ {
     - group: name of group defined within system (default: "").
     - append: append file output if set to true.
       Do not append if false (default: "false").
-    - euler: if true, print Euler angles (default: "false").
    */
   explicit FileXYZ(argtype args = argtype());
   explicit FileXYZ(argtype * args);
@@ -100,7 +99,7 @@ class FileXYZ {
  private:
   int group_index_;
   std::string group_;
-  bool append_, euler_;
+  bool append_;
 };
 
 inline std::shared_ptr<FileXYZ> MakeFileXYZ(argtype args = argtype()) {

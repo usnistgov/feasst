@@ -20,10 +20,10 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import physical_constants
-from pyfeasst import macrostate_distribution
-from pyfeasst import multistate_accumulator
+from feasst import fstio
+from feasst import physical_constants
+from feasst import macrostate_distribution
+from feasst import multistate_accumulator
 
 def parse(particle_type1='/feasst/particle/dimer_mie_CO2.txt',
           particle_type2='/feasst/particle/dimer_mie_N2.txt',
@@ -45,8 +45,6 @@ def parse(particle_type1='/feasst/particle/dimer_mie_CO2.txt',
           min_flatness=25):
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--particle_type1', type=str, default=particle_type1, help='first component FEASST particle')
     parser.add_argument('--particle_type2', type=str, default=particle_type2, help='second component FEASST particle')
     parser.add_argument('--beta', type=float, default=beta, help='1/(Temperature in Kelvin)')
@@ -117,7 +115,7 @@ def write_feasst_script(params, script_file):
 MonteCarlo
 RandomMT19937 seed={seed}
 Configuration cubic_side_length={cubic_side_length} particle_type=pt1:{particle_type1},pt2:{particle_type2} \
-    model_param_file=/feasst/particle/mie_model_parameters.txt
+    model_param_file=../../../particle/mixing/mie_model_parameters.txt
 WriteModelParams output_file={prefix}{sim:03d}_model_params.txt
 Potential Model=Mie table_size=1e4
 Potential VisitModel=LongRangeCorrections

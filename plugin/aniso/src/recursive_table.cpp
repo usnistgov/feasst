@@ -148,22 +148,19 @@ double RecursiveTable::compute_aniso(const int tabtype1, const int tabtype2,
   if (squared_distance < inner*inner) {
     en = NEAR_INFINITY;
     TRACE("hard overlap");
-  } else if (ignore_energy_) {
-    en = 0.;
-  } else {
+  } else if (!ignore_energy_) {
     const float cutoff = sigma*cutoff1d_[tabtype1][tabtype2].linear_interpolation(s1);
     TRACE("cutoff " << cutoff);
-    if (squared_distance > cutoff*cutoff) {
-      en = 0.;
-    } else {
+    if (squared_distance < cutoff*cutoff) {
+      const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
       float z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
       if (z < 0. && z > -1e-6) {
         z = 0.;
       }
       TRACE("z " << z);
-      const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
-      //INFO("epsilon " << epsilon << " stype1 " << stype1 << " stype2 " << stype2);
-      en = epsilon*energy2d_[tabtype1][tabtype2].linear_interpolation(s1, z);
+      if (z <= 1.) {
+        en = epsilon*energy2d_[tabtype1][tabtype2].linear_interpolation(s1, z);
+      }
     }
   }
   return en;
@@ -184,20 +181,18 @@ double RecursiveTable::compute_aniso(const int tabtype1, const int tabtype2,
   if (squared_distance < inner*inner) {
     en = NEAR_INFINITY;
     TRACE("hard overlap");
-  } else if (ignore_energy_) {
-    en = 0.;
-  } else {
+  } else if (!ignore_energy_) {
     const float cutoff = sigma*cutoff2d_[tabtype1][tabtype2].linear_interpolation(s1, s2);
-    if (squared_distance > cutoff*cutoff) {
-      en = 0.;
-    } else {
+    if (squared_distance < cutoff*cutoff) {
       const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
       float z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
       if (z < 0. && z > -1e-6) {
         z = 0.;
       }
       TRACE("z " << z);
-      en = epsilon*energy3d_[tabtype1][tabtype2].linear_interpolation(s1, s2, z);
+      if (z <= 1.) {
+        en = epsilon*energy3d_[tabtype1][tabtype2].linear_interpolation(s1, s2, z);
+      }
     }
   }
   return en;
@@ -218,47 +213,19 @@ double RecursiveTable::compute_aniso(const int tabtype1, const int tabtype2,
   if (squared_distance < inner*inner) {
     en = NEAR_INFINITY;
     TRACE("hard overlap");
-  } else if (ignore_energy_) {
-    en = 0.;
-  } else {
-    FATAL("implement");
-//    const double delta = sigma*delta_[tabtype1][tabtype2];
-//    const double outer = inner + delta;
-//    TRACE("delta " << delta);
-//    TRACE("outer " << outer);
-//    if (squared_distance < outer*outer) {
-//      const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
-//      const double gamma = gamma_[tabtype1][tabtype2];
-//      TRACE("gamma " << gamma);
-//      const std::vector<std::vector<std::shared_ptr<Table6D> > >& energyt = config.table6d();
-//      if ((std::abs(gamma) < NEAR_ZERO)) {
-//        en = -epsilon;
-//      } else if (is_energy_table(energyt)) {
-//        const double smooth = sigma*smoothing_distance_[tabtype1][tabtype2];
-//        const double rhg = std::pow(inner, gamma);
-//        const double rcg = std::pow(outer - smooth, gamma);
-//        const double rg = std::pow(squared_distance, 0.5*gamma);
-//        double z = (rg - rhg)/(rcg - rhg);
-//        if (z < 0 && z > -1e-6) {
-//          z = 0.;
-//        }
-//        TRACE("z " << z);
-//        if (z > 1.) {
-//          en = epsilon*energyt[tabtype1][tabtype2]->linear_interpolation(s1, s2, e1, e2, e3, 1.);
-//          const double dx = outer - std::sqrt(squared_distance);
-//          TRACE("dx " << dx);
-//          if (dx > smooth && dx < smooth + 1e-5) {
-//            en = 0.;
-//          } else {
-//            ASSERT(dx >= 0 && dx <= smooth, "dx: " << MAX_PRECISION << dx);
-//            en *= dx/smooth;
-//          }
-//        } else {
-//          ASSERT(z >= 0 && z <= 1, "z: " << MAX_PRECISION << z);
-//          en = epsilon*energyt[tabtype1][tabtype2]->linear_interpolation(s1, s2, e1, e2, e3, z);
-//        }
-//      }
-//    }
+  } else if (!ignore_energy_) {
+    const float cutoff = sigma*cutoff_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3);
+    if (squared_distance < cutoff*cutoff) {
+      const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
+      float z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
+      if (z < 0. && z > -1e-6) {
+        z = 0.;
+      }
+      TRACE("z " << z);
+      if (z <= 1.) {
+        en = epsilon*energy_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3, z);
+      }
+    }
   }
   return en;
 }

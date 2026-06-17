@@ -49,9 +49,10 @@ void Acceptance::reset() {
   macrostate_shift_type_.resize(1);
   macrostate_shift_type_[0] = 0.;
   perturbed_.clear();
-  perturbed_.resize(2);  // maximum number of configs
+  perturbed_.resize(3);  // maximum number of configs
   perturbed_[0] = std::make_shared<Select>();
   perturbed_[1] = std::make_shared<Select>();
+  perturbed_[2] = std::make_shared<Select>();
 }
 
 void Acceptance::add_to_perturbed(const Select& select, const int config) {

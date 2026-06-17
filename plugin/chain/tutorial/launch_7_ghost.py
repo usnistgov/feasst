@@ -6,14 +6,12 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import macrostate_distribution
+from feasst import fstio
+from feasst import macrostate_distribution
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./1.5, help='inverse temperature')
@@ -86,12 +84,10 @@ CheckEnergy trials_per_update={tpc} decimal_places=4
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # gcmc initialization and nvt equilibration
-TrialAdd particle_type=fluid
 Let [write]=trials_per_write={tpc} output_file={prefix}n{job}s{sim:03d}
 Log [write]_eq.csv
 Tune
-Run until_num_particles={min_particles}
-Remove name=TrialAdd
+Run until_num_particles={min_particles} Trial=TrialAdd particle_type=fluid
 ThermoParams beta={beta} chemical_potential={mu}
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
 Run until=complete

@@ -4,14 +4,12 @@ Isothermal-isobaric ensemble Monte Carlo simulation of SPC/E particles.
 
 import argparse
 import json
-from pyfeasst import fstio
-from pyfeasst import physical_constants
+from feasst import fstio
+from feasst import physical_constants
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/spce_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--temperature', type=float, default=500, help='temperature in Kelvin')
@@ -78,12 +76,10 @@ Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_che
 CheckEnergy trials_per_update={tpc} decimal_places=4
 
 # gcmc initialization
-TrialAdd particle_type=spce
 Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_init.csv
-Tune
-Run until_num_particles={num_particles}
-Remove name=TrialAdd,Log,Tune
+Run until_num_particles={num_particles} Trial=TrialAdd particle_type=spce Stepper=Tune
+Remove name=Log
 
 # npt equilibration
 ThermoParams beta={beta} pressure={pressure}

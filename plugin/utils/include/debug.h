@@ -38,7 +38,7 @@ namespace feasst {
 // HWH update verbose levels: per trial, per energy calc, per interaction
 // HWH also verbosity levels for each plugin and classes.
 
-/// Return file_name with FEASST_DIR_ path removed.
+/// Return file_name with path removed up until the first appearance of /feasst/
 std::string feasst_dir_trim_(const char* file_name);
 
 /// Throw exception

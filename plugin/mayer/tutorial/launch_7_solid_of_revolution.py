@@ -8,15 +8,13 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import accumulator
+from feasst import fstio
+from feasst import accumulator
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
-    parser.add_argument('--table_file', type=str, default='/feasst/plugin/patch/test/data/tablek5l1.0d1.txt',
+    parser.add_argument('--table_file', type=str, default='../../patch/test/data/tablek5l1.0d1.txt',
                         help='table file name')
     parser.add_argument('--tpc', type=int, default=int(1e4), help='trials per cycle')
     parser.add_argument('--equilibration_cycles', type=int, default=int(1e1),
@@ -66,6 +64,7 @@ MayerSampling trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
 TrialTranslate new_only=true ref=hs tunable_param=1 group=first
 TrialRotate new_only=true ref=hs tunable_param=40
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
+CheckEnergy trials_per_update={tpc} decimal_places=4
 
 # tune trial parameters
 Let [write]=trials_per_write {tpc} output_file {prefix}{sim:03d}

@@ -69,7 +69,7 @@ class System {
   const Configuration& configuration(const std::string& name) const;
 
   /// Return the configuration pointer based on the name.
-  Configuration * configuration(const std::string& name);
+  Configuration * get_configuration(const std::string& name);
 
   /// Return the dimensionality of the system.
   int dimension(const int config = 0) const;

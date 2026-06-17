@@ -19,7 +19,7 @@ class For {
  public:
   //@{
   /** @name Arguments
-    - [var1]:...:[varN]:val1_0:...:valN_0,...,val1_M:...:valN_M .
+    - [var1]:...:[varN]:val1_1:...:valN_1,...,val1_M:...:valN_M .
       In this example, each line is copied M times while replacing N variables.
       The variables are given by [var1] to [varN] in colon-separated values.
       The values are given by N colon-separated values for each of M copies,

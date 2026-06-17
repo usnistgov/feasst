@@ -47,11 +47,17 @@ double table_xd_(const double value0, const double d0, const int n0, int * i0, i
     "value: " << MAX_PRECISION << value0 << " out of bounds."
     << " If periodicity is disabled, place a hard wall at the boundaries.");
   TRACE("num0 " << n0);
-  *i0 = value0*(n0 - 1);
   TRACE("value0 " << value0);
+  // Numerical precision issue: If value is exactly 1, then i02 is exactly n0.
+  if (value0 == 1.) {
+    //*i02 = *i0;
+    *i0 = n0 - 2;
+    *i02 = n0 - 1;
+    return 1.;
+  }
+  *i0 = value0*(n0 - 1);
   TRACE("i0 " << *i0);
   *i02 = *i0 + 1;
-  if (*i02 == n0) *i02 = *i0;
   TRACE("i02 " << *i02);
   const double v0 = *i0 * d0, vv0 = v0 + d0;
   TRACE("v0 " << v0);

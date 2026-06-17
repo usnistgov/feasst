@@ -30,7 +30,7 @@ TEST(Debug, feasst_dir_trim_) {
   ss << FEASST_INSTALL_DIR << "/";
   std::string dir = feasst_dir_trim_(ss.str().c_str());
   std::cout << "# dir:" << dir << std::endl;
-  EXPECT_EQ(0, dir.size());
+  EXPECT_EQ(8, dir.size());
 }
 
 }  // namespace feasst

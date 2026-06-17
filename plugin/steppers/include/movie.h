@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 #include <map>
-#include "monte_carlo/include/analyze.h"
+#include "monte_carlo/include/analyze_write_only.h"
 
 namespace feasst {
 

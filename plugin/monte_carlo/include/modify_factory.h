@@ -13,6 +13,7 @@ class TimerRDTSC;
 
 /**
   Contains multiple Modify objects.
+  This class is for developers.
  */
 class ModifyFactory : public Modify {
  public:

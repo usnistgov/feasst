@@ -16,18 +16,20 @@ class RotationMatrix;
 
 typedef std::map<std::string, std::string> argtype;
 
+/*
+  Developer notes: all other Random distributions depend upon the uniform
+  distribution, such that reproduction by storage is simplified.
+ */
 /**
-  Psuedo random number generator class.
-  Note that all other Random distributions depend upon the uniform distribution,
-  such that reproduction by storage is simplified.
+  Psuedo random number generator.
  */
 class Random {
  public:
   //@{
   /** @name Arguments
-    - seed: Provide an integer to seed the random number generator.
-      If no seed is provided, but random numbers are requested, then
-      the time will be used to generate a seed.
+    - seed: Optional integer to seed the random number generator.
+      If no seed is provided, the time will be used to generate a seed.
+      MonteCarlo simulations can be exactly reproduced with an identical seed.
    */
   explicit Random(argtype * args);
 

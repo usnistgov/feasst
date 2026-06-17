@@ -1,7 +1,7 @@
 from pathlib import Path
 import multiprocessing
 import subprocess
-from pyfeasst import cd
+from feasst import cd
 import pandas as pd
 
 with cd.cd('../tutorial/'):

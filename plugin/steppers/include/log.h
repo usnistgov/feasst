@@ -3,7 +3,7 @@
 #define FEASST_STEPPERS_LOG_H_
 
 #include "system/include/bond_visitor.h"
-#include "monte_carlo/include/analyze.h"
+#include "monte_carlo/include/analyze_write_only.h"
 
 namespace feasst {
 

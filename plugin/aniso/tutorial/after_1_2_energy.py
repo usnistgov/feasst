@@ -8,8 +8,8 @@ import sys
 import os.path
 import subprocess
 import numpy as np
-from pyfeasst import fstio
-from pyfeasst import physical_constants
+from feasst import fstio
+from feasst import physical_constants
 from launch_1_cg_protein import parse
 from launch_1_cg_protein import generate_domain_pairs
 from after_1_1_contact import tables_exist

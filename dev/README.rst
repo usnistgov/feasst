@@ -385,3 +385,5 @@ To Do List
 * Make a Model for VisitModelInnerTable that can use angular dependent parameters
 * MayerSampling Potential ModelParam override epsilon0_H=1 in aniso tut 1l2d causes issues.
 * TrialRotate::site!=0 with mixed iso/aniso sites not accepted.
+* variable in For loop cannot be used more than once in a line.
+* create a "Run Scope" for trials, analyze, modify that go away when Run is complete?

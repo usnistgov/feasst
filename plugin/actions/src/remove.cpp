@@ -89,11 +89,11 @@ void Remove::serialize(std::ostream& ostr) const {
 }
 
 void Remove::run(MonteCarlo * mc) {
-  DEBUG("search names");
+  DEBUG("search names: " << feasst_str(names_));
   for (const std::string& name : names_) {
     bool removed = false;
     ASSERT(!name.empty(), "err");
-    DEBUG("Search analyze names");
+    DEBUG("Search analyze names for: " << name);
     for (int analyze = 0; analyze < mc->num_analyzers(); ++analyze) {
       DEBUG("an " << mc->analyze(analyze).class_name());
       if (mc->analyze(analyze).class_name() == name) {
@@ -106,7 +106,7 @@ void Remove::run(MonteCarlo * mc) {
     if (removed) continue;
     DEBUG("Search modify names");
     for (int modify = 0; modify < mc->num_modifiers(); ++modify) {
-      DEBUG("an " << mc->modify(modify).class_name());
+      DEBUG("mod " << mc->modify(modify).class_name());
       if (mc->modify(modify).class_name() == name) {
         DEBUG("removing modify:" << modify);
         mc->remove_modify(modify);
@@ -114,6 +114,7 @@ void Remove::run(MonteCarlo * mc) {
         break;
       }
     }
+    DEBUG("removed: " << removed);
     if (removed) continue;
     DEBUG("Search trial names");
     for (int trial = 0; trial < mc->trials().num(); ++trial) {

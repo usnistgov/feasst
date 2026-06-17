@@ -8,14 +8,12 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import physical_constants
+from feasst import fstio
+from feasst import physical_constants
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/spce_new.txt',
         help='FEASST particle definition')
     parser.add_argument('--temperature', type=float, default=298, help='temperature in Kelvin')
@@ -77,18 +75,15 @@ TrialParticlePivot weight=0.5 particle_type=spce tunable_param=0.5
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # grand canonical ensemble initalization
-TrialAdd particle_type=spce
-Run until_num_particles={num_particles}
-Remove name=TrialAdd
+Run until_num_particles={num_particles} Trial=TrialAdd particle_type=spce
 
 # canonical ensemble equilibration
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
-Tune
 CheckEnergy trials_per_update={tpc} decimal_places=6
 Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_eq.csv
-Run until=complete
-Remove name=Tune,Log
+Run until=complete Stepper=Tune
+Remove name=Log
 
 # canonical ensemble production
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production}

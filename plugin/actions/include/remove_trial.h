@@ -10,7 +10,7 @@
 namespace feasst {
 
 /**
-  Remove a Trial.
+  Remove a Trial. This class is deprecated. Use Remove instead.
  */
 class RemoveTrial : public Action {
  public:

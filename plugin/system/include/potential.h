@@ -18,31 +18,39 @@ class VisitModel;
 typedef std::map<std::string, std::string> argtype;
 
 /**
-  A potential represents both the model and the method used to compute the
-  model (e.g., VisitModel) for a given Configuration.
-  A potential also allows customization of the model parameters templated
+  A Potential represents both the Model and the method used to compute the
+  Model (e.g., VisitModel) for a given Configuration.
+  A Potential also allows customization of the ModelParams templated
   but separate from those in the Configuration.
  */
 class Potential {
  public:
   //@{
-  /** @name Arguments
-    - config: name of Configuration in System (default: 0).
+  /* Deprecated argument:
     - group_index: set the index of the Group in the Configuration which
       contributes to this Potential (default: 0, representing entire config).
-    - group: name of Group defined within System (default: "").
-      Cannot be used with group_index.
-    - cell_index: set the index of the cell, only used with VisitModelCell.
-      This also overrides group_index.
-    - prevent_cache: set this to true in order to prevent the use of cache
+      Cannot be used together with group.
+    */
+  /** @name Arguments
+    - Model: Derived class Model name (default: ModelEmpty).
+    - VisitModel: Derived class VisitModel name (default: VisitModel).
+    - config: Name of Configuration in System (default: 0).
+    - group: Name of Group defined within Configuration
+      (default: the whole Configuration).
+    - cell_index: Optionally set the index of the cell, only used with
+      VisitModelCell. This also overrides group.
+    - prevent_cache: Set this to true in order to prevent the use of cache
       (default: false)
-    - table_size: set size of ModelTwoBodyTable (default: 0).
+    - table_size: Set size of ModelTwoBodyTable (default: 0).
       Do not use if size <= 0.
     - table_hard_sphere_threshold: If using a table above, set the
       ModelTwoBodyTable hard_sphere_threshold (default: 0.85).
-    - [parameter]/[i]/[j]: as described in Configuration arguments.
-    - Model: derived class Model name (default: ModelEmpty).
-    - VisitModel: derived class VisitModel name (default: VisitModel).
+    - [parameter]: Optionally, override ModelParams as described in
+      Configuration arguments.
+    - [parameter][type1]: Optionally, override ModelParams as described in
+      Configuration arguments.
+    - [parameter][type1]_[type2]: Optionally, override ModelParams as described
+      in Configuration arguments.
    */
   explicit Potential(argtype args = argtype());
   explicit Potential(argtype * args);

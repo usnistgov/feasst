@@ -10,7 +10,7 @@ namespace feasst {
 class Random;
 
 /**
-  Always reject the trial.
+  Always reject the trial. This can be useful when paired with HenryCoefficient.
  */
 class AlwaysReject : public Criteria {
  public:

@@ -6,7 +6,8 @@
 #include "configuration/include/domain.h"
 #include "shape/include/slab_sine.h"
 #include "shape/include/formula_sine_wave.h"
-#include "confinement/include/model_table_cartesian.h"
+#include "confinement/include/model_table_cartesian_3d_integr.h"
+#include "confinement/include/model_table_cartesian_1d_hard.h"
 
 namespace feasst {
 

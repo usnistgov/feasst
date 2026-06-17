@@ -166,17 +166,44 @@ std::unique_ptr<MonteCarlo> restart(const std::string& filename, bool resume = t
 
 void parse_restart(std::string line) {
   std::stringstream ss(line);
+  std::vector<std::string> args = split(line, ' ');
   std::string checkpoint_file;
-  ss >> checkpoint_file; // reads "Restart"
-  ss >> checkpoint_file;
-  std::string extra;
-  ss >> extra;
-  DEBUG("extra " << extra);
   bool resume = true;
-  if (extra == "clear_previous_arguments") {
-    resume = false;
+
+  // parse arguments, backwards compatible with old syntax
+  for (int iarg = 1; iarg < static_cast<int>(args.size()); ++iarg) {
+    std::vector<std::string> pair = split(args[iarg], '=');
+    if (static_cast<int>(pair.size()) == 2) {
+      if (pair[0] == "checkpoint_file") {
+        checkpoint_file = pair[1];
+      }
+      if (pair[0] == "clear_previous_arguments") {
+        resume = str_to_bool(pair[1]);
+      }
+    } else if (static_cast<int>(pair.size()) == 1) {
+      WARN("Old syntax for Restart is deprecated. Use \"Restart checkpoint_file=[filename] clear_previous_arguments=[true/default false]\"");
+      if (iarg == 1) {
+        checkpoint_file = pair[0];
+      } else if (iarg == 2) {
+        if (pair[0] == "clear_previous_arguments") {
+          resume = false;
+        }
+      }
+    } else {
+      FATAL("unrecognized syntax for command: \"" << line << "\"");
+    }
   }
+
+//  ss >> checkpoint_file; // reads "Restart"
+//  ss >> checkpoint_file;
+//  std::string extra;
+//  ss >> extra;
+//  DEBUG("extra " << extra);
+//  if (extra == "clear_previous_arguments") {
+//    resume = false;
+//  }
   DEBUG("resume " << resume);
+  std::cout << line << std::endl;
   std::cout << "# Restarting from file: " << checkpoint_file << std::endl;
   std::unique_ptr<MonteCarlo> mc = restart(checkpoint_file, resume);
   // after restart is complete, check for more text input
@@ -211,8 +238,9 @@ void parse_restart(std::string line) {
   feasst::FEASST_INSTALL_DIR.
  */
 int main() {
-  std::cout << "# Usage: " << FEASST_INSTALL_DIR << "/build/bin/fst < file.txt" << std::endl;
-  std::cout << "FEASST version " << FEASST_VERSION << std::endl;
+  std::cout << "# Usage: feasst < file.txt" << std::endl
+            << "# For more information, use the command \"feasst-menu\"" << std::endl
+            << "FEASST version " << FEASST_VERSION << std::endl;
   std::string line;
   std::getline(std::cin, line);
 
@@ -253,8 +281,8 @@ int main() {
     parse_restart(line);
   } else {
     FATAL("As currently implemented, all FEASST input text files must begin "
-      << "with \"MonteCarlo,\" \"CollectionMatrixSplice,\" \"Prefetch\" "
-      << "\"Server\" or \"Restart\". The first readable line is: " << line);
+      << "with \"MonteCarlo,\" \"Prefetch\", \"Server\" or \"Restart\". "
+      << "The first readable line is: " << line);
   }
   return 0;
 }

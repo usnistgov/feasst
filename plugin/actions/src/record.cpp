@@ -1,6 +1,7 @@
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
+#include "configuration/include/model_params.h"
 #include "configuration/include/configuration.h"
 #include "configuration/include/file_xyz.h"
 #include "configuration/include/file_vmd.h"
@@ -40,17 +41,16 @@ void Record::serialize(std::ostream& ostr) const {
 }
 
 void Record::run(MonteCarlo * mc) {
+  const int config_index = mc->system().configuration_index(config_);
+  Configuration * config = mc->get_system()->get_configuration(config_index);
+  FileXYZ xyz;
   if (!save_positions_.empty()) {
-    const Configuration& config = mc->system().configuration(config_);
-    FileXYZ xyz;
-    xyz.write(save_positions_, config);
+    xyz.write(save_positions_, *config);
     FileVMD vmd;
-    vmd.write(save_positions_ + ".vmd", config, save_positions_);
+    vmd.write(save_positions_ + ".vmd", *config, save_positions_);
   }
   if (!load_positions_.empty()) {
-    const int config_index = mc->system().configuration_index(config_);
-    FileXYZ xyz;
-    xyz.load(load_positions_, mc->get_system()->get_configuration(config_index));
+    xyz.load(load_positions_, config);
     mc->initialize_criteria();
   }
 }

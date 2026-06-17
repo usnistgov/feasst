@@ -10,21 +10,13 @@
 namespace feasst {
 
 std::string feasst_dir_trim_(const char* file_name) {
-  std::stringstream ss;
-  ss << FEASST_INSTALL_DIR << "/";
-  // std::cout << "fstintdir:" << FEASST_INSTALL_DIR << std::endl;
-  // std::cout << "ss " << ss.str() << std::endl;
-  const int num_chars = ss.str().size();
-  // std::cout << "num chars " << num_chars << std::endl;
-  ss.str(file_name);
-  std::string file_name_str = ss.str();
-  if (num_chars < static_cast<int>(file_name_str.size())) {
-    file_name_str.erase(file_name_str.begin(),
-                        file_name_str.begin() + num_chars);
-  } else {
-    file_name_str = "";
+  //std::cout << "filename " << file_name << std::endl;
+  std::string text = file_name;
+  size_t pos = text.find("/feasst/");
+  if (pos != std::string::npos) {
+    text.erase(0, pos); // Erase from index 0 up to pos
   }
-  return file_name_str;
+  return text;
 }
 
 void feasst_macro_output(const std::string& name, std::string message) {

@@ -6,6 +6,7 @@
    RemoveTrial
    Run
    OptPotential
+   EnergyGrid
    RefPotential
    RemoveModify
    WriteStepper

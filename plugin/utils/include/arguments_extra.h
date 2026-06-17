@@ -2,10 +2,12 @@
 #ifndef FEASST_UTILS_ARGUMENTS_EXTRA_H_
 #define FEASST_UTILS_ARGUMENTS_EXTRA_H_
 
+#include <memory>
 #include <utility>
 #include <string>
 #include <vector>
 #include "utils/include/arguments.h"
+//#include "utils/include/debug.h"  // INFO
 
 namespace feasst {
 
@@ -51,6 +53,32 @@ std::vector<std::pair<std::string, std::vector<std::string> > > parse_for(const 
 arglist expand_for(const arglist& list, int * first_end_for, int *last_for);
 
 arglist parse_if(const arglist& list, int * first_end_if, int *last_if, int *last_else);
+
+/// If args contains derived class of T, return factory pointer and remove from
+/// args.
+template <class T>
+std::shared_ptr<T> parse(T * obj, argtype * args, const std::string& class_name, const bool check = true) {
+  std::shared_ptr<T> new_obj;
+  const auto& map = obj->deserialize_map();
+  //INFO("parsing " << class_name);
+  if (map.count(class_name) > 0) {
+    new_obj = obj->factory(class_name, args);
+    //INFO(new_obj->class_name());
+    if (check) {
+      feasst_check_all_used(*args);
+    }
+    return new_obj;
+  }
+  //INFO("not found " << class_name);
+  return new_obj;
+}
+
+/// If args contains derived class of T, return factory pointer and remove from
+/// args.
+template <class T>
+std::shared_ptr<T> parse(T * obj, arglist * args, const bool check = true) {
+  return parse(obj, &args->begin()->second, args->begin()->first, check);
+}
 
 }  // namespace feasst
 

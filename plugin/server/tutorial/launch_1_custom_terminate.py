@@ -9,13 +9,11 @@ import time
 import argparse
 import random
 import socket
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--beta', type=float, default=1/1.5, help='1 / kB / T')
     parser.add_argument('--port', type=int, default=54321, help='server client interface port')
     parser.add_argument('--buffer_size', type=int, default=1000, help='server client interface port')
@@ -56,9 +54,7 @@ Potential Model=LennardJones
 ThermoParams beta={beta} chemical_potential=1
 Metropolis
 TrialTranslate
-TrialAdd particle_type=fluid
-Run until_num_particles=20
-Remove name=TrialAdd
+Run until_num_particles=20 Trial=TrialAdd particle_type=fluid
 Log trials_per_write=2e6 output_file={prefix}{sim:03d}.csv
 Run num_trials=2e6""".format(**params)
     for line in feasst_commands.split('\n'):

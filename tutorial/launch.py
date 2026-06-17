@@ -11,13 +11,11 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./0.9, help='inverse temperature')
@@ -29,8 +27,8 @@ def parse():
     parser.add_argument('--production', type=int, default=int(1e1), help='number of cycles for production')
     parser.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')
     parser.add_argument('--hours_terminate', type=float, default=5*24, help='hours until termination')
-    parser.add_argument('--num_jobs', type=int, default=5, help='Number of jobs in queue')
-    parser.add_argument('--procs_per_job', type=int, default=1, help='number of processors')
+    parser.add_argument('--num_jobs', type=int, default=1, help='Number of jobs in queue')
+    parser.add_argument('--procs_per_job', type=int, default=5, help='number of processors')
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')
     parser.add_argument('--seed', type=int, default=-1,
@@ -80,18 +78,16 @@ TrialTranslate tunable_param=2
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # grand canonical ensemble initalization
-TrialAdd particle_type=lj
-Run until_num_particles={num_particles}
-Remove name=TrialAdd
+Run until_num_particles={num_particles} Trial=TrialAdd particle_type=lj
 
 # canonical ensemble equilibration
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
-Tune
 CheckEnergy trials_per_update={tpc} decimal_places=8
 Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_eq.csv
-Run until=complete
-Remove name=Tune,Log
+Movie [write]_eq.xyz
+Run until=complete Stepper=Tune
+Remove name=Log,Movie
 
 # canonical ensemble production
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production}

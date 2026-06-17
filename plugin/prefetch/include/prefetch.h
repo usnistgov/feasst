@@ -7,46 +7,18 @@
 #include <memory>
 #include <cstdint>
 #include "monte_carlo/include/monte_carlo.h"
+#include "prefetch/include/pool.h"
 
 namespace feasst {
 
 typedef std::map<std::string, std::string> argtype;
 
-class Thread;
-
-// HWH: consider a parallel while:
-// https://cvw.cac.cornell.edu/OpenMP/whileloop
-
 /**
-  Define a pool of threads, each with their own MonteCarlo object and
-  relevant quantities for reversion.
-*/
-class Pool {
- public:
-  void set_index(const int index) {
-    index_ = index; }
-  int index() const { return index_; }
-  void set_ln_prob(const double ln_prob) { ln_prob_ = ln_prob; }
-  double ln_prob() const { return ln_prob_; }
-  void set_accepted(const bool accepted) { accepted_ = accepted; }
-  bool accepted() const { return accepted_; }
-  void set_auto_rejected(const bool auto_rejected) { auto_rejected_ = auto_rejected; }
-  bool auto_rejected() const { return auto_rejected_; }
-  void set_endpoint(const bool endpoint) { endpoint_ = endpoint; }
-  bool endpoint() const { return endpoint_; }
-  const std::string str() const;
-  std::unique_ptr<MonteCarlo> mc;
+  Set the number of threads using the BASH environmental command:
 
- private:
-  int index_;
-  double ln_prob_;
-  bool accepted_;
-  bool auto_rejected_ = false;
-  bool endpoint_ = true;
-};
+  export OMP_NUM_THREADS=2
 
-/**
-  Farm a trial to each processor, then reconstruct the serial Markov chain.
+  Prefetch farma a trial to each processor, then reconstruct the serial Markov chain.
 
   Although its quite a simple strategy, the trickiest part is efficiently
   reproducing the accepted perturbation on all threads (e.g., the synchronizing
@@ -79,8 +51,8 @@ class Pool {
  */
 class Prefetch : public MonteCarlo {
  public:
-  /**
-    args:
+  //@{
+  /** @name Arguments
     - trials_per_check: number of steps between check (default: 1e6)
     - load_balance: number of trials in a batch of attempted trials of the same
       trial type (default: -1).
@@ -94,6 +66,12 @@ class Prefetch : public MonteCarlo {
     - ghost: update transition matrix even for trials after acceptance (default: false).
    */
   explicit Prefetch(argtype args = argtype());
+
+  //@}
+  /** @name Public Functions
+   */
+  //@{
+
 
   /// Return the number of steps between checking equality of threads.
   int trials_per_check() const { return trials_per_check_; }
@@ -126,6 +104,7 @@ class Prefetch : public MonteCarlo {
   explicit Prefetch(std::istream& istr);
   virtual ~Prefetch() {}
 
+  //@}
  protected:
   void attempt_(int num_trials, TrialFactory * trial_factory, Random * random) override;
   void run_until_complete_(TrialFactory * trial_factory, Random * random) override;

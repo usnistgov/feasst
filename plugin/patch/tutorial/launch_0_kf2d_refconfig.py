@@ -5,13 +5,11 @@ https://doi.org/10.1063/1.1569473
 
 import argparse
 import numpy as np
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/plugin/patch/particle/one_patch2d.txt',help='FEASST particle definition')
     parser.add_argument('--cutoff', type=float, default=1.5, help='the square well attractive interaction cutoff distance between centers')
     parser.add_argument('--hours_checkpoint', type=float, default=1, help='hours per checkpoint')

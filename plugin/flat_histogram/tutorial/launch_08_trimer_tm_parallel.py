@@ -8,7 +8,7 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
+from feasst import fstio
 import launch_04_lj_tm_parallel
 
 def parse():

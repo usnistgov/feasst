@@ -13,13 +13,11 @@ import time
 import argparse
 import random
 import socket
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1/0.9, help='1 / kB / T')
@@ -150,7 +148,7 @@ if __name__ == '__main__':
         parameters['sim'] = 0
         write_feasst_script(parameters, parameters['prefix']+"0_run.txt")
         print('here2')
-        cmd="""mpirun -np 1 {feasst_install}bin/fst < {prefix}0_run.txt : -np 1 python {script} -r 1""".format(**parameters)
+        cmd="""mpirun -np 1 feasst < {prefix}0_run.txt : -np 1 python {script} -r 1""".format(**parameters)
         print('cmd:', cmd)
         #subprocess.check_call(cmd, shell=True, executable='/bin/bash')
         from subprocess import Popen

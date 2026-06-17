@@ -3,7 +3,7 @@
 #define FEASST_STEPPERS_CPU_TIME_H_
 
 #include "utils/include/timer.h"
-#include "monte_carlo/include/analyze.h"
+#include "monte_carlo/include/analyze_write_only.h"
 
 namespace feasst {
 

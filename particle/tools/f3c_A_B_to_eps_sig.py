@@ -1,4 +1,4 @@
-#from pyfeasst import physical_constants
+#from feasst import physical_constants
 r_0_OO = 3.5532 # A
 eps_OO = 0.1848 # kcal/mol
 A = eps_OO*r_0_OO**12

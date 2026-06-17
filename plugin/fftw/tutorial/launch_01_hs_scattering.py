@@ -3,12 +3,11 @@ Test ScatteringFFTW against Scattering for a simple hard-sphere system.
 """
 
 import argparse
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/', help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/atom.txt', help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1, help='inverse temperature')
     parser.add_argument('--cubic_side_length', type=float, default=8, help='periodic boundary condition side length')
@@ -86,7 +85,7 @@ def post_process(params):
     import numpy as np
     import pandas as pd
     import matplotlib.pyplot as plt
-    from pyfeasst import scattering
+    from feasst import scattering
     iq1=pd.read_csv(params['prefix']+'s001_iq.csv', comment="#")
     grp1 = iq1.groupby('q', as_index=False)
     assert np.abs(iq1['i'][3810] - 0.1) < 0.004

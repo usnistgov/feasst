@@ -14,8 +14,8 @@ class Random;
 class Sphere;
 
 /**
-  Shapes may be defined by either a simple mathematical
-  formula or an interpolated data table.
+  Shapes may be defined by either a simple mathematical Formula or an
+  interpolated data table.
  */
 class Shape {
  public:
@@ -105,23 +105,6 @@ class Shape {
   // temporary cache
   std::shared_ptr<std::vector<std::vector<Position> > > meshes_;
   std::shared_ptr<std::vector<std::shared_ptr<Sphere> > > spheres_;
-};
-
-// An object which contains a shape.
-class ShapedEntity {
- public:
-  ShapedEntity() {}
-  explicit ShapedEntity(std::shared_ptr<Shape> shape) { shape_ = shape; }
-
-  void set_shape(std::shared_ptr<Shape> shape) { shape_ = shape; }
-  /// Return the shape.
-  const std::shared_ptr<Shape> shape() const { return shape_; }
-
-  void serialize(std::ostream& ostr) const;
-  explicit ShapedEntity(std::istream& istr);
-
- private:
-  std::shared_ptr<Shape> shape_;
 };
 
 }  // namespace feasst

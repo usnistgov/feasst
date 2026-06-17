@@ -28,6 +28,7 @@ BuildRecursiveTable::BuildRecursiveTable(argtype * args) {
   cutoff_ = dble("cutoff", args, -1);
   output_file_ = str("output_file", args, "");
   verbose_file_ = str("verbose_file", args, "");
+  extra_verbose_ = boolean("extra_verbose", args, false);
   hard_limit_u_ = dble("hard_limit_u", args, 100);
   num_z_ = dble("num_z", args, 5);
   num_orientations_per_pi_ = dble("num_orientations_per_pi", args, 5);
@@ -60,6 +61,7 @@ BuildRecursiveTable::BuildRecursiveTable(std::istream& istr) : Action(istr) {
   feasst_deserialize(&min_criteria_, istr);
   feasst_deserialize(&min_criteria_energy_, istr);
   feasst_deserialize(&contact_only_, istr);
+  feasst_deserialize(&extra_verbose_, istr);
 }
 
 void BuildRecursiveTable::serialize(std::ostream& ostr) const {
@@ -77,6 +79,7 @@ void BuildRecursiveTable::serialize(std::ostream& ostr) const {
   feasst_serialize(min_criteria_, ostr);
   feasst_serialize(min_criteria_energy_, ostr);
   feasst_serialize(contact_only_, ostr);
+  feasst_serialize(extra_verbose_, ostr);
 }
 
 void BuildRecursiveTable::build_table_(const std::vector<std::vector<double> >& bounds, const std::vector<std::vector<double> >& data, RecursiveTable1D * tab, MonteCarlo * mc) const {
@@ -261,7 +264,6 @@ double global_upper_(const double cutoff, std::vector<std::vector<double> > * da
 RecursiveTable1D BuildRecursiveTable::build_1dcontact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system, const bool cutoff) {
   Rotator rotator({{"contact_tolerance", "1e-8"}, {"hard_limit_u", str(hard_limit_u_)}});
   rotator.init(system, "", "");
-  //rotator.init(system, "tr6d_fixed", "tr6d_contact");
   rotator.gen_unique_orientations(num_orientations_per_pi_, system, bounds);
   RecursiveTable1D contact(argtype({{"num", str(rotator.sizes_[0])}}));
   std::ofstream file;
@@ -292,7 +294,6 @@ RecursiveTable1D BuildRecursiveTable::build_1dcontact_(const std::vector<std::ve
 RecursiveTable2D BuildRecursiveTable::build_2dcontact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system, const bool cutoff) {
   Rotator rotator({{"contact_tolerance", "1e-8"}, {"hard_limit_u", str(hard_limit_u_)}});
   rotator.init(system, "", "");
-  //rotator.init(system, "tr6d_fixed", "tr6d_contact");
   rotator.gen_unique_orientations(num_orientations_per_pi_, system, bounds);
   RecursiveTable2D contact(argtype({{"num0", str(rotator.sizes_[0])},
                                     {"num1", str(rotator.sizes_[1])}}));
@@ -318,6 +319,10 @@ RecursiveTable2D BuildRecursiveTable::build_2dcontact_(const std::vector<std::ve
     DEBUG("dist " << dist);
     const std::vector<int>& idx = rotator.indices_[ior];
     DEBUG("idx " << feasst_str(idx));
+//    // HWH DEBUG TESTING FOLLOWS, CAN DELETE
+//    if (std::abs(rotator.eulers_[ior].phi() - PI) < 1e-6) {
+//      INFO("theta " << rotator.stheta_[ior] << " phi " << rotator.eulers_[ior].phi() << " idx " << idx[1] << " dist " << dist);
+//    }
     contact.set_data(idx[0], idx[1], dist);
     if (!verbf.empty()) {
       if (dimen == 3) {
@@ -334,14 +339,74 @@ RecursiveTable2D BuildRecursiveTable::build_2dcontact_(const std::vector<std::ve
   return contact;
 }
 
+// HWH copied from below
+RecursiveTable6D BuildRecursiveTable::build_energy_(const std::vector<std::vector<double> >& bounds, const std::vector<double>& zbnds, const std::string& verbf, const RecursiveTable5D& contact, const RecursiveTable5D& cutoff, System * system) {
+  Rotator rotator({{"contact_tolerance", "1e-8"}, {"hard_limit_u", str(hard_limit_u_)}});
+  rotator.init(system, "", "");
+  rotator.gen_unique_orientations(num_orientations_per_pi_, system, bounds);
+  RecursiveTable6D en(argtype({{"num0", str(rotator.sizes_[0])},
+                               {"num1", str(rotator.sizes_[1])},
+                               {"num2", str(rotator.sizes_[2])},
+                               {"num3", str(rotator.sizes_[3])},
+                               {"num4", str(rotator.sizes_[4])},
+                               {"num5", str(num_z_)}}));
+  std::ofstream file;
+  const int dimen = system->configuration().dimension();
+  if (!verbf.empty()) {
+    file.open(verbf);
+    file << "r,theta,phi,ephi,etheta,epsi,x,y,z,en" << std::endl;
+  }
+  Position pos(argtype({{"dimension", str(dimen)}}));
+  INFO("num " << rotator.num_orientations()*num_z_);
+  double s1, s2, s3, s4, s5;
+  const double dzpn = (zbnds[1] - zbnds[0])/static_cast<double>(num_z_ - 1);
+  bool full_range = false;
+  int subsize = num_z_;
+  if (std::abs(zbnds[1] - zbnds[0] - 1) < 1e-8) {
+    full_range = true;
+    --subsize;
+  }
+  INFO("full range " << full_range << " subsize " << subsize << " dzpn " << dzpn);
+  for (int ior = 0; ior < rotator.num_orientations(); ++ior) {
+    const std::vector<int>& idx = rotator.indices_[ior];
+    const Euler& eul = rotator.eulers_[ior];
+    scaled_relative_orientation(rotator.stheta_[ior], rotator.sphi_[ior], eul.phi(), eul.theta(), eul.psi(), &s1, &s2, &s3, &s4, &s5);
+    //INFO("s1 " << s1 << " s2 " << s2);
+    const double rh = contact.linear_interpolation(s1, s2, s3, s4, s5);
+    const double rc = cutoff.linear_interpolation(s1, s2, s3, s4, s5);
+    //INFO("rh " << rh);
+    //INFO("rc " << rc);
+    for (int idis = 0; idis < subsize; ++idis) {
+      const double z = zbnds[0] + dzpn*static_cast<double>(idis);
+      const double dist = rh + z*(rc - rh);
+      double ener = rotator.energy(ior, dist, system);
+      if (ener > NEAR_INFINITY_FLOAT) {
+        ener = NEAR_INFINITY_FLOAT;
+      }
+      en.set_data(idx[0], idx[1], idx[2], idx[3], idx[4], idis, ener);
+      if (!verbf.empty()) {
+        pos.set_from_spherical({dist, rotator.stheta_[ior], rotator.sphi_[ior]});
+        file << dist << "," << rotator.stheta_[ior] << "," << rotator.sphi_[ior]
+          << "," << eul.phi() << "," << eul.theta() << "," << eul.psi() << ","
+          << pos.str() << "," << ener << std::endl;
+      }
+    }
+    if (full_range) {
+      // Set energy to zero at cutoff (z=1)
+      en.set_data(idx[0], idx[1], idx[2], idx[3], idx[4], num_z_ - 1, 0.);
+    }
+  }
+  return en;
+}
+
 RecursiveTable3D BuildRecursiveTable::build_3denergy_(const std::vector<std::vector<double> >& bounds, const std::vector<double>& zbnds, const std::string& verbf, const RecursiveTable2D& contact, const RecursiveTable2D& cutoff, System * system) {
   Rotator rotator({{"contact_tolerance", "1e-8"}, {"hard_limit_u", str(hard_limit_u_)}});
   rotator.init(system, "", "");
-  //rotator.init(system, "tr6d_fixed", "tr6d_en");
   rotator.gen_unique_orientations(num_orientations_per_pi_, system, bounds);
   RecursiveTable3D en(argtype({{"num0", str(rotator.sizes_[0])},
                                {"num1", str(rotator.sizes_[1])},
                                {"num2", str(num_z_)}}));
+  //ASSERT(contact.percent_nested() > 0, "testing?");
   std::ofstream file;
   const int dimen = system->configuration().dimension();
   if (!verbf.empty()) {
@@ -365,25 +430,40 @@ RecursiveTable3D BuildRecursiveTable::build_3denergy_(const std::vector<std::vec
   INFO("full range " << full_range << " subsize " << subsize << " dzpn " << dzpn);
   for (int ior = 0; ior < rotator.num_orientations(); ++ior) {
     const std::vector<int>& idx = rotator.indices_[ior];
+    if (dimen == 3) {
+      scaled_relative_orientation(rotator.stheta_[ior], rotator.sphi_[ior], dimen, &s1, &s2);
+    } else if (dimen == 2) {
+      scaled_relative_orientation(rotator.stheta_[ior], rotator.eulers_[ior].phi(), dimen, &s1, &s2);
+    } else {
+      FATAL("unrecognized dimen");
+    }
+    //INFO("s1 " << s1 << " s2 " << s2);
+    // HWH I'm not sure why, but without this PBC the high end of the boundary doesn't use the recursive tabled rc and rh to determine the energy distances
+//    double rh, rc;
+//    if (std::abs(s2 - 1.) < 1e-6) {
+//      rh = contact.linear_interpolation(s1, 0.);
+//      rc = cutoff.linear_interpolation(s1, 0.);
+//    } else {
+//      rh = contact.linear_interpolation(s1, s2);
+//      rc = cutoff.linear_interpolation(s1, s2);
+//    }
+    const double rh = contact.linear_interpolation(s1, s2);
+    const double rc = cutoff.linear_interpolation(s1, s2);
+    //INFO("rh " << rh);
+    //INFO("rc " << rc);
     for (int idis = 0; idis < subsize; ++idis) {
-      if (dimen == 3) {
-        scaled_relative_orientation(rotator.stheta_[ior], rotator.sphi_[ior], dimen, &s1, &s2);
-      } else if (dimen == 2) {
-        scaled_relative_orientation(rotator.stheta_[ior], rotator.eulers_[ior].phi(), dimen, &s1, &s2);
-      } else {
-        FATAL("unrecognized dimen");
-      }
-      //INFO("s1 " << s1 << " s2 " << s2);
-      const double rh = contact.linear_interpolation(s1, s2);
-      //INFO("rh " << rh);
-      const double rc = cutoff.linear_interpolation(s1, s2);
-      //INFO("rc " << rc);
       const double z = zbnds[0] + dzpn*static_cast<double>(idis);
       const double dist = rh + z*(rc - rh);
       double ener = rotator.energy(ior, dist, system);
       if (ener > NEAR_INFINITY_FLOAT) {
         ener = NEAR_INFINITY_FLOAT;
       }
+//      // HWH DEBUG TESTING FOLLOWS, CAN DELETE
+//      if (std::abs(rotator.eulers_[ior].phi() - PI) < 1e-6) {
+//      //if (std::abs(rotator.eulers_[ior].phi() - PI) < 1e-6 ||
+//      //    std::abs(rotator.eulers_[ior].phi() + PI) < 1e-6) {
+//        INFO("theta " << rotator.stheta_[ior] << " s1 " << s1 << " phi " << rotator.eulers_[ior].phi() << " s2 " << s2 << " idx " << idx[1] << " rh " << rh << " rhflip " << contact.linear_interpolation(s1, 1.-s2) << " rc " << rc << " rcflip " << cutoff.linear_interpolation(s1, 1.-s2));
+//      }
       en.set_data(idx[0], idx[1], idis, ener);
       if (!verbf.empty()) {
         file << dist << "," << rotator.stheta_[ior];
@@ -411,7 +491,6 @@ RecursiveTable3D BuildRecursiveTable::build_3denergy_(const std::vector<std::vec
 RecursiveTable2D BuildRecursiveTable::build_2denergy_(const std::vector<std::vector<double> >& bounds, const std::vector<double>& zbnds, const std::string& verbf, const RecursiveTable1D& contact, const RecursiveTable1D& cutoff, System * system) {
   Rotator rotator({{"contact_tolerance", "1e-8"}, {"hard_limit_u", str(hard_limit_u_)}});
   rotator.init(system, "", "");
-  //rotator.init(system, "tr6d_fixed", "tr6d_en");
   rotator.gen_unique_orientations(num_orientations_per_pi_, system, bounds);
   RecursiveTable2D en(argtype({{"num0", str(rotator.sizes_[0])},
                                {"num1", str(num_z_)}}));
@@ -433,14 +512,14 @@ RecursiveTable2D BuildRecursiveTable::build_2denergy_(const std::vector<std::vec
   INFO("full range " << full_range << " subsize " << subsize << " dzpn " << dzpn);
   for (int ior = 0; ior < rotator.num_orientations(); ++ior) {
     const std::vector<int>& idx = rotator.indices_[ior];
+    DEBUG("stheta " << rotator.stheta_[ior]);
+    scaled_relative_orientation(rotator.stheta_[ior], &s1);
+    DEBUG("s1 " << s1);
+    const double rh = contact.linear_interpolation(s1);
+    //INFO("rh " << rh);
+    const double rc = cutoff.linear_interpolation(s1);
+    //INFO("rc " << rc);
     for (int idis = 0; idis < subsize; ++idis) {
-      DEBUG("stheta " << rotator.stheta_[ior]);
-      scaled_relative_orientation(rotator.stheta_[ior], &s1);
-      DEBUG("s1 " << s1);
-      const double rh = contact.linear_interpolation(s1);
-      //INFO("rh " << rh);
-      const double rc = cutoff.linear_interpolation(s1);
-      //INFO("rc " << rc);
       const double z = zbnds[0] + dzpn*static_cast<double>(idis);
       const double dist = rh + z*(rc - rh);
       double ener = rotator.energy(ior, dist, system);
@@ -470,10 +549,9 @@ RecursiveTable2D BuildRecursiveTable::build_2denergy_(const std::vector<std::vec
   return en;
 }
 
-RecursiveTable5D BuildRecursiveTable::build_contact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system) {
+RecursiveTable5D BuildRecursiveTable::build_contact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system, const bool cutoff) {
   Rotator rotator({{"contact_tolerance", "1e-8"}, {"hard_limit_u", str(hard_limit_u_)}});
   rotator.init(system, "", "");
-  //rotator.init(system, "tr6d_fixed", "tr6d_contact");
   rotator.gen_unique_orientations(num_orientations_per_pi_, system, bounds);
   RecursiveTable5D contact(argtype({{"num0", str(rotator.sizes_[0])},
                                     {"num1", str(rotator.sizes_[1])},
@@ -513,7 +591,12 @@ RecursiveTable5D BuildRecursiveTable::build_contact_(const std::vector<std::vect
     ASSERT(sys, "er");
     INFO("num " << rot->num_orientations());
     for (int ior = ith; ior < rot->num_orientations(); ior += num_threads) {
-      const double dist = rot->contact_distance(ior, sys);
+      double dist;
+      if (cutoff) {
+        dist = rotator.cutoff_distance(ior, sys);
+      } else{
+        dist = rotator.contact_distance(ior, sys);
+      }
       const std::vector<int>& idx = rot->indices_[ior];
       contact.set_data(idx[0], idx[1], idx[2], idx[3], idx[4], dist);
       //INFO(ior << " " << rot->contact_distance(ior, sys));
@@ -539,14 +622,9 @@ void BuildRecursiveTable::analyze_contact_(
     std::vector<std::vector<double> > * new_bounds,
     std::vector<double> * max_s, const bool cutoff) const {
   std::ofstream file, file2;
-  if (!verbf.empty()) {
-//    if (cutoff) {
-//      file.open(verbf+"cutan");
-//      file2.open(verbf+"cutvis");
-//    } else {
+  if (!verbf.empty() && extra_verbose_) {
     file.open(verbf+"an");
     file2.open(verbf+"vis");
-//    }
     if (dimen == 2) {
       if (static_cast<int>(data[0].size()) == 3) {
         file << "x,y" << std::endl;
@@ -566,22 +644,22 @@ void BuildRecursiveTable::analyze_contact_(
   Accumulator crit_acc;
   int max_is_small = 2; // should be zero or 1
   double rh_table_max = 0.;
-  fvec5 sum;
-  fvec2 sum2d;
-  std::vector<float> sum1d;
+//  fvec5 sum;
+//  fvec2 sum2d;
+//  std::vector<float> sum1d;
   const bool is_2d = dimen == 2;
   const bool is_iso = is_iso_(is_2d, abnd.size());
   const Table * tab = NULL;
   if ( (is_iso && !is_2d) || (!is_iso && is_2d) ) {
-    resize(contact2d.num0(), contact2d.num1(), &sum2d);
+//    resize(contact2d.num0(), contact2d.num1(), &sum2d);
     mb.resize(2);
     tab = &contact2d;
   } else if (!is_iso && !is_2d) {
-    resize(contact.num0(), contact.num1(), contact.num2(), contact.num3(), contact.num4(), &sum);
+//    resize(contact.num0(), contact.num1(), contact.num2(), contact.num3(), contact.num4(), &sum);
     tab = &contact;
     mb.resize(6);
   } else if (is_iso && is_2d) {
-    sum1d.resize(contact1d.num());
+//    sum1d.resize(contact1d.num());
     mb.resize(1);
     tab = &contact1d;
   }
@@ -616,10 +694,10 @@ void BuildRecursiveTable::analyze_contact_(
       too_small = en > hard_limit_u_ && !overlap_predicted;
       too_big   = en < hard_limit_u_ &&  overlap_predicted;
     }
-    if (!is_2d && !verbf.empty()) {
+    if (!is_2d && (!verbf.empty() && extra_verbose_)) {
       pos.set_from_spherical({rh_table, (abnd[0][1]-abnd[0][0])*dat[1], (abnd[1][1]-abnd[1][0])*dat[2]});
       file << "0 " << pos.coord(0) << " " << pos.coord(1) << " " << pos.coord(2) << std::endl;
-    } else if (is_2d && !verbf.empty()) {
+    } else if (is_2d && (!verbf.empty() && extra_verbose_)) {
       const double dtht = abnd[0][1]-abnd[0][0];
       if (static_cast<int>(dat.size()) == 3) {
         pos.set_from_spherical({rh_table, dtht*dat[1]});
@@ -632,14 +710,14 @@ void BuildRecursiveTable::analyze_contact_(
       }
     }
     if (too_small || too_big) {
-      if ( (is_iso && !is_2d) || (!is_iso && is_2d) ) {
-        sum2d[contact2d.value_to_lowest_bin(0, dat[1])]
-             [contact2d.value_to_lowest_bin(1, dat[2])] = dist - rh_table;
-      } else if (is_iso && is_2d) {
-        sum1d[contact1d.value_to_lowest_bin(0, dat[1])] = dist - rh_table;
-      } else {
-        FATAL("implement");
-      }
+//      if ( (is_iso && !is_2d) || (!is_iso && is_2d) ) {
+//        sum2d[contact2d.value_to_lowest_bin(0, dat[1])]
+//             [contact2d.value_to_lowest_bin(1, dat[2])] = dist - rh_table;
+//      } else if (is_iso && is_2d) {
+//        sum1d[contact1d.value_to_lowest_bin(0, dat[1])] = dist - rh_table;
+//      } else {
+//        FATAL("implement");
+//      }
       const double crit = std::abs(dist - rh_table);
       crit_acc.accumulate(crit);
       if (crit > *criteria) {
@@ -680,7 +758,7 @@ void BuildRecursiveTable::analyze_contact_(
   INFO("max_bins:" << feasst_str(*max_bins));
   INFO("new_bounds:" << feasst_str(*new_bounds));
   INFO("rh_table_max:" << rh_table_max);
-  if (!verbf.empty()) {
+  if (!verbf.empty() && extra_verbose_) {
     file2 << "# " << feasst_str(*max_s) << std::endl;
   }
 }
@@ -688,8 +766,8 @@ void BuildRecursiveTable::analyze_contact_(
 void BuildRecursiveTable::analyze_energy_(
     const std::vector<std::vector<double> >& data,
     const RecursiveTable6D& energy, const RecursiveTable3D& energy3d, const RecursiveTable2D& energy2d,
-    const RecursiveTable2D& contact2d, const RecursiveTable1D& contact1d,
-    const RecursiveTable2D& cutoff2d, const RecursiveTable1D& cutoff1d,
+    const RecursiveTable5D& contact, const RecursiveTable2D& contact2d, const RecursiveTable1D& contact1d,
+    const RecursiveTable5D& cutoff, const RecursiveTable2D& cutoff2d, const RecursiveTable1D& cutoff1d,
     const std::vector<std::vector<double> >& abnd,
     const std::string& verbf, const std::vector<std::vector<int> >& rbins,
     const bool is_2d, double * criteria,
@@ -698,7 +776,7 @@ void BuildRecursiveTable::analyze_energy_(
     std::vector<double> * new_zbnds,
     std::vector<double> * max_s) const {
   std::ofstream file;
-  if (!verbf.empty()) {
+  if (!verbf.empty() && extra_verbose_) {
     file.open(verbf+"an");
   }
   std::vector<double> ms;
@@ -735,11 +813,12 @@ void BuildRecursiveTable::analyze_energy_(
       rh = contact2d.linear_interpolation(dat[1], dat[2]);
       rc = cutoff2d.linear_interpolation(dat[1], dat[2]);
     } else if (!is_iso && !is_2d) {
-      FATAL("implement");
+      rh = contact.linear_interpolation(dat[1], dat[2], dat[3], dat[4], dat[5]);
+      rc = cutoff.linear_interpolation(dat[1], dat[2], dat[3], dat[4], dat[5]);
     } else if (is_iso && is_2d) {
       rh = contact1d.linear_interpolation(dat[1]);
       rc = cutoff1d.linear_interpolation(dat[1]);
-    } else { // if (!is_iso && is_2d) {
+    } else {
       FATAL("implement");
     }
     const double z = (dist - rh)/(rc - rh);
@@ -756,10 +835,10 @@ void BuildRecursiveTable::analyze_energy_(
       } else if (is_iso && is_2d) {
         en = dat[2];
         en_table = energy2d.linear_interpolation(dat[1], z);
-      } else { //if (!is_iso && is_2d) {
+      } else {
         FATAL("implement");
       }
-      if (!verbf.empty()) {
+      if (!verbf.empty() && extra_verbose_) {
         if (is_2d) {
           pos.set_from_spherical({en_table, PI*(2*dat[1]-1)});
           file << pos.str() << std::endl;
@@ -919,6 +998,7 @@ void BuildRecursiveTable::run(MonteCarlo * mc) {
     //WARN("fixed 1 iteration");
     //while (iteration <= 1 && min_criteria_ < 200) {
     //while (iteration == 0 && min_criteria_ < 200) {
+    //while (false) {
     while (criteria > min_criteria_) {
       ++iteration;
       verbf = verbose_name_(iteration);
@@ -932,7 +1012,7 @@ void BuildRecursiveTable::run(MonteCarlo * mc) {
         nested = build_contact_(new_bounds, verbf, mc->get_system());
         INFO("adding recursive table at " << feasst_str(max_bins));
         contact.insert(max_bins[0], max_bins[1], max_bins[2], max_bins[3], max_bins[4], nested);
-        INFO("percent_nested: " << contact2d.percent_nested());
+        INFO("percent_nested: " << contact.percent_nested());
       } else if (is_iso && is_2d) {
         nested1d = build_1dcontact_(new_bounds, verbf, mc->get_system());
         INFO("adding recursive table at " << feasst_str(max_bins));
@@ -992,7 +1072,7 @@ void BuildRecursiveTable::run(MonteCarlo * mc) {
       if ( (is_iso && !is_2d) || (!is_iso && is_2d) ) {
         cutoff2d = build_2dcontact_(abnd, verbf, mc->get_system(), true);
       } else if (!is_iso && !is_2d) {
-        FATAL("implement");
+        cutoff = build_contact_(abnd, verbf, mc->get_system(), true);
       } else if (is_iso && is_2d) {
         cutoff1d = build_1dcontact_(abnd, verbf, mc->get_system(), true);
       }
@@ -1000,6 +1080,7 @@ void BuildRecursiveTable::run(MonteCarlo * mc) {
       analyze_contact_(data, cutoff, cutoff2d, cutoff1d, abnd, config.dimension(), verbf, rbins, &criteria, &max_bins, &new_bounds, &max_s, true);
       last_criteria = criteria;
       rbins = {max_bins};
+      //while (false) {
       while (criteria > min_criteria_) {
         ++iteration;
         verbf = verbose_name_(iteration) + "cut";
@@ -1008,7 +1089,9 @@ void BuildRecursiveTable::run(MonteCarlo * mc) {
           cutoff2d.insert(max_bins[0], max_bins[1], nested2d);
           INFO("percent_nested: " << cutoff2d.percent_nested());
         } else if (!is_iso && !is_2d) {
-          FATAL("implement");
+          nested = build_contact_(new_bounds, verbf, mc->get_system(), true);
+          cutoff.insert(max_bins[0], max_bins[1], max_bins[2], max_bins[3], max_bins[4], nested);
+          INFO("percent_nested: " << cutoff.percent_nested());
         } else if (is_iso && is_2d) {
           nested1d = build_1dcontact_(new_bounds, verbf, mc->get_system(), true);
           cutoff1d.insert(max_bins[0], nested1d);
@@ -1056,14 +1139,14 @@ void BuildRecursiveTable::run(MonteCarlo * mc) {
       if ( (is_iso && !is_2d) || (!is_iso && is_2d) ) {
         energy3d = build_3denergy_(abnd, {0., 1.}, verbf, contact2d, cutoff2d, mc->get_system());
       } else if (!is_iso && !is_2d) {
-        FATAL("implement");
+        energy = build_energy_(abnd, {0., 1.}, verbf, contact, cutoff, mc->get_system());
       } else if (is_iso && is_2d) {
         energy2d = build_2denergy_(abnd, {0., 1.}, verbf, contact1d, cutoff1d, mc->get_system());
       } else {
         FATAL("implement");
       }
       rbins.clear();
-      analyze_energy_(data, energy, energy3d, energy2d, contact2d, contact1d, cutoff2d, cutoff1d, abnd, verbf, rbins, is_2d, &criteria, &max_bins, &new_bounds, &new_zbnds, &max_s);
+      analyze_energy_(data, energy, energy3d, energy2d, contact, contact2d, contact1d, cutoff, cutoff2d, cutoff1d, abnd, verbf, rbins, is_2d, &criteria, &max_bins, &new_bounds, &new_zbnds, &max_s);
       last_criteria = criteria;
       rbins = {max_bins};
       while (criteria > min_criteria_energy_) {
@@ -1077,7 +1160,9 @@ void BuildRecursiveTable::run(MonteCarlo * mc) {
           energy3d.insert(max_bins[0], max_bins[1], max_bins[2], en_nested3d);
           INFO("percent_nested: " << energy3d.percent_nested());
         } else if (!is_iso && !is_2d) {
-          FATAL("implement");
+          en_nested = build_energy_(new_bounds, new_zbnds, verbf, contact, cutoff, mc->get_system());
+          energy.insert(max_bins[0], max_bins[1], max_bins[2], max_bins[3], max_bins[4], max_bins[5], en_nested);
+          INFO("percent_nested: " << energy.percent_nested());
         } else if (is_iso && is_2d) {
           en_nested2d = build_2denergy_(new_bounds, new_zbnds, verbf, contact1d, cutoff1d, mc->get_system());
           energy2d.insert(max_bins[0], max_bins[1], en_nested2d);
@@ -1085,7 +1170,7 @@ void BuildRecursiveTable::run(MonteCarlo * mc) {
         } else {
           FATAL("implement");
         }
-        analyze_energy_(data, energy, energy3d, energy2d, contact2d, contact1d, cutoff2d, cutoff1d, abnd, verbf, rbins, is_2d, &criteria, &max_bins, &new_bounds, &new_zbnds, &max_s);
+        analyze_energy_(data, energy, energy3d, energy2d, contact, contact2d, contact1d, cutoff, cutoff2d, cutoff1d, abnd, verbf, rbins, is_2d, &criteria, &max_bins, &new_bounds, &new_zbnds, &max_s);
         INFO("criteria " << criteria << " last_criteria " << last_criteria);
         ASSERT(criteria <= last_criteria, "Adding resolution made crit:" << criteria << " worse than last:" << last_criteria);
         last_criteria = criteria;

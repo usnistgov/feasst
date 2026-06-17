@@ -10,7 +10,7 @@
 namespace feasst {
 
 /**
-  Remove a Modify.
+  Remove a Modify. This class is deprecated. Use Remove instead.
  */
 class RemoveModify : public Action {
  public:

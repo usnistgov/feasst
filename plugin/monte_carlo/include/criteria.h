@@ -21,9 +21,10 @@ class System;
 
 typedef std::map<std::string, std::string> argtype;
 
+// Stores the total energy based on energy changes from each trial.
 /**
-  Determine whether to accept or reject a trial.
-  Stores the total energy based on energy changes from each trial.
+  The acceptance Criteria determines if trials are accepted or rejected, and
+  determines when a simulation is complete.
  */
 class Criteria {
  public:
@@ -31,7 +32,7 @@ class Criteria {
   /** @name Arguments
     - cycles_to_complete: set the number of cycles for a simulation
       to be considered complete (default: 20).
-    - Constraint: ConstrainNumParticles, AHalfB, etc.
+    - Constraint: Optional ConstrainNumParticles, AHalfB, etc.
    */
   explicit Criteria(argtype args = argtype());
   explicit Criteria(argtype * args);

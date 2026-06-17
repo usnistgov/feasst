@@ -10,6 +10,11 @@
 
 namespace feasst {
 
+class Analyze;
+class Modify;
+class Trial;
+class TrialFactoryNamed;
+
 /**
   Perform a number of trials.
  */
@@ -21,7 +26,9 @@ class Run : public Action {
       Note that num_trials is not as restart friendly as ``until_*'' arguments.
     - until_num_particles: run until this many particles (default: -1. e.g., None)
     - config: name of Configuration (default: 0).
+      If Trial or Stepper argument is also included, this argument is given to Trial or Stepper as well.
     - particle_type: type name of particle to count. If empty, all particles (default: empty).
+      If Trial argument is also included, this argument is given to Trial as well.
     - for_hours: run for this many CPU hours (default: -1 e.g., None).
     - until: if "complete", run until Criteria is complete (default: empty).
       Afterward, write all Analyze and Modify.
@@ -31,6 +38,10 @@ class Run : public Action {
       If empty, skip (default: empty).
     - trials_per_file_check: run this many trials between file checks to reduce
       load on the file system (default: 1e5).
+    - Trial: name of a Trial that is temporarily added and then removed at
+      completion of Run (default: "").
+    - Stepper: name of an Analyze or Modify that is temporarily added and then
+      removed at completion of Run (default: "").
 
     Arguments are completed in the order listed.
    */
@@ -62,6 +73,14 @@ class Run : public Action {
   bool until_criteria_complete_;
   std::string until_file_exists_;
   int trials_per_file_check_;
+  std::string trial_name_;
+  int num_trials_before_ = -1;
+  std::shared_ptr<Trial> trial_;
+  std::shared_ptr<TrialFactoryNamed> trials_;
+  std::vector<std::shared_ptr<Analyze> > analyzers_;
+  std::vector<std::shared_ptr<Modify> > modifiers_;
+  int num_analyze_before_ = -1;
+  int num_modify_before_ = -1;
 };
 
 inline std::shared_ptr<Run> MakeRun(argtype args = argtype()) {

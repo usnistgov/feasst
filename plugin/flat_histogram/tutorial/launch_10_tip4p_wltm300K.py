@@ -3,9 +3,9 @@ This tutorial is similar to tutorial 10 spce, but for tip4p.
 """
 
 import argparse
-from pyfeasst import fstio
-from pyfeasst import physical_constants
-from pyfeasst import macrostate_distribution
+from feasst import fstio
+from feasst import physical_constants
+from feasst import macrostate_distribution
 import launch_04_lj_tm_parallel
 import launch_10_spce_wltm300K
 

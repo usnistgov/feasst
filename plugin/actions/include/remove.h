@@ -10,21 +10,21 @@
 namespace feasst {
 
 /**
-  Remove an Analyze, Modify or Trial based on the name.
+  Remove an Analyze, Modify or Trial.
  */
 class Remove : public Action {
  public:
   //@{
   /** @name Arguments
-    - name: remove first class with this class name, if not empty.
+    - name: Remove first class with this class name, if not empty.
       (default: empty).
       Multiple names can be provided as comma-separated values.
-    - name_contains: same as name above, except the entire name does not
+    - name_contains: Same as "name", except the entire name does not
       have to match exactly and all matches are removed (not just the first).
       Multiple name_contains can be provided as comma-separated values.
-    - all_trials: if true (default: false), remove all trials.
-    - all_analyzers: if true (default: false), remove all analyzers.
-    - all_modifiers: if true (default: false), remove all modifiers.
+    - all_trials: Remove all Trials if true (default: false).
+    - all_analyzers: Remove all Analyze if true (default: false).
+    - all_modifiers: Remove all Modify if true (default: false).
    */
   explicit Remove(argtype args = argtype());
   explicit Remove(argtype * args);

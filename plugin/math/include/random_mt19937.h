@@ -9,9 +9,10 @@
 namespace feasst {
 
 /**
-  Mersenne Twister 19937 generator.
+  This Mersenne Twister 19937 generator is the default option for all random
+  numbers in FEASST.
   See http://www.cplusplus.com/reference/random/mt19937/
-  for more information.
+  for more information about the specific implementation.
  */
 class RandomMT19937 : public Random {
  public:

@@ -10,14 +10,12 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import fstplot
+from feasst import fstio
+from feasst import fstplot
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--reference_sigma', type=float, default=1,
@@ -75,6 +73,7 @@ MayerSampling num_beta_taylor={num_beta_taylor} trials_per_cycle={tpc} cycles_to
 TrialTranslate new_only=true ref=hs tunable_param=1 group=first
 #TrialRotate new_only=true ref=hs tunable_param=40
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
+CheckEnergy trials_per_update={tpc} decimal_places=4
 
 # tune trial parameters
 Let [write]=trials_per_write={tpc} output_file {prefix}{sim:03d}

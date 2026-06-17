@@ -8,9 +8,9 @@ import json
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import physical_constants
-from pyfeasst import macrostate_distribution
+from feasst import fstio
+from feasst import physical_constants
+from feasst import macrostate_distribution
 
 def parse():
     """ Parse arguments from command line or change their default values. """
@@ -113,9 +113,7 @@ def sim_job_dependent_params(params):
     params['last_site'] = params['num_sites'] - 1
     if params['xyz'] == '':
         params['config'] = """cubic_side_length={pbc}""".format(**params)
-        params['init'] = """TrialGrowFile grow_file={prefix}{sim:03d}_grow_add.txt
-    Run until_num_particles={num}
-    Remove name_contains=add""".format(**params)
+        params['init'] = """Run until_num_particles={num} Trial=TrialGrowFile grow_file={prefix}{sim:03d}_grow_add.txt""".format(**params)
     else:
         params['config'] = """xyz_file={xyz}""".format(**params)
         params['init'] = ''

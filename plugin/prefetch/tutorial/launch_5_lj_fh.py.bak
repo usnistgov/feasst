@@ -10,8 +10,6 @@ from pyfeasst import fstio
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
-                    help='FEASST install directory (e.g., the path to build)')
 PARSER.add_argument('--fstprt', type=str, default='/feasst/particle/lj.fstprt',
                     help='FEASST particle definition')
 PARSER.add_argument('--beta', type=float, default=1./1.5, help='inverse temperature')
@@ -72,15 +70,13 @@ CheckEnergy trials_per_update {trials_per_iteration} tolerance 1e-4
 Checkpoint checkpoint_file {prefix}{sim}_checkpoint.fst num_hours {hours_checkpoint} num_hours_terminate {hours_terminate}
 
 # gcmc initialization and nvt equilibration
-TrialAdd particle_type 0
 Log trials_per_write {trials_per_iteration} output_file {prefix}n{job}_eq.txt
 Tune
-Run until_num_particles {min_particles}
-Remove name TrialAdd
+Run until_num_particles {min_particles} Trial TrialAdd particle_type 0
 ThermoParams beta {beta} chemical_potential {mu}
 Metropolis num_trials_per_iteration {trials_per_iteration} num_iterations_to_complete {equilibration_iterations}
 Run until_criteria_complete true
-Remove name0 Tune name1 Log
+Remove name Tune,Log
 
 # gcmc tm production
 FlatHistogram Macrostate MacrostateNumParticles width 1 max {max_particles} min {min_particles} \

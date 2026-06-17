@@ -2,7 +2,7 @@
 #ifndef FEASST_STEPPERS_CHECK_ENERGY_H_
 #define FEASST_STEPPERS_CHECK_ENERGY_H_
 
-#include "monte_carlo/include/modify.h"
+#include "monte_carlo/include/modify_update_only.h"
 #include "steppers/include/check.h"
 
 namespace feasst {

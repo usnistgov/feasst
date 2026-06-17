@@ -48,7 +48,7 @@ const std::vector<argtype> args_ = {{{"particle_type", "0"}, {"bond", "1"}, {"mo
 
 FEASST_MAPPER(TrialGrow, args_);
 
-void TrialGrow::build_(std::vector<argtype> * args) {
+void TrialGrow::build_(std::vector<argtype> * args, const bool check) {
   const int num_args = static_cast<int>(args->size());
   ASSERT(num_args > 0, "TrialGrow requires args.size: " << num_args << " > 0");
   double weight = dble("weight", &(*args)[0], -1.);
@@ -358,9 +358,9 @@ void TrialGrow::build_(std::vector<argtype> * args) {
         {"ref", str("ref", &iargs, default_ref)},
         {"new_only", str("new_only", &iargs, default_new_only)},
       };
-      feasst_check_all_used(iargs);
+      if (check) feasst_check_all_used(iargs);
       trial->add_stage(select, perturb, &stage_args);
-      feasst_check_all_used(stage_args);
+      if (check) feasst_check_all_used(stage_args);
     }
     if (trial_types[0] == "gibbs_transfer") {
       ASSERT(static_cast<int>(trial_types.size()) == 1,
@@ -431,10 +431,10 @@ TrialGrow::TrialGrow(std::vector<argtype> args) : TrialFactoryNamed() {
 
 FEASST_MAPPER(TrialGrowFile,);
 
-void TrialGrowFile::add_(const argtype add_args, std::vector<argtype> * args) {
+void TrialGrowFile::add_(const argtype add_args, std::vector<argtype> * args, const bool check) {
   argtype * arg0 = &(*args)[0];
   arg0->insert(add_args.begin(), add_args.end());
-  build_(args);
+  build_(args, check);
   args->clear();
 }
 
@@ -463,7 +463,7 @@ TrialGrowFile::TrialGrowFile(argtype * args) : TrialGrow() {
   while (std::getline(file, line)) {
     if (line.empty()) {
       if (reformated.size() > 0) {
-        add_(*args, &reformated);
+        add_(*args, &reformated, false);
       }
     } else {
       if (line[0] != '#') {
@@ -472,7 +472,7 @@ TrialGrowFile::TrialGrowFile(argtype * args) : TrialGrow() {
     }
   }
   if (reformated.size() > 0) {
-    add_(*args, &reformated);
+    add_(*args, &reformated, false);
   }
 }
 TrialGrowFile::TrialGrowFile(argtype args) : TrialGrowFile(&args) {

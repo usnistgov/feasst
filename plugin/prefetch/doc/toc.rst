@@ -2,3 +2,4 @@
 .. toctree::
 
    Pool
+   Prefetch

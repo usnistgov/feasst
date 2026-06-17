@@ -534,7 +534,7 @@ const Configuration& System::configuration(const std::string& name) const {
   return *configurations_[configuration_index(name)];
 }
 
-Configuration * System::configuration(const std::string& name) {
+Configuration * System::get_configuration(const std::string& name) {
   return configurations_[configuration_index(name)].get();
 }
 

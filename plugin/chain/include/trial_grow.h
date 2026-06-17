@@ -142,7 +142,7 @@ class TrialGrow : public TrialFactoryNamed {
   virtual ~TrialGrow() {}
 
  protected:
-  void build_(std::vector<argtype> * args);
+  void build_(std::vector<argtype> * args, const bool check = true);
 };
 
 inline std::shared_ptr<TrialGrow> MakeTrialGrow(std::vector<argtype> args) {
@@ -186,7 +186,7 @@ class TrialGrowFile : public TrialGrow {
 
   //@}
  private:
-  void add_(const argtype add_args, std::vector<argtype> * args);
+  void add_(const argtype add_args, std::vector<argtype> * args, const bool check = true);
 };
 
 inline std::shared_ptr<TrialGrowFile> MakeTrialGrowFile(argtype args) {

@@ -23,18 +23,20 @@ typedef std::map<std::string, std::string> argtype;
 class Group : public PropertiedEntity {
  public:
   //@{
-  /** @name Arguments
+  /* This is an argument for developers only becuase Configuration uses it.
     - prepend: expect all other arguments to have this prepended with underscore.
       For example, if prepend==water, the following argument would expect
       "water_site_type0" (default: empty).
-    - site_type: add site type(s). If none, all sites included.
+    */
+  /** @name Arguments
+    - site_type: Add site type(s) (default: all sites included).
       Multiple can be provided as comma-separated values.
-    - particle_type: add particle type(s). If none, all included.
+    - particle_type: Add particle type(s) (default: all included).
       Multiple can be provided as comma-separated values.
-    - particle_index: add particle index(es). If none, all included.
+    - particle_index: Add particle index(es) (default: all included).
       Multiple can be provided as comma-separated values.
-    - dynamic: set true if groups should be updated (default: true).
-    - spatial: set true if group is based on location (default: false).
+    - dynamic: Set true if groups should be updated (default: true).
+    - spatial: Set true if group is based on location (default: false).
    */
   explicit Group(argtype args = argtype());
   explicit Group(argtype * args);

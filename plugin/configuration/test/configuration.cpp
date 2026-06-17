@@ -476,7 +476,7 @@ TEST(Configuration, model_param_file) {
   auto config = MakeConfiguration({
     {"particle_type", "co2:../particle/dimer_mie_CO2.txt,n2:../particle/dimer_mie_N2.txt"},
     {"cubic_side_length", "8"},
-    {"model_param_file", "../particle/mie_model_parameters.txt"}
+    {"model_param_file", "../particle/mixing/mie_model_parameters.txt"}
   });
   std::vector<std::string> site_names;
   config->site_type_names(&site_names);

@@ -1,8 +1,66 @@
+.. Edit /feasst/dev/sphinx/README.rst.in (CMake template) and not /feasst/README.rst
+
 *************************
 README
 *************************
 
-View the documentation by `downloading FEASST <https://github.com/usnistgov/feasst/tags>`_ and opening the html/index.html file as shown by the following Bash commands.
+The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free and open-source software to conduct molecular- and particle-based simulations with Monte Carlo methods.
+New users can start with the `website <https://pages.nist.gov/feasst/>`_ (`DOI <https://doi.org/10.18434/M3S095>`_), `manuscript <https://doi.org/10.1063/5.0224283>`_, `GitHub discussion <https://github.com/usnistgov/feasst/discussions>`_ and a `five minute video <https://www.nist.gov/video/how-use-feasst-0255-monte-carlo-molecular-simulation-software>`_.
+Support FEASST with a `GitHub <https://github.com/usnistgov/feasst>`_ star or `manuscript <https://doi.org/10.1063/5.0224283>`_ citation!
+
+Quickstart
+===========
+
+.. code-block:: bash
+
+    sudo apt install g++ cmake python3-venv               # C++, CMake and Python3
+    python3 -m venv feasst; source ~/feasst/bin/activate  # or use existing env/conda
+    CMAKE_BUILD_PARALLEL_LEVEL=8 pip3 install feasst      # install
+    feasst-menu                                           # interactive tutorial
+
+For Mac/Linux use apt, yum, dnf, brew(homebrew), etc.
+For Windows, use WSL.
+For HPC, use "module avail/load."
+
+C++ Executable
+================================
+
+Run with BASH/etc:
+
+.. code-block:: bash
+
+@FEASST_EXAMPLE@
+Restart with checkpoint.fst and BASH/etc:
+
+.. code-block:: bash
+
+@FEASST_RESTART@
+Run with script.txt and BASH/etc:
+
+.. code-block:: bash
+
+    feasst < script.txt
+
+Python Module
+===============================
+
+Install with BASH/etc:
+
+.. code-block:: bash
+
+    sudo apt install g++ cmake python3-dev python3-venv
+    python3 -m venv feasst; source ~/feasst/bin/activate
+    CMAKE_BUILD_PARALLEL_LEVEL=8 CMAKE_ARGS="-DUSE_PYBIND11=ON" pip install feasst
+
+Run in Python:
+
+.. code-block:: python
+
+@FEASST_PYTHON_EX@
+Documentation
+=======================
+
+See https://pages.nist.gov/feasst. View documentation for your specific version by `downloading FEASST <https://github.com/usnistgov/feasst/tags>`_ and opening the html/index.html file as shown by the following Bash commands.
 
 .. code-block:: bash
 

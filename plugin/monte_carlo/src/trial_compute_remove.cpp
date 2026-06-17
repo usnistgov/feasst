@@ -31,13 +31,18 @@ void TrialComputeRemove::perturb_and_acceptance(
     Acceptance * acceptance,
     std::vector<TrialStage*> * stages,
     Random * random) {
-  DEBUG("TrialComputeRemove");
+  DEBUG("old");
   compute_rosenbluth(1, criteria, system, acceptance, stages, random);
   if (!acceptance->reject()) {
     const int iconf = stages->front()->select().configuration_index();
     acceptance->set_energy_new(criteria->current_energy(iconf) - acceptance->energy_old(iconf), iconf);
+    DEBUG("current prof " << feasst_str(criteria->current_energy_profile(iconf)));
+    DEBUG("old prof " << feasst_str(acceptance->energy_profile_old(iconf)));
     acceptance->set_energy_profile_new(criteria->current_energy_profile(iconf), iconf);
+    DEBUG("new en " << acceptance->energy_new());
+    DEBUG("old en " << acceptance->energy_old());
     acceptance->subtract_from_energy_profile_new(acceptance->energy_profile_old(iconf), iconf);
+    DEBUG("new prof " << feasst_str(acceptance->energy_profile_new(iconf)));
     acceptance->add_to_macrostate_shift(-1, iconf);
     { // Metropolis
       const Configuration& config = system->configuration(iconf);

@@ -1,6 +1,6 @@
 
-#ifndef FEASST_MONTE_CARLO_OPT_POTENTIAL_H_
-#define FEASST_MONTE_CARLO_OPT_POTENTIAL_H_
+#ifndef FEASST_ACTION_OPT_POTENTIAL_H_
+#define FEASST_ACTION_OPT_POTENTIAL_H_
 
 #include <memory>
 #include <vector>
@@ -58,4 +58,4 @@ inline std::shared_ptr<OptPotential> MakeOptPotential(
 
 }  // namespace feasst
 
-#endif  // FEASST_MONTE_CARLO_OPT_POTENTIAL_H_
+#endif  // FEASST_ACTION_OPT_POTENTIAL_H_

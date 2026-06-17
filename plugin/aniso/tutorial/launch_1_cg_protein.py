@@ -19,13 +19,11 @@ import os.path
 import argparse
 import subprocess
 import pandas as pd
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments for this and following scripts """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--num_orientations_per_pi', type=int, default=2,
                         help='maximum number of orientations per 180 degrees')
     parser.add_argument('--run_type', '-r', type=int, default=0,

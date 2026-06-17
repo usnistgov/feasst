@@ -3,8 +3,8 @@ Example ternary Gibbs ensemble Monte Carlo simulation of CO2 - methane - ethane 
 """
 
 import argparse
-from pyfeasst import fstio
-from pyfeasst import physical_constants
+from feasst import fstio
+from feasst import physical_constants
 
 def parse():
     """ Parse arguments from command line or change their default values. """
@@ -66,7 +66,7 @@ MonteCarlo
 RandomMT19937 seed={seed}
 For [config]:[length]=vapor:81,liquid:55
     Configuration name=[config] cubic_side_length=[length] particle_type=pt1:{pt1},pt2:{pt2},pt3:{pt3} \
-        model_param_file=/feasst/particle/mie_model_parameters.txt
+        model_param_file=../../../particle/mixing/mie_model_parameters.txt
     Potential Model=Mie table_size=1e4 config=[config]
     Potential VisitModel=LongRangeCorrections config=[config]
     RefPotential ref=noixn VisitModel=DontVisitModel config=[config]
@@ -91,13 +91,9 @@ Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_fill.csv
 Tune
 For [config]:[num1]:[num2]:[num3]=vapor:330:330:410,liquid:100:450:700
-    Movie [write]_[config]_fill.xyz config=[config]
     For [pt]:[num]=1:[num1],2:[num2],3:[num3]
-        TrialGrowFile grow_file={prefix}{sim:03d}_p[pt]_[config]_grow_add.txt
-        Run until_num_particles=[num] particle_type=pt[pt] config=[config]
-        Remove name_contains=add
+        Run until_num_particles=[num] particle_type=pt[pt] config=[config] Trial=TrialGrowFile grow_file={prefix}{sim:03d}_p[pt]_[config]_grow_add.txt Stepper=Movie [write]_[config]_fill.xyz
     EndFor
-    Remove name=Movie
 EndFor
 Remove name=Tune,Log
 
@@ -112,22 +108,20 @@ ProfileCPU [write]_npt_profile.csv
 CheckEnergy trials_per_update={tpc} decimal_places=8
 # a new tune is required when new Trials are introduced
 # decrease trials per due to infrequency of volume transfer attempts
-Tune trials_per_tune=20
-Run until=complete
-Remove name=Tune,Log,Movie,Movie,ProfileCPU
+Run until=complete Stepper=Tune trials_per_tune=20
+Remove name=Log,Movie,Movie,ProfileCPU
 
 # Gibbs equilibration
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equil}
 For [pt]=1,2,3
     TrialGrowFile grow_file={prefix}{sim:03d}_p[pt]_grow_gibbs.txt
 EndFor
-Log [write]_eq.csv
 For [config]=vapor,liquid
     Movie [write]_[config]_eq.xyz config=[config]
 EndFor
 ProfileCPU [write]_eq_profile.csv
-Run until=complete
-Remove name=Log,Movie,Movie,ProfileCPU
+Run until=complete Stepper=Log [write]_eq.csv
+Remove name=Movie,Movie,ProfileCPU
 
 # Gibbs ensemble production
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}

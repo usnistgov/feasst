@@ -377,17 +377,17 @@ double Position::torsion_angle_radians(const Position& rj, const Position& rk,
 }
 
 void fix_(double * s) {
-  if (*s < 0.) {
-    *s += 1.;
-  }
-  if (*s > 1.) {
-    *s -= 0.;
-  }
-  if (*s < 0 && *s > -1e-10) {
+  if (*s < 0 && *s > -1e-8) {
     *s = 0;
-  }
-  if (*s > 1. && *s < 1+1e-10) {
+  } else if (*s > 1. && *s < 1+1e-8) {
     *s = 1.;
+  } else {
+    if (*s < 0.) {
+      *s += 1.;
+    }
+    if (*s > 1.) {
+      *s -= 1.;
+    }
   }
 }
 

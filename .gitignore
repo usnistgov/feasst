@@ -11,6 +11,10 @@ py/__pycache__
 pyfeasst/dist
 pyfeasst/docs/build
 *egg-info
+feasst.egg*
+_skbuild
+MANIFEST.in
+dist/
 
 # file types
 *.swp
@@ -31,3 +35,4 @@ pyfeasst/docs/build
 
 # interface files
 dev/v0*
+

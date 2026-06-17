@@ -9,7 +9,7 @@
 
 Site Properties
 
-N sigma=2.9550 epsilon=49.590 cutoff=12.0 mie_lambda_r=10.109 mie_lambda_a=6.0
+N sigma=2.9550 epsilon=49.590 cutoff=12.0 mie_lambda_r=10.1087 mie_lambda_a=6.0
 
 Sites
 

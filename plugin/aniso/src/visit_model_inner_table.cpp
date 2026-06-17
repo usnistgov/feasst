@@ -295,6 +295,7 @@ double VisitModelInnerTable::compute_aniso(const int tabtype1, const int tabtype
       }
     }
   }
+  TRACE("en: " << en);
   return en;
 }
 
@@ -401,6 +402,13 @@ void VisitModelInnerTable::compute(
   const Site& site1 = part1.site(site1_index);
   const Particle& part2 = config->select_particle(part2_index);
   const Site& site2 = part2.site(site2_index);
+
+  // check if either site is physical
+  TRACE("physical? " << site1.is_physical() << " " << site2.is_physical());
+  if (!site1.is_physical() || !site2.is_physical()) {
+    return;
+  }
+
   clear_ixn(part1_index, site1_index, part2_index, site2_index);
   TRACE("aniso_index_ " << aniso_index_);
   const ModelParam& aniso = model_params.select(aniso_index_);

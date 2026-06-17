@@ -5,7 +5,7 @@
 #include "configuration/include/file_vmd.h"
 #include "configuration/include/file_xyz.h"
 #include "configuration/include/configuration.h"
-#include "monte_carlo/include/analyze.h"
+#include "monte_carlo/include/analyze_write_only.h"
 
 namespace feasst {
 

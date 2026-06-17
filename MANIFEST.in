@@ -1,0 +1,9 @@
+include CMakeLists.txt
+include *rst
+recursive-include dir-pattern pat1 pat2
+recursive-include plugin *cpp *h particle/*.txt
+recursive-include src/feasst *
+prune src/feasst/tests
+recursive-include html *
+recursive-include particle *
+recursive-exclude plugin test/*cpp test/*h

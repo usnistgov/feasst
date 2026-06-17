@@ -40,6 +40,7 @@ void RemoveModify::serialize(std::ostream& ostr) const {
 }
 
 void RemoveModify::run(MonteCarlo * mc) {
+  WARN("RemoveModify is deprecated. Use Remove instead.");
   DEBUG("name " << name_);
   if (!name_.empty()) {
     for (int modify = 0; modify < mc->num_modifiers(); ++modify) {

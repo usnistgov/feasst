@@ -4,7 +4,7 @@
 
 #include <map>
 #include <string>
-#include "monte_carlo/include/modify.h"
+#include "monte_carlo/include/modify_update_only.h"
 
 namespace feasst {
 

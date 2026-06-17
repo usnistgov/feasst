@@ -1,13 +1,13 @@
 #!/bin/bash
 mkdir -p build
 cd build
-cmake ..
-make install -j12
 
 python3 -m venv feasst_test_env
 source feasst_test_env/bin/activate
 python3 -m pip install --upgrade pip
-pip install ../pyfeasst numpy jupyter matplotlib pandas scipy biopandas pdb2pqr
+pip install numpy jupyter matplotlib pandas scipy biopandas pdb2pqr
+CMAKE_BUILD_PARALLEL_LEVEL=4 pip install ..
+cmake -DUSE_PIP=OFF .. # just to generate plugins.txt for lnch_tutorials.py
 
 echo "" > summary.log
 echo "" > summary_long.log

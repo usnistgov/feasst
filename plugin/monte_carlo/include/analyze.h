@@ -15,7 +15,8 @@ class MonteCarlo;
 class TrialFactory;
 
 /**
-  Perform a read-only action every so many trials.
+  Perform an Action every so many attempted trials that will not change the
+  System, Criteria or Trials.
  */
 class Analyze : public Stepper {
  public:
@@ -53,34 +54,6 @@ class Analyze : public Stepper {
 
   // HWH only used by AnalyzeFactory
   void check_update_(const MonteCarlo& mc);
-};
-
-/**
-  This Analyze does not perform updates.
- */
-class AnalyzeWriteOnly : public Analyze {
- public:
-  explicit AnalyzeWriteOnly(argtype * args);
-
-  void set_trials_per_update(const int trials) override;
-
-  void set_trials_per(const int trials) { set_trials_per_write(trials); }
-
-  explicit AnalyzeWriteOnly(std::istream& istr) : Analyze(istr) {}
-};
-
-/**
-  This Analyze does not perform writes.
- */
-class AnalyzeUpdateOnly : public Analyze {
- public:
-  explicit AnalyzeUpdateOnly(argtype * args);
-
-  void set_trials_per_write(const int trials) override;
-
-  void set_trials_per(const int trials) { set_trials_per_update(trials); }
-
-  explicit AnalyzeUpdateOnly(std::istream& istr) : Analyze(istr) {}
 };
 
 }  // namespace feasst

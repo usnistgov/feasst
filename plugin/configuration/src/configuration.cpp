@@ -95,7 +95,7 @@ Configuration::Configuration(argtype * args) {
   if (!xyz_file.empty() && xyz_euler_file.empty()) {
     FileXYZ().load(xyz_file, this);
   } else if (xyz_file.empty() && !xyz_euler_file.empty()) {
-    MakeFileXYZ({{"euler", "true"}})->load(xyz_euler_file, this);
+    FileXYZ().load(xyz_euler_file, this);
   } else if (!xyz_file.empty() && !xyz_euler_file.empty()) {
     FATAL("cannot read both xyz and xyz_euler files.");
   }
@@ -468,7 +468,7 @@ void Configuration::update_positions(
     const std::vector<std::vector<double> > coords,
     const std::vector<std::vector<double> > eulers) {
   update_positions(coords);
-  ASSERT(dimension() == 3, "Eulers require 3 dimensions.");
+  //ASSERT(dimension() == 3, "Eulers require 3 dimensions.");
   Euler euler;
   int iter_site = 0;
   for (int part_index : group_selects_[0]->particle_indices()) {
@@ -1310,6 +1310,13 @@ void Configuration::site_type_names(std::vector<std::string> * names) const {
   for (int stype = 0; stype < num_site_types(); ++stype) {
     (*names)[stype] = site_type_to_name(stype);
   }
+}
+
+bool Configuration::anisotropic_sites() const {
+  if (model_params().index("anisotropic") == -1) {
+    return false;
+  }
+  return true;
 }
 
 }  // namespace feasst

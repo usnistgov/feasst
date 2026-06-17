@@ -91,7 +91,7 @@ def test():
     import numpy as np
     import pandas as pd
     import matplotlib.pyplot as plt
-    from pyfeasst import macrostate_distribution
+    from feasst import macrostate_distribution
 #        dists = macrostate_distribution.read_appended('lj_crit00.txt', num_states=params['max_particles']+1)
 #        print(dists[0][0].ln_prob())
     with open('lj_crit00.txt', 'r') as file1:

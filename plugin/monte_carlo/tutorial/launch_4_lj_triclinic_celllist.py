@@ -6,13 +6,11 @@ If min_length is too small to ensure all interactions are in neighboring cells, 
 
 import argparse
 import json
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./1.5, help='inverse temperature')
@@ -72,21 +70,18 @@ Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_che
 CheckEnergy trials_per_update={tpc} decimal_places=4
 
 # gcmc initialization
-TrialAdd particle_type=lj
 Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_init.csv
-Tune
-Run until_num_particles={num_particles}
-Remove name=TrialAdd,Log,Tune
+Run until_num_particles={num_particles} Trial=TrialAdd particle_type=lj Stepper=Tune
+Remove name=Log
 
 # nvt equilibration
 ThermoParams beta={beta}
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
-Tune trials_per_tune=20
 Log [write]_eq.csv
 Movie [write]_eq.xyz
-Run until=complete
-Remove name=Tune,Log,Movie
+Run until=complete Stepper=Tune trials_per_tune=20
+Remove name=Log,Movie
 
 # nvt production
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production}

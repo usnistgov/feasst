@@ -13,6 +13,7 @@ class TimerRDTSC;
 
 /**
   Contains multiple Analyze objects.
+  This class is for developers.
  */
 class AnalyzeFactory : public Analyze {
  public:

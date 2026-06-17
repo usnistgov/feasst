@@ -40,6 +40,7 @@ void RemoveAnalyze::serialize(std::ostream& ostr) const {
 }
 
 void RemoveAnalyze::run(MonteCarlo * mc) {
+  WARN("RemoveAnalyze is deprecated. Use Remove instead.");
   DEBUG("name " << name_);
   if (!name_.empty()) {
     for (int analyze = 0; analyze < mc->num_analyzers(); ++analyze) {

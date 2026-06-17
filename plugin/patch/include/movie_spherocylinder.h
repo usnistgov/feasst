@@ -2,7 +2,7 @@
 #ifndef FEASST_SPHEROCYLINDER_MOVIE_SPHEROCYLINDER_H_
 #define FEASST_SPHEROCYLINDER_MOVIE_SPHEROCYLINDER_H_
 
-#include "monte_carlo/include/analyze.h"
+#include "monte_carlo/include/analyze_write_only.h"
 #include "patch/include/file_xyz_spherocylinder.h"
 
 namespace feasst {

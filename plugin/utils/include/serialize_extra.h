@@ -50,9 +50,9 @@ std::shared_ptr<T> template_factory(
     argtype * args) {
   DEBUG("deserializing: " << class_name);
   if (map.count(class_name) == 0) {
-    INFO("candidates:");
+    DEBUG("candidates:");
     for (const auto& ele : map) {
-      INFO(ele.first);
+      DEBUG(ele.first);
     }
     FATAL("The class name \"" << class_name << "\" is not recognized.");
   }

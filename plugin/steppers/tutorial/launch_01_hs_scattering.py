@@ -3,13 +3,11 @@ Simulate hard spheres and compute scattering intensity.
 """
 
 import argparse
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--num_particles', type=int, default=128, help='number of particles')
@@ -60,18 +58,15 @@ TrialTranslate tunable_param=0.2
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # grand canonical ensemble initalization
-TrialAdd particle_type=fluid
-Run until_num_particles={num_particles}
-Remove name=TrialAdd
+Run until_num_particles={num_particles} Trial=TrialAdd particle_type=fluid
 
 # canonical ensemble equilibration
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
-Tune
 CheckEnergy trials_per_update={tpc} decimal_places=6
 Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_eq.txt
-Run until=complete
-Remove name=Tune,Log
+Run until=complete Stepper=Tune
+Remove name=Log
 
 # canonical ensemble production
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production}
@@ -86,7 +81,7 @@ def post_process(params):
     import numpy as np
     import matplotlib.pyplot as plt
     import pandas as pd
-    from pyfeasst import scattering
+    from feasst import scattering
     gr=pd.read_csv(params['prefix'] + '000_gr.csv', comment="#")
     iq=pd.read_csv(params['prefix'] + '000_iq.csv', comment="#")
     grp = iq.groupby('q', as_index=False)

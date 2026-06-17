@@ -5,9 +5,9 @@ Compute the second virial coefficient using coarse-grained models.
 import subprocess
 import numpy as np
 import pandas as pd
-from pyfeasst import accumulator
-from pyfeasst import fstio
-from pyfeasst import physical_constants
+from feasst import accumulator
+from feasst import fstio
+from feasst import physical_constants
 from launch_1_cg_protein import parse
 from launch_1_cg_protein import generate_domain_pairs
 

@@ -5,14 +5,12 @@ Distances are based on the diameter of the cylinder (e.g., unit diameter).
 
 import argparse
 import json
-from pyfeasst import fstio
+from feasst import fstio
 from make_spherocylinder import hard_spherocylinder
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     #parser.add_argument('--fstprt', type=str, default='/feasst/plugin/patch/particle/spherocylinder.txt',
     #                    help='FEASST particle definition')
     parser.add_argument('--num_particles', type=int, default=100, help='number of particles')
@@ -90,19 +88,15 @@ Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_che
 CheckEnergy trials_per_update={tpc} decimal_places=6
 
 # gcmc initialization
-TrialAdd particle_type=small
 Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
-Log [write]_init.txt
 Tune
-Run until_num_particles={num_particles}
-Remove name=TrialAdd,Log
+Run until_num_particles={num_particles} Trial=TrialAdd particle_type=small Stepper=Log [write]_init.txt
 
 # nvt equilibration
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
-Log [write]_eq.txt
 Movie [write]_eq.xyz
-Run until=complete
-Remove name=Tune,Log,Movie
+Run until=complete Stepper=Log [write]_eq.txt
+Remove name=Tune,Movie
 
 # nvt production
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production}

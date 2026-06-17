@@ -2,7 +2,7 @@
 #ifndef FEASST_STEPPERS_CHECK_PHYSICALITY_H_
 #define FEASST_STEPPERS_CHECK_PHYSICALITY_H_
 
-#include "monte_carlo/include/analyze.h"
+#include "monte_carlo/include/analyze_update_only.h"
 
 namespace feasst {
 

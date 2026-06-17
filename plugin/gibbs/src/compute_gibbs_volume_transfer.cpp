@@ -23,12 +23,8 @@ void ComputeGibbsVolumeTransfer::perturb_and_acceptance(
     Random * random) {
   DEBUG("ComputeGibbsVolumeTransfer");
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
-  int config_del = 0;
-  int config_add = 1;
-  if ((*stages)[0]->trial_select().configuration_index() == 0) {
-    config_add = 0;
-    config_del = 1;
-  }
+  const int config_add = (*stages)[0]->trial_select().configuration_index();
+  const int config_del = (*stages)[1]->trial_select().configuration_index();
   DEBUG("config_add " << config_add);
   DEBUG("config_del " << config_del);
   const Configuration& conf_add = system->configuration(config_add);

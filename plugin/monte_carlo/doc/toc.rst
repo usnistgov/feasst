@@ -20,11 +20,14 @@
    PerturbMove
    Stepper
    Analyze
+   AnalyzeUpdateOnly
    Modify
+   ModifyUpdateOnly
    PerturbRemove
    TrialSelect
    TrialSelectBond
    TrialComputeVolume
+   AnalyzeWriteOnly
    Action
    ConvertToRefPotential
    PerturbAddRemove
@@ -47,10 +50,10 @@
    PerturbVolume
    ModifyFactory
    PerturbRotate
-   PerturbTranslate
-   PerturbAnywhere
-   PerturbAdd
    PerturbDistance
    PerturbDistanceAngle
    PerturbDihedral
+   PerturbTranslate
+   PerturbAnywhere
+   PerturbAdd
    Rosenbluth

@@ -10,21 +10,21 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import physical_constants
-from pyfeasst import macrostate_distribution
+from feasst import fstio
+from feasst import physical_constants
+from feasst import macrostate_distribution
 import launch_04_lj_tm_parallel
 
 def parse(temperature=525):
     """ Parse arguments from command line or change their default values. """
     params, args = launch_04_lj_tm_parallel.parse(
-          fstprt='/feasst/particle/spce_new.txt',
-          beta=1./(temperature*physical_constants.MolarGasConstant().value()/1e3), # mol/kJ
-          beta_mu=-8.14,
-          min_sweeps=5,
-          cubic_side_length=20,
-          max_particles=265,
-          window_alpha=1.5)
+        fstprt='/feasst/particle/spce_new.txt',
+        beta=1./(temperature*physical_constants.MolarGasConstant().value()/1e3), # mol/kJ
+        beta_mu=-8.14,
+        min_sweeps=5,
+        cubic_side_length=20,
+        max_particles=265,
+        window_alpha=1.5)
     params['script'] = __file__
     params['prefix'] = 'spce'
     params['ewald_alpha'] = 5.6/params['cubic_side_length']

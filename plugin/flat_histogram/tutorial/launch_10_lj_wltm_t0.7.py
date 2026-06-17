@@ -10,9 +10,9 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import macrostate_distribution
-from pyfeasst import multistate_accumulator
+from feasst import fstio
+from feasst import macrostate_distribution
+from feasst import multistate_accumulator
 import launch_04_lj_tm_parallel
 
 def parse():

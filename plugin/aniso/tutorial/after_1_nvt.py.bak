@@ -10,8 +10,6 @@ from pyfeasst import physical_constants
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
-                    help='FEASST install directory (e.g., the path to build)')
 PARSER.add_argument('--temperature', type=float, default=298.15, help='temperature in Kelvin')
 PARSER.add_argument('--concentration', type=float, default=100, help='concentration of protein in g/L')
 PARSER.add_argument('--molecular_weight', type=float, default=14315.03534, help='molecular weight of protein in g/mol')

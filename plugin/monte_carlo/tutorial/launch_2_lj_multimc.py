@@ -5,13 +5,11 @@ are run one after the other in the same text file.
 
 import argparse
 import json
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./0.9, help='inverse temperature')
@@ -78,23 +76,20 @@ Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_che
 CheckEnergy trials_per_update={tpc} decimal_places=4
 
 # gcmc initialization
-TrialAdd particle_type=lj
 {let_write}
 Log [write]_init.csv
-Tune
-Run until_num_particles={num_particles}
-Remove name=TrialAdd,Log,Tune
+Run until_num_particles={num_particles} Trial=TrialAdd particle_type=lj Stepper=Tune
+Remove name=Log
 
 # npt equilibration
 ThermoParams beta={beta} pressure={pressure}
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
 TrialVolume weight=0.005 tunable_param=0.2 tunable_target_acceptance=0.5
-Tune trials_per_tune=20
 Log [write]_eq.csv
 Movie [write]_eq.xyz
 Density [write]_density_eq.csv
-Run until=complete
-Remove name=Tune,Log,Movie,Density
+Run until=complete Stepper=Tune trials_per_tune=20
+Remove name=Log,Movie,Density
 
 # npt production
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production}

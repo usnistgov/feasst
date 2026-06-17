@@ -12,10 +12,14 @@ class MonteCarlo;
 
 typedef std::map<std::string, std::string> argtype;
 
-/**
+/*
   An Action is for use with the MonteCarlo(arglist) constructor.
   Actions are performed immediately when they reach the top of the arglist.
-  Examples include modifications to the simulations, or the initiation of a run.
+ */
+/**
+  An Action is performed immediately and only once.
+  Actions can Modify or Analyze the MonteCarlo simulation.
+  Examples include initiating a run or writing analysis files.
  */
 class Action {
  public:

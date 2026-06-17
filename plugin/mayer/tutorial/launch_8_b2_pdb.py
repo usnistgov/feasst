@@ -5,15 +5,13 @@ Compute the second osmotic virial coefficient of rigid all-atom model.
 import argparse
 import numpy as np
 import subprocess
-from pyfeasst import fstio
-from pyfeasst import physical_constants
-from pyfeasst import coarse_grain_pdb
+from feasst import fstio
+from feasst import physical_constants
+from feasst import coarse_grain_pdb
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--temperature', type=float, default=298.15, help='temperature in Kelvin')
     parser.add_argument('--pH', type=float, default=6, help='pH')
     parser.add_argument('--ionic_strength', type=float, default=0.15, help='formulation ionic strength of NaCl in Molar units. If -1, HardSphere only.')
@@ -22,7 +20,7 @@ def parse():
     parser.add_argument('--molecular_weight', type=float, default=14315, help='molecular weight of protein in g/mol')
     parser.add_argument('--num_beta_taylor', type=int, default=10, help='number of Taylor series coefficients')
     parser.add_argument('--reference_sigma', type=float, default=30, help='size of hard sphere on COM of rigid domain')
-    parser.add_argument('--trials_per', type=int, default=1e2, help='number of trials per cycle')
+    parser.add_argument('--tpc', type=int, default=1e2, help='number of trials per cycle')
     parser.add_argument('--equilibration', type=int, default=1e2, help='number of cycles in equilibration')
     parser.add_argument('--production', type=int, default=1e9, help='number of cycles in production')
     parser.add_argument('--seed', type=int, default=-1,
@@ -32,6 +30,7 @@ def parse():
     parser.add_argument('--run_type', '-r', type=int, default=0,
                         help='0: run, 1: submit to queue, 2: post-process')
     parser.add_argument('--hours_terminate', type=float, default=0.5, help='hours until termination')
+    parser.add_argument('--hours_checkpoint', type=float, default=0.5, help='hours until checkpoint')
     parser.add_argument('--num_jobs', type=int, default=3, help='Number of jobs in queue')
     parser.add_argument('--procs_per_job', type=int, default=1, help='Number of jobs in queue')
     parser.add_argument('--scratch', type=str, default=None,
@@ -91,12 +90,14 @@ Configuration cubic_side_length={cubic_side_length} particle_type=domain1:{domai
 {potential}
 RefPotential ref=hs Model=HardSphere sigma=0 cutoff=0 sigma0={reference_sigma} cutoff0={reference_sigma} sigma{num_site_types}={reference_sigma} cutoff{num_site_types}={reference_sigma}
 ThermoParams beta={beta}
-MayerSampling trials_per_cycle={trials_per} cycles_to_complete={equilibration} num_beta_taylor={num_beta_taylor}
+MayerSampling trials_per_cycle={tpc} cycles_to_complete={equilibration} num_beta_taylor={num_beta_taylor}
 TrialTranslate new_only=true ref=hs tunable_param=35 group=mobile
 TrialRotate new_only=true ref=hs tunable_param=40
+Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
+CheckEnergy trials_per_update={tpc} decimal_places=4
 
 # tune trial parameters
-Let [write]=trials_per_write={trials_per} file_name={prefix}_{domain1}-{domain2}_{sim:03d}
+Let [write]=trials_per_write={tpc} file_name={prefix}_{domain1}-{domain2}_{sim:03d}
 Log [write]_eq.csv
 CriteriaWriter [write]_b2_eq.csv
 Tune
@@ -107,12 +108,12 @@ Remove name=CriteriaWriter,Log,Tune
 Log [write].csv
 #Movie [write].xyz
 CriteriaWriter [write]_b2.csv
-MayerSampling trials_per_cycle={trials_per} cycles_to_complete={production} num_beta_taylor={num_beta_taylor}
+MayerSampling trials_per_cycle={tpc} cycles_to_complete={production} num_beta_taylor={num_beta_taylor}
 Run until=complete
 """.format(**params))
 
 def post_process(params):
-    from pyfeasst import accumulator
+    from feasst import accumulator
     b2acc = accumulator.Accumulator()
     for p in range(params['num_sims']):
         params['sim'] = p

@@ -4,6 +4,7 @@
 
 #include "system/include/model_one_body.h"
 #include "shape/include/shape.h"
+#include "shape/include/shaped_entity.h"
 
 namespace feasst {
 
@@ -17,7 +18,7 @@ typedef std::map<std::string, std::string> argtype;
   The epsilon parameter is the well depth.
  */
 class ModelSquareWellShape : public ModelOneBody,
-                     public ShapedEntity {
+                             public ShapedEntity {
  public:
   // for serialization only
   ModelSquareWellShape() { std::string class_name_ = "ModelSquareWellShape"; }

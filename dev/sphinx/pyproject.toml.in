@@ -1,0 +1,31 @@
+# Edit /feasst/dev/sphinx/pyproject.toml.in (CMake template) and not /feasst/pyproject.toml
+
+[build-system]
+requires = ["pybind11>=2.6.1",
+            "cmake>=3.14",
+            "scikit-build>=0.12.0",
+            "setuptools>=40.8.0",
+            "wheel",
+            "pycurses",
+            "numpy",
+            "matplotlib",
+            "pandas",
+            "argparse",
+            ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "feasst"
+version = "@FEASST_VERSION@"
+description="https://pages.nist.gov/feasst"
+readme = "README.rst"
+authors = [
+  { name = "Harold Hatch", email = "harold.hatch@nist.gov" },
+]
+requires-python = ">=3.7"
+
+[project.scripts]
+feasst-menu = "feasst.menu:main_function"
+
+[tool.setuptools.packages.find]
+where = ["src"]

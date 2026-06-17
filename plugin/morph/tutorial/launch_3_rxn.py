@@ -6,14 +6,12 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import macrostate_distribution
+from feasst import fstio
+from feasst import macrostate_distribution
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--beta', type=float, default=1, help='inverse temperature')
     parser.add_argument('--num_particles', type=int, default=20, help='total number of particles')
     parser.add_argument('--cubic_side_length', type=float, default=8,
@@ -72,13 +70,10 @@ EndFor
 CheckEnergy trials_per_update={tpc} decimal_places=6
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
-# initialization number of particles
+# initialize number of particles
 Let [write]=trials_per_write={tpc} output_file={prefix}n{job}s{sim:03d}
-Log [write]_fill.csv
 Tune
-TrialAdd particle_type=reactant1
-Run until_num_particles={num_particles} particle_type=reactant1
-Remove name=TrialAdd,Log
+Run until_num_particles={num_particles} particle_type=reactant1 Trial=TrialAdd Stepper=Log [write]_fill.csv
 
 # equilibration
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
@@ -86,9 +81,8 @@ Let [TrialMorph]=TrialMorph weight=0.1 ref=noixn particle_type
 [TrialMorph]=reactant1,reactant2 particle_type_morph=product1,product2
 [TrialMorph]=product1,reactant1 particle_type_morph=reactant1,product1
 [TrialMorph]=product2,reactant2 particle_type_morph=reactant2,product2
-Log [write]_eq.csv
-Run until=complete
-Remove name=Tune,Log
+Run until=complete Stepper=Log [write]_eq.csv
+Remove name=Tune
 
 # production
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}

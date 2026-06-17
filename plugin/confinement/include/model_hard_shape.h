@@ -4,6 +4,7 @@
 
 #include "system/include/model_one_body.h"
 #include "shape/include/shape.h"
+#include "shape/include/shaped_entity.h"
 
 namespace feasst {
 

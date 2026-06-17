@@ -18,7 +18,7 @@ class ModelTwoBodyFactory : public ModelTwoBody {
  public:
   //@{
   /** @name Arguments
-    - models: comma-separated list of ModelTwoBody.
+    - models: comma-separated list of ModelTwoBody names.
     - model_file: if not empty, file name that lists the ModelTwoBody
       (default: empty).
       The first line is simply ModelTwoBodyFactory.

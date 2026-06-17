@@ -1,0 +1,14 @@
+# This is a FEASST Configuration::model_param_file which may override the default Lorentz-Berthelot mixing rules.
+# Each line has a 3- or 4-column space-separated format:
+# [site type 1] [property name] [value]
+# [site type 1] [site type 2] [property name] [value]
+
+sigma N CH3 3.3175
+epsilon CO2 N 121.5
+epsilon CO2 CH4 156.0
+epsilon CO2 CH3 143.0
+epsilon CH4 CH3 127.50
+epsilon N CH3 78.96
+mie_lambda_r CO2 N 20.27
+mie_lambda_r CH4 CH3 12.628
+mie_lambda_r N CH3 12.25525

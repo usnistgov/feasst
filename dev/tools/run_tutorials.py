@@ -2,7 +2,7 @@ from pathlib import Path
 import multiprocessing
 import subprocess
 import argparse
-from pyfeasst import cd
+from feasst import cd
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)

@@ -11,15 +11,13 @@ import subprocess
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import physical_constants
-from pyfeasst import macrostate_distribution
+from feasst import fstio
+from feasst import physical_constants
+from feasst import macrostate_distribution
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fluid', type=str, default='/feasst/particle/co2.txt',
                         help='FEASST particle definition of a fluid particle / adsorbate.')
     parser.add_argument('--MOF', type=str, default='/feasst/plugin/confinement/particle/ZIF8_rep222_PerezPellitero.txt',
@@ -104,12 +102,10 @@ WriteStepper analyze_name=Movie
 Remove name=Movie
 
 # gcmc initialization and nvt equilibration
-TrialAdd weight=50.0 particle_type=fluid
 Let [write]=trials_per_write={tpc} output_file={prefix}j{job:03d}s{sim:03d}
 Log [write]_eq.csv
 Tune
-Run until_num_particles={min_particles} particle_type=fluid
-Remove name=TrialAdd
+Run until_num_particles={min_particles} particle_type=fluid Trial=TrialAdd weight=50.0
 ThermoParams beta={beta} chemical_potential={mu}
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
 Run until=complete

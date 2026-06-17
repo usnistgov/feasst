@@ -9,8 +9,9 @@
    PrinterXYZ
    FileVMD
    PhysicalConstants
-   ModelParam
    NeighborCriteria
+   ModelParam
+   Epsilon
    Group
    Domain
    Select

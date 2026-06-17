@@ -11,8 +11,8 @@ namespace feasst {
 typedef std::map<std::string, std::string> argtype;
 
 /**
- * Half of the time, attempt to add a particle of given type.
- * The other half of the time, attempt to remove a particle of that type.
+  Half of the time, attempt to add a particle of given type.
+  The other half of the time, attempt to remove a particle of that type.
  */
 class TrialAddRemove : public Trial {
  public:

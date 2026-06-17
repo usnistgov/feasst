@@ -8,13 +8,11 @@ import subprocess
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--plot_table', type=int, default=0, help='0: no plot, 1: plot')
@@ -103,7 +101,7 @@ Metropolis
 Log output_file={prefix}_one.csv max_precision=true clear_file=true
 Run num_trials=1
 """.format(**params))
-    syscode = subprocess.call(params['feasst_install']+"""bin/fst < {prefix}_launch.txt > {prefix}_launch.log""".format(**params), shell=True, executable='/bin/bash')
+    syscode = subprocess.call("""feasst < {prefix}_launch.txt > {prefix}_launch.log""".format(**params), shell=True, executable='/bin/bash')
     if syscode > 0: sys.exit(1)
 
 def write_feasst_script(params, script_file):

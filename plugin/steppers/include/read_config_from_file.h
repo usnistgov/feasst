@@ -5,7 +5,7 @@
 #include <string>
 #include <fstream>
 #include "configuration/include/file_xyz.h"
-#include "monte_carlo/include/modify.h"
+#include "monte_carlo/include/modify_update_only.h"
 
 namespace feasst {
 

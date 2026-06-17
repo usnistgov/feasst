@@ -2,7 +2,7 @@
 #ifndef FEASST_CHARGE_CHECK_NET_CHARGE_H_
 #define FEASST_CHARGE_CHECK_NET_CHARGE_H_
 
-#include "monte_carlo/include/analyze.h"
+#include "monte_carlo/include/analyze_update_only.h"
 #include "charge/include/ewald.h"
 
 namespace feasst {

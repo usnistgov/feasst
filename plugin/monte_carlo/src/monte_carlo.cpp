@@ -2,6 +2,7 @@
 #include <fstream>
 #include "utils/include/serialize_extra.h"
 #include "utils/include/arguments.h"
+#include "utils/include/arguments_extra.h"  // parse
 #include "utils/include/file.h"
 #include "utils/include/io.h"
 #include "utils/include/checkpoint.h"
@@ -31,22 +32,6 @@
 #include "monte_carlo/include/metropolis.h"
 
 namespace feasst {
-
-/// If args contains derived class of T, return factory pointer and remove from
-/// args.
-template <class T>
-std::shared_ptr<T> parse(T * obj, arglist * args) {
-  std::shared_ptr<T> new_obj;
-  const auto& map = obj->deserialize_map();
-  DEBUG("parsing " << args->begin()->first);
-  if (map.count(args->begin()->first) > 0) {
-    new_obj = obj->factory(args->begin()->first, &args->begin()->second);
-    DEBUG(new_obj->class_name());
-    feasst_check_all_used(args->begin()->second);
-    return new_obj;
-  }
-  return new_obj;
-}
 
 void MonteCarlo::set_timer() {
   timer_ = std::make_unique<TimerRDTSC>(5);
@@ -96,6 +81,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
   for (int copy = 0; copy <= num_copy; ++copy) {
     DEBUG("copy " << copy);
     if (parse_for_num_configs_ > 1) {
+      WARN("CopyFollowingLines is deprecated.");
       if (copy == 0 && args->begin()->first != "EndCopy") {
         args->begin()->second.insert({"configuration_index", str(copy)});
         args->insert(args->begin() + 1, *args->begin());
@@ -121,6 +107,7 @@ void MonteCarlo::parse_args(arglist * args, const bool silent) {
     if (!silent &&
         args->begin()->first != "CopyFollowingLines" &&
         args->begin()->first != "EndCopy") {
+//    if (!silent) {
       std::cout << args->begin()->first;
       std::string second = str(args->begin()->second);
       if (!second.empty() && second != "=") {
@@ -325,6 +312,7 @@ void MonteCarlo::begin(arglist args, const bool silent) {
 }
 
 void MonteCarlo::resume(const bool silent) {
+  DEBUG("action? " << action_);
   if (action_) {
     run(action_);
   }
@@ -354,6 +342,7 @@ void MonteCarlo::run(std::shared_ptr<Action> action) {
   action_->run(this);
 //  action_->run(&system_, criteria_, trial_factory_.get(), analyze_factory_.get(),
 //               modify_factory_.get(), checkpoint_, random_);
+  action_.reset();
 }
 
 void MonteCarlo::seed_random(const int seed) {
@@ -367,7 +356,7 @@ void MonteCarlo::add(std::shared_ptr<Configuration> config) {
   system_->add(config);
   config_set_ = true;
   if (potential_set_) system_set_ = true;
-  ASSERT(!criteria_set_, "add config before criteria");
+  ASSERT(!criteria_set_, "Configuration must be added before Criteria");
 }
 
 void MonteCarlo::potential_check_(const Potential& pot) {

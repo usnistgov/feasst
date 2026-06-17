@@ -10,7 +10,7 @@
 namespace feasst {
 
 /**
-  Remove an Analyze.
+  Remove an Analyze. This class is deprecated. Use Remove instead.
  */
 class RemoveAnalyze : public Action {
  public:

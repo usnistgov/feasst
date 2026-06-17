@@ -2,7 +2,7 @@
 #ifndef FEASST_STEPPERS_PROFILE_CPU_H_
 #define FEASST_STEPPERS_PROFILE_CPU_H_
 
-#include "monte_carlo/include/analyze.h"
+#include "monte_carlo/include/analyze_write_only.h"
 
 namespace feasst {
 

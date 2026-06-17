@@ -23,7 +23,10 @@ FileXYZ::FileXYZ(argtype * args) {
     }
   }
   append_ = boolean("append", args, false);
-  euler_ = boolean("euler", args, false);
+  if (used("euler", *args)) {
+    WARN("FileXYZ::euler argument is deprecated and now automatic.");
+    boolean("euler", args);
+  }
 }
 FileXYZ::FileXYZ(argtype args) : FileXYZ(&args) {
   feasst_check_all_used(args);
@@ -55,6 +58,8 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file,
   DEBUG("coord " << feasst::feasst_str(coord) << " pos " << position.str());
   config->set_side_lengths(position);
 
+  bool anisotropic_sites = config->anisotropic_sites();
+
   /// read the site types and coordinates (eulers optional)
   std::vector<int> site_types;
   std::vector<std::string> site_type_names;
@@ -62,7 +67,7 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file,
   site_type_names.resize(num_sites);
   std::vector<std::vector<double> > coords, eulers;
   coords.resize(num_sites, std::vector<double>(config->dimension()));
-  eulers.resize(num_sites, std::vector<double>(config->dimension()));
+  eulers.resize(num_sites, std::vector<double>(3));
   for (int i = 0; i < num_sites; ++i) {
     std::getline(xyz_file, line);
     std::istringstream iss(line);
@@ -75,9 +80,13 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file,
       iss >> coords[i][dim];
     }
     DEBUG("coord " << coords[i][0]);
-    if (euler_) {
-      ASSERT(config->dimension() == 3, "Euler must have 3 dimensions.");
-      for (int dim = 0; dim < config->dimension(); ++dim) {
+    if (anisotropic_sites) {
+      if (config->dimension() < 3) {
+        double z;
+        iss >> z;
+        ASSERT(std::abs(z) < 1e-8, "FileXYZ reads z=0 if 2d, but z:" << z);
+      }
+      for (int dim = 0; dim < 3; ++dim) {
         iss >> eulers[i][dim];
       }
       DEBUG("euler " << eulers[i][0]);
@@ -122,7 +131,7 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file,
       << "in the same order as present in the XYZ file.");
   }
 
-  if (euler_) {
+  if (anisotropic_sites) {
     config->update_positions(coords, eulers);
   } else {
     config->update_positions(coords);
@@ -186,7 +195,7 @@ void FileXYZ::write(const std::string file_name,
     << domain.xz() << " "
     << domain.yz() << " "
     << std::endl;
-  PrinterXYZ printer(file, euler_);
+  PrinterXYZ printer(file, config.anisotropic_sites());
   VisitConfiguration().loop(config, &printer, gindex);
 }
 
@@ -199,20 +208,22 @@ void FileXYZ::write_for_vmd(const std::string file_name,
 }
 
 void FileXYZ::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(2867, ostr);
+  feasst_serialize_version(2868, ostr);
   feasst_serialize(group_index_, ostr);
   feasst_serialize(group_, ostr);
   feasst_serialize(append_, ostr);
-  feasst_serialize(euler_, ostr);
 }
 
 FileXYZ::FileXYZ(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 2867, "version mismatch: " << version);
+  ASSERT(version >= 2867 && version <= 2868, "version mismatch: " << version);
   feasst_deserialize(&group_index_, istr);
   feasst_deserialize(&group_, istr);
   feasst_deserialize(&append_, istr);
-  feasst_deserialize(&euler_, istr);
+  if (version == 2867) {
+    double euler; // deserialize argument that is now determined by config.
+    feasst_deserialize(&euler, istr);
+  }
 }
 
 }  // namespace feasst

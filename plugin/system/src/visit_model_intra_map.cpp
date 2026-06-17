@@ -13,7 +13,7 @@ namespace feasst {
 
 FEASST_MAPPER(VisitModelIntraMap,);
 
-VisitModelIntraMap::VisitModelIntraMap(argtype * args) : VisitModel() {
+VisitModelIntraMap::VisitModelIntraMap(argtype * args) : VisitModel(args) {
   class_name_ = "VisitModelIntraMap";
   exclude_bonds_ = boolean("exclude_bonds", args, false);
   exclude_angles_ = boolean("exclude_angles", args, false);

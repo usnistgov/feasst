@@ -45,6 +45,7 @@ void RemoveTrial::serialize(std::ostream& ostr) const {
 }
 
 void RemoveTrial::run(MonteCarlo * mc) {
+  WARN("This class is deprecated. Use Remove instead.");
   if (!name_.empty()) {
     for (int trial = 0; trial < mc->trials().num(); ++trial) {
       if (mc->trial(trial).class_name() == name_) {

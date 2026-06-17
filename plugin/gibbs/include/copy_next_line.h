@@ -11,6 +11,7 @@ namespace feasst {
 
 /**
   Copy the next line that was parsed by MonteCarlo.
+  This class is deprecated.
  */
 class CopyNextLine : public Action {
  public:

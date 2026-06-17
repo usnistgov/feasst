@@ -2,7 +2,7 @@
 #ifndef FEASST_STEPPERS_WRAP_PARTICLES_H_
 #define FEASST_STEPPERS_WRAP_PARTICLES_H_
 
-#include "monte_carlo/include/modify.h"
+#include "monte_carlo/include/modify_update_only.h"
 
 namespace feasst {
 

@@ -9,15 +9,13 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
+from feasst import fstio
 sys.path.insert(0, '../../patch/tutorial/')
 from make_spherocylinder import hard_spherocylinder
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--beta', type=float, default=1./1.5, help='inverse temperature')
     parser.add_argument('--num_particles', type=int, default=100, help='number of particles')
     parser.add_argument('--small_cylinder_length', type=float, default=0, help='small cylinder length (distance between center of end caps)')

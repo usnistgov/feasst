@@ -11,13 +11,11 @@ import time
 import argparse
 import random
 import socket
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt',
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1/0.9, help='1 / kB / T')
@@ -71,16 +69,13 @@ ThermoParams beta={beta} chemical_potential=-1
 Metropolis
 TrialTranslate tunable_param=2
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
-TrialAdd particle_type=lj
-Run until_num_particles={num_particles}
-Remove name=TrialAdd
+Run until_num_particles={num_particles} Trial=TrialAdd particle_type=lj
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration_cycles}
-Tune
 CheckEnergy trials_per_update={tpc} decimal_places=6
 Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_eq.csv
-Run until=complete
-Remove name=Tune,Log
+Run until=complete Stepper=Tune
+Remove name=Log
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
 Log [write].csv
 Movie [write].xyz

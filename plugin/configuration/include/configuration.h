@@ -52,39 +52,38 @@ class Configuration {
     The following arguments are parsed in the order listed,
     regardless of the order input by the user.
 
-    - Domain arguments may be parsed here.
+    - Domain arguments.
     - physical_constants: optional class_name of PhysicalConstants.
       These are typically only used in charged interactions to compute the
       conversion factor between squared charge over distance and energy.
     - particle_type: dictionary of names and files for different particle types.
       The dictionary syntax is name1:file_name1,name2:file_name2,etc.
-      If only file_name are provided without names, the names will default to
-      0, 1, etc.
+      If only file_name are provided without names, the names will be 0, 1, etc.
       Particle names must be unique.
       See FileParticle for description of the file required to define particles.
-    - add_num_[type name]_particles: add this many particles of given type name.
-      Particles are added with the coordinates in the file, so adding multiple
-      will overlap.
-    - xyz_file: optionally load FileXYZ if not empty (default: empty).
+    - add_num_[type]_particles: optionally add this many particles of the given
+      particle type name. Particles are added with the coordinates in the file,
+      so adding multiple will overlap.
+    - xyz_file: load FileXYZ if provided.
       Note that Domain tilt factors are not read by FileXYZ.
-    - xyz_euler_file: optionally load FileXYZEuler if not empty (default: empty).
-    - group: comma-separated list of group names.
+    - xyz_euler_file: load FileXYZEuler if provided.
+    - group: optional comma-separated list of group names.
       All following arguments of the group are then expected to have the name
       prepended with an underscore (e.g., "group=oxygen oxygen_site_type=O").
-    - model_param_file: input ModelParam with this file with either a three-
-      or four-column space-separated format on each line as follows:
+    - model_param_file: optionally input ModelParam with this file with either a
+      three- or four-column space-separated format on each line as follows:
       "[parameter] [site type name] [value]"
       "[parameter] [site type name 1] [site type name 2] [value]"
       This file can be used to override the otherwise default Lorentz-Berthelot
       combining rules.
-      Mixing is always symmetric (e.g., params[i][j] == param[j][i])
+      Mixing is always symmetric (e.g., params[i][j] == param[j][i]).
       Comment lines beginning with the '#' character are ignored.
     - [parameter]: optionally set the [parameter] of all types to this value.
       The "[parameter]" is to be substituted for epsilon, sigma, cutoff, etc.
-    - [parameter][site type name]: optionally set the [parameter] value of the
+    - [parameter][type]: optionally set the [parameter] value of the
       given site type name.
       These are applied after (overriding) the above argument for all types.
-    - [parameter][site type name 1]_[site type name 2]: optionally set the
+    - [parameter][type1]_[type2]: optionally set the
       [parameter] value of the 1-2 mixed type.
       These are applied after (overriding) the above argument for single types.
     - wrap: wrap particle centers within domain (default: true).
@@ -243,6 +242,9 @@ class Configuration {
 
   /// For unique_type, return index of a given site type name.
   int site_type_name_to_index(const std::string& site_type_name) const;
+
+  /// Return true if any of the sites are anisotropic.
+  bool anisotropic_sites() const;
 
   //@}
   /** @name Groups

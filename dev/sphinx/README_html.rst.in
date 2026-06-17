@@ -44,7 +44,56 @@ Convenient usage
 * Interface as `text input <tutorial/tutorial.html>`_, `C++ library <plugin/README.html>`_, `Python module <python/README.html>`_ and `client-server C++ or Python <plugin/server/README.rst>`_
 * `OpenMP parallelization <plugin/flat_histogram/doc/CollectionMatrixSplice_arguments.html>`_ and `prefetching <plugin/prefetch/README.html>`_, and save and restart with `checkpoint <plugin/utils/doc/Checkpoint_arguments.html>`_ files
 
-How to compile
+Quickstart
+===========
+
+.. code-block:: bash
+
+    sudo apt install g++ cmake python3-venv               # C++, CMake and Python3
+    python3 -m venv feasst; source ~/feasst/bin/activate  # or use existing env/conda
+    CMAKE_BUILD_PARALLEL_LEVEL=8 pip3 install feasst      # install
+    feasst-menu                                           # interactive tutorial
+
+For Mac/Linux use apt, yum, dnf, brew(homebrew), etc.
+For Windows, use WSL.
+For HPC, use "module avail/load."
+
+C++ Executable
+=============================
+
+Run with BASH/etc:
+
+.. code-block:: bash
+
+@FEASST_EXAMPLE@
+Restart with checkpoint.fst and BASH/etc:
+
+.. code-block:: bash
+
+@FEASST_RESTART@
+Run with script.txt and BASH/etc:
+
+.. code-block:: bash
+
+    feasst < script.txt
+
+Python Module
+=======================
+
+Install with BASH/etc:
+
+.. code-block:: bash
+
+    sudo apt install g++ cmake python3-dev python3-venv
+    python3 -m venv feasst; source ~/feasst/bin/activate
+    CMAKE_BUILD_PARALLEL_LEVEL=8 CMAKE_ARGS="-DUSE_PYBIND11=ON" pip install feasst
+
+Run in Python:
+
+.. code-block:: python
+
+@FEASST_PYTHON_EX@
+C++ Library or Development
 ===============================================
 
 FEASST requires C++14 and `CMake <https://cmake.org/>`_, and is compiled with the following Bash commands:
@@ -56,16 +105,13 @@ FEASST requires C++14 and `CMake <https://cmake.org/>`_, and is compiled with th
     curl -OL https://github.com/usnistgov/feasst/archive/refs/tags/v@FEASST_VERSION@.tar.gz # download
     tar -xf v@FEASST_VERSION@.tar.gz           # uncompress
     mkdir feasst-@FEASST_VERSION@/build; cd $_ # out-of-source build
-    cmake ..                          # find prerequisites
+    cmake -DUSE_PIP=OFF ..            # find prerequisites
     make install -j 4                 # compile on 4 threads
     # Optional Python packages used in tutorials. Virtual environment recommended:
     # https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments
-    pip install jupyter matplotlib pandas scipy ../pyfeasst # ../ ensures pyfeasst matches feasst
+    pip install jupyter matplotlib pandas scipy ..
     # Because online documentation changes with verison, open local version documentation.
     open ../html/index.html
-
-How to run a simulation
-===============================================
 
 Input a text file to the compiled executable.
 
@@ -73,14 +119,10 @@ Input a text file to the compiled executable.
 
     $HOME/feasst-@FEASST_VERSION@/build/bin/fst < $HOME/feasst-@FEASST_VERSION@/tutorial/example.txt
 
-The following text input file is explained in detail in the first :doc:`tutorial <tutorial/tutorial>`.
-
-.. literalinclude:: tutorial/example.txt
-
-
 How to learn more
 ===============================================
 
+* Use the "feasst-menu" command.
 * Review the :doc:`first <tutorial/tutorial>` and :doc:`second tutorial<tutorial/launch>`.
 
   * Copy/paste or use the URL to find the code (e.g., https://pages.nist.gov/feasst/tutorial/launch.html is ``$HOME/feasst/tutorial/launch.py``).

@@ -9,15 +9,14 @@
 namespace feasst {
 
 /**
-  Add a reference potential.
-  Each unique name added the potential to a different RefPotential that can be
-  called specifically.
+  Add a reference Potential, which is used in MayerSampling, dual-cut
+  configurational bias and other algorithms.
  */
 class RefPotential : public Action {
  public:
   //@{
   /** @name Arguments
-    - ref: name of reference potential (default: 0).
+    - ref: Name of reference potential (default: 0).
     - Potential arguments.
    */
   explicit RefPotential(argtype args = argtype());

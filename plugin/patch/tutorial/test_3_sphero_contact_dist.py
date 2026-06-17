@@ -9,13 +9,11 @@ import numpy as np
 import pandas as pd
 from scipy.spatial.transform import Rotation as R
 from scipy.optimize import minimize
-from pyfeasst import fstio
+from feasst import fstio
 from make_spherocylinder import hard_spherocylinder
 
 # Parse arguments from command line or change their default values.
 PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-PARSER.add_argument('--feasst_install', type=str, default='../../../build/',
-                    help='FEASST install directory (e.g., the path to build)')
 PARSER.add_argument('--cylinder_length', type=float, default=3, help='large cylinder length (distance between center of end caps)')
 PARSER.add_argument('--cylinder_diameter', type=float, default=1, help='large cylinder diameter')
 PARSER.add_argument('--cubic_side_length', type=int, default=100, help='cubic periodic boundary length')
@@ -69,8 +67,8 @@ TwoParticleContact output_file {prefix}_dist.txt tolerance 1e-6 dimension 0
 
 def get_contact(costheta1, costheta2, cospsi):
     write_xyz(costheta1=costheta1, costheta2=costheta2, cospsi=cospsi)
-    #syscode = subprocess.call(PARAMS['feasst_install'] + 'bin/fst < ' + PARAMS['prefix'] + '.txt > '+PARAMS['prefix'] + '_run.log', shell=True, executable='/bin/bash')
-    syscode = subprocess.call(PARAMS['feasst_install'] + 'bin/fst < ' + PARAMS['prefix'] + '.txt > /dev/null 2>&1', shell=True, executable='/bin/bash')
+    #syscode = subprocess.call('feasst < ' + PARAMS['prefix'] + '.txt > '+PARAMS['prefix'] + '_run.log', shell=True, executable='/bin/bash')
+    syscode = subprocess.call('feasst < ' + PARAMS['prefix'] + '.txt > /dev/null 2>&1', shell=True, executable='/bin/bash')
     df = pd.read_csv(PARAMS['prefix'] + '_dist.txt', header=None)
     #print(sep, df['energy'][0])
     return df[0][0]

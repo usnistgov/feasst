@@ -22,8 +22,8 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import macrostate_distribution
+from feasst import fstio
+from feasst import macrostate_distribution
 
 def parse(fstprt='/feasst/particle/lj_new.txt',
           beta=1./1.5,
@@ -159,8 +159,8 @@ def post_process(params):
     show_plot = True
     #show_plot = False
     import copy
-    from pyfeasst import multistate_accumulator
-    from pyfeasst import fstplot
+    from feasst import multistate_accumulator
+    from feasst import fstplot
     """ Skip the following checks if temperature is not the default 1.5 """
     if np.abs(params['beta'] - 1./1.5) > 1e-5:
         return

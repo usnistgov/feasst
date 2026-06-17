@@ -115,7 +115,6 @@ std::string ExtensiveMoments::write(const MonteCarlo& mc) {
   if (rewrite_header()) {
     ss << header(mc);
   }
-  const Configuration& config = configuration(mc.system());
   const int num_ptypes = static_cast<int>(particle_types_.size());
   if (triplet_) {
     for (int p = 0; p <= max_order_; ++p) {

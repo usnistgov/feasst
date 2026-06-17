@@ -9,14 +9,12 @@ import subprocess
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import macrostate_distribution
+from feasst import fstio
+from feasst import macrostate_distribution
 
 def parse():
     # Parse arguments from command line or change their default values.
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--pore', type=str, default='/feasst/plugin/confinement/particle/porel4.txt',
@@ -100,12 +98,10 @@ WriteStepper analyze_name=Movie
 Remove name=Movie
 
 # gcmc initialization and nvt equilibration
-TrialAdd particle_type=fluid
 Let [write]=trials_per_write={tpc} output_file={prefix}j{job:03d}s{sim:03d}
 Log [write]_eq.csv
 Tune
-Run until_num_particles={min_particles} particle_type=fluid
-Remove name=TrialAdd
+Run until_num_particles={min_particles} particle_type=fluid Trial=TrialAdd
 ThermoParams beta={beta} chemical_potential={mu}
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
 Run until=complete

@@ -2,7 +2,7 @@
 #ifndef FEASST_PATCH_MOVIE_PATCH_H_
 #define FEASST_PATCH_MOVIE_PATCH_H_
 
-#include "monte_carlo/include/analyze.h"
+#include "monte_carlo/include/analyze_write_only.h"
 #include "patch/include/file_xyz_patch.h"
 
 namespace feasst {

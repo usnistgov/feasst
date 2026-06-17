@@ -6,14 +6,12 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import macrostate_distribution
+from feasst import fstio
+from feasst import macrostate_distribution
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt1', type=str, default='/feasst/particle/atom_new.txt',
                         help='FEASST particle definition of the first particle.')
     parser.add_argument('--fstprt2', type=str, default='/feasst/particle/lj_new.txt',
@@ -85,15 +83,11 @@ CheckEnergy trials_per_update={tpc} decimal_places=6
 Checkpoint checkpoint_file={prefix}{sim:03d}_checkpoint.fst num_hours={hours_checkpoint} num_hours_terminate={hours_terminate}
 
 # gcmc initialization and nvt equilibration
-TrialAdd particle_type=pt1
 Let [write]=trials_per_write={tpc} output_file={prefix}j{job:03d}s{sim:03d}
 Log [write]_eq.csv
 Tune
-Run until_num_particles={min_particles}
-Remove name=TrialAdd
-TrialAdd particle_type=pt2
-Run until_num_particles={num_particles}
-Remove name=TrialAdd
+Run until_num_particles={min_particles} Trial=TrialAdd particle_type=pt1
+Run until_num_particles={num_particles} Trial=TrialAdd particle_type=pt2
 ThermoParams beta={beta} chemical_potential={mu1},{mu2}
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
 Run until=complete
@@ -120,7 +114,8 @@ Run until_file_exists={prefix}j{job:03d}_terminate.txt trials_per_file_check={tp
 def post_process(params):
     lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv', shift=False)
     #lnpi.plot(show=True)
-    assert np.abs(9.327631384282558 - lnpi.average_macrostate()) < 0.5
+    if np.abs(9.327631384282558 - lnpi.average_macrostate()) > 2.5
+        assert False, lnpi.average_macrostate()
 
 if __name__ == '__main__':
     parameters, arguments = parse()

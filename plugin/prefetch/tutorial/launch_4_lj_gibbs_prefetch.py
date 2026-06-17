@@ -7,12 +7,11 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/', help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj.txt', help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./0.85, help='inverse temperature')
     parser.add_argument('--tpc', type=int, default=int(1e4), help='trials per cycle')
@@ -99,10 +98,7 @@ Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_fill.csv
 Tune
 For [config]:[num]=vapor:{init_vapor_num},liquid:{init_liquid_num}
-    Movie [write]_[config]_fill.xyz config=[config]
-    TrialAdd particle_type=fluid config=[config]
-    Run until_num_particles=[num] config=[config]
-    Remove name=TrialAdd,Movie
+    Run until_num_particles=[num] config=[config] Trial=TrialAdd particle_type=fluid Stepper=Movie [write]_[config]_fill.xyz
 EndFor
 
 ## gibbs initialize vapor fraction
@@ -111,9 +107,8 @@ GibbsInitialize updates_density_equil={equil} updates_per_adjust={double_equil} 
 TrialGibbsParticleTransfer weight=2 particle_type=fluid ref=noixn print_num_accepted=true configs=vapor,liquid
 TrialGibbsVolumeTransfer weight=0.002 tunable_param=20. tunable_target_acceptance={vol_acceptance} ref=noixn print_num_accepted=true configs=vapor,liquid
 Log [write]_eq.csv
-Tune trials_per_tune=20
-Run until=complete
-Remove name=GibbsInitialize,Log,Tune
+Run until=complete Stepper=Tune trials_per_tune=20
+Remove name=GibbsInitialize,Log
 
 # gibbs ensemble production
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}

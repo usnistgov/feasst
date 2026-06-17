@@ -24,9 +24,9 @@ typedef std::map<std::string, std::string> argtype;
   To restart a simulation from a checkpoint file, checkpoint.fst, use the
   following BASH command:
 
-  echo "Restart checkpoint.fst" | $HOME/feasst(-version)/build/bin/fst
+  echo "Restart checkpoint.fst" | feasst
 
-  Note that more commands may be added afted the line "Restart checkpoint.fst"
+  See Restart for more available options.
  */
 class Checkpoint {
  public:
@@ -37,8 +37,7 @@ class Checkpoint {
     - num_hours_terminate: Terminate after this many hours. If -1, do not
       terminate (default: -1).
       Termination may be detected in Bash shell using "$? != 0".
-    - checkpoint_file: The default is one space (e.g., " ").
-      Do not checkpoint if checkpoint_file is empty or is one space.
+    - checkpoint_file: The file name to output the Checkpoint file.
     - writes_per_backup: Create a unique checkpoint file name every this many
       times that a checkpoint is written (default: -1).
       If -1, only backup the previous file by appending its name with ".bak".

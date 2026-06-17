@@ -122,6 +122,9 @@ class RecursiveTable5D : public Table5D {
   void insert(const int bin0, const int bin1, const int bin2, const int bin3,
     const int bin4, const RecursiveTable5D& nested);
 
+  /// Return the percentage of table that is nested.
+  double percent_nested() const;
+
   double linear_interpolation(const double value0, const double value1,
     const double value2, const double value3,
     const double value4) const override;
@@ -149,6 +152,9 @@ class RecursiveTable6D : public Table6D {
   // Insert a nested table.
   void insert(const int bin0, const int bin1, const int bin2, const int bin3,
     const int bin4, const int bin5, const RecursiveTable6D& nested);
+
+  /// Return the percentage of table that is nested.
+  double percent_nested() const;
 
   double linear_interpolation(const double value0, const double value1,
     const double value2, const double value3,

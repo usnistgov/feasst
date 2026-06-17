@@ -4,7 +4,7 @@ This script was used to convert from SRSW txt file configuration to FEASST-reada
 
 import numpy as np
 import pandas as pd
-from pyfeasst import physical_constants
+from feasst import physical_constants
 
 for U in [931.15451, -34.16569, 371.46525, -6046.43627, 95078.89447, -96297.75579]: # kJ/mol
     print('U(kJ/mol)', U, 'U(K)', U*1e3/physical_constants.MolarGasConstant().value())

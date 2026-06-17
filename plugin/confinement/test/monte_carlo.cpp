@@ -36,7 +36,7 @@
 #include "steppers/include/movie.h"
 #include "steppers/include/density_profile.h"
 #include "confinement/include/model_hard_shape.h"
-#include "confinement/include/model_table_cartesian.h"
+#include "confinement/include/model_table_cartesian_3d_integr.h"
 #include "confinement/include/henry_coefficient.h"
 #include "confinement/include/trial_anywhere.h"
 #include "charge/include/ewald.h"

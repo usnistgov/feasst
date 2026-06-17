@@ -3,7 +3,7 @@
 #define FEASST_STEPPERS_CHECK_H_
 
 #include <memory>
-#include "monte_carlo/include/analyze.h"
+#include "monte_carlo/include/analyze_update_only.h"
 
 namespace feasst {
 

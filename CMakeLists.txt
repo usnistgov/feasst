@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.5)
 project (FEASST)
 set (CMAKE_CXX_STANDARD 14)
 cmake_policy(SET CMP0042 NEW) # removes warning about macosx_rpath
-set(FEASST_VERSION 0.25.18)
+set(FEASST_VERSION 0.25.19)
 
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
@@ -12,10 +12,10 @@ option(USE_GTEST "Use gtest" OFF)
 option(USE_CCACHE "Use ccache to speed up builds" ON)
 option(USE_OPENMP "Use OpenMP" ON)
 option(USE_SPHINX "Use SPHINX for documentation" OFF)
-#option(USE_SWIG "Use SWIG for python interface" OFF)
 option(USE_GCOV "Use Coverage" OFF)
 option(USE_FFTW "Use FFTW" OFF)
 option(USE_PYBIND11 "Use PYBIND11" OFF)
+option(USE_PIP "Use PIP" ON)
 option(USE_MPI "Use MPI" OFF)
 option(USE_HEADER_CHECK "Use stand-alone header check (requires cleanup)" OFF)
 set(FFTW_DIR "$ENV{HOME}/software/fftw-3.3.10/build/")
@@ -66,9 +66,6 @@ endif (USE_MPI)
 string (REPLACE ";" " " FEASST_PLUGINS_STR "${FEASST_PLUGINS}")
 message(${FEASST_PLUGINS_STR})
 file(WRITE "${CMAKE_BINARY_DIR}/plugins.txt" "${FEASST_PLUGINS_STR}")
-
-# set the install location (default: in the binary build directory)"
-set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}")
 
 # CMAKE plugins in the cmake directory
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/dev/cmake)
@@ -145,16 +142,6 @@ string(REGEX REPLACE "^ " "" EXTRA_LIBS "${EXTRA_LIBS}")
 
 set(EXECUTABLE_OUTPUT_PATH "bin")
 
-message("FEASST_VERBOSE_LEVEL ${FEASST_VERBOSE_LEVEL}")
-add_definitions("-DFEASST_VERBOSE_LEVEL_=${FEASST_VERBOSE_LEVEL}")
-#unset(FEASST_VERBOSE_LEVEL CACHE)
-add_definitions("-DFEASST_VERSION_=\"${FEASST_VERSION}\"")
-add_definitions("-DFEASST_DIR_=\"${CMAKE_SOURCE_DIR}\"")
-#configure_file(
-#  "${CMAKE_SOURCE_DIR}/dev/cmake/definitions.h.in"
-#  "${CMAKE_SOURCE_DIR}/plugin/utils/include/definitions.h"
-#  @ONLY)
-
 # OMP
 if(POLICY CMP0012)
   cmake_policy(SET CMP0012 NEW)
@@ -182,12 +169,41 @@ if (EV OR USE_HEADER_CHECK)
   )
 
   if (NOT ${EXIT_CODE} EQUAL 0)
-      message(
-              FATAL_ERROR
-              "There was a problem generating feasst.h using the following command: \"python3 ../dev/tools/depend.py -s ../\" Ensure that python3 is available, and try to run this command manually to report any issues to the developers."
-      )
+      message(FATAL_ERROR "There was a problem generating feasst.h using the following command: \"python3 ../dev/tools/depend.py -s ../\" Ensure that python3 is available, and try to run this command manually to report any issues to the developers.")
   endif()
 endif (EV OR USE_HEADER_CHECK)
+
+if (EV)
+  execute_process(
+    COMMAND python3 ${CMAKE_SOURCE_DIR}/dev/tools/analyze_public_interface.py
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    RESULT_VARIABLE EXIT_CODE
+  )
+
+  if (NOT ${EXIT_CODE} EQUAL 0)
+      message(FATAL_ERROR "There was a problem generating public_[description,particles].json using the following command: \"python3 ../dev/tools/analyze_public_interface.py\" Ensure that python3 is available, and try to run this command manually to report any issues to the developers.")
+  endif()
+
+  execute_process(
+    COMMAND python3 ${CMAKE_SOURCE_DIR}/dev/tools/inheritance.py
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    RESULT_VARIABLE EXIT_CODE
+  )
+
+  if (NOT ${EXIT_CODE} EQUAL 0)
+      message(FATAL_ERROR "There was a problem generating public_factories.json using the following command: \"python3 ../dev/tools/inheritance.py\" Ensure that python3 is available, and try to run this command manually to report any issues to the developers.")
+  endif()
+
+  execute_process(
+    COMMAND python3 ${CMAKE_SOURCE_DIR}/src/feasst/menu.py --particles public_particles.txt --descripts public_description.json --factory public_factories.json --load ${CMAKE_SOURCE_DIR}/src/feasst/data/menu.json
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    RESULT_VARIABLE EXIT_CODE
+  )
+
+  if (NOT ${EXIT_CODE} EQUAL 0)
+      message(FATAL_ERROR "There was a problem generating /feasst/feasst/data/menu.json using the following command: \"python3 ../feasst/menu.py\"")
+  endif()
+endif (EV)
 
 # FEASST plugins
 set (FEASST_PLUGIN_DIR "${CMAKE_SOURCE_DIR}/plugin")
@@ -245,7 +261,7 @@ endif()
 # actions
 list (FIND FEASST_PLUGINS "actions" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstactions feasstmonte_carlo)
+  target_link_libraries(feasstactions feasstmonte_carlo feasststeppers)
 endif()
 
 # steppers
@@ -398,6 +414,8 @@ endif(USE_CCACHE)
 
 # SPHINX
 if (USE_SPHINX)
+  set(USE_PYBIND11 OFF)
+  set(USE_PIP OFF)
   find_package(Doxygen REQUIRED)
   if(DOXYGEN_FOUND)
     #message("Doxygen found")
@@ -425,6 +443,21 @@ if (USE_SPHINX)
 
   # LATEX output directory
   set(SPHINX_LATEX_DIR "${CMAKE_CURRENT_BINARY_DIR}/latex")
+
+  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/tutorial/example.sh" FEASST_EXAMPLE)
+  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/tutorial/restart.sh" FEASST_RESTART)
+  set(FEASST_EXAMPLE "    ${FEASST_EXAMPLE}")
+  string(REGEX REPLACE "\n" "\n    " FEASST_EXAMPLE "${FEASST_EXAMPLE}")
+  set(FEASST_RESTART "    ${FEASST_RESTART}")
+  string(REGEX REPLACE "\n" "\n    " FEASST_RESTART "${FEASST_RESTART}")
+  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/tutorial/test.py" FEASST_PYTHON_EX)
+  set(FEASST_PYTHON_EX "    ${FEASST_PYTHON_EX}")
+  string(REGEX REPLACE "\n" "\n    " FEASST_PYTHON_EX "${FEASST_PYTHON_EX}")
+
+  configure_file(
+    "${CMAKE_SOURCE_DIR}/dev/sphinx/pyproject.toml.in"
+    "${CMAKE_SOURCE_DIR}/pyproject.toml"
+    @ONLY)
 
   configure_file(
     "${CMAKE_SOURCE_DIR}/dev/sphinx/conf.py.in"
@@ -562,6 +595,13 @@ target_link_libraries(feasstlib INTERFACE ${EXTRA_LIBS})
 #  target_link_libraries(feasstlib INTERFACE MPI::MPI_CXX)
 #endif()
 
+# set the install location (default: in the binary build directory)"
+if (USE_PIP)
+  # do nothing
+else (USE_PIP)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}")
+endif (USE_PIP)
+
 # install library inside the binary "build" directory
 #file (WRITE ${CMAKE_BINARY_DIR}/feasst.h "")
 foreach (PLUGIN ${FEASST_PLUGINS})
@@ -569,6 +609,7 @@ foreach (PLUGIN ${FEASST_PLUGINS})
       $<BUILD_INTERFACE:${FEASST_PLUGIN_DIR}/${PLUGIN}/include>
       $<INSTALL_INTERFACE:include/${PLUGIN}/include>)
   file(GLOB feasst_headers "${FEASST_PLUGIN_DIR}/${PLUGIN}/include/*.h")
+  #message("feasst_headers ${feasst_headers}")
   install(FILES ${feasst_headers} DESTINATION include/${PLUGIN}/include)
   file(GLOB feasst_headers RELATIVE "${FEASST_PLUGIN_DIR}" "${FEASST_PLUGIN_DIR}/${PLUGIN}/include/*.h")
   # generate header feasst.h
@@ -580,19 +621,27 @@ endforeach (PLUGIN)
 #message(${CMAKE_CURRENT_BINARY_DIR}/feasst.h)
 configure_file(
   ${CMAKE_SOURCE_DIR}/plugin/feasst/include/feasst.h ${CMAKE_CURRENT_BINARY_DIR}/feasst.h COPYONLY)
+set(LIBDIR "lib")
+set(BINDIR "bin")
+if (USE_PIP)
+  include(GNUInstallDirs) #sets CMAKE_INSTALL_LIBDIR
+  set(LIBDIR ${CMAKE_INSTALL_LIBDIR})
+  set(BINDIR ${CMAKE_INSTALL_BINDIR})
+endif (USE_PIP)
+
 foreach (PLUGIN ${FEASST_PLUGINS})
   message(feasst${PLUGIN})
   install(TARGETS feasst${PLUGIN}
       EXPORT feasst-targets
-      ARCHIVE DESTINATION lib
-      LIBRARY DESTINATION lib
-      RUNTIME DESTINATION bin)
+      ARCHIVE DESTINATION ${LIBDIR}
+      LIBRARY DESTINATION ${LIBDIR}
+      RUNTIME DESTINATION ${BINDIR})
 endforeach (PLUGIN)
 install(TARGETS feasstlib
     EXPORT feasst-targets
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    RUNTIME DESTINATION bin)
+    ARCHIVE DESTINATION ${LIBDIR}
+    LIBRARY DESTINATION ${LIBDIR}
+    RUNTIME DESTINATION ${BINDIR})
 install(EXPORT feasst-targets
     FILE feasst-config.cmake
     DESTINATION lib/cmake/feasst)
@@ -602,19 +651,116 @@ install(FILES ${CMAKE_BINARY_DIR}/feasst.h
 # make feasst text interpreter
 list (FIND FEASST_PLUGINS "monte_carlo" _index)
 if (${_index} GREATER -1)
-  add_executable (fst ${CMAKE_SOURCE_DIR}/plugin/feasst/src/feasst.cpp)
-  target_link_libraries (fst LINK_PUBLIC feasstlib)
-  add_executable (rst ${CMAKE_SOURCE_DIR}/plugin/feasst/src/restart.cpp)
-  target_link_libraries (rst LINK_PUBLIC feasstlib)
+  add_executable (feasst ${CMAKE_SOURCE_DIR}/plugin/feasst/src/feasst.cpp)
+  target_link_libraries (feasst LINK_PUBLIC feasstlib)
+#  add_executable (rst ${CMAKE_SOURCE_DIR}/plugin/feasst/src/restart.cpp)
+#  target_link_libraries (rst LINK_PUBLIC feasstlib)
 endif()
+if (USE_PIP)
+  install(TARGETS feasst DESTINATION ${SKBUILD_SCRIPTS_DIR})
+else (USE_PIP)
+  #install(TARGETS feasst DESTINATION bin)
+endif (USE_PIP)
+
+message("FEASST_VERBOSE_LEVEL ${FEASST_VERBOSE_LEVEL}")
+add_definitions("-DFEASST_VERBOSE_LEVEL_=${FEASST_VERBOSE_LEVEL}")
+add_definitions("-DFEASST_VERSION_=\"${FEASST_VERSION}\"")
+
+# avoid having to set LD_LIBRARY_PATH using RPATH
+if (USE_PIP)
+    find_package(PythonExtensions REQUIRED)
+
+    # get absolute path to site_packages to give to exectuable so it can find particle files
+    execute_process(
+        COMMAND ${Python_EXECUTABLE} -c "import sysconfig; print(sysconfig.get_path('platlib'))"
+        OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    message("SITE_PACKAGES ${PYTHON_SITE_PACKAGES}")
+
+    add_definitions("-DFEASST_DIR_=\"${PYTHON_SITE_PACKAGES}/feasst/data\"")
+    set(lib_path "${PYTHON_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+    message("lib_path ${lib_path}")
+else (USE_PIP)
+    add_definitions("-DFEASST_DIR_=\"${CMAKE_SOURCE_DIR}\"")
+    set(lib_path "${CMAKE_BINARY_DIR}")
+    message("lib_path ${lib_path}")
+endif (USE_PIP)
+list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${lib_path}" is_system)
+if ("${is_system}" STREQUAL "-1")
+    set_target_properties(feasst PROPERTIES
+        INSTALL_RPATH_USE_LINK_PATH TRUE
+        INSTALL_RPATH "${lib_path}")
+    set_target_properties(feasstlib PROPERTIES
+        INSTALL_RPATH_USE_LINK_PATH TRUE
+        INSTALL_RPATH "${lib_path}")
+    foreach (PLUGIN ${FEASST_PLUGINS})
+        set_target_properties(feasst${PLUGIN} PROPERTIES
+            INSTALL_RPATH_USE_LINK_PATH TRUE
+            INSTALL_RPATH "${lib_path}")
+    endforeach (PLUGIN)
+endif()
+if (USE_PIP)
+    # install menu.json and particles
+    install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/feasst/data/menu.json"
+            DESTINATION "${PYTHON_RELATIVE_SITE_PACKAGES_DIR}/feasst/data")
+    file (GLOB PARTICLE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/particle/*.txt")
+    #message ("PARTICLE_FILES ${PARTICLE_FILES}")
+    install(FILES ${PARTICLE_FILES}
+            DESTINATION "${PYTHON_RELATIVE_SITE_PACKAGES_DIR}/feasst/data/particle")
+    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/html
+            DESTINATION "${PYTHON_RELATIVE_SITE_PACKAGES_DIR}/feasst/data/")
+    foreach (PLUGIN ${FEASST_PLUGINS})
+      file (GLOB PARTICLE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/plugin/${PLUGIN}/particle/*.txt")
+      #message ("PARTICLE_FILES ${PARTICLE_FILES}")
+      install(FILES ${PARTICLE_FILES}
+              DESTINATION "${PYTHON_RELATIVE_SITE_PACKAGES_DIR}/feasst/data/plugin/${PLUGIN}/particle")
+    endforeach (PLUGIN)
+endif (USE_PIP)
 
 # PYBIND11
 if (USE_PYBIND11)
-  find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
-  find_package(pybind11 CONFIG REQUIRED)
-  python3_add_library(_core MODULE ${CMAKE_SOURCE_DIR}/python/feasst.cpp WITH_SOABI)
-  target_link_libraries(_core PRIVATE pybind11::headers)
-  target_link_libraries (_core LINK_PUBLIC feasstlib)
-  target_compile_definitions(_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
-  install(TARGETS _core DESTINATION feasst)
+#$  execute_process(
+#$    COMMAND "${PYTHON_EXECUTABLE}" -c "import os, sys, skbuild; print(os.path.dirname(skbuild.__file__))"
+#$    OUTPUT_VARIABLE SKBUILD_DIR
+#$    OUTPUT_STRIP_TRAILING_WHITESPACE
+#$  )
+#$  list(APPEND CMAKE_MODULE_PATH "${SKBUILD_DIR}/resources/cmake")
+  execute_process(
+      COMMAND ${PYTHON_EXECUTABLE} -c
+          "import pybind11; print(pybind11.get_cmake_dir())"
+      OUTPUT_VARIABLE pybind11_DIR
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  find_package(pybind11 REQUIRED)
+  add_library(_core MODULE ${CMAKE_SOURCE_DIR}/src/feasst/feasst.cpp)
+  python_extension_module(_core)
+  target_link_libraries(_core pybind11::module feasstlib)
+  foreach (PLUGIN ${FEASST_PLUGINS})
+    target_link_libraries(_core pybind11::module feasst${PLUGIN})
+  endforeach (PLUGIN)
+
+  install(TARGETS _core DESTINATION
+          ${PYTHON_RELATIVE_SITE_PACKAGES_DIR}/feasst)
+  #set(lib_path "${PYTHON_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+  list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${lib_path}" is_system)
+  if ("${is_system}" STREQUAL "-1")
+      set_target_properties(feasst PROPERTIES
+          INSTALL_RPATH_USE_LINK_PATH TRUE
+          INSTALL_RPATH "${lib_path}")
+      # The following is necessary for installation in a virtual
+      # environment `python -m pip venv env`
+      set_target_properties(_core PROPERTIES
+          INSTALL_RPATH_USE_LINK_PATH TRUE
+          INSTALL_RPATH "${lib_path}")
+  endif()
+
+#  find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
+#  find_package(pybind11 CONFIG REQUIRED)
+#  python3_add_library(_core MODULE ${CMAKE_SOURCE_DIR}/python/feasst.cpp WITH_SOABI)
+#  target_link_libraries(_core PRIVATE pybind11::headers)
+#  target_link_libraries (_core LINK_PUBLIC feasstlib)
+#  target_compile_definitions(_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
+#  install(TARGETS _core DESTINATION feasst)
+#  install(TARGETS fst DESTINATION ${SKBUILD_SCRIPTS_DIR})
 endif (USE_PYBIND11)

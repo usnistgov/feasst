@@ -17,7 +17,7 @@ class Record : public Action {
  public:
   //@{
   /** @name Arguments
-    - config: name of Configuration (default: 0)
+    - config: Name of Configuration (default: 0).
     - save_positions: The file name to write the positions of the given
       Configuration, if not empty (default: empty).
     - load_positions: The file name to read and load into the given

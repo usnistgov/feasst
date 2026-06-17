@@ -6,15 +6,13 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import macrostate_distribution
-from pyfeasst import physical_constants
+from feasst import fstio
+from feasst import macrostate_distribution
+from feasst import physical_constants
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt1', type=str, default='/feasst/particle/co2.txt',
                         help='FEASST particle definition of the first particle.')
     parser.add_argument('--fstprt2', type=str, default='/feasst/particle/n2.txt',

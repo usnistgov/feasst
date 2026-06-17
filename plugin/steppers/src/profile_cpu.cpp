@@ -73,7 +73,7 @@ std::string ProfileCPU::write(const MonteCarlo& mc) {
   std::vector<double> mc_times;
   if (mc.timer()) {
     mc_times = mc.timer()->percents();
-    ss << feasst_str(mc_times) << ",";
+    ss << feasst_str(mc_times) << ",,";
   } else {
     mc_times = std::vector<double>(5, 100.);
   }
@@ -99,6 +99,7 @@ std::string ProfileCPU::write(const MonteCarlo& mc) {
     for (const double time : modify_times) {
       ss << time*mc_times[2]/100. << ",";
     }
+    ss << ",";
   }
   ss << std::endl;
   return ss.str();

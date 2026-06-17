@@ -15,8 +15,8 @@ class Table1D;
 typedef std::map<std::string, std::string> argtype;
 
 /**
-  This is an experimental and relatively untested alternative to TablePotential
-  which can have tables inside of tables (RecursiveTable).
+  This class is experimental.
+  This can have tables inside of tables (RecursiveTable).
   It serves more as a demonstration than a recommended method, because
   alternative methods such as splines would probably be better.
  */

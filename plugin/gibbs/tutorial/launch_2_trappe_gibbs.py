@@ -13,9 +13,9 @@ import json
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
-from pyfeasst import physical_constants
-from pyfeasst import macrostate_distribution
+from feasst import fstio
+from feasst import physical_constants
+from feasst import macrostate_distribution
 
 def parse():
     """ Parse arguments from command line or change their default values. """
@@ -173,13 +173,9 @@ Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_fill.csv
 Tune
 For [config]:[xyz]:[num]=vapor:?{xyz_vapor}:?{num_vapor},liquid:?{xyz_liquid}:?{num_liquid}
-    Movie [write]_[config]_fill.xyz config=[config]
     If undefined=[xyz]
-        TrialGrowFile grow_file={prefix}{sim:03d}_[config]_grow_add.txt
-        Run until_num_particles=[num] config=[config]
-        Remove name_contains=add
+        Run until_num_particles=[num] config=[config] Trial=TrialGrowFile grow_file={prefix}{sim:03d}_[config]_grow_add.txt Stepper=Movie [write]_[config]_fill.xyz
     EndIf
-    Remove name=Movie
 EndFor
 Remove name=Tune,Log
 
@@ -191,15 +187,14 @@ TrialGrowFile grow_file={prefix}{sim:03d}_grow_gibbs.txt
 TrialGibbsVolumeTransfer weight=0.006 tunable_param=3000 ref=noixn print_num_accepted=true configs=vapor,liquid
 # a new tune is required when new Trials are introduced
 # decrease trials per due to infrequency of volume transfer attempts
-Tune trials_per_tune=20
 Log [write]_eq.csv
 For [config]=vapor,liquid
     Movie [write]_[config]_eq.xyz config=[config]
 EndFor
 ProfileCPU [write]_eq_profile.csv
 # decrease trials per due to infrequency of volume transfer attempts
-Run until=complete
-Remove name=GibbsInitialize,Tune,Log,Movie,Movie,ProfileCPU
+Run until=complete Stepper=Tune trials_per_tune=20
+Remove name=GibbsInitialize,Log,Movie,Movie,ProfileCPU
 
 # gibbs ensemble production
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}

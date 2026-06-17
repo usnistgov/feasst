@@ -6,13 +6,11 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pyfeasst import fstio
+from feasst import fstio
 
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default='/feasst/particle/lj_new.txt',
                         help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1., help='inverse temperature')
@@ -80,11 +78,9 @@ Let [write]=trials_per_write={tpc} output_file={prefix}{sim:03d}
 Log [write]_fill.csv
 Tune
 For [config]:[num]=vapor:112,liquid:400
-    Movie [write]_[config]_fill.xyz config=[config]
-    TrialAdd particle_type=fluid config=[config]
-    Run until_num_particles=[num] config=[config]
-    Remove name=TrialAdd,Movie
+    Run until_num_particles=[num] config=[config] Trial=TrialAdd particle_type=fluid Stepper=Movie [write]_[config]_fill.xyz
 EndFor
+Remove name=Log
 
 # gibbs equilibration cycles: equilibrate, estimate density, adjust, repeat
 # start a very long run GibbsInitialize completes once targets are reached
@@ -99,9 +95,8 @@ EndFor
 ProfileCPU [write]_eq_profile.csv
 # a new tune is required when new Trials are introduced
 # decrease trials per due to infrequency of volume transfer attempts
-Tune trials_per_tune=20
-Run until=complete
-Remove name=GibbsInitialize,Tune,Log,Movie,Movie,ProfileCPU
+Run until=complete Stepper=Tune trials_per_tune=20
+Remove name=GibbsInitialize,Log,Movie,Movie,ProfileCPU
 
 # gibbs ensemble production
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production_cycles}
@@ -112,7 +107,7 @@ For [analyze]:[file]=Density:_dens.csv,Movie:.xyz,Energy:_en.csv,Volume:_vol.csv
     EndFor
 EndFor
 GhostTrialVolume [write]_pressure.csv trials_per_update=1e3
-Run until complete
+Run until=complete
 """.format(**params))
 
 def compare(label, average, stdev, params, z_factor=5):

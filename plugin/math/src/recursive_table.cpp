@@ -113,12 +113,17 @@ void RecursiveTable2D::insert(const int bin0, const int bin1, const RecursiveTab
 
 double RecursiveTable2D::linear_interpolation(const double value0, const double value1) const {
   int i0, i02, i1, i12;
+  TRACE("value0 " << value0);
+  TRACE("value1 " << value1);
   const double xd0 = table_xd_(value0, bin_spacing(0), num0(), &i0, &i02);
+  TRACE("i0:" << i0 << " i02:" << i02);
   const double xd1 = table_xd_(value1, bin_spacing(1), num1(), &i1, &i12);
+  TRACE("i1:" << i1 << " i12:" << i12);
+  TRACE("xd0 " << xd0 << " xd1 " << xd1);
   RecursiveTable2D * nested = nested_[i0][i1].get();
+  TRACE("nested? " << nested);
   if (nested) {
-    //INFO("begin nested " << value0 << " " << value1);
-    //INFO("xd0 " << xd0 << " xd1 " << xd1);
+    TRACE("begin nested " << value0 << " " << value1);
     return nested->linear_interpolation(xd0, xd1);
   }
   return c00_(xd0, xd1, i0, i02, i1, i12);
@@ -138,8 +143,8 @@ int RecursiveTable2D::num_data() const {
 
 double RecursiveTable2D::percent_nested() const {
   int num_nested = 0;
-  for (const std::vector<std::shared_ptr<RecursiveTable2D> >& ns : nested_) {
-    for (const std::shared_ptr<RecursiveTable2D>& n : ns) {
+  for (const auto& ns : nested_) {
+    for (const auto& n : ns) {
       if (n) {
         ++num_nested;
       }
@@ -205,9 +210,9 @@ void RecursiveTable3D::insert(const int bin0, const int bin1, const int bin2,
 
 double RecursiveTable3D::percent_nested() const {
   int num_nested = 0;
-  for (const std::vector<std::vector<std::shared_ptr<RecursiveTable3D> > >& ns2 : nested_) {
-    for (const std::vector<std::shared_ptr<RecursiveTable3D> >& ns : ns2) {
-      for (const std::shared_ptr<RecursiveTable3D>& n : ns) {
+  for (const auto& ns2 : nested_) {
+    for (const auto& ns : ns2) {
+      for (const auto& n : ns) {
         if (n) {
           ++num_nested;
         }
@@ -296,6 +301,24 @@ void RecursiveTable5D::insert(const int bin0, const int bin1, const int bin2,
   nested_[bin0][bin1][bin2][bin3][bin4] = std::make_shared<RecursiveTable5D>(ss);
 }
 
+double RecursiveTable5D::percent_nested() const {
+  int num_nested = 0;
+  for (const auto& ns4 : nested_) {
+    for (const auto& ns3 : ns4) {
+      for (const auto& ns2 : ns3) {
+        for (const auto& ns1 : ns2) {
+          for (const auto& n : ns1) {
+            if (n) {
+              ++num_nested;
+            }
+          }
+        }
+      }
+    }
+  }
+  return static_cast<double>(num_nested)/num0()/num1()/num2()/num3()/num4();
+}
+
 double RecursiveTable5D::linear_interpolation(const double value0, const double value1,
     const double value2, const double value3, const double value4) const {
   int i0, i02, i1, i12, i2, i22, i3, i32, i4, i42;
@@ -382,6 +405,26 @@ void RecursiveTable6D::insert(const int bin0, const int bin1, const int bin2,
   std::stringstream ss;
   nested.serialize(ss);
   nested_[bin0][bin1][bin2][bin3][bin4][bin5] = std::make_shared<RecursiveTable6D>(ss);
+}
+
+double RecursiveTable6D::percent_nested() const {
+  int num_nested = 0;
+  for (const auto& ns5 : nested_) {
+    for (const auto& ns4 : ns5) {
+      for (const auto& ns3 : ns4) {
+        for (const auto& ns2 : ns3) {
+          for (const auto& ns1 : ns2) {
+            for (const auto& n : ns1) {
+              if (n) {
+                ++num_nested;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return static_cast<double>(num_nested)/num0()/num1()/num2()/num3()/num4()/num5();
 }
 
 double RecursiveTable6D::linear_interpolation(const double value0, const double value1,

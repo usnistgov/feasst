@@ -6,14 +6,14 @@ cd build
 python3 -m venv feasst_test_env
 source feasst_test_env/bin/activate
 python3 -m pip install --upgrade pip
-pip install ../pyfeasst numpy jupyter matplotlib pandas scipy wheel biopandas
+pip install numpy jupyter matplotlib pandas scipy wheel biopandas
+CMAKE_BUILD_PARALLEL_LEVEL=12 CMAKE_ARGS="-DUSE_PYBIND11=ON" pip install ..
 #module load mpi/openmpi-x86_64 # sudo dnf install openmpi-devel
-cmake -DUSE_GTEST=ON -DUSE_HEADER_CHECK=ON -DUSE_PYBIND11=ON .. #-DUSE_SWIG=ON
-#cmake -DUSE_GTEST=ON -DUSE_MPI=ON -DUSE_HEADER_CHECK=ON -DUSE_PYBIND11=ON .. #-DUSE_SWIG=ON
-#make feasst -j24
-make install -j24
-pip install ../
-cp _core*so feasst_test_env/lib/python*/site-packages/feasst/
+cmake -DUSE_PIP=OFF -DUSE_GTEST=ON -DUSE_HEADER_CHECK=ON -DUSE_PYBIND11=OFF .. #-DUSE_SWIG=ON
+#make feasst -j12
+make install -j12
+#pip install ../
+#cp _core*so feasst_test_env/lib/python*/site-packages/feasst/
 echo "" > summary_long.log
 echo "" > summary.log
 
@@ -29,7 +29,7 @@ echo "********** all gtest **********" >> summary.log
 grep FAIL summary_long_allt.log >> summary.log
 grep Throw summary_long_allt.log >> summary.log
 
-pushd ../pyfeasst/src/pyfeasst
+pushd ../src/feasst
   for f in *.py; do
     python "$f" >> summary_pyfeasst.log
   done
@@ -48,14 +48,14 @@ for fl in `find ../ -name 'tutorial_failures.txt'`; do
 done
 
 echo "********** pybind11 **********" >> summary.log
-python ../python/tutorial/test.py >> summary_pyb.log 2>&1
-python ../python/tutorial/block_average.py >> summary_pyb.log 2>&1
+python ../tutorial/test.py >> summary_pyb.log 2>&1
+python ../tutorial/block_average.py >> summary_pyb.log 2>&1
 for flag in "Error" "error" "Assert"; do
   grep $flag summary_pyb.log >> summary.log
 done
 
 echo "********** cpplib **********" >> summary.log
-export LD_LIBRARY_PATH="$PWD:$LD_LIBRARY_PATH"
+#export LD_LIBRARY_PATH="$PWD:$LD_LIBRARY_PATH"
 pushd ../tutorial/
   mkdir build; cd $_
   cmake .. >> log.txt 2>&1
@@ -68,11 +68,23 @@ done
 
 echo "********** example **********" >> summary.log
 pushd ../tutorial/
-  ../build/bin/fst < example.txt >> log.txt 2>&1
+  bash example.sh >> log.txt 2>&1
+  bash "restart.sh" >> log.txt 2>&1
+  python "test.py" >> log.txt 2>&1
 popd
 for flag in "Error" "error" "Assert"; do
   grep $flag ../tutorial/log.txt >> summary.log
 done
+
+# TESTING echo "********** feasst-menu **********" >> summary.log
+# TESTING feasst-menu --test_reproduction 0,0,0,0,0,0,1,fluid 2>&1
+# TESTING expected="""MonteCarlo
+# TESTING RandomMT19937
+# TESTING Configuration particle_type=0:/feasst/particle/atom_new.txt"""
+# TESTING file_content=$(<test.txt)
+# TESTING if [[ "$file_content" !== "$expected" ]]; then
+# TESTING     echo "The files do not match."
+# TESTING fi
 
 #tail -1 tutorial_failures.txt >> summary.log
 #echo "********** launch py **********" >> summary.log
