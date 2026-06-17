@@ -22,8 +22,8 @@
    SelectTwoSites
    TrialParticlePivot
    PerturbConnector
-   PerturbCrankshaft
    PerturbParticlePivot
+   PerturbCrankshaft
    PerturbLibrary
    PerturbCrankshaftSmall
    PerturbPivot

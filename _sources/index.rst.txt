@@ -19,8 +19,7 @@ Contents:
    particle/README
    plugin/README
    plugin/example/README
-   pyfeasst/README
-   python/README
+   README_python
    CONTACT
    dev/sphinx/CONTRIBUTING
    dev/sphinx/ACKNOWLEDGEMENT

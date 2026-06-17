@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST 0.25.18 0.25.18 documentation</title>
+  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST 0.25.19 0.25.19 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="_static/favicon.ico"/>
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=560a56e0"></script>
+      <script src="_static/documentation_options.js?v=f272d2f9"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -52,7 +52,7 @@
           
           
           <a href="#" class="icon icon-home">
-            FEASST 0.25.18
+            FEASST 0.25.19
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -62,8 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/example/README.html">Modify FEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="python/README.html">Python Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README_python.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -76,7 +75,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">FEASST 0.25.18</a>
+          <a href="#">FEASST 0.25.19</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -148,8 +147,8 @@
 <p>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free and open-source software to conduct molecular- and particle-based simulations with Monte Carlo methods.
 New users can start with the <a class="reference external" href="https://pages.nist.gov/feasst/">website</a> (<a class="reference external" href="https://doi.org/10.18434/M3S095">DOI</a>), <a class="reference external" href="https://doi.org/10.1063/5.0224283">manuscript</a>, <a class="reference external" href="https://github.com/usnistgov/feasst/discussions">GitHub discussion</a> and a <a class="reference external" href="https://www.nist.gov/video/how-use-feasst-0255-monte-carlo-molecular-simulation-software">five minute video</a>.
 Support FEASST with a <a class="reference external" href="https://github.com/usnistgov/feasst">GitHub</a> star or <a class="reference external" href="https://doi.org/10.1063/5.0224283">manuscript</a> citation!</p>
-<section id="features-in-version-0-25-18">
-<h3>Features in version 0.25.18<a class="headerlink" href="#features-in-version-0-25-18" title="Link to this heading"></a></h3>
+<section id="features-in-version-0-25-19">
+<h3>Features in version 0.25.19<a class="headerlink" href="#features-in-version-0-25-19" title="Link to this heading"></a></h3>
 <a class="reference external image-reference" href="https://pages.nist.gov/feasst"><img alt="_images/feasst.png" class="align-right" src="_images/feasst.png" />
 </a>
 <p>The <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> includes:</p>
@@ -183,60 +182,150 @@ Support FEASST with a <a class="reference external" href="https://github.com/usn
 <li><p><a class="reference external" href="plugin/flat_histogram/doc/CollectionMatrixSplice_arguments.html">OpenMP parallelization</a> and <a class="reference external" href="plugin/prefetch/README.html">prefetching</a>, and save and restart with <a class="reference external" href="plugin/utils/doc/Checkpoint_arguments.html">checkpoint</a> files</p></li>
 </ul>
 </section>
-<section id="how-to-compile">
-<h3>How to compile<a class="headerlink" href="#how-to-compile" title="Link to this heading"></a></h3>
+<section id="quickstart">
+<h3>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>g++<span class="w"> </span>cmake<span class="w"> </span>python3-venv<span class="w">               </span><span class="c1"># C++, CMake and Python3</span>
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>feasst<span class="p">;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>~/feasst/bin/activate<span class="w">  </span><span class="c1"># or use existing env/conda</span>
+<span class="nv">CMAKE_BUILD_PARALLEL_LEVEL</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>feasst<span class="w">      </span><span class="c1"># install</span>
+feasst-menu<span class="w">                                           </span><span class="c1"># interactive tutorial</span>
+</pre></div>
+</div>
+<p>For Mac/Linux use apt, yum, dnf, brew(homebrew), etc.
+For Windows, use WSL.
+For HPC, use “module avail/load.”</p>
+</section>
+<section id="c-executable">
+<h3>C++ Executable<a class="headerlink" href="#c-executable" title="Link to this heading"></a></h3>
+<p>Run with BASH/etc:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="nv">num_particles</span><span class="o">=</span><span class="m">500</span>
+<span class="nv">density</span><span class="o">=</span><span class="m">0</span>.003
+<span class="nv">beta</span><span class="o">=</span><span class="sb">`</span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;print(1./0.9)&quot;</span><span class="sb">`</span>
+<span class="nv">length</span><span class="o">=</span><span class="sb">`</span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;print((</span><span class="nv">$num_particles</span><span class="s2">/</span><span class="nv">$density</span><span class="s2">)**(1./3.))&quot;</span><span class="sb">`</span>
+<span class="nv">tpc</span><span class="o">=</span>1e4
+feasst<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s"># Comments begin with the # symbol.</span>
+<span class="s"># Compute average energy of LJ at T*=0.9, rho*=0.003</span>
+<span class="s"># See https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm</span>
+<span class="s">MonteCarlo</span>
+<span class="s">RandomMT19937</span>
+<span class="s">#seed=1572362164</span>
+<span class="s">Configuration cubic_side_length=$length particle_type=lj:/feasst/particle/lj.txt</span>
+<span class="s">Potential Model=LennardJones VisitModel=VisitModelCell</span>
+<span class="s">Potential VisitModel=LongRangeCorrections</span>
+<span class="s">Checkpoint checkpoint_file=checkpoint.fst</span>
+<span class="s">ThermoParams beta=$beta chemical_potential=-1</span>
+<span class="s">Metropolis</span>
+<span class="s">TrialTranslate weight=1 tunable_param=2</span>
+<span class="s">Tune</span>
+<span class="s">CheckEnergy trials_per_update=$tpc decimal_places=8</span>
+<span class="s">Log trials_per_write=$tpc output_file=lj_eq.csv</span>
+<span class="s">Run until_num_particles=$num_particles particle_type=lj Trial=TrialAdd weight=2</span>
+<span class="s">Run num_trials=1e5</span>
+<span class="s">Remove name=Tune,Log</span>
+<span class="s">WriteCheckpoint</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+<p>Restart with checkpoint.fst and BASH/etc:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="nv">write</span><span class="o">=</span><span class="s2">&quot;trials_per_write=1e4 output_file=lj&quot;</span>
+feasst<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s">Restart checkpoint_file=checkpoint.fst</span>
+<span class="s">Log $write.csv</span>
+<span class="s">Movie $write.xyz</span>
+<span class="s">Energy ${write}_en.csv</span>
+<span class="s">Metropolis trials_per_cycle=1e4 cycles_to_complete=1e2</span>
+<span class="s">Run until=complete</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+<p>Run with script.txt and BASH/etc:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>feasst<span class="w"> </span>&lt;<span class="w"> </span>script.txt
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>Python Module<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>Install with BASH/etc:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>g++<span class="w"> </span>cmake<span class="w"> </span>python3-dev<span class="w"> </span>python3-venv
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>feasst<span class="p">;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>~/feasst/bin/activate
+<span class="nv">CMAKE_BUILD_PARALLEL_LEVEL</span><span class="o">=</span><span class="m">8</span><span class="w"> </span><span class="nv">CMAKE_ARGS</span><span class="o">=</span><span class="s2">&quot;-DUSE_PYBIND11=ON&quot;</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>feasst
+</pre></div>
+</div>
+<p>Run in Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">feasst</span>
+
+<span class="c1"># Compare with T*=0.9,rho*=0.003 in https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm.</span>
+<span class="n">num_particles</span><span class="o">=</span><span class="mi">500</span>
+<span class="n">density</span><span class="o">=</span><span class="mf">0.003</span>
+<span class="n">beta</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mf">0.9</span>
+<span class="n">length</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">num_particles</span><span class="o">/</span><span class="n">density</span><span class="p">,</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span>
+<span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;lj&#39;</span>
+<span class="n">write</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;trials_per_write=1e4 output_file=</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">&#39;</span>
+
+<span class="n">mc</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
+<span class="n">feasst</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;RandomMT19937 seed=416974832</span>
+<span class="s2">Configuration cubic_side_length=</span><span class="si">{</span><span class="n">length</span><span class="si">}</span><span class="s2"> particle_type=lj:/feasst/particle/lj_new.txt</span>
+<span class="s2">Potential Model=LennardJones VisitModel=VisitModelCell</span>
+<span class="s2">ThermoParams beta=</span><span class="si">{</span><span class="n">beta</span><span class="si">}</span><span class="s2"> chemical_potential=1</span>
+<span class="s2">Metropolis</span>
+<span class="s2">TrialTranslate tunable_param=2</span>
+<span class="s2">Checkpoint checkpoint_file=</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">_checkpoint.fst num_hours=1 num_hours_terminate=117.5667</span>
+<span class="s2">CheckEnergy trials_per_update=1e4 decimal_places=8</span>
+<span class="s2">Log </span><span class="si">{</span><span class="n">write</span><span class="si">}</span><span class="s2">_eq.csv</span>
+<span class="s2">Movie </span><span class="si">{</span><span class="n">write</span><span class="si">}</span><span class="s2">_eq.xyz</span>
+<span class="s2">Run until_num_particles=</span><span class="si">{</span><span class="n">num_particles</span><span class="si">}</span><span class="s2"> Trial=TrialAdd particle_type=lj</span>
+<span class="s2">Metropolis trials_per_cycle=1e4 cycles_to_complete=10</span>
+<span class="s2">Run until=complete Stepper=Tune</span>
+<span class="s2">Remove name=Log,Movie&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# x-position of first particle/site.&#39;</span><span class="p">,</span> <span class="n">mc</span><span class="o">.</span><span class="n">configuration</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">particle</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">site</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">position</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="k">assert</span> <span class="n">mc</span><span class="o">.</span><span class="n">configuration</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">particle</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">site</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">position</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">!=</span> <span class="mf">0.</span>
+
+<span class="n">feasst</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Metropolis trials_per_cycle=1e4 cycles_to_complete=1e2</span>
+<span class="s2">Log </span><span class="si">{</span><span class="n">write</span><span class="si">}</span><span class="s2">.csv</span>
+<span class="s2">Movie </span><span class="si">{</span><span class="n">write</span><span class="si">}</span><span class="s2">.xyz</span>
+<span class="s2">Energy </span><span class="si">{</span><span class="n">write</span><span class="si">}</span><span class="s2">_en.csv</span>
+<span class="s2">CPUTime </span><span class="si">{</span><span class="n">write</span><span class="si">}</span><span class="s2">_cpu.csv</span>
+<span class="s2">ProfileCPU </span><span class="si">{</span><span class="n">write</span><span class="si">}</span><span class="s2">_profile.csv</span>
+<span class="s2">GhostTrialVolume </span><span class="si">{</span><span class="n">write</span><span class="si">}</span><span class="s2">_pressure.csv trials_per_update=1e4</span>
+<span class="s2">Run until=complete&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# compare average energy with SRSW https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm.&#39;</span><span class="p">)</span>
+<span class="n">en</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;lj_en.csv&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&lt;U&gt; =&#39;</span><span class="p">,</span> <span class="n">en</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">num_particles</span><span class="p">,</span> <span class="s1">&#39;+/-&#39;</span><span class="p">,</span> <span class="n">en</span><span class="p">[</span><span class="s1">&#39;block_stdev&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">num_particles</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="c-library-or-development">
+<h3>C++ Library or Development<a class="headerlink" href="#c-library-or-development" title="Link to this heading"></a></h3>
 <p>FEASST requires C++14 and <a class="reference external" href="https://cmake.org/">CMake</a>, and is compiled with the following Bash commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># [apt/yum/dnf/brew] install g++ cmake curl tar. On HPC, try &quot;module avail/load&quot;</span>
 <span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span><span class="w"> </span><span class="c1"># replace this with your preference throughout</span>
-curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.18.tar.gz<span class="w"> </span><span class="c1"># download</span>
-tar<span class="w"> </span>-xf<span class="w"> </span>v0.25.18.tar.gz<span class="w">           </span><span class="c1"># uncompress</span>
-mkdir<span class="w"> </span>feasst-0.25.18/build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span><span class="w"> </span><span class="c1"># out-of-source build</span>
-cmake<span class="w"> </span>..<span class="w">                          </span><span class="c1"># find prerequisites</span>
+curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.19.tar.gz<span class="w"> </span><span class="c1"># download</span>
+tar<span class="w"> </span>-xf<span class="w"> </span>v0.25.19.tar.gz<span class="w">           </span><span class="c1"># uncompress</span>
+mkdir<span class="w"> </span>feasst-0.25.19/build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span><span class="w"> </span><span class="c1"># out-of-source build</span>
+cmake<span class="w"> </span>-DUSE_PIP<span class="o">=</span>OFF<span class="w"> </span>..<span class="w">            </span><span class="c1"># find prerequisites</span>
 make<span class="w"> </span>install<span class="w"> </span>-j<span class="w"> </span><span class="m">4</span><span class="w">                 </span><span class="c1"># compile on 4 threads</span>
 <span class="c1"># Optional Python packages used in tutorials. Virtual environment recommended:</span>
 <span class="c1"># https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments</span>
-pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>matplotlib<span class="w"> </span>pandas<span class="w"> </span>scipy<span class="w"> </span>../pyfeasst<span class="w"> </span><span class="c1"># ../ ensures pyfeasst matches feasst</span>
+pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>matplotlib<span class="w"> </span>pandas<span class="w"> </span>scipy<span class="w"> </span>..
 <span class="c1"># Because online documentation changes with verison, open local version documentation.</span>
 open<span class="w"> </span>../html/index.html
 </pre></div>
 </div>
-</section>
-<section id="how-to-run-a-simulation">
-<h3>How to run a simulation<a class="headerlink" href="#how-to-run-a-simulation" title="Link to this heading"></a></h3>
 <p>Input a text file to the compiled executable.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst-0.25.18/build/bin/fst<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$HOME</span>/feasst-0.25.18/tutorial/example.txt
-</pre></div>
-</div>
-<p>The following text input file is explained in detail in the first <a class="reference internal" href="tutorial/tutorial.html"><span class="doc">tutorial</span></a>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Comments begin with the # symbol.</span>
-<span class="c1"># Usage: ./fst &lt; example.txt</span>
-<span class="n">MonteCarlo</span>
-<span class="n">RandomMT19937</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1572362164</span>
-<span class="n">Configuration</span> <span class="n">cubic_side_length</span><span class="o">=</span><span class="mf">55.0321208149104</span> <span class="n">particle_type</span><span class="o">=</span><span class="n">lj</span><span class="p">:</span><span class="o">/</span><span class="n">feasst</span><span class="o">/</span><span class="n">particle</span><span class="o">/</span><span class="n">lj</span><span class="o">.</span><span class="n">txt</span>
-<span class="n">Potential</span> <span class="n">Model</span><span class="o">=</span><span class="n">LennardJones</span> <span class="n">VisitModel</span><span class="o">=</span><span class="n">VisitModelCell</span>
-<span class="n">Potential</span> <span class="n">VisitModel</span><span class="o">=</span><span class="n">LongRangeCorrections</span>
-<span class="n">ThermoParams</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.111111111111111</span> <span class="n">chemical_potential</span><span class="o">=-</span><span class="mi">1</span>
-<span class="n">Metropolis</span>
-<span class="n">TrialTranslate</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span> <span class="n">tunable_param</span><span class="o">=</span><span class="mi">2</span>
-<span class="n">Tune</span>
-<span class="n">CheckEnergy</span> <span class="n">trials_per_update</span><span class="o">=</span><span class="mf">1e4</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">8</span>
-<span class="n">TrialAdd</span> <span class="n">weight</span><span class="o">=</span><span class="mi">2</span> <span class="n">particle_type</span><span class="o">=</span><span class="n">lj</span>
-<span class="n">Run</span> <span class="n">until_num_particles</span><span class="o">=</span><span class="mi">500</span>
-<span class="n">Remove</span> <span class="n">name</span><span class="o">=</span><span class="n">TrialAdd</span>
-<span class="n">Run</span> <span class="n">num_trials</span><span class="o">=</span><span class="mf">1e5</span>
-<span class="n">Remove</span> <span class="n">name</span><span class="o">=</span><span class="n">Tune</span>
-<span class="n">Let</span> <span class="p">[</span><span class="n">write</span><span class="p">]</span><span class="o">=</span><span class="n">trials_per_write</span><span class="o">=</span><span class="mf">1e4</span> <span class="n">output_file</span><span class="o">=</span><span class="n">lj</span>
-<span class="n">Log</span> <span class="p">[</span><span class="n">write</span><span class="p">]</span><span class="o">.</span><span class="n">csv</span>
-<span class="n">Movie</span> <span class="p">[</span><span class="n">write</span><span class="p">]</span><span class="o">.</span><span class="n">xyz</span>
-<span class="n">Energy</span> <span class="p">[</span><span class="n">write</span><span class="p">]</span><span class="n">_en</span><span class="o">.</span><span class="n">csv</span>
-<span class="n">Metropolis</span> <span class="n">trials_per_cycle</span><span class="o">=</span><span class="mf">1e4</span> <span class="n">cycles_to_complete</span><span class="o">=</span><span class="mf">1e2</span>
-<span class="n">Run</span> <span class="n">until</span><span class="o">=</span><span class="n">complete</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst-0.25.19/build/bin/fst<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$HOME</span>/feasst-0.25.19/tutorial/example.txt
 </pre></div>
 </div>
 </section>
 <section id="how-to-learn-more">
 <h3>How to learn more<a class="headerlink" href="#how-to-learn-more" title="Link to this heading"></a></h3>
 <ul class="simple">
+<li><p>Use the “feasst-menu” command.</p></li>
 <li><p>Review the <a class="reference internal" href="tutorial/tutorial.html"><span class="doc">first</span></a> and <a class="reference internal" href="tutorial/launch.html"><span class="doc">second tutorial</span></a>.</p>
 <ul>
 <li><p>Copy/paste or use the URL to find the code (e.g., <a class="reference external" href="https://pages.nist.gov/feasst/tutorial/launch.html">https://pages.nist.gov/feasst/tutorial/launch.html</a> is <code class="docutils literal notranslate"><span class="pre">$HOME/feasst/tutorial/launch.py</span></code>).</p></li>
@@ -328,9 +417,11 @@ Try the command cmake3 instead of cmake.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="README_html.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="README_html.html#features-in-version-0-25-18">Features in version 0.25.18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README_html.html#how-to-compile">How to compile</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README_html.html#how-to-run-a-simulation">How to run a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README_html.html#features-in-version-0-25-19">Features in version 0.25.19</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README_html.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README_html.html#c-executable">C++ Executable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README_html.html#id2">Python Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README_html.html#c-library-or-development">C++ Library or Development</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README_html.html#how-to-learn-more">How to learn more</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README_html.html#troubleshooting-install">Troubleshooting install</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="README_html.html#ubuntu-18-20-22-24-and-rocky-8-and-9">Ubuntu 18, 20, 22, 24 and Rocky 8 and 9</a></li>
@@ -418,7 +509,6 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l2"><a class="reference internal" href="plugin/prefetch/tutorial/tutorial_2_lj_muvt_prefetch.html">Prefetching Grand Canonical Ensemble Monte Carlo LJ simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/prefetch/tutorial/tutorial_3_lj_npt_prefetch.html">Prefetching Isothermal-Isobaric Ensemble Monte Carlo LJ simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/prefetch/tutorial/tutorial_4_lj_gibbs_prefetch.html">Prefetching Gibbs Ensemble Monte Carlo LJ simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plugin/aniso/tutorial/tutorial_0_sqw_t1.15.html">Test of an anisotropic, textured square well potential.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/aniso/tutorial/tutorial_1_cg_protein.html">CG simulation of a protein using anisotropic precomputed potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/fftw/tutorial/tutorial_01_hs_scattering.html">Compare standard vs FFTW scattering calculations for hard spheres</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/morph/tutorial/tutorial_1_binary_lj.html">Semi-Grand Canonical Flat Histogram Simulation of a binary LJ mixture</a></li>
@@ -718,9 +808,6 @@ Try the command cmake3 instead of cmake.</p>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D_arguments.html">ModelTableCart1D</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D_arguments.html#_CPPv4N6feasst16ModelTableCart1DE"><code class="docutils literal notranslate"><span class="pre">ModelTableCart1D</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D_arguments.html#_CPPv4N6feasst20ModelTableCart1DHardE"><code class="docutils literal notranslate"><span class="pre">ModelTableCart1DHard</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D_arguments.html#_CPPv4N6feasst22ModelTableCart2DIntegrE"><code class="docutils literal notranslate"><span class="pre">ModelTableCart2DIntegr</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D_arguments.html#_CPPv4N6feasst22ModelTableCart3DIntegrE"><code class="docutils literal notranslate"><span class="pre">ModelTableCart3DIntegr</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/shape/doc/ShapeFile_arguments.html">ShapeFile</a><ul>
@@ -1201,6 +1288,7 @@ Try the command cmake3 instead of cmake.</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/text_interface.html#change-log">Change Log</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/text_interface.html#v0-25-18-to-v0-25-19">v0.25.18 to v0.25.19</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/text_interface.html#v0-25-17-to-v0-25-18">v0.25.17 to v0.25.18</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/text_interface.html#v0-25-15-to-v0-25-16">v0.25.15 to v0.25.16</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/text_interface.html#v0-25-13-to-v0-25-14">v0.25.13 to v0.25.14</a></li>
@@ -1385,6 +1473,8 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/arguments_extra.html#_CPPv4N6feasst6feasst9parse_forERK7argtype"><code class="docutils literal notranslate"><span class="pre">feasst::parse_for()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/arguments_extra.html#_CPPv4N6feasst6feasst10expand_forERK7arglistPiPi"><code class="docutils literal notranslate"><span class="pre">feasst::expand_for()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/arguments_extra.html#_CPPv4N6feasst6feasst8parse_ifERK7arglistPiPiPi"><code class="docutils literal notranslate"><span class="pre">feasst::parse_if()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/arguments_extra.html#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7argtypeRKNSt6stringEKb"><code class="docutils literal notranslate"><span class="pre">feasst::parse()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/arguments_extra.html#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglistKb"><code class="docutils literal notranslate"><span class="pre">feasst::parse()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1550,6 +1640,10 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/TimerRDTSC.html#_CPPv4N6feasst10TimerRDTSC5eraseEKi"><code class="docutils literal notranslate"><span class="pre">erase()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/Restart.html">Restart</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/utils/doc/Restart.html#_CPPv4N6feasst7RestartE"><code class="docutils literal notranslate"><span class="pre">Restart</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/Cache.html">Cache</a><ul>
@@ -1903,11 +1997,13 @@ Try the command cmake3 instead of cmake.</p>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable5DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable5D</span></code></a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable5D16RecursiveTable5DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable5D()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable5D14percent_nestedEv"><code class="docutils literal notranslate"><span class="pre">percent_nested()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable5D20linear_interpolationEKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable6DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable6D</span></code></a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable6D16RecursiveTable6DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable6D()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable6D14percent_nestedEv"><code class="docutils literal notranslate"><span class="pre">percent_nested()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable6D20linear_interpolationEKdKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 </ul>
 </li>
@@ -2197,6 +2293,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Configuration.html#_CPPv4NK6feasst13Configuration18site_name_to_indexERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">site_name_to_index()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Configuration.html#_CPPv4NK6feasst13Configuration18site_index_to_nameEKiKi"><code class="docutils literal notranslate"><span class="pre">site_index_to_name()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Configuration.html#_CPPv4NK6feasst13Configuration23site_type_name_to_indexERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">site_type_name_to_index()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Configuration.html#_CPPv4NK6feasst13Configuration17anisotropic_sitesEv"><code class="docutils literal notranslate"><span class="pre">anisotropic_sites()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Configuration.html#_CPPv4N6feasst13Configuration3addENSt10shared_ptrI5GroupEENSt6stringE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Configuration.html#_CPPv4NK6feasst13Configuration10num_groupsEv"><code class="docutils literal notranslate"><span class="pre">num_groups()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Configuration.html#_CPPv4NK6feasst13Configuration22particle_type_to_groupEKi"><code class="docutils literal notranslate"><span class="pre">particle_type_to_group()</span></code></a></li>
@@ -2335,6 +2432,19 @@ Try the command cmake3 instead of cmake.</p>
 </li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html">NeighborCriteria</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE"><code class="docutils literal notranslate"><span class="pre">NeighborCriteria</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteria13name_to_indexERK15ParticleFactory"><code class="docutils literal notranslate"><span class="pre">name_to_index()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4NK6feasst16NeighborCriteria11is_acceptedEKdKdKiKi"><code class="docutils literal notranslate"><span class="pre">is_accepted()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4NK6feasst16NeighborCriteria6volumeEKi"><code class="docutils literal notranslate"><span class="pre">volume()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteria20is_position_acceptedERK8PositionRK6Domain"><code class="docutils literal notranslate"><span class="pre">is_position_accepted()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4NK6feasst16NeighborCriteria9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteria16NeighborCriteriaERNSt7istreamE"><code class="docutils literal notranslate"><span class="pre">NeighborCriteria()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4N6feasst5ncritE"><code class="docutils literal notranslate"><span class="pre">ncrit</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html">ModelParam</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst10ModelParamE"><code class="docutils literal notranslate"><span class="pre">ModelParam</span></code></a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst10ModelParam3addEKd"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
@@ -2355,45 +2465,35 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4NK6feasst10ModelParam3strEPNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">str()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst7EpsilonE"><code class="docutils literal notranslate"><span class="pre">Epsilon</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst5SigmaE"><code class="docutils literal notranslate"><span class="pre">Sigma</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst6CutOffE"><code class="docutils literal notranslate"><span class="pre">CutOff</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst6ChargeE"><code class="docutils literal notranslate"><span class="pre">Charge</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE"><code class="docutils literal notranslate"><span class="pre">ModelParams</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParams3addERK8Particle"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParams3mixEv"><code class="docutils literal notranslate"><span class="pre">mix()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4NK6feasst11ModelParams4sizeEv"><code class="docutils literal notranslate"><span class="pre">size()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParams3setERKNSt6stringEKiKd"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParams3setERKNSt6stringEKiKiKd"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParams3setERKNSt6stringERKNSt6stringEPNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParams3setERKNSt6stringEPNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParams3addENSt10shared_ptrI10ModelParamEE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4NK6feasst11ModelParams6selectEKi"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4NK6feasst11ModelParams5indexERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">index()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4NK6feasst11ModelParams6selectERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParams23set_cutoff_min_to_sigmaEv"><code class="docutils literal notranslate"><span class="pre">set_cutoff_min_to_sigma()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParams22set_physical_constantsENSt10shared_ptrI17PhysicalConstantsEE"><code class="docutils literal notranslate"><span class="pre">set_physical_constants()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParams22set_physical_constantsEv"><code class="docutils literal notranslate"><span class="pre">set_physical_constants()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4NK6feasst11ModelParams18physical_constantsEv"><code class="docutils literal notranslate"><span class="pre">physical_constants()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4NK6feasst11ModelParams9constantsEv"><code class="docutils literal notranslate"><span class="pre">constants()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4NK6feasst11ModelParams5checkEv"><code class="docutils literal notranslate"><span class="pre">check()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4NK6feasst11ModelParams3strEPNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">str()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/ModelParam.html#_CPPv4NK6feasst11ModelParams9deep_copyEv"><code class="docutils literal notranslate"><span class="pre">deep_copy()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html">Epsilon</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst7EpsilonE"><code class="docutils literal notranslate"><span class="pre">Epsilon</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst5SigmaE"><code class="docutils literal notranslate"><span class="pre">Sigma</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst6CutOffE"><code class="docutils literal notranslate"><span class="pre">CutOff</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst6ChargeE"><code class="docutils literal notranslate"><span class="pre">Charge</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst11ModelParamsE"><code class="docutils literal notranslate"><span class="pre">ModelParams</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst11ModelParams3addERK8Particle"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst11ModelParams3mixEv"><code class="docutils literal notranslate"><span class="pre">mix()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4NK6feasst11ModelParams4sizeEv"><code class="docutils literal notranslate"><span class="pre">size()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst11ModelParams3setERKNSt6stringEKiKd"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst11ModelParams3setERKNSt6stringEKiKiKd"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst11ModelParams3setERKNSt6stringERKNSt6stringEPNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst11ModelParams3setERKNSt6stringEPNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst11ModelParams3addENSt10shared_ptrI10ModelParamEE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4NK6feasst11ModelParams6selectEKi"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4NK6feasst11ModelParams5indexERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">index()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4NK6feasst11ModelParams6selectERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst11ModelParams23set_cutoff_min_to_sigmaEv"><code class="docutils literal notranslate"><span class="pre">set_cutoff_min_to_sigma()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst11ModelParams22set_physical_constantsENSt10shared_ptrI17PhysicalConstantsEE"><code class="docutils literal notranslate"><span class="pre">set_physical_constants()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4N6feasst11ModelParams22set_physical_constantsEv"><code class="docutils literal notranslate"><span class="pre">set_physical_constants()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4NK6feasst11ModelParams18physical_constantsEv"><code class="docutils literal notranslate"><span class="pre">physical_constants()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4NK6feasst11ModelParams9constantsEv"><code class="docutils literal notranslate"><span class="pre">constants()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4NK6feasst11ModelParams5checkEv"><code class="docutils literal notranslate"><span class="pre">check()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4NK6feasst11ModelParams3strEPNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">str()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/Epsilon.html#_CPPv4NK6feasst11ModelParams9deep_copyEv"><code class="docutils literal notranslate"><span class="pre">deep_copy()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html">NeighborCriteria</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE"><code class="docutils literal notranslate"><span class="pre">NeighborCriteria</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteria13name_to_indexERK15ParticleFactory"><code class="docutils literal notranslate"><span class="pre">name_to_index()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4NK6feasst16NeighborCriteria11is_acceptedEKdKdKiKi"><code class="docutils literal notranslate"><span class="pre">is_accepted()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4NK6feasst16NeighborCriteria6volumeEKi"><code class="docutils literal notranslate"><span class="pre">volume()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteria20is_position_acceptedERK8PositionRK6Domain"><code class="docutils literal notranslate"><span class="pre">is_position_accepted()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4NK6feasst16NeighborCriteria9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteria16NeighborCriteriaERNSt7istreamE"><code class="docutils literal notranslate"><span class="pre">NeighborCriteria()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/configuration/doc/NeighborCriteria.html#_CPPv4N6feasst5ncritE"><code class="docutils literal notranslate"><span class="pre">ncrit</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/Group.html">Group</a><ul>
@@ -2887,7 +2987,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/System.html#_CPPv4NK6feasst6System13configurationEKi"><code class="docutils literal notranslate"><span class="pre">configuration()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/System.html#_CPPv4NK6feasst6System19configuration_indexERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">configuration_index()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/System.html#_CPPv4NK6feasst6System13configurationERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">configuration()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/System.html#_CPPv4N6feasst6System13configurationERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">configuration()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/System.html#_CPPv4N6feasst6System17get_configurationERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">get_configuration()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/System.html#_CPPv4NK6feasst6System9dimensionEKi"><code class="docutils literal notranslate"><span class="pre">dimension()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/System.html#_CPPv4N6feasst6System3addENSt10shared_ptrI9PotentialEE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/system/doc/System.html#_CPPv4N6feasst6System15set_unoptimizedEKiNSt10shared_ptrI9PotentialEEKi"><code class="docutils literal notranslate"><span class="pre">set_unoptimized()</span></code></a></li>
@@ -3439,8 +3539,10 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/Analyze.html#_CPPv4N6feasst7Analyze5writeERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/Analyze.html#_CPPv4N6feasst16AnalyzeWriteOnlyE"><code class="docutils literal notranslate"><span class="pre">AnalyzeWriteOnly</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/Analyze.html#_CPPv4N6feasst17AnalyzeUpdateOnlyE"><code class="docutils literal notranslate"><span class="pre">AnalyzeUpdateOnly</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/AnalyzeUpdateOnly.html">AnalyzeUpdateOnly</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/AnalyzeUpdateOnly.html#_CPPv4N6feasst17AnalyzeUpdateOnlyE"><code class="docutils literal notranslate"><span class="pre">AnalyzeUpdateOnly</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Modify.html">Modify</a><ul>
@@ -3451,7 +3553,10 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/Modify.html#_CPPv4N6feasst6Modify5writeEP10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/Modify.html#_CPPv4N6feasst16ModifyUpdateOnlyE"><code class="docutils literal notranslate"><span class="pre">ModifyUpdateOnly</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/ModifyUpdateOnly.html">ModifyUpdateOnly</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/ModifyUpdateOnly.html#_CPPv4N6feasst16ModifyUpdateOnlyE"><code class="docutils literal notranslate"><span class="pre">ModifyUpdateOnly</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbRemove.html">PerturbRemove</a><ul>
@@ -3519,6 +3624,10 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeVolume.html#_CPPv4N6feasst18TrialComputeVolume22perturb_and_acceptanceEP8CriteriaP6SystemP10AcceptancePNSt6vectorIP10TrialStageEEP6Random"><code class="docutils literal notranslate"><span class="pre">perturb_and_acceptance()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/AnalyzeWriteOnly.html">AnalyzeWriteOnly</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/AnalyzeWriteOnly.html#_CPPv4N6feasst16AnalyzeWriteOnlyE"><code class="docutils literal notranslate"><span class="pre">AnalyzeWriteOnly</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Action.html">Action</a><ul>
@@ -3754,40 +3863,6 @@ Try the command cmake3 instead of cmake.</p>
 </li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html">PerturbTranslate</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html#_CPPv4N6feasst16PerturbTranslateE"><code class="docutils literal notranslate"><span class="pre">PerturbTranslate</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html#_CPPv4N6feasst16PerturbTranslate10precomputeEP11TrialSelectP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html#_CPPv4N6feasst16PerturbTranslate9mid_stageERK11TrialSelectRK6System"><code class="docutils literal notranslate"><span class="pre">mid_stage()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html#_CPPv4N6feasst16PerturbTranslate16update_selectionERK8PositionP11TrialSelect"><code class="docutils literal notranslate"><span class="pre">update_selection()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html#_CPPv4N6feasst16PerturbTranslate4moveERK8PositionP6SystemP11TrialSelect"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html#_CPPv4N6feasst16PerturbTranslate4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAnywhere.html">PerturbAnywhere</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAnywhere.html#_CPPv4N6feasst15PerturbAnywhereE"><code class="docutils literal notranslate"><span class="pre">PerturbAnywhere</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAnywhere.html#_CPPv4N6feasst15PerturbAnywhere12set_positionERK8PositionP6SystemP11TrialSelect"><code class="docutils literal notranslate"><span class="pre">set_position()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAnywhere.html#_CPPv4N6feasst15PerturbAnywhere4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html">PerturbAdd</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAddE"><code class="docutils literal notranslate"><span class="pre">PerturbAdd</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAdd10PerturbAddE7argtype"><code class="docutils literal notranslate"><span class="pre">PerturbAdd()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4NK6feasst10PerturbAdd9delay_addEv"><code class="docutils literal notranslate"><span class="pre">delay_add()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAdd13before_selectEv"><code class="docutils literal notranslate"><span class="pre">before_select()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAdd7perturbEP6SystemP11TrialSelectP6RandomKbP10Acceptance"><code class="docutils literal notranslate"><span class="pre">perturb()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAdd3addEP6SystemP11TrialSelectP6RandomRK8PositionKb"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAdd6revertEP6System"><code class="docutils literal notranslate"><span class="pre">revert()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAdd8finalizeEP6System"><code class="docutils literal notranslate"><span class="pre">finalize()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4NK6feasst10PerturbAdd13status_headerEv"><code class="docutils literal notranslate"><span class="pre">status_header()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4NK6feasst10PerturbAdd6statusEv"><code class="docutils literal notranslate"><span class="pre">status()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDistance.html">PerturbDistance</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDistance.html#_CPPv4N6feasst15PerturbDistanceE"><code class="docutils literal notranslate"><span class="pre">PerturbDistance</span></code></a><ul>
 <li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDistance.html#_CPPv4N6feasst15PerturbDistance10precomputeEP11TrialSelectP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
@@ -3818,6 +3893,40 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDihedral.html#_CPPv4N6feasst15PerturbDihedral19old_dihedral_energyERK6SystemPK11TrialSelect"><code class="docutils literal notranslate"><span class="pre">old_dihedral_energy()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDihedral.html#_CPPv4N6feasst15PerturbDihedral23random_dihedral_radiansERK6SystemPK11TrialSelectP6RandomPd"><code class="docutils literal notranslate"><span class="pre">random_dihedral_radians()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDihedral.html#_CPPv4N6feasst15PerturbDihedral14place_dihedralEKdKdKdP6SystemP11TrialSelect"><code class="docutils literal notranslate"><span class="pre">place_dihedral()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html">PerturbTranslate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html#_CPPv4N6feasst16PerturbTranslateE"><code class="docutils literal notranslate"><span class="pre">PerturbTranslate</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html#_CPPv4N6feasst16PerturbTranslate10precomputeEP11TrialSelectP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html#_CPPv4N6feasst16PerturbTranslate9mid_stageERK11TrialSelectRK6System"><code class="docutils literal notranslate"><span class="pre">mid_stage()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html#_CPPv4N6feasst16PerturbTranslate16update_selectionERK8PositionP11TrialSelect"><code class="docutils literal notranslate"><span class="pre">update_selection()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html#_CPPv4N6feasst16PerturbTranslate4moveERK8PositionP6SystemP11TrialSelect"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html#_CPPv4N6feasst16PerturbTranslate4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAnywhere.html">PerturbAnywhere</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAnywhere.html#_CPPv4N6feasst15PerturbAnywhereE"><code class="docutils literal notranslate"><span class="pre">PerturbAnywhere</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAnywhere.html#_CPPv4N6feasst15PerturbAnywhere12set_positionERK8PositionP6SystemP11TrialSelect"><code class="docutils literal notranslate"><span class="pre">set_position()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAnywhere.html#_CPPv4N6feasst15PerturbAnywhere4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html">PerturbAdd</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAddE"><code class="docutils literal notranslate"><span class="pre">PerturbAdd</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAdd10PerturbAddE7argtype"><code class="docutils literal notranslate"><span class="pre">PerturbAdd()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4NK6feasst10PerturbAdd9delay_addEv"><code class="docutils literal notranslate"><span class="pre">delay_add()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAdd13before_selectEv"><code class="docutils literal notranslate"><span class="pre">before_select()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAdd7perturbEP6SystemP11TrialSelectP6RandomKbP10Acceptance"><code class="docutils literal notranslate"><span class="pre">perturb()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAdd3addEP6SystemP11TrialSelectP6RandomRK8PositionKb"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAdd6revertEP6System"><code class="docutils literal notranslate"><span class="pre">revert()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4N6feasst10PerturbAdd8finalizeEP6System"><code class="docutils literal notranslate"><span class="pre">finalize()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4NK6feasst10PerturbAdd13status_headerEv"><code class="docutils literal notranslate"><span class="pre">status_header()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html#_CPPv4NK6feasst10PerturbAdd6statusEv"><code class="docutils literal notranslate"><span class="pre">status()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -4316,6 +4425,10 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/actions/doc/OptPotential.html#_CPPv4N6feasst12OptPotentialE"><code class="docutils literal notranslate"><span class="pre">OptPotential</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/actions/doc/EnergyGrid.html">EnergyGrid</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/actions/doc/EnergyGrid.html#_CPPv4N6feasst10EnergyGridE"><code class="docutils literal notranslate"><span class="pre">EnergyGrid</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/actions/doc/RefPotential.html">RefPotential</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/actions/doc/RefPotential.html#_CPPv4N6feasst12RefPotentialE"><code class="docutils literal notranslate"><span class="pre">RefPotential</span></code></a></li>
 </ul>
@@ -4657,24 +4770,6 @@ Try the command cmake3 instead of cmake.</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/patch/README.html">Patch</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html">FileVMDPatch</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html#_CPPv4N6feasst12FileVMDPatchE"><code class="docutils literal notranslate"><span class="pre">FileVMDPatch</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html#_CPPv4N6feasst15PrinterXYZPatchE"><code class="docutils literal notranslate"><span class="pre">PrinterXYZPatch</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html#_CPPv4N6feasst12FileXYZPatchE"><code class="docutils literal notranslate"><span class="pre">FileXYZPatch</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html#_CPPv4NK6feasst12FileXYZPatch4loadEKNSt6stringEP13Configuration"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html#_CPPv4NK6feasst12FileXYZPatch5writeEKNSt6stringERK13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/MoviePatch.html">MoviePatch</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/MoviePatch.html#_CPPv4N6feasst10MoviePatchE"><code class="docutils literal notranslate"><span class="pre">MoviePatch</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/patch/doc/MoviePatch.html#_CPPv4N6feasst10MoviePatch10initializeEP10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/patch/doc/MoviePatch.html#_CPPv4N6feasst10MoviePatch5writeERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/FileVMDSpherocylinder.html">FileVMDSpherocylinder</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/FileVMDSpherocylinder.html#_CPPv4N6feasst21FileVMDSpherocylinderE"><code class="docutils literal notranslate"><span class="pre">FileVMDSpherocylinder</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/FileVMDSpherocylinder.html#_CPPv4N6feasst24PrinterXYZSpherocylinderE"><code class="docutils literal notranslate"><span class="pre">PrinterXYZSpherocylinder</span></code></a></li>
@@ -4693,6 +4788,24 @@ Try the command cmake3 instead of cmake.</p>
 </li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html">FileVMDPatch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html#_CPPv4N6feasst12FileVMDPatchE"><code class="docutils literal notranslate"><span class="pre">FileVMDPatch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html#_CPPv4N6feasst15PrinterXYZPatchE"><code class="docutils literal notranslate"><span class="pre">PrinterXYZPatch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html#_CPPv4N6feasst12FileXYZPatchE"><code class="docutils literal notranslate"><span class="pre">FileXYZPatch</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html#_CPPv4NK6feasst12FileXYZPatch4loadEKNSt6stringEP13Configuration"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/patch/doc/FileVMDPatch.html#_CPPv4NK6feasst12FileXYZPatch5writeEKNSt6stringERK13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/MoviePatch.html">MoviePatch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/MoviePatch.html#_CPPv4N6feasst10MoviePatchE"><code class="docutils literal notranslate"><span class="pre">MoviePatch</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/patch/doc/MoviePatch.html#_CPPv4N6feasst10MoviePatch10initializeEP10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">initialize()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/patch/doc/MoviePatch.html#_CPPv4N6feasst10MoviePatch5writeERK10MonteCarlo"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/PatchAngle.html">PatchAngle</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/PatchAngle.html#_CPPv4N6feasst10PatchAngleE"><code class="docutils literal notranslate"><span class="pre">PatchAngle</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/PatchAngle.html#_CPPv4N6feasst13CosPatchAngleE"><code class="docutils literal notranslate"><span class="pre">CosPatchAngle</span></code></a></li>
@@ -4700,13 +4813,13 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/PatchAngle.html#_CPPv4N6feasst20SpherocylinderLengthE"><code class="docutils literal notranslate"><span class="pre">SpherocylinderLength</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/VisitModelInnerPatch.html">VisitModelInnerPatch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/VisitModelInnerPatch.html#_CPPv4N6feasst20VisitModelInnerPatchE"><code class="docutils literal notranslate"><span class="pre">VisitModelInnerPatch</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/TwoParticleContactObjective.html">TwoParticleContactObjective</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/TwoParticleContactObjective.html#_CPPv4N6feasst27TwoParticleContactObjectiveE"><code class="docutils literal notranslate"><span class="pre">TwoParticleContactObjective</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/TwoParticleContactObjective.html#_CPPv4N6feasst18TwoParticleContactE"><code class="docutils literal notranslate"><span class="pre">TwoParticleContact</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/VisitModelInnerPatch.html">VisitModelInnerPatch</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/patch/doc/VisitModelInnerPatch.html#_CPPv4N6feasst20VisitModelInnerPatchE"><code class="docutils literal notranslate"><span class="pre">VisitModelInnerPatch</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/Spherocylinder.html">Spherocylinder</a><ul>
@@ -4915,16 +5028,16 @@ Try the command cmake3 instead of cmake.</p>
 </li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/PerturbCrankshaft.html">PerturbCrankshaft</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbCrankshaft.html#_CPPv4N6feasst17PerturbCrankshaftE"><code class="docutils literal notranslate"><span class="pre">PerturbCrankshaft</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/chain/doc/PerturbCrankshaft.html#_CPPv4N6feasst17PerturbCrankshaft4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/PerturbParticlePivot.html">PerturbParticlePivot</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbParticlePivot.html#_CPPv4N6feasst20PerturbParticlePivotE"><code class="docutils literal notranslate"><span class="pre">PerturbParticlePivot</span></code></a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/chain/doc/PerturbParticlePivot.html#_CPPv4N6feasst20PerturbParticlePivot4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/chain/doc/PerturbCrankshaft.html">PerturbCrankshaft</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/chain/doc/PerturbCrankshaft.html#_CPPv4N6feasst17PerturbCrankshaftE"><code class="docutils literal notranslate"><span class="pre">PerturbCrankshaft</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/chain/doc/PerturbCrankshaft.html#_CPPv4N6feasst17PerturbCrankshaft4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -5047,6 +5160,13 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l2"><a class="reference internal" href="plugin/shape/README.html">Shape</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plugin/shape/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/shape/README.html#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/ShapedEntity.html">ShapedEntity</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/shape/doc/ShapedEntity.html#_CPPv4N6feasst12ShapedEntityE"><code class="docutils literal notranslate"><span class="pre">ShapedEntity</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/shape/doc/ShapedEntity.html#_CPPv4NK6feasst12ShapedEntity5shapeEv"><code class="docutils literal notranslate"><span class="pre">shape()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/shape/doc/FormulaSineWave.html">FormulaSineWave</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/shape/doc/FormulaSineWave.html#_CPPv4N6feasst15FormulaSineWaveE"><code class="docutils literal notranslate"><span class="pre">FormulaSineWave</span></code></a><ul>
 <li class="toctree-l6"><a class="reference internal" href="plugin/shape/doc/FormulaSineWave.html#_CPPv4NK6feasst15FormulaSineWave9amplitudeEv"><code class="docutils literal notranslate"><span class="pre">amplitude()</span></code></a></li>
@@ -5069,10 +5189,6 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l6"><a class="reference internal" href="plugin/shape/doc/Shape.html#_CPPv4NK6feasst5Shape6volumeEv"><code class="docutils literal notranslate"><span class="pre">volume()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/shape/doc/Shape.html#_CPPv4N6feasst5Shape4gridERK8PositionRK8PositionKi"><code class="docutils literal notranslate"><span class="pre">grid()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/shape/doc/Shape.html#_CPPv4N6feasst5Shape9integrateERK8PositionP6Random7argtype"><code class="docutils literal notranslate"><span class="pre">integrate()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/shape/doc/Shape.html#_CPPv4N6feasst12ShapedEntityE"><code class="docutils literal notranslate"><span class="pre">ShapedEntity</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/shape/doc/Shape.html#_CPPv4NK6feasst12ShapedEntity5shapeEv"><code class="docutils literal notranslate"><span class="pre">shape()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -5229,6 +5345,30 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/confinement/doc/ZeroBackground.html#_CPPv4N6feasst14ZeroBackgroundE"><code class="docutils literal notranslate"><span class="pre">ZeroBackground</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart3DIntegr.html">ModelTableCart3DIntegr</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart3DIntegr.html#_CPPv4N6feasst22ModelTableCart3DIntegrE"><code class="docutils literal notranslate"><span class="pre">ModelTableCart3DIntegr</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart3DIntegr.html#_CPPv4NK6feasst22ModelTableCart3DIntegr5tableEKi"><code class="docutils literal notranslate"><span class="pre">table()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart3DIntegr.html#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP5ShapeRK6DomainP6Random7argtypeKi"><code class="docutils literal notranslate"><span class="pre">compute_table()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart3DIntegr.html#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP5ShapeRK6DomainP6Random7argtypeKiKiKi"><code class="docutils literal notranslate"><span class="pre">compute_table_omp()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart3DIntegr.html#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP5ShapeRK6DomainP6RandomP7argtypeKi"><code class="docutils literal notranslate"><span class="pre">compute_table()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart3DIntegr.html#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP5ShapeRK6DomainP6RandomP7argtypeKiKiKi"><code class="docutils literal notranslate"><span class="pre">compute_table_omp()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart3DIntegr.html#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP6SystemP6SelectKi"><code class="docutils literal notranslate"><span class="pre">compute_table()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart3DIntegr.html#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP6SystemP6SelectKiKiKi"><code class="docutils literal notranslate"><span class="pre">compute_table_omp()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart3DIntegr.html#_CPPv4N6feasst22ModelTableCart3DIntegr6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart3DIntegr.html#_CPPv4NK6feasst22ModelTableCart3DIntegr9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1DHard.html">ModelTableCart1DHard</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst20ModelTableCart1DHardE"><code class="docutils literal notranslate"><span class="pre">ModelTableCart1DHard</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst20ModelTableCart1DHard13compute_tableEP5ShapeP6DomainP6Random7argtypeKi"><code class="docutils literal notranslate"><span class="pre">compute_table()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4N6feasst20ModelTableCart1DHard6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1DHard.html#_CPPv4NK6feasst20ModelTableCart1DHard9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html">ModelTableCart1D</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst16ModelTableCart1DE"><code class="docutils literal notranslate"><span class="pre">ModelTableCart1D</span></code></a><ul>
 <li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst16ModelTableCart1D10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
@@ -5236,29 +5376,14 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4NK6feasst16ModelTableCart1D9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst20ModelTableCart1DHardE"><code class="docutils literal notranslate"><span class="pre">ModelTableCart1DHard</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst20ModelTableCart1DHard13compute_tableEP5ShapeP6DomainP6Random7argtypeKi"><code class="docutils literal notranslate"><span class="pre">compute_table()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst20ModelTableCart1DHard6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4NK6feasst20ModelTableCart1DHard9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst22ModelTableCart2DIntegrE"><code class="docutils literal notranslate"><span class="pre">ModelTableCart2DIntegr</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst22ModelTableCart2DIntegr13compute_tableEP5ShapeP6DomainP6Random7argtypeKi"><code class="docutils literal notranslate"><span class="pre">compute_table()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst22ModelTableCart2DIntegr17compute_table_ompEP5ShapeP6DomainP6Random7argtypeKiKiKi"><code class="docutils literal notranslate"><span class="pre">compute_table_omp()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst22ModelTableCart2DIntegr6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4NK6feasst22ModelTableCart2DIntegr9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst22ModelTableCart3DIntegrE"><code class="docutils literal notranslate"><span class="pre">ModelTableCart3DIntegr</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4NK6feasst22ModelTableCart3DIntegr5tableEKi"><code class="docutils literal notranslate"><span class="pre">table()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP5ShapeRK6DomainP6Random7argtypeKi"><code class="docutils literal notranslate"><span class="pre">compute_table()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP5ShapeRK6DomainP6Random7argtypeKiKiKi"><code class="docutils literal notranslate"><span class="pre">compute_table_omp()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP5ShapeRK6DomainP6RandomP7argtypeKi"><code class="docutils literal notranslate"><span class="pre">compute_table()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP5ShapeRK6DomainP6RandomP7argtypeKiKiKi"><code class="docutils literal notranslate"><span class="pre">compute_table_omp()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst22ModelTableCart3DIntegr13compute_tableEP6SystemP6SelectKi"><code class="docutils literal notranslate"><span class="pre">compute_table()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst22ModelTableCart3DIntegr17compute_table_ompEP6SystemP6SelectKiKiKi"><code class="docutils literal notranslate"><span class="pre">compute_table_omp()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst22ModelTableCart3DIntegr6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart1D.html#_CPPv4NK6feasst22ModelTableCart3DIntegr9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart2DIntegr.html">ModelTableCart2DIntegr</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart2DIntegr.html#_CPPv4N6feasst22ModelTableCart2DIntegrE"><code class="docutils literal notranslate"><span class="pre">ModelTableCart2DIntegr</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart2DIntegr.html#_CPPv4N6feasst22ModelTableCart2DIntegr13compute_tableEP5ShapeP6DomainP6Random7argtypeKi"><code class="docutils literal notranslate"><span class="pre">compute_table()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart2DIntegr.html#_CPPv4N6feasst22ModelTableCart2DIntegr17compute_table_ompEP5ShapeP6DomainP6Random7argtypeKiKiKi"><code class="docutils literal notranslate"><span class="pre">compute_table_omp()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart2DIntegr.html#_CPPv4N6feasst22ModelTableCart2DIntegr6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/confinement/doc/ModelTableCart2DIntegr.html#_CPPv4NK6feasst22ModelTableCart2DIntegr9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -5823,16 +5948,18 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l2"><a class="reference internal" href="plugin/prefetch/README.html">Prefetch</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plugin/prefetch/doc/Pool.html">Pool</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/prefetch/doc/Pool.html#_CPPv4N6feasst4PoolE"><code class="docutils literal notranslate"><span class="pre">Pool</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/prefetch/doc/Pool.html#_CPPv4N6feasst8PrefetchE"><code class="docutils literal notranslate"><span class="pre">Prefetch</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Pool.html#_CPPv4N6feasst8Prefetch8PrefetchE7argtype"><code class="docutils literal notranslate"><span class="pre">Prefetch()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Pool.html#_CPPv4NK6feasst8Prefetch16trials_per_checkEv"><code class="docutils literal notranslate"><span class="pre">trials_per_check()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Pool.html#_CPPv4N6feasst8Prefetch17activate_prefetchEKb"><code class="docutils literal notranslate"><span class="pre">activate_prefetch()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Pool.html#_CPPv4N6feasst8Prefetch17reset_trial_statsEv"><code class="docutils literal notranslate"><span class="pre">reset_trial_stats()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Pool.html#_CPPv4N6feasst8Prefetch3runENSt10shared_ptrI6ActionEE"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Pool.html#_CPPv4N6feasst8Prefetch14run_num_trialsE7int64_t"><code class="docutils literal notranslate"><span class="pre">run_num_trials()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Pool.html#_CPPv4N6feasst8Prefetch23run_until_num_particlesEKiRKNSt6stringEKi"><code class="docutils literal notranslate"><span class="pre">run_until_num_particles()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Pool.html#_CPPv4N6feasst8Prefetch21run_until_file_existsERKNSt6stringEKi"><code class="docutils literal notranslate"><span class="pre">run_until_file_exists()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Pool.html#_CPPv4N6feasst8Prefetch18run_until_completeEv"><code class="docutils literal notranslate"><span class="pre">run_until_complete()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/prefetch/doc/Prefetch.html">Prefetch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/prefetch/doc/Prefetch.html#_CPPv4N6feasst8PrefetchE"><code class="docutils literal notranslate"><span class="pre">Prefetch</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Prefetch.html#_CPPv4NK6feasst8Prefetch16trials_per_checkEv"><code class="docutils literal notranslate"><span class="pre">trials_per_check()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Prefetch.html#_CPPv4N6feasst8Prefetch17activate_prefetchEKb"><code class="docutils literal notranslate"><span class="pre">activate_prefetch()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Prefetch.html#_CPPv4N6feasst8Prefetch17reset_trial_statsEv"><code class="docutils literal notranslate"><span class="pre">reset_trial_stats()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Prefetch.html#_CPPv4N6feasst8Prefetch3runENSt10shared_ptrI6ActionEE"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Prefetch.html#_CPPv4N6feasst8Prefetch14run_num_trialsE7int64_t"><code class="docutils literal notranslate"><span class="pre">run_num_trials()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Prefetch.html#_CPPv4N6feasst8Prefetch23run_until_num_particlesEKiRKNSt6stringEKi"><code class="docutils literal notranslate"><span class="pre">run_until_num_particles()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Prefetch.html#_CPPv4N6feasst8Prefetch21run_until_file_existsERKNSt6stringEKi"><code class="docutils literal notranslate"><span class="pre">run_until_file_exists()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/prefetch/doc/Prefetch.html#_CPPv4N6feasst8Prefetch18run_until_completeEv"><code class="docutils literal notranslate"><span class="pre">run_until_complete()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -5907,7 +6034,6 @@ Try the command cmake3 instead of cmake.</p>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/aniso/README.html#tutorial">Tutorial</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/aniso/tutorial/tutorial_0_sqw_t1.15.html">Test of an anisotropic, textured square well potential.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/aniso/tutorial/tutorial_1_cg_protein.html">CG simulation of a protein using anisotropic precomputed potentials</a></li>
 </ul>
 </li>
@@ -6204,121 +6330,121 @@ Try the command cmake3 instead of cmake.</p>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pyfeasst/README.html">pyfeasst</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyfeasst/docs/source/accumulator.html">accumulator</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/accumulator.html#accumulator.Accumulator"><code class="docutils literal notranslate"><span class="pre">Accumulator</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/accumulator.html#accumulator.Accumulator.num_moments"><code class="docutils literal notranslate"><span class="pre">Accumulator.num_moments()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/accumulator.html#accumulator.Accumulator.add"><code class="docutils literal notranslate"><span class="pre">Accumulator.add()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/accumulator.html#accumulator.Accumulator.num_values"><code class="docutils literal notranslate"><span class="pre">Accumulator.num_values()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/accumulator.html#accumulator.Accumulator.mean"><code class="docutils literal notranslate"><span class="pre">Accumulator.mean()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/accumulator.html#accumulator.Accumulator.stdev"><code class="docutils literal notranslate"><span class="pre">Accumulator.stdev()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/accumulator.html#accumulator.Accumulator.sum_moment"><code class="docutils literal notranslate"><span class="pre">Accumulator.sum_moment()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="README_python.html">Python Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/source/accumulator.html">accumulator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/accumulator.html#accumulator.Accumulator"><code class="docutils literal notranslate"><span class="pre">Accumulator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/accumulator.html#accumulator.Accumulator.num_moments"><code class="docutils literal notranslate"><span class="pre">Accumulator.num_moments()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/accumulator.html#accumulator.Accumulator.add"><code class="docutils literal notranslate"><span class="pre">Accumulator.add()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/accumulator.html#accumulator.Accumulator.num_values"><code class="docutils literal notranslate"><span class="pre">Accumulator.num_values()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/accumulator.html#accumulator.Accumulator.mean"><code class="docutils literal notranslate"><span class="pre">Accumulator.mean()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/accumulator.html#accumulator.Accumulator.stdev"><code class="docutils literal notranslate"><span class="pre">Accumulator.stdev()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/accumulator.html#accumulator.Accumulator.sum_moment"><code class="docutils literal notranslate"><span class="pre">Accumulator.sum_moment()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pyfeasst/docs/source/cd.html">cd</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/cd.html#cd.cd"><code class="docutils literal notranslate"><span class="pre">cd</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/source/cd.html">cd</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/cd.html#cd.cd"><code class="docutils literal notranslate"><span class="pre">cd</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pyfeasst/docs/source/fstio.html">fstio</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.dict_to_argparse"><code class="docutils literal notranslate"><span class="pre">dict_to_argparse()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.vector3d_to_list"><code class="docutils literal notranslate"><span class="pre">vector3d_to_list()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.read_checkpoint"><code class="docutils literal notranslate"><span class="pre">read_checkpoint()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.all_sims_complete"><code class="docutils literal notranslate"><span class="pre">all_sims_complete()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.slurm_single_job"><code class="docutils literal notranslate"><span class="pre">slurm_single_job()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.run_single"><code class="docutils literal notranslate"><span class="pre">run_single()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.split"><code class="docutils literal notranslate"><span class="pre">split()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.run_simulations"><code class="docutils literal notranslate"><span class="pre">run_simulations()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.combine_tables_two_rigid_body"><code class="docutils literal notranslate"><span class="pre">combine_tables_two_rigid_body()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.num_sites_in_fstprt"><code class="docutils literal notranslate"><span class="pre">num_sites_in_fstprt()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.write_linear_grow_file"><code class="docutils literal notranslate"><span class="pre">write_linear_grow_file()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.prefetch_acceptance"><code class="docutils literal notranslate"><span class="pre">prefetch_acceptance()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstio.html#fstio.cd"><code class="docutils literal notranslate"><span class="pre">cd</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/source/fstio.html">fstio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.dict_to_argparse"><code class="docutils literal notranslate"><span class="pre">dict_to_argparse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.vector3d_to_list"><code class="docutils literal notranslate"><span class="pre">vector3d_to_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.read_checkpoint"><code class="docutils literal notranslate"><span class="pre">read_checkpoint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.all_sims_complete"><code class="docutils literal notranslate"><span class="pre">all_sims_complete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.slurm_single_job"><code class="docutils literal notranslate"><span class="pre">slurm_single_job()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.run_single"><code class="docutils literal notranslate"><span class="pre">run_single()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.split"><code class="docutils literal notranslate"><span class="pre">split()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.run_simulations"><code class="docutils literal notranslate"><span class="pre">run_simulations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.combine_tables_two_rigid_body"><code class="docutils literal notranslate"><span class="pre">combine_tables_two_rigid_body()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.num_sites_in_fstprt"><code class="docutils literal notranslate"><span class="pre">num_sites_in_fstprt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.write_linear_grow_file"><code class="docutils literal notranslate"><span class="pre">write_linear_grow_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.prefetch_acceptance"><code class="docutils literal notranslate"><span class="pre">prefetch_acceptance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.cd"><code class="docutils literal notranslate"><span class="pre">cd</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstio.html#fstio.write_if_file_DNE"><code class="docutils literal notranslate"><span class="pre">write_if_file_DNE()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pyfeasst/docs/source/fstplot.html">fstplot</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstplot.html#fstplot.val2map"><code class="docutils literal notranslate"><span class="pre">val2map()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/fstplot.html#fstplot.display"><code class="docutils literal notranslate"><span class="pre">display()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/source/fstplot.html">fstplot</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstplot.html#fstplot.val2map"><code class="docutils literal notranslate"><span class="pre">val2map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/fstplot.html#fstplot.display"><code class="docutils literal notranslate"><span class="pre">display()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html">macrostate_distribution</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.__init__"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_dataframe"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.set_dataframe()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.concat_dataframe"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.concat_dataframe()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.dataframe"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.dataframe()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_macrostates"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.set_macrostates()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.macrostates"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.macrostates()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_ln_prob"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.set_ln_prob()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.ln_prob"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.ln_prob()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_minimum_smoothing"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.set_minimum_smoothing()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.minimum_smoothing"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.minimum_smoothing()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.normalize"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.normalize()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.average_macrostate"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.average_macrostate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.ensemble_average"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.ensemble_average()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.plot"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.plot()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.minimums"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.minimums()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.split"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.split()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.reweight"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.reweight()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.reweight_to_macrostate"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.reweight_to_macrostate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.equilibrium"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.equilibrium()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.compute_single_component_derivatives"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.compute_single_component_derivatives()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.extrapolate_single_component"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.extrapolate_single_component()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.init_interpolate"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.init_interpolate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.interpolate"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.interpolate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/source/macrostate_distribution.html">macrostate_distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.__init__"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_dataframe"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.set_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.concat_dataframe"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.concat_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.dataframe"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_macrostates"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.set_macrostates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.macrostates"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.macrostates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_ln_prob"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.set_ln_prob()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.ln_prob"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.ln_prob()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.set_minimum_smoothing"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.set_minimum_smoothing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.minimum_smoothing"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.minimum_smoothing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.normalize"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.normalize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.average_macrostate"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.average_macrostate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.ensemble_average"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.ensemble_average()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.plot"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.minimums"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.minimums()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.split"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.split()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.reweight"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.reweight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.reweight_to_macrostate"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.reweight_to_macrostate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.equilibrium"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.equilibrium()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.compute_single_component_derivatives"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.compute_single_component_derivatives()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.extrapolate_single_component"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.extrapolate_single_component()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.init_interpolate"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.init_interpolate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.MacrostateDistribution.interpolate"><code class="docutils literal notranslate"><span class="pre">MacrostateDistribution.interpolate()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.splice"><code class="docutils literal notranslate"><span class="pre">splice()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.splice_files"><code class="docutils literal notranslate"><span class="pre">splice_files()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.read_appended"><code class="docutils literal notranslate"><span class="pre">read_appended()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.splice_collection_matrix"><code class="docutils literal notranslate"><span class="pre">splice_collection_matrix()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.window_exponential"><code class="docutils literal notranslate"><span class="pre">window_exponential()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/macrostate_distribution.html#macrostate_distribution.split_ln_prob_file"><code class="docutils literal notranslate"><span class="pre">split_ln_prob_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.splice"><code class="docutils literal notranslate"><span class="pre">splice()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.splice_files"><code class="docutils literal notranslate"><span class="pre">splice_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.read_appended"><code class="docutils literal notranslate"><span class="pre">read_appended()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.splice_collection_matrix"><code class="docutils literal notranslate"><span class="pre">splice_collection_matrix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.window_exponential"><code class="docutils literal notranslate"><span class="pre">window_exponential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/macrostate_distribution.html#macrostate_distribution.split_ln_prob_file"><code class="docutils literal notranslate"><span class="pre">split_ln_prob_file()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pyfeasst/docs/source/multistate_accumulator.html">multistate_accumulator</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/multistate_accumulator.html#multistate_accumulator.splice_by_max_column"><code class="docutils literal notranslate"><span class="pre">splice_by_max_column()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/multistate_accumulator.html#multistate_accumulator.splice_by_node"><code class="docutils literal notranslate"><span class="pre">splice_by_node()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/multistate_accumulator.html#multistate_accumulator.splice"><code class="docutils literal notranslate"><span class="pre">splice()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/source/multistate_accumulator.html">multistate_accumulator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/multistate_accumulator.html#multistate_accumulator.splice_by_max_column"><code class="docutils literal notranslate"><span class="pre">splice_by_max_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/multistate_accumulator.html#multistate_accumulator.splice_by_node"><code class="docutils literal notranslate"><span class="pre">splice_by_node()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/multistate_accumulator.html#multistate_accumulator.splice"><code class="docutils literal notranslate"><span class="pre">splice()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html">physical_constants</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.ElementaryCharge"><code class="docutils literal notranslate"><span class="pre">ElementaryCharge</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.ElementaryCharge.units"><code class="docutils literal notranslate"><span class="pre">ElementaryCharge.units()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.ElementaryCharge.value"><code class="docutils literal notranslate"><span class="pre">ElementaryCharge.value()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/source/physical_constants.html">physical_constants</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.ElementaryCharge"><code class="docutils literal notranslate"><span class="pre">ElementaryCharge</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.ElementaryCharge.units"><code class="docutils literal notranslate"><span class="pre">ElementaryCharge.units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.ElementaryCharge.value"><code class="docutils literal notranslate"><span class="pre">ElementaryCharge.value()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.BoltzmannConstant"><code class="docutils literal notranslate"><span class="pre">BoltzmannConstant</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.BoltzmannConstant.units"><code class="docutils literal notranslate"><span class="pre">BoltzmannConstant.units()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.BoltzmannConstant.value"><code class="docutils literal notranslate"><span class="pre">BoltzmannConstant.value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.BoltzmannConstant"><code class="docutils literal notranslate"><span class="pre">BoltzmannConstant</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.BoltzmannConstant.units"><code class="docutils literal notranslate"><span class="pre">BoltzmannConstant.units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.BoltzmannConstant.value"><code class="docutils literal notranslate"><span class="pre">BoltzmannConstant.value()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.AvogadroConstant"><code class="docutils literal notranslate"><span class="pre">AvogadroConstant</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.AvogadroConstant.units"><code class="docutils literal notranslate"><span class="pre">AvogadroConstant.units()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.AvogadroConstant.value"><code class="docutils literal notranslate"><span class="pre">AvogadroConstant.value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.AvogadroConstant"><code class="docutils literal notranslate"><span class="pre">AvogadroConstant</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.AvogadroConstant.units"><code class="docutils literal notranslate"><span class="pre">AvogadroConstant.units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.AvogadroConstant.value"><code class="docutils literal notranslate"><span class="pre">AvogadroConstant.value()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.VacuumElectricPermittivity"><code class="docutils literal notranslate"><span class="pre">VacuumElectricPermittivity</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.VacuumElectricPermittivity.units"><code class="docutils literal notranslate"><span class="pre">VacuumElectricPermittivity.units()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.VacuumElectricPermittivity.value"><code class="docutils literal notranslate"><span class="pre">VacuumElectricPermittivity.value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.VacuumElectricPermittivity"><code class="docutils literal notranslate"><span class="pre">VacuumElectricPermittivity</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.VacuumElectricPermittivity.units"><code class="docutils literal notranslate"><span class="pre">VacuumElectricPermittivity.units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.VacuumElectricPermittivity.value"><code class="docutils literal notranslate"><span class="pre">VacuumElectricPermittivity.value()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.MolarGasConstant"><code class="docutils literal notranslate"><span class="pre">MolarGasConstant</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.MolarGasConstant.units"><code class="docutils literal notranslate"><span class="pre">MolarGasConstant.units()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.MolarGasConstant.value"><code class="docutils literal notranslate"><span class="pre">MolarGasConstant.value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.MolarGasConstant"><code class="docutils literal notranslate"><span class="pre">MolarGasConstant</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.MolarGasConstant.units"><code class="docutils literal notranslate"><span class="pre">MolarGasConstant.units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.MolarGasConstant.value"><code class="docutils literal notranslate"><span class="pre">MolarGasConstant.value()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.ESqPerAngstromToKJPerMol"><code class="docutils literal notranslate"><span class="pre">ESqPerAngstromToKJPerMol</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.ESqPerAngstromToKJPerMol.units"><code class="docutils literal notranslate"><span class="pre">ESqPerAngstromToKJPerMol.units()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyfeasst/docs/source/physical_constants.html#physical_constants.ESqPerAngstromToKJPerMol.value"><code class="docutils literal notranslate"><span class="pre">ESqPerAngstromToKJPerMol.value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.ESqPerAngstromToKJPerMol"><code class="docutils literal notranslate"><span class="pre">ESqPerAngstromToKJPerMol</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.ESqPerAngstromToKJPerMol.units"><code class="docutils literal notranslate"><span class="pre">ESqPerAngstromToKJPerMol.units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="docs/source/physical_constants.html#physical_constants.ESqPerAngstromToKJPerMol.value"><code class="docutils literal notranslate"><span class="pre">ESqPerAngstromToKJPerMol.value()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="python/README.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="CONTACT.html#project-lead">Project lead</a></li>
 <li class="toctree-l2"><a class="reference internal" href="CONTACT.html#bug-reporting">Bug reporting</a></li>

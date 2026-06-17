@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fstio &mdash; FEASST 0.25.18 0.25.18 documentation</title>
+  <title>fstio &mdash; FEASST 0.25.19 0.25.19 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -14,7 +14,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=560a56e0"></script>
+      <script src="../_static/documentation_options.js?v=f272d2f9"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -48,7 +48,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            FEASST 0.25.18
+            FEASST 0.25.19
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -58,8 +58,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../python/README.html">Python Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README_python.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -72,7 +71,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">FEASST 0.25.18</a>
+          <a href="../index.html">FEASST 0.25.19</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -157,15 +156,15 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
 
 <div class="viewcode-block" id="dict_to_argparse">
-<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.dict_to_argparse">[docs]</a>
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.dict_to_argparse">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dict_to_argparse</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a dictionary to a string that argparse may read from command line</span>
 
-<span class="sd">    &gt;&gt;&gt; from pyfeasst import fstio</span>
-<span class="sd">    &gt;&gt;&gt; params = {&#39;run_type&#39;: 0, &#39;feasst_install&#39;: &#39;/path/to/feasst/&#39;, &#39;queue_flags&#39;: &quot;&quot;}</span>
+<span class="sd">    &gt;&gt;&gt; from feasst import fstio</span>
+<span class="sd">    &gt;&gt;&gt; params = {&#39;run_type&#39;: 0, &#39;queue_flags&#39;: &quot;&quot;}</span>
 <span class="sd">    &gt;&gt;&gt; fstio.dict_to_argparse(params)</span>
-<span class="sd">    &#39; --run_type 0 --feasst_install /path/to/feasst/ --queue_flags &quot;&quot;&#39;</span>
+<span class="sd">    &#39; --run_type 0 --queue_flags &quot;&quot;&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rtrn</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="p">:</span>
@@ -177,12 +176,12 @@
 
 
 <div class="viewcode-block" id="vector3d_to_list">
-<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.vector3d_to_list">[docs]</a>
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.vector3d_to_list">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">vector3d_to_list</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a swig stl vector to python list</span>
 
-<span class="sd">    &gt;&gt;&gt; from pyfeasst import fstio</span>
+<span class="sd">    &gt;&gt;&gt; from feasst import fstio</span>
 <span class="sd">    &gt;&gt;&gt; fstio.vector3d_to_list([[[[0]]]])</span>
 <span class="sd">    [[[[0]]]]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -199,13 +198,13 @@
 
 
 <div class="viewcode-block" id="read_checkpoint">
-<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.read_checkpoint">[docs]</a>
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.read_checkpoint">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_checkpoint</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return contents of checkpoint file as a string</span>
 
-<span class="sd">    &gt;&gt;&gt; from pyfeasst import fstio</span>
-<span class="sd">    &gt;&gt;&gt; table = fstio.read_checkpoint(&#39;../../tests/tutorial_0_table.txt&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; from feasst import fstio</span>
+<span class="sd">    &gt;&gt;&gt; table = fstio.read_checkpoint(&#39;tests/tutorial_0_table.txt&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; table[:13]</span>
 <span class="sd">    &#39;6867 11 11 11&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -216,18 +215,18 @@
 
 
 <div class="viewcode-block" id="all_sims_complete">
-<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.all_sims_complete">[docs]</a>
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.all_sims_complete">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">all_sims_complete</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">procs_per_job</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    See if each job has a sim_id_file with as many lines as procs for ecah job.</span>
 <span class="sd">    If no file is present, also consider the simulation incomplete.</span>
 
-<span class="sd">    &gt;&gt;&gt; from pyfeasst import fstio</span>
-<span class="sd">    &gt;&gt;&gt; all_sims_complete(&#39;../../tests/lj_sim_ids.txt&#39;, 8)</span>
+<span class="sd">    &gt;&gt;&gt; from feasst import fstio</span>
+<span class="sd">    &gt;&gt;&gt; all_sims_complete(&#39;tests/lj_sim_ids.txt&#39;, 8)</span>
 <span class="sd">    True</span>
-<span class="sd">    &gt;&gt;&gt; all_sims_complete(&#39;../../tests/lj_sim_ids2.txt&#39;, 8)</span>
+<span class="sd">    &gt;&gt;&gt; all_sims_complete(&#39;tests/lj_sim_ids2.txt&#39;, 8)</span>
 <span class="sd">    False</span>
-<span class="sd">    &gt;&gt;&gt; all_sims_complete(&#39;../../tests/not_a_file.txt&#39;, 1)</span>
+<span class="sd">    &gt;&gt;&gt; all_sims_complete(&#39;tests/not_a_file.txt&#39;, 1)</span>
 <span class="sd">    False</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
@@ -244,14 +243,14 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">deprecate_warning</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">old_key</span><span class="p">,</span> <span class="n">new_key</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">old_key</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyfeasst.fstio&#39;</span><span class="p">,</span> <span class="n">old_key</span><span class="p">,</span> <span class="s1">&#39;is deprecated. Use&#39;</span><span class="p">,</span> <span class="n">new_key</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;feasst.fstio&#39;</span><span class="p">,</span> <span class="n">old_key</span><span class="p">,</span> <span class="s1">&#39;is deprecated. Use&#39;</span><span class="p">,</span> <span class="n">new_key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">new_key</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;do not use both&#39;</span><span class="p">,</span> <span class="n">new_key</span><span class="p">,</span> <span class="s1">&#39;and&#39;</span><span class="p">,</span> <span class="n">old_key</span><span class="p">)</span>
         <span class="n">params</span><span class="p">[</span><span class="n">new_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">old_key</span><span class="p">)</span>
 
 <span class="c1">#HWH now autogenerated sim_id_file: filename to write simulation id&#39;s for each job for status check,</span>
 <div class="viewcode-block" id="slurm_single_job">
-<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.slurm_single_job">[docs]</a>
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.slurm_single_job">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">slurm_single_job</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write slurm script for one job.</span>
@@ -321,7 +320,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">slurm_single_node</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyfeasst.fstio.slurm_single_node is deprecated. Use pyfeasst.fstio.slurm_single_job.&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;feasst.fstio.slurm_single_node is deprecated. Use feasst.fstio.slurm_single_job.&#39;</span><span class="p">)</span>
     <span class="n">slurm_single_job</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">server</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_job_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">):</span>
@@ -333,7 +332,7 @@
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;server_port&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">write_feasst_script</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
-<span class="w">                </span><span class="sd">&quot;&quot;&quot;echo &quot;Server port {server_port} buffer_size {buffer_size}&quot; |&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">feasst_install</span><span class="o">+</span><span class="s2">&quot;&quot;&quot;bin/fst &gt; </span><span class="si">{prefix}{sim:03d}</span><span class="s2">_fstout.txt&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">),</span>
+<span class="w">                </span><span class="sd">&quot;&quot;&quot;echo &quot;Server port {server_port} buffer_size {buffer_size}&quot; |&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot;feasst &gt; </span><span class="si">{prefix}{sim:03d}</span><span class="s2">_fstout.txt&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">),</span>
             <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">syscode</span> <span class="o">=</span> <span class="n">seed_param_write_run</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">],</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_job_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">)</span>
@@ -353,19 +352,19 @@
     <span class="n">file_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}{:03d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">],</span><span class="n">sim</span><span class="p">)</span>
     <span class="n">write_feasst_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">script_file</span><span class="o">=</span><span class="n">file_name</span><span class="o">+</span><span class="s1">&#39;_fstin.txt&#39;</span><span class="p">)</span>
     <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
-        <span class="n">args</span><span class="o">.</span><span class="n">feasst_install</span><span class="o">+</span><span class="s1">&#39;bin/fst &lt; &#39;</span><span class="o">+</span><span class="n">file_name</span><span class="o">+</span><span class="s1">&#39;_fstin.txt  &gt; &#39;</span><span class="o">+</span><span class="n">file_name</span><span class="o">+</span><span class="s1">&#39;_fstout.txt&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;feasst &lt; &#39;</span><span class="o">+</span><span class="n">file_name</span><span class="o">+</span><span class="s1">&#39;_fstin.txt  &gt; &#39;</span><span class="o">+</span><span class="n">file_name</span><span class="o">+</span><span class="s1">&#39;_fstout.txt&#39;</span><span class="p">,</span>
         <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">syscode</span>
 
 <div class="viewcode-block" id="run_single">
-<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.run_single">[docs]</a>
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.run_single">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">run_single</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_job_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">,</span> <span class="n">post_process</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Run a single simulation. If all simulations are complete, run PostProcess. &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">queue_task</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span>
         <span class="n">syscode</span> <span class="o">=</span> <span class="n">seed_param_write_run</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_job_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span> <span class="c1"># if queue_task &lt; 1, restart from checkpoint</span>
-        <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;echo </span><span class="se">\&quot;</span><span class="s2">Restart </span><span class="si">{}{:03d}</span><span class="s2">_checkpoint.fst</span><span class="se">\&quot;</span><span class="s2"> | </span><span class="si">{}</span><span class="s2">bin/fst&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">],</span> <span class="n">sim</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">feasst_install</span><span class="p">),</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+        <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;echo </span><span class="se">\&quot;</span><span class="s2">Restart checkpoint_file=</span><span class="si">{}{:03d}</span><span class="s2">_checkpoint.fst</span><span class="se">\&quot;</span><span class="s2"> | feasst&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">],</span> <span class="n">sim</span><span class="p">),</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">syscode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># if simulation finishes with no errors, write to sim id file</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_id_file&#39;</span><span class="p">],</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
             <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -396,12 +395,12 @@
 
 
 <div class="viewcode-block" id="split">
-<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.split">[docs]</a>
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.split">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    From https://stackoverflow.com/questions/2130016/splitting-a-list-into-n-parts-of-approximately-equal-length</span>
 
-<span class="sd">    &gt;&gt;&gt; from pyfeasst import fstio</span>
+<span class="sd">    &gt;&gt;&gt; from feasst import fstio</span>
 <span class="sd">    &gt;&gt;&gt; list(fstio.split(range(11), 3))</span>
 <span class="sd">    [range(0, 4), range(4, 8), range(8, 11)]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -426,7 +425,7 @@
     <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;j&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">job</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_sim_ids.txt&#39;</span>
 
 <div class="viewcode-block" id="run_simulations">
-<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.run_simulations">[docs]</a>
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.run_simulations">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">run_simulations</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">queue_function</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sim_job_dependent_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">post_process</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run a simulation either locally in the shell or queue on HPC nodes</span>
@@ -457,7 +456,7 @@
 <span class="sd">        Arguments from argparse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">sim_node_dependent_params</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyfeasst.fstio.sim_node_dependent_params is deprecated. Use sim_job_dependent_params.&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;feasst.fstio.sim_node_dependent_params is deprecated. Use sim_job_dependent_params.&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sim_job_dependent_params</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;do not use both sim_node_dependent_params and sim_job_dependent_params&#39;</span><span class="p">)</span>
         <span class="n">sim_job_dependent_params</span> <span class="o">=</span> <span class="n">sim_node_dependent_params</span>
@@ -467,6 +466,8 @@
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">run_type</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># run directly</span>
         <span class="c1">#print(&#39;getting params&#39;)</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">read_write_params</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="c1">#if params[&#39;num_jobs&#39;] &gt; 1:</span>
+        <span class="c1">#    print(&#39;Warning: requested num_jobs:&#39;, params[&#39;num_jobs&#39;], &#39;, but running interactively (e.g., --run_type 0 as default) will only run the first job. This means that post_process will return an error if it does not have all the required files.&#39;)</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_id_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prefix_job_to_sim_id_file</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;job&#39;</span><span class="p">])</span>
         <span class="c1">#print(&#39;have params&#39;, params[&#39;beta&#39;])</span>
         <span class="k">if</span> <span class="n">client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -533,7 +534,7 @@
 
 
 <div class="viewcode-block" id="combine_tables_two_rigid_body">
-<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.combine_tables_two_rigid_body">[docs]</a>
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.combine_tables_two_rigid_body">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">combine_tables_two_rigid_body</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">num_procs</span><span class="p">,</span> <span class="n">num_header_lines</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Combine table files generated in parallel by TableTwoRigidBody3D.&quot;&quot;&quot;</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -581,7 +582,7 @@
 <span class="c1">#    return sock</span>
 
 <div class="viewcode-block" id="num_sites_in_fstprt">
-<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.num_sites_in_fstprt">[docs]</a>
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.num_sites_in_fstprt">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">num_sites_in_fstprt</span><span class="p">(</span><span class="n">fstprt_file</span><span class="p">,</span> <span class="n">feasst_install</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the integer number of sites in a fstprt file</span>
@@ -592,12 +593,12 @@
 <span class="sd">        An option to provide the path to the feasst build directory in order to convert a</span>
 <span class="sd">        fstprt_file which begins with the characters &#39;/feasst&#39; to the feasst directory.</span>
 
-<span class="sd">    &gt;&gt;&gt; from pyfeasst import fstio</span>
-<span class="sd">    &gt;&gt;&gt; fstio.num_sites_in_fstprt(&#39;../../../particle/lj.txt&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; from feasst import fstio</span>
+<span class="sd">    &gt;&gt;&gt; fstio.num_sites_in_fstprt(&#39;../particle/lj.txt&#39;)</span>
 <span class="sd">    1</span>
-<span class="sd">    &gt;&gt;&gt; fstio.num_sites_in_fstprt(&#39;../../../particle/n-butane.txt&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; fstio.num_sites_in_fstprt(&#39;../particle/n-butane.txt&#39;)</span>
 <span class="sd">    4</span>
-<span class="sd">    &gt;&gt;&gt; fstio.num_sites_in_fstprt(&#39;/feasst/particle/n-butane.txt&#39;, &#39;../../../build/&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; fstio.num_sites_in_fstprt(&#39;/feasst/particle/n-butane.txt&#39;, &#39;./&#39;)</span>
 <span class="sd">    4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">fstprt_file</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;/feasst&#39;</span><span class="p">:</span>
@@ -648,7 +649,7 @@
     <span class="k">return</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="write_linear_grow_file">
-<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.write_linear_grow_file">[docs]</a>
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.write_linear_grow_file">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">write_linear_grow_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">num_sites</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">base_weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">conf2</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">particle_type</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dihedral</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">particle_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">feasst_install</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write TrialGrowFile input files for linear chain particles.</span>
@@ -691,7 +692,7 @@
 
 <span class="sd">    Reptations has been disabled because there is an issue with them.</span>
 
-<span class="sd">    &gt;&gt;&gt; from pyfeasst import fstio</span>
+<span class="sd">    &gt;&gt;&gt; from feasst import fstio</span>
 <span class="sd">    &gt;&gt;&gt; fstio.write_linear_grow_file(&quot;grow_grand_canonical.txt&quot;, num_sites=3, gce=1, ref=&quot;noixn&quot;, num_steps=4)</span>
 <span class="sd">    &gt;&gt;&gt; with open(&#39;grow_grand_canonical.txt&#39;) as file1:</span>
 <span class="sd">    ...     lines = file1.readlines()</span>
@@ -701,7 +702,7 @@
 <span class="sd">    &#39;\\n&#39;</span>
 <span class="sd">    &gt;&gt;&gt; lines[2]</span>
 <span class="sd">    &#39;particle_type=0 weight=1 transfer=true site=2 num_steps=4 ref=noixn\\n&#39;</span>
-<span class="sd">    &gt;&gt;&gt; fstio.write_linear_grow_file(&quot;grow_grand_canonical.txt&quot;, gce=1, ref=&quot;dccb&quot;, num_steps=4, particle_file=&#39;../../../particle/spce_new.txt&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; fstio.write_linear_grow_file(&quot;grow_grand_canonical.txt&quot;, gce=1, ref=&quot;dccb&quot;, num_steps=4, particle_file=&#39;../particle/spce_new.txt&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; with open(&#39;grow_grand_canonical.txt&#39;) as file1:</span>
 <span class="sd">    ...     lines = file1.readlines()</span>
 <span class="sd">    &gt;&gt;&gt; lines[2]</span>
@@ -828,7 +829,7 @@
 
 
 <div class="viewcode-block" id="prefetch_acceptance">
-<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.prefetch_acceptance">[docs]</a>
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.prefetch_acceptance">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">prefetch_acceptance</span><span class="p">(</span><span class="n">acceptance</span><span class="p">,</span> <span class="n">num_processors</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given the desired acceptance, output the target acceptance for a parallelized trial move to</span>
@@ -836,7 +837,7 @@
 <span class="sd">    Prefetch trial moves are biased because the last trial in each cycle is updated with modify</span>
 <span class="sd">    a number of times equal to the minimum of the number of processors or first accepted thread.</span>
 
-<span class="sd">    &gt;&gt;&gt; from pyfeasst import fstio</span>
+<span class="sd">    &gt;&gt;&gt; from feasst import fstio</span>
 <span class="sd">    &gt;&gt;&gt; round(fstio.prefetch_acceptance(0.5, 2), 8)</span>
 <span class="sd">    0.66666667</span>
 <span class="sd">    &gt;&gt;&gt; round(fstio.prefetch_acceptance(0.25, 2), 8)</span>
@@ -865,7 +866,7 @@
 
 
 <div class="viewcode-block" id="cd">
-<a class="viewcode-back" href="../pyfeasst/docs/source/fstio.html#fstio.cd">[docs]</a>
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.cd">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">cd</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Context manager for changing the current working directory.</span>
@@ -875,7 +876,7 @@
 <span class="sd">    &gt;&gt;&gt; import os</span>
 <span class="sd">    &gt;&gt;&gt; from pathlib import Path</span>
 <span class="sd">    &gt;&gt;&gt; import subprocess</span>
-<span class="sd">    &gt;&gt;&gt; from pyfeasst import cd</span>
+<span class="sd">    &gt;&gt;&gt; from feasst import cd</span>
 <span class="sd">    &gt;&gt;&gt; code = subprocess.call(&quot;mkdir -p tmp&quot;, shell=True, executable=&#39;/bin/bash&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; with cd.cd(&quot;tmp&quot;): print(Path(os.getcwd()).name)</span>
 <span class="sd">    tmp</span>
@@ -890,6 +891,28 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">etype</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
         <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_saved_path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="write_if_file_DNE">
+<a class="viewcode-back" href="../docs/source/fstio.html#fstio.write_if_file_DNE">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">write_if_file_DNE</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write to a file if that file does not exist. Otherwise, do nothing.</span>
+
+<span class="sd">    &gt;&gt;&gt; from feasst import fstio</span>
+<span class="sd">    &gt;&gt;&gt; file1 = fstio.write_if_file_DNE(&#39;does_not_exist&#39;, &#39;content&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; with open(&#39;does_not_exist&#39;, &#39;r&#39;, encoding=&#39;utf-8&#39;) as file1:</span>
+<span class="sd">    ...     file1.readlines()</span>
+<span class="sd">    [&#39;content&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; file1 = fstio.write_if_file_DNE(&#39;tests/gr.csv&#39;, &#39;content&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; with open(&#39;tests/gr.csv&#39;, &#39;r&#39;, encoding=&#39;utf-8&#39;) as file1:</span>
+<span class="sd">    ...     file1.readlines()[1][:5]</span>
+<span class="sd">    &#39;0.025&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">return</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+        <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
