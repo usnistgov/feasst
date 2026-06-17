@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lennard Jones in the canonical ensemble &mdash; FEASST 0.25.18 0.25.18 documentation</title>
+  <title>Lennard Jones in the canonical ensemble &mdash; FEASST 0.25.19 0.25.19 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=560a56e0"></script>
+      <script src="../_static/documentation_options.js?v=f272d2f9"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -54,7 +54,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            FEASST 0.25.18
+            FEASST 0.25.19
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -121,7 +121,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../plugin/prefetch/tutorial/tutorial_2_lj_muvt_prefetch.html">Prefetching Grand Canonical Ensemble Monte Carlo LJ simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/prefetch/tutorial/tutorial_3_lj_npt_prefetch.html">Prefetching Isothermal-Isobaric Ensemble Monte Carlo LJ simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/prefetch/tutorial/tutorial_4_lj_gibbs_prefetch.html">Prefetching Gibbs Ensemble Monte Carlo LJ simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../plugin/aniso/tutorial/tutorial_0_sqw_t1.15.html">Test of an anisotropic, textured square well potential.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/aniso/tutorial/tutorial_1_cg_protein.html">CG simulation of a protein using anisotropic precomputed potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/fftw/tutorial/tutorial_01_hs_scattering.html">Compare standard vs FFTW scattering calculations for hard spheres</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin/morph/tutorial/tutorial_1_binary_lj.html">Semi-Grand Canonical Flat Histogram Simulation of a binary LJ mixture</a></li>
@@ -138,8 +137,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plugin/example/README.html">Modify FEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../python/README.html">Python Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README_python.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -152,7 +150,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">FEASST 0.25.18</a>
+          <a href="../index.html">FEASST 0.25.19</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -222,7 +220,7 @@
   <section id="Lennard-Jones-in-the-canonical-ensemble">
 <h1>Lennard Jones in the canonical ensemble<a class="headerlink" href="#Lennard-Jones-in-the-canonical-ensemble" title="Link to this heading"></a></h1>
 <p>In this example, the <a class="reference external" href="https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm">average energy reported in the NIST SRSW</a> at <span class="math notranslate nohighlight">\(T^*=0.9\)</span> and <span class="math notranslate nohighlight">\(\rho^*=0.003\)</span> is computed with Monte Carlo simulation of a bulk Lennard Jones fluid (<a class="reference external" href="https://doi.org/10.1063/5.0224283">Section IIIB of the manuscript</a>). The simulation initializes a desired number of particles in cubic periodic boundaries, tunes the maximum trial displacement during equilibration, and finally obtains the ensemble average energy.</p>
-<p>To begin, Python3 generates a text file, <code class="docutils literal notranslate"><span class="pre">fstin.txt</span></code>, which input to the <code class="docutils literal notranslate"><span class="pre">fst</span></code> executable using the command <code class="docutils literal notranslate"><span class="pre">fst</span> <span class="pre">&lt;</span> <span class="pre">fstin.txt</span></code>. FEASST does not require the use of Python and users may create the FEASST text input file in other ways. We use Python to generate a text file for the following conveniences:</p>
+<p>We use Python to generate a string-based input to FEASST for the following conveniences:</p>
 <ul class="simple">
 <li><p>Variables required by FEASST arguments may need to be converted from variables that the user prefers to input, and these FEASST arguments can be generated by Python to machine precision. For example, if the user prefers to input temperature and state a temperature of <span class="math notranslate nohighlight">\(T^*=0.9\)</span> in their manuscript, but FEASST requires <span class="math notranslate nohighlight">\(\beta=\frac{1}{k_B T}\)</span>, then <span class="math notranslate nohighlight">\(T^*=0.9\)</span> is easier to input than <span class="math notranslate nohighlight">\(\beta=1.111111111111111\)</span>.</p></li>
 <li><p>Python generation of input files may create multiple related simulations from a single source. For example, the next tutorial simulates a range of densities with a single Python file.</p></li>
@@ -248,13 +246,9 @@ Arguments of objects are input as pairs of argument names then values separated 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">fstin</span><span class="p">):</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;fstin.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fstin</span><span class="p">)</span>
-    <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../build/bin/fst &lt; fstin.txt &gt; fstout.txt&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">syscode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;syscode&#39;</span><span class="p">,</span> <span class="n">syscode</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;If you see &quot;/bin/bash: line 1: ../build/bin/fst: No such file or directory&quot; then either fst was not compiled or you need to change the path to fst in subprocess.call(...) two lines above.&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;fstout.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;feasst &lt; fstin.txt &gt; fstout.txt&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;fstout.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 <span class="n">run</span><span class="p">(</span><span class="n">fstin</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -264,15 +258,17 @@ Arguments of objects are input as pairs of argument names then values separated 
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: feasst &lt; file.txt
+# For more information, use the command &#34;feasst-menu&#34;
+# Exit with ctrl-c
+FEASST version 0.25.19
 MonteCarlo
 RandomMT19937 seed=1572362164
 # Initializing random number generator with seed: 1572362164
 
 </pre></div></div>
 </div>
-<p>The output of <code class="docutils literal notranslate"><span class="pre">fst</span></code> in <code class="docutils literal notranslate"><span class="pre">fstout.txt</span></code> is displayed, and may be used to reproduce the simulation. It includes the FEASST version as well as a confirmation of the seed. The version shown may not match your version.</p>
+<p>The output FEASST may be used to reproduce the simulation.</p>
 <p>If there is a typo in the arguments, this may result in an exception which will print to the terminal. You may test this now by changing the <code class="docutils literal notranslate"><span class="pre">seed</span></code> argument to <code class="docutils literal notranslate"><span class="pre">sd</span></code>. Because the argument <code class="docutils literal notranslate"><span class="pre">sd</span></code> is not recognized by <a class="reference internal" href="../plugin/math/doc/RandomMT19937_arguments.html"><span class="doc">RandomMT19937</span></a>, a nonzero system code should be returned and a verbose error should appear in your terminal.</p>
 <p>The next step is to add a <a class="reference internal" href="../plugin/configuration/doc/Configuration_arguments.html"><span class="doc">Configuration</span></a>. In this example, a simple cubic periodic box is defined based on the number of particles and density. Because the cubic length needs to be input to high precision, a Python format string is used to input a variable enclosed in curly brackets.</p>
 <p>In addition, a particle type “lj” is defined by the file <code class="docutils literal notranslate"><span class="pre">lj.txt</span></code>. Any argument value beginning with “/feasst” will have that beginning replaced with the <a class="reference internal" href="../plugin/utils/doc/definitions.html"><span class="doc">installation directory of FEASST</span></a>). See <a class="reference internal" href="../particle/README.html"><span class="doc">Particle</span></a> for more information about the format of the particle file.</p>
@@ -282,9 +278,9 @@ RandomMT19937 seed=1572362164
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_particles</span><span class="o">=</span><span class="mi">500</span>
 <span class="n">density</span><span class="o">=</span><span class="mf">0.003</span>
-<span class="n">fstin</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">Configuration cubic_side_length=</span><span class="si">{length}</span><span class="s2"> particle_type=lj:/feasst/particle/lj.txt</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="p">(</span><span class="n">num_particles</span><span class="o">/</span><span class="n">density</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">))</span>
+<span class="n">length</span><span class="o">=</span><span class="p">(</span><span class="n">num_particles</span><span class="o">/</span><span class="n">density</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span>
+<span class="n">fstin</span><span class="o">+=</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Configuration cubic_side_length=</span><span class="si">{</span><span class="n">length</span><span class="si">}</span><span class="s2"> particle_type=lj:/feasst/particle/lj_new.txt&quot;&quot;&quot;</span>
 <span class="n">run</span><span class="p">(</span><span class="n">fstin</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -294,12 +290,14 @@ RandomMT19937 seed=1572362164
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: feasst &lt; file.txt
+# For more information, use the command &#34;feasst-menu&#34;
+# Exit with ctrl-c
+FEASST version 0.25.19
 MonteCarlo
 RandomMT19937 seed=1572362164
 # Initializing random number generator with seed: 1572362164
-Configuration cubic_side_length=55.03212081491043 particle_type=lj:/feasst/particle/lj.txt
+Configuration cubic_side_length=55.03212081491043 particle_type=lj:/feasst/particle/lj_new.txt
 
 </pre></div></div>
 </div>
@@ -311,8 +309,7 @@ potential by assuming a pair-wise radial distribution function of unity.</p>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fstin</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">Potential Model=LennardJones VisitModel=VisitModelCell min_length=max_cutoff</span>
-<span class="s2">Potential VisitModel=LongRangeCorrections</span>
-<span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Potential VisitModel=LongRangeCorrections&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -321,10 +318,9 @@ potential by assuming a pair-wise radial distribution function of unity.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fstin</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">ThermoParams beta=</span><span class="si">{beta}</span><span class="s2"> chemical_potential=-1</span>
-<span class="s2">Metropolis</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mf">0.9</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fstin</span><span class="o">+=</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">ThermoParams beta=</span><span class="si">{</span><span class="mf">1.</span><span class="o">/</span><span class="mf">0.9</span><span class="si">}</span><span class="s2"> chemical_potential=-1</span>
+<span class="s2">Metropolis&quot;&quot;&quot;</span>
 <span class="n">run</span><span class="p">(</span><span class="n">fstin</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -334,12 +330,14 @@ potential by assuming a pair-wise radial distribution function of unity.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: feasst &lt; file.txt
+# For more information, use the command &#34;feasst-menu&#34;
+# Exit with ctrl-c
+FEASST version 0.25.19
 MonteCarlo
 RandomMT19937 seed=1572362164
 # Initializing random number generator with seed: 1572362164
-Configuration cubic_side_length=55.03212081491043 particle_type=lj:/feasst/particle/lj.txt
+Configuration cubic_side_length=55.03212081491043 particle_type=lj:/feasst/particle/lj_new.txt
 Potential Model=LennardJones VisitModel=VisitModelCell min_length=max_cutoff
 Potential VisitModel=LongRangeCorrections
 ThermoParams beta=1.1111111111111112 chemical_potential=-1
@@ -354,8 +352,7 @@ Metropolis
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fstin</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">TrialTranslate weight=1 tunable_param=2 tunable_target_acceptance=0.2</span>
-<span class="s2">Tune</span>
-<span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Tune&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -364,47 +361,20 @@ Metropolis
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fstin</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;CheckEnergy trials_per_update=1e4 decimal_places=8&quot;&quot;&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fstin</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">CheckEnergy trials_per_update=1e4 decimal_places=8&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 </div>
 <p><a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate_arguments.html"><span class="doc">TrialAdd</span></a>, generates an initial configuration with a <a class="reference internal" href="../plugin/actions/doc/Run_arguments.html"><span class="doc">Run</span></a> with the desired number of particles. Afterward, we <a class="reference internal" href="../plugin/actions/doc/Remove_arguments.html"><span class="doc">Remove</span></a> <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate_arguments.html"><span class="doc">TrialAdd</span></a> to simulate the canonical ensemble.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fstin</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">TrialAdd weight=2 particle_type=lj</span>
-<span class="s2">Run until_num_particles=</span><span class="si">{num_particles}</span>
-<span class="s2">Remove name=TrialAdd</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_particles</span><span class="o">=</span><span class="n">num_particles</span><span class="p">)</span>
-<span class="n">run</span><span class="p">(</span><span class="n">fstin</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fstin</span><span class="o">+=</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Run until_num_particles=</span><span class="si">{</span><span class="n">num_particles</span><span class="si">}</span><span class="s2"> Trial=TrialAdd weight=2 particle_type=lj&quot;&quot;&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
-MonteCarlo
-RandomMT19937 seed=1572362164
-# Initializing random number generator with seed: 1572362164
-Configuration cubic_side_length=55.03212081491043 particle_type=lj:/feasst/particle/lj.txt
-Potential Model=LennardJones VisitModel=VisitModelCell min_length=max_cutoff
-Potential VisitModel=LongRangeCorrections
-ThermoParams beta=1.1111111111111112 chemical_potential=-1
-Metropolis
-TrialTranslate tunable_param=2 tunable_target_acceptance=0.2 weight=1
-Tune
-CheckEnergy decimal_places=8 trials_per_update=1e4
-TrialAdd particle_type=lj weight=2
-Run until_num_particles=500
-Remove name=TrialAdd
-
-</pre></div></div>
 </div>
 <p>The simulation <a class="reference internal" href="../plugin/actions/doc/Run_arguments.html"><span class="doc">Run</span></a> for a number of equilibration trials before <a class="reference internal" href="../plugin/actions/doc/Remove_arguments.html"><span class="doc">Remove</span></a> disables tuning of the maximum displacement (<a class="reference external" href="https://github.com/usnistgov/best-practices-mc/">to satisfy detailed balance</a>).</p>
 <div class="nbinput nblast docutils container">
@@ -413,8 +383,7 @@ Remove name=TrialAdd
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fstin</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">Run num_trials=1e5</span>
-<span class="s2">Remove name=Tune</span>
-<span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Remove name=Tune&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -425,12 +394,11 @@ Remove name=TrialAdd
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fstin</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">Let [write]=trials_per_write=1e4 output_file=lj</span>
-<span class="s2">Log [write].csv</span>
-<span class="s2">Energy [write]_en.csv</span>
-<span class="s2">Movie [write].xyz</span>
-<span class="s2">&quot;&quot;&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">write</span><span class="o">=</span><span class="s1">&#39;trials_per_write=1e4 output_file=lj&#39;</span>
+<span class="n">fstin</span><span class="o">+=</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Log </span><span class="si">{</span><span class="n">write</span><span class="si">}</span><span class="s2">.csv</span>
+<span class="s2">Energy </span><span class="si">{</span><span class="n">write</span><span class="si">}</span><span class="s2">_en.csv</span>
+<span class="s2">Movie </span><span class="si">{</span><span class="n">write</span><span class="si">}</span><span class="s2">.xyz&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -440,12 +408,9 @@ with colon-separated values. For example, [Analyze]=Log and [extension]=.csv in 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fstin</span><span class="o">+=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">For [an]:[ext]=Log:.csv,Energy:_en.csv,Movie:.xyz</span>
-<span class="s2">    [an] trials_per_write=1e4 output_file=lj_with_for[ext]</span>
-<span class="s2">EndFor</span>
-<span class="s2">Run num_trials=1e6</span>
-<span class="s2">&quot;&quot;&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="p">[[</span><span class="s1">&#39;Log&#39;</span><span class="p">,</span> <span class="s1">&#39;.csv&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Energy&#39;</span><span class="p">,</span> <span class="s1">&#39;_en.csv&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Movie&#39;</span><span class="p">,</span> <span class="s1">&#39;.xyz&#39;</span><span class="p">]]:</span>
+    <span class="n">fstin</span><span class="o">+=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> trials_per_write=1e4 output_file=lj_with_for</span><span class="si">{</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="n">fstin</span><span class="o">+=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Run num_trials=1e6&quot;</span>
 <span class="n">run</span><span class="p">(</span><span class="n">fstin</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -455,12 +420,14 @@ with colon-separated values. For example, [Analyze]=Log and [extension]=.csv in 
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: feasst &lt; file.txt
+# For more information, use the command &#34;feasst-menu&#34;
+# Exit with ctrl-c
+FEASST version 0.25.19
 MonteCarlo
 RandomMT19937 seed=1572362164
 # Initializing random number generator with seed: 1572362164
-Configuration cubic_side_length=55.03212081491043 particle_type=lj:/feasst/particle/lj.txt
+Configuration cubic_side_length=55.03212081491043 particle_type=lj:/feasst/particle/lj_new.txt
 Potential Model=LennardJones VisitModel=VisitModelCell min_length=max_cutoff
 Potential VisitModel=LongRangeCorrections
 ThermoParams beta=1.1111111111111112 chemical_potential=-1
@@ -468,9 +435,7 @@ Metropolis
 TrialTranslate tunable_param=2 tunable_target_acceptance=0.2 weight=1
 Tune
 CheckEnergy decimal_places=8 trials_per_update=1e4
-TrialAdd particle_type=lj weight=2
-Run until_num_particles=500
-Remove name=TrialAdd
+Run Trial=TrialAdd particle_type=lj until_num_particles=500 weight=2
 Run num_trials=1e5
 Remove name=Tune
 Log output_file=lj.csv trials_per_write=1e4

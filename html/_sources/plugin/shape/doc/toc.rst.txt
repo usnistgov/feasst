@@ -1,6 +1,7 @@
 
 .. toctree::
 
+   ShapedEntity
    FormulaSineWave
    Shape
    Sphere

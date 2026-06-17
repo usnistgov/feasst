@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>utils/include/arguments_extra &mdash; FEASST 0.25.18 0.25.18 documentation</title>
+  <title>utils/include/arguments_extra &mdash; FEASST 0.25.19 0.25.19 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=560a56e0"></script>
+      <script src="../../../_static/documentation_options.js?v=f272d2f9"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.18
+            FEASST 0.25.19
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -86,6 +86,7 @@
 <li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Let.html">Let</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TimerRDTSC.html">TimerRDTSC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Restart.html">Restart</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="EndIf.html">EndIf</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -123,8 +124,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README_python.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -137,7 +137,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.18</a>
+          <a href="../../../index.html">FEASST 0.25.19</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -270,6 +270,18 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6feasst6feasst8parse_ifERK7arglistPiPiPi">
 <span class="target" id="namespacefeasst_1a6a5190d1d1314b045c7756f275ece211"></span><a class="reference internal" href="arguments.html#_CPPv4N6feasst7arglistE" title="feasst::arglist"><span class="n"><span class="pre">arglist</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parse_if</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="arguments.html#_CPPv4N6feasst7arglistE" title="feasst::arglist"><span class="n"><span class="pre">arglist</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">list</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">first_end_if</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">last_if</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">last_else</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst8parse_ifERK7arglistPiPiPi" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7argtypeRKNSt6stringEKb">
+<span class="target" id="namespacefeasst_1ae400bc47da9787a04dcd46d9a4e6a9ef"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7argtypeRKNSt6stringEKb" title="feasst::feasst::parse::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parse</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7argtypeRKNSt6stringEKb" title="feasst::feasst::parse::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">obj</span></span>, <a class="reference internal" href="arguments.html#_CPPv4N6feasst7argtypeE" title="feasst::argtype"><span class="n"><span class="pre">argtype</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">class_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">check</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7argtypeRKNSt6stringEKb" title="Link to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> args contains derived class of T, return factory pointer and remove from args. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglistKb">
+<span class="target" id="namespacefeasst_1a44559b02467879482df1bd6bde97d243"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglistKb" title="feasst::feasst::parse::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parse</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglistKb" title="feasst::feasst::parse::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">obj</span></span>, <a class="reference internal" href="arguments.html#_CPPv4N6feasst7arglistE" title="feasst::arglist"><span class="n"><span class="pre">arglist</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">check</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst5parseENSt10shared_ptrI1TEEP1TP7arglistKb" title="Link to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="If_arguments.html#classfeasst_1_1If"><span class="std std-ref">If</span></a> args contains derived class of T, return factory pointer and remove from args. </p>
+</dd></dl>
 
 </div>
 </dd></dl>

@@ -22,5 +22,6 @@
    Checkpoint
    Let
    TimerRDTSC
+   Restart
    Cache
    EndIf

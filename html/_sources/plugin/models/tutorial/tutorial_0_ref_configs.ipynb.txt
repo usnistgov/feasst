@@ -11,7 +11,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 5,
    "id": "split-sculpture",
    "metadata": {},
    "outputs": [
@@ -19,8 +19,10 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# Usage: /home/user/feasst/build/bin/fst < file.txt\n",
-      "FEASST version 0.25.13\n",
+      "# Usage: feasst < file.txt\n",
+      "# For more information, use the command \"feasst-menu\"\n",
+      "# Exit with ctrl-c\n",
+      "FEASST version 0.25.19\n",
       "MonteCarlo\n",
       "Configuration delta_sigma=0.5 particle_type=lj:/feasst/plugin/models/particle/ljdelta.txt xyz_file=two.xyz\n",
       "Potential Model=LennardJonesAlpha alpha=12\n",
@@ -28,7 +30,7 @@
       "Metropolis\n",
       "Log clear_file=true max_precision=true output_file=lj.csv\n",
       "Run num_trials=1\n",
-      "#Warn 0 [plugin/monte_carlo/src/monte_carlo.cpp:786] No Trials to attempt.\n"
+      "#Warn 0 [/feasst/plugin/monte_carlo/src/monte_carlo.cpp:802] No Trials to attempt.\n"
      ]
     }
    ],
@@ -50,7 +52,7 @@
     "Log output_file=lj.csv max_precision=true clear_file=true\n",
     "Run num_trials=1\n",
     "\"\"\".format(**params))\n",
-    "    syscode = subprocess.call(\"../../../build/bin/fst < launch0.txt\", shell=True, executable='/bin/bash')\n",
+    "    syscode = subprocess.call(\"feasst < launch0.txt\", shell=True, executable='/bin/bash')\n",
     "    if syscode > 0: sys.exit(1)\n",
     "\n",
     "\"\"\"Test the LJ potential against analytical calculation of two particles\"\"\"\n",
@@ -74,7 +76,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 6,
    "id": "7752ff68-1287-41ca-be73-33f775d4fe6c",
    "metadata": {},
    "outputs": [
@@ -82,8 +84,10 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# Usage: /home/user/feasst/build/bin/fst < file.txt\n",
-      "FEASST version 0.25.13\n",
+      "# Usage: feasst < file.txt\n",
+      "# For more information, use the command \"feasst-menu\"\n",
+      "# Exit with ctrl-c\n",
+      "FEASST version 0.25.19\n",
       "MonteCarlo\n",
       "Configuration particle_type=lj:/feasst/plugin/models/particle/ljlambda.txt xyz_file=two.xyz\n",
       "Potential Model=LennardJonesAlpha alpha=12\n",
@@ -91,7 +95,7 @@
       "Metropolis\n",
       "Log clear_file=true max_precision=true output_file=lj.csv\n",
       "Run num_trials=1\n",
-      "#Warn 0 [plugin/monte_carlo/src/monte_carlo.cpp:786] No Trials to attempt.\n"
+      "#Warn 0 [/feasst/plugin/monte_carlo/src/monte_carlo.cpp:802] No Trials to attempt.\n"
      ]
     }
    ],

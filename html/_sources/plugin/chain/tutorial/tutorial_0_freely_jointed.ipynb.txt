@@ -18,8 +18,10 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# Usage: /home/hwh/feasst/build/bin/fst < file.txt\n",
-      "FEASST version 0.25.16\n",
+      "# Usage: feasst < file.txt\n",
+      "# For more information, use the command \"feasst-menu\"\n",
+      "# Exit with ctrl-c\n",
+      "FEASST version 0.25.19\n",
       "MonteCarlo\n",
       "Configuration cubic_side_length=30000 particle_type=chain:chain.txt.swp\n",
       "Potential Model=IdealGas\n",
@@ -27,7 +29,7 @@
       "Metropolis\n",
       "TrialAdd particle_type=chain\n",
       "Run until_num_particles=1\n",
-      "# Initializing random number generator with seed: 1764012251\n",
+      "# Initializing random number generator with seed: 1781197852\n",
       "Remove name=TrialAdd\n",
       "TrialGrowFile grow_file=grow_chain.txt.swp\n",
       "Log output_file=chain.csv trials_per_write=1\n",
@@ -101,7 +103,7 @@
     "\n",
     "with open('script0.txt', 'w') as file: file.write(script)\n",
     "import subprocess\n",
-    "syscode = subprocess.call(\"../../../build/bin/fst < script0.txt > script0.log\", shell=True, executable='/bin/bash')\n",
+    "syscode = subprocess.call(\"feasst < script0.txt > script0.log\", shell=True, executable='/bin/bash')\n",
     "with open('script0.log', 'r') as file: print(file.read(), '\\n', 'exit:', syscode)"
    ]
   },

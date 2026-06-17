@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST 0.25.18 0.25.18 documentation</title>
+  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST 0.25.19 0.25.19 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=560a56e0"></script>
+      <script src="../../../_static/documentation_options.js?v=f272d2f9"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -54,7 +54,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.18
+            FEASST 0.25.19
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -121,7 +121,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_2_lj_muvt_prefetch.html">Prefetching Grand Canonical Ensemble Monte Carlo LJ simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_3_lj_npt_prefetch.html">Prefetching Isothermal-Isobaric Ensemble Monte Carlo LJ simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_4_lj_gibbs_prefetch.html">Prefetching Gibbs Ensemble Monte Carlo LJ simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../aniso/tutorial/tutorial_0_sqw_t1.15.html">Test of an anisotropic, textured square well potential.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../aniso/tutorial/tutorial_1_cg_protein.html">CG simulation of a protein using anisotropic precomputed potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../fftw/tutorial/tutorial_01_hs_scattering.html">Compare standard vs FFTW scattering calculations for hard spheres</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../morph/tutorial/tutorial_1_binary_lj.html">Semi-Grand Canonical Flat Histogram Simulation of a binary LJ mixture</a></li>
@@ -138,8 +137,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README_python.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -152,7 +150,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.18</a>
+          <a href="../../../index.html">FEASST 0.25.19</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -360,7 +358,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">script</span><span class="p">):</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script1.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
-    <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; script1.txt &gt; script1.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+    <span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;feasst &lt; script1.txt &gt; script1.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script1.log&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;exit:&#39;</span><span class="p">,</span> <span class="n">syscode</span><span class="p">)</span>
 <span class="n">run</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
 </pre></div>
@@ -371,8 +369,10 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# Usage: /Users/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: feasst &lt; file.txt
+# For more information, use the command &#34;feasst-menu&#34;
+# Exit with ctrl-c
+FEASST version 0.25.19
 MonteCarlo
 Configuration cubic_side_length=8 particle_type=lj:/feasst/particle/lj_new.txt
 Potential Model=LennardJones
@@ -390,7 +390,7 @@ CriteriaWriter output_file=lj_fh.txt trials_per_write=1e5
 Energy multistate=true output_file=lj_en.txt trials_per_write=1e5
 Checkpoint checkpoint_file=checkpoint.fst num_hours=0.0001
 Run until=complete
-# Initializing random number generator with seed: 1749408693
+# Initializing random number generator with seed: 1781198285
 
  exit: 0
 </pre></div></div>
@@ -422,18 +422,18 @@ Run until=complete
 <div class="highlight"><pre>
    delta_ln_prob  delta_ln_prob_stdev
 0            NaN             0.000000
-1        4.66914             0.001645
-2        3.98803             0.002257
-3        3.59332             0.001912
-4        3.31309             0.001980
-5        3.10125             0.001972
+1        4.66719             0.001785
+2        3.98682             0.002033
+3        3.59093             0.001868
+4        3.31297             0.002114
+5        3.10353             0.002382
 energy         average   block_stdev
-0  1.317466e-16  1.953789e-16
-1 -6.057400e-04  7.702399e-10
-2 -3.047790e-02  2.260309e-04
-3 -9.005908e-02  4.629765e-04
-4 -1.788966e-01  7.342915e-04
-5 -2.965805e-01  1.231712e-03
+0  1.455599e-17  3.578654e-16
+1 -6.057400e-04  7.702409e-10
+2 -3.067295e-02  2.366927e-04
+3 -9.009797e-02  3.669175e-04
+4 -1.794613e-01  5.969186e-04
+5 -2.971404e-01  1.503380e-03
 </pre></div></div>
 </div>
 <p>A number of files should also have been created. If the <a class="reference internal" href="../doc/FlatHistogram_arguments.html"><span class="doc">FlatHistogram</span></a> method is sampling perfectly, the simulation performs a random walk along the <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostate</span></a>. For larger ranges of <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostates</span></a>, or for more difficult sampling cases, monitoring the <a class="reference internal" href="../doc/Macrostate_arguments.html"><span class="doc">Macrostate</span></a> can help you
@@ -490,74 +490,74 @@ determine what conditions are preventing convergence. For example, the <a class=
     <tr>
       <th>0</th>
       <td>512</td>
-      <td>5</td>
-      <td>0.666667</td>
-      <td>5</td>
-      <td>-5.615610e-02</td>
-      <td>-4.101260e-02</td>
-      <td>-1.514350e-02</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>100000</td>
-      <td>0.927751</td>
-      <td>2.83079</td>
-      <td>0.047373</td>
-      <td>0.046741</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>512</td>
-      <td>0</td>
-      <td>0.666667</td>
-      <td>0</td>
-      <td>-3.669700e-15</td>
-      <td>-3.330670e-16</td>
-      <td>-1.517880e-18</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>200000</td>
-      <td>0.944879</td>
-      <td>2.83079</td>
-      <td>0.256928</td>
-      <td>0.346506</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>512</td>
-      <td>2</td>
-      <td>0.666667</td>
-      <td>2</td>
-      <td>-2.422960e-03</td>
-      <td>1.682680e-16</td>
-      <td>-2.422960e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>300000</td>
-      <td>0.950235</td>
-      <td>2.83079</td>
-      <td>0.441354</td>
-      <td>0.570366</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>512</td>
       <td>4</td>
       <td>0.666667</td>
       <td>4</td>
-      <td>1.532020e-01</td>
-      <td>1.628940e-01</td>
+      <td>-6.574620e-02</td>
+      <td>-5.605440e-02</td>
       <td>-9.691840e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
+      <td>100000</td>
+      <td>0.924354</td>
+      <td>2.86267</td>
+      <td>0.041399</td>
+      <td>0.040860</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>512</td>
+      <td>3</td>
+      <td>0.666667</td>
+      <td>3</td>
+      <td>-1.149280e-01</td>
+      <td>-1.094770e-01</td>
+      <td>-5.451660e-03</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>200000</td>
+      <td>0.938366</td>
+      <td>2.86267</td>
+      <td>0.423966</td>
+      <td>0.454913</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>512</td>
+      <td>4</td>
+      <td>0.666667</td>
+      <td>4</td>
+      <td>-2.291060e-02</td>
+      <td>-1.321870e-02</td>
+      <td>-9.691840e-03</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>300000</td>
+      <td>0.944099</td>
+      <td>2.86267</td>
+      <td>0.552455</td>
+      <td>0.615041</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>512</td>
+      <td>1</td>
+      <td>0.666667</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>3.996800e-15</td>
+      <td>-6.057400e-04</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>400000</td>
-      <td>0.953083</td>
-      <td>2.83079</td>
-      <td>0.534310</td>
-      <td>0.676512</td>
+      <td>0.948031</td>
+      <td>2.86267</td>
+      <td>0.618505</td>
+      <td>0.699765</td>
     </tr>
     <tr>
       <th>4</th>
@@ -565,17 +565,17 @@ determine what conditions are preventing convergence. For example, the <a class=
       <td>4</td>
       <td>0.666667</td>
       <td>4</td>
-      <td>-9.691840e-03</td>
-      <td>3.108620e-15</td>
+      <td>-5.909450e-01</td>
+      <td>-5.812530e-01</td>
       <td>-9.691840e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>500000</td>
-      <td>0.954784</td>
-      <td>2.83079</td>
-      <td>0.589223</td>
-      <td>0.737878</td>
+      <td>0.950384</td>
+      <td>2.86267</td>
+      <td>0.657824</td>
+      <td>0.751987</td>
     </tr>
     <tr>
       <th>5</th>
@@ -584,16 +584,16 @@ determine what conditions are preventing convergence. For example, the <a class=
       <td>0.666667</td>
       <td>1</td>
       <td>-6.057400e-04</td>
-      <td>-3.747000e-15</td>
+      <td>4.440890e-16</td>
       <td>-6.057400e-04</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>600000</td>
-      <td>0.956285</td>
-      <td>2.83079</td>
-      <td>0.625951</td>
-      <td>0.778506</td>
+      <td>0.951794</td>
+      <td>2.86267</td>
+      <td>0.683809</td>
+      <td>0.787278</td>
     </tr>
     <tr>
       <th>6</th>
@@ -602,70 +602,70 @@ determine what conditions are preventing convergence. For example, the <a class=
       <td>0.666667</td>
       <td>1</td>
       <td>-6.057400e-04</td>
-      <td>1.304510e-15</td>
+      <td>9.992010e-16</td>
       <td>-6.057400e-04</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>700000</td>
-      <td>0.957065</td>
-      <td>2.83079</td>
-      <td>0.652960</td>
-      <td>0.807427</td>
+      <td>0.952943</td>
+      <td>2.86267</td>
+      <td>0.701278</td>
+      <td>0.812808</td>
     </tr>
     <tr>
       <th>7</th>
       <td>512</td>
-      <td>0</td>
+      <td>3</td>
       <td>0.666667</td>
-      <td>0</td>
-      <td>-1.987020e-15</td>
-      <td>-1.935950e-15</td>
-      <td>-1.517880e-18</td>
+      <td>3</td>
+      <td>-5.451660e-03</td>
+      <td>6.361230e-15</td>
+      <td>-5.451660e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>800000</td>
-      <td>0.957227</td>
-      <td>2.83079</td>
-      <td>0.672873</td>
-      <td>0.828548</td>
+      <td>0.953478</td>
+      <td>2.86267</td>
+      <td>0.714862</td>
+      <td>0.832068</td>
     </tr>
     <tr>
       <th>8</th>
       <td>512</td>
-      <td>5</td>
+      <td>4</td>
       <td>0.666667</td>
-      <td>5</td>
-      <td>-3.277240e-01</td>
-      <td>-3.125800e-01</td>
-      <td>-1.514350e-02</td>
+      <td>4</td>
+      <td>-1.211070e-01</td>
+      <td>-1.114150e-01</td>
+      <td>-9.691840e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>900000</td>
-      <td>0.957637</td>
-      <td>2.83079</td>
-      <td>0.688387</td>
-      <td>0.844791</td>
+      <td>0.954305</td>
+      <td>2.86267</td>
+      <td>0.725634</td>
+      <td>0.847293</td>
     </tr>
     <tr>
       <th>9</th>
       <td>512</td>
-      <td>1</td>
+      <td>5</td>
       <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>5.630910e-15</td>
-      <td>-6.057400e-04</td>
+      <td>5</td>
+      <td>-6.965650e-02</td>
+      <td>-5.451300e-02</td>
+      <td>-1.514350e-02</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>1000000</td>
-      <td>0.957736</td>
-      <td>2.83079</td>
-      <td>0.700375</td>
-      <td>0.857707</td>
+      <td>0.954824</td>
+      <td>2.86267</td>
+      <td>0.733594</td>
+      <td>0.859479</td>
     </tr>
     <tr>
       <th>10</th>
@@ -673,71 +673,71 @@ determine what conditions are preventing convergence. For example, the <a class=
       <td>4</td>
       <td>0.666667</td>
       <td>4</td>
-      <td>-4.035140e-02</td>
-      <td>-3.065960e-02</td>
+      <td>-6.309660e-02</td>
+      <td>-5.340470e-02</td>
       <td>-9.691840e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>1100000</td>
-      <td>0.957840</td>
-      <td>2.83079</td>
-      <td>0.709995</td>
-      <td>0.868286</td>
+      <td>0.955037</td>
+      <td>2.86267</td>
+      <td>0.740955</td>
+      <td>0.869446</td>
     </tr>
     <tr>
       <th>11</th>
       <td>512</td>
-      <td>2</td>
+      <td>0</td>
       <td>0.666667</td>
-      <td>2</td>
-      <td>-1.205740e-01</td>
-      <td>-1.181510e-01</td>
-      <td>-2.422960e-03</td>
+      <td>0</td>
+      <td>-6.478110e-16</td>
+      <td>3.747000e-15</td>
+      <td>-1.626300e-18</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>1200000</td>
-      <td>0.958064</td>
-      <td>2.83079</td>
-      <td>0.718449</td>
-      <td>0.877129</td>
+      <td>0.955470</td>
+      <td>2.86267</td>
+      <td>0.746228</td>
+      <td>0.877741</td>
     </tr>
     <tr>
       <th>12</th>
       <td>512</td>
-      <td>3</td>
+      <td>5</td>
       <td>0.666667</td>
-      <td>3</td>
-      <td>-3.439830e-02</td>
-      <td>-2.894660e-02</td>
-      <td>-5.451660e-03</td>
+      <td>5</td>
+      <td>-1.514350e-02</td>
+      <td>-1.901260e-15</td>
+      <td>-1.514350e-02</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>1300000</td>
-      <td>0.958033</td>
-      <td>2.83079</td>
-      <td>0.725688</td>
-      <td>0.884632</td>
+      <td>0.955691</td>
+      <td>2.86267</td>
+      <td>0.751517</td>
+      <td>0.884949</td>
     </tr>
     <tr>
       <th>13</th>
       <td>512</td>
-      <td>4</td>
+      <td>2</td>
       <td>0.666667</td>
-      <td>4</td>
-      <td>-2.340630e-02</td>
-      <td>-1.371450e-02</td>
-      <td>-9.691840e-03</td>
+      <td>2</td>
+      <td>-2.422960e-03</td>
+      <td>-1.623700e-15</td>
+      <td>-2.422960e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>1400000</td>
-      <td>0.958037</td>
-      <td>2.83079</td>
-      <td>0.731605</td>
-      <td>0.891108</td>
+      <td>0.955936</td>
+      <td>2.86267</td>
+      <td>0.755277</td>
+      <td>0.891036</td>
     </tr>
     <tr>
       <th>14</th>
@@ -745,107 +745,107 @@ determine what conditions are preventing convergence. For example, the <a class=
       <td>0</td>
       <td>0.666667</td>
       <td>0</td>
-      <td>-4.331390e-16</td>
-      <td>-2.373100e-15</td>
-      <td>-2.493660e-18</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1500000</td>
-      <td>0.958290</td>
-      <td>2.83079</td>
-      <td>0.736525</td>
-      <td>0.896649</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>512</td>
-      <td>3</td>
-      <td>0.666667</td>
-      <td>3</td>
-      <td>-2.461910e-02</td>
-      <td>-1.916740e-02</td>
-      <td>-5.451660e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1600000</td>
-      <td>0.958445</td>
-      <td>2.83079</td>
-      <td>0.741085</td>
-      <td>0.901540</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>512</td>
-      <td>5</td>
-      <td>0.666667</td>
-      <td>5</td>
-      <td>-1.807250e-01</td>
-      <td>-1.655820e-01</td>
-      <td>-1.514350e-02</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1700000</td>
-      <td>0.958455</td>
-      <td>2.83079</td>
-      <td>0.745267</td>
-      <td>0.905789</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>512</td>
-      <td>1</td>
-      <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>3.070460e-15</td>
-      <td>-6.057400e-04</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1800000</td>
-      <td>0.958639</td>
-      <td>2.83079</td>
-      <td>0.748933</td>
-      <td>0.909629</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>512</td>
-      <td>0</td>
-      <td>0.666667</td>
-      <td>0</td>
-      <td>1.944730e-15</td>
-      <td>1.887380e-15</td>
+      <td>2.439450e-17</td>
+      <td>-1.651460e-15</td>
       <td>-1.626300e-18</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
+      <td>1500000</td>
+      <td>0.956335</td>
+      <td>2.86267</td>
+      <td>0.759130</td>
+      <td>0.896458</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>512</td>
+      <td>5</td>
+      <td>0.666667</td>
+      <td>5</td>
+      <td>1.597370e-01</td>
+      <td>1.748800e-01</td>
+      <td>-1.514350e-02</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1600000</td>
+      <td>0.956408</td>
+      <td>2.86267</td>
+      <td>0.762546</td>
+      <td>0.901215</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>512</td>
+      <td>4</td>
+      <td>0.666667</td>
+      <td>4</td>
+      <td>-3.710930e-01</td>
+      <td>-3.614010e-01</td>
+      <td>-9.691840e-03</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1700000</td>
+      <td>0.956654</td>
+      <td>2.86267</td>
+      <td>0.765445</td>
+      <td>0.905320</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>512</td>
+      <td>3</td>
+      <td>0.666667</td>
+      <td>3</td>
+      <td>-5.451660e-03</td>
+      <td>2.220450e-16</td>
+      <td>-5.451660e-03</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1800000</td>
+      <td>0.956853</td>
+      <td>2.86267</td>
+      <td>0.768070</td>
+      <td>0.909066</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>512</td>
+      <td>5</td>
+      <td>0.666667</td>
+      <td>5</td>
+      <td>-2.790970e-01</td>
+      <td>-2.639530e-01</td>
+      <td>-1.514350e-02</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>1900000</td>
-      <td>0.958730</td>
-      <td>2.83079</td>
-      <td>0.752052</td>
-      <td>0.912985</td>
+      <td>0.956900</td>
+      <td>2.86267</td>
+      <td>0.770122</td>
+      <td>0.912469</td>
     </tr>
     <tr>
       <th>19</th>
       <td>512</td>
-      <td>1</td>
+      <td>4</td>
       <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>-4.413140e-15</td>
-      <td>-6.057400e-04</td>
+      <td>4</td>
+      <td>-9.691840e-03</td>
+      <td>-1.044300e-14</td>
+      <td>-9.691840e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>2000000</td>
-      <td>0.958743</td>
-      <td>2.83079</td>
-      <td>0.755071</td>
-      <td>0.916069</td>
+      <td>0.956982</td>
+      <td>2.86267</td>
+      <td>0.772176</td>
+      <td>0.915463</td>
     </tr>
     <tr>
       <th>20</th>
@@ -854,178 +854,178 @@ determine what conditions are preventing convergence. For example, the <a class=
       <td>0.666667</td>
       <td>1</td>
       <td>-6.057400e-04</td>
-      <td>2.248200e-15</td>
+      <td>-4.718450e-15</td>
       <td>-6.057400e-04</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>2100000</td>
-      <td>0.958821</td>
-      <td>2.83079</td>
-      <td>0.757694</td>
-      <td>0.918892</td>
+      <td>0.956910</td>
+      <td>2.86267</td>
+      <td>0.773766</td>
+      <td>0.918128</td>
     </tr>
     <tr>
       <th>21</th>
       <td>512</td>
-      <td>5</td>
-      <td>0.666667</td>
-      <td>5</td>
-      <td>-1.044350e-01</td>
-      <td>-8.929170e-02</td>
-      <td>-1.514350e-02</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2200000</td>
-      <td>0.958917</td>
-      <td>2.83079</td>
-      <td>0.760386</td>
-      <td>0.921492</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>512</td>
-      <td>3</td>
-      <td>0.666667</td>
-      <td>3</td>
-      <td>-3.782400e-02</td>
-      <td>-3.237240e-02</td>
-      <td>-5.451660e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2300000</td>
-      <td>0.959054</td>
-      <td>2.83079</td>
-      <td>0.762617</td>
-      <td>0.923845</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>512</td>
-      <td>5</td>
-      <td>0.666667</td>
-      <td>5</td>
-      <td>-1.086300e-01</td>
-      <td>-9.348650e-02</td>
-      <td>-1.514350e-02</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2400000</td>
-      <td>0.958905</td>
-      <td>2.83079</td>
-      <td>0.764488</td>
-      <td>0.925978</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>512</td>
-      <td>1</td>
-      <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>-1.942890e-16</td>
-      <td>-6.057400e-04</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2500000</td>
-      <td>0.958914</td>
-      <td>2.83079</td>
-      <td>0.766521</td>
-      <td>0.927944</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>512</td>
-      <td>2</td>
-      <td>0.666667</td>
-      <td>2</td>
-      <td>-4.778790e-02</td>
-      <td>-4.536500e-02</td>
-      <td>-2.422960e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2600000</td>
-      <td>0.958939</td>
-      <td>2.83079</td>
-      <td>0.768050</td>
-      <td>0.929698</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>512</td>
-      <td>2</td>
-      <td>0.666667</td>
-      <td>2</td>
-      <td>-9.900980e-01</td>
-      <td>-9.876750e-01</td>
-      <td>-2.422960e-03</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2700000</td>
-      <td>0.959031</td>
-      <td>2.83079</td>
-      <td>0.769619</td>
-      <td>0.931341</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>512</td>
       <td>4</td>
       <td>0.666667</td>
       <td>4</td>
-      <td>-1.657710e-02</td>
-      <td>-6.885270e-03</td>
+      <td>-1.080630e+00</td>
+      <td>-1.070930e+00</td>
       <td>-9.691840e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
+      <td>2200000</td>
+      <td>0.957016</td>
+      <td>2.86267</td>
+      <td>0.775535</td>
+      <td>0.920608</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>512</td>
+      <td>1</td>
+      <td>0.666667</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>-2.102480e-15</td>
+      <td>-6.057400e-04</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2300000</td>
+      <td>0.957172</td>
+      <td>2.86267</td>
+      <td>0.777049</td>
+      <td>0.922857</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>512</td>
+      <td>2</td>
+      <td>0.666667</td>
+      <td>2</td>
+      <td>-2.422960e-03</td>
+      <td>8.257280e-16</td>
+      <td>-2.422960e-03</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2400000</td>
+      <td>0.957370</td>
+      <td>2.86267</td>
+      <td>0.778519</td>
+      <td>0.924987</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>512</td>
+      <td>0</td>
+      <td>0.666667</td>
+      <td>0</td>
+      <td>-2.982750e-15</td>
+      <td>-1.373900e-15</td>
+      <td>-2.493660e-18</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2500000</td>
+      <td>0.957449</td>
+      <td>2.86267</td>
+      <td>0.780096</td>
+      <td>0.926912</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>512</td>
+      <td>5</td>
+      <td>0.666667</td>
+      <td>5</td>
+      <td>-1.844300e-01</td>
+      <td>-1.692870e-01</td>
+      <td>-1.514350e-02</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2600000</td>
+      <td>0.957587</td>
+      <td>2.86267</td>
+      <td>0.781245</td>
+      <td>0.928673</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>512</td>
+      <td>4</td>
+      <td>0.666667</td>
+      <td>4</td>
+      <td>-1.107340e-01</td>
+      <td>-1.010420e-01</td>
+      <td>-9.691840e-03</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2700000</td>
+      <td>0.957705</td>
+      <td>2.86267</td>
+      <td>0.782642</td>
+      <td>0.930332</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>512</td>
+      <td>5</td>
+      <td>0.666667</td>
+      <td>5</td>
+      <td>-1.170030e-01</td>
+      <td>-1.018600e-01</td>
+      <td>-1.514350e-02</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>2800000</td>
-      <td>0.959084</td>
-      <td>2.83079</td>
-      <td>0.770725</td>
-      <td>0.932810</td>
+      <td>0.957745</td>
+      <td>2.86267</td>
+      <td>0.783507</td>
+      <td>0.931764</td>
     </tr>
     <tr>
       <th>28</th>
       <td>512</td>
-      <td>1</td>
+      <td>4</td>
       <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>-6.938890e-18</td>
-      <td>-6.057400e-04</td>
+      <td>4</td>
+      <td>-7.942230e-02</td>
+      <td>-6.973040e-02</td>
+      <td>-9.691840e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>2900000</td>
-      <td>0.959179</td>
-      <td>2.83079</td>
-      <td>0.772262</td>
-      <td>0.934336</td>
+      <td>0.957887</td>
+      <td>2.86267</td>
+      <td>0.784274</td>
+      <td>0.933213</td>
     </tr>
     <tr>
       <th>29</th>
       <td>512</td>
-      <td>3</td>
+      <td>5</td>
       <td>0.666667</td>
-      <td>3</td>
-      <td>-5.451660e-03</td>
-      <td>-3.025360e-15</td>
-      <td>-5.451660e-03</td>
+      <td>5</td>
+      <td>-2.061260e-01</td>
+      <td>-1.909830e-01</td>
+      <td>-1.514350e-02</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>3000000</td>
-      <td>0.959204</td>
-      <td>2.83079</td>
-      <td>0.773755</td>
-      <td>0.935689</td>
+      <td>0.957983</td>
+      <td>2.86267</td>
+      <td>0.785203</td>
+      <td>0.934533</td>
     </tr>
     <tr>
       <th>30</th>
@@ -1033,197 +1033,197 @@ determine what conditions are preventing convergence. For example, the <a class=
       <td>2</td>
       <td>0.666667</td>
       <td>2</td>
-      <td>-2.422960e-03</td>
-      <td>-5.773160e-15</td>
+      <td>-2.775730e-02</td>
+      <td>-2.533430e-02</td>
       <td>-2.422960e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>3100000</td>
-      <td>0.959197</td>
-      <td>2.83079</td>
-      <td>0.774697</td>
-      <td>0.936865</td>
+      <td>0.957955</td>
+      <td>2.86267</td>
+      <td>0.785910</td>
+      <td>0.935723</td>
     </tr>
     <tr>
       <th>31</th>
       <td>512</td>
-      <td>1</td>
+      <td>5</td>
       <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>-3.400060e-16</td>
-      <td>-6.057400e-04</td>
+      <td>5</td>
+      <td>-3.401790e-01</td>
+      <td>-3.250350e-01</td>
+      <td>-1.514350e-02</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>3200000</td>
-      <td>0.959207</td>
-      <td>2.83079</td>
-      <td>0.775970</td>
-      <td>0.938091</td>
+      <td>0.958009</td>
+      <td>2.86267</td>
+      <td>0.786847</td>
+      <td>0.936868</td>
     </tr>
     <tr>
       <th>32</th>
       <td>512</td>
-      <td>0</td>
+      <td>3</td>
       <td>0.666667</td>
-      <td>0</td>
-      <td>7.018800e-15</td>
-      <td>3.663740e-15</td>
-      <td>-2.385240e-18</td>
+      <td>3</td>
+      <td>-4.438220e-02</td>
+      <td>-3.893050e-02</td>
+      <td>-5.451660e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>3300000</td>
-      <td>0.959206</td>
-      <td>2.83079</td>
-      <td>0.777194</td>
-      <td>0.939220</td>
+      <td>0.957973</td>
+      <td>2.86267</td>
+      <td>0.787314</td>
+      <td>0.937935</td>
     </tr>
     <tr>
       <th>33</th>
       <td>512</td>
-      <td>4</td>
+      <td>1</td>
       <td>0.666667</td>
-      <td>4</td>
-      <td>-8.814790e-01</td>
-      <td>-8.717870e-01</td>
-      <td>-9.691840e-03</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>1.443290e-15</td>
+      <td>-6.057400e-04</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>3400000</td>
-      <td>0.959216</td>
-      <td>2.83079</td>
-      <td>0.778111</td>
-      <td>0.940227</td>
+      <td>0.958029</td>
+      <td>2.86267</td>
+      <td>0.787905</td>
+      <td>0.938976</td>
     </tr>
     <tr>
       <th>34</th>
       <td>512</td>
-      <td>2</td>
+      <td>0</td>
       <td>0.666667</td>
-      <td>2</td>
-      <td>-2.422960e-03</td>
-      <td>-1.734720e-18</td>
-      <td>-2.422960e-03</td>
+      <td>0</td>
+      <td>9.958400e-16</td>
+      <td>-1.221250e-15</td>
+      <td>-1.626300e-18</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>3500000</td>
-      <td>0.959218</td>
-      <td>2.83079</td>
-      <td>0.778960</td>
-      <td>0.941170</td>
+      <td>0.958059</td>
+      <td>2.86267</td>
+      <td>0.788568</td>
+      <td>0.939989</td>
     </tr>
     <tr>
       <th>35</th>
       <td>512</td>
-      <td>0</td>
+      <td>3</td>
       <td>0.666667</td>
-      <td>0</td>
-      <td>-1.876860e-15</td>
-      <td>3.663740e-15</td>
-      <td>-1.517880e-18</td>
+      <td>3</td>
+      <td>-1.961830e-01</td>
+      <td>-1.907310e-01</td>
+      <td>-5.451660e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>3600000</td>
-      <td>0.959229</td>
-      <td>2.83079</td>
-      <td>0.779697</td>
-      <td>0.942059</td>
+      <td>0.958147</td>
+      <td>2.86267</td>
+      <td>0.789102</td>
+      <td>0.940884</td>
     </tr>
     <tr>
       <th>36</th>
       <td>512</td>
-      <td>1</td>
+      <td>3</td>
       <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>-1.075530e-15</td>
-      <td>-6.057400e-04</td>
+      <td>3</td>
+      <td>-1.011000e-01</td>
+      <td>-9.564870e-02</td>
+      <td>-5.451660e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>3700000</td>
-      <td>0.959234</td>
-      <td>2.83079</td>
-      <td>0.780548</td>
-      <td>0.942917</td>
+      <td>0.958188</td>
+      <td>2.86267</td>
+      <td>0.789876</td>
+      <td>0.941777</td>
     </tr>
     <tr>
       <th>37</th>
       <td>512</td>
-      <td>4</td>
+      <td>1</td>
       <td>0.666667</td>
-      <td>4</td>
-      <td>-9.224960e-02</td>
-      <td>-8.255780e-02</td>
-      <td>-9.691840e-03</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>5.606630e-15</td>
+      <td>-6.057400e-04</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>3800000</td>
-      <td>0.959233</td>
-      <td>2.83079</td>
-      <td>0.781348</td>
-      <td>0.943726</td>
+      <td>0.958289</td>
+      <td>2.86267</td>
+      <td>0.790623</td>
+      <td>0.942630</td>
     </tr>
     <tr>
       <th>38</th>
       <td>512</td>
-      <td>0</td>
+      <td>1</td>
       <td>0.666667</td>
-      <td>0</td>
-      <td>-1.333570e-17</td>
-      <td>-2.550040e-15</td>
-      <td>-2.493660e-18</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>2.949030e-15</td>
+      <td>-6.057400e-04</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>3900000</td>
-      <td>0.959321</td>
-      <td>2.83079</td>
-      <td>0.782267</td>
-      <td>0.944475</td>
+      <td>0.958438</td>
+      <td>2.86267</td>
+      <td>0.791159</td>
+      <td>0.943417</td>
     </tr>
     <tr>
       <th>39</th>
       <td>512</td>
-      <td>0</td>
+      <td>3</td>
       <td>0.666667</td>
-      <td>0</td>
-      <td>4.490010e-15</td>
-      <td>-2.248200e-15</td>
-      <td>-1.517880e-18</td>
+      <td>3</td>
+      <td>-5.451660e-03</td>
+      <td>-1.221250e-15</td>
+      <td>-5.451660e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>4000000</td>
-      <td>0.959337</td>
-      <td>2.83079</td>
-      <td>0.782988</td>
-      <td>0.945215</td>
+      <td>0.958509</td>
+      <td>2.86267</td>
+      <td>0.791675</td>
+      <td>0.944148</td>
     </tr>
     <tr>
       <th>40</th>
       <td>512</td>
-      <td>4</td>
+      <td>3</td>
       <td>0.666667</td>
-      <td>4</td>
-      <td>-1.042640e+00</td>
-      <td>-1.032940e+00</td>
-      <td>-9.691840e-03</td>
+      <td>3</td>
+      <td>-5.451660e-03</td>
+      <td>4.135580e-15</td>
+      <td>-5.451660e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>4100000</td>
-      <td>0.959398</td>
-      <td>2.83079</td>
-      <td>0.783727</td>
-      <td>0.945905</td>
+      <td>0.958471</td>
+      <td>2.86267</td>
+      <td>0.792289</td>
+      <td>0.944843</td>
     </tr>
     <tr>
       <th>41</th>
@@ -1231,53 +1231,53 @@ determine what conditions are preventing convergence. For example, the <a class=
       <td>0</td>
       <td>0.666667</td>
       <td>0</td>
-      <td>5.485300e-15</td>
-      <td>3.486790e-15</td>
+      <td>-1.123130e-15</td>
+      <td>-3.108620e-15</td>
       <td>-2.493660e-18</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>4200000</td>
-      <td>0.959446</td>
-      <td>2.83079</td>
-      <td>0.784386</td>
-      <td>0.946561</td>
+      <td>0.958443</td>
+      <td>2.86267</td>
+      <td>0.792664</td>
+      <td>0.945508</td>
     </tr>
     <tr>
       <th>42</th>
       <td>512</td>
-      <td>1</td>
+      <td>3</td>
       <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>-2.026160e-15</td>
-      <td>-6.057400e-04</td>
+      <td>3</td>
+      <td>-5.451660e-03</td>
+      <td>-4.954370e-15</td>
+      <td>-5.451660e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>4300000</td>
-      <td>0.959459</td>
-      <td>2.83079</td>
-      <td>0.784971</td>
-      <td>0.947184</td>
+      <td>0.958419</td>
+      <td>2.86267</td>
+      <td>0.792928</td>
+      <td>0.946161</td>
     </tr>
     <tr>
       <th>43</th>
       <td>512</td>
-      <td>3</td>
+      <td>5</td>
       <td>0.666667</td>
-      <td>3</td>
-      <td>-5.451660e-03</td>
-      <td>7.261550e-15</td>
-      <td>-5.451660e-03</td>
+      <td>5</td>
+      <td>-3.871480e-02</td>
+      <td>-2.357130e-02</td>
+      <td>-1.514350e-02</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>4400000</td>
-      <td>0.959442</td>
-      <td>2.83079</td>
-      <td>0.785598</td>
-      <td>0.947789</td>
+      <td>0.958501</td>
+      <td>2.86267</td>
+      <td>0.793267</td>
+      <td>0.946816</td>
     </tr>
     <tr>
       <th>44</th>
@@ -1286,106 +1286,106 @@ determine what conditions are preventing convergence. For example, the <a class=
       <td>0.666667</td>
       <td>2</td>
       <td>-2.422960e-03</td>
-      <td>-8.049120e-16</td>
+      <td>1.262880e-15</td>
       <td>-2.422960e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>4500000</td>
-      <td>0.959441</td>
-      <td>2.83079</td>
-      <td>0.786153</td>
-      <td>0.948361</td>
+      <td>0.958539</td>
+      <td>2.86267</td>
+      <td>0.793738</td>
+      <td>0.947404</td>
     </tr>
     <tr>
       <th>45</th>
       <td>512</td>
-      <td>0</td>
+      <td>4</td>
       <td>0.666667</td>
-      <td>0</td>
-      <td>-3.111660e-17</td>
-      <td>-2.220450e-15</td>
-      <td>-2.493660e-18</td>
+      <td>4</td>
+      <td>-2.267950e-02</td>
+      <td>-1.298760e-02</td>
+      <td>-9.691840e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>4600000</td>
-      <td>0.959466</td>
-      <td>2.83079</td>
-      <td>0.786648</td>
-      <td>0.948910</td>
+      <td>0.958512</td>
+      <td>2.86267</td>
+      <td>0.794078</td>
+      <td>0.947975</td>
     </tr>
     <tr>
       <th>46</th>
       <td>512</td>
-      <td>1</td>
+      <td>0</td>
       <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>-3.441690e-15</td>
-      <td>-6.057400e-04</td>
+      <td>0</td>
+      <td>5.547750e-15</td>
+      <td>2.331470e-15</td>
+      <td>-2.385240e-18</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>4700000</td>
-      <td>0.959506</td>
-      <td>2.83079</td>
-      <td>0.787197</td>
-      <td>0.949461</td>
+      <td>0.958516</td>
+      <td>2.86267</td>
+      <td>0.794308</td>
+      <td>0.948526</td>
     </tr>
     <tr>
       <th>47</th>
       <td>512</td>
-      <td>1</td>
+      <td>5</td>
       <td>0.666667</td>
-      <td>1</td>
-      <td>-6.057400e-04</td>
-      <td>9.364040e-15</td>
-      <td>-6.057400e-04</td>
+      <td>5</td>
+      <td>-3.313640e-02</td>
+      <td>-1.799290e-02</td>
+      <td>-1.514350e-02</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>4800000</td>
-      <td>0.959587</td>
-      <td>2.83079</td>
-      <td>0.787692</td>
-      <td>0.949976</td>
+      <td>0.958538</td>
+      <td>2.86267</td>
+      <td>0.794764</td>
+      <td>0.949043</td>
     </tr>
     <tr>
       <th>48</th>
       <td>512</td>
-      <td>2</td>
+      <td>3</td>
       <td>0.666667</td>
-      <td>2</td>
-      <td>-2.422960e-03</td>
-      <td>-5.273560e-16</td>
-      <td>-2.422960e-03</td>
+      <td>3</td>
+      <td>-5.451660e-03</td>
+      <td>1.276760e-15</td>
+      <td>-5.451660e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>4900000</td>
-      <td>0.959619</td>
-      <td>2.83079</td>
-      <td>0.788031</td>
-      <td>0.950492</td>
+      <td>0.958546</td>
+      <td>2.86267</td>
+      <td>0.795101</td>
+      <td>0.949521</td>
     </tr>
     <tr>
       <th>49</th>
       <td>512</td>
-      <td>0</td>
+      <td>5</td>
       <td>0.666667</td>
-      <td>0</td>
-      <td>-1.609280e-15</td>
-      <td>4.440890e-16</td>
-      <td>-1.517880e-18</td>
+      <td>5</td>
+      <td>-3.805840e-02</td>
+      <td>-2.291490e-02</td>
+      <td>-1.514350e-02</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>5000000</td>
-      <td>0.959615</td>
-      <td>2.83079</td>
-      <td>0.788432</td>
-      <td>0.950945</td>
+      <td>0.958578</td>
+      <td>2.86267</td>
+      <td>0.795487</td>
+      <td>0.949949</td>
     </tr>
     <tr>
       <th>50</th>
@@ -1394,16 +1394,16 @@ determine what conditions are preventing convergence. For example, the <a class=
       <td>0.666667</td>
       <td>2</td>
       <td>-2.422960e-03</td>
-      <td>9.020560e-16</td>
+      <td>-2.831070e-15</td>
       <td>-2.422960e-03</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>5100000</td>
-      <td>0.959605</td>
-      <td>2.83079</td>
-      <td>0.788997</td>
-      <td>0.951434</td>
+      <td>0.958691</td>
+      <td>2.86267</td>
+      <td>0.795859</td>
+      <td>0.950385</td>
     </tr>
     <tr>
       <th>51</th>
@@ -1418,10 +1418,10 @@ determine what conditions are preventing convergence. For example, the <a class=
       <td>0</td>
       <td>0</td>
       <td>5100000</td>
-      <td>0.959605</td>
-      <td>2.83079</td>
-      <td>0.788997</td>
-      <td>0.951434</td>
+      <td>0.958691</td>
+      <td>2.86267</td>
+      <td>0.795859</td>
+      <td>0.950385</td>
     </tr>
   </tbody>
 </table>

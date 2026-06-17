@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reference configuration of SPC/E water in non-cuboid domain &mdash; FEASST 0.25.18 0.25.18 documentation</title>
+  <title>Reference configuration of SPC/E water in non-cuboid domain &mdash; FEASST 0.25.19 0.25.19 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=560a56e0"></script>
+      <script src="../../../_static/documentation_options.js?v=f272d2f9"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -54,7 +54,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.18
+            FEASST 0.25.19
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -121,7 +121,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_2_lj_muvt_prefetch.html">Prefetching Grand Canonical Ensemble Monte Carlo LJ simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_3_lj_npt_prefetch.html">Prefetching Isothermal-Isobaric Ensemble Monte Carlo LJ simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../prefetch/tutorial/tutorial_4_lj_gibbs_prefetch.html">Prefetching Gibbs Ensemble Monte Carlo LJ simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../aniso/tutorial/tutorial_0_sqw_t1.15.html">Test of an anisotropic, textured square well potential.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../aniso/tutorial/tutorial_1_cg_protein.html">CG simulation of a protein using anisotropic precomputed potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../fftw/tutorial/tutorial_01_hs_scattering.html">Compare standard vs FFTW scattering calculations for hard spheres</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../morph/tutorial/tutorial_1_binary_lj.html">Semi-Grand Canonical Flat Histogram Simulation of a binary LJ mixture</a></li>
@@ -138,8 +137,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../particle/README.html">Particle files and units</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">C++ Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../example/README.html">Modify FEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pyfeasst/README.html">pyfeasst</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../python/README.html">Python Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README_python.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -152,7 +150,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.18</a>
+          <a href="../../../index.html">FEASST 0.25.19</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -223,14 +221,14 @@
 <h1>Reference configuration of SPC/E water in non-cuboid domain<a class="headerlink" href="#Reference-configuration-of-SPC/E-water-in-non-cuboid-domain" title="Link to this heading"></a></h1>
 <p>Compare the potential energy against the <a class="reference external" href="https://www.nist.gov/mml/csd/chemical-informatics-group/spce-water-reference-calculations-non-cuboid-cell-10a-cutoff">NIST SRSW</a> values. This tutorial requires the use of <a class="reference internal" href="../doc/Ewald_arguments.html"><span class="doc">Ewald</span></a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">script</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">MonteCarlo</span>
 <span class="s2">Configuration side_length=30.0,28.97777478867205,29.51512917398008 </span><span class="se">\</span>
 <span class="s2">    xy=7.764571353075622 xz=-2.6146722824297473 yz=-4.692615336756641 </span><span class="se">\</span>
-<span class="s2">    xyz_file=/feasst/plugin/charge/test/data/spce_triclinic_sample_periodic1.xyz </span><span class="se">\</span>
+<span class="s2">    xyz_file=../../../plugin/charge/test/data/spce_triclinic_sample_periodic1.xyz </span><span class="se">\</span>
 <span class="s2">    particle_type=spce:/feasst/particle/spce_new.txt</span>
 <span class="s2">Potential Model=LennardJones</span>
 <span class="s2">Potential VisitModel=LongRangeCorrections</span>
@@ -246,7 +244,7 @@
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
-<span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; script.txt &gt; script.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+<span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;feasst &lt; script.txt &gt; script.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.log&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;exit:&#39;</span><span class="p">,</span> <span class="n">syscode</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -256,10 +254,12 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: feasst &lt; file.txt
+# For more information, use the command &#34;feasst-menu&#34;
+# Exit with ctrl-c
+FEASST version 0.25.19
 MonteCarlo
-Configuration particle_type=spce:/feasst/particle/spce_new.txt side_length=30.0,28.97777478867205,29.51512917398008 xy=7.764571353075622 xyz_file=/home/user/feasst/plugin/charge/test/data/spce_triclinic_sample_periodic1.xyz xz=-2.6146722824297473 yz=-4.692615336756641
+Configuration particle_type=spce:/feasst/particle/spce_new.txt side_length=30.0,28.97777478867205,29.51512917398008 xy=7.764571353075622 xyz_file=../../../plugin/charge/test/data/spce_triclinic_sample_periodic1.xyz xz=-2.6146722824297473 yz=-4.692615336756641
 Potential Model=LennardJones
 Potential VisitModel=LongRangeCorrections
 Potential VisitModel=Ewald alpha=0.2850 kxmax=7 kymax=7 kzmax=7
@@ -282,14 +282,14 @@ Metropolis
 # Ewald kmax_squared 2.3037
 Log clear_file=true max_precision=true output_file=en.csv
 Run num_trials=1
-#Warn 0 [plugin/monte_carlo/src/monte_carlo.cpp:790] No Trials to attempt.
+#Warn 0 [:802] No Trials to attempt.
 
  exit: 0
 </pre></div></div>
 </div>
 <p>If the test passes, the energy is within the tolerance of the SRSW value and the two ensemble average methods agreed.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -305,14 +305,14 @@ Run num_trials=1
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">script</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">MonteCarlo</span>
 <span class="s2">Configuration side_length=36.0,36.0,31.17691453623979 </span><span class="se">\</span>
 <span class="s2">    xy=0.0 xz=18.0 yz=0.0 </span><span class="se">\</span>
-<span class="s2">    xyz_file=/feasst/plugin/charge/test/data/spce_monoclinic_sample_periodic4.xyz </span><span class="se">\</span>
+<span class="s2">    xyz_file=../../../plugin/charge/test/data/spce_monoclinic_sample_periodic4.xyz </span><span class="se">\</span>
 <span class="s2">    particle_type=spce:/feasst/particle/spce_new.txt</span>
 <span class="s2">Potential Model=LennardJones</span>
 <span class="s2">Potential VisitModel=LongRangeCorrections</span>
@@ -328,7 +328,7 @@ Run num_trials=1
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
-<span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;../../../build/bin/fst &lt; script.txt &gt; script.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+<span class="n">syscode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;feasst &lt; script.txt &gt; script.log&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;script.log&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;exit:&#39;</span><span class="p">,</span> <span class="n">syscode</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -338,10 +338,12 @@ Run num_trials=1
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-# Usage: /home/user/feasst/build/bin/fst &lt; file.txt
-FEASST version 0.25.13
+# Usage: feasst &lt; file.txt
+# For more information, use the command &#34;feasst-menu&#34;
+# Exit with ctrl-c
+FEASST version 0.25.19
 MonteCarlo
-Configuration particle_type=spce:/feasst/particle/spce_new.txt side_length=36.0,36.0,31.17691453623979 xy=0.0 xyz_file=/home/user/feasst/plugin/charge/test/data/spce_monoclinic_sample_periodic4.xyz xz=18.0 yz=0.0
+Configuration particle_type=spce:/feasst/particle/spce_new.txt side_length=36.0,36.0,31.17691453623979 xy=0.0 xyz_file=../../../plugin/charge/test/data/spce_monoclinic_sample_periodic4.xyz xz=18.0 yz=0.0
 Potential Model=LennardJones
 Potential VisitModel=LongRangeCorrections
 Potential VisitModel=Ewald alpha=0.2850 kxmax=7 kymax=7 kzmax=7
@@ -364,13 +366,13 @@ Metropolis
 # Ewald kmax_squared 1.99017
 Log clear_file=true max_precision=true output_file=en.csv
 Run num_trials=1
-#Warn 0 [plugin/monte_carlo/src/monte_carlo.cpp:790] No Trials to attempt.
+#Warn 0 [:802] No Trials to attempt.
 
  exit: 0
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;en.csv&#39;</span><span class="p">)</span>

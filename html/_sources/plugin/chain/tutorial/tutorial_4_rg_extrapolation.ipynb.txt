@@ -19,7 +19,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 1,
    "id": "photographic-small",
    "metadata": {},
    "outputs": [
@@ -27,11 +27,13 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# Usage: /home/hwh/feasst/build/bin/fst < file.txt\n",
-      "FEASST version 0.25.16\n",
+      "# Usage: feasst < file.txt\n",
+      "# For more information, use the command \"feasst-menu\"\n",
+      "# Exit with ctrl-c\n",
+      "FEASST version 0.25.19\n",
       "MonteCarlo\n",
-      "RandomMT19937 seed=489160093\n",
-      "# Initializing random number generator with seed: 489160093\n",
+      "RandomMT19937 seed=778555011\n",
+      "# Initializing random number generator with seed: 778555011\n",
       "Configuration add_num_chain_particles=1 cubic_side_length=30 particle_type=chain:/feasst/plugin/chain/particle/chain5.txt\n",
       "Potential Model=LennardJones VisitModel=VisitModelIntra intra_cut=1\n",
       "ThermoParams beta=1 chemical_potential=1\n",
@@ -90,13 +92,13 @@
     "\"\"\".format(**params))\n",
     "\n",
     "import subprocess\n",
-    "syscode = subprocess.call(\"../../../build/bin/fst < script4.txt > script4.log\", shell=True, executable='/bin/bash')\n",
+    "syscode = subprocess.call(\"feasst < script4.txt > script4.log\", shell=True, executable='/bin/bash')\n",
     "with open('script4.log', 'r') as file: print(file.read(), '\\n', 'exit:', syscode)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 2,
    "id": "sublime-extent",
    "metadata": {},
    "outputs": [
@@ -104,7 +106,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "drg_dbeta -0.09553652226098341\n"
+      "drg_dbeta -0.09516386530560306\n"
      ]
     }
    ],

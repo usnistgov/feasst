@@ -345,6 +345,13 @@ Below is a list text interface changes that may affect older scripts.
 Backwards incompatibility should remain for deprecated interface on minor version changes.
 Renamed arguments are shown as Class::old_argument->new_argument.
 
+v0.25.18 to v0.25.19
+------------------------
+
+* added pip installation and feasst executable in Python environment Path
+* feasst-menu interactive tutorial
+* pyfeasst renamed feasst
+
 v0.25.17 to v0.25.18
 ------------------------
 

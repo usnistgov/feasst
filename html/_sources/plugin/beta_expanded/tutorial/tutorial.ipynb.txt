@@ -18,8 +18,10 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "# Usage: /Users/user/feasst/build/bin/fst < file.txt\n",
-      "FEASST version 0.25.13\n",
+      "# Usage: feasst < file.txt\n",
+      "# For more information, use the command \"feasst-menu\"\n",
+      "# Exit with ctrl-c\n",
+      "FEASST version 0.25.19\n",
       "MonteCarlo\n",
       "Configuration cubic_side_length=8 particle_type=fluid:/feasst/particle/lj_new.txt\n",
       "Potential Model=LennardJones\n",
@@ -29,7 +31,7 @@
       "TrialTranslate tunable_param=1\n",
       "TrialAdd particle_type=fluid\n",
       "Run until_num_particles=10\n",
-      "# Initializing random number generator with seed: 1749408494\n",
+      "# Initializing random number generator with seed: 1781197802\n",
       "Remove name=TrialAdd\n",
       "TrialBeta fixed_beta_change=0.09999999999999998\n",
       "Log output_file=lj_bet.csv trials_per_write=1e4\n",
@@ -76,7 +78,7 @@
     "\n",
     "with open('script.txt', 'w') as file: file.write(script)\n",
     "import subprocess\n",
-    "syscode = subprocess.call(\"../../../build/bin/fst < script.txt > script.log\", shell=True, executable='/bin/bash')\n",
+    "syscode = subprocess.call(\"feasst < script.txt > script.log\", shell=True, executable='/bin/bash')\n",
     "with open('script.log', 'r') as file: print(file.read(), '\\n', 'exit:', syscode)"
    ]
   },
@@ -104,7 +106,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.13.3"
+   "version": "3.12.3"
   }
  },
  "nbformat": 4,
