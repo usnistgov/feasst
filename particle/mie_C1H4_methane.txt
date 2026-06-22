@@ -4,7 +4,7 @@
 # Length: Angstrom
 # Energy: Kelvin
 
-Site Properties
+Site Types
 
 CH4 sigma=3.737 epsilon=152.58 cutoff=12.0 mie_lambda_r=12.504 mie_lambda_a=6.0
 

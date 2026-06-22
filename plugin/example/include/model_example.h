@@ -75,7 +75,7 @@ class ModelExample : public ModelTwoBody {
     Use this comment to describe and add any user arguments (or delete if no
     user arguments are required).
     Ensure the default value corresponds to the one in the .cpp file.
-    Note that "Site Properties" in fstprt files are not added here.
+    Note that "Site Types" in fstprt files are not added here.
    */
   explicit ModelExample(argtype args = argtype());
   explicit ModelExample(argtype * args);

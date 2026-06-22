@@ -17,7 +17,7 @@ class PhysicalConstants;
 typedef std::map<std::string, std::string> argtype;
 
 /**
- The epsilon parameter is named "epsilon" in the particle file Site Properties.
+ The epsilon parameter is named "epsilon" in the particle file Site Types.
  The epsilon parameter has the default combining rule:
  \f$ \epsilon_{ij} = \sqrt{\epsilon_i \epsilon_j} \f$
  */
@@ -37,7 +37,7 @@ class Epsilon : public ModelParam {
 };
 
 /**
-  The sigma parameter is named "sigma" in the particle file Site Properties.
+  The sigma parameter is named "sigma" in the particle file Site Types.
   The sigma parameter has the default combining rule:
 
   \f$ \sigma_{ij} = \left\{
@@ -60,7 +60,7 @@ class Sigma : public ModelParam {
 };
 
 /**
-  The cut off parameter is named "cutoff" in the particle file Site Properties.
+  The cut off parameter is named "cutoff" in the particle file Site Types.
   The cut off parameter has the default combining rule:
 
   \f$ r_{c,ij} = \left\{
@@ -83,7 +83,7 @@ class CutOff : public ModelParam {
 };
 
 /**
- The charge parameter is named "charge" in the particle file Site Properties.
+ The charge parameter is named "charge" in the particle file Site Types.
  The charge parameter, q, has the default combining rule:
  \f$ q_{ij} = q_i q_j \f$
  */

@@ -6,7 +6,7 @@
 # energy: kJ/mol
 # charge: elementary
 
-Site Properties
+Site Types
 
 CH3 sigma=3.75 epsilon=0.8148173365790174 cutoff=14 charge=0
 CH2 sigma=3.95 epsilon=0.3824652804350490 cutoff=14 charge=0
@@ -20,7 +20,7 @@ Sites
 4 CH2 3.08 1.54 1.54
 5 CH3 3.08 3.08 1.54
 
-Bond Properties
+Bond Types
 
 0 RigidBond length=1.54 delta=0.0001
 
@@ -32,7 +32,7 @@ Bonds
 3 0 3 4
 4 0 4 5
 
-Angle Properties
+Angle Types
 
 0 AngleHarmonic equilibrium_degrees=114 k_energy_per_radian_sq=259.82695681728876
 #0 RigidAngle degrees=114 delta=0.0001
@@ -44,7 +44,7 @@ Angles
 2 0 2 3 4
 3 0 3 4 5
 
-Dihedral Properties
+Dihedral Types
 
 0 DihedralTraPPE c0=0 c1=2.951883663322944 c2=-0.5669632059318694 c3=6.579400558997022
 

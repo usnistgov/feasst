@@ -6,7 +6,7 @@
 #     /    \
 #   T2 ---- T3
 
-Site Properties
+Site Types
 
 A sigma=1.0 epsilon=1.0 cutoff=3.0
 R sigma=1.0 epsilon=1.0 cutoff=3.0

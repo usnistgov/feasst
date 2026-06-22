@@ -2,7 +2,7 @@
 #
 # D1 - D2
 
-Site Properties
+Site Types
 
 D sigma=1.0 epsilon=1.0 cutoff=3.0
 
@@ -11,7 +11,7 @@ Sites
 D1 D 0.0 0.0 0.0
 D2 D 1.0 0.0 0.0
 
-Bond Properties
+Bond Types
 
 DD RigidBond length=1.0 delta=0.0001
 

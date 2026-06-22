@@ -19,7 +19,7 @@
 4 site types
 3 bond types
 
-Site Properties
+Site Types
 
 0 epsilon 0 sigma 1.5193 cutoff 1.5193
 1 epsilon 1 sigma 6.317 cutoff 6.717
@@ -33,7 +33,7 @@ Sites
 2 2 -0.641101163030 -4.793842809930 3.299147771189
 3 3 -3.479503614010 3.374862925364  -0.422063969007
 
-Bond Properties
+Bond Types
 
 0 BondSquareWell maximum 7.0 minimum 0.0
 1 BondSquareWell maximum 7.0 minimum 0.0

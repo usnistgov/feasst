@@ -6,7 +6,7 @@
 # Length: Angstrom
 # Energy: Kelvin
 
-Site Properties
+Site Types
 
 CH3 sigma=3.68 epsilon=131.8 cutoff=12.0 mie_lambda_r=15.05 mie_lambda_a=6.0
 
@@ -15,7 +15,7 @@ Sites
 CH3_1 CH3 0.00 0 0
 CH3_2 CH3 1.84 0 0
 
-Bond Properties
+Bond Types
 
 CC RigidBond length=1.84 delta=0.001
 

@@ -9,7 +9,7 @@ namespace feasst {
 
 /**
   U(angle) = k_energy_per_radian_sq*(angle - equilibrium_degrees)^2
-  with parameters given in Dihedral Properties.
+  with parameters given in Dihedral Types.
 
   The usual 1/2 factor is not included, but can be incorporated into
   the k parameter manually by the user input to the particle file.

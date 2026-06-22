@@ -9,7 +9,7 @@ namespace feasst {
 
 /**
   U(r) = k_energy_per_length_sq*(r - equilibrium_length)^2
-  with parameters given in Bond Properties.
+  with parameters given in Bond Types.
 
   The usual 1/2 factor is not included, but can be incorporated into
   the k parameter manually by the user input to the particle file.

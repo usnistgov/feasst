@@ -8,14 +8,14 @@
 namespace feasst {
 
 /**
-  This class uses the following Angle Properties
+  This class uses the following parameters in Angle Types
   - k_energy_per_radian_sq
   - equilibrium_degrees
   - num_jacobian_gaussian (default: 0)
   which are described as follows.
 
   U(angle) = k_energy_per_radian_sq*(angle - equilibrium_degrees)^2
-  with parameters given in Angle Properties.
+  with parameters given in Angle Types.
 
   The usual 1/2 factor is not included, but can be incorporated into
   the k parameter manually by the user input to the particle file.

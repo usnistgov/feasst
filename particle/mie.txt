@@ -1,6 +1,6 @@
 # FEASST particle file (https://doi.org/10.18434/M3S095)
 
-Site Properties
+Site Types
 
 0 sigma=1 epsilon=1 cutoff=3 mie_lambda_r=14 mie_lambda_a=8
 

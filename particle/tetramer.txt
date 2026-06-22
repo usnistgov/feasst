@@ -1,7 +1,7 @@
 # FEASST particle file (https://doi.org/10.18434/M3S095)
 # four sites touching on a plane
 
-Site Properties
+Site Types
 
 0 sigma=1 epsilon=1 cutoff=3
 1 sigma=1 epsilon=1 cutoff=3

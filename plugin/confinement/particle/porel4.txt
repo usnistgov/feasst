@@ -1,7 +1,7 @@
 # FEASST particle file (https://doi.org/10.18434/M3S095)
 # 2x2x2 pores (see https://doi.org/10.1021/acs.jpcb.3c00613)
 
-Site Properties
+Site Types
 
 P sigma 1.0 epsilon 1.0 cutoff 2.5
 

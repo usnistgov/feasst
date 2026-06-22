@@ -2,7 +2,7 @@
 
 2 dimensions
 
-Site Properties
+Site Types
 
 H sigma=1 epsilon=1 cutoff=1
 

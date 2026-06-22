@@ -5,7 +5,7 @@
 # energy: kJ/mol
 # charge: elementary
 
-Site Properties
+Site Types
 
 0 sigma 3.16555789 epsilon 0.650169581 cutoff 10 charge -0.8476 cutoff_outer 1
 1 sigma 0          epsilon 0           cutoff 10 charge  0.4238 cutoff_outer 1
@@ -16,7 +16,7 @@ Sites
 1 1  1.0                  0                    0
 2 1 -0.333313247568237000 0.942816142731718000 0
 
-Bond Properties
+Bond Types
 
 0 RigidBond length 1.0 delta 0.0001
 
@@ -25,7 +25,7 @@ Bonds
 0 0 0 1
 1 0 0 2
 
-Angle Properties
+Angle Types
 
 0 RigidAngle degrees 109.47 delta 0.01
 

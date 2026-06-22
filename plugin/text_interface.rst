@@ -345,6 +345,11 @@ Below is a list text interface changes that may affect older scripts.
 Backwards incompatibility should remain for deprecated interface on minor version changes.
 Renamed arguments are shown as Class::old_argument->new_argument.
 
+v0.25.19 to v0.25.20
+------------------------
+
+* In particle files, [Site,Bond,Angle,Dihedral] Properties -> [Site,Bond,Angle,Dihedral] Types
+
 v0.25.18 to v0.25.19
 ------------------------
 

@@ -16,10 +16,10 @@ namespace feasst {
   Put first site in selection in a spherical shell about the first site in
   anchor.
   For rigid bonds, the spherical shell has infinitesimal thickness (a sphere).
-  The following Bond Properties (e.g., /feasst/particle/README.rst):
+  The following Bond Types (e.g., /feasst/particle/README.rst):
   length, maximum_length and spring_constant and exponent are as described
   in Random::bond_length.
-  The length in Bond Properties is equilibrium_length in Random::bond_length.
+  The length in Bond Types is equilibrium_length in Random::bond_length.
   If maximum_length is not provided, it is assumed to be twice the length.
   If spring_constant is not provided, the bond is assumed to be rigid.
   If exponent is not provided, it is assumed to be 2 (harmonic).

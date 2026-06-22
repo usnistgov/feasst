@@ -1,11 +1,11 @@
 # FEASST particle file (https://doi.org/10.18434/M3S095)
 # linear flexible chain
 
-Site Properties
+Site Types
 
 0 epsilon=1 sigma=1.0 cutoff=3.0
 
-Bond Properties
+Bond Types
 
 0 RigidBond length=1.0 delta=0.0001
 

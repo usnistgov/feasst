@@ -63,13 +63,25 @@ void FileParticle::read_num_and_types_(const std::string file_name) {
     num_dimensions_ = 2;
   }
   num_sites_ = read_section("Sites", file_name);
-  num_site_types_ = read_section("Site Properties", file_name, "#", &stypes_);
+  num_site_types_ = read_section("Site Types", file_name, "#", &stypes_);
+  if (num_site_types_ == 0) {
+    num_site_types_ = read_section("Site Properties", file_name, "#", &stypes_);
+  }
   DEBUG("read site types: " << feasst_str(stypes_));
-  num_bond_types_ = read_section("Bond Properties", file_name, "#", &btypes_);
+  num_bond_types_ = read_section("Bond Types", file_name, "#", &btypes_);
+  if (num_bond_types_ == 0) {
+    num_bond_types_ = read_section("Bond Properties", file_name, "#", &btypes_);
+  }
   DEBUG("read bond types: " << feasst_str(btypes_));
-  num_angle_types_ = read_section("Angle Properties", file_name, "#", &atypes_);
+  num_angle_types_ = read_section("Angle Types", file_name, "#", &atypes_);
+  if (num_angle_types_ == 0) {
+    num_angle_types_ = read_section("Angle Properties", file_name, "#", &atypes_);
+  }
   DEBUG("read angle types: " << feasst_str(atypes_));
-  num_dihedral_types_ = read_section("Dihedral Properties", file_name, "#", &dtypes_);
+  num_dihedral_types_ = read_section("Dihedral Types", file_name, "#", &dtypes_);
+  if (num_dihedral_types_ == 0) {
+    num_dihedral_types_ = read_section("Dihedral Properties", file_name, "#", &dtypes_);
+  }
   DEBUG("read dihdl types: " << feasst_str(dtypes_));
   num_bonds_ = read_section("Bonds", file_name);
   num_angles_ = read_section("Angles", file_name);
@@ -204,6 +216,23 @@ Particle FileParticle::read(const std::string file_name) {
   return particle;
 }
 
+void find_properties_(const std::vector<std::string>& sections,
+    const std::string& file_name, std::ifstream & file) {
+  bool is_found = find(sections[0], file);
+  if (!is_found) {
+    file.clear();
+    file.seekg(0);
+    is_found = find(sections[1], file);
+    if (is_found) {
+      WARN("In file:" << file_name << " \"" << sections[1] << "\" is deprecated. "
+        << "Use \"" << sections[0] << "\" instead.");
+    } else {
+      FATAL("Could not find \"" << sections[0] << "\" or \"" << sections[1]
+        << "\" in " << file_name);
+    }
+  }
+}
+
 void FileParticle::read_properties(const std::string file_name,
                                Particle* particle) {
   DEBUG("file_name: " << file_name);
@@ -212,31 +241,24 @@ void FileParticle::read_properties(const std::string file_name,
 
   read_num_and_types_(file_name);
 
-  bool is_found = find("Site Properties", file);
-  if (!is_found) FATAL("Could not find \"Site Properties\" in " << file_name);
+  find_properties_({"Site Types", "Site Properties"}, file_name, file);
   read_properties_("site", num_site_types_, particle, file);
+
   if (num_bonds_ != 0) {
-    is_found = find("Bond Properties", file);
-    if (!is_found) FATAL("Could not find \"Bond Properties\" in " << file_name);
+    find_properties_({"Bond Types", "Bond Properties"}, file_name, file);
     read_properties_("bond", num_bond_types_, particle, file);
   }
   if (num_angles_ != 0) {
-    is_found = find("Angle Properties", file);
-    if (!is_found) {
-      FATAL("Could not find \"Angle Properties\" in " << file_name);
-    }
+    find_properties_({"Angle Types", "Angle Properties"}, file_name, file);
     read_properties_("angle", num_angle_types_, particle, file);
   }
   if (num_dihedrals_ != 0) {
-    is_found = find("Dihedral Properties", file);
-    if (!is_found) {
-      FATAL("Could not find \"Dihedral Properties\" in " << file_name);
-    }
+    find_properties_({"Dihedral Types", "Dihedral Properties"}, file_name, file);
     read_properties_("dihedral", num_dihedral_types_, particle, file);
   }
 }
 
-void FileParticle::read_properties_(const std::string property_type,
+void FileParticle::read_properties_(const std::string& property_type,
     const int num_types, Particle * particle, std::ifstream & file) const {
   std::string line;
   std::getline(file, line);

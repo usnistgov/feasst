@@ -1,6 +1,6 @@
 # FEASST particle file (https://doi.org/10.18434/M3S095)
 
-Site Properties
+Site Types
 
 0 sigma 3 epsilon 1.0 cutoff 10.0 charge 0.005
 1 sigma 3 epsilon 1.0 cutoff 10.0 charge -0.005

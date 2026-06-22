@@ -2,7 +2,7 @@
 
 2 dimensions
 
-Site Properties
+Site Types
 
 A sigma=1.0 epsilon=1.0 cutoff=1.5
 B sigma=0.0 epsilon=1.0 cutoff=1.5 director=1 patch_angle=90
@@ -12,7 +12,7 @@ Sites
 A1 A 0.0 0.0
 B1 B 0.0 1.0
 
-Bond Properties
+Bond Types
 
 BD RigidBond length=1.0 delta=0.0001
 

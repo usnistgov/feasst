@@ -2,16 +2,16 @@
 #
 # P1 -- C1 -- P2
 
-Site Properties
+Site Types
 
 C sigma 1.0 epsilon 1.0 cutoff 1.5
 P sigma 0.0 epsilon 1.0 cutoff 1.5 director 1 patch_angle 30
 
-Bond Properties
+Bond Types
 
 CP RigidBond length 1.0 delta 0.0001
 
-Angle Properties
+Angle Types
 
 PCP RigidAngle degrees 180 delta 0.01
 

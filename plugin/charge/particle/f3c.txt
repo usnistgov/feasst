@@ -15,7 +15,7 @@
 # energy: kJ/mol
 # charge: elementary
 
-Site Properties
+Site Types
 
 0 sigma=3.5332 epsilon=0.7732032 cutoff=10 charge=-0.82 cutoff_outer=1
 1 sigma=0.9    epsilon=0.0418400 cutoff=10 charge=0.41  cutoff_outer=1
@@ -26,7 +26,7 @@ Sites
 1 1  1.0                  0                    0
 2 1 -0.333313247568237000 0.942816142731718000 0
 
-Bond Properties
+Bond Types
 
 0 BondHarmonic equilibrium_length=1 k_energy_per_length_sq=1046
 
@@ -35,7 +35,7 @@ Bonds
 0 0 0 1
 1 0 0 2
 
-Angle Properties
+Angle Types
 
 0 AngleHarmonic equilibrium_degrees=109.47 k_energy_per_radian_sq=251.04
 

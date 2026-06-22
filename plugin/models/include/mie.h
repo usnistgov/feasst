@@ -17,7 +17,7 @@ typedef std::map<std::string, std::string> argtype;
   \f$U=\epsilon\left(\frac{n}{n-m}\right)\left(\frac{n}{m}\right)^{m/(n-m)}\left[\left(\frac{\sigma}{r}\right)^n-\left(\frac{\sigma}{r}\right)^m\right]\f$
 
   Set n and m as the parameters mie_lambda_r and mie_lambda_a, respectively,
-  in "Site Properties" fst particle files, Configuration or Potential arguments.
+  in "Site Types" fst particle files, Configuration or Potential arguments.
  */
 class Mie : public ModelTwoBody {
  public:

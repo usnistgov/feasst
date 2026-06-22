@@ -2,7 +2,7 @@
 
 2 dimensions
 
-Site Properties
+Site Types
 
 C sigma=1.0 epsilon=1.0 anisotropic=1
 P sigma=0 epsilon=0 cutoff=3.0

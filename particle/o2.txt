@@ -8,7 +8,7 @@
 # energy: kJ/mol
 # charge: elementary
 
-Site Properties
+Site Types
 
 M sigma=0.0  cutoff=14 charge=0.226  cutoff_outer=0.605 epsilon=0.0
 O sigma=3.02 cutoff=14 charge=-0.113 cutoff_outer=0.605 epsilon=0.40740866828950880
@@ -19,7 +19,7 @@ Sites
 1 O -0.605 0 0
 2 O  0.605 0 0
 
-Bond Properties
+Bond Types
 
 OM RigidBond length=0.605 delta=0.0001
 
@@ -28,7 +28,7 @@ Bonds
 0 OM 0 1
 1 OM 0 2
 
-Angle Properties
+Angle Types
 
 OMO RigidAngle degrees=180.0 delta=0.01
 

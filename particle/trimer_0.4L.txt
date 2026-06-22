@@ -2,7 +2,7 @@
 # equilateral triangle with side lengths of 0.4 and centroid on origin (theta=60)
 # https://dx.doi.org/10.1063/1.4918557 Fig 3 triangles
 
-Site Properties
+Site Types
 
 0 sigma=1.0 epsilon=1.0 cutoff=3.0
 1 sigma=1.0 epsilon=1.0 cutoff=1.12246204830937
@@ -13,7 +13,7 @@ Sites
 1 1 0.4 0 0
 2 1 0.2 0.346410161513775000 0
 
-Bond Properties
+Bond Types
 
 0 RigidBond length=0.4 delta=0.0001
 
@@ -22,7 +22,7 @@ Bonds
 0 0 0 1
 1 0 0 2
 
-Angle Properties
+Angle Types
 
 0 RigidAngle degrees=60 delta=0.01
 

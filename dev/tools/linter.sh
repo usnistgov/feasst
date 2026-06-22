@@ -2,10 +2,11 @@
 
 #for f in *; do
 #for f in $(find . -name '*.fstprt'); do
-for f in $(find . -name '*.cpp' -o -name '*.h' -o -name '*.py' -o -name '*.dot' -o -name '*.ipynb'); do
+for f in $(find . -name '*.txt'); do
+#for f in $(find . -name '*.cpp' -o -name '*.h' -o -name '*.py' -o -name '*.dot' -o -name '*.ipynb'); do
   echo $f
   #git mv $f $(sed 's/\.fstprt/\.txt/g' <<< $f)
-  sed 's/pyfeasst/feasst/' $f > ttmp; mv ttmp $f
+  sed 's/ Properties/ Types/' $f > ttmp; mv ttmp $f
   #sed 's///' $f > ttmp; mv ttmp $f
   #sed 's/Remove name0 TrialAdd name1 Log/Remove name TrialAdd,Log/' $f > ttmp; mv ttmp $f
   #sed 's/Remove name0 Tune name1 Log/Remove name Tune,Log/' $f > ttmp; mv ttmp $f

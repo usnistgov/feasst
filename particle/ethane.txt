@@ -6,7 +6,7 @@
 # energy: kJ/mol
 # charge: elementary
 
-Site Properties
+Site Types
 
 C sigma=3.75 epsilon=0.8148173365790174 cutoff=14 cutoff_outer=1.54
 
@@ -15,7 +15,7 @@ Sites
 0 C 0    0 0
 1 C 1.54 0 0
 
-Bond Properties
+Bond Types
 
 CC RigidBond length=1.54 delta=0.0001
 

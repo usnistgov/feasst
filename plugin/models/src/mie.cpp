@@ -43,7 +43,7 @@ void Mie::precompute(Configuration * config) {
   mie_lambda_r_index_ = existing.index("mie_lambda_r");
   mie_lambda_a_index_ = existing.index("mie_lambda_a");
   ASSERT(mie_lambda_r_index_ != -1 && mie_lambda_a_index_ != -1,
-    "Mie potential requires Site Properties mie_lambda_r and mie_lambda_a");
+    "Mie potential requires ModelParams \"mie_lambda_r\" and \"mie_lambda_a\"");
   prefactor_.set_param(existing);
   for (int type1 = 0; type1 < existing.size(); ++type1) {
     for (int type2 = 0; type2 < existing.size(); ++type2) {

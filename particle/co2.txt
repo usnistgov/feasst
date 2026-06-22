@@ -9,7 +9,7 @@
 # energy: kJ/mol
 # charge: elementary
 
-Site Properties
+Site Types
 
 C sigma=2.80 epsilon=0.2244904906901375 cutoff=14.0 cutoff_outer=1.16 charge=0.7
 O sigma=3.05 epsilon=0.6568425468341059 cutoff=14.0 cutoff_outer=1.16 charge=-0.35
@@ -20,7 +20,7 @@ C1 C  0    0 0
 O1 O -1.16 0 0
 O2 O  1.16 0 0
 
-Bond Properties
+Bond Types
 
 CO RigidBond length=1.16 delta=0.0001
 
@@ -29,7 +29,7 @@ Bonds
 C1O1 CO C1 O1
 C1O2 CO C1 O2
 
-Angle Properties
+Angle Types
 
 OCO RigidAngle degrees=180.0 delta=0.01
 

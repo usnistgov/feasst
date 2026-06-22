@@ -21,10 +21,10 @@ The :cpp:class:`Potentials <feasst::Potential>` in :doc:`charge plugin </plugin/
 Because of an assumed conversion factor, the units of energy must be in kJ/mol, and therefore, beta must be given in units of mol/kJ.
 Finally, the units of length must be in Angstroms.
 
-Site Properties
+Site Types
 ================
 
-This section and all following sections begins with the Section name (in this case, "Site Properties"), followed by an empty line, then one line for each site type, and finally ends with another empty line.
+This section and all following sections begins with the Section name (in this case, "Site Types"), followed by an empty line, then one line for each site type, and finally ends with another empty line.
 Each site type line may have a list of properties given by a name and value.
 The format for each line (e.g., each site type) in this section is as follows:
 
@@ -47,13 +47,13 @@ The format for each line in this section is as follows:
 
 [site name] [site type name] [x-position] [y-position] [z-position]
 
-The site type must match one of those listed in Site Properties.
+The site type must match one of those listed in Site Types.
 The z-position is not required if two-dimensional.
 
-Bond, Angle and Dihedral Properties
+Bond, Angle and Dihedral Types
 ======================================
 
-As for all sections, these begin with "Bond Properties", "Angle Properties" or "Dihedral Properties", an empty line, a number of lines equal to the number of bond/angle/dihedral types, and an empty line (or end of file).
+As for all sections, these begin with "Bond Types", "Angle Types" or "Dihedral Types", an empty line, a number of lines equal to the number of bond/angle/dihedral types, and an empty line (or end of file).
 
 The format for each line in this section is as follows:
 
@@ -107,7 +107,7 @@ A two dimensional particle can be initialized by providing the following line: "
 Mixing Files
 ================
 
-Site Properties and mixing rules may be input with the model_param_file argument to :cpp:class:`Configuration <feasst::Configuration>`.
+Site Types and mixing rules may be input with the model_param_file argument to :cpp:class:`Configuration <feasst::Configuration>`.
 If mixing parameters are not provided, Lorentz-Berthelot mixing rules are assumed.
 Parameter values can be verified with :cpp:class:`WriteModelParams <feasst::WriteModelParams>`.
 
@@ -124,7 +124,7 @@ The particle files used by FEASST have the following major differences:
 - FEASST particle files contain only one particle.
 - characters are case sensitive.
 - the number of spaces between characters does not matter.
-- LMP Coeffs sections were replaced by Properties sections, with very different formatting as described below.
+- LMP Coeffs sections were replaced by Types sections, with very different formatting as described below.
 - "2 dimensions" may be specified in the file for a 2D particle.
 - FEASST particle files contain no information about the :cpp:class:`Domain <feasst::Domain>` boundaries.
 - The "Sites" section has the following three major differences: (1) these files describe only one particle so, unlike LAMMPS, molecule index is not included, (2) charge is a site-type property, and thus is not given for each site and (3) wrapping is not included.

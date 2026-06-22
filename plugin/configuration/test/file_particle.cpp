@@ -40,7 +40,7 @@ TEST(FileParticle, data_spce) {
     FileParticle file;
     EXPECT_EQ(3, file.read_section("Sites", data));
     std::vector<std::string> stype;
-    EXPECT_EQ(2, file.read_section("Site Properties", data, "#", &stype));
+    EXPECT_EQ(2, file.read_section("Site Types", data, "#", &stype));
     if (data == "../plugin/configuration/test/data/spce.txt.new") {
       EXPECT_EQ(static_cast<int>(stype.size()), 2);
       EXPECT_EQ(stype[0], "O");

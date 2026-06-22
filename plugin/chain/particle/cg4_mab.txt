@@ -21,7 +21,7 @@
 3 bond types
 3 angle types
 
-Site Properties
+Site Types
 
 0 epsilon 0 sigma 1.5193 cutoff 1.5193
 1 epsilon 1 sigma 6.317 cutoff 6.717
@@ -35,7 +35,7 @@ Sites
 2 2 -0.641101163030 -4.793842809930 3.299147771189
 3 3 -3.479503614010 3.374862925364  -0.422063969007
 
-Bond Properties
+Bond Types
 
 0 RigidBond length 4.24 delta 0.01
 1 RigidBond length 5.85 delta 0.01
@@ -50,7 +50,7 @@ Bonds
 1 1 0 2
 2 2 0 3
 
-Angle Properties
+Angle Types
 
 0 RigidAngle degrees 107.17 delta 0.03
 1 RigidAngle degrees 108.98 delta 0.03

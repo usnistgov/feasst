@@ -53,7 +53,7 @@ class FileParticle {
 
   void read_num_and_types_(const std::string file_name);
 
-  void read_properties_(const std::string property_type,
+  void read_properties_(const std::string& property_type,
                         const int num_types,
                         Particle * particle,
                         std::ifstream & file) const;

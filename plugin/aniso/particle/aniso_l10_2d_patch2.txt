@@ -16,7 +16,7 @@
 
 2 dimensions
 
-Site Properties
+Site Types
 
 AA sigma=1.0 epsilon=1.0 cutoff=3.0 anisotropic=1
 RR sigma=1.0 epsilon=1.0 cutoff=3.0
