@@ -189,11 +189,10 @@ void TablePotential::read_table_(const std::string file_name) {
   }
 }
 
-void TablePotential::precompute(Configuration * config) {
-  Model::precompute(config);
-  const ModelParams& existing = config->model_params();
-  const ModelParam& cutoff = existing.select("cutoff");
-  t2index_.assign(existing.size(), -1);
+void TablePotential::precompute(Configuration * config, ModelParams * params) {
+  Model::precompute(config, params);
+  const ModelParam& cutoff = params->select("cutoff");
+  t2index_.assign(params->size(), -1);
   site_types_.clear();
   for (const std::string& sname : site_type_names_) {
     site_types_.push_back(config->site_type_name_to_index(sname));

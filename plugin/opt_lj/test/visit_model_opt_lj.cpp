@@ -9,7 +9,7 @@ namespace feasst {
 TEST(VisitModelOptLJ, reference_config) {
   Configuration config = lj_sample4();
   VisitModelOptLJ visit;
-  visit.precompute(&config);
+  visit.precompute(&config, config.get_model_params());
   HardSphere place_holder;
   Select one;
   one.add_particle(config.particle(0), 0);

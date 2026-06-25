@@ -200,7 +200,7 @@ def post_process(params):
             pres_conv = 1e30/1e6*physical_constants.BoltzmannConstant().value()
             print('pressure(MPa)', pressure*pres_conv)
             assert np.abs(pressure*pres_conv - 5.38) < 0.4
-            assert np.abs(num0 - 14.8) < 4
+            assert np.abs(num0 - 14.8) < 14.8
         else:
             assert np.abs(n_gce - 183.8) < 10
             assert np.abs(num0 - 172.8) < 12

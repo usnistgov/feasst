@@ -164,15 +164,14 @@ void VisitModelInner::serialize(std::ostream& ostr) const {
   serialize_visit_model_inner_(ostr);
 }
 
-void VisitModelInner::precompute(Configuration * config) {
+void VisitModelInner::precompute(Configuration * config, ModelParams * params) {
   if (energy_map_) {
-    energy_map_->precompute(config);
+    energy_map_->precompute(config, params);
   }
-  const ModelParams& existing = config->model_params();
-  cutoff_index_ = existing.index("cutoff");
-  cutoff_outer_index_ = existing.index("cutoff_outer");
-  epsilon_index_ = existing.index("epsilon");
-  sigma_index_ = existing.index("sigma");
+  cutoff_index_ = params->index("cutoff");
+  cutoff_outer_index_ = params->index("cutoff_outer");
+  epsilon_index_ = params->index("epsilon");
+  sigma_index_ = params->index("sigma");
   //TRACE("cutoff_outer_index " << cutoff_outer_index_);
 }
 

@@ -28,7 +28,7 @@ class VisitModelInnerNN : public VisitModelInnerTable {
    */
   //@{
 
-  void precompute_cutoffs(Configuration * config) override {};
+  void precompute_cutoffs(Configuration * config, ModelParams * params) override {};
   void read_table(const std::string table_file,
     const bool ignore_energy, Configuration * config) override;
   double compute_aniso(const int type1, const int type2,

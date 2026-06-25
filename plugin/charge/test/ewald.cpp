@@ -20,7 +20,7 @@ TEST(Ewald, ewald) {
     {"alpha", str(5.6/config.domain().inscribed_sphere_diameter())},
     {"kmax_squared", "27"}
   });
-  ewald->precompute(&config);
+  ewald->precompute(&config, config.get_model_params());
 
   ModelEmpty model;  // any place holder model is fine because its not used
   model.compute(&config, ewald.get());

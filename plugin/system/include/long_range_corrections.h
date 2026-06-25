@@ -56,7 +56,7 @@ class LongRangeCorrections : public VisitModel {
 
   /// Determinte if the Mie potential is used based on presence of ModelParam
   /// mie_lambda_a and mie_lambda_r.
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
 
   void compute(
       ModelOneBody * model,

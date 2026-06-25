@@ -23,7 +23,8 @@ System fene_ex() {
   { auto wca = MakeLennardJonesCutShift();
     ModelParams wca_params = system.configuration().model_params();
     wca->set_wca(0, 0, &wca_params);
-    wca->precompute(system.get_configuration());
+    Configuration * config = system.get_configuration();
+    wca->precompute(config, config->get_model_params());
     auto potential = MakePotential(wca, MakeVisitModelBond());
     potential->set(wca_params); // use wca_params.
     system.add(potential);

@@ -12,10 +12,11 @@ TEST(VisitModelIntra, energy) {
     {"particle_type", "chain:../particle/chain10.txt"},
     {"add_num_chain_particles", "1"}});
   LennardJones model;
-  model.precompute(config.get());
+  ModelParams * params = config->get_model_params();
+  model.precompute(config.get(), params);
   // don't compute intraparticle interactions between bonded sites.
   auto visit = MakeVisitModelIntra({{"intra_cut", "1"}});
-  visit->precompute(config.get());
+  visit->precompute(config.get(), params);
   // set cut-off to 2.5 so only beads 2 away can interact.
   // due to periodic boundary conditions matching exactly the length,
   // each bead interacts once each at a distance of 2

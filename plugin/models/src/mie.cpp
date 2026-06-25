@@ -37,17 +37,16 @@ Mie::Mie(std::istream& istr) : ModelTwoBody(istr) {
   feasst_deserialize_fstobj(&prefactor_, istr);
 }
 
-void Mie::precompute(Configuration * config) {
-  Model::precompute(config);
-  const ModelParams& existing = config->model_params();
-  mie_lambda_r_index_ = existing.index("mie_lambda_r");
-  mie_lambda_a_index_ = existing.index("mie_lambda_a");
+void Mie::precompute(Configuration * config, ModelParams * params) {
+  Model::precompute(config, params);
+  mie_lambda_r_index_ = params->index("mie_lambda_r");
+  mie_lambda_a_index_ = params->index("mie_lambda_a");
   ASSERT(mie_lambda_r_index_ != -1 && mie_lambda_a_index_ != -1,
     "Mie potential requires ModelParams \"mie_lambda_r\" and \"mie_lambda_a\"");
-  prefactor_.set_param(existing);
-  for (int type1 = 0; type1 < existing.size(); ++type1) {
-    for (int type2 = 0; type2 < existing.size(); ++type2) {
-      prefactor_.compute(type1, type2, existing);
+  prefactor_.set_param(*params);
+  for (int type1 = 0; type1 < params->size(); ++type1) {
+    for (int type2 = 0; type2 < params->size(); ++type2) {
+      prefactor_.compute(type1, type2, *params);
     }
   }
 }

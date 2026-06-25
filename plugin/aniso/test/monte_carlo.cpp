@@ -15,7 +15,7 @@ TEST(MonteCarlo, VisitModelInnerTable) {
 //  EXPECT_NEAR(vis->outer()[0][0].minimum(), 1.5, NEAR_ZERO);
 //  EXPECT_NEAR(vis->outer()[0][0].maximum(), 1.5, NEAR_ZERO);
   auto config = MakeConfiguration({{"particle_type", "../particle/atom_new.txt"}});
-  vis->precompute(config.get());
+  vis->precompute(config.get(), config->get_model_params());
   EXPECT_NEAR(config->table5d()[0][0]->minimum(), 1.0, NEAR_ZERO);
   EXPECT_NEAR(config->table5d()[0][0]->maximum(), 1.0, NEAR_ZERO);
   EXPECT_NEAR(config->table6d()[0][0]->minimum(), -1, 1e-3);

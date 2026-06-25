@@ -92,8 +92,8 @@ void PairDistribution::initialize(MonteCarlo * mc) {
       params_.set("cutoff", itype, jtype, 0.5*min_side);
     }
   }
-  inter_visit_.precompute(config);
-  intra_visit_.precompute(config);
+  inter_visit_.precompute(config, &params_);
+  intra_visit_.precompute(config, &params_);
 }
 
 std::string PairDistribution::header(const MonteCarlo& mc) const {

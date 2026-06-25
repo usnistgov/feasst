@@ -44,7 +44,7 @@ class VisitModelInnerServer : public VisitModelInner {
    */
   //@{
 
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
   void compute(
     const int part1_index,
     const int site1_index,

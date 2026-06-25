@@ -168,6 +168,9 @@ class ParticleFactory {
   /// Return the model parameters.
   const ModelParams& model_params() const;
 
+  // Return the ModelParams (developers only)
+  ModelParams * get_model_params() { return model_params_.get(); }
+
   /// Add a custom type of model parameter.
   void add(const std::shared_ptr<ModelParam> param);
 

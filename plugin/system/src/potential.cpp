@@ -210,6 +210,13 @@ bool Potential::does_cutoff_fit_domain(const Configuration& config,
   return true;
 }
 
+ModelParams * Potential::get_model_params(Configuration * config) {
+  if (model_params_) {
+    return model_params_.get();
+  }
+  return config->get_model_params();
+}
+
 void Potential::precompute(Configuration * config) {
   if (!group_.empty()) {
     group_index_ = config->group_index(group_);
@@ -244,9 +251,9 @@ void Potential::precompute(Configuration * config) {
     feasst_check_all_used(args);
   }
 
-  visit_model_->precompute(config);
-  //const ModelParams& params = model_params(*config);
-  model_->precompute(config);
+  ModelParams * params = get_model_params(config);
+  visit_model_->precompute(config, params);
+  model_->precompute(config, params);
   does_cutoff_fit_domain(*config, true);
 
   if (table_size_ > 0) {
@@ -254,15 +261,14 @@ void Potential::precompute(Configuration * config) {
       << "body simulations");
     auto table = MakeModelTwoBodyTable({{"hard_sphere_threshold",
                                          str(table_hs_threshold_)}});
-    table->precompute(config);
-    table->set(model_params(*config),
+    table->precompute(config, params);
+    table->set(*params,
       table_size_,
       model_);
     model_ = table;
     // set table size to zero to prevent recomputing
     table_size_ = 0;
   }
-
 }
 
 void Potential::check(const Configuration& config) const {

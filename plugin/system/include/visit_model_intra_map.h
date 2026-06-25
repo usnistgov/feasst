@@ -49,7 +49,7 @@ class VisitModelIntraMap : public VisitModel {
   //@{
 
   /// Initialize include_map after VisitModel::precompute.
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
 
   /// Return 1 (true) if interactions between site1 and site2 in particle_type
   /// are included. Otherwise, return 0 (false);

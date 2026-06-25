@@ -68,7 +68,7 @@ std::string filename_to_idx_recursive_(const std::string& filename, const Config
   return line;
 }
 
-void ModelRecursiveTable::precompute(Configuration * config) {
+void ModelRecursiveTable::precompute(Configuration * config, ModelParams * params) {
   if (static_cast<int>(energy_.size()) > 0) {
     return;
   }
@@ -95,8 +95,8 @@ void ModelRecursiveTable::precompute(Configuration * config) {
     DEBUG("cutoff " << cutoff);
     const int type1 = site_types[idx1];
     const int type2 = site_types[idx2];
-    config->set_model_param("cutoff", type1, type2, cutoff);
-    config->set_model_param("cutoff", type2, type1, cutoff);
+    params->set("cutoff", type1, type2, cutoff);
+    params->set("cutoff", type2, type1, cutoff);
     std::cout << "# cutoff for " << type1 << "-" << type2 << " site types: " << cutoff << std::endl;
     std::cout << "# cutoff for " << type2 << "-" << type1 << " site types: " << cutoff << std::endl;
     //const double cut_conf = config->model_params().select("cutoff").mixed_value(type1, type2);

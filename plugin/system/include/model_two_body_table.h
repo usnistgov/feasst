@@ -39,7 +39,7 @@ class ModelTwoBodyTable : public ModelTwoBody {
    */
   //@{
 
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
 
   /// Resize the table based on the number of site types
   void resize(const int num_site_types);

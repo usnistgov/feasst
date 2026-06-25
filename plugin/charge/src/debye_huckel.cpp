@@ -72,9 +72,9 @@ double DebyeHuckel::energy(
   return en;
 }
 
-void DebyeHuckel::precompute(Configuration * config) {
-  Model::precompute(config);
-  conversion_factor_ = config->model_params().constants().charge_conversion();
+void DebyeHuckel::precompute(Configuration * config, ModelParams * params) {
+  Model::precompute(config, params);
+  conversion_factor_ = params->constants().charge_conversion();
 }
 
 }  // namespace feasst

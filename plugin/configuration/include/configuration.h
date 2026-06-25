@@ -166,6 +166,9 @@ class Configuration {
   /// Return the model parameters (e.g., sigma, epsilon, etc).
   const ModelParams& model_params() const;
 
+  // Return the ModelParams (developers only)
+  ModelParams * get_model_params();
+
   /// Modify model parameter of a given site type and name to value.
   void set_model_param(const std::string name,
                        const int site_type,

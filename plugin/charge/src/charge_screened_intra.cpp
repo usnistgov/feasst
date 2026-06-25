@@ -39,11 +39,10 @@ double ChargeScreenedIntra::energy(
   return -mixed_charge*conversion_factor_*erf(alpha_*distance)/distance;
 }
 
-void ChargeScreenedIntra::precompute(Configuration * config) {
-  Model::precompute(config);
-  const ModelParams& existing = config->model_params();
-  alpha_ = existing.property("alpha");
-  conversion_factor_ = existing.constants().charge_conversion();
+void ChargeScreenedIntra::precompute(Configuration * config, ModelParams * params) {
+  Model::precompute(config, params);
+  alpha_ = params->property("alpha");
+  conversion_factor_ = params->constants().charge_conversion();
 }
 
 }  // namespace feasst

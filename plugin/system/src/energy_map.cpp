@@ -65,7 +65,7 @@ double EnergyMap::update(
   return energy;
 }
 
-void EnergyMap::precompute(Configuration * config) {
+void EnergyMap::precompute(Configuration * config, ModelParams * params) {
   site_max_ = config->max_sites_in_any_particle();
   DEBUG("site_max_ " << site_max_);
   dimen_ = config->dimension();

@@ -14,6 +14,7 @@ class Random;
 class Position;
 class Configuration;
 class Select;
+class ModelParams;
 class NeighborCriteria;
 
 typedef std::map<std::string, std::string> argtype;
@@ -66,7 +67,7 @@ class EnergyMap {
   virtual double energy(const int part1_index, const int site1_index) const;
 
   /// Precompute
-  void precompute(Configuration * config);
+  void precompute(Configuration * config, ModelParams * params);
 
   /// Revert any changes from perturbation of selection.
   virtual void revert(const Select& select) {}

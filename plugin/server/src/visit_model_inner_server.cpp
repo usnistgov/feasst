@@ -43,9 +43,9 @@ VisitModelInnerServer::VisitModelInnerServer(argtype args) : VisitModelInnerServ
 }
 VisitModelInnerServer::~VisitModelInnerServer() {}
 
-void VisitModelInnerServer::precompute(Configuration * config) {
-  VisitModelInner::precompute(config);
-  aniso_index_ = config->model_params().index("anisotropic");
+void VisitModelInnerServer::precompute(Configuration * config, ModelParams * params) {
+  VisitModelInner::precompute(config, params);
+  aniso_index_ = params->index("anisotropic");
   DEBUG("aniso_index_ " << aniso_index_);
   t2index_.resize(config->num_site_types(), -1);
   for (int t1 = 0; t1 < static_cast<int>(site_type_names_.size()); ++t1) {

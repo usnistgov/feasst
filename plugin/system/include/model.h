@@ -71,8 +71,10 @@ class Model {
   /// Return the number of bodies in the model (e.g., two-body/pairwise = 2).
   virtual int num_body() const = 0;
 
-  /// Precompute model parameters based on existing model parameters.
-  virtual void precompute(Configuration * config);
+  virtual void precompute(Configuration * config, ModelParams * params);
+
+  /// If no ModelParams given to precompute, use the ones in Configuration
+  void precompute(Configuration * config);
 
   /// Return the ModelParams index of epsilon.
   int epsilon_index() const { return epsilon_index_; }

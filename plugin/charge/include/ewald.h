@@ -109,7 +109,7 @@ class Ewald : public VisitModel {
     std::vector<std::vector<std::vector<double> > > * eik_new) const;
 
   /// Process tolerance arguments and initialize wave vectors.
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
 
   /// Compute interactions of entire group in configuration from scratch.
   /// This is not optimized for smaller perturbations to the configuration.

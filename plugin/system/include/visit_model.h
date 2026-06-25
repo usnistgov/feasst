@@ -155,7 +155,10 @@ class VisitModel {
   virtual void revert(const Select& select);
   virtual void finalize(const Select& select, Configuration * config);
 
-  virtual void precompute(Configuration * config);
+  virtual void precompute(Configuration * config, ModelParams * params);
+
+  /// If no ModelParams given to precompute, use the ones in Configuration
+  void precompute(Configuration * config);
 
   virtual void check(const Configuration& config) const;
 

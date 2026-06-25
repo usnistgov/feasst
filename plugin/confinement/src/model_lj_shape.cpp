@@ -87,21 +87,20 @@ double ModelLJShape::en(const double epsilon,
   return epsilon * std::pow(sigma/(distance + delta_), alpha_);
 }
 
-void ModelLJShape::precompute(Configuration * config) {
-  ModelOneBody::precompute(config);
-  const ModelParams& existing = config->model_params();
+void ModelLJShape::precompute(Configuration * config, ModelParams * params) {
+  ModelOneBody::precompute(config, params);
   if (std::abs(wall_sigma_) > NEAR_ZERO && mixed_sigma_.size() == 0) {
     //mixed_sigma_ = Sigma();  // reset in case multiple precompute
-    const ModelParam& fluid_sig = existing.select("sigma");
-    for (int type = 0; type < existing.size(); ++type) {
+    const ModelParam& fluid_sig = params->select("sigma");
+    for (int type = 0; type < params->size(); ++type) {
       mixed_sigma_.add(0.5*(fluid_sig.value(type) + wall_sigma_));
     }
     ASSERT(mixed_sigma_.size() == fluid_sig.size(), "error");
   }
   if (std::abs(wall_epsilon_) > NEAR_ZERO && mixed_epsilon_.size() == 0) {
     //mixed_epsilon_ = Epsilon();  // reset in case multiple precompute
-    const ModelParam& fluid_eps = existing.select("epsilon");
-    for (int type = 0; type < existing.size(); ++type) {
+    const ModelParam& fluid_eps = params->select("epsilon");
+    for (int type = 0; type < params->size(); ++type) {
       const double walle = wall_epsilon_;
       const double fluide = fluid_eps.value(type);
       DEBUG("fluid eps " << fluide);
@@ -113,7 +112,7 @@ void ModelLJShape::precompute(Configuration * config) {
   }
   // compute shift after possible combining rules with all parameters
   shift_->set_model(this); // note the model is used here for the computation
-  shift_->set_param(existing);
+  shift_->set_param(*params);
   shift_->set_model(NULL); // remove model immediately
 }
 

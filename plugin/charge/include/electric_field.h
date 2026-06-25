@@ -32,7 +32,7 @@ class ElectricField : public ModelOneBody {
    */
   //@{
 
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
 
   double energy(
     const Position& wrapped_site,

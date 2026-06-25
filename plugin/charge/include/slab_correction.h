@@ -41,7 +41,7 @@ class SlabCorrection : public VisitModel {
    */
   //@{
 
-  //void precompute(Configuration * config) override;
+  //void precompute(Configuration * config, ModelParams * params) override;
 
   /// Return the net dipole of the configuration.
   double net_dipole(const Configuration& config) const;

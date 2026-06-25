@@ -52,7 +52,7 @@ class ModelTwoBodyFactory : public ModelTwoBody {
       const int type2,
       const ModelParams& model_params) override;
 
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
 
   // serialize
   std::shared_ptr<Model> create(std::istream& istr) const override {

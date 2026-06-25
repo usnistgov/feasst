@@ -23,7 +23,7 @@ ModelTableSphere1D::ModelTableSphere1D(argtype args) : ModelTableSphere1D(&args)
 }
 ModelTableSphere1D::~ModelTableSphere1D() {}
 
-void ModelTableSphere1D::precompute(Configuration * config) {
+void ModelTableSphere1D::precompute(Configuration * config, ModelParams * params) {
   precompute_table1D(*config, table_file_, &tables_);
 }
 

@@ -15,7 +15,7 @@ class VisitModelOptRPM : public VisitModel {
   VisitModelOptRPM() : VisitModel() {
     class_name_ = "VisitModelOptRPM"; }
   VisitModelOptRPM(std::shared_ptr<VisitModelInner> inner) : VisitModel(inner) {}
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
   void compute(
       ModelTwoBody * model,
       const ModelParams& model_params,

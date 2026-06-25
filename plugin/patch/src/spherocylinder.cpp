@@ -168,12 +168,12 @@ void Spherocylinder::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(dir2_pos_, ostr);
 }
 
-void Spherocylinder::precompute(Configuration * config) {
-  VisitModelInner::precompute(config);
-  director_index_ = config->model_params().index("director");
-  length_.set_param(config->model_params());
+void Spherocylinder::precompute(Configuration * config, ModelParams * params) {
+  VisitModelInner::precompute(config, params);
+  director_index_ = params->index("director");
+  length_.set_param(*params);
   for (int type = 0; type < config->num_site_types(); ++type) {
-    length_.compute(type, config->model_params());
+    length_.compute(type, *params);
   }
   dir1_pos_.set_to_origin(config->domain().dimension());
   dir2_pos_.set_to_origin(config->domain().dimension());

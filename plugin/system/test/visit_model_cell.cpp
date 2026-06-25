@@ -19,7 +19,8 @@ TEST(VisitModelCell, cells) {
   config->add(MakeGroup({{"site_type", "O"}}));
 
   auto visit = MakeVisitModelCell({{"min_length", "1.4"}});
-  visit->precompute(config.get());
+  ModelParams * params = config->get_model_params();
+  visit->precompute(config.get(), params);
 
   EXPECT_EQ(visit->cells().num_total(), 5*5*5);
 //  int cell0 = round(7*7*7/2. - 0.5);
@@ -79,9 +80,10 @@ TEST(VisitModelCell, simple_lj) {
   EXPECT_EQ(0, config->particle(0).site(0).position().coord(0));
   EXPECT_EQ(2, config->particle(1).site(0).position().coord(0));
   LennardJones model;
-  model.precompute(config.get());
+  ModelParams * params = config->get_model_params();
+  model.precompute(config.get(), params);
   auto cell_visit = MakeVisitModelCell({{"min_length", "3"}});
-  cell_visit->precompute(config.get());
+  cell_visit->precompute(config.get(), params);
 //  config->init_cells(3);
   const Cells& cells = cell_visit->cells();
   EXPECT_EQ(5*5*5, cells.num_total());
@@ -97,7 +99,7 @@ TEST(VisitModelCell, simple_lj) {
   config->check();
   cell_visit->check(*config);
   VisitModel visit;
-  visit.precompute(config.get());
+  visit.precompute(config.get(), params);
   model.compute(config.get(), &visit);
   model.compute(config.get(), cell_visit.get());
   double r2 = 4;

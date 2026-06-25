@@ -29,19 +29,18 @@ void ModelTwoBodyTable::resize(const int num_site_types) {
   feasst::resize(num_site_types, num_site_types, &table_);
 }
 
-void ModelTwoBodyTable::precompute(Configuration *config) {
-  Model::precompute(config);
-  const ModelParams& existing = config->model_params();
+void ModelTwoBodyTable::precompute(Configuration * config, ModelParams * params) {
+  Model::precompute(config, params);
   if (cutoff_inv_sq_->size() == 0) {
-    const ModelParam& rc = existing.select("cutoff");
-    for (int type1 = 0; type1 < existing.size(); ++type1) {
+    const ModelParam& rc = params->select("cutoff");
+    for (int type1 = 0; type1 < params->size(); ++type1) {
       cutoff_inv_sq_->add(std::pow(rc.value(type1), -2));
     }
     cutoff_inv_sq_->mix();
-    for (int type1 = 0; type1 < existing.size(); ++type1) {
-      for (int type2 = 0; type2 < existing.size(); ++type2) {
+    for (int type1 = 0; type1 < params->size(); ++type1) {
+      for (int type2 = 0; type2 < params->size(); ++type2) {
         cutoff_inv_sq_->set_mixed(type1, type2,
-                                 std::pow(rc.mixed_value(type1, type2), -2));
+                                  std::pow(rc.mixed_value(type1, type2), -2));
       }
     }
   }

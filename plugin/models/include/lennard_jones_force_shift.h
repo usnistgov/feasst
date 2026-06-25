@@ -25,7 +25,7 @@ class LennardJonesForceShift : public LennardJonesAlpha {
 
   // HWH - optimize better: sqrt is used twice for distance
   /// Precompute the shift factor for optimization, given existing model parameters.
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
 
   double energy(
       const double squared_distance,

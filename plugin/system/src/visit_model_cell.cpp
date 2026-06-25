@@ -78,9 +78,9 @@ double VisitModelCell::min_len_(const Configuration& config) const {
   return factor*min_length;
 }
 
-void VisitModelCell::precompute(Configuration * config) {
+void VisitModelCell::precompute(Configuration * config, ModelParams * params) {
   DEBUG("precomputing");
-  VisitModel::precompute(config);
+  VisitModel::precompute(config, params);
   ASSERT(config->domain().side_lengths().size() > 0,
     "cannot define cells before domain sides");
   // ASSERT(!config->domain().is_tilted(), "implement triclinic");

@@ -142,7 +142,7 @@ class SolidOfRevolutionTable : public VisitModelInner {
   /// Return true if there is an energy table.
   bool is_energy_table(const std::vector<std::vector<std::shared_ptr<Table4D> > >& energy) const;
 
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
   void compute(
     const int part1_index,
     const int site1_index,

@@ -38,7 +38,7 @@ class LennardJonesCutShift : public LennardJonesAlpha {
   // - what if model params change, or is defined different by a special potential
   // - how to simplify user interface
   /// Precompute the shift factor for optimization, given existing model parameters.
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
 
   double energy(
       const double squared_distance,

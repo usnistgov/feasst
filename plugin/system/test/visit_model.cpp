@@ -22,9 +22,10 @@ TEST(VisitModel, energy) {
   EXPECT_EQ(config.particle(0).site(0).position().coord(0), 0);
   EXPECT_EQ(config.particle(1).site(0).position().coord(0), pos);
   LennardJones model;
-  model.precompute(&config);
+  ModelParams * params = config.get_model_params();
+  model.precompute(&config, params);
   VisitModel visit;
-  visit.precompute(&config);
+  visit.precompute(&config, params);
   visit.compute(&model, &config);
   EXPECT_NEAR(en_lj(pos), visit.energy(), NEAR_ZERO);
 
@@ -57,23 +58,24 @@ TEST(VisitModel, energy) {
 TEST(VisitModel, reference_config) {
   Configuration config = lj_sample4();
   LennardJones model;
-  model.precompute(&config);
+  ModelParams * params = config.get_model_params();
+  model.precompute(&config, params);
   VisitModel visit;
-  visit.precompute(&config);
+  visit.precompute(&config, params);
   model.compute(&config, &visit);
   const double en_lj_expect = -16.790321304625856;
   EXPECT_NEAR(en_lj_expect, visit.energy(), NEAR_ZERO);
   const double energy_prev = visit.energy();
   ModelEmpty empty;
   LongRangeCorrections lrc;
-  lrc.precompute(&config);
+  lrc.precompute(&config, params);
   empty.compute(&config, &lrc);
   EXPECT_NEAR(-0.5451660014945704, lrc.energy(), NEAR_ZERO);
   visit.check_energy(&model, &config);
 
   // test factory double counts with two identical LJ models.
   auto factory = MakeModelTwoBodyFactory(MakeLennardJones(), MakeLennardJones());
-  factory->precompute(&config);
+  factory->precompute(&config, params);
   factory->compute(&config, &visit);
   EXPECT_NEAR(2.*energy_prev, visit.energy(), NEAR_ZERO);
 

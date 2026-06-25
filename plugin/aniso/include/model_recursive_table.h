@@ -37,7 +37,7 @@ class ModelRecursiveTable : public ModelTwoBody {
    */
   //@{
 
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
 
   double energy(
     const double squared_distance,

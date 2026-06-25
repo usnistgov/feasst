@@ -40,11 +40,10 @@ double ChargeSelf::energy(
   return -charge*charge*conversion_factor_*alpha_/std::sqrt(PI);
 }
 
-void ChargeSelf::precompute(Configuration * config) {
-  Model::precompute(config);
-  const ModelParams& existing = config->model_params();
-  alpha_ = existing.property("alpha");
-  conversion_factor_ = existing.constants().charge_conversion();
+void ChargeSelf::precompute(Configuration * config, ModelParams * params) {
+  Model::precompute(config, params);
+  alpha_ = params->property("alpha");
+  conversion_factor_ = params->constants().charge_conversion();
   DEBUG("conversion_factor_ " << conversion_factor_);
 }
 

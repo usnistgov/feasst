@@ -55,7 +55,7 @@ class VisitModelInner {
     const bool is_old_config,
     const double weight = 1.);
 
-  virtual void precompute(Configuration * config);
+  virtual void precompute(Configuration * config, ModelParams * params);
 
   /// Return the ModelParams index of epsilon.
   int epsilon_index() const { return epsilon_index_; }

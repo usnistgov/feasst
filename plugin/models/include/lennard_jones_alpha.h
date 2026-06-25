@@ -75,7 +75,7 @@ class LennardJonesAlpha : public LennardJones {
   void set_wca(const int site_type1, const int site_type2,
       ModelParams * params) const;
 
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
 
   double energy(
     const double squared_distance,

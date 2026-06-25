@@ -126,15 +126,15 @@ void VisitModelInnerPatch::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(dir2_pos_, ostr);
 }
 
-void VisitModelInnerPatch::precompute(Configuration * config) {
-  VisitModelInner::precompute(config);
-  director_index_ = config->model_params().index("director");
+void VisitModelInnerPatch::precompute(Configuration * config, ModelParams * params) {
+  VisitModelInner::precompute(config, params);
+  director_index_ = params->index("director");
   //config->add(std::make_shared<CosPatchAngle>());
-  cos_patch_angle_.set_param(config->model_params());
+  cos_patch_angle_.set_param(*params);
   for (int type = 0; type < config->num_site_types(); ++type) {
-    cos_patch_angle_.compute(type, config->model_params());
+    cos_patch_angle_.compute(type, *params);
   }
-  //cos_patch_angle_index_ = config->model_params().index("cos_patch_angle");
+  //cos_patch_angle_index_ = params->index("cos_patch_angle");
   //INFO("cos_patch_angle_index_ " << cos_patch_angle_index_);
   dir1_pos_.set_to_origin(config->domain().dimension());
   dir2_pos_.set_to_origin(config->domain().dimension());

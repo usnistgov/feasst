@@ -48,7 +48,7 @@ class ModelTableCart1D : public ModelOneBody {
    */
   //@{
 
-  void precompute(Configuration * config) override {
+  void precompute(Configuration * config, ModelParams * params) override {
     precompute_table1D(*config, table_file_, &tables_); }
 
   double energy(

@@ -24,7 +24,7 @@ ModelTableCylinder1D::ModelTableCylinder1D(argtype args) : ModelTableCylinder1D(
 }
 ModelTableCylinder1D::~ModelTableCylinder1D() {}
 
-void ModelTableCylinder1D::precompute(Configuration * config) {
+void ModelTableCylinder1D::precompute(Configuration * config, ModelParams * params) {
   precompute_table1D(*config, table_file_, &tables_);
 }
 

@@ -11,7 +11,7 @@ TEST(LongRangeCorrections, LRC) {
   Configuration config = two_particle_configuration();
   ModelEmpty empty;
   LongRangeCorrections lrc;
-  lrc.precompute(&config);
+  lrc.precompute(&config, config.get_model_params());
   empty.compute(&config, &lrc);
   const double pe_lrc = (8./3.)*PI*std::pow(config.num_particles(), 2)/config.domain().volume()
     *((1./3.)*std::pow(3, -9) - std::pow(3, -3));
@@ -29,7 +29,7 @@ TEST(LongRangeCorrections, many_types) {
     {"add_num_lj_particles", "3"}});
   ModelEmpty empty;
   LongRangeCorrections lrc;
-  lrc.precompute(config.get());
+  lrc.precompute(config.get(), config->get_model_params());
   empty.compute(config.get(), &lrc);
   const double pe_lrc = (8./3.)*PI*std::pow(config->num_particles(), 2)/config->domain().volume()
     *((1./3.)*std::pow(3, -9) - std::pow(3, -3));

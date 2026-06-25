@@ -1319,4 +1319,8 @@ bool Configuration::anisotropic_sites() const {
   return true;
 }
 
+ModelParams * Configuration::get_model_params() {
+  return unique_types_->get_model_params();
+}
+
 }  // namespace feasst

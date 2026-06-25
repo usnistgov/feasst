@@ -189,10 +189,10 @@ bool VisitModelInnerTable::is_energy_table(const std::vector<std::vector<std::sh
   return false;
 }
 
-void VisitModelInnerTable::precompute(Configuration * config) {
-  VisitModelInner::precompute(config);
+void VisitModelInnerTable::precompute(Configuration * config, ModelParams * params) {
+  VisitModelInner::precompute(config, params);
   read_table(table_file_, ignore_energy_, config);
-  aniso_index_ = config->model_params().index("anisotropic");
+  aniso_index_ = params->index("anisotropic");
   DEBUG("aniso_index_ " << aniso_index_);
   t2index_.resize(config->num_site_types(), -1);
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
@@ -201,10 +201,10 @@ void VisitModelInnerTable::precompute(Configuration * config) {
       " in table > number of site types:" << config->num_site_types());
     t2index_[type1] = t1;
   }
-  precompute_cutoffs(config);
+  precompute_cutoffs(config, params);
 }
 
-void VisitModelInnerTable::precompute_cutoffs(Configuration * config) {
+void VisitModelInnerTable::precompute_cutoffs(Configuration * config, ModelParams * params) {
   if (cutoffs_precomputed_) {
     return;
   }
@@ -217,8 +217,8 @@ void VisitModelInnerTable::precompute_cutoffs(Configuration * config) {
       ASSERT(type2 < config->num_site_types(),"site type: " << type2 <<
         " in table > number of site types:" << config->num_site_types());
       const double cutoff = inner[t1][t2]->maximum() + delta_[t1][t2];
-      config->set_model_param("cutoff", type1, type2, cutoff);
-      config->set_model_param("cutoff", type2, type1, cutoff);
+      params->set("cutoff", type1, type2, cutoff);
+      params->set("cutoff", type2, type1, cutoff);
       std::cout << "# cutoff for " << type1 << "-" << type2 << " site types: " << cutoff << std::endl;
       std::cout << "# cutoff for " << type2 << "-" << type1 << " site types: " << cutoff << std::endl;
     }

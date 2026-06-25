@@ -13,12 +13,11 @@
 
 namespace feasst {
 
-void VisitModelOptRPM::precompute(Configuration * config) {
-  VisitModel::precompute(config);
-  const ModelParams& existing = config->model_params();
-  alpha_ = existing.property("alpha");
-  conversion_factor_ = existing.constants().charge_conversion();
-  //init_erfc_(existing.cutoff().mixed_max());
+void VisitModelOptRPM::precompute(Configuration * config, ModelParams * params) {
+  VisitModel::precompute(config, params);
+  alpha_ = params->property("alpha");
+  conversion_factor_ = params->constants().charge_conversion();
+  //init_erfc_(params->cutoff().mixed_max());
 }
 
 void VisitModelOptRPM::compute(

@@ -40,9 +40,9 @@ double Coulomb::energy(
   return mixed_charge*conversion_factor_/distance;
 }
 
-void Coulomb::precompute(Configuration * config) {
-  Model::precompute(config);
-  conversion_factor_ = config->model_params().constants().charge_conversion();
+void Coulomb::precompute(Configuration * config, ModelParams * params) {
+  Model::precompute(config, params);
+  conversion_factor_ = params->constants().charge_conversion();
 }
 
 }  // namespace feasst

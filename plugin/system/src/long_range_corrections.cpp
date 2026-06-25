@@ -29,11 +29,11 @@ LongRangeCorrections::LongRangeCorrections(std::istream& istr)
   }
 }
 
-void LongRangeCorrections::precompute(Configuration * config) {
-  VisitModel::precompute(config);
+void LongRangeCorrections::precompute(Configuration * config, ModelParams * params) {
+  VisitModel::precompute(config, params);
   ASSERT(config->domain().dimension() == 3, "LongRangeCorrections assumes 3D");
-  mie_lambda_r_index_ = config->model_params().index("mie_lambda_r");
-  mie_lambda_a_index_ = config->model_params().index("mie_lambda_a");
+  mie_lambda_r_index_ = params->index("mie_lambda_r");
+  mie_lambda_a_index_ = params->index("mie_lambda_a");
 }
 
 void LongRangeCorrections::compute(

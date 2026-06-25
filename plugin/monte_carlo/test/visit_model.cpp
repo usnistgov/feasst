@@ -15,15 +15,16 @@ namespace feasst {
 TEST(VisitModel, spce_reference_config) {
   Configuration config = spce_sample1();
   LennardJones model;
-  model.precompute(&config);
+  ModelParams * params = config.get_model_params();
+  model.precompute(&config, params);
   VisitModel visit;
-  visit.precompute(&config);
+  visit.precompute(&config, params);
   visit.compute(&model, &config);
   const double pe_lj = 827.61105444941393;
   EXPECT_NEAR(pe_lj, visit.energy(), 1e-12);
   ModelEmpty empty;
   LongRangeCorrections lrc;
-  lrc.precompute(&config);
+  lrc.precompute(&config, params);
   empty.compute(&config, &lrc);
   const double pe_lrc = -6.8487471455514575;
   EXPECT_NEAR(pe_lrc, lrc.energy(), 1e-13);

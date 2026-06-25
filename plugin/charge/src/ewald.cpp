@@ -147,8 +147,8 @@ void Ewald::update_kmax_squared_(const Configuration& config,
   DEBUG("kmax_squared " << *kmax_squared);
 }
 
-void Ewald::precompute(Configuration * config) {
-  VisitModel::precompute(config);
+void Ewald::precompute(Configuration * config, ModelParams * params) {
+  VisitModel::precompute(config, params);
   if (kmax_sq_arg_ && alpha_arg_) {
     ASSERT(!kxmax_arg_ && !kymax_arg_ && !kzmax_arg_,
       "kmax_squared argument overrides k[x,y,z]max arguments.");

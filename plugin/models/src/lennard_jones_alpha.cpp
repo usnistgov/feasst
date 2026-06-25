@@ -47,11 +47,10 @@ LennardJonesAlpha::LennardJonesAlpha(std::istream& istr) : LennardJones(istr) {
   feasst_deserialize(&two_raised_inv_alpha_, istr);
 }
 
-void LennardJonesAlpha::precompute(Configuration * config) {
-  Model::precompute(config);
-  const ModelParams& existing = config->model_params();
-  delta_sigma_index_ = existing.index("delta_sigma");
-  lambda_index_ = existing.index("lambda");
+void LennardJonesAlpha::precompute(Configuration * config, ModelParams * params) {
+  Model::precompute(config, params);
+  delta_sigma_index_ = params->index("delta_sigma");
+  lambda_index_ = params->index("lambda");
   DEBUG("lambda_index_ " << lambda_index_);
 }
 

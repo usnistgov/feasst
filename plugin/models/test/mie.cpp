@@ -11,14 +11,14 @@ TEST(Mie, analytical) {
                                    {"add_num_0_particles", "2"},
                                    {"cubic_side_length", "8"}});
   auto model1 = MakeMie();
-  model1->precompute(config.get());
+  model1->precompute(config.get(), config->get_model_params());
   std::shared_ptr<Model> model2 = test_serialize<Mie, Model>(*model1);
   DEBUG(model2->energy(1.5*1.5, 0, 0, config->model_params()));
   EXPECT_NEAR(-0.17514250679168769, model2->energy(1.5*1.5, 0, 0, config->model_params()), NEAR_ZERO);
 
   // test LRCs
   auto lrc = MakeLongRangeCorrections();
-  lrc->precompute(config.get());
+  lrc->precompute(config.get(), config->get_model_params());
   auto lrc2 = test_serialize<LongRangeCorrections, VisitModel>(*lrc);
   ModelEmpty empty;
   empty.compute(config.get(), lrc2.get());

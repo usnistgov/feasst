@@ -19,8 +19,8 @@ TEST(ModelLJShape, half_space) {
   auto config = MakeConfiguration({{"cubic_side_length", "8"},
     {"particle_type", "atom:../particle/atom_new.txt"},
     {"add_num_atom_particles", "1"}});
-  const ModelParams model_params = config->model_params();
-  model.precompute(config.get());
+  ModelParams model_params = config->model_params();
+  model.precompute(config.get(), &model_params);
   std::shared_ptr<Model> model2 = test_serialize<ModelLJShape, Model>(model);
 
   const Site& site = config->particle(0).site(0);
@@ -39,7 +39,7 @@ TEST(ModelLJShape, half_space) {
 
   // Without shift
   ModelLJShape model3(std::make_shared<HalfSpace>(half_space), {{"disable_shift", "true"}});
-  model3.precompute(config.get());
+  model3.precompute(config.get(), &model_params);
   EXPECT_NEAR(0.037037403706123712, model3.energy(site.position(), site, *config, model_params), 1e-15);
 
   pos.set_vector({0, 0, -3.});
@@ -58,8 +58,8 @@ TEST(ModelLJShape, wall_sigma) {
   auto config = MakeConfiguration({{"cubic_side_length", "8"},
     {"particle_type", "atom:../particle/atom_new.txt"},
     {"add_num_atom_particles", "1"}});
-  const ModelParams model_params = config->model_params();
-  model.precompute(config.get());
+  ModelParams model_params = config->model_params();
+  model.precompute(config.get(), &model_params);
   std::shared_ptr<Model> model2 = test_serialize<ModelLJShape, Model>(model);
 
   const Site& site = config->particle(0).site(0);

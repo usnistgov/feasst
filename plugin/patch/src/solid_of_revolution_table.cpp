@@ -168,10 +168,10 @@ bool SolidOfRevolutionTable::is_energy_table(const std::vector<std::vector<std::
   return false;
 }
 
-void SolidOfRevolutionTable::precompute(Configuration * config) {
-  VisitModelInner::precompute(config);
+void SolidOfRevolutionTable::precompute(Configuration * config, ModelParams * params) {
+  VisitModelInner::precompute(config, params);
   read_table_(table_file_, ignore_energy_, config);
-  director_index_ = config->model_params().index("director");
+  director_index_ = params->index("director");
   TRACE("director_index_ " << director_index_);
   t2index_.resize(config->num_site_types(), 0);
   const std::vector<std::vector<std::shared_ptr<Table3D> > >& inner = config->table3d();
@@ -186,10 +186,10 @@ void SolidOfRevolutionTable::precompute(Configuration * config) {
         " in table > number of site types:" << config->num_site_types());
       const double cutoff = inner[t1][t2]->maximum() + delta_[t1][t2];
       // HWH this assumes director types are always following a center type
-      config->set_model_param("cutoff", type1-1, type2-1, cutoff);
-      config->set_model_param("cutoff", type2-1, type1-1, cutoff);
-      config->set_model_param("cutoff", type1, type2, cutoff);
-      config->set_model_param("cutoff", type2, type1, cutoff);
+      params->set("cutoff", type1-1, type2-1, cutoff);
+      params->set("cutoff", type2-1, type1-1, cutoff);
+      params->set("cutoff", type1, type2, cutoff);
+      params->set("cutoff", type2, type1, cutoff);
       std::cout << "# cutoff for " << type1-1 << "-" << type2-1 << " site types: " << cutoff << std::endl;
       std::cout << "# cutoff for " << type2-1 << "-" << type1-1 << " site types: " << cutoff << std::endl;
       std::cout << "# cutoff for " << type1 << "-" << type2 << " site types: " << cutoff << std::endl;

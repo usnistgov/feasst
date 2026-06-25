@@ -676,12 +676,16 @@ void VisitModel::synchronize_(const VisitModel& visit,
   inner_->synchronize_(visit.inner(), perturbed);
 }
 
+void VisitModel::precompute(Configuration * config, ModelParams * params) {
+  inner_->precompute(config, params);
+  epsilon_index_ = params->index("epsilon");
+  sigma_index_ = params->index("sigma");
+  cutoff_index_ = params->index("cutoff");
+  charge_index_ = params->index("charge");
+}
+
 void VisitModel::precompute(Configuration * config) {
-  inner_->precompute(config);
-  epsilon_index_ = config->model_params().index("epsilon");
-  sigma_index_ = config->model_params().index("sigma");
-  cutoff_index_ = config->model_params().index("cutoff");
-  charge_index_ = config->model_params().index("charge");
+  precompute(config, config->get_model_params());
 }
 
 void VisitModel::set_inner(const std::shared_ptr<VisitModelInner> inner) {

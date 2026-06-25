@@ -138,8 +138,8 @@ class VisitModelInnerTable : public VisitModelInner {
 //   */
 //  void write_surface(argtype args) const;
 
-  void precompute(Configuration * config) override;
-  virtual void precompute_cutoffs(Configuration * config);
+  void precompute(Configuration * config, ModelParams * params) override;
+  virtual void precompute_cutoffs(Configuration * config, ModelParams * params);
   virtual void read_table(const std::string table_file,
     const bool ignore_energy, Configuration * config);
   virtual double compute_aniso(const int tabtype1, const int tabtype2,

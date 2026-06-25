@@ -41,7 +41,7 @@ class VisitModelInnerPatch : public VisitModelInner {
  public:
   explicit VisitModelInnerPatch(argtype args = argtype());
   explicit VisitModelInnerPatch(argtype * args);
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
   void compute(
     const int part1_index,
     const int site1_index,

@@ -129,6 +129,10 @@ class Potential {
   /// Use model parameters from configuration if they have not been overridden.
   const ModelParams& model_params(const Configuration& config) const;
 
+  /// Return the model parameters.
+  /// Use model parameters from configuration if they have not been overridden.
+  ModelParams * get_model_params(Configuration * config);
+
   /// Check that the cutoff is within the allowed range for the Domain.
   bool does_cutoff_fit_domain(const Configuration& config,
                               /// Generate a fatal error if returning false

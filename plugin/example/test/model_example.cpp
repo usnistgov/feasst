@@ -22,7 +22,7 @@ void test_energy(const double distance, const double energy,
 TEST(ModelExample, analytical) {
   auto config = MakeConfiguration({{"particle_type", "../plugin/example/particle/jagla.txt"}});
   auto jagla = std::make_shared<ModelExample>();
-  jagla->precompute(config.get());
+  jagla->precompute(config.get(), config->get_model_params());
 
   // Are lambda and gamma read from the fstprt file and stored appropriately?
   EXPECT_NEAR(1.5, config->model_params().select("lambda").value(0), NEAR_ZERO);

@@ -24,8 +24,8 @@ VisitModelIntraMap::VisitModelIntraMap(argtype args) : VisitModelIntraMap(&args)
   feasst_check_all_used(args);
 }
 
-void VisitModelIntraMap::precompute(Configuration * config) {
-  VisitModel::precompute(config);
+void VisitModelIntraMap::precompute(Configuration * config, ModelParams * params) {
+  VisitModel::precompute(config, params);
 
   // if map has not been sized yet, include all interactions except self.
   if (include_map_.size() == 0) {

@@ -57,7 +57,7 @@ class VisitModelCell : public VisitModel {
   int cell_id_opt_(const Domain& domain, const Position& position);
 
   /// Same as base class, but also prepare the cells.
-  void precompute(Configuration * config) override;
+  void precompute(Configuration * config, ModelParams * params) override;
 
   void change_volume(const double delta_volume, const int dimension,
                      Configuration * config) override;
