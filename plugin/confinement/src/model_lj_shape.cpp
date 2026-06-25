@@ -16,7 +16,16 @@ FEASST_MAPPER(ModelLJShape,);
 
 void ModelLJShape::parse_args_(argtype * args) {
   class_name_ = "ModelLJShape";
-  alpha_ = dble("alpha", args, 3.);
+  const std::string alpha = str("alpha", args, "3");
+  if (alpha == "mie_lambda_r") {
+    alpha_ = alpha_mie_r_;
+  } else if (alpha == "mie_lambda_a") {
+    alpha_ = alpha_mie_a_;
+  } else {
+    alpha_ = str_to_double(alpha);
+    ASSERT(alpha_ >= 0, "alpha:" << alpha_ << " must be >= 0");
+  }
+  DEBUG("alpha: " << alpha_);
   delta_ = dble("delta", args, 0.);
   disable_shift_ = boolean("disable_shift", args, false);
   shift_ = std::make_shared<ModelLJShapeEnergyAtCutoff>();
@@ -46,7 +55,7 @@ void ModelLJShape::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_model_(ostr);
   ShapedEntity::serialize(ostr);
-  feasst_serialize_version(1412, ostr);
+  feasst_serialize_version(1413, ostr);
   feasst_serialize(alpha_, ostr);
   feasst_serialize(delta_, ostr);
   feasst_serialize(disable_shift_, ostr);
@@ -55,12 +64,13 @@ void ModelLJShape::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(mixed_sigma_, ostr);
   feasst_serialize(wall_epsilon_, ostr);
   feasst_serialize_fstobj(mixed_epsilon_, ostr);
+  feasst_serialize(alpha_index_, ostr);
 }
 
 ModelLJShape::ModelLJShape(std::istream& istr)
   : ModelOneBody(istr), ShapedEntity(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 1412, "unrecognized verison: " << version);
+  ASSERT(version >= 1412 && version <= 1413, "unrecognized verison: " << version);
   feasst_deserialize(&alpha_, istr);
   feasst_deserialize(&delta_, istr);
   feasst_deserialize(&disable_shift_, istr);
@@ -76,19 +86,32 @@ ModelLJShape::ModelLJShape(std::istream& istr)
   feasst_deserialize_fstobj(&mixed_sigma_, istr);
   feasst_deserialize(&wall_epsilon_, istr);
   feasst_deserialize_fstobj(&mixed_epsilon_, istr);
+  if (version >= 1412) {
+    feasst_deserialize(&alpha_index_, istr);
+  }
 }
 
-double ModelLJShape::en(const double epsilon,
-              const double sigma,
-              const double distance) const {
+double ModelLJShape::en(const double epsilon, const double sigma,
+    const double distance, const int type,
+    const ModelParams& model_params) const {
   TRACE("epsilon: " << epsilon);
   TRACE("sigma: " << sigma);
   TRACE("distance: " << distance);
-  return epsilon * std::pow(sigma/(distance + delta_), alpha_);
+  double alpha = alpha_;
+  if (alpha < 0) {
+    alpha = model_params.select(alpha_index_).value(type);
+  }
+  return epsilon * std::pow(sigma/(distance + delta_), alpha);
 }
 
 void ModelLJShape::precompute(Configuration * config, ModelParams * params) {
   ModelOneBody::precompute(config, params);
+  alpha_index_ = -1;
+  if (std::abs(alpha_ - alpha_mie_r_) < NEAR_ZERO) {
+    alpha_index_ = params->index("mie_lambda_r");
+  } else if (std::abs(alpha_ - alpha_mie_a_) < NEAR_ZERO) {
+    alpha_index_ = params->index("mie_lambda_a");
+  }
   if (std::abs(wall_sigma_) > NEAR_ZERO && mixed_sigma_.size() == 0) {
     //mixed_sigma_ = Sigma();  // reset in case multiple precompute
     const ModelParam& fluid_sig = params->select("sigma");
@@ -153,7 +176,7 @@ double ModelLJShape::energy(
   } else {
     const double sig = sigma(type, model_params);
     TRACE("sig: " << sig);
-    const double e = en(eps, sig, distance);
+    const double e = en(eps, sig, distance, type, model_params);
     if (disable_shift_) {
       TRACE("e " << e);
       return e;
@@ -174,7 +197,7 @@ double ModelLJShapeEnergyAtCutoff::compute(const int type1, const ModelParams& m
   TRACE("cut " << cutoff);
   double en = 0.;
   if (cutoff > 0) {
-    en = model_->en(eps, sig, cutoff);
+    en = model_->en(eps, sig, cutoff, type1, model_params);
   }
   TRACE("en " << en);
   return en;

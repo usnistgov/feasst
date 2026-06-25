@@ -76,15 +76,11 @@ for flag in "Error" "error" "Assert"; do
   grep $flag ../tutorial/log.txt >> summary.log
 done
 
-# TESTING echo "********** feasst-menu **********" >> summary.log
-# TESTING feasst-menu --test_reproduction 0,0,0,0,0,0,1,fluid 2>&1
-# TESTING expected="""MonteCarlo
-# TESTING RandomMT19937
-# TESTING Configuration particle_type=0:/feasst/particle/atom_new.txt"""
-# TESTING file_content=$(<test.txt)
-# TESTING if [[ "$file_content" !== "$expected" ]]; then
-# TESTING     echo "The files do not match."
-# TESTING fi
+echo "********** feasst-menu **********" >> summary.log
+python ../src/feasst/menu.py --test 1 >> menu-log.txt 2>&1
+for flag in "FAIL"; do
+  grep $flag menu-log.txt >> summary.log
+done
 
 #tail -1 tutorial_failures.txt >> summary.log
 #echo "********** launch py **********" >> summary.log

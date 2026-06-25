@@ -39,6 +39,8 @@ class ModelLJShape : public ModelOneBody,
   /** @name Arguments
     - ShapeFile arguments.
     - alpha: set the exponent (default: 3.).
+      If alpha=mie_lambda_r, use mie_lambda_r ModelParam.
+      If alpha=mie_lambda_a, use mie_lambda_a ModelParam.
     - delta: set the delta parameter (default: 0.).
     - disable_shift: disable shifting of the potential to zero (default: false).
     - wall_sigma: If != 0 (default: 0), use Lorentz-Berthelot combining rules
@@ -79,7 +81,8 @@ class ModelLJShape : public ModelOneBody,
   double epsilon(const int site_type, const ModelParams& params);
 
   double en(const double epsilon, const double sigma,
-    const double distance) const;
+    const double distance, const int type,
+    const ModelParams& model_params) const;
 
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {
@@ -99,6 +102,10 @@ class ModelLJShape : public ModelOneBody,
   Sigma mixed_sigma_;
   double wall_epsilon_;
   Epsilon mixed_epsilon_;
+  int alpha_index_;
+
+  const double alpha_mie_r_ = -1;
+  const double alpha_mie_a_ = -2;
 
   void parse_args_(argtype * args);
 };

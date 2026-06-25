@@ -70,4 +70,27 @@ TEST(ModelLJShape, wall_sigma) {
   EXPECT_NEAR(u_theory, model.energy(site.position(), site, *config, model_params), 2e-12);
 }
 
+TEST(ModelLJShape, mie) {
+  HalfSpace half_space({
+    {"dimension", "2"},
+    {"intersection", "1."},
+    {"direction", "1"},
+  });
+  ModelLJShape model(std::make_shared<HalfSpace>(half_space),
+    {{"alpha", "mie_lambda_a"}});
+  auto config = MakeConfiguration({{"cubic_side_length", "8"},
+    {"particle_type", "atom:../particle/mie.txt"},
+    {"add_num_atom_particles", "1"}});
+  ModelParams model_params = config->model_params();
+  model.precompute(config.get(), &model_params);
+  std::shared_ptr<Model> model2 = test_serialize<ModelLJShape, Model>(model);
+
+  const Site& site = config->particle(0).site(0);
+  Position pos;
+  pos.set_vector({-24.23, 35.45, 1.5000001});
+  config->displace_particles(config->selection_of_all(), pos);
+  double u_theory = std::sqrt(1)*(std::pow(1./0.5000001, 8) - std::pow(1./3., 8));
+  EXPECT_NEAR(u_theory, model.energy(site.position(), site, *config, model_params), 2e-12);
+}
+
 }  // namespace feasst

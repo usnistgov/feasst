@@ -180,6 +180,9 @@ class MonteCarlo {
   /// Once Criteria is set, it may be accessed on a read-only basis.
   const Criteria& criteria() const;
 
+  /// Return true if Criteria is set.
+  bool is_criteria_set() const { return criteria_set_; }
+
   /// Initialize the criteria. Also initializes system.
   void initialize_criteria();
 
@@ -285,6 +288,10 @@ class MonteCarlo {
   virtual void run_until_file_exists(const std::string& file_name,
     const int trials_per_file_check);
 
+  /// Attempt MonteCarlo trials until the volume is less than or equal to value.
+  virtual void run_until_volume(const double volume,
+    const int configuration_index);
+
   /// Set the Criteria::cycles_to_complete.
   void set_cycles_to_complete(const int num);
 
@@ -353,7 +360,7 @@ class MonteCarlo {
 
   // HWH python interface cannot handle stringstreams with serialization.
   std::string serialize() const;
-//  MonteCarlo deserialize(const std::string str);
+  std::unique_ptr<MonteCarlo> deserialize(const std::string str);
 
   virtual ~MonteCarlo();
 

@@ -384,7 +384,12 @@ std::string System::status() const {
   for (auto config : configurations_) {
     ss << config->status();
   }
-  ss << "," << thermo_params().beta();
+  ss << ",";
+  if (thermo_params_) {
+    ss << thermo_params().beta();
+  } else {
+    ss << "NaN";
+  }
   return ss.str();
 }
 

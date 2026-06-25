@@ -588,6 +588,14 @@ void Prefetch::run_until_file_exists(const std::string& file_name,
   MonteCarlo::run_until_file_exists(file_name, trials_per_file_check);
 }
 
+void Prefetch::run_until_volume(const double volume,
+    const int configuration_index) {
+  if (volume > 0) {
+    WARN("run_until_volume is not implemented efficiently with Prefetch.");
+  }
+  MonteCarlo::run_until_volume(volume, configuration_index);
+}
+
 void Prefetch::serialize(std::ostream& ostr) const {
   MonteCarlo::serialize(ostr);
   feasst_serialize_version(5687, ostr);

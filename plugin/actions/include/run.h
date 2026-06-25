@@ -36,6 +36,8 @@ class Run : public Action {
     - until_file_exists: run until the given file name exists.
       Afterward, write all Analyze and Modify.
       If empty, skip (default: empty).
+    - until_volume: Run until the volume of the given config is less than or
+      equal to the given value, if > 0 (default: -1).
     - trials_per_file_check: run this many trials between file checks to reduce
       load on the file system (default: 1e5).
     - Trial: name of a Trial that is temporarily added and then removed at
@@ -81,6 +83,7 @@ class Run : public Action {
   std::vector<std::shared_ptr<Modify> > modifiers_;
   int num_analyze_before_ = -1;
   int num_modify_before_ = -1;
+  double until_volume_;
 };
 
 inline std::shared_ptr<Run> MakeRun(argtype args = argtype()) {

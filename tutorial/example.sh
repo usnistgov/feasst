@@ -20,7 +20,7 @@ Metropolis
 TrialTranslate weight=1 tunable_param=2
 Tune
 CheckEnergy trials_per_update=$tpc decimal_places=8
-Log trials_per_write=$tpc output_file=lj_eq.csv
+Log trials_per_write=$tpc output_file=lj_eq.csv format=vertical
 Run until_num_particles=$num_particles particle_type=lj Trial=TrialAdd weight=2
 Run num_trials=1e5
 Remove name=Tune,Log

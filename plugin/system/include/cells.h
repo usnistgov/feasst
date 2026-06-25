@@ -16,7 +16,7 @@ class Cells {
   Cells() { set_group(); }
 
   // HWH: better optimize method of building list of neighboring cells.
-  // HWH: currently too slow to NPT, frequent rebuilds or large systems.
+  // HWH: currently too slow for NPT, frequent rebuilds for large systems.
   // HWH: consider elongated boxes for minimal requirement.
   /// Create the number, length and neighbors.
   /// By default, abort if there aren't more than \f$3^D\f$ cells,

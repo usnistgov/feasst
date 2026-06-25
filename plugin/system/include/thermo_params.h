@@ -21,13 +21,15 @@ class ThermoParams {
   //@{
   /** @name Arguments
     - beta: The inverse temperature, \f$ \beta = \frac{1}{k_B T} \f$.
-    - pH: Optional negative of the log-base-10 of the proton concentration.
     - chemical_potential: Optional chemical potential for each particle type.
       Multiple may be provided as comma-separated values in the same order
       as the particle_type were added in Configuration.
       The chemical potential must have the inverse units of \f$\beta\f$,
       and a value is required for grand canonical trials such as TrialAdd.
-    - pressure: Optional imposed isotropic system pressure.
+    - pH: Optional negative of the log-base-10 of the proton concentration.
+      Used for pH trials.
+    - pressure: Optional imposed isotropic system pressure. Used in
+      TrialVolume.
    */
   explicit ThermoParams(argtype args = argtype());
 

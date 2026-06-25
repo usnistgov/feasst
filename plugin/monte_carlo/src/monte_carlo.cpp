@@ -863,6 +863,18 @@ void MonteCarlo::run_until_file_exists(const std::string& file_name,
   }
 }
 
+void MonteCarlo::run_until_volume(const double volume,
+    const int configuration_index) {
+  if (volume < 0) {
+    return;
+  }
+  const Configuration& conf = configuration(configuration_index);
+  while (conf.domain().volume() > volume) {
+    attempt(1);
+    DEBUG("volume " << conf.domain().volume());
+  }
+}
+
 void MonteCarlo::synchronize_(const MonteCarlo& mc,
      const std::vector<std::shared_ptr<Select> >& perturbed) {
   system_->synchronize_(mc.system(), perturbed);
@@ -970,11 +982,13 @@ std::string MonteCarlo::serialize() const {
   std::stringstream ss;
   serialize(ss);
   return ss.str();
+
 }
-//MonteCarlo MonteCarlo::deserialize(const std::string str) {
-//  std::stringstream ss(str);
-//  return MonteCarlo(ss);
-//}
+
+std::unique_ptr<MonteCarlo> MonteCarlo::deserialize(const std::string str) {
+  std::stringstream ss(str);
+  return std::unique_ptr<MonteCarlo>(new MonteCarlo(ss));
+}
 
 const Configuration& MonteCarlo::configuration(const int index) const {
   return system_->configuration(index); }

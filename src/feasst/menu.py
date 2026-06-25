@@ -1,22 +1,25 @@
 """
 Todo:
 
-Undo seems to have some kind of memory leak
+Remove previous line in script - what if for example box is too small for cutoff, not seen until potential but has to be fixed in configuration..., this would require saving MC objects and undo-ing them as well...
 
+Compare log header, if changed print again
+
+Action argument: Stepper: wasn't treated like a factory. Separate into Analyze/Modify, or ...?
+
+android app - instructions in readme?
+
+-Update Log whenever a trial is added?
+Lint docs
+Add menu to docs
 Add src/feasst/feasst.cpp to pydoc
 
-Remember: site type names, site names
-
-Configuration [param=epsilon,sigma,etc] arguments need to be input, with list of defaults plus custom ?
+Undo seems to have some kind of memory leak
 
 Particle builder: remember names of particles, sites, etc. Obtain sites/bonds/etc for future reference. txt->json particle file.
 
 Print the version with MonteCarlo so exectuable can compare against it (not at constructor, what about prefetch?).
 Print MonteCarlo at first line for reproducibility, like text interface script
-
-Or... make more use of the actual program errors to run the simulation in client-server model interactively (undo doesn't work so well in that case)
-|- Advise user to add a chemical potential of type if TrialAdd or TrialGrow
-|Make user provide a chemical potential (if not xyz or add_num?)
 
 Enable Let, if, for and somehow remember the variables for user input?
 
@@ -52,9 +55,19 @@ import textwrap
 from importlib.resources import files
 import subprocess
 import webbrowser
+from pathlib import Path
+from datetime import datetime
+from feasst import file_reader
+from feasst import excthread
+import unittest
+from unittest.mock import patch, MagicMock
+import time
 
 # Configure log to a file
 #log.basicConfig(filename="feasst-menu.debug.txt", level=log.DEBUG, format='[%(filename)s:%(lineno)d] %(message)s')
+
+MC = None
+LOG = None
 
 # Custom options
 LOAD_SAVE_FILE = '[Load save]'
@@ -66,13 +79,22 @@ NO_MORE_ARGUMENTS = '[Finish \"'
 NO_MORE_PARTICLES = '[No more particles]'
 NUMBER_ARG_ROWS= "[Number of rows for arguments]"
 NUMBER_SCRIPT_ROWS= "[Number of rows for script]"
+AUTOSAVE_FREQUENCY = '[Lines per autosave]'
 TOGGLE_TUTORIAL= "[Toggle tutorial mode]"
+ENABLE_AUTORUN = '[Enable autorun]'
+DISABLE_AUTORUN = '[Disable autorun]'
 UNIQUE_START = '__start__'
 UNIQUE_PARTICLE = '__particle__'
 OPTIONAL = '__optional__'
 COMMENT_LINE = '[Add comment]'
 CUSTOM_LINE = '[Add line]'
 RUN_COMMAND = '[Save and run]'
+SETTINGS_BACK = '[Back]'
+
+def is_mock(stdscr):
+    if isinstance(stdscr, MagicMock):
+        return True
+    return False
 
 def populate_base(data):
     for cl in data:
@@ -134,9 +156,7 @@ def gen_data(descript, particles, factory, tutorial):
 
     # add arguments from base classes. May need to repeat multiple times?
     for _ in range(5):
-        log.debug(str(data['Metropolis']))
         data = populate_base(data)
-    log.debug(str(data['Metropolis']))
 
     # remove optional argument if it also shows up as required (e.g., TrialAdd requires particle_type, which is optional in TrialSelect)
     for cl in data:
@@ -150,7 +170,7 @@ def gen_data(descript, particles, factory, tutorial):
     for cl in descript:
         log.debug('cln:'+cl)
         if cl != "":
-            data[cl+OPTIONAL].insert(0, (NO_MORE_ARGUMENTS+cl+"\"]", cl+OPTIONAL, ""))
+            data[cl+OPTIONAL].insert(0, (NO_MORE_ARGUMENTS+cl+"\"]", cl+OPTIONAL, "Selecting this option will finish adding parameters for the class listed above."))
 
     # customize particle file selection when Configuration is selected
     class_config = (["Configuration", "particles_select0", descript['Configuration']['descript']])
@@ -169,7 +189,19 @@ def gen_data(descript, particles, factory, tutorial):
     for idat,dat in enumerate(data['Configuration']):
         if dat[0] == 'particle_type':
             data['Configuration'].pop(idat)
-            break;
+            break
+    # reorder required Configuration parameters
+    data['Configuration'].sort()# = data['Configuration'].items()))
+#    conf=data['Configuration']
+#    for idat,dat in enumerate(conf):
+#        if dat[0] == 'side_length':
+#            conf.insert(0, conf.pop(idat))
+#            break
+#    for idat,dat in enumerate(conf):
+#        if dat[0] == 'cubic_side_length':
+#            conf.insert(0, conf.pop(idat))
+#            break
+
     # point non-optional config parameters to the optional ones
     for idat,dat in enumerate(data['Configuration']):
         data['Configuration'][idat][3] = 'Configuration' + OPTIONAL
@@ -197,9 +229,11 @@ def gen_data(descript, particles, factory, tutorial):
             if len(lst) > 0:
                 if lst[0] == 'particle_type':
                     data[cl][idx][3] = 'particle_type_chooser'
-                if lst[0] == 'config':
+                elif lst[0] == 'site_type':
+                    data[cl][idx][3] = 'site_type_chooser'
+                elif lst[0] == 'config':
                     data[cl][idx][3] = 'configuration_chooser'
-                if lst[0] == 'group':
+                elif lst[0] == 'group':
                     if cl == 'Configuration'+OPTIONAL:
                         data[cl][idx][1] = 'Group'
                     else:
@@ -212,11 +246,12 @@ def gen_data(descript, particles, factory, tutorial):
     for fac in factory:
         class_[fac] = ([fac, fac, descript[fac]['descript']])
 
+    settings_ = ("[Settings]", "settings", "Adjust the settings for this program.")
     every_mc_no_for = [
       class_['Checkpoint'],
       ([COMMENT_LINE, "", "Add a comment line to improve the readability of the script. Comment lines that begin with a \"#\" symbol are ignored by the FEASST executable.", ""]),
       ([CUSTOM_LINE, "", "Enter a line directly into the script that will be read by the FEASST executable (not recommended, although this can also be used to add empty lines which are ignored and help improve readability of the script).", ""]),
-      ([RUN_COMMAND, "", "Save the script to file and then immediately run the script using the BASH command \"feasst < [script].txt > [script].log 2>&1\", where feasst is the compiled executable and [script].txt is the text file with the script. If the script has been previously-saved, then that file name will be used automatically. Otherwise, you will be prompted for the value of [script]."]),
+      settings_,
     ]
     every_mc = copy.deepcopy(every_mc_no_for)
     #every_mc.insert(0, class_["For"])
@@ -230,25 +265,25 @@ def gen_data(descript, particles, factory, tutorial):
     data = data | {
     'tutorial': tutorial,
     'selected_index': 0,
+    'selected_index_previous': 0, # used with parameter_chooser inner run_one loop
     'scroll_des': 0,
+    'scroll_des_inc': 1,
+    'last_key' : 'a',
     'node_key': UNIQUE_START,
     'script': "",
-    'script_file': "",
+    'script_file': "feasst-menu",
     'num_arg_rows': 5,
     'num_script_rows': 5,
-    'mc_stage': 0,
+    'lines_per_autosave': 1,
+    'autorun': True,
     'particles': particles,
-    'particle_id': [],
-    'particle_name': [],
-    'configuration_name': [],
-    'configuration_descript': [],
+    'factory': factory,
+
+    # temp variables
     'prepend': "",
-    'group_name':[],
-    'group_descript': [],
     'group_describing': False,
     'group_to_process': [],
     'excluded_args': [],
-    'factory': factory,
     'previous_state': None,
     'future_state': None,
     'nested_options' : None,
@@ -256,33 +291,13 @@ def gen_data(descript, particles, factory, tutorial):
     UNIQUE_START: [
         ("[I'm ready to simulate now]", "simulate", """The selected option is shown highlighted at the top, and the description of your current selection is provided below.
 
-Press the arrow keys (or w-a-s-d) to change your current selection.
-Press the "enter" key to choose your current selection.
-Press the "u" key to undo your last choice.
-Press the "r" key to redo your last undo.
+- Press the arrow keys (or w-a-s-d) to change your current selection.
+- Press the "enter" key to choose your current selection.
+- Press the "u" key to undo your last choice.
+- Press the "r" key to redo your last undo.
+- A mouse scroll wheel and swiping up, down, left or right on a touch screen or track pad may also function as arrow key presses.
 
-A mouse scroll wheel and swiping up, down, left or right on a touch screen or track pad may also function as arrow key presses.
-
-Have you FEASST'ed with us before?
-
-⠀⠀⣠⣾⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣶⣆⠀⠀⠀⠀
-⠀⠀⢿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣦⠀⠀
-⠀⠀⠀⠙⠛⠛⠛⠋⠀⠀⠀⠀⠀⠀⠀⢠⣤⣿⣿⣿⣿⣿⣿⣿⣤⡄
-⢠⣤⣶⠀⠀⠀⠀⠀⣶⣶⣤⣤⡀⠀⠀⠸⠿⠿⠿⠿⠿⠿⠿⠿⠿⠇
-⢸⣿⣿⡇⠀⠀⠀⢸⣿⣿⣿⣿⣷⡄⠀⠀⠀⣤⣤⣤⣤⣤⣤⠄⠀⠀
-⢸⣿⣿⣿⡀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣆⠀⣼⣿⣿⠛⠉⠉⠀⠀⠀⠀
-⢸⣿⣿⣿⡇⠀⢰⣿⣿⣿⣿⡿⢿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀
-⢸⣿⣿⣿⣷⠀⢸⣿⣿⣿⣿⡇⠀⠹⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀
-⢸⣿⣿⣿⣿⣇⣿⣿⣿⣿⣿⡇⠀⠀⠈⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠛⠿⠿⠿⠿⠿⠿⠿⠿⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-
-Like a New Jersey diner, there are a lot of FEASST options. Press the "enter" key to see the menu.
-
-While I'm taking your order, I'm writing the text-based script needed to start a fresh Monte Carlo simulation. The simulation won't actually start cooking until that script is given to the executable (e.g., "feasst < script.txt" in BASH/etc).
-
-You can also ask for things that aren't on the menu by editting a text-based script directly. And you can find a lot of FEASST recipes here: https://pages.nist.gov/feasst/tutorial/README.html , which also include post processing and analysis of the simulations."""),
+The feasst-menu helps write the text-based script needed to start a fresh Monte Carlo simulation. You can also ask for things that aren't on the menu by editting a text-based script directly. And you can find a lot of FEASST recipes here: https://pages.nist.gov/feasst/tutorial/README.html , which also include post processing and analysis of the simulations."""),
         ("[What is FEASST?]", "", """The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free and open-source software to conduct molecular- and particle-based simulations with Monte Carlo methods.
 
 New users can start with the website (https://pages.nist.gov/feasst/ or https://doi.org/10.18434/M3S095>), manuscript (https://doi.org/10.1063/5.0224283), GitHub discussion (https://github.com/usnistgov/feasst/discussions) and a five minute video (https://www.nist.gov/video/how-use-feasst-0255-monte-carlo-molecular-simulation-software).
@@ -303,14 +318,15 @@ Support FEASST with a GitHub (https://github.com/usnistgov/feasst) star or manus
         (LOAD_SAVE_FILE, "", """Load a save file that was previously created with this program with a json extension. Type the [name] of an existing \"[name].json\" file without typing the json file extension. Type into the box and then press the ENTER key to submit."""),
         (LOAD_SCRIPT_FILE, "", """Load an existing script file. Type the name into the box and then press the ENTER key to submit."""),
         (OPEN_HTML, "", "Open the local HTML documentation specific to your exact version of FEASST, which is located on your computer in /feasst/data/html/index.html. May require \"sudo apt install xdg-utils\". For WSL users, \"sudo apt install wslu\" to enable xdg-open."),
-        ("[Settings]", "settings", "Adjust the settings for this program."),
+        settings_,
     ],
     "exit": [],
     "settings": [
         (NUMBER_ARG_ROWS, 'settings', "Set an integer number of rows that the selectable arguments at the top occupy.", ""),
         (NUMBER_SCRIPT_ROWS, 'settings', "Set an integer number of rows for the script preview window.", ""),
+        (AUTOSAVE_FREQUENCY, 'settings', "Write an autosave file every time the number of lines in the script is divisible by this integer.", ""),
         (TOGGLE_TUTORIAL, 'settings', "Toggle tutorial mode on or off by inputting \"0\" (or \"False\") for off and \"1\" (or \"True\") for on.", ""),
-        ("[Back]", UNIQUE_START, "Go back to the main menu.")
+        (SETTINGS_BACK, "", "Go back to the previous menu.")
     ],
     "simulate": [
         ("MonteCarlo", "monte_carlo0", """Conduct a serial Monte Carlo simulation, post process or evaluate a reference Configuration.
@@ -329,7 +345,7 @@ See https://pages.nist.gov/feasst/plugin/server/README.html"""),
 # 2: potential not set
 # 3: thermo param not set
 # 4: criteria not set
-# 5: criteria set
+# 5: restart/criteria set
     "monte_carlo0": [
         #class_["RandomMT19937"],
         #class_["RandomModulo"],
@@ -391,14 +407,19 @@ def str_to_bool(value: str) -> bool:
     else:
         raise ValueError(f"Invalid boolean string: '{value}'")
 
-def input_box(stdscr, width, instruct, data, default_text=''):
-# TESTING     if stdscr == None:
-# TESTING         return ""
-# TESTING     if isinstance(stdscr, list):
-# TESTING         if len(stdscr) == 0:
-# TESTING             return ""
-# TESTING         return stdscr.pop(0)
-
+def input_box(stdscr, instruct, data, default_text=''):
+    if is_mock(stdscr):
+        text = default_text
+        attempt = 0
+        while True:
+            attempt += 1
+            assert attempt < 1e3, 'infinite loop'
+            key = stdscr.getch()
+            if key == ord('\n'):
+                break
+            text += chr(key)
+        return text
+    height, width = stdscr.getmaxyx()
     curses.curs_set(2) # turn on cursor
     stdscr.addstr(0, 0, instruct+str((width-len(instruct))*' '))
 
@@ -426,24 +447,31 @@ def print_bar(width, label=''):
     halfwidth = int(width/2-len(label)/2)
     return str(halfwidth*'=')+label+str((width-halfwidth-len(label))*'=')
 
-def update_mc_stage(data, chc0, stdscr):
-    if chc0[:6] == 'Random':
-        assert data['mc_stage'] == 0, data['mc_stage']
-        data['mc_stage'] = 1
-    elif chc0 == 'Configuration':
-        assert data['mc_stage'] <= 2, data['mc_stage']
-        data['mc_stage'] = 2
-    elif chc0 == 'Potential':
-        assert data['mc_stage'] == 2, data['mc_stage']
-        data['mc_stage'] = 3
-    elif chc0 == 'ThermoParams':
-        assert data['mc_stage'] >= 3, data['mc_stage']
-        if data['mc_stage'] == 3:
-            data['mc_stage'] = 4
-    elif any(crit == chc0 for crit in data['factory']['Criteria']):# == 'Metropolis' or chc0 == 'MayerSampling' or chc0 == 'FlatHistogram':
-        assert data['mc_stage'] >= 4, data['mc_stage']
-        data['mc_stage'] = 5
+# do not account for words split across lines to make the script more dense
+def script_wrap_in_width(text, width):
+    flines = []
+    lines = text.split('\n')
+    for line in lines:
+        if len(line) <= width:
+            flines.append(line)
+        else:
+            first = True
+            width -= 2
+            while len(line) > width:
+                if first:
+                    app = line[:width]
+                else:
+                    app = '  '+line[:width-2]
+                flines.append(app)
+                if first:
+                    line = line[width:]
+                else:
+                    line = line[width-2:]
+                first = False
+            flines.append('  '+line)
+    return flines
 
+# wrap text while perserving endlines
 def wrap_in_width(text, width, join):
     wrapped_lines = []
     for line in text.splitlines():
@@ -456,7 +484,29 @@ def wrap_in_width(text, width, join):
     else:
         return wrapped_lines
 
-def user_message(message, stdscr, title='WARNING'):
+def status_message(title, message, stdscr):
+    height, width = stdscr.getmaxyx()
+    box_height = height - 2
+    box_width = width - 2
+    start_y = (height - box_height) // 2
+    start_x = (width - box_width) // 2
+    stdscr.erase()
+    border=2
+    for iline,line in enumerate(wrap_in_width(title, width=box_width-border-1, join=False)):
+        if iline < box_height - 2:
+            if iline == 0:
+                stdscr.addstr(0, (box_width - len(line)) // 2, line, curses.A_BOLD | curses.A_REVERSE)
+            else:
+                stdscr.addstr(iline, (box_width - len(line)) // 2, line, curses.A_BOLD | curses.A_REVERSE)
+                #stdscr.addstr(border+iline, border, line, curses.A_BOLD)
+    for iline,line in enumerate(wrap_in_width(message, width=box_width-border-1, join=False)):
+        if iline < box_height - 2:
+            stdscr.addstr(border+iline, border, line, curses.A_BOLD)
+
+def user_message(message, stdscr, title='WARNING', press_to_continue=True):
+    if is_mock(stdscr):
+        print(title+':'+message)
+        return
     height, width = stdscr.getmaxyx()
     box_height = height - 2
     box_width = width - 2
@@ -473,17 +523,21 @@ def user_message(message, stdscr, title='WARNING'):
     if title == "TUTORIAL":
         instruction = "Disable tutorials in main menu [Settings]"
         win.addstr(box_height - 4, (box_width - len(instruction)) // 2, instruction, curses.A_DIM)
-        instruction = "or Python argument \"--disable-tutorial\""
+        instruction = "or Python argument \"--disable_tutorial\""
         win.addstr(box_height - 3, (box_width - len(instruction)) // 2, instruction, curses.A_DIM)
     instruction = "Press any key to continue..."
     win.addstr(box_height - 2, (box_width - len(instruction)) // 2, instruction, curses.A_BOLD | curses.A_REVERSE)
     win.getch()
 
 def tutorial(data, stdscr, message):
-    if data['tutorial']:
+    if data['tutorial'] and not is_mock(stdscr):
         user_message(message, stdscr, title='TUTORIAL')
 
 def display(data, stdscr, choices):
+    if is_mock(stdscr):
+        data['user_message'] = ''
+        return
+    stdscr.clear()
     log.debug('display.node_key:'+str(data['node_key']))
     height, width = stdscr.getmaxyx()
     # first, display the arguments with data['num_arg_rows']
@@ -539,7 +593,8 @@ def display(data, stdscr, choices):
     lines_for_descript = height - (data['num_arg_rows'] + 1)
     if data['script'] != '':
         stdscr.addstr(print_bar(width=width, label='SCRIPT'))
-        lines = data['script'].split('\n')
+        lines = script_wrap_in_width(text=data['script'], width=width)
+        #lines = data['script'].split('\n')
         if lines[-1] == '':
             lines.pop()
         text = ''
@@ -556,7 +611,6 @@ def display(data, stdscr, choices):
     # display description
     stdscr.addstr(print_bar(width=width, label='DESCRIPTION'))
     text = choices[selected_index][2]
-    # wrap text while perserving endlines
     wrapped_lines = wrap_in_width(text=text, width=width, join=False)
     if len(wrapped_lines) <= lines_for_descript:
         stdscr.addstr("\n".join(wrapped_lines))
@@ -565,6 +619,8 @@ def display(data, stdscr, choices):
         if scroll_des > 0:
             stdscr.addstr('[Press "q" to scroll up]\n', curses.color_pair(2))
             lines_for_descript -= 1
+        data['scroll_des'] = min(scroll_des, len(wrapped_lines)-lines_for_descript+1)
+        scroll_des = data['scroll_des']
         display_down_instruct = False
         if len(wrapped_lines) - scroll_des > lines_for_descript:
             stdscr.addstr("\n".join(wrapped_lines[scroll_des:scroll_des+lines_for_descript-1]))
@@ -577,19 +633,91 @@ def display(data, stdscr, choices):
         user_message(message=data['user_message'], stdscr=stdscr)
         data['user_message'] = ''
 
-def write_files(data):
-    with open(data['script_file']+'.txt', 'w', encoding='utf-8') as file1:
+def write_files(data, append=''):
+    with open(data['script_file']+append+'.txt', 'w', encoding='utf-8') as file1:
         file1.write(data['script'])
     data['previous_state'] = None
     data['future_state'] = None
-    with open(data['script_file']+'.json', 'w', encoding='utf-8') as file1:
+    with open(data['script_file']+append+'.json', 'w', encoding='utf-8') as file1:
         json.dump(data, file1, indent=2)
+    if data['autorun'] and MC:
+        with open(data['script_file']+append+'.fst', 'w', encoding='utf-8') as file1:
+            file1.write(MC.serialize())
+
+def init_MC(data, stdscr):
+    global MC
+    global LOG
+    log.debug('initializing MC')
+    try:
+        log.debug('importing feasst')
+        import feasst
+        log.debug('setting MC')
+        MC = feasst.MonteCarlo()
+        log.debug('set MC')
+        LOG = feasst.Log({'format': 'vertical'})
+    except:
+        log.debug('init failure')
+        user_message('Interactive mode is disabled because it requires the following installation:\n\nCMAKE_BUILD_PARALLEL_LEVEL=8 CMAKE_ARGS="-DUSE_PYBIND11=ON" pip3 install feasst', stdscr)
+        data['autorun'] = False
+
+def script_next_line(data, stdscr):
+    nlines = len(data['script'].split('\n'))
+    if data['autorun']:
+        log.debug('autorunning')
+        import feasst
+        global MC
+        lines_to_parse = []
+        if MC == None:
+            init_MC(data, stdscr)
+            assert MC != None
+            parse_all_lines = True
+            for line in data['script'].split('\n'):
+                log.debug('line: '+str(line))
+                if line != 'MonteCarlo':
+                    log.debug('parsing line: '+str(line))
+                    lines_to_parse.append(line)
+                    #feasst.parse(MC, line)
+        else:
+            lines_to_parse.append(data['script'].split('\n')[-1])
+            #feasst.parse(MC, data['script'].split('\n')[-1])
+        for line in lines_to_parse:
+            args = (MC, line, True) # the last bool arg silences output
+            thread = excthread.ExcThread(target=feasst.parse, args=args)
+            #thread = threading.Thread(target=feasst.parse, args=args)
+            log.debug('parsing MC')
+            thread.start()
+            stdscr.erase()
+            stdscr.refresh()
+            check = 0
+            while thread.is_alive() and not thread.exception:
+                check += 1
+                try:
+                    message='\n'+LOG.write(MC)+'Press ctrl-c to terminate. To Restart, use feasst-menu save files (.json), FEASST checkpoint files (.fst) or FEASST script files (.txt).'
+                except:
+                    # sometimes the LOG is not ready to write because it is dangerously accessing MC while running in another thread.
+                    message=''
+                if message != '':
+                    status_message(title='Processing the following line in the script:\n'+line, message=message, stdscr=stdscr)
+                    stdscr.refresh()
+                time.sleep(min(0.01*check**2, 2)) # seconds
+            thread.join()
+            if thread.exception:
+                user_message(f"Reverting last line in script and reseting MC because an error occurred: {thread.exception}", stdscr)
+                # revert the script to the previous line
+                index = data['script'].rfind('\n')
+                assert index != -1, index
+                data['script'] = data['script'][:index+1]
+                MC = None # reset MC
+                return False
+
+    data['script'] += "\n"
+    if nlines % data['lines_per_autosave'] == 0:
+        write_files(data, append='-autosave')
+        #write_files(data, append=f'-autosave{nlines}')
+    return True
 
 def update(choices, data, stdscr):
     selected_index = data['selected_index']
-    width = None
-    if stdscr != None:
-        height, width = stdscr.getmaxyx()
     def node_key(): return data['node_key']
 
     chc = choices[selected_index]
@@ -607,7 +735,7 @@ If no name is provided, the default name of the integer index of the particle ty
 
 Note that the path to the particle file in the resulting script begins with /feasst, which points to the feasst installation directory.""")
     if chc[0] == UNIQUE_PARTICLE:
-        text = input_box(stdscr=stdscr, width=width, instruct="Type the name of the particle (Press Enter to submit):", data=data)
+        text = input_box(stdscr=stdscr, instruct="Type the name of the particle (Press Enter to submit):", data=data)
         data['node_key'] = chc[1]
     elif chc[1] in data:
         log.debug('chc1:'+str(chc[1])+' is in data')
@@ -615,16 +743,33 @@ Note that the path to the particle file in the resulting script begins with /fea
             log.debug('parsing argument, not a class, and a value may need to be input')
             exclude_arg = True
             arg = chc[0]
-            if chc[0] != NUMBER_ARG_ROWS and chc[0] != NUMBER_SCRIPT_ROWS and chc[0] != TOGGLE_TUTORIAL and chc[0] != COMMENT_LINE and chc[0] != CUSTOM_LINE and chc[0] != LOAD_PARTICLE_FILE and arg.find('[') != -1:
+            if chc[0] != NUMBER_ARG_ROWS and chc[0] != NUMBER_SCRIPT_ROWS and chc[0] != TOGGLE_TUTORIAL and chc[0] != COMMENT_LINE and chc[0] != CUSTOM_LINE and chc[0] != LOAD_PARTICLE_FILE and chc[0] != AUTOSAVE_FREQUENCY and arg.find('[') != -1:
                 log.debug('this argument has additional variables defined within [square brackets]')
                 while arg.find('[') != -1:
                     param = arg[arg.find('[')+1 : arg.find(']')]
-                    text = input_box(stdscr=stdscr, width=width, instruct="Type the value of ["+param+"] (Press Enter to submit):", data=data)
+                    if param == 'parameter':
+                        previous_key = data['node_key']
+                        log.debug('previous_key '+str(previous_key))
+                        data['node_key'] = 'parameter_chooser'
+                        params = file_reader.get_sites(data['script'])[0]['params']
+                        data['selected_index'] = 0
+                        data['parameter_chooser'] = []
+                        for tparam in params:
+                            data['parameter_chooser'].append((tparam, 'end_parameter_chooser', tparam))
+                        while data['node_key'] != 'end_parameter_chooser':
+                            run_one(stdscr, data)
+                        data['node_key'] = previous_key
+                        log.debug('exited parameter_chooser, node: '+str(data['node_key']))
+                        text = params[data['selected_index_previous']]
+                    else:
+                        text = input_box(stdscr=stdscr, instruct="Type the value of ["+param+"] (Press Enter to submit):", data=data)
                     arg = arg.replace('['+param+']', text)
+                    log.debug('arg: '+str(arg)+' param: '+param+' text: '+text)
                     exclude_arg = False
+                log.debug('exited param loop')
             if chc[0] == LOAD_PARTICLE_FILE:
-                path = input_box(stdscr=stdscr, width=width, instruct="Type the full path and file name of the particle file:", data=data)
-                name = input_box(stdscr=stdscr, width=width, instruct="Type the name of the particle (Press Enter to submit):", data=data)
+                path = input_box(stdscr=stdscr, instruct="Type the full path and file name of the particle file:", data=data)
+                name = input_box(stdscr=stdscr, instruct="Type the name of the particle (Press Enter to submit):", data=data)
                 if data['node_key'] == 'particles_select0':
                     data['script'] += ' '+data['prepend']+'particle_type='
                 else:
@@ -634,20 +779,16 @@ Note that the path to the particle file in the resulting script begins with /fea
                 data['node_key'] = chc[1]
             elif data['node_key'][:-1] == 'particles_select':
                 log.debug('obtain name and add to list of particle names')
-                text = input_box(stdscr=stdscr, width=width, instruct="Type the name of the particle (Press Enter to submit):", data=data)
-                if text == '':
-                    text = str(len(data['particle_name']))
-                if text in data['particle_name']:
-                    pid = data['particle_name'].index(text)
-                else:
-                    data['particle_name'].append(text)
-                    data['particle_id'].append(chc[0])
-                    pid = -1
+                text = input_box(stdscr=stdscr, instruct="Type the name of the particle (Press Enter to submit):", data=data)
                 if data['node_key'] == 'particles_select0':
                     data['script'] += ' '+data['prepend']+'particle_type='
                 else:
                     data['script'] += ','
-                data['script'] += data['particle_name'][pid] + ':/feasst/' + chc[3]
+                if text == '':
+                    particles = file_reader.get_particles(data['script'])[0]
+                    log.debug('particles'+str(particles))
+                    text = str(len(particles)-1)
+                data['script'] += text + ':/feasst/' + chc[3]
                 log.debug('node:'+str(data['node_key']))
                 exclude_arg = False
                 data['node_key'] = chc[1]
@@ -656,36 +797,53 @@ Note that the path to the particle file in the resulting script begins with /fea
                 data['node_key'] = chc[1]
                 data['script'] += " "+chc[0]+"="
             elif chc[3] == "particle_type_chooser":
-                assert len(data['particle_name']) > 0, "No particles defined in Configuration."
-                assert len(data['particle_name']) == len(data['particle_id'])
+                particles = file_reader.get_particles(data['script'])[0]
+                assert len(particles) > 0, "No particles defined in Configuration."
                 data['particle_type_chooser'] = []
-                for idx,part in enumerate(data['particle_name']):
-                    pid = data['particle_id'][idx]
-                    descript = data['particles'][pid][0]
+                for part in particles:
+                    pid = particles[part]
+                    if pid in data['particles']:
+                        descript = data['particles'][pid][0]
+                    else:
+                        descript = 'Custom particle file'
                     data['particle_type_chooser'].append((part, chc[1], descript))
                 data['script'] += ' '+data['prepend']+'particle_type='
                 data['node_key'] = 'particle_type_chooser'
+            elif chc[3] == "site_type_chooser":
+                key = 'site_types'
+                sites = file_reader.get_sites(data['script'])
+                data['site_type_chooser'] = []
+                for isite, site in enumerate(sites[0][key]):
+                    filename = file_reader.feasst_path_replace(sites[1][key][isite])
+                    descript = '# This site is located in the file: ' + filename
+                    if os.path.exists(filename):
+                        with open(filename, 'r') as file1:
+                            descript += '\n'+file1.read()
+                    data['site_type_chooser'].append((site, chc[1], descript))
+                data['script'] += ' '+data['prepend']+'site_type='
+                data['node_key'] = 'site_type_chooser'
             elif chc[3] == "configuration_chooser":
-                if len(data['configuration_name']) > 0: return#, "No configuration names defined."
-                assert len(data['configuration_name']) == len(data['configuration_descript'])
                 data['configuration_chooser'] = []
-                for idx,config in enumerate(data['configuration_name']):
-                    data['configuration_chooser'].append((config, chc[1], data['configuration_descript'][idx]))
+                configs = file_reader.get_config_names(data['script'])
+                for idx,config in enumerate(configs):
+                    data['configuration_chooser'].append((config, chc[1], configs[config]))
                 data['script'] += " config="
                 data['node_key'] = 'configuration_chooser'
             elif chc[3] == "group_chooser":
-                if len(data['group_name']) == 0:
+                groups = file_reader.get_groups(data['script'])
+                if len(groups) == 0:
                     user_message('No groups were defined in Configuration.', stdscr)
                     return
                 data['group_chooser'] = []
-                assert len(data['group_name']) == len(data['group_descript']), str(data['group_name'])+' '+str(data['group_descript'])
-                for idx,group in enumerate(data['group_name']):
-                    data['group_chooser'].append((group, chc[1], data['group_descript'][idx]))
+                for group in groups:
+                    data['group_chooser'].append((group, chc[1], groups[group]))
                 data['script'] += " group="
                 data['node_key'] = 'group_chooser'
             else:
                 log.debug('parsing argument')
-                text = input_box(stdscr=stdscr, width=width, instruct="Type the value of \""+arg+"\" (Press Enter to submit):", data=data)
+                text = input_box(stdscr=stdscr, instruct="Type the value of \""+arg+"\" (Press Enter to submit):", data=data)
+                if chc[0] == 'beta':
+                    tutorial(data, stdscr, 'The chemical_potential is also a required argument for any particle type with which you wish to add with grand canonical trial moves (e.g., TrialAdd or TrialGrowFile::add). There are currently '+str(len(file_reader.get_particles(data['script'])[0]))+' particle type(s).')
                 if chc[0] == NUMBER_ARG_ROWS:
                     exclude_arg = False
                     try:
@@ -698,53 +856,62 @@ Note that the path to the particle file in the resulting script begins with /fea
                         data['num_script_rows'] = int(text)
                     except:
                         user_message("The number of rows must be an integer.", stdscr)
+                elif chc[0] == AUTOSAVE_FREQUENCY:
+                    exclude_arg = False
+                    try:
+                        data['lines_per_autosave'] = int(text)
+                    except:
+                        user_message("The number of lines per autosave must be an integer.", stdscr)
                 elif chc[0] == TOGGLE_TUTORIAL:
+                    key = 'tutorial'
                     exclude_arg = False
                     truthy = {"true", "t", "yes", "y", "1", "on"}
                     falsey = {"false", "f", "no", "n", "0", "off"}
                     if text in truthy:
-                        data['tutorial'] = True
+                        data[key] = True
                     elif text in falsey:
-                        data['tutorial'] = False
+                        data[key] = False
                     else:
-                        user_message("The tutorial mode must be entered as 0, False, 1 or True.", stdscr)
+                        user_message("The "+key+" mode must be entered as 0, False, 1 or True.", stdscr)
                     if data['tutorial']:
-                        user_message('The tutorial mode is ON', stdscr=stdscr, title='TUTORIAL')
+                        state='OFF'
+                        if data[key]:
+                            state='ON'
+                        user_message('The '+key+' mode is '+state, stdscr=stdscr, title='TUTORIAL')
                 else:
                     data['script'] += " " + data['prepend'] + arg + "=" + text
                     if chc[3] != "" and chc[3] in data:
                         data['node_key'] = chc[3]
+                    if chc[0] == 'side_length':
+                        if len(text.split(',')) != 2 and len(text.split(',')) != 3:
+                            user_message('The given side_length:\"'+text+'\" must be given in 2 or 3 dimensions by providing 2 or 3 comma-separated values.', stdscr, title='ERROR')
                 log.debug('here1234:'+chc[0]+' '+chc[1])
                 if data['group_describing']:
-                    data['group_descript'][-1] += arg + "=" + text
-                if chc[0] == 'name' and chc[1] == 'Configuration'+OPTIONAL:
-                    data['configuration_name'].append(text)
+                    ok=0
                 elif chc[0] == 'group' and data['node_key'] == 'Configuration'+OPTIONAL:
                     data['nested_options'] = data['node_key']
                     log.debug(data['node_key']+'chc1:'+chc[1])
                     data['node_key'] = chc[1]
                     grps = text.split(',')
                     data['prepend'] = grps[0]+'_'
-                    data['group_name'].append(grps[0])
                     for grp in grps[1:]:
                         if grp != "":
                             data['group_to_process'].append(grp)
+                    log.debug('processing group')
                     data['user_message'] = "Now taking arguments for group \""+data['prepend'][:-1]+"\""
-                    data['group_descript'].append("")
                     data['group_describing'] = True
             # remove from choices (unless subsitutable variable)
             if exclude_arg:
                 data['excluded_args'].append(arg)
         else:
-            # this is a class or special option, not an argument
-            log.debug("else")
+            log.debug("this is a class or special option, not an argument")
             data['node_key'] = chc[1]
             if chc[0] == "MonteCarlo":
-                data['script'] += "MonteCarlo\n"
+                data['script'] += "MonteCarlo"
+                assert script_next_line(data=data, stdscr=stdscr)
                 tutorial(data, stdscr, """A MonteCarlo simulation is initialized in a particular order. The first class is typically either a Random number generator, or a Configuration. This is the only stage that a Random number generator can be chosen, or else the default RandomMT19937 is used with the current time as the seed.""")#+str(10000*'-'))
             elif chc[0] == "Restart":
                 data['script'] += "Restart"
-                data['mc_stage'] = 5
             elif chc[0] == "Prefetch":
                 data['script'] += "Prefetch"
             else:
@@ -754,11 +921,7 @@ Note that the path to the particle file in the resulting script begins with /fea
                         data['prepend'] = ""
                         if data['node_key'] == 'Configuration'+OPTIONAL:
                             log.debug('record config line')
-                            lastline = data['script'].split('\n')[-1]
-                            data['configuration_descript'].append("Below is the line that created this Configuration name (up until the name was entered):\n\n"+lastline)
-                            if len(data['configuration_name']) == len(data['configuration_descript']) - 1:
-                                data['configuration_name'].append(str(len(data['configuration_name'])))
-                            if data['mc_stage'] == 2:
+                            if file_reader.get_mc_stage(data['script']) == 2:
                                 tutorial(data, stdscr, "Now that a Configuration is initialized, another Configuration could be created for the Gibbs ensemble, or you can move on to describing the Potential energy functions for interactions between particles. This is the last chance to add another Configuration.")
                         if data['node_key'] == 'Potential'+OPTIONAL:
                             tutorial(data, stdscr, "Now that a Potential is initialized, another Potential could be created, or you can move on to describing the ThermoParams. This is the last chance to add another Potential.")
@@ -768,10 +931,10 @@ Note that the path to the particle file in the resulting script begins with /fea
                             tutorial(data, stdscr, "Now that the acceptance Criteria is initialized, all Trial, Action, Analyze, Modify and Criteria are available as options.")
                         if len(data['group_to_process']) > 0:
                             data['prepend'] = data['group_to_process'][0] + '_'
-                            data['group_name'].append(data['group_to_process'].pop(0))
+                            data['group_to_process'].pop(0)
+                            log.debug('processing group')
                             data['user_message'] = "Now taking arguments for group \""+data['prepend'][:-1]+"\""
                             data['excluded_args'] = []
-                            data['group_descript'].append("")
                             data['group_describing'] = True
                         else:
                             data['group_describing'] = False
@@ -779,26 +942,35 @@ Note that the path to the particle file in the resulting script begins with /fea
                                 data['node_key'] = data['nested_options']
                                 data['nested_options'] = None
                             else:
-                                data['script'] += '\n'
-                                data['node_key'] = 'monte_carlo'+str(data['mc_stage'])
+                                if not script_next_line(data, stdscr=stdscr):
+                                    data['node_key'] = 'monte_carlo'+str(file_reader.get_mc_stage(data['script']))
+                                    data['excluded_args'] = []
+                                    return
+                                data['node_key'] = 'monte_carlo'+str(file_reader.get_mc_stage(data['script']))
                                 data['excluded_args'] = []
                     elif chc[0] == NO_MORE_PARTICLES:
                         log.debug('parsing no more particles')
                         tutorial(data, stdscr, "In the next step, the Domain must be defined by one of the following arguments.")
+                    elif chc[0] == '[Settings]':
+                        log.debug('Settings')
                     else:
                         if chc[0] in data['factory']:
                             log.debug('this is a factory, no need to print or update stage')
                         else:
                             log.debug('this is a class')
                             data['script'] += chc[0]
-                            update_mc_stage(data, chc[0], stdscr)
+                            #update_mc_stage(data, chc[0], stdscr)
                             if chc[0] == 'Checkpoint':
                                 data.update(remove_checkpoint(data))
 
+    elif chc[0] == ENABLE_AUTORUN:
+        data['autorun'] = True
+    elif chc[0] == DISABLE_AUTORUN:
+        data['autorun'] = False
     elif chc[0] == LOAD_SAVE_FILE:
         log.debug("Loading save file")
         instruct = "Type file name (Press ENTER key to submit):"
-        flname = input_box(stdscr=stdscr, width=width, instruct=instruct, data=data) + '.json'
+        flname = input_box(stdscr=stdscr, instruct=instruct, data=data) + '.json'
         if os.path.exists(flname):
             with open(flname, 'r') as file1:
                 data.update(json.load(file1))
@@ -807,7 +979,7 @@ Note that the path to the particle file in the resulting script begins with /fea
     elif chc[0] == LOAD_SCRIPT_FILE:
         log.debug('Loading script file')
         instruct = "Type file name (Press ENTER key to submit):"
-        flname = input_box(stdscr=stdscr, width=width, instruct=instruct, data=data)
+        flname = input_box(stdscr=stdscr, instruct=instruct, data=data)
         if os.path.exists(flname):
             with open(flname, 'r') as file1:
                 dflt_data = str(files('feasst').joinpath('data/menu.json'))
@@ -820,29 +992,49 @@ Note that the path to the particle file in the resulting script begins with /fea
         webbrowser.open(f"file://{file_path}")
     elif chc[0] == SAVE_FILE:
         log.debug("Saving")
-        tutorial(data, stdscr, "Saving creates two files. The first is the script with a .txt file extension. The second is the current state of the menu with a .json file extension, which can be loaded with the command \"feasst-menu --load file_name.json\". Enter the name of both of these files without including the file extension.")
+        tutorial(data, stdscr, "Saving creates two or three files. The first is the script with a .txt file extension. The second is the current state of the menu with a .json file extension, which can be loaded with the command \"feasst-menu --load file_name.json\". The third and optional file is a FEASST Checkpoint file with a .fst extension. Enter the name that all of these files will use without including the file extension.")
         instruct = "Type file name (Press ENTER key to submit):"
         default_text = data['script_file']
-        data['script_file'] = input_box(stdscr=stdscr, width=width, instruct=instruct, data=data, default_text=default_text)
+        data['script_file'] = input_box(stdscr=stdscr, instruct=instruct, data=data, default_text=default_text)
         if data['script_file'] != "":
             write_files(data)
         log.debug("script_file:" +data['script_file'])
     elif chc[0] == COMMENT_LINE:
-        text = input_box(stdscr=stdscr, width=width, instruct="Type the script comment (Press Enter to submit):", data=data)
+        text = input_box(stdscr=stdscr, instruct="Type the script comment (Press Enter to submit):", data=data)
         exclude_arg = False
         data['script'] += '# '+text+'\n'
-        data['node_key'] = 'monte_carlo'+str(data['mc_stage'])
+        data['node_key'] = 'monte_carlo'+str(file_reader.get_mc_stage(data['script']))
     elif chc[0] == CUSTOM_LINE:
-        text = input_box(stdscr=stdscr, width=width, instruct="Type the custom line in script (Press Enter to submit):", data=data)
+        text = input_box(stdscr=stdscr, instruct="Type the custom line in script (Press Enter to submit):", data=data)
         exclude_arg = False
         data['script'] += text+'\n'
-        data['node_key'] = 'monte_carlo'+str(data['mc_stage'])
+        data['node_key'] = 'monte_carlo'+str(file_reader.get_mc_stage(data['script']))
+    elif chc[0] == SETTINGS_BACK:
+        exclude_arg = False
+        if data['script'] != '':
+            data['node_key'] = 'monte_carlo'+str(file_reader.get_mc_stage(data['script']))
+        else:
+            data['node_key'] = UNIQUE_START
+    elif chc[1] == 'end_parameter_chooser':
+        data['node_key'] = chc[1]
     elif chc[0] == RUN_COMMAND:
-        data['script_file'] = input_box(stdscr=stdscr, width=width, instruct="Type file name (Press ENTER key to submit)", data=data, default_text=data['script_file'])
+        data['script_file'] = input_box(stdscr=stdscr, instruct="Type file name (Press ENTER key to submit)", data=data, default_text=data['script_file'])
         write_files(data)
         syscode = subprocess.call("feasst < "+data['script_file']+'.txt > '+data['script_file']+'.log 2>&1', shell=True, executable='/bin/bash')
         if syscode != 0:
-            user_message("An error was encountered while running the script. Please see recent file output for the error message.", stdscr)
+            with open(data['script_file']+'.log', 'r') as file1:
+                lines = file1.readlines()
+            message = "The following error was encountered while running the script (see "+data['script_file']+".log):\n\n"
+            for line in lines[-4:]: message += line
+            user_message(message, stdscr)
+        else:
+            if data['tutorial']:
+                files = [f for f in Path('.').iterdir() if f.is_file()]
+                files.sort(key=lambda x: x.stat().st_mtime, reverse=True)
+                message = 'Executed without error. Below are some recently changed files:\n\n'
+                for file in files:#[-5:]:
+                    message += f"{file.name} - Modified: {datetime.fromtimestamp(file.stat().st_mtime)}\n"
+                tutorial(data, stdscr, message)
         stdscr.refresh()
     elif selected_index < len(data[node_key()]):
         log.debug("Remove from choices")
@@ -870,195 +1062,151 @@ def update_previous_state(data):
 #                                                        if data[ps][ps][ps][ps][ps][ps][ps][ps][ps][ps][ps][ps][ps][ps][ps]:
 #                                                            data[ps][ps][ps][ps][ps][ps][ps][ps][ps][ps][ps][ps][ps][ps][ps] = None
 
-# TESTING def run(stdscr, data, repro=None):
+def run_one(stdscr, data):
+    data['selected_index_previous'] = data['selected_index']
+    stdscr.erase()
+    maxyx = stdscr.getmaxyx()
+    if len(maxyx) == 2:
+        height, width = maxyx
+    else:
+        height, width = (10,10)
+    choices = []
+    num_while = 0
+    while len(choices) <= 1:
+        choices = copy.deepcopy(data[data['node_key']])
+        log.debug('excluded args: '+str(data['excluded_args']))
+        #log.debug('Remove excluded args from '+str(str(choices)))
+        # remove excluded args
+        for idx in reversed(range(len(choices))): #,chc in enumerate(choices):
+            chc=choices[idx]
+            log.debug('chc0:'+str(chc[0]))
+            if chc[0] in data['excluded_args']:
+                choices.pop(idx)
+        #log.debug('Removed excluded args from '+str(str(choices)))
+
+        num_while += 1
+        if num_while > 1e3:
+            user_message("An infinite loop was obtained. Please report how to reproduce this behavior to the developers.", stdscr=stdscr)
+            return
+        if len(choices) <= 1:
+            log.debug('automatically select choice if only one or zero choices')
+        if len(choices) == 1:
+            log.debug('selecting only option')
+            data['selected_index'] = 0
+            display(data=data, stdscr=stdscr, choices=choices)
+            update(choices=choices, data=data, stdscr=stdscr)
+            data['scroll_des'] = 0
+            stdscr.erase()
+        elif len(choices) == 0:
+            log.debug(data['node_key']+OPTIONAL)
+            if data['node_key']+OPTIONAL in data:
+                log.debug('moving to optional')
+                #update(selected_index=-1, choices=data['node_key'], data=data, stdscr=stdscr)
+                data['node_key'] = data['node_key'] + OPTIONAL
+                data['selected_index'] = 0 # reset selection for the new node
+                data['scroll_des'] = 0
+            else:
+                assert False
+    #if num_while > 1:
+    #    continue
+
+    # add default choices
+    defaults = []
+    if data['script'] != "":
+        defaults += [(SAVE_FILE, "", data['script'])]
+        if data['autorun']:
+            defaults += [(DISABLE_AUTORUN, "", 'Autorun uses feasst to process each line of the script. Autorun is currently enabled. Select this option to disable autorun and instead only run the script manually.')]
+        else:
+            defaults += [(ENABLE_AUTORUN, "", 'Autorun uses feasst to process each line of the script. Autorun is currently disabled. Select this option to enable autorun instead of only running the script manually.')]
+            defaults += [(RUN_COMMAND, "", "Save the script to file and then immediately run the script using the BASH command \"feasst < [script].txt > [script].log 2>&1\", where feasst is the compiled executable and [script].txt is the text file with the script. If the script has been previously-saved, then that file name will be used automatically. Otherwise, you will be prompted for the value of [script].")]
+    defaults += [("[Exit]", "exit", "Exit the program (or press ctrl-c).")]
+    choices += defaults
+
+    # render text
+    log.debug('render')
+    try:
+        display(data=data, stdscr=stdscr, choices=choices)
+    except curses.error:
+        pass
+    stdscr.refresh()
+
+    # capture keyboard input
+    key = stdscr.getch()
+    log.debug('key '+str(key))
+    if key == curses.KEY_UP or key == ord('w'):
+        log.debug('up')
+        data['selected_index'] = (data['selected_index'] - 1) % len(choices)
+        data['last_key'] = 'w'
+    elif key == curses.KEY_DOWN or key == ord('s'):
+        log.debug('down')
+        data['selected_index'] = (data['selected_index'] + 1) % len(choices)
+        data['last_key'] = 's'
+    elif key == curses.KEY_LEFT or key == ord('a'):
+        log.debug('left')
+        data['selected_index'] -= data['num_arg_rows']
+        if data['selected_index'] < 0:
+            data['selected_index'] = 0
+        data['last_key'] = 'a'
+    elif key == curses.KEY_RIGHT or key == ord('d'):
+        log.debug('right')
+        data['selected_index'] += data['num_arg_rows']
+        if data['selected_index'] >= len(choices):
+            data['selected_index'] = len(choices) - 1
+        data['last_key'] = 'd'
+    elif key == ord('q'):
+        log.debug('a')
+        if data['last_key'] == 'q':
+            data['scroll_des_inc'] = min(data['scroll_des_inc'] + 1, int(height/2))
+        else:
+            data['scroll_des_inc'] = 1
+        if data['scroll_des'] > 0:
+            data['scroll_des'] = max(data['scroll_des'] - data['scroll_des_inc'], 0)
+        data['last_key'] = 'q'
+    elif key == ord('e'):
+        log.debug('e')
+        if data['last_key'] == 'e':
+            data['scroll_des_inc'] = min(data['scroll_des_inc'] + 1, int(height/2))
+        else:
+            data['scroll_des_inc'] = 1
+        data['scroll_des'] += data['scroll_des_inc']
+        data['last_key'] = 'e'
+    elif key == ord('u'):
+        log.debug('u')
+        if data['previous_state']:
+            log.debug('reverting')
+            old_data = copy.deepcopy(data)
+            data.update(copy.deepcopy(data['previous_state']))
+            data['future_state'] = old_data
+        else:
+            tutorial(data, stdscr, "There are no more previous states saved for further undo operations. Only a finite number of previous states are saved to reduce memory requirements.")
+        data['last_key'] = 'u'
+    elif key == ord('r'):
+        log.debug('r')
+        if data['future_state']:
+            data = copy.deepcopy(data['future_state'])
+        else:
+            tutorial(data, stdscr, "There are no more future states saved for further redo operations. Only a finite number of future states are saved to reduce memory requirements. In addition, future states are cleared upon pressing the enter key.")
+        data['last_key'] = 'r'
+    elif key == ord('\n'): # ENTER key
+        log.debug('enter')
+        update_previous_state(data)
+        data['future_state'] = None
+        update(choices=choices, data=data, stdscr=stdscr)
+        data['selected_index'] = 0 # reset selection for the new node
+        data['scroll_des'] = 0
+        data['last_key'] = 'enter'
+
 def run(stdscr, data):
-# TESTING     testing = False
-# TESTING     if isinstance(repro, list):
-# TESTING         testing = True
-# TESTING         print('parsing', repro)
-# TESTING         if len(repro) == 0:
-# TESTING             return
-# TESTING     print('testing', testing, type(repro))
-
-# TESTING     if not testing:
-    curses.curs_set(0) # hide the blinking cursor
-
-    # Initialize color pairs (White text on black background, and highlighted text)
-    curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
-    curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
-
-    def node_key(): return data['node_key']
-#    stdscr.erase()
-#    try:
-#        if data['tutorial']:
-#            #user_message("hi", stdscr=stdscr)
-#            user_message(data[UNIQUE_START][0][2], stdscr=stdscr)
-#    except curses.error:
-#        pass
+    if not is_mock(stdscr):
+        curses.curs_set(0) # hide the blinking cursor
+        # Initialize color pairs (White text on black background, and highlighted text)
+        curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
+        curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
     while True:
-# TESTING         testing = False
-# TESTING         if isinstance(repro, list):
-# TESTING             testing = True
-# TESTING             print('parsing', repro)
-# TESTING             if len(repro) == 0:
-# TESTING                 data['script_file'] = 'test'
-# TESTING                 write_files(data)
-# TESTING                 return
-# TESTING         print('testing', testing, type(repro))
-# TESTING
-# TESTING         if not testing:
-        stdscr.erase()
-        height, width = stdscr.getmaxyx()
-
-        # handle exitting
-        if node_key() == "exit":
+        if data['node_key'] == "exit":
             return
-
-        choices = []
-        num_while = 0
-        while len(choices) <= 1:
-        #while len(data[node_key()]) <= 1:
-            choices = copy.deepcopy(data[node_key()])
-            log.debug('excluded args: '+str(data['excluded_args']))
-            #log.debug('Remove excluded args from '+str(str(choices)))
-            # remove excluded args
-            for idx in reversed(range(len(choices))): #,chc in enumerate(choices):
-                chc=choices[idx]
-                log.debug('chc0:'+str(chc[0]))
-                if chc[0] in data['excluded_args']:
-                    choices.pop(idx)
-            #log.debug('Removed excluded args from '+str(str(choices)))
-
-            num_while += 1
-            if num_while > 1e3:
-                user_message("An infinite loop was obtained. Please report how to reproduce this behavior to the developers.", stdscr=stdscr)
-                return
-            if len(choices) <= 1:
-                log.debug('automatically select choice if only one or zero choices')
-            if len(choices) == 1:
-                log.debug('selecting only option')
-                data['selected_index'] = 0
-                display(data=data, stdscr=stdscr, choices=choices)
-                update(choices=choices, data=data, stdscr=stdscr)
-                data['scroll_des'] = 0
-                stdscr.erase()
-            elif len(choices) == 0:
-                log.debug(node_key()+OPTIONAL)
-                if node_key()+OPTIONAL in data:
-                    log.debug('moving to optional')
-                    #update(selected_index=-1, choices=data['node_key'], data=data, stdscr=stdscr)
-                    data['node_key'] = node_key() + OPTIONAL
-                    data['selected_index'] = 0 # reset selection for the new node
-                    data['scroll_des'] = 0
-                else:
-                    assert False
-        #if num_while > 1:
-        #    continue
-
-        # add default choices
-        defaults = []
-        if data['script'] != "":
-            defaults += [(SAVE_FILE, "", data['script'])]
-        defaults += [("[Exit]", "exit", "Exit the program.")]
-        choices += defaults
-
-        # render text
-        try:
-# TESTING             if not testing:
-            display(data=data, stdscr=stdscr, choices=choices)
-        except curses.error:
-            pass
-
-# TESTING         if testing:
-# TESTING             print('repro', repro)
-# TESTING             if len(repro):
-# TESTING                 return
-# TESTING             data['selected_index'] = int(repro.pop(0))
-# TESTING             update(choices=choices, data=data, stdscr=None)
-# TESTING         else:
-        stdscr.refresh()
-
-        # capture keyboard input
-        key = stdscr.getch()
-        if key == curses.KEY_UP or key == ord('w'):
-            data['selected_index'] = (data['selected_index'] - 1) % len(choices)
-        elif key == curses.KEY_DOWN or key == ord('s'):
-            data['selected_index'] = (data['selected_index'] + 1) % len(choices)
-        elif key == curses.KEY_LEFT or key == ord('a'):
-            data['selected_index'] -= data['num_arg_rows']
-            if data['selected_index'] < 0:
-                data['selected_index'] = 0
-        elif key == curses.KEY_RIGHT or key == ord('d'):
-            data['selected_index'] += data['num_arg_rows']
-            if data['selected_index'] >= len(choices):
-                data['selected_index'] = len(choices) - 1
-        elif key == ord('q'):
-            if data['scroll_des'] > 0:
-                data['scroll_des'] -= 1
-        elif key == ord('e'):
-            data['scroll_des'] += 1
-        elif key == ord('u'):
-            if data['previous_state']:
-                old_data = copy.deepcopy(data)
-                data = copy.deepcopy(data['previous_state'])
-                data['future_state'] = old_data
-            else:
-                tutorial(data, stdscr, "There are no more previous states saved for further undo operations. Only a finite number of previous states are saved to reduce memory requirements.")
-        elif key == ord('r'):
-            if data['future_state']:
-                data = copy.deepcopy(data['future_state'])
-            else:
-                tutorial(data, stdscr, "There are no more future states saved for further redo operations. Only a finite number of future states are saved to reduce memory requirements. In addition, future states are cleared upon pressing the enter key.")
-        elif key == ord('\n'): # ENTER key
-            update_previous_state(data)
-            data['future_state'] = None
-            update(choices=choices, data=data, stdscr=stdscr)
-            data['selected_index'] = 0 # reset selection for the new node
-            data['scroll_des'] = 0
-
-def get_mc_stage(data):
-    script = data['script']
-    stage = 0
-    if 'Random' in script:
-        stage = 1
-    if 'Configuration' in script:
-        stage = 2
-    if 'Potential' in script:
-        stage = 3
-    if 'ThermoParams' in script:
-        stage = 4
-    if 'Metropolis' in script or 'MayerSampling' in script or 'FlatHistogram' in script:
-        stage = 5
-    return stage
-
-def get_particles(data):
-    ids = list()
-    names = list()
-    for line in data['script'].split('\n'):
-        #print('line:', line, '|', line[:13])
-        if line != '':
-            if line[:13] == 'Configuration':
-                #print('here:', line)
-                for arg in line.split(' '):
-                    #print('arg', arg)
-                    pairs=arg.split('=')
-                    #print('pairs:', pairs)
-                    if pairs[0] == 'particle_type':
-                        #print('types:', pairs[1])
-                        for typ in pairs[1].split(','):
-                            #print('typ', typ)
-                            p2 = typ.split(':')
-                            assert len(p2) == 2
-                            names.append(p2[0])
-                            iid=p2[1].split('/')[-1]
-                            ids.append(iid)
-                            #print('iid:', iid)
-                            #quit()
-    #print(data['particles'])
-    #print(data['particles'][ids[0]])
-    #quit()
-    return ids, names
+        run_one(stdscr, data)
 
 def remove_checkpoint(data):
     index = 0
@@ -1075,9 +1223,7 @@ def upload_script(file1, dflt_data):
     with open(dflt_data, 'r') as file2:
         data = json.load(file2)
     data['script'] = file1.read()
-    data['mc_stage'] = get_mc_stage(data)
-    data['node_key'] = 'monte_carlo'+str(data['mc_stage'])
-    data['particle_id'], data['particle_name'] = get_particles(data)
+    data['node_key'] = 'monte_carlo'+str(file_reader.get_mc_stage(data['script']))
     for line in data['script'].split('\n'):
         if line[:len(str('Checkpoint'))] == 'Checkpoint':
             data.update(remove_checkpoint(data))
@@ -1085,69 +1231,138 @@ def upload_script(file1, dflt_data):
 
 def main_function():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--disable-tutorial", action="store_false", dest="tutorial", help="Disable tutorial")
-    parser.add_argument('--load', '-l', type=str, default='', help='Optional json save file or script text file to load.')
+    parser.add_argument("--disable_tutorial", action="store_false", dest="tutorial", help="Disable tutorial")
+    parser.add_argument('--load', '-l', type=str, default='', help='Optional script text file to load with ".txt" file extension. Optionally, if autorun is enabled, then check for a FEASST checkpoint file with the same name but a ".fst" file extension, and use this checkpoint file to initialize the autorun simulation.')
     parser.add_argument('--descripts', '-d', type=str, default='', help='For developers only.')
     parser.add_argument('--particles', '-p', type=str, default='', help='For developers only.')
     parser.add_argument('--factory', '-f', type=str, default='', help='For developers only.')
+    parser.add_argument("--test", type=int, default=0, help="Enable tests if set to 1.")
     #parser.add_argument("--test_reproduction", type=str, default='', help='For developers only.')
-    parser.set_defaults(tutorial=True) # Default is True
+    parser.set_defaults(tutorial=True)
     args, unknown_args = parser.parse_known_args()
     assert len(unknown_args) == 0, 'An unknown argument was included: '+str(unknown_args)
     params = vars(args)
-    particles = []
+    if params['test']:
+        unittest.main(argv=['first-arg-is-ignored'])
+    else:
+        main_with_params(**params)
+
+def main_with_params(tutorial=False, load='', descripts='', particles='', factory='', test=0):
+    listparticles = []
 
     # load data from file
     dflt_data = str(files('feasst').joinpath('data/menu.json'))
-    if params['descripts'] == '' and params['particles'] == '' and params['factory'] == '':
-        if params['load'] == '':
-            params['load'] = dflt_data
-        if os.path.exists(params['load']):
-            with open(params['load'], 'r') as file1:
-                if params['load'][-5:] == '.json':
-                    data = json.load(file1)
-                elif params['load'][-4:] == '.txt':
+    if descripts == '' and particles == '' and factory == '':
+        if load == '':
+            load = dflt_data
+        if os.path.exists(load):
+            with open(load, 'r') as file1:
+                if load[-4:] == '.txt':
                     data = upload_script(file1, dflt_data)
+                elif load[-5:] == '.json':
+                    data = json.load(file1)
                 else:
-                    assert False, 'unrecognized file extension in '+params['load']
+                    assert False, 'unrecognized file extension in '+load
         else:
-            assert False, str(params['load']) + ' does not exist.'
-# TESTING         if params['test_reproduction'] != '':
-# TESTING             repro = params['test_reproduction'].split(',')
-# TESTING             print(repro)
-# TESTING             data['tutorial'] = False
-# TESTING             run(None, data, repro)
-# TESTING         else:
-        data['tutorial'] = params['tutorial']
+            assert False, str(load) + ' does not exist.'
+        checkpoint = load[:-4]+'.fst'
+        if os.path.exists(checkpoint) and data['autorun']:
+            import feasst
+            with open(checkpoint, 'r') as file1:
+                content = file1.read()
+                MC = feasst.MonteCarlo().deserialize(content)
+        data['tutorial'] = tutorial
         curses.wrapper(run, data)
     else:
         # create the file that can be loaded
         # load particles
-        if os.path.exists(params['particles']):
-            with open(params['particles'], 'r') as file1:
-                particles = json.load(file1)
+        if os.path.exists(particles):
+            with open(particles, 'r') as file1:
+                listparticles = json.load(file1)
         else:
-            assert False, params['particles'] + ' does not exist.'
+            assert False, particles + ' does not exist.'
 
         # load descriptions
-        if os.path.exists(params['descripts']):
-            with open(params['descripts'], 'r') as file1:
+        if os.path.exists(descripts):
+            with open(descripts, 'r') as file1:
                 descript = json.load(file1)
         else:
-            assert False, params['descripts'] + ' does not exist.'
+            assert False, descripts + ' does not exist.'
 
         # load factory
-        if os.path.exists(params['factory']):
-            with open(params['factory'], 'r') as file1:
+        if os.path.exists(factory):
+            with open(factory, 'r') as file1:
                 factory = json.load(file1)
         else:
-            assert False, params['factory'] + ' does not exist.'
+            assert False, factory + ' does not exist.'
 
-        data = gen_data(descript=descript, particles=particles, factory=factory, tutorial=params['tutorial'])
+        data = gen_data(descript=descript, particles=listparticles, factory=factory, tutorial=tutorial)
 
-        with open(params['load'], 'w', encoding='utf-8') as file1:
+        with open(load, 'w', encoding='utf-8') as file1:
             json.dump(data, file1, indent=2)
 
-if __name__ == "__main__":
-    main_function()
+def run_test(keys):
+    global MC
+    MC = None
+    mock_stdscr = MagicMock()
+    #commands = [ord(char) for char in keys]
+    commands = []
+    for char in keys:
+        if char == 'n':
+            commands.append(ord('\n'))
+        else:
+            commands.append(ord(char))
+    #print('commands', commands)
+    mock_stdscr.getch.side_effect = commands
+    with open(str(files('feasst').joinpath('data/menu.json')), 'r') as file1:
+        data = json.load(file1)
+    try:
+        run(mock_stdscr, data)
+    except StopIteration:
+        ok = True
+    with open(data['script_file']+'.txt') as file1:
+        return file1.read()
 
+class TestCursesApp(unittest.TestCase):
+    def __init__(self, methodName='runTest'):
+        super().__init__(methodName)
+        self.expect=[
+            ['nnnnsn1234n', 'radom', "MonteCarlo\nRandomMT19937 seed=1234\n"],
+            ['nnnsssnspcennn20n', 'cofig', "Configuration particle_type=0:/feasst/particle/atom_new.txt,spce:/feasst/particle/spce_new.txt cubic_side_length=20"],
+            ['sssngamensnsnnn', 'group', " group=game game_site_type=O\n"],
+            ['nsnddnnn', 'potetial', "Potential Model=LennardJones\n"],
+            ['n1nsn1,1nn', 'thermo', "ThermoParams beta=1 chemical_potential=1,1\n"],
+            ['nnn', 'met', "Metropolis\n"],
+            ['ndddddnn', 'tra', "TrialTranslate\n"],
+            ['ssnddnn', 'tue', "Tune\n"],
+            ['sndddssnssssn1e2ndnspce_eq.csvnn', 'log', "Log trials_per_write=1e2 output_file=spce_eq.csv\n"],
+            ['sssnssdnssn125ndsssnsnsnnn', 'ru', "Run until_num_particles=125 Trial=TrialAdd particle_type=spce\n"],
+            ['sssndddwwnsssntruenn', 'wr', "WriteStepper all=true\n"],
+        ]
+
+    @patch('curses.initscr')  # Patch to prevent opening a real curses screen
+    def test_random(self, mock_initscr):
+        keys = ''
+        expect = ''
+        for ipair,pair in enumerate(self.expect):
+            print('ipair', ipair)
+            keys += pair[0]
+            name = pair[1]
+            expect += pair[2]
+            if 'n' in name:
+                assert False, name
+            result = run_test(keys+'wwwn'+name+'n')
+            self.assertEqual(result, expect)
+        with open('spce_eq.csv', 'r') as file1:
+            lastline = file1.read().splitlines()[-1]
+        vals = lastline.split(',')
+        self.assertEqual(vals[0], '')
+        self.assertEqual(vals[1], '8000')
+        self.assertEqual(vals[2], '0')
+        self.assertEqual(vals[3], '125')
+        self.assertEqual(vals[4], '1')
+        self.assertEqual(vals[5], '')
+        self.assertEqual(vals[6], '-111.691')
+
+if __name__ == '__main__':
+    main_function()

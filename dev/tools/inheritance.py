@@ -77,6 +77,13 @@ for fac in factories:
 for fac in base_tree:
     base_tree[fac].sort()
 
+# Metropolis first in Criteria factory, AlwaysReject last
+crit = base_tree['Criteria']
+if 'Metropolis' in crit:
+    crit.insert(0, crit.pop(crit.index('Metropolis')))
+if 'AlwaysReject' in crit:
+    crit.append(crit.pop(crit.index('AlwaysReject')))
+
 #print(base_tree['Model'], len(base_tree['Model']))
 #print(depend)
 with open('public_factories.json', 'w') as file1:

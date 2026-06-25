@@ -17,9 +17,9 @@ Contents:
    tutorial/README
    plugin/text_interface
    particle/README
-   plugin/README
    plugin/example/README
    README_python
+   plugin/README
    CONTACT
    dev/sphinx/CONTRIBUTING
    dev/sphinx/ACKNOWLEDGEMENT

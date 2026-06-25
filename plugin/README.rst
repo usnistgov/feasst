@@ -8,8 +8,9 @@ An example usage of the C++ interface is shown in $HOME/feasst/tutorial/tutorial
 
     # Compile FEASST normally, ending with the command: make install.
     # Set CMAKE_PREFIX_PATH in $HOME/feasst/tutorial/CMakeLists.txt
+    #  to your python environment (e.g., /path/to/feasst)
     # cd /path/to/feasst/tutorial/
-    mkdir build; cd &_
+    mkdir build; cd build
     cmake ..
     make
     ./tutorial

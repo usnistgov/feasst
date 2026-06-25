@@ -34,6 +34,7 @@ git commit -a -m "$version"
 #git checkout $branch
 
 ## update pypi https://packaging.python.org/en/latest/tutorials/packaging-projects/
+# !!! Make sure log is disabled in feasst-menu !!!
 # cd ~/feasst
 # rm -r _skbuild
 # rm -r src/feasst.get-info

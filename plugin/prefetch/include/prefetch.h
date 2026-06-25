@@ -98,6 +98,7 @@ class Prefetch : public MonteCarlo {
                                const int configuration_index) override;
   void run_until_file_exists(const std::string& file_name,
                              const int trials_per_file_check) override;
+  void run_until_volume(const double volume, const int configuration_index) override;
   void run_until_complete() override;
 
   void serialize(std::ostream& ostr) const override;

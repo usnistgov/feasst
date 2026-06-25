@@ -88,6 +88,7 @@ void VisitModelCell::precompute(Configuration * config, ModelParams * params) {
   if (!group_.empty()) {
     group_index_ = config->group_index(group_);
   }
+  DEBUG("group_index " << group_index_ << " group " << group_);
   if (cells_->type() == -1) {
     rebuild_(*config);
     config->increment_num_cell_lists();
@@ -542,6 +543,14 @@ void VisitModelCell::position_tracker_(const Select& select,
             DEBUG(cells_->num_total());
             cells_->update(*one_site_select_, cell_new, cell_old);
           } else {
+            // add cells in lists the site is not in
+            int attempt = 0;
+            while (cells_->type() > site.num_cells()) {
+              sitep->add_cell(-1);
+              attempt += 1;
+              ASSERT(attempt < 1e3, "infinite loop");
+            }
+            // finally, add cell the site is actually in when cell type == num_cells
             sitep->add_cell(cell_new);
             DEBUG("adding to cell list cllnw "
               << cell_new << " si " << site_index);
@@ -585,8 +594,12 @@ void VisitModelCell::check(const Configuration& config) const {
   VisitModel::check(config);
   // for each site in config that has cells, check that the cell is correct.
   int num_sites_in_cell = 0;
-  for (const int part_index : config.selection_of_all().particle_indices()) {
+  DEBUG("group_index_ " << group_index_);
+  DEBUG("cells_->type() " << cells_->type());
+  for (const int part_index : config.group_selects()[group_index_]->particle_indices()) {
+    DEBUG("part_index " << part_index);
     for (const Site& site : config.select_particle(part_index).sites()) {
+      DEBUG("num cells " << site.num_cells());
       if (site.num_cells() > cells_->type()) {
         ++num_sites_in_cell;
         const int old_cell = site.cell(cells_->type());

@@ -51,7 +51,7 @@ Run with BASH/etc:
     TrialTranslate weight=1 tunable_param=2
     Tune
     CheckEnergy trials_per_update=$tpc decimal_places=8
-    Log trials_per_write=$tpc output_file=lj_eq.csv
+    Log trials_per_write=$tpc output_file=lj_eq.csv format=vertical
     Run until_num_particles=$num_particles particle_type=lj Trial=TrialAdd weight=2
     Run num_trials=1e5
     Remove name=Tune,Log
@@ -81,14 +81,6 @@ Run with script.txt and BASH/etc:
 
 Python Module
 ===============================
-
-Install with BASH/etc:
-
-.. code-block:: bash
-
-    sudo apt install g++ cmake python3-dev python3-venv
-    python3 -m venv feasst; source ~/feasst/bin/activate
-    CMAKE_BUILD_PARALLEL_LEVEL=8 CMAKE_ARGS="-DUSE_PYBIND11=ON" pip install feasst
 
 Run in Python:
 
@@ -141,7 +133,7 @@ Run in Python:
 Documentation
 =======================
 
-See https://pages.nist.gov/feasst. View documentation for your specific version by `downloading FEASST <https://github.com/usnistgov/feasst/tags>`_ and opening the html/index.html file as shown by the following Bash commands.
+See https://pages.nist.gov/feasst. View documentation for your specific version using feasst-menu, or by `downloading FEASST <https://github.com/usnistgov/feasst/tags>`_ and opening the html/index.html file as shown by the following Bash commands.
 
 .. code-block:: bash
 

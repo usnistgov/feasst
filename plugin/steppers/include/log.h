@@ -30,6 +30,8 @@ class Log : public AnalyzeWriteOnly {
     - max_precision: use maximum precision if true (default: false).
       See <a href="../../monte_carlo/tutorial/tutorial_0_ref_configs.html">this tutorial</a> for an example.
     - include_bonds: if true, print bond energies (default: true).
+    - format: If csv (default), print comma-separated header row followed by
+      value rows. If vertical, print a column of headers and a column of values.
     - Stepper arguments.
    */
   explicit Log(argtype args = argtype());
@@ -58,6 +60,7 @@ class Log : public AnalyzeWriteOnly {
   bool max_precision_;
   bool include_bonds_;
   BondVisitor bond_visitor_;
+  std::string format_;
 };
 
 inline std::shared_ptr<Log> MakeLog(argtype args = argtype()) {

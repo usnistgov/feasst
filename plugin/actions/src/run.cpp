@@ -31,6 +31,7 @@ Run::Run(argtype * args) {
     until_criteria_complete_ = true;
   }
   until_file_exists_ = str("until_file_exists", args, "");
+  until_volume_ = dble("until_volume", args, -1);
   trials_per_file_check_ = integer("trials_per_file_check", args, 1e5);
   const std::string trial_name_ = str("Trial", args, "");
   if (!trial_name_.empty()) {
@@ -82,7 +83,7 @@ FEASST_MAPPER(Run,);
 
 Run::Run(std::istream& istr) : Action(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 3854 && version <= 3858, "mismatch version: " << version);
+  ASSERT(version >= 3854 && version <= 3859, "mismatch version: " << version);
   feasst_deserialize(&num_trials_, istr);
   feasst_deserialize(&until_num_particles_, istr);
   if (version >= 3855) {
@@ -96,6 +97,9 @@ Run::Run(std::istream& istr) : Action(istr) {
   feasst_deserialize(&until_criteria_complete_, istr);
   if (version >= 3856) {
     feasst_deserialize(&until_file_exists_, istr);
+    if (version >= 3859) {
+      feasst_deserialize(&until_volume_, istr);
+    }
     feasst_deserialize(&trials_per_file_check_, istr);
   }
   if (version >= 3858) {
@@ -108,7 +112,7 @@ Run::Run(std::istream& istr) : Action(istr) {
 void Run::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_action_(ostr);
-  feasst_serialize_version(3858, ostr);
+  feasst_serialize_version(3859, ostr);
   feasst_serialize(num_trials_, ostr);
   feasst_serialize(until_num_particles_, ostr);
   feasst_serialize(configuration_index_, ostr);
@@ -117,6 +121,7 @@ void Run::serialize(std::ostream& ostr) const {
   feasst_serialize(for_hours_, ostr);
   feasst_serialize(until_criteria_complete_, ostr);
   feasst_serialize(until_file_exists_, ostr);
+  feasst_serialize(until_volume_, ostr);
   feasst_serialize(trials_per_file_check_, ostr);
   feasst_serialize(num_trials_before_, ostr);
   feasst_serialize(num_analyze_before_, ostr);
@@ -156,6 +161,7 @@ void Run::run(MonteCarlo * mc) {
     mc->run_until_complete();
   }
   mc->run_until_file_exists(until_file_exists_, trials_per_file_check_);
+  mc->run_until_volume(until_volume_, configuration_index_);
   if (num_trials_before_ != -1) {
     for (int index = mc->trials().num() - 1; index >= num_trials_before_; --index) {
       mc->remove_trial(index);

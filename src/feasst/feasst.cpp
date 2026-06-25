@@ -16,6 +16,7 @@
 #include "system/include/system.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "steppers/include/check_energy.h"
+#include "steppers/include/log.h"
 #include "actions/include/run.h"
 #include "shape/include/shape.h"
 #include "shape/include/half_space.h"
@@ -25,7 +26,7 @@
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
-void parse(feasst::MonteCarlo * mc, const std::string& line) {
+void parse(feasst::MonteCarlo * mc, const std::string& line, const bool silent) {
   //std::cout << "py:feasst.cpp:line: " << line << std::endl;
   std::vector<std::string> lines = feasst::split(line, '\n');
   for (const std::string& line : lines) {
@@ -33,10 +34,16 @@ void parse(feasst::MonteCarlo * mc, const std::string& line) {
       auto parsed = feasst::parse_line(line, NULL, NULL);
       feasst::arglist list;
       list.push_back(parsed);
-      mc->begin(list);
+      mc->begin(list, silent);
     }
   }
 }
+
+//feasst::MonteCarlo deserialize(std::string str) {
+//  std::stringstream ss;
+//  ss << str;
+//  return std::move(feasst::MonteCarlo(ss));
+//}
 
 namespace py = pybind11;
 
@@ -50,6 +57,11 @@ PYBIND11_MODULE(_core, m) {
         .. autosummary::
            :toctree: _generate
     )pbdoc";
+    m.def("parse", &parse,
+        py::arg("mc"),
+        py::arg("line"),
+        py::arg("silent") = false,
+        py::call_guard<py::gil_scoped_release>()); // required for concurrent threading
 
     py::class_<feasst::Accumulator>(m, "Accumulator")
         .def(py::init<>())
@@ -73,7 +85,11 @@ PYBIND11_MODULE(_core, m) {
 
     py::class_<feasst::MonteCarlo>(m, "MonteCarlo")
         .def(py::init<>())
-        .def("configuration", &feasst::MonteCarlo::configuration);
+        .def("configuration", &feasst::MonteCarlo::configuration)
+        .def("is_criteria_set", &feasst::MonteCarlo::is_criteria_set)
+        .def("serialize", py::overload_cast<>(&feasst::MonteCarlo::serialize, py::const_))
+        .def("deserialize", &feasst::MonteCarlo::deserialize)
+        ;
 
     py::class_<feasst::Configuration>(m, "Configuration")
         .def("particle", py::overload_cast<int>(&feasst::Configuration::particle, py::const_));
@@ -131,6 +147,12 @@ PYBIND11_MODULE(_core, m) {
 
     py::class_<feasst::CheckEnergy>(m, "CheckEnergy")
         .def(py::init<feasst::argtype>());
+
+    py::class_<feasst::Log>(m, "Log")
+        .def(py::init<>())
+        .def(py::init<feasst::argtype>())
+        .def("write", static_cast<std::string (feasst::Log::*)(const feasst::MonteCarlo&)>(&feasst::Log::write))
+        ;
 
     py::class_<feasst::Run>(m, "Run")
         .def(py::init<feasst::argtype>());
