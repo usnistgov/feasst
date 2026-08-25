@@ -48,6 +48,15 @@ class RecursiveTable : public VisitModelInnerTable {
     const Configuration& config, const ModelParams& model_params,
     const int stype1, const int stype2) const override;
 
+  /// Construct from file.
+  RecursiveTable from_file(const std::string& filename);
+
+  /// Construct from independently-built tables.
+  RecursiveTable from_parallel_build(const std::vector<RecursiveTable>& tables);
+
+  /// Return true if equal
+  bool is_equal(const RecursiveTable& table) const;
+
   std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
     return std::make_shared<RecursiveTable>(istr); }
   std::shared_ptr<VisitModelInner> create(argtype * args) const override {
@@ -65,7 +74,7 @@ class RecursiveTable : public VisitModelInnerTable {
   std::vector<std::vector<RecursiveTable1D> > contact1d_;
   std::vector<std::vector<RecursiveTable1D> > cutoff1d_;
   std::vector<std::vector<RecursiveTable2D> > energy2d_;
-
+  std::vector<std::vector<double> > inner_;
   //@}
  private:
   std::string input_file_;

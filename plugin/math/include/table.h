@@ -26,9 +26,20 @@ class Table {
   /// Return the bin spacing for a given number of elements.
   double calc_bin_spacing(const int num);
 
+  /// Return the number of dimensions.
+  virtual int dimension() const;
+
+  /// Return the total number of values.
+  virtual int num() const;
+
   /// Return the bin just below the value.
   virtual int value_to_lowest_bin(const int dim, const double value) const;
+
+  /// Return the lowest value of the bin.
   virtual double bin_to_value(const int dim, const int bin) const;
+
+  /// Return the linear interpolation from a list of values.
+  virtual double linear_interpolation(const std::vector<double>& values) const;
 
   /// Write to file.
   virtual void write(const std::string file_name) const;
@@ -41,7 +52,7 @@ double table_xd_(const double value0, const double d0, const int n0, int * i0, i
 /**
   One-dimensional implementation of a table.
  */
-class Table1D : public Table {
+class Table1D : virtual public Table {
  public:
   /**
     args:
@@ -51,8 +62,11 @@ class Table1D : public Table {
   explicit Table1D(argtype args = argtype());
   explicit Table1D(argtype *args);
 
-  /// Return the number of values.
-  int num() const { return static_cast<int>(data_.size()); }
+  /// Return the number of dimensions.
+  int dimension() const override { return 1; }
+
+  /// Return the total number of values.
+  int num() const override { return static_cast<int>(data_.size()); }
 
   /// Return the bin spacing.
   double bin_spacing() const { return bin_spacing_; }
@@ -74,6 +88,9 @@ class Table1D : public Table {
   /// Set data.
   void set_data(const int dim0, const double value) { data_[dim0] = value; }
 
+  /// Set the data.
+  void set_data(const std::vector<double>& data) { data_ = data; }
+
   /// Return the data.
   const std::vector<double>& data() const { return data_; }
 
@@ -86,12 +103,21 @@ class Table1D : public Table {
   /// Return linear interpolation of data given normalized values.
   virtual double linear_interpolation(const double value0) const;
 
+  /// Return linear interpolation of data given normalized values.
+  double linear_interpolation(const std::vector<double>& values) const override;
+
   /// Return the Newton-Gregory forward difference interpolation.
   /// See Allen and Tildesley, 5.2.2, Booth 1972
   virtual double forward_difference_interpolation(const double value0) const;
 
   double minimum() const override;
   double maximum() const override;
+
+  /// Combine independently-generated tables into one (from parallel build).
+  Table1D combine(const std::vector<const Table1D *>& tables) const;
+
+  /// Return true if equal to given table.
+  bool is_equal(const Table1D& table) const;
 
   void serialize(std::ostream& ostr) const;
   explicit Table1D(std::istream& istr);
@@ -119,7 +145,7 @@ typedef std::vector<std::vector<float> > fvec2;
 /**
   Two-dimensional implementation of a table.
  */
-class Table2D : public Table {
+class Table2D : virtual public Table {
  public:
   /**
     args:
@@ -136,8 +162,14 @@ class Table2D : public Table {
   /// Return the number of values in the second dimension
   int num1() const { return static_cast<int>(data_[0].size()); }
 
+  /// Return the number of dimensions.
+  int dimension() const override { return 2; }
+
   /// Return the number of values in a given dimension.
   int num(const int dim) const;
+
+  /// Return the total number of values in all dimensions.
+  int num() const override { return num0()*num1(); }
 
   /// Return the bin spacing.
   double bin_spacing(const int dim) const { return bin_spacing_[dim]; }
@@ -154,6 +186,9 @@ class Table2D : public Table {
   void set_data(const int dim0, const int dim1, const double value) {
     data_[dim0][dim1] = value; }
 
+  /// Set the data.
+  void set_data(const fvec2& data) { data_ = data; }
+
   /// Return the data.
   const fvec2& data() const { return data_; }
 
@@ -165,8 +200,17 @@ class Table2D : public Table {
   virtual double linear_interpolation(const double value0,
     const double value1) const;
 
+  /// Return linear interpolation of data given normalized values.
+  double linear_interpolation(const std::vector<double>& values) const override;
+
+  /// Combine independently-generated tables into one (from parallel build).
+  Table2D combine(const std::vector<const Table2D *>& tables) const;
+
   double minimum() const override;
   double maximum() const override;
+
+  /// Return true if equal to given table.
+  bool is_equal(const Table2D& table) const;
 
   void serialize(std::ostream& ostr) const;
   explicit Table2D(std::istream& istr);
@@ -195,7 +239,7 @@ typedef std::vector<fvec2> fvec3;
 /**
   Three-dimensional implementation of a table.
  */
-class Table3D : public Table {
+class Table3D : virtual public Table {
  public:
   /**
     args:
@@ -219,6 +263,12 @@ class Table3D : public Table {
   /// Return the number of values in a given dimension.
   int num(const int dim) const;
 
+  /// Return the total number of values in all dimensions.
+  int num() const override { return num0()*num1()*num2(); }
+
+  /// Return the number of dimensions.
+  int dimension() const override { return 3; }
+
   /// Return the bin spacing.
   double bin_spacing(const int dim) const { return bin_spacing_[dim]; }
 
@@ -234,6 +284,9 @@ class Table3D : public Table {
   void set_data(const int dim0, const int dim1, const int dim2,
     const double value) { data_[dim0][dim1][dim2] = value; }
 
+  /// Set the data.
+  void set_data(const fvec3& data) { data_ = data; }
+
   /// Return the data.
   const fvec3& data() const { return data_; }
 
@@ -246,6 +299,12 @@ class Table3D : public Table {
     const double value1,
     const double value2) const;
 
+  /// Return linear interpolation of data given normalized values.
+  double linear_interpolation(const std::vector<double>& values) const override;
+
+  /// Combine independently-generated tables into one (from parallel build).
+  Table3D combine(const std::vector<const Table3D *>& tables) const;
+
   double minimum() const override;
   double maximum() const override;
 
@@ -254,6 +313,9 @@ class Table3D : public Table {
 
   /// Read from file.
   explicit Table3D(const std::string file_name);
+
+  /// Return true if equal to given table.
+  bool is_equal(const Table3D& table) const;
 
   void serialize(std::ostream& ostr) const;
   explicit Table3D(std::istream& istr);
@@ -287,7 +349,7 @@ typedef std::vector<fvec3> fvec4;
 /**
   Four-dimensional implementation of a table.
  */
-class Table4D : public Table {
+class Table4D : virtual public Table {
  public:
   /**
     args:
@@ -315,6 +377,12 @@ class Table4D : public Table {
   /// Return the number of values in a given dimension.
   int num(const int dim) const;
 
+  /// Return the total number of values in all dimensions.
+  int num() const override { return num0()*num1()*num2()*num3(); }
+
+  /// Return the number of dimensions.
+  int dimension() const override { return 4; }
+
   /// Return the bin spacing.
   double bin_spacing(const int dim) const { return bin_spacing_[dim]; }
 
@@ -329,6 +397,9 @@ class Table4D : public Table {
   void set_data(const int dim0, const int dim1, const int dim2, const int dim3,
     const double value) { data_[dim0][dim1][dim2][dim3] = value; }
 
+  /// Set the data.
+  void set_data(const fvec4& data) { data_ = data; }
+
   /// Return the data.
   const fvec4& data() const { return data_; }
 
@@ -342,6 +413,12 @@ class Table4D : public Table {
     const double value2,
     const double value3) const;
 
+  /// Return linear interpolation of data given normalized values.
+  double linear_interpolation(const std::vector<double>& values) const override;
+
+  /// Combine independently-generated tables into one (from parallel build).
+  Table4D combine(const std::vector<const Table4D *>& tables) const;
+
   double minimum() const override;
   double maximum() const override;
 
@@ -350,6 +427,9 @@ class Table4D : public Table {
 
   /// Read from file.
   explicit Table4D(const std::string file_name);
+
+  /// Return true if equal to given table.
+  bool is_equal(const Table4D& table) const;
 
   void serialize(std::ostream& ostr) const;
   explicit Table4D(std::istream& istr);
@@ -378,7 +458,7 @@ typedef std::vector<fvec4> fvec5;
 /**
   Five-dimensional implementation of a table.
  */
-class Table5D : public Table {
+class Table5D : virtual public Table {
  public:
   /**
     args:
@@ -410,6 +490,12 @@ class Table5D : public Table {
   /// Return the number of values in a given dimension.
   int num(const int dim) const;
 
+  /// Return the total number of values in all dimensions.
+  int num() const override { return num0()*num1()*num2()*num3()*num4(); }
+
+  /// Return the number of dimensions.
+  int dimension() const override { return 5; }
+
   /// Return the bin spacing.
   double bin_spacing(const int dim) const { return bin_spacing_[dim]; }
 
@@ -429,6 +515,9 @@ class Table5D : public Table {
   /// Return the data.
   const fvec5& data() const { return data_; }
 
+  /// Set the data.
+  void set_data(const fvec5& data) { data_ = data; }
+
   /// Add the values of the given table.
   void add(const Table5D& table);
 
@@ -440,6 +529,9 @@ class Table5D : public Table {
     const double value3,
     const double value4) const;
 
+  /// Return linear interpolation of data given normalized values.
+  double linear_interpolation(const std::vector<double>& values) const override;
+
   double minimum() const override;
   double maximum() const override;
 
@@ -448,6 +540,12 @@ class Table5D : public Table {
 
   /// Read from file.
   explicit Table5D(const std::string file_name);
+
+  /// Combine independently-generated tables into one (from parallel build).
+  Table5D combine(const std::vector<const Table5D *>& tables) const;
+
+  /// Return true if equal to given table.
+  bool is_equal(const Table5D& table) const;
 
   void serialize(std::ostream& ostr) const;
   explicit Table5D(std::istream& istr);
@@ -481,7 +579,7 @@ typedef std::vector<fvec5> fvec6;
 /**
   Six-dimensional implementation of a table.
  */
-class Table6D : public Table {
+class Table6D : virtual public Table {
  public:
   /**
     args:
@@ -517,6 +615,12 @@ class Table6D : public Table {
   /// Return the number of values in a given dimension.
   int num(const int dim) const;
 
+  /// Return the total number of values in all dimensions.
+  int num() const override { return num0()*num1()*num2()*num3()*num4()*num5(); }
+
+  /// Return the number of dimensions.
+  int dimension() const override { return 6; }
+
   /// Return the bin spacing.
   double bin_spacing(const int dim) const { return bin_spacing_[dim]; }
 
@@ -533,6 +637,9 @@ class Table6D : public Table {
       const int dim4, const int dim5, const double value) {
     data_[dim0][dim1][dim2][dim3][dim4][dim5] = value; }
 
+  /// Set the data.
+  void set_data(const fvec6& data) { data_ = data; }
+
   /// Return the data.
   const fvec6& data() const { return data_; }
 
@@ -548,6 +655,9 @@ class Table6D : public Table {
     const double value4,
     const double value5) const;
 
+  /// Return linear interpolation of data given normalized values.
+  double linear_interpolation(const std::vector<double>& values) const override;
+
   double minimum() const override;
   double maximum() const override;
 
@@ -556,6 +666,12 @@ class Table6D : public Table {
 
   /// Read from file.
   explicit Table6D(const std::string file_name);
+
+  /// Combine independently-generated tables into one (from parallel build).
+  Table6D combine(const std::vector<const Table6D *>& tables) const;
+
+  /// Return true if equal to given table.
+  bool is_equal(const Table6D& table) const;
 
   void serialize(std::ostream& ostr) const;
   explicit Table6D(std::istream& istr);

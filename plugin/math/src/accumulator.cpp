@@ -1,3 +1,4 @@
+#include <fstream>
 #include "utils/include/arguments.h"
 #include "utils/include/debug.h"
 #include "utils/include/utils.h"
@@ -12,6 +13,7 @@ namespace feasst {
 Accumulator::Accumulator(argtype * args) {
   max_block_operations_ = integer("max_block_operations", args, 6);
   set_moments_(integer("num_moments", args, 5));
+  block_file_ = feasst::str("block_file", args, "");
   reset();
 }
 
@@ -56,6 +58,13 @@ void Accumulator::accumulate(double value) {
         block_averages_[bop]->accumulate(new_av);
         blocks_[bop].push_back(new_av);
         sum_block_[bop] = 0.0L;
+      }
+    }
+    if (!block_file_.empty()) {
+      std::ofstream file(block_file_, std::ofstream::app);
+      file << "op,size,std,stdofstd" << std::endl;
+      for (int op = 0; op < max_block_operations(); ++op) {
+        file << op << "," << block_size()[op] << "," << block_stdev(op, 10) << "," << block_std_of_std(op) << std::endl;
       }
     }
   }

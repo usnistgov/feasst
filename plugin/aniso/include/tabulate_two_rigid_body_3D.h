@@ -20,7 +20,6 @@ typedef std::map<std::string, std::string> argtype;
 /**
   Generate a table of interactions between two rigid bodies in 3D.
   This class is currently in development and not well supported.
-
   Contact distances are determined by RefPotential.
   This is typically a HardSphere potential with an optimzied VisitModelCell.
  */

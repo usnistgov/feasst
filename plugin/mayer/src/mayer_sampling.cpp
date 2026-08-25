@@ -17,6 +17,11 @@ namespace feasst {
 MayerSampling::MayerSampling(argtype * args) : Criteria(args) {
   class_name_ = "MayerSampling";
   intra_pot_ = integer("intra_potential", args, -1);
+  if (str("sim_type", args, "") == "widom") {
+    mayer_factor_ = 0.;
+  } else {
+    mayer_factor_ = 1.;
+  }
 
   // HWH deprecate
   // Support deprecation warning for old argument name
@@ -58,6 +63,7 @@ bool MayerSampling::is_accepted(
   ASSERT(system.num_configurations() == 1, "assumes 1 config");
   double energy_new = acceptance->energy_new();
   if (!training_file_.empty()) {
+    ASSERT(std::abs(mayer_factor_-1) < NEAR_ZERO, "Not implemented.");
     const Particle& p0 = system.configuration().particle(0);
     const int p0t = p0.type();
     const Site& rt = system.configuration().unique_type(p0t).site(0);
@@ -154,7 +160,7 @@ bool MayerSampling::is_accepted(
       return was_accepted_;
     }
   }
-  const double f12 = std::exp(-beta*energy_new) - 1.;
+  const double f12 = std::exp(-beta*energy_new) - mayer_factor_;
   DEBUG("energy new " << energy_new);
   DEBUG("f12 " << f12);
   DEBUG("f12old " << f12old_);
@@ -162,13 +168,13 @@ bool MayerSampling::is_accepted(
 
   if (!acceptance->reject() &&
       (random->uniform() < std::abs(f12)/std::abs(f12old_))) {
-    ASSERT(energy_new != 0, "error");
+    ASSERT(energy_new != 0 || std::abs(mayer_factor_) < NEAR_ZERO, "error");
     set_current_energy(acceptance->energy_new());
     set_current_energy_profile(acceptance->energy_profile_new());
     f12old_ = f12;
     was_accepted_ = true;
     DEBUG("computing ref");
-    f12ref_ = std::exp(-beta*acceptance->energy_ref()) - 1.;
+    f12ref_ = std::exp(-beta*acceptance->energy_ref()) - mayer_factor_;
     DEBUG("f12ref " << f12ref_);
   } else {
     was_accepted_ = false;
@@ -198,7 +204,7 @@ FEASST_MAPPER(MayerSampling,);
 void MayerSampling::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_criteria_(ostr);
-  feasst_serialize_version(3253, ostr);
+  feasst_serialize_version(3254, ostr);
   feasst_serialize(f12old_, ostr);
   feasst_serialize(f12ref_, ostr);
   feasst_serialize(trials_per_cycle_, ostr);
@@ -208,11 +214,12 @@ void MayerSampling::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(beta_taylor_, ostr);
   feasst_serialize(training_file_, ostr);
   feasst_serialize(training_per_write_, ostr);
+  feasst_serialize(mayer_factor_, ostr);
 }
 
 MayerSampling::MayerSampling(std::istream& istr) : Criteria(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 3251 && version <= 3253, "unrecognized verison: " << version);
+  ASSERT(version >= 3251 && version <= 3254, "unrecognized verison: " << version);
   feasst_deserialize(&f12old_, istr);
   feasst_deserialize(&f12ref_, istr);
   feasst_deserialize(&trials_per_cycle_, istr);
@@ -225,6 +232,9 @@ MayerSampling::MayerSampling(std::istream& istr) : Criteria(istr) {
   if (version >= 3253) {
     feasst_deserialize(&training_file_, istr);
     feasst_deserialize(&training_per_write_, istr);
+  }
+  if (version >= 3254) {
+    feasst_deserialize(&mayer_factor_, istr);
   }
 }
 
@@ -246,8 +256,12 @@ double MayerSampling::second_virial_ratio_block_stdev() const {
 
 std::string MayerSampling::write() const {
   std::stringstream ss;
-  ss << "{\"second_virial_ratio\": " << second_virial_ratio() << ", "
-     << "\"second_virial_ratio_block_stdev\": " << second_virial_ratio_block_stdev();
+  std::string quantity = "second_virial";
+  if (std::abs(mayer_factor_) < NEAR_ZERO) {
+    quantity = "widom";
+  }
+  ss << "{\"" << quantity << "_ratio\": " << second_virial_ratio() << ", "
+     << "\"" << quantity << "_ratio_block_stdev\": " << second_virial_ratio_block_stdev();
   if (num_beta_taylor() > 0) {
     ss << ",\"beta_taylor\": [";
     for (int ibt = 0; ibt < num_beta_taylor() + 1; ++ibt) {
@@ -256,8 +270,12 @@ std::string MayerSampling::write() const {
     ss << "],";
   }
   ss << "}" << std::endl;
-  ss << "mayer" << std::endl << mayer().str() << std::endl;
-  ss << "mayer_ref" << std::endl << mayer_ref().str() << std::endl;
+  quantity = "mayer";
+  if (std::abs(mayer_factor_) < NEAR_ZERO) {
+    quantity = "widom";
+  }
+  ss << quantity << std::endl << mayer().str() << std::endl;
+  ss << quantity << "_ref" << std::endl << mayer_ref().str() << std::endl;
   return ss.str();
 }
 

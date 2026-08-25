@@ -128,8 +128,8 @@ def post_process(params):
     compare("vapor_dens", rhov_rhol_p[0][0], rhov_rhol_p[1][0], params)
     compare("liquid_dens", rhov_rhol_p[0][1], rhov_rhol_p[1][1], params)
     compare("pressure", rhov_rhol_p[0][2], rhov_rhol_p[1][2], params)
-    #if True: # set to true to plot
-    if False: # set to true to plot
+    #if True: # to plot, set true
+    if False: # otherwise, set false
         df = pd.read_csv('lj000_eq.csv')
         print(df)
         #plt.plot(df['volume_vapor'])

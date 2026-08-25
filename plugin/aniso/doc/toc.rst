@@ -4,9 +4,10 @@
    Anisotropic
    ModelRecursiveTable
    Backmap
+   CombineParallelFiles
    VisitModelInnerTable
    RecursiveTable
    VisitModelInnerNN
-   BuildRecursiveTable
    Rotator
    TabulateTwoRigidBody3D
+   BuildRecursiveTable

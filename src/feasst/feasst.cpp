@@ -125,7 +125,7 @@ PYBIND11_MODULE(_core, m) {
         .def(py::init<>())
         .def(py::init<feasst::argtype>())
         .def("data", &feasst::Table3D::data)
-        .def("num", &feasst::Table3D::num)
+        .def("num", py::overload_cast<int>(&feasst::Table3D::num, py::const_))
         .def("minimum", &feasst::Table3D::minimum)
         .def("maximum", &feasst::Table3D::maximum)
         .def("value_to_nearest_bin", &feasst::Table3D::value_to_nearest_bin)

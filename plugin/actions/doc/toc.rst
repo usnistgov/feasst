@@ -2,6 +2,7 @@
 .. toctree::
 
    Record
+   Wait
    WriteModelParams
    RemoveTrial
    Run

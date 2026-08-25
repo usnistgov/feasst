@@ -22,6 +22,15 @@ bool file_exists(const std::string& file_name);
 void file_backup(const std::string& file_name,
   const std::string append = ".bak");
 
+/// Return the number of lines in the file.
+int num_lines(const std::string& file_name);
+
+/// Return true if the two files are the same
+bool compare_files(const std::string& filename1, const std::string& filename2);
+
+/// Remove file
+void remove_file(const std::string& filename);
+
 }  // namespace feasst
 
 #endif  // FEASST_UTILS_FILE_H_

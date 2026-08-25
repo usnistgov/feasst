@@ -985,7 +985,7 @@ std::string MonteCarlo::serialize() const {
 
 }
 
-std::unique_ptr<MonteCarlo> MonteCarlo::deserialize(const std::string str) {
+std::unique_ptr<MonteCarlo> MonteCarlo::deserialize(const std::string& str) {
   std::stringstream ss(str);
   return std::unique_ptr<MonteCarlo>(new MonteCarlo(ss));
 }

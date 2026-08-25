@@ -7,16 +7,37 @@
 #include <vector>
 #include <cstdint>
 #include "monte_carlo/include/action.h"
+#include "aniso/include/rotator.h"
 
 namespace feasst {
 
+class ModelRecursiveTable;
+class RecursiveTable;
 class RecursiveTable1D;
 class RecursiveTable2D;
 class RecursiveTable3D;
 class RecursiveTable5D;
 class RecursiveTable6D;
+class RTable;
 class System;
 class Table1D;
+
+typedef std::pair<std::vector<int>, double> rbin;
+
+/*
+ DEV notes
+
+implement a new method where global contact and cutoff scales z instead, and energy is the only table. This enables convex shapes and allows centering for lowest cutoff
+
+Enable buildrecursive within Mayer itself? Make a new derived Mayer learning class which can be parallelized? Probably not worth it .., but would avoid large file output. Would need to build base first.
+
+Should be agnostic to sampling algorithm, e.g., 1 fluid fh works as well
+
+If enable serial combines to work in parallel, script, only run on first proc, there's still no way to make it wait... Until we had wait for file
+
+WriteFileAndCheck
+Wait UntilFileExists=
+ */
 
 /**
   This class is experimental.
@@ -54,11 +75,46 @@ class Table1D;
   at which point the user will be presented with an error.
   This happens if a data point inside of an element that has already had a
   RecursiveTable inserted is still above the "min_criteria."
+
+  Parallel algorithm:
+  1. In parallel, run Mayer-sampling simulations to generate training data
+  2. In parallel, build base table for rh (if applicable, also rc and U)
+     - aggregate of all training data is required because build automatically
+       determines global cutoff and contact based on all data.
+  3. In serial, combine tables into one base table.
+  4. In parallel, read Mayer trainining file line by line to determine which
+     base table elements are to be nested.
+     - optionally, stop at certain max percentage?
+     - optionally, sort nested by deviation from criteria
+  5. In serial (post-process), union set of elements to be nested from each processor
+     to avoid duplicates
+  6. In parallel, build nested tables.
+  7. In serial (post-process) combine into one nested table.
+     - optionally, check that max deviation from criteria does not occur in a
+       nested element, or else the criteria was too strict and may have resulted
+       in inefficiently nesting too many.
+
+  Multiple script HPC example allows submission of many single core jobs by
+  completing one stage at a time:
+  - (before stages): MayerSampling (step 1, postprocess combine data)
+  - "base" stage: (step 2, postprocess step 3)
+  - "train" stage: (step 4, postprocess step 5)
+  - "build" stage: (step 6, postprocess step 7)
+    - optionally, Prepare during Mayer to avoid large data files, but this
+      requires deciding table parameters. Changing parameters would require
+      rerunning the MayerSampling portion.
  */
 class BuildRecursiveTable : public Action {
  public:
   //@{
   /** @name Arguments
+    - stage: if all (default), run all stages with limited-efficiency OMP
+      parallelization. If base, train, build_contact, build_cutoff,
+      build_energy, only complete the stage described above (enables processor-
+      based parallelization).
+      If base, automatically sets assume_all_unique to true and min_criteria to
+      NEAR_INFINITY.
+      If build*, automatically sets assume_all_unique to true.
     - mayer_training_file: input file, output by MayerSampling::training_file.
     - cutoff: cutoff distance. If -1, find automatically (default: -1).
     - output_file: write RecursiveTablePotential checkpoint file.
@@ -68,12 +124,22 @@ class BuildRecursiveTable : public Action {
     - num_orientations_per_pi: angular size of each of the RecursiveTable s (default: 5).
     - beta: parameter which weights low energy configurations (default: 1).
       Only affects energy tables, so not required for contact_only (see below).
+    - contact_only: If true, only consider hard contact (default: false).
+    - energy_only: If true, only consider energy (default: false).
+    - input_recursive_table: optionally, if energy_only, input existing contact
+      and cutoff by providing the file name of the
+      RecursiveTable VisitModelInnerTable.
     - num_z: the number of distances for each of the RecursiveTable s (default: 5).
       Only affects energy tables, so not required for contact_only (see below).
     - min_criteria: iterative target minimum criteria (default: 0.03).
     - min_criteria_energy: iterative target minimum criteria for energy. (default: 0).
-      If negative, set to min_criteria above.
-    - contact_only: If true, only consider hard contact (default: false).
+      If <= 0, set to min_criteria above.
+    - assume_all_unique: if true, do not search for uniqueness (default: false).
+    - num_processors: number of processors to parallelize (default: 1).
+    - processor: index of current processor [0, num_processors-1] (default: 0).
+    - base_table_file: optional file name output from BuildBaseTable.
+    - trained_file: optionally, if provided with base_table_file, generate the
+      recursive tables without requiring criteria/beta/hard_limit_u, etc.
    */
   explicit BuildRecursiveTable(argtype args = argtype());
   explicit BuildRecursiveTable(argtype * args);
@@ -83,6 +149,9 @@ class BuildRecursiveTable : public Action {
    */
   //@{
 
+  void base(const bool is_energy, MonteCarlo * mc);
+  void train(const bool is_cutoff, const bool is_energy, MonteCarlo * mc);
+  void build(const bool is_cutoff, const bool is_energy, MonteCarlo * mc);
   void run(MonteCarlo * mc) override;
   std::shared_ptr<Action> create(std::istream& istr) const override {
     return std::make_shared<BuildRecursiveTable>(istr); }
@@ -93,21 +162,26 @@ class BuildRecursiveTable : public Action {
   virtual ~BuildRecursiveTable();
 
   //@}
+ protected:
+  void serialize_build_recursive_table_(std::ostream& ostr) const;
+
  private:
-  std::string mayer_training_file_, verbose_file_, output_file_;
+  std::string mayer_training_file_, verbose_file_, output_file_, input_recursive_table_;
   double hard_limit_u_, beta_, min_criteria_, min_criteria_energy_, cutoff_;
-  int num_z_, num_orientations_per_pi_;
-  bool contact_only_, extra_verbose_;
+  int num_z_, num_orientations_per_pi_, processor_, num_processors_;
+  bool contact_only_, energy_only_, extra_verbose_;
+  std::string assume_all_unique_;
+  std::string base_table_file_, trained_file_, stage_;
 
   std::string verbose_name_(const int iteration) const;
-  void build_table_(const std::vector<std::vector<double> >& bounds, const std::vector<std::vector<double> >& data, RecursiveTable1D * tab, MonteCarlo * mc) const;
+  void build_table_(const std::vector<std::vector<double> >& bounds, RecursiveTable1D * tab, MonteCarlo * mc) const;
   int analyze_table_(const double lower, const double upper, const std::vector<std::vector<double> >& data, const Table1D& table, const double beta, const std::string& filename, double * criteria);
-  RecursiveTable5D build_contact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system, const bool cutoff = false);
-  RecursiveTable2D build_2dcontact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system, const bool cutoff = false);
-  RecursiveTable1D build_1dcontact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system, const bool cutoff = false);
-  RecursiveTable3D build_3denergy_(const std::vector<std::vector<double> >& bounds, const std::vector<double>& zbnds, const std::string& verbf, const RecursiveTable2D& contact, const RecursiveTable2D& cutoff, System * system);
-  RecursiveTable2D build_2denergy_(const std::vector<std::vector<double> >& bounds, const std::vector<double>& zbnds, const std::string& verbf, const RecursiveTable1D& contact, const RecursiveTable1D& cutoff, System * system);
-  RecursiveTable6D build_energy_(const std::vector<std::vector<double> >& bounds, const std::vector<double>& zbnds, const std::string& verbf, const RecursiveTable5D& contact, const RecursiveTable5D& cutoff, System * system);
+  RecursiveTable5D build_contact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system, std::vector<System> * systems, const bool cutoff = false);
+  RecursiveTable2D build_2dcontact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system, std::vector<System> * systems, const bool cutoff = false);
+  RecursiveTable1D build_1dcontact_(const std::vector<std::vector<double> >& bounds, const std::string& verbf, System * system, std::vector<System> * systems, const bool cutoff = false);
+  RecursiveTable3D build_3denergy_(const std::vector<std::vector<double> >& bounds, const std::vector<double>& zbnds, const std::string& verbf, const RecursiveTable2D& contact, const RecursiveTable2D& cutoff, System * system, std::vector<System> * systems);
+  RecursiveTable2D build_2denergy_(const std::vector<std::vector<double> >& bounds, const std::vector<double>& zbnds, const std::string& verbf, const RecursiveTable1D& contact, const RecursiveTable1D& cutoff, System * system, std::vector<System> * systems);
+  RecursiveTable6D build_energy_(const std::vector<std::vector<double> >& bounds, const std::vector<double>& zbnds, const std::string& verbf, const RecursiveTable5D& contact, const RecursiveTable5D& cutoff, System * system, std::vector<System> * systems);
   void analyze_contact_(const std::vector<std::vector<double> >& data,
     const RecursiveTable5D& contact, const RecursiveTable2D& contact2d, const RecursiveTable1D& contact1d,
     const std::vector<std::vector<double> >& abnd, const int dimen, const std::string& verbf, const std::vector<std::vector<int> >& rbins,
@@ -123,7 +197,26 @@ class BuildRecursiveTable : public Action {
     std::vector<double> * new_zbnds,
     std::vector<double> * max_s) const;
   bool is_iso_(const bool is_2d, const int bsize) const;
+  Rotator gen_rotator_(const std::vector<std::vector<double> >& bounds, System * system);
+  void gen_rotators_(const std::vector<std::vector<double> >& bounds, std::vector<System> * systems, int * num_threads, std::vector<Rotator> * rotators);
+  Rotator * get_rotator_(const int ithread, Rotator * rotator, std::vector<Rotator> * rotators);
+  System * get_system_(const int ithread, System * system, std::vector<System> * systems);
+  int get_num_threads_();
+  void get_table_ptrs_(const bool is_cutoff, RecursiveTable * recur, RTable *& contact, RTable *& cutoff, RTable *& energy, RTable *& table) const;
+  void base_iso_iso_(std::ostream& ostr, MonteCarlo * mc);
+
+  // temporary variables if stage == all, not currently checkpointed
+  std::shared_ptr<ModelRecursiveTable> base_mrt_, mrt_;
+  std::shared_ptr<RecursiveTable> base_rt_, rt_;
+  std::shared_ptr<std::vector<rbin> > rbins_;
 };
+
+/// Sort rbins by criteria and print them to file.
+void sort_and_print(std::vector<rbin> * rbins, const std::string& filename);
+
+/// Obtain rbins from file in the same format as above, optionally in parallel
+std::vector<rbin> read_rbins(const std::string& filename,
+  const int processor = 0, const int num_processors = 1);
 
 }  // namespace feasst
 

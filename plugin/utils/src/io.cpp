@@ -8,6 +8,38 @@
 
 namespace feasst {
 
+std::string feasst_str(const double& value, const bool max_precision) {
+  std::stringstream ss;
+  if (max_precision) ss << MAX_PRECISION;
+  ss << value;
+  return ss.str();
+}
+
+std::string feasst_str(const int& value, const bool max_precision) {
+  std::stringstream ss;
+  if (max_precision) ss << MAX_PRECISION;
+  ss << value;
+  return ss.str();
+}
+
+std::string feasst_str(const std::string& value, const bool max_precision) {
+  std::stringstream ss;
+  if (max_precision) ss << MAX_PRECISION;
+  ss << value;
+  return ss.str();
+}
+
+std::string feasst_str(const std::vector<int>& vec,
+  const bool max_precision) {
+  std::stringstream ss;
+  if (max_precision) ss << MAX_PRECISION;
+  for (int i = 0; i < static_cast<int>(vec.size()); ++i) {
+    ss << feasst_str(vec[i], max_precision);
+    if (i != static_cast<int>(vec.size()-1)) ss << ",";
+  }
+  return ss.str();
+}
+
 std::vector<std::string> split(const std::string& str_to_split,
     const char delimitor) {
   std::vector<std::string> values;

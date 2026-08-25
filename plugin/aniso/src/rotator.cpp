@@ -26,6 +26,7 @@ Rotator::Rotator(argtype * args) {
   num_proc_ = integer("num_proc", args, 1);
   proc_ = integer("proc", args, 0);
   hard_limit_u_ = dble("hard_limit_u", args, hard_u_);
+  assume_all_unique_ = boolean("assume_all_unique", args, false);
 }
 Rotator::Rotator(argtype args) : Rotator(&args) {
   feasst_check_all_used(args);
@@ -199,7 +200,7 @@ void Rotator::gen_orientations(const int num_orientations_per_pi, const Configur
 void Rotator::init(System * system, const std::string xyz_file,
     const std::string contact_xyz_file) {
   select_ = MakeTrialSelectParticle({{"particle_type", "1"}});
-  ASSERT(system->num_configurations() == 1, "Assumes 1 config");
+  ASSERT(system->num_configurations() == 1, "Assumes 1 config:" << system->num_configurations());
   const Configuration& config = system->configuration();
   select_->select_particle(1, config);
   select_->set_mobile_original(system);
@@ -229,9 +230,10 @@ void Rotator::init(System * system, const std::string xyz_file,
     xyz_fixed_.write(xyz_file+"_fixed.xyz", config);
   }
   if (config.num_particle_types() == 1) {
-    ASSERT(config.particle(0).site(0).position().squared_distance(
-           config.particle(1).site(0).position()) < 1e-8,
-      "The first site of each particle should be on top of each other.");
+    const double sqdist = config.particle(0).site(0).position().squared_distance(
+                          config.particle(1).site(0).position());
+    ASSERT(sqdist < 1e-8, "The first site of each particle should be on top of "
+      << "each other, but their squared distance is " << sqdist);
   }
 }
 
@@ -512,7 +514,6 @@ void Rotator::gen_unique_orientations(const int num_orientations_per_pi, System 
   gen_orientations(num_orientations_per_pi, config, bounds);
   const double displacement = 40.;
   DEBUG("num orientations: " << num_orientations());
-  ASSERT(num_proc_ == 1, "unique orientation search is not parallelized in the same way as the rest.");
   DEBUG("Set last three");
   DEBUG("num ori: " << num_orientations());
   //#pragma omp parallel for
@@ -524,37 +525,45 @@ void Rotator::gen_unique_orientations(const int num_orientations_per_pi, System 
   if (eulers_.size() > 0) {
     check_last_three_sites(0, system);
   }
-  DEBUG("Determining unique orientations.");
-//      //#pragma omp parallel for
-  for (int ior = 0; ior < num_orientations(); ++ior) {
-    unique_[ior] = -2;
-  }
-  std::vector<int> iors;
-  #pragma omp parallel shared(iors)
-  {
-    auto thread = MakeThreadOMP();
-    const int num_threads = thread->num();
-    const int proc = thread->thread();
-    std::unique_ptr<ProgressReport> report;
-    if (proc == 0) {
-      iors.resize(num_threads);
-      report = std::make_unique<ProgressReport>(argtype({
-        {"num", str(int(num_orientations()/num_threads))},
-        {"task", "determine unique orientations"}}));
+  if (assume_all_unique_) {
+    //WARN("Assuming all orientations are unique");
+    for (int ior = 0; ior < num_orientations(); ++ior) {
+      unique_[ior] = -1;
     }
-    #pragma omp barrier
-    for (int ior = proc; ior < num_orientations(); ior += num_threads) {
-      determine_if_unique(ior, iors, num_threads, system);
-      iors[proc] = ior;
+  } else {
+    ASSERT(num_proc_ == 1, "unique orientation search is not parallelized in the same way as the rest.");
+    DEBUG("Determining unique orientations.");
+  //      //#pragma omp parallel for
+    for (int ior = 0; ior < num_orientations(); ++ior) {
+      unique_[ior] = -2;
+    }
+    std::vector<int> iors;
+    #pragma omp parallel shared(iors)
+    {
+      auto thread = MakeThreadOMP();
+      const int num_threads = thread->num();
+      const int proc = thread->thread();
+      std::unique_ptr<ProgressReport> report;
       if (proc == 0) {
-        report->check();
+        iors.resize(num_threads);
+        report = std::make_unique<ProgressReport>(argtype({
+          {"num", str(int(num_orientations()/num_threads))},
+          {"task", "determine unique orientations"}}));
+      }
+      #pragma omp barrier
+      for (int ior = proc; ior < num_orientations(); ior += num_threads) {
+        determine_if_unique(ior, iors, num_threads, system);
+        iors[proc] = ior;
+        if (proc == 0) {
+          report->check();
+        }
       }
     }
+    //#pragma omp parallel for schedule(static,1)
+    //for (int ior = 0; ior < num_orientations(); ++ior) {
+    //  determine_if_unique(ior, system);
+    //}
   }
-  //#pragma omp parallel for schedule(static,1)
-  //for (int ior = 0; ior < num_orientations(); ++ior) {
-  //  determine_if_unique(ior, system);
-  //}
 }
 
 }  // namespace feasst

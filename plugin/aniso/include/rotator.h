@@ -29,6 +29,7 @@ class Rotator {
       A user may set to positive values.
       By default, it is set to 1e10, which uses an objective function
       specificly for the HardSphere Potential.
+    - assume_all_unique: if true, do not search for uniqueness (default: false).
    */
   explicit Rotator(argtype args = argtype());
   explicit Rotator(argtype * args);
@@ -69,6 +70,7 @@ class Rotator {
   double contact_distance(const int ior, System * system);
   double cutoff_distance(const int ior, System * system);
   double hard_limit_u_;
+  bool assume_all_unique_;
   constexpr static double hard_u_ = 1e10; // ensure this matches hard_limit_u doc
   std::string xyz_file_name_;
   std::string contact_xyz_file_name_;

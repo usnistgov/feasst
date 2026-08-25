@@ -6,4 +6,4 @@ H sigma=1 epsilon=1 cutoff=1
 
 Sites
 
-0 H 0.0 0.0 0.0
+H1 H 0.0 0.0 0.0

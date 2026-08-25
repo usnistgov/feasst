@@ -1,5 +1,7 @@
 #include <sys/stat.h>
 #include <sstream>
+#include <cstdio>  // std::remove
+#include <algorithm>  // count_if
 #include "utils/include/file.h"
 #include "utils/include/debug.h"
 
@@ -47,6 +49,42 @@ void file_backup(const std::string& file_name,
     ss << file_name << append;
     rename(file_name.c_str(), ss.str().c_str());
   }
+}
+
+int num_lines(const std::string& file_name) {
+  // from https://www.reddit.com/r/cpp_questions/comments/11wlf49/whats_the_most_efficient_way_to_get_the_line/
+  std::ifstream file(file_name);
+  ASSERT(file.good(), "Could not find file: " << file_name);
+  return std::count_if(std::istreambuf_iterator<char>{file}, {}, [](char c) { return c == '\n'; });
+}
+
+// from https://stackoverflow.com/a/15119347/31990915
+template<typename T1, typename T2>
+bool range_equal(T1 first1, T1 last1, T2 first2, T2 last2) {
+  while (first1 != last1 && first2 != last2) {
+    if (*first1 != *first2) return false;
+    ++first1;
+    ++first2;
+  }
+  return (first1 == last1) && (first2 == last2);
+}
+
+bool compare_files(const std::string& filename1, const std::string& filename2) {
+  std::ifstream file1(filename1);
+  std::ifstream file2(filename2);
+
+  std::istreambuf_iterator<char> begin1(file1);
+  std::istreambuf_iterator<char> begin2(file2);
+
+  std::istreambuf_iterator<char> end;
+
+  return range_equal(begin1, end, begin2, end);
+}
+
+void remove_file(const std::string& filename) {
+  if (std::remove(filename.c_str()) != 0) {
+    WARN("Error deleting file: " << filename);
+  };
 }
 
 }  // namespace feasst

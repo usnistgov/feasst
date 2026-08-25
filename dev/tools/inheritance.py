@@ -26,8 +26,9 @@ for filename in Path('../plugin/').rglob('*.h'):
                     #print(line)
                     derived=string_between_strings(line, first, middle)
                     base=string_between_strings(line, middle, last1)
-                    assert ' ' not in derived and ' ' not in base, base+'->'+derived
-                    depend[derived]=[base]
+                    #assert ' ' not in derived and ' ' not in base, base+'->'+derived
+                    if ' ' not in derived and ' ' not in base:
+                        depend[derived]=[base]
                 if line[-len(last2):] == last2:
                     if lines[iline+1][-len(last2):] == last2:
                         assert False, "triple inheritance not implemented."

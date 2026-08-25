@@ -11,13 +11,21 @@ namespace feasst {
 
 typedef std::map<std::string, std::string> argtype;
 
+class RTable : virtual public Table {
+ public:
+  RTable() {}
+  virtual void insert(const std::vector<int>& bins, const RTable& nested) = 0;
+  virtual void serialize(std::ostream& ostr) const = 0;
+  virtual ~RTable() {}
+};
+
 /**
   One-dimensional nested table.
 
   The bounds within a nested table are repeated, so it is inefficient if nested
   tables are small.
  */
-class RecursiveTable1D : public Table1D {
+class RecursiveTable1D : public Table1D, public RTable {
  public:
   /**
     args:
@@ -27,15 +35,25 @@ class RecursiveTable1D : public Table1D {
   explicit RecursiveTable1D(argtype *args);
 
   /// Insert a nested table.
-  void insert(const int bin, const RecursiveTable1D& nested);
+  void insert(const int bin, const RTable& nested);
+
+  /// Insert a nested table.
+  void insert(const std::vector<int>& bins, const RTable& nested);
 
   /// Return the percentage of table that is nested.
   double percent_nested() const;
 
   double linear_interpolation(const double value0) const override;
+  double linear_interpolation(const std::vector<double>& values) const override;
   double forward_difference_interpolation(const double value0) const override;
 
-  void serialize(std::ostream& ostr) const;
+  /// Combine independently-generated tables into one (from parallel build).
+  RecursiveTable1D combine(const std::vector<const RecursiveTable1D *>& tables) const;
+
+  /// Return true if equal to the given table.
+  bool is_equal(const RecursiveTable1D& table) const;
+
+  void serialize(std::ostream& ostr) const override;
   explicit RecursiveTable1D(std::istream& istr);
   virtual ~RecursiveTable1D();
 
@@ -47,7 +65,7 @@ class RecursiveTable1D : public Table1D {
 /**
   Two-dimensional nested table.
  */
-class RecursiveTable2D : public Table2D {
+class RecursiveTable2D : public Table2D, public RTable {
  public:
   /**
     args:
@@ -57,10 +75,17 @@ class RecursiveTable2D : public Table2D {
   explicit RecursiveTable2D(argtype *args);
 
   // Insert a nested table.
-  void insert(const int bin0, const int bin1, const RecursiveTable2D& nested);
+  void insert(const int bin0, const int bin1, const RTable& nested);
+
+  /// Insert a nested table.
+  void insert(const std::vector<int>& bins, const RTable& nested);
 
   double linear_interpolation(const double value0,
                               const double value1) const override;
+  double linear_interpolation(const std::vector<double>& values) const override;
+
+  /// Combine independently-generated tables into one (from parallel build).
+  RecursiveTable2D combine(const std::vector<const RecursiveTable2D *>& tables) const;
 
   /// Return the total number of data points.
   int num_data() const;
@@ -68,7 +93,10 @@ class RecursiveTable2D : public Table2D {
   /// Return the percentage of table that is nested.
   double percent_nested() const;
 
-  void serialize(std::ostream& ostr) const;
+  /// Return true if equal to the given table.
+  bool is_equal(const RecursiveTable2D& table) const;
+
+  void serialize(std::ostream& ostr) const override;
   explicit RecursiveTable2D(std::istream& istr);
   virtual ~RecursiveTable2D();
 
@@ -79,7 +107,7 @@ class RecursiveTable2D : public Table2D {
 /**
   Three-dimensional nested table.
  */
-class RecursiveTable3D : public Table3D {
+class RecursiveTable3D : public Table3D, public RTable {
  public:
   /**
     args:
@@ -90,15 +118,25 @@ class RecursiveTable3D : public Table3D {
 
   // Insert a nested table.
   void insert(const int bin0, const int bin1, const int bin2,
-    const RecursiveTable3D& nested);
+    const RTable& nested);
+
+  /// Insert a nested table.
+  void insert(const std::vector<int>& bins, const RTable& nested);
 
   /// Return the percentage of table that is nested.
   double percent_nested() const;
 
   double linear_interpolation(const double value0, const double value1,
     const double value2) const override;
+  double linear_interpolation(const std::vector<double>& values) const override;
 
-  void serialize(std::ostream& ostr) const;
+  /// Combine independently-generated tables into one (from parallel build).
+  RecursiveTable3D combine(const std::vector<const RecursiveTable3D *>& tables) const;
+
+  /// Return true if equal to the given table.
+  bool is_equal(const RecursiveTable3D& table) const;
+
+  void serialize(std::ostream& ostr) const override;
   explicit RecursiveTable3D(std::istream& istr);
   virtual ~RecursiveTable3D();
 
@@ -109,7 +147,7 @@ class RecursiveTable3D : public Table3D {
 /**
   Five-dimensional nested table.
  */
-class RecursiveTable5D : public Table5D {
+class RecursiveTable5D : public Table5D, public RTable {
  public:
   /**
     args:
@@ -120,7 +158,10 @@ class RecursiveTable5D : public Table5D {
 
   // Insert a nested table.
   void insert(const int bin0, const int bin1, const int bin2, const int bin3,
-    const int bin4, const RecursiveTable5D& nested);
+    const int bin4, const RTable& nested);
+
+  /// Insert a nested table.
+  void insert(const std::vector<int>& bins, const RTable& nested);
 
   /// Return the percentage of table that is nested.
   double percent_nested() const;
@@ -128,8 +169,18 @@ class RecursiveTable5D : public Table5D {
   double linear_interpolation(const double value0, const double value1,
     const double value2, const double value3,
     const double value4) const override;
+  double linear_interpolation(const std::vector<double>& values) const override;
 
-  void serialize(std::ostream& ostr) const;
+  /// Combine independently-generated tables into one (from parallel build).
+  RecursiveTable5D combine(const std::vector<const RecursiveTable5D *>& tables) const;
+
+  /// Read-only access to nested tables.
+  const RecursiveTable5D& nested(const std::vector<int>& bins);
+
+  /// Return true if equal to the given table.
+  bool is_equal(const RecursiveTable5D& table) const;
+
+  void serialize(std::ostream& ostr) const override;
   explicit RecursiveTable5D(std::istream& istr);
   virtual ~RecursiveTable5D();
 
@@ -140,7 +191,7 @@ class RecursiveTable5D : public Table5D {
 /**
   Six-dimensional nested table.
  */
-class RecursiveTable6D : public Table6D {
+class RecursiveTable6D : public Table6D, public RTable {
  public:
   /**
     args:
@@ -151,7 +202,10 @@ class RecursiveTable6D : public Table6D {
 
   // Insert a nested table.
   void insert(const int bin0, const int bin1, const int bin2, const int bin3,
-    const int bin4, const int bin5, const RecursiveTable6D& nested);
+    const int bin4, const int bin5, const RTable& nested);
+
+  /// Insert a nested table.
+  void insert(const std::vector<int>& bins, const RTable& nested);
 
   /// Return the percentage of table that is nested.
   double percent_nested() const;
@@ -159,8 +213,15 @@ class RecursiveTable6D : public Table6D {
   double linear_interpolation(const double value0, const double value1,
     const double value2, const double value3,
     const double value4, const double value5) const override;
+  double linear_interpolation(const std::vector<double>& values) const override;
 
-  void serialize(std::ostream& ostr) const;
+  /// Combine independently-generated tables into one (from parallel build).
+  RecursiveTable6D combine(const std::vector<const RecursiveTable6D *>& tables) const;
+
+  /// Return true if equal to the given table.
+  bool is_equal(const RecursiveTable6D& table) const;
+
+  void serialize(std::ostream& ostr) const override;
   explicit RecursiveTable6D(std::istream& istr);
   virtual ~RecursiveTable6D();
 

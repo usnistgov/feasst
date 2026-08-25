@@ -7,18 +7,20 @@
 # Check /feasst/dev/tools/analyze_public_interface.py
 # CMakeLists.txt:
 # - check version, check -DEV=ON, /feasst/dev/tools/depend.py
-# Use cmake -DUSE_PIP=ON -DEV=ON .. to:
-#       /feasst/dev/tools/inheritance.py
-#       /feasst/feasst python menu.py --particles ../build/public_particles.txt --descripts ../build/public_description.json --factory ../build/public_factories.json ->> updates /feasst/feasst/data/menu.json file
+### this requires scikit build
+### Use cmake -DUSE_PIP=ON -DEV=ON .. to:
+###       /feasst/dev/tools/inheritance.py
+###       /feasst/feasst python menu.py --particles ../build/public_particles.txt --descripts ../build/public_description.json --factory ../build/public_factories.json ->> updates /feasst/feasst/data/menu.json file
 # update html and nist-pages
 # tag commit
 
 # update nist-pages
 mkdir build
 cd build
-cmake -DUSE_SPHINX=ON ..
+cmake -DUSE_PIP=OFF -DUSE_SPHINX=ON ..
 make html > tt 2>&1
 grep -v "_arguments.rst: WARNING: document" tt | grep -v "_arguments.rst:4: WARNING: Duplicate"  | grep -v "^Declaration is" | grep -v "WARNING: Duplicate C++ declaration, also defined" | grep -v "/home/$LOGNAME/feasst/README.rst: WARNING: document isn't included in any toctree" | grep -v "warning: The following parameters of feasst::" | grep -v "warning: The following parameter of feasst::" | grep -v "_skbuild"
+rm -r html/_skbuild
 version=$(git describe)
 #branch=`git branch | grep \* | cut -d ' ' -f2`
 cp -r html/* ../html/

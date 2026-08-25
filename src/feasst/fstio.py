@@ -178,7 +178,7 @@ def server(params, args, sim_job_dependent_params, write_feasst_script):
     params['server_port'] = params['port'] + params['sim']
     if write_feasst_script == None:
         syscode = subprocess.call(
-                """echo "Server port {server_port} buffer_size {buffer_size}" |""".format(**params) + """feasst > {prefix}{sim:03d}_fstout.txt""".format(**params),
+                """echo "Server port {server_port} buffer_size {buffer_size}" | {feasst_exe} > {prefix}{sim:03d}_fstout.txt""".format(**params),
             shell=True, executable='/bin/bash')
     else:
         syscode = seed_param_write_run(params['sim'], params, args, sim_job_dependent_params, write_feasst_script)
@@ -198,7 +198,7 @@ def seed_param_write_run(sim, params, args, sim_job_dependent_params, write_feas
     file_name = "{}{:03d}".format(params['prefix'],sim)
     write_feasst_script(params, script_file=file_name+'_fstin.txt')
     syscode = subprocess.call(
-        'feasst < '+file_name+'_fstin.txt  > '+file_name+'_fstout.txt',
+        params['feasst_exe'] + ' < '+file_name+'_fstin.txt  > '+file_name+'_fstout.txt',
         shell=True, executable='/bin/bash')
     return syscode
 
@@ -208,7 +208,7 @@ def run_single(sim, params, args, sim_job_dependent_params, write_feasst_script,
         params['sim'] = sim
         syscode = seed_param_write_run(sim, params, args, sim_job_dependent_params, write_feasst_script)
     else: # if queue_task < 1, restart from checkpoint
-        syscode = subprocess.call("echo \"Restart checkpoint_file={}{:03d}_checkpoint.fst\" | feasst".format(params['prefix'], sim), shell=True, executable='/bin/bash')
+        syscode = subprocess.call("echo \"Restart checkpoint_file={}{:03d}_checkpoint.fst\" | {}".format(params['prefix'], sim, params['feasst_exe']), shell=True, executable='/bin/bash')
     if syscode == 0: # if simulation finishes with no errors, write to sim id file
         with open(params['sim_id_file'], 'a', encoding='utf-8') as file1:
             file1.write(str(sim)+'\n')
@@ -293,6 +293,8 @@ def run_simulations(params, queue_function, args, write_feasst_script=None, clie
     :param namespace args:
         Arguments from argparse.
     """
+    if 'feasst_exe' not in params:
+        params['feasst_exe'] = 'feasst'
     if sim_node_dependent_params:
         print('feasst.fstio.sim_node_dependent_params is deprecated. Use sim_job_dependent_params.')
         if sim_job_dependent_params:

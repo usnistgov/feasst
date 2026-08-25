@@ -2,6 +2,7 @@
 catch throw
 #r < run.txt
 #r < trappe000_fstin.txt
-#r < sal000_fstin.txt
-r --gtest_filter=ModelLJShape.mie
+#r < ljr001_fstin.txt
+#r < patch001_fstin.txt
+r --gtest_filter=BuildRecursiveTable*
 bt

@@ -319,6 +319,7 @@ For quick reference
 * screen html errors [ make html > tt 2&>1; grep -v "WARNING: document i" tt | grep -v "WARNING: Duplicate" | grep -v "Declaration is" > ttt ]
 * find all headers in the public interface [ find . -name '*.h' | xargs grep "^  \/\*\* \@name Arguments$" ]
 * find difference in serialization string: [ diff -u f1 f2 |colordiff  | perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | more ]
+* diff a large single line files: [ diff <(fold -w 50 file1) <(fold -w 50 file2) ]
 
 To Do List
 ================================================================================

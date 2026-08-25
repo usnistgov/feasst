@@ -5,13 +5,15 @@
 #include <cmath>
 #include <vector>
 #include <utility>
+#include <memory>
+//#include "utils/include/debug.h"  // temporarily added for debugging templates
 
 namespace feasst {
 
 /// Return true if value is found in list, and the index of that value in list.
 template<class T>
-bool find_in_list(const T value,  /// search for this value
-  const std::vector<T> &list,  /// list to search for value
+bool find_in_list(const T& value,  /// search for this value
+  const std::vector<T>& list,  /// list to search for value
   int * index  /// return the last index in list where value was found
   ) {
   const int size = static_cast<int>(list.size());
@@ -28,14 +30,15 @@ bool find_in_list(const T value,  /// search for this value
 
 /// Same as above, but do not return the index.
 template<class T>
-bool find_in_list(const T value, const std::vector<T> &list) {
+bool find_in_list(const T& value, const std::vector<T>& list) {
   int index;
   return find_in_list(value, list, &index);
 }
 
-/// Same as above, but use the first element of pair in list.
+/// Return true if value is found in list, and the index of that value in list.
+/// Use only the first element of pair in list.
 template<class T1, class T2>
-bool find_in_list(const T1 value,
+bool find_in_list(const T1& value,
     const std::vector<std::pair<T1, T2> >& list,
     int * index) {
   const int size = static_cast<int>(list.size());
@@ -48,6 +51,14 @@ bool find_in_list(const T1 value,
     }
   }
   return false;
+}
+
+/// Same as above, but do not return the index.
+template<class T1, class T2>
+bool find_in_list(const T1& value,
+    const std::vector<std::pair<T1, T2> >& list) {
+  int index;
+  return find_in_list(value, list, &index);
 }
 
 /// Resize two dimensional vector to size xs, ys.
@@ -189,7 +200,7 @@ bool is_equal(const std::pair<T1, T2>& pr1,
   return true;
 }
 
-template<typename T>
+template <typename T>
 bool is_equal(const std::vector<T>& vec1,
               const std::vector<T>& vec2,
               const double tolerance = 1e-15) {
@@ -198,6 +209,62 @@ bool is_equal(const std::vector<T>& vec1,
   }
   for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {
     if (!is_equal(vec1[index], vec2[index], tolerance)) {
+//      TRACE(MAX_PRECISION << "vec1[" << index << "]:" << vec1[index] << " != "
+//        << "vec2[" << index << "]:" << vec2[index]);
+      return false;
+    }
+  }
+  return true;
+}
+
+bool is_equal_fixed_tolerance(const float val1, const float val2);
+
+template<typename T>
+bool is_equal_fixed_tolerance(const std::vector<T>& vec1,
+              const std::vector<T>& vec2) {
+  if (vec1.size() != vec2.size()) {
+    return false;
+  }
+  for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {
+    if (!is_equal_fixed_tolerance(vec1[index], vec2[index])) {
+//      TRACE(MAX_PRECISION << "vec1[" << index << "]:" << vec1[index] << " != "
+//        << "vec2[" << index << "]:" << vec2[index]);
+      return false;
+    }
+  }
+  return true;
+}
+
+template<typename T>
+bool is_equal_fstobj(std::shared_ptr<T> ptr1, std::shared_ptr<T> ptr2) {
+  if (ptr1 && ptr2) {
+    if (ptr1->is_equal(*ptr2)) {
+      return true;
+    }
+    return false;
+  } else if (!ptr1 && !ptr2) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+template<typename T>
+bool is_equal_fstobj(const T& obj1, const T& obj2) {
+  if (obj1.is_equal(obj2)) {
+    return true;
+  }
+  return false;
+}
+
+template<typename T>
+bool is_equal_fstobj(const std::vector<T>& vec1,
+              const std::vector<T>& vec2) {
+  if (vec1.size() != vec2.size()) {
+    return false;
+  }
+  for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {
+    if (!is_equal_fstobj(vec1[index], vec2[index])) {
 //      TRACE(MAX_PRECISION << "vec1[" << index << "]:" << vec1[index] << " != "
 //        << "vec2[" << index << "]:" << vec2[index]);
       return false;

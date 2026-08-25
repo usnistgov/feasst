@@ -1,6 +1,8 @@
 """
 Todo:
 
+Try streamlit to make a gui app
+
 Remove previous line in script - what if for example box is too small for cutoff, not seen until potential but has to be fixed in configuration..., this would require saving MC objects and undo-ing them as well...
 
 Compare log header, if changed print again
@@ -52,7 +54,7 @@ import curses
 from curses.textpad import Textbox, rectangle
 import logging as log
 import textwrap
-from importlib.resources import files
+from importlib.resources import files as libfiles
 import subprocess
 import webbrowser
 from pathlib import Path
@@ -697,7 +699,10 @@ def script_next_line(data, stdscr):
                     # sometimes the LOG is not ready to write because it is dangerously accessing MC while running in another thread.
                     message=''
                 if message != '':
-                    status_message(title='Processing the following line in the script:\n'+line, message=message, stdscr=stdscr)
+                    if len(stdscr.getmaxyx()) == 0:
+                      print(line, message)
+                    else:
+                      status_message(title='Processing the following line in the script:\n'+line, message=message, stdscr=stdscr)
                     stdscr.refresh()
                 time.sleep(min(0.01*check**2, 2)) # seconds
             thread.join()
@@ -982,13 +987,13 @@ Note that the path to the particle file in the resulting script begins with /fea
         flname = input_box(stdscr=stdscr, instruct=instruct, data=data)
         if os.path.exists(flname):
             with open(flname, 'r') as file1:
-                dflt_data = str(files('feasst').joinpath('data/menu.json'))
+                dflt_data = str(libfiles('feasst').joinpath('data/menu.json'))
                 data.update(upload_script(file1, dflt_data))
             #    data.update(json.load(file1))
         else:
             user_message("The file:\""+flname+"\" does not exist. Try again.", stdscr)
     elif chc[0] == OPEN_HTML:
-        file_path = str(files('feasst').joinpath('data/html/index.html'))
+        file_path = str(libfiles('feasst').joinpath('data/html/index.html'))
         webbrowser.open(f"file://{file_path}")
     elif chc[0] == SAVE_FILE:
         log.debug("Saving")
@@ -1251,7 +1256,7 @@ def main_with_params(tutorial=False, load='', descripts='', particles='', factor
     listparticles = []
 
     # load data from file
-    dflt_data = str(files('feasst').joinpath('data/menu.json'))
+    dflt_data = str(libfiles('feasst').joinpath('data/menu.json'))
     if descripts == '' and particles == '' and factory == '':
         if load == '':
             load = dflt_data
@@ -1314,7 +1319,7 @@ def run_test(keys):
             commands.append(ord(char))
     #print('commands', commands)
     mock_stdscr.getch.side_effect = commands
-    with open(str(files('feasst').joinpath('data/menu.json')), 'r') as file1:
+    with open(str(libfiles('feasst').joinpath('data/menu.json')), 'r') as file1:
         data = json.load(file1)
     try:
         run(mock_stdscr, data)

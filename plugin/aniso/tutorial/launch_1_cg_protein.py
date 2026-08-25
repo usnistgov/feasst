@@ -15,7 +15,7 @@ After this step, the next script after_1_contact is called in post_process.
 """
 
 import copy
-import os.path
+from pathlib import Path
 import argparse
 import subprocess
 import pandas as pd
@@ -124,7 +124,7 @@ if __name__ == '__main__':
     prms['num_sims'] = prms['num_jobs']*prms['procs_per_job']
     orient_file_prefix = '''{prefix}{num_orientations_per_pi}'''.format(**prms)
     generate_domain_pairs(prms)
-    if os.path.isfile(orient_file_prefix+'.txt'):
+    if Path(orient_file_prefix+'.txt').is_file():
         print('using existing:', orient_file_prefix)
         post_process(params=prms)
     else:

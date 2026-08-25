@@ -360,7 +360,7 @@ class MonteCarlo {
 
   // HWH python interface cannot handle stringstreams with serialization.
   std::string serialize() const;
-  std::unique_ptr<MonteCarlo> deserialize(const std::string str);
+  std::unique_ptr<MonteCarlo> deserialize(const std::string& str);
 
   virtual ~MonteCarlo();
 

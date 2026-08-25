@@ -2,7 +2,8 @@
 #include <cmath>  // isnan, pow
 #include <string>
 #include <fstream>
-#include "utils/include/utils.h"  // resize
+#include "utils/include/file.h"  // file_exists
+#include "utils/include/utils.h"  // resize, is_equal
 #include "utils/include/serialize.h"
 #include "utils/include/arguments.h"
 #include "math/include/utils_math.h"
@@ -49,6 +50,7 @@ void RecursiveTable::read_table(const std::string file_name,
   resize(num_sites, num_sites, &energy_);
   resize(num_sites, num_sites, &energy3d_);
   resize(num_sites, num_sites, &energy2d_);
+  resize(num_sites, num_sites, &inner_);
   DEBUG("t2index:" << feasst_str(t2index_));
   for (const std::string& filename : files) {
     int idx1, idx2;
@@ -70,20 +72,26 @@ void RecursiveTable::read_table(const std::string file_name,
     //ASSERT(std::abs(cut_conf - cutoff) < 1e-7, "table cutoff: " << MAX_PRECISION << cutoff << " does not match configuration:" << cut_conf);
 
     // read the tables and obtain maximum contact or cutoff values
+    // also obtain the minimum contact
     DEBUG("vis.contact_.size():" << vis.contact_.size());
     DEBUG("vis.contact2d_.size():" << vis.contact2d_.size());
     DEBUG("vis.contact1d_.size():" << vis.contact1d_.size());
     double max_contact = -1;
+    double min_contact = -1;
     if (vis.contact_.size() > 0) {
       contact_[idx1][idx2] = vis.contact_[0][0];
       max_contact = contact_[idx1][idx2].maximum();
+      min_contact = contact_[idx1][idx2].minimum();
     } else if (vis.contact2d_.size() > 0) {
       contact2d_[idx1][idx2] = vis.contact2d_[0][0];
       max_contact = contact2d_[idx1][idx2].maximum();
+      min_contact = contact2d_[idx1][idx2].minimum();
     } else if (vis.contact1d_.size() > 0) {
       contact1d_[idx1][idx2] = vis.contact1d_[0][0];
       max_contact = contact1d_[idx1][idx2].maximum();
+      min_contact = contact1d_[idx1][idx2].minimum();
     }
+    inner_[idx1][idx2] = min_contact;
 
     double max_cutoff = -1;
     DEBUG("vis.cutoff_.size():" << vis.cutoff_.size());
@@ -141,25 +149,32 @@ double RecursiveTable::compute_aniso(const int tabtype1, const int tabtype2,
     const int stype1, const int stype2) const {
   const double sigma = model_params.select(sigma_index()).mixed_values()[stype1][stype2];
   ASSERT(std::abs(sigma - 1) < 1e-8, sigma);
-  const float inner = sigma*contact1d_[tabtype1][tabtype2].linear_interpolation(s1);
-  TRACE("inner " << inner << " " << inner*inner);
-  TRACE("squared_distance " << squared_distance);
+  const double min_dist = sigma*inner_[tabtype1][tabtype2];
   double en = 0.;
-  if (squared_distance < inner*inner) {
+  if (squared_distance < min_dist*min_dist) {
     en = NEAR_INFINITY;
     TRACE("hard overlap");
-  } else if (!ignore_energy_) {
-    const float cutoff = sigma*cutoff1d_[tabtype1][tabtype2].linear_interpolation(s1);
-    TRACE("cutoff " << cutoff);
-    if (squared_distance < cutoff*cutoff) {
-      const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
-      float z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
-      if (z < 0. && z > -1e-6) {
-        z = 0.;
-      }
-      TRACE("z " << z);
-      if (z <= 1.) {
-        en = epsilon*energy2d_[tabtype1][tabtype2].linear_interpolation(s1, z);
+  } else {
+    TRACE("s1 " << s1);
+    const float inner = sigma*contact1d_[tabtype1][tabtype2].linear_interpolation(s1);
+    TRACE("inner " << inner << " " << inner*inner);
+    TRACE("squared_distance " << squared_distance);
+    if (squared_distance < inner*inner) {
+      en = NEAR_INFINITY;
+      TRACE("hard overlap");
+    } else if (!ignore_energy_) {
+      const float cutoff = sigma*cutoff1d_[tabtype1][tabtype2].linear_interpolation(s1);
+      TRACE("cutoff " << cutoff);
+      if (squared_distance < cutoff*cutoff) {
+        const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
+        float z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
+        if (z < 0. && z > -1e-6) {
+          z = 0.;
+        }
+        TRACE("z " << z);
+        if (z <= 1.) {
+          en = epsilon*energy2d_[tabtype1][tabtype2].linear_interpolation(s1, z);
+        }
       }
     }
   }
@@ -174,24 +189,30 @@ double RecursiveTable::compute_aniso(const int tabtype1, const int tabtype2,
   TRACE("size2 " << contact2d_[0].size());
   TRACE("s1 " << s1 << " s2 " << s2);
   const double sigma = model_params.select(sigma_index()).mixed_values()[stype1][stype2];
-  const float inner = sigma*contact2d_[tabtype1][tabtype2].linear_interpolation(s1, s2);
-  TRACE("inner " << inner << " " << inner*inner);
-  TRACE("squared_distance " << squared_distance);
+  const double min_dist = sigma*inner_[tabtype1][tabtype2];
   double en = 0.;
-  if (squared_distance < inner*inner) {
+  if (squared_distance < min_dist*min_dist) {
     en = NEAR_INFINITY;
     TRACE("hard overlap");
-  } else if (!ignore_energy_) {
-    const float cutoff = sigma*cutoff2d_[tabtype1][tabtype2].linear_interpolation(s1, s2);
-    if (squared_distance < cutoff*cutoff) {
-      const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
-      float z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
-      if (z < 0. && z > -1e-6) {
-        z = 0.;
-      }
-      TRACE("z " << z);
-      if (z <= 1.) {
-        en = epsilon*energy3d_[tabtype1][tabtype2].linear_interpolation(s1, s2, z);
+  } else {
+    const float inner = sigma*contact2d_[tabtype1][tabtype2].linear_interpolation(s1, s2);
+    TRACE("inner " << inner << " " << inner*inner);
+    TRACE("squared_distance " << squared_distance);
+    if (squared_distance < inner*inner) {
+      en = NEAR_INFINITY;
+      TRACE("hard overlap");
+    } else if (!ignore_energy_) {
+      const float cutoff = sigma*cutoff2d_[tabtype1][tabtype2].linear_interpolation(s1, s2);
+      if (squared_distance < cutoff*cutoff) {
+        const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
+        float z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
+        if (z < 0. && z > -1e-6) {
+          z = 0.;
+        }
+        TRACE("z " << z);
+        if (z <= 1.) {
+          en = epsilon*energy3d_[tabtype1][tabtype2].linear_interpolation(s1, s2, z);
+        }
       }
     }
   }
@@ -206,24 +227,30 @@ double RecursiveTable::compute_aniso(const int tabtype1, const int tabtype2,
   TRACE("size1 " << contact_.size());
   TRACE("size2 " << contact_[0].size());
   const double sigma = model_params.select(sigma_index()).mixed_values()[stype1][stype2];
-  const float inner = sigma*contact_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3);
-  TRACE("inner " << inner << " " << inner*inner);
-  TRACE("squared_distance " << squared_distance);
+  const double min_dist = sigma*inner_[tabtype1][tabtype2];
   double en = 0.;
-  if (squared_distance < inner*inner) {
+  if (squared_distance < min_dist*min_dist) {
     en = NEAR_INFINITY;
     TRACE("hard overlap");
-  } else if (!ignore_energy_) {
-    const float cutoff = sigma*cutoff_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3);
-    if (squared_distance < cutoff*cutoff) {
-      const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
-      float z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
-      if (z < 0. && z > -1e-6) {
-        z = 0.;
-      }
-      TRACE("z " << z);
-      if (z <= 1.) {
-        en = epsilon*energy_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3, z);
+  } else {
+    const float inner = sigma*contact_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3);
+    TRACE("inner " << inner << " " << inner*inner);
+    TRACE("squared_distance " << squared_distance);
+    if (squared_distance < inner*inner) {
+      en = NEAR_INFINITY;
+      TRACE("hard overlap");
+    } else if (!ignore_energy_) {
+      const float cutoff = sigma*cutoff_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3);
+      if (squared_distance < cutoff*cutoff) {
+        const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
+        float z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
+        if (z < 0. && z > -1e-6) {
+          z = 0.;
+        }
+        TRACE("z " << z);
+        if (z <= 1.) {
+          en = epsilon*energy_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3, z);
+        }
       }
     }
   }
@@ -245,6 +272,7 @@ RecursiveTable::RecursiveTable(std::istream& istr) : VisitModelInnerTable(istr) 
   feasst_deserialize_fstobj(&contact1d_, istr);
   feasst_deserialize_fstobj(&cutoff1d_, istr);
   feasst_deserialize_fstobj(&energy2d_, istr);
+  feasst_deserialize(&inner_, istr);
 }
 
 void RecursiveTable::serialize(std::ostream& ostr) const {
@@ -261,6 +289,217 @@ void RecursiveTable::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(contact1d_, ostr);
   feasst_serialize_fstobj(cutoff1d_, ostr);
   feasst_serialize_fstobj(energy2d_, ostr);
+  feasst_serialize(inner_, ostr);
+}
+
+RecursiveTable RecursiveTable::from_file(const std::string& filename) {
+  ASSERT(file_exists(filename), "file:" << filename << " was not found.");
+  std::ifstream file(filename);
+  std::stringstream ss;
+  ss << file.rdbuf();
+  return RecursiveTable(ss);
+}
+
+RecursiveTable RecursiveTable::from_parallel_build(
+    const std::vector<RecursiveTable>& tables) {
+  int ntype = static_cast<int>(tables[0].contact_.size());
+  int dimension;
+  { DEBUG("initialize dimension");
+    if (ntype > 0) {
+      dimension = 5;
+    } else {
+      ntype = static_cast<int>(tables[0].contact1d_.size());
+      if (ntype > 0) {
+        dimension = 1;
+      } else {
+        ntype = static_cast<int>(tables[0].contact2d_.size());
+        if (ntype > 0) {
+          dimension = 2;
+        } else {
+          FATAL("unrecognized tables with sizes contact:" <<
+            tables[0].contact_.size() << " contact1d:" <<
+            tables[0].contact1d_.size() << " contact2d:" <<
+            tables[0].contact2d_.size());
+        }
+      }
+    }
+    DEBUG("dimension " << dimension);
+  }
+
+  bool cutoff = false, energy = false;
+  { DEBUG("initialize cutoff/energy");
+    if ( (tables[0].cutoff_.size() > 0) ||
+         (tables[0].cutoff2d_.size() > 0) ||
+         (tables[0].cutoff1d_.size() > 0) ) {
+      cutoff = true;
+    }
+    if ( (tables[0].energy_.size() > 0) ||
+         (tables[0].energy3d_.size() > 0) ||
+         (tables[0].energy2d_.size() > 0) ) {
+      energy = true;
+    }
+    DEBUG("cutoff? " << cutoff);
+    DEBUG("energy? " << energy);
+  }
+
+  RecursiveTable combined;
+  if (dimension == 5) {
+    combined.contact_.resize(ntype);
+    if (cutoff) {
+      combined.cutoff_.resize(ntype);
+      if (energy) {
+        combined.energy_.resize(ntype);
+      }
+    }
+  } else if (dimension == 2) {
+    combined.contact2d_.resize(ntype);
+    if (cutoff) {
+      combined.cutoff2d_.resize(ntype);
+      if (energy) {
+        combined.energy3d_.resize(ntype);
+      }
+    }
+  } else if (dimension == 1) {
+    combined.contact1d_.resize(ntype);
+    if (cutoff) {
+      combined.cutoff1d_.resize(ntype);
+      if (energy) {
+        combined.energy2d_.resize(ntype);
+      }
+    }
+  } else {
+    FATAL("not implemented");
+  }
+
+  for (int it = 0; it < ntype; ++it) {
+    if (dimension == 5) {
+      combined.contact_[it].resize(ntype);
+      if (cutoff) {
+        combined.cutoff_[it].resize(ntype);
+        if (energy) {
+          combined.energy_[it].resize(ntype);
+        }
+      }
+    } else if (dimension == 2) {
+      combined.contact2d_[it].resize(ntype);
+      if (cutoff) {
+        combined.cutoff2d_[it].resize(ntype);
+        if (energy) {
+          combined.energy3d_[it].resize(ntype);
+        }
+      }
+    } else if (dimension == 1) {
+      combined.contact1d_[it].resize(ntype);
+      if (cutoff) {
+        combined.cutoff1d_[it].resize(ntype);
+        if (energy) {
+          combined.energy2d_[it].resize(ntype);
+        }
+      }
+    } else {
+      FATAL("not implemented");
+    }
+    for (int jt = 0; jt < ntype; ++jt) {
+      if (dimension == 5) {
+        std::vector<const RecursiveTable5D*> contacts;
+        for (auto& table : tables) {
+          contacts.push_back(&(table.contact_[it][jt]));
+        }
+        combined.contact_[it][jt] = combined.contact_[it][jt].combine(contacts);
+        if (cutoff) {
+          std::vector<const RecursiveTable5D*> cutoffs;
+          for (auto& table : tables) {
+            cutoffs.push_back(&(table.cutoff_[it][jt]));
+          }
+          combined.cutoff_[it][jt] = combined.cutoff_[it][jt].combine(cutoffs);
+          if (energy) {
+            std::vector<const RecursiveTable6D*> energys;
+            for (auto& table : tables) {
+              energys.push_back(&(table.energy_[it][jt]));
+            }
+            combined.energy_[it][jt] = combined.energy_[it][jt].combine(energys);
+          }
+        }
+      } else if (dimension == 2) {
+        std::vector<const RecursiveTable2D*> contacts;
+        for (auto& table : tables) {
+          contacts.push_back(&(table.contact2d_[it][jt]));
+        }
+        combined.contact2d_[it][jt] = combined.contact2d_[it][jt].combine(contacts);
+        if (cutoff) {
+          std::vector<const RecursiveTable2D*> cutoffs;
+          for (auto& table : tables) {
+            cutoffs.push_back(&(table.cutoff2d_[it][jt]));
+          }
+          combined.cutoff2d_[it][jt] = combined.cutoff2d_[it][jt].combine(cutoffs);
+          if (energy) {
+            std::vector<const RecursiveTable3D*> energys;
+            for (auto& table : tables) {
+              energys.push_back(&(table.energy3d_[it][jt]));
+            }
+            combined.energy3d_[it][jt] = combined.energy3d_[it][jt].combine(energys);
+          }
+        }
+      } else if (dimension == 1) {
+        std::vector<const RecursiveTable1D*> contacts;
+        for (auto& table : tables) {
+          contacts.push_back(&(table.contact1d_[it][jt]));
+        }
+        combined.contact1d_[it][jt] = combined.contact1d_[it][jt].combine(contacts);
+        if (cutoff) {
+          std::vector<const RecursiveTable1D*> cutoffs;
+          for (auto& table : tables) {
+            cutoffs.push_back(&(table.cutoff1d_[it][jt]));
+          }
+          combined.cutoff1d_[it][jt] = combined.cutoff1d_[it][jt].combine(cutoffs);
+          if (energy) {
+            std::vector<const RecursiveTable2D*> energys;
+            for (auto& table : tables) {
+              energys.push_back(&(table.energy2d_[it][jt]));
+            }
+            combined.energy2d_[it][jt] = combined.energy2d_[it][jt].combine(energys);
+          }
+        }
+      } else {
+        FATAL("not implemented");
+      }
+    }
+  }
+  return combined;
+}
+
+bool RecursiveTable::is_equal(const RecursiveTable& table) const {
+  if (!feasst::is_equal_fstobj(contact_, table.contact_)) {
+    INFO("contact");
+  } else {
+    if (!feasst::is_equal_fstobj(contact1d_, table.contact1d_)) {
+      INFO("contact1d");
+    } else {
+      if (!feasst::is_equal_fstobj(contact2d_, table.contact2d_)) {
+        INFO("contact2d");
+      } else {
+        if (!feasst::is_equal_fstobj(cutoff_, table.cutoff_)) {
+          INFO("cutoff");
+        } else {
+          if (!feasst::is_equal_fstobj(cutoff1d_, table.cutoff1d_)) {
+            INFO("cutoff1d");
+          } else {
+            if (!feasst::is_equal_fstobj(cutoff2d_, table.cutoff2d_)) {
+              INFO("cutoff2d");
+            } else {
+              if (!feasst::is_equal_fstobj(energy_, table.energy_)) {
+                INFO("energy");
+              } else {
+                if (!feasst::is_equal_fstobj(energy2d_, table.energy2d_)) {
+                  INFO("energy2d");
+                } else {
+                  if (!feasst::is_equal_fstobj(energy3d_, table.energy3d_)) {
+                    INFO("energy3d");
+                  } else {
+                    return true;
+  }}}}}}}}}
+  INFO("not equal");
+  return false;
 }
 
 }  // namespace feasst

@@ -9,7 +9,7 @@
    Euler
    Table
    utils_math
-   RecursiveTable1D
+   RTable
    constants
    quadratic_equation
    Formula

@@ -29,6 +29,18 @@ double Table::bin_to_value(const int dim, const int bin) const {
   FATAL("Not Implemented.");
 }
 
+double Table::linear_interpolation(const std::vector<double>& values) const {
+  FATAL("Not Implemented.");
+}
+
+int Table::num() const {
+  FATAL("Not Implemented.");
+}
+
+int Table::dimension() const {
+  FATAL("Not Implemented.");
+}
+
 void Table1D::calc_d_() {
   bin_spacing_ = calc_bin_spacing(num());
 }
@@ -72,7 +84,11 @@ double table_xd_(const double value0, const double d0, const int n0, int * i0, i
       return 1.;
     }
   }
-  ASSERT(xd0 >= 0 && xd0 <= 1, "xd0 " << xd0);
+  if (xd0 < 0 || xd0 > 1) {
+    FATAL("num0 " << n0 << " value0 " << value0 << " i0 " << *i0
+      << " i02 " << *i02 << " v0 " << v0 << " vv0 " << vv0
+      << " d0 " << d0 << " xd0 " << xd0);
+  }
   return xd0;
 }
 
@@ -161,6 +177,34 @@ double Table1D::bin_to_value(const int dim, const int bin) const {
 
 void Table1D::add(const Table1D& table) { feasst::add(table.data_, &data_); }
 
+double Table1D::linear_interpolation(const std::vector<double>& values) const {
+  ASSERT(static_cast<int>(values.size()) == 1, "Error");
+  return linear_interpolation(values[0]);
+}
+
+Table1D Table1D::combine(const std::vector<const Table1D *>& tables) const {
+  Table1D combined = *(tables.front());
+  int tab = 0;
+  const int num = static_cast<int>(tables.size());
+  for (int i0 = 0; i0 < combined.num(); ++i0) {
+    combined.set_data(i0, (*tables[tab]).data()[i0]);
+    ++tab;
+    if (tab >= num) {
+      tab = 0;
+    }
+  }
+  return combined;
+}
+
+bool Table1D::is_equal(const Table1D& table) const {
+  if (feasst::is_equal_fixed_tolerance(data_, table.data_)) {
+    if (feasst::is_equal_fixed_tolerance(bin_spacing_, table.bin_spacing_)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 void Table2D::calc_d_() {
   bin_spacing_ = std::vector<double>({
     calc_bin_spacing(num0()),
@@ -238,6 +282,36 @@ int Table2D::value_to_lowest_bin(const int dim, const double value) const {
 
 
 void Table2D::add(const Table2D& table) { feasst::add(table.data_, &data_); }
+
+double Table2D::linear_interpolation(const std::vector<double>& values) const {
+  ASSERT(static_cast<int>(values.size()) == 2, "Error");
+  return linear_interpolation(values[0], values[1]);
+}
+
+Table2D Table2D::combine(const std::vector<const Table2D *>& tables) const {
+  Table2D combined = *(tables.front());
+  int tab = 0;
+  const int num = static_cast<int>(tables.size());
+  for (int i0 = 0; i0 < combined.num0(); ++i0) {
+    for (int i1 = 0; i1 < combined.num1(); ++i1) {
+      combined.set_data(i0, i1, (*tables[tab]).data()[i0][i1]);
+      ++tab;
+      if (tab >= num) {
+        tab = 0;
+      }
+    }
+  }
+  return combined;
+}
+
+bool Table2D::is_equal(const Table2D& table) const {
+  if (feasst::is_equal_fixed_tolerance(data_, table.data_)) {
+    if (feasst::is_equal_fixed_tolerance(bin_spacing_, table.bin_spacing_)) {
+      return true;
+    }
+  }
+  return false;
+}
 
 void Table3D::calc_d_() {
   bin_spacing_ = std::vector<double>({
@@ -340,6 +414,38 @@ Table3D::Table3D(const std::string file_name) {
   std::string line;
   std::getline(file, line);
   *this = deserialize(line);
+}
+
+double Table3D::linear_interpolation(const std::vector<double>& values) const {
+  ASSERT(static_cast<int>(values.size()) == 3, "Error");
+  return linear_interpolation(values[0], values[1], values[2]);
+}
+
+Table3D Table3D::combine(const std::vector<const Table3D *>& tables) const {
+  Table3D combined = *(tables.front());
+  int tab = 0;
+  const int num = static_cast<int>(tables.size());
+  for (int i0 = 0; i0 < combined.num0(); ++i0) {
+    for (int i1 = 0; i1 < combined.num1(); ++i1) {
+      for (int i2 = 0; i2 < combined.num2(); ++i2) {
+        combined.set_data(i0, i1, i2, (*tables[tab]).data()[i0][i1][i2]);
+        ++tab;
+        if (tab >= num) {
+          tab = 0;
+        }
+      }
+    }
+  }
+  return combined;
+}
+
+bool Table3D::is_equal(const Table3D& table) const {
+  if (feasst::is_equal_fixed_tolerance(data_, table.data_)) {
+    if (feasst::is_equal_fixed_tolerance(bin_spacing_, table.bin_spacing_)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 void Table4D::calc_d_() {
@@ -449,6 +555,40 @@ Table4D::Table4D(const std::string file_name) {
   std::string line;
   std::getline(file, line);
   *this = deserialize(line);
+}
+
+double Table4D::linear_interpolation(const std::vector<double>& values) const {
+  ASSERT(static_cast<int>(values.size()) == 4, "Error");
+  return linear_interpolation(values[0], values[1], values[2], values[3]);
+}
+
+Table4D Table4D::combine(const std::vector<const Table4D *>& tables) const {
+  Table4D combined = *(tables.front());
+  int tab = 0;
+  const int num = static_cast<int>(tables.size());
+  for (int i0 = 0; i0 < combined.num0(); ++i0) {
+    for (int i1 = 0; i1 < combined.num1(); ++i1) {
+      for (int i2 = 0; i2 < combined.num2(); ++i2) {
+        for (int i3 = 0; i3 < combined.num3(); ++i3) {
+          combined.set_data(i0, i1, i2, i3, (*tables[tab]).data()[i0][i1][i2][i3]);
+          ++tab;
+          if (tab >= num) {
+            tab = 0;
+          }
+        }
+      }
+    }
+  }
+  return combined;
+}
+
+bool Table4D::is_equal(const Table4D& table) const {
+  if (feasst::is_equal_fixed_tolerance(data_, table.data_)) {
+    if (feasst::is_equal_fixed_tolerance(bin_spacing_, table.bin_spacing_)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 void Table5D::calc_d_() {
@@ -613,6 +753,42 @@ Table5D::Table5D(const std::string file_name) {
   std::string line;
   std::getline(file, line);
   *this = deserialize(line);
+}
+
+Table5D Table5D::combine(const std::vector<const Table5D *>& tables) const {
+  Table5D combined = *(tables.front());
+  int tab = 0;
+  const int num = static_cast<int>(tables.size());
+  for (int i0 = 0; i0 < combined.num0(); ++i0) {
+    for (int i1 = 0; i1 < combined.num1(); ++i1) {
+      for (int i2 = 0; i2 < combined.num2(); ++i2) {
+        for (int i3 = 0; i3 < combined.num3(); ++i3) {
+          for (int i4 = 0; i4 < combined.num4(); ++i4) {
+            combined.set_data(i0, i1, i2, i3, i4, (*tables[tab]).data()[i0][i1][i2][i3][i4]);
+            ++tab;
+            if (tab >= num) {
+              tab = 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  return combined;
+}
+
+bool Table5D::is_equal(const Table5D& table) const {
+  if (feasst::is_equal_fixed_tolerance(data_, table.data_)) {
+    if (feasst::is_equal_fixed_tolerance(bin_spacing_, table.bin_spacing_)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+double Table5D::linear_interpolation(const std::vector<double>& values) const {
+  ASSERT(static_cast<int>(values.size()) == 5, "Error");
+  return linear_interpolation(values[0], values[1], values[2], values[3], values[4]);
 }
 
 void Table6D::calc_d_() {
@@ -836,6 +1012,49 @@ int Table6D::value_to_lowest_bin(const int dim, const double value) const {
 }
 
 void Table6D::add(const Table6D& table) { feasst::add(table.data_, &data_); }
+
+double Table6D::linear_interpolation(const std::vector<double>& values) const {
+  ASSERT(static_cast<int>(values.size()) == 6, "Error");
+  return linear_interpolation(values[0], values[1], values[2], values[3],
+                              values[4], values[5]);
+}
+
+Table6D Table6D::combine(const std::vector<const Table6D *>& tables) const {
+  Table6D combined = *(tables.front());
+  int tab = 0;
+  const int num = static_cast<int>(tables.size());
+  for (int i0 = 0; i0 < combined.num0(); ++i0) {
+    for (int i1 = 0; i1 < combined.num1(); ++i1) {
+      for (int i2 = 0; i2 < combined.num2(); ++i2) {
+        for (int i3 = 0; i3 < combined.num3(); ++i3) {
+          for (int i4 = 0; i4 < combined.num4(); ++i4) {
+            for (int i5 = 0; i5 < combined.num5(); ++i5) {
+              combined.set_data(i0, i1, i2, i3, i4, i5, (*tables[tab]).data()[i0][i1][i2][i3][i4][i5]);
+              ++tab;
+              if (tab >= num) {
+                tab = 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return combined;
+}
+
+bool Table6D::is_equal(const Table6D& table) const {
+  if (!feasst::is_equal_fixed_tolerance(data_, table.data_)) {
+    INFO("data unequal");
+  } else {
+    if (feasst::is_equal_fixed_tolerance(bin_spacing_, table.bin_spacing_)) {
+      return true;
+    } else {
+      INFO("bin spacing unequal");
+    }
+  }
+  return false;
+}
 
 void Table6D::write(const std::string file_name) const {
   std::ofstream file(file_name);

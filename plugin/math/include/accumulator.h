@@ -38,6 +38,8 @@ class Accumulator {
     args:
     - num_moments: maximum number of moments (default: 5).
     - max_block_operations: maximum number of blocking operations (default: 6).
+    - block_file: If not empty (default empty), output the block standard
+      deviation as a function of block sizes.
    */
   explicit Accumulator(argtype args = argtype());
   explicit Accumulator(argtype * args);
@@ -174,6 +176,7 @@ class Accumulator {
   double max_, min_;
   double last_value_;
   std::vector<long double> val_moment_;
+  std::string block_file_;
 
   // block averaging variables
   int block_power_ = 2;

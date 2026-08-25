@@ -21,7 +21,7 @@ dist/
 *.log
 *.out
 *.bak
-*.txt
+*.txt*
 *.vmd
 *.xyz
 *.xyze

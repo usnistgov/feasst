@@ -13,34 +13,59 @@
 
 namespace feasst {
 
-/// Return string representation of vector
+/// Used to print recursively below, such as with a pair or vector
+std::string feasst_str(const double& value,
+  const bool max_precision = false);
+
+std::string feasst_str(const int& value,
+  const bool max_precision = false);
+
+std::string feasst_str(const std::string& value,
+  const bool max_precision = false);
+
+//template<class T>
+//std::string feasst_str(const std::vector<std::vector<T> >& vec,
+//  const bool max_precision = false) {
+//  std::stringstream ss;
+//  for (unsigned int i = 0; i < vec.size(); ++i) {
+//    ss << feasst_str(vec[i], max_precision) << std::endl;
+//  }
+//  return ss.str();
+//}
 template<class T>
-std::string feasst_str(const std::vector<T> &vec,
-  const bool max_precision = false) {
-  std::stringstream ss;
-  if (max_precision) ss << MAX_PRECISION;
-  for (int i = 0; i < static_cast<int>(vec.size()); ++i) {
-    ss << vec[i];
-    if (i != static_cast<int>(vec.size()-1)) ss << ",";
-  }
-  return ss.str();
-}
-template<class T>
-std::string feasst_str(const std::vector<std::vector<T> > &vec,
-  const bool max_precision = false) {
-  std::stringstream ss;
-  for (unsigned int i = 0; i < vec.size(); ++i) {
-    ss << feasst_str(vec[i], max_precision) << std::endl;
-  }
-  return ss.str();
-}
-template<class T>
-std::string feasst_str(const std::deque<T> &deq,
+std::string feasst_str(const std::deque<T>& deq,
   const bool max_precision = false) {
   std::stringstream ss;
   if (max_precision) ss << MAX_PRECISION;
   for (unsigned int i = 0; i < deq.size(); ++i) {
-    ss << deq[i] << ",";
+    ss << feasst_str(deq[i], max_precision) << ",";
+  }
+  return ss.str();
+}
+
+/// Return string representation of vector
+std::string feasst_str(const std::vector<int>& vec,
+  const bool max_precision = false);
+
+template<class T1, class T2>
+std::string feasst_str(const std::pair<T1, T2>& pair,
+  const bool max_precision = false) {
+  std::stringstream ss;
+  if (max_precision) ss << MAX_PRECISION;
+  ss << "<" << feasst_str(pair.first, max_precision) << ","
+     << feasst_str(pair.second, max_precision) << ">";
+  return ss.str();
+}
+
+/// Return string representation of vector
+template<class T>
+std::string feasst_str(const std::vector<T>& vec,
+  const bool max_precision = false) {
+  std::stringstream ss;
+  if (max_precision) ss << MAX_PRECISION;
+  for (int i = 0; i < static_cast<int>(vec.size()); ++i) {
+    ss << feasst_str(vec[i], max_precision);
+    if (i != static_cast<int>(vec.size()-1)) ss << ",";
   }
   return ss.str();
 }

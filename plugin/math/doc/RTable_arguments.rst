@@ -1,5 +1,10 @@
-RecursiveTable1D
+RTable
 =====================================================
+
+.. doxygenclass:: feasst::RTable
+   :project: FEASST
+   :members:
+   :membergroups: Arguments
 
 .. doxygenclass:: feasst::RecursiveTable1D
    :project: FEASST

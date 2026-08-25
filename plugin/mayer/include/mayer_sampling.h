@@ -121,6 +121,7 @@ class MayerSampling : public Criteria {
   Accumulator mayer_ref_;
   int intra_pot_;
   std::vector<Accumulator> beta_taylor_;
+  double mayer_factor_;
 
   // for training output
   std::string training_file_;

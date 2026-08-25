@@ -77,6 +77,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "Action": [
@@ -84,6 +90,11 @@
       "ActionExample",
       "ActionExample",
       "Add an action to FEASST by using this file as a template and instruction set. Follow the same steps detailed in /feasst/plugin/example/README.rst. In summary, copy action_example.[h/cpp] to new_name.[h/cpp], replace ActionExample with NewName, then replace ACTION_EXAMPLE with NEW_NAME.\n\nAn Action is serializable, meaning that a restarted simulation will still complete the action in the order specified in the text file. Unlike Stepper/Analyze/Modify, Action happens only once per instance.\n\nIn this example, an Analyze/Modify of given name is forced to write to file. This is convenient for example printing the very last update to FlatHistogram. This is a duplicate of WriteStepper class. "
+    ],
+    [
+      "CombineParallelFiles",
+      "CombineParallelFiles",
+      "This class is in active development and not recommended for general users. This class is used to parallelize BuildRecursiveTable. "
     ],
     [
       "EnergyGrid",
@@ -123,12 +134,17 @@
     [
       "TabulateTwoRigidBody3D",
       "TabulateTwoRigidBody3D",
-      "Generate a table of interactions between two rigid bodies in 3D. This class is currently in development and not well supported.\n\nContact distances are determined by RefPotential. This is typically a HardSphere potential with an optimzied VisitModelCell. "
+      "Generate a table of interactions between two rigid bodies in 3D. This class is currently in development and not well supported. Contact distances are determined by RefPotential. This is typically a HardSphere potential with an optimzied VisitModelCell. "
     ],
     [
       "TwoParticleContact",
       "TwoParticleContact",
       "Generate the contact distance between two particles. The current implementation assumes these are hard particles. Thus, the energy can only be zero or NEAR_INFINITY. "
+    ],
+    [
+      "Wait",
+      "Wait",
+      "Perform a number of trials. "
     ],
     [
       "WriteCheckpoint",
@@ -486,6 +502,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "AnalyzeCluster": [],
@@ -589,6 +611,12 @@
       "max_block_operations",
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
+      ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
       ""
     ]
   ],
@@ -879,6 +907,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "Cache": [],
@@ -1096,6 +1130,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "CheckPhysicality": [],
@@ -1214,6 +1254,12 @@
       "max_block_operations",
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
+      ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
       ""
     ]
   ],
@@ -1376,6 +1422,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "Clones": [],
@@ -1453,6 +1505,45 @@
       "exp_for_boost",
       "CollectionMatrix__optional__",
       "ratio of neighboring probabilities must be within 10^exp or 10^-exp for boosting. If -1, ignore (default: 2). ",
+      ""
+    ]
+  ],
+  "CombineParallelFiles": [
+    [
+      "type",
+      "CombineParallelFiles",
+      "type of file, which can be recursive_table or trained. ",
+      ""
+    ],
+    [
+      "input_prefix",
+      "CombineParallelFiles",
+      "The beginning of the input file names for the multiple files to combine into one, before the processor index. The combined file is output as the input prefix and suffix without processor index. ",
+      ""
+    ],
+    [
+      "num_processors",
+      "CombineParallelFiles",
+      "number of processors. ",
+      ""
+    ]
+  ],
+  "CombineParallelFiles__optional__": [
+    [
+      "[Finish \"CombineParallelFiles\"]",
+      "CombineParallelFiles__optional__",
+      "Selecting this option will finish adding parameters for the class listed above."
+    ],
+    [
+      "input_suffix",
+      "CombineParallelFiles__optional__",
+      "The end of the input file after the processor index (default: empty). ",
+      ""
+    ],
+    [
+      "cleanup",
+      "CombineParallelFiles__optional__",
+      "If true (default), remove input files after combining. ",
       ""
     ]
   ],
@@ -1933,6 +2024,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "CriteriaWriter": [],
@@ -2036,6 +2133,12 @@
       "max_block_operations",
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
+      ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
       ""
     ]
   ],
@@ -2283,6 +2386,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "DihedralHarmonic": [],
@@ -2515,6 +2624,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "Energy": [],
@@ -2725,6 +2840,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "Euler": [],
@@ -2905,6 +3026,12 @@
       "max_block_operations",
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
+      ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
       ""
     ]
   ],
@@ -3322,6 +3449,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "GhostTrialVolume": [],
@@ -3575,6 +3708,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "HenryCoefficient": [],
@@ -3690,6 +3829,12 @@
       "max_block_operations",
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
+      ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
       ""
     ]
   ],
@@ -3991,6 +4136,12 @@
       "max_block_operations",
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
+      ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
       ""
     ]
   ],
@@ -5279,6 +5430,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "MovieSpherocylinder": [
@@ -5408,6 +5565,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "Movie__optional__": [
@@ -5531,6 +5694,12 @@
       ""
     ],
     [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
+    ],
+    [
       "min_sigma",
       "FileVMD__optional__",
       "minimum sigma for printing radius in VMD (default: 0.1). ",
@@ -5577,7 +5746,7 @@
     [
       "site_type0",
       "NeighborCriteria__optional__",
-      "consider only interactions between a specific site type. If -1, consider all sites (default: -1). Otherwise, site_type1 must also be included. ",
+      "consider only interactions between a specific site type. If -1, consider all sites (default: -1). Otherwise, site_type1 must also be included. May use comma-separated values for multiple types. ",
       ""
     ],
     [
@@ -5700,6 +5869,12 @@
       "max_block_operations",
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
+      ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
       ""
     ]
   ],
@@ -6398,6 +6573,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "ProgressReport": [],
@@ -6556,6 +6737,12 @@
       "max_block_operations",
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
+      ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
       ""
     ]
   ],
@@ -6728,6 +6915,12 @@
       "max_block_operations",
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
+      ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
       ""
     ]
   ],
@@ -7001,6 +7194,12 @@
       "hard_limit_u",
       "Rotator__optional__",
       "potential energy that is considered contact. A user may set to positive values. By default, it is set to 1e10, which uses an objective function specificly for the HardSphere Potential. ",
+      ""
+    ],
+    [
+      "assume_all_unique",
+      "Rotator__optional__",
+      "if true, do not search for uniqueness (default: false). ",
       ""
     ]
   ],
@@ -7946,6 +8145,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "SpecificVolume": [],
@@ -8049,6 +8254,12 @@
       "max_block_operations",
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
+      ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
       ""
     ]
   ],
@@ -8197,6 +8408,12 @@
       "max_block_operations",
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
+      ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
       ""
     ]
   ],
@@ -8403,6 +8620,12 @@
       "hard_limit_u",
       "Rotator__optional__",
       "potential energy that is considered contact. A user may set to positive values. By default, it is set to 1e10, which uses an objective function specificly for the HardSphere Potential. ",
+      ""
+    ],
+    [
+      "assume_all_unique",
+      "Rotator__optional__",
+      "if true, do not search for uniqueness (default: false). ",
       ""
     ]
   ],
@@ -11741,6 +11964,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "TwoBodyAlpha": [],
@@ -12198,6 +12427,12 @@
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
       ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
+      ""
     ]
   ],
   "WLTM": [
@@ -12302,6 +12537,27 @@
       "exp_for_boost",
       "CollectionMatrix__optional__",
       "ratio of neighboring probabilities must be within 10^exp or 10^-exp for boosting. If -1, ignore (default: 2). ",
+      ""
+    ]
+  ],
+  "Wait": [
+    [
+      "until_file_exists",
+      "Wait",
+      "wait until the given file name exists. If multiple files are required, then use the following syntax: \"prefix[number]suffix\" where number is the number of files and [number] is replaced with the interger indices of [0, number-1] in increments of one. ",
+      ""
+    ]
+  ],
+  "Wait__optional__": [
+    [
+      "[Finish \"Wait\"]",
+      "Wait__optional__",
+      "Selecting this option will finish adding parameters for the class listed above."
+    ],
+    [
+      "seconds_per_check",
+      "Wait__optional__",
+      "wait this many seconds before checking (default: 5). ",
       ""
     ]
   ],
@@ -12413,6 +12669,12 @@
       "max_block_operations",
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
+      ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
       ""
     ]
   ],
@@ -12713,6 +12975,12 @@
       "max_block_operations",
       "Accumulator__optional__",
       "maximum number of blocking operations (default: 6). ",
+      ""
+    ],
+    [
+      "block_file",
+      "Accumulator__optional__",
+      "If not empty (default empty), output the block standard deviation as a function of block sizes. ",
       ""
     ]
   ],
@@ -13065,6 +13333,7 @@
     ],
     "Action": [
       "ActionExample",
+      "CombineParallelFiles",
       "EnergyGrid",
       "Listen",
       "OptPotential",
@@ -13074,6 +13343,7 @@
       "Run",
       "TabulateTwoRigidBody3D",
       "TwoParticleContact",
+      "Wait",
       "WriteCheckpoint",
       "WriteFileAndCheck",
       "WriteModelParams",
@@ -13395,7 +13665,7 @@
       "plugin/charge/particle/tip4p.txt"
     ],
     "hard_sphere.txt": [
-      "# FEASST particle file (https://doi.org/10.18434/M3S095)\n\nSite Types\n\nH sigma=1 epsilon=1 cutoff=1\n\nSites\n\n0 H 0.0 0.0 0.0\n",
+      "# FEASST particle file (https://doi.org/10.18434/M3S095)\n\nSite Types\n\nH sigma=1 epsilon=1 cutoff=1\n\nSites\n\nH1 H 0.0 0.0 0.0\n",
       "particle/hard_sphere.txt"
     ],
     "dimer_mie_CO2.txt": [
@@ -13735,7 +14005,7 @@
     [
       "hard_sphere.txt",
       "particles_select1",
-      "# This file is located in /feasst/particle/hard_sphere.txt\n# FEASST particle file (https://doi.org/10.18434/M3S095)\n\nSite Types\n\nH sigma=1 epsilon=1 cutoff=1\n\nSites\n\n0 H 0.0 0.0 0.0\n",
+      "# This file is located in /feasst/particle/hard_sphere.txt\n# FEASST particle file (https://doi.org/10.18434/M3S095)\n\nSite Types\n\nH sigma=1 epsilon=1 cutoff=1\n\nSites\n\nH1 H 0.0 0.0 0.0\n",
       "particle/hard_sphere.txt"
     ],
     [
@@ -14240,7 +14510,7 @@
     [
       "hard_sphere.txt",
       "particles_select1",
-      "# This file is located in /feasst/particle/hard_sphere.txt\n# FEASST particle file (https://doi.org/10.18434/M3S095)\n\nSite Types\n\nH sigma=1 epsilon=1 cutoff=1\n\nSites\n\n0 H 0.0 0.0 0.0\n",
+      "# This file is located in /feasst/particle/hard_sphere.txt\n# FEASST particle file (https://doi.org/10.18434/M3S095)\n\nSite Types\n\nH sigma=1 epsilon=1 cutoff=1\n\nSites\n\nH1 H 0.0 0.0 0.0\n",
       "particle/hard_sphere.txt"
     ],
     [
