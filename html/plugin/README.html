@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>C++ Interface &mdash; FEASST 0.25.19 0.25.19 documentation</title>
+  <title>C++ Interface &mdash; FEASST 0.25.20 0.25.20 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=f272d2f9"></script>
+      <script src="../_static/documentation_options.js?v=d8c91523"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -29,7 +29,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Threads" href="threads/README.html" />
-    <link rel="prev" title="Particle files and units" href="../particle/README.html" />
+    <link rel="prev" title="physical_constants" href="../docs/source/physical_constants.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -53,7 +53,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            FEASST 0.25.19
+            FEASST 0.25.20
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -61,6 +61,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text_interface.html">Text Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../particle/README.html">Particle files and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example/README.html">Modify FEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README_python.html">Python Interface</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">C++ Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="utils/README.html">Utilities</a></li>
@@ -93,10 +95,9 @@
 <li class="toctree-l2"><a class="reference internal" href="fftw/README.html">FFTW</a></li>
 <li class="toctree-l2"><a class="reference internal" href="netcdf/README.html">NetCDF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mpi/README.html">MPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rxvb/README.html">Reaction Volume Bias</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="example/README.html">Modify FEASST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../README_python.html">Python Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/sphinx/CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/sphinx/ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
@@ -109,7 +110,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">FEASST 0.25.19</a>
+          <a href="../index.html">FEASST 0.25.20</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -179,8 +180,9 @@
 <p>An example usage of the C++ interface is shown in $HOME/feasst/tutorial/tutorial.cpp and compiled in BASH as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compile FEASST normally, ending with the command: make install.</span>
 <span class="c1"># Set CMAKE_PREFIX_PATH in $HOME/feasst/tutorial/CMakeLists.txt</span>
+<span class="c1">#  to your python environment (e.g., /path/to/feasst)</span>
 <span class="c1"># cd /path/to/feasst/tutorial/</span>
-mkdir<span class="w"> </span>build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="p">&amp;</span>_
+mkdir<span class="w"> </span>build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
 cmake<span class="w"> </span>..
 make
 ./tutorial
@@ -261,6 +263,9 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l4"><a class="reference internal" href="utils/doc/file.html#_CPPv4N6feasst6feasst4findEKNSt6stringERNSt8ifstreamE"><code class="docutils literal notranslate"><span class="pre">feasst::find()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils/doc/file.html#_CPPv4N6feasst6feasst11file_existsERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">feasst::file_exists()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils/doc/file.html#_CPPv4N6feasst6feasst11file_backupERKNSt6stringEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">feasst::file_backup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/file.html#_CPPv4N6feasst6feasst9num_linesERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">feasst::num_lines()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/file.html#_CPPv4N6feasst6feasst13compare_filesERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">feasst::compare_files()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/file.html#_CPPv4N6feasst6feasst11remove_fileERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">feasst::remove_file()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -311,9 +316,10 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l2"><a class="reference internal" href="utils/doc/utils.html">utils/include/utils</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utils/doc/utils.html#_CPPv46feasst"><code class="docutils literal notranslate"><span class="pre">feasst</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I0EN6feasst6feasst12find_in_listEbK1TRKNSt6vectorI1TEEPi"><code class="docutils literal notranslate"><span class="pre">feasst::find_in_list()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I0EN6feasst6feasst12find_in_listEbK1TRKNSt6vectorI1TEE"><code class="docutils literal notranslate"><span class="pre">feasst::find_in_list()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I00EN6feasst6feasst12find_in_listEbK2T1RKNSt6vectorINSt4pairI2T12T2EEEEPi"><code class="docutils literal notranslate"><span class="pre">feasst::find_in_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I0EN6feasst6feasst12find_in_listEbRK1TRKNSt6vectorI1TEEPi"><code class="docutils literal notranslate"><span class="pre">feasst::find_in_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I0EN6feasst6feasst12find_in_listEbRK1TRKNSt6vectorI1TEE"><code class="docutils literal notranslate"><span class="pre">feasst::find_in_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I00EN6feasst6feasst12find_in_listEbRK2T1RKNSt6vectorINSt4pairI2T12T2EEEEPi"><code class="docutils literal notranslate"><span class="pre">feasst::find_in_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I00EN6feasst6feasst12find_in_listEbRK2T1RKNSt6vectorINSt4pairI2T12T2EEEE"><code class="docutils literal notranslate"><span class="pre">feasst::find_in_list()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I0EN6feasst6feasst6resizeEvKiKiPNSt6vectorINSt6vectorI1TEEEE"><code class="docutils literal notranslate"><span class="pre">feasst::resize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE"><code class="docutils literal notranslate"><span class="pre">feasst::resize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiKiPNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE"><code class="docutils literal notranslate"><span class="pre">feasst::resize()</span></code></a></li>
@@ -329,6 +335,11 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I00EN6feasst6feasst8is_equalEbRKNSt4pairI2T1NSt6vectorI2T2EEEERKNSt4pairI2T1NSt6vectorI2T2EEEEKd"><code class="docutils literal notranslate"><span class="pre">feasst::is_equal()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I00EN6feasst6feasst8is_equalEbRKNSt4pairI2T12T2EERKNSt4pairI2T12T2EEKd"><code class="docutils literal notranslate"><span class="pre">feasst::is_equal()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I0EN6feasst6feasst8is_equalEbRKNSt6vectorI1TEERKNSt6vectorI1TEEKd"><code class="docutils literal notranslate"><span class="pre">feasst::is_equal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4N6feasst6feasst24is_equal_fixed_toleranceEKfKf"><code class="docutils literal notranslate"><span class="pre">feasst::is_equal_fixed_tolerance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I0EN6feasst6feasst24is_equal_fixed_toleranceEbRKNSt6vectorI1TEERKNSt6vectorI1TEE"><code class="docutils literal notranslate"><span class="pre">feasst::is_equal_fixed_tolerance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I0EN6feasst6feasst15is_equal_fstobjEbNSt10shared_ptrI1TEENSt10shared_ptrI1TEE"><code class="docutils literal notranslate"><span class="pre">feasst::is_equal_fstobj()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I0EN6feasst6feasst15is_equal_fstobjEbRK1TRK1T"><code class="docutils literal notranslate"><span class="pre">feasst::is_equal_fstobj()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/utils.html#_CPPv4I0EN6feasst6feasst15is_equal_fstobjEbRKNSt6vectorI1TEERKNSt6vectorI1TEE"><code class="docutils literal notranslate"><span class="pre">feasst::is_equal_fstobj()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -400,9 +411,13 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l2"><a class="reference internal" href="utils/doc/io.html">utils/include/io</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utils/doc/io.html#_CPPv46feasst"><code class="docutils literal notranslate"><span class="pre">feasst</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="utils/doc/io.html#_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt6vectorI1TEEKb"><code class="docutils literal notranslate"><span class="pre">feasst::feasst_str()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="utils/doc/io.html#_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt6vectorINSt6vectorI1TEEEEKb"><code class="docutils literal notranslate"><span class="pre">feasst::feasst_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/io.html#_CPPv4N6feasst6feasst10feasst_strERKdKb"><code class="docutils literal notranslate"><span class="pre">feasst::feasst_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/io.html#_CPPv4N6feasst6feasst10feasst_strERKiKb"><code class="docutils literal notranslate"><span class="pre">feasst::feasst_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/io.html#_CPPv4N6feasst6feasst10feasst_strERKNSt6stringEKb"><code class="docutils literal notranslate"><span class="pre">feasst::feasst_str()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils/doc/io.html#_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt5dequeI1TEEKb"><code class="docutils literal notranslate"><span class="pre">feasst::feasst_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/io.html#_CPPv4N6feasst6feasst10feasst_strERKNSt6vectorIiEEKb"><code class="docutils literal notranslate"><span class="pre">feasst::feasst_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/io.html#_CPPv4I00EN6feasst6feasst10feasst_strENSt6stringERKNSt4pairI2T12T2EEKb"><code class="docutils literal notranslate"><span class="pre">feasst::feasst_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/doc/io.html#_CPPv4I0EN6feasst6feasst10feasst_strENSt6stringERKNSt6vectorI1TEEKb"><code class="docutils literal notranslate"><span class="pre">feasst::feasst_str()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils/doc/io.html#_CPPv4N6feasst6feasst3strERKNSt3mapINSt6stringENSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">feasst::str()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils/doc/io.html#_CPPv4N6feasst6feasst5splitERKNSt6stringEKc"><code class="docutils literal notranslate"><span class="pre">feasst::split()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils/doc/io.html#_CPPv4N6feasst6feasst4trimEPKcPKci"><code class="docutils literal notranslate"><span class="pre">feasst::trim()</span></code></a></li>
@@ -694,12 +709,17 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst5Table7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst5Table7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst5Table16calc_bin_spacingEKi"><code class="docutils literal notranslate"><span class="pre">calc_bin_spacing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst5Table9dimensionEv"><code class="docutils literal notranslate"><span class="pre">dimension()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst5Table3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst5Table19value_to_lowest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_lowest_bin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst5Table12bin_to_valueEKiKi"><code class="docutils literal notranslate"><span class="pre">bin_to_value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst5Table20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst5Table5writeEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table1DE"><code class="docutils literal notranslate"><span class="pre">Table1D</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table1D7Table1DE7argtype"><code class="docutils literal notranslate"><span class="pre">Table1D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D9dimensionEv"><code class="docutils literal notranslate"><span class="pre">dimension()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D11bin_spacingEv"><code class="docutils literal notranslate"><span class="pre">bin_spacing()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D9bin_valueEKi"><code class="docutils literal notranslate"><span class="pre">bin_value()</span></code></a></li>
@@ -708,30 +728,40 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D16value_lowest_binEKd"><code class="docutils literal notranslate"><span class="pre">value_lowest_bin()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D12bin_to_valueEKiKi"><code class="docutils literal notranslate"><span class="pre">bin_to_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table1D8set_dataEKiKd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table1D8set_dataERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D4dataEKi"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table1D3addERK7Table1D"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D20linear_interpolationEKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D32forward_difference_interpolationEKd"><code class="docutils literal notranslate"><span class="pre">forward_difference_interpolation()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D7combineERKNSt6vectorIPK7Table1DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table1D8is_equalERK7Table1D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table2DE"><code class="docutils literal notranslate"><span class="pre">Table2D</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table2D7Table2DE7argtype"><code class="docutils literal notranslate"><span class="pre">Table2D()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D4num0Ev"><code class="docutils literal notranslate"><span class="pre">num0()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D4num1Ev"><code class="docutils literal notranslate"><span class="pre">num1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D9dimensionEv"><code class="docutils literal notranslate"><span class="pre">dimension()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D3numEKi"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D11bin_spacingEKi"><code class="docutils literal notranslate"><span class="pre">bin_spacing()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D12bin_to_valueEKiKi"><code class="docutils literal notranslate"><span class="pre">bin_to_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D20value_to_nearest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_nearest_bin()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D19value_to_lowest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_lowest_bin()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table2D8set_dataEKiKiKd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table2D8set_dataERK5fvec2"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table2D3addERK7Table2D"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D20linear_interpolationEKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D7combineERKNSt6vectorIPK7Table2DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table2D8is_equalERK7Table2D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table3DE"><code class="docutils literal notranslate"><span class="pre">Table3D</span></code></a><ul>
@@ -740,18 +770,24 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D4num1Ev"><code class="docutils literal notranslate"><span class="pre">num1()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D4num2Ev"><code class="docutils literal notranslate"><span class="pre">num2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D3numEKi"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D9dimensionEv"><code class="docutils literal notranslate"><span class="pre">dimension()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D11bin_spacingEKi"><code class="docutils literal notranslate"><span class="pre">bin_spacing()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D12bin_to_valueEKiKi"><code class="docutils literal notranslate"><span class="pre">bin_to_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D20value_to_nearest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_nearest_bin()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D19value_to_lowest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_lowest_bin()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table3D8set_dataEKiKiKiKd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table3D8set_dataERK5fvec3"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table3D3addERK7Table3D"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D20linear_interpolationEKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D7combineERKNSt6vectorIPK7Table3DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D5writeEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table3D7Table3DEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Table3D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table3D8is_equalERK7Table3D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table4DE"><code class="docutils literal notranslate"><span class="pre">Table4D</span></code></a><ul>
@@ -761,17 +797,23 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D4num2Ev"><code class="docutils literal notranslate"><span class="pre">num2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D4num3Ev"><code class="docutils literal notranslate"><span class="pre">num3()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D3numEKi"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D9dimensionEv"><code class="docutils literal notranslate"><span class="pre">dimension()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D11bin_spacingEKi"><code class="docutils literal notranslate"><span class="pre">bin_spacing()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D12bin_to_valueEKiKi"><code class="docutils literal notranslate"><span class="pre">bin_to_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D20value_to_nearest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_nearest_bin()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table4D8set_dataEKiKiKiKiKd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table4D8set_dataERK5fvec4"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table4D3addERK7Table4D"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D20linear_interpolationEKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D7combineERKNSt6vectorIPK7Table4DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D5writeEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table4D7Table4DEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Table4D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table4D8is_equalERK7Table4D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table5DE"><code class="docutils literal notranslate"><span class="pre">Table5D</span></code></a><ul>
@@ -782,18 +824,24 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D4num3Ev"><code class="docutils literal notranslate"><span class="pre">num3()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D4num4Ev"><code class="docutils literal notranslate"><span class="pre">num4()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D3numEKi"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D9dimensionEv"><code class="docutils literal notranslate"><span class="pre">dimension()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D11bin_spacingEKi"><code class="docutils literal notranslate"><span class="pre">bin_spacing()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D12bin_to_valueEKiKi"><code class="docutils literal notranslate"><span class="pre">bin_to_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D20value_to_nearest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_nearest_bin()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D19value_to_lowest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_lowest_bin()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table5D8set_dataEKiKiKiKiKiKd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table5D8set_dataERK5fvec5"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table5D3addERK7Table5D"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D20linear_interpolationEKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D5writeEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table5D7Table5DEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Table5D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D7combineERKNSt6vectorIPK7Table5DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table5D8is_equalERK7Table5D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table6DE"><code class="docutils literal notranslate"><span class="pre">Table6D</span></code></a><ul>
@@ -805,18 +853,24 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D4num4Ev"><code class="docutils literal notranslate"><span class="pre">num4()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D4num5Ev"><code class="docutils literal notranslate"><span class="pre">num5()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D3numEKi"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D9dimensionEv"><code class="docutils literal notranslate"><span class="pre">dimension()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D11bin_spacingEKi"><code class="docutils literal notranslate"><span class="pre">bin_spacing()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D12bin_to_valueEKiKi"><code class="docutils literal notranslate"><span class="pre">bin_to_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D20value_to_nearest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_nearest_bin()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D19value_to_lowest_binEKiKd"><code class="docutils literal notranslate"><span class="pre">value_to_lowest_bin()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table6D8set_dataEKiKiKiKiKiKiKd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table6D8set_dataERK5fvec6"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table6D3addERK7Table6D"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D20linear_interpolationEKdKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D5writeEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4N6feasst7Table6D7Table6DEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Table6D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D7combineERKNSt6vectorIPK7Table6DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/Table.html#_CPPv4NK6feasst7Table6D8is_equalERK7Table6D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -867,38 +921,60 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="math/doc/RecursiveTable1D.html">RecursiveTable1D</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable1DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable1D</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable1D16RecursiveTable1DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable1D()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable1D6insertEKiRK16RecursiveTable1D"><code class="docutils literal notranslate"><span class="pre">insert()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable1D14percent_nestedEv"><code class="docutils literal notranslate"><span class="pre">percent_nested()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable1D20linear_interpolationEKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable1D32forward_difference_interpolationEKd"><code class="docutils literal notranslate"><span class="pre">forward_difference_interpolation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="math/doc/RTable.html">RTable</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst6RTableE"><code class="docutils literal notranslate"><span class="pre">RTable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable1DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable1D</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable1D16RecursiveTable1DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable1D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable1D6insertEKiRK6RTable"><code class="docutils literal notranslate"><span class="pre">insert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable1D6insertERKNSt6vectorIiEERK6RTable"><code class="docutils literal notranslate"><span class="pre">insert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable1D14percent_nestedEv"><code class="docutils literal notranslate"><span class="pre">percent_nested()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable1D20linear_interpolationEKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable1D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable1D32forward_difference_interpolationEKd"><code class="docutils literal notranslate"><span class="pre">forward_difference_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable1D7combineERKNSt6vectorIPK16RecursiveTable1DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable1D8is_equalERK16RecursiveTable1D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable2DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable2D</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable2D16RecursiveTable2DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable2D()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable2D20linear_interpolationEKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable2D8num_dataEv"><code class="docutils literal notranslate"><span class="pre">num_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable2D14percent_nestedEv"><code class="docutils literal notranslate"><span class="pre">percent_nested()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable2DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable2D</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable2D16RecursiveTable2DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable2D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable2D6insertERKNSt6vectorIiEERK6RTable"><code class="docutils literal notranslate"><span class="pre">insert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable2D20linear_interpolationEKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable2D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable2D7combineERKNSt6vectorIPK16RecursiveTable2DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable2D8num_dataEv"><code class="docutils literal notranslate"><span class="pre">num_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable2D14percent_nestedEv"><code class="docutils literal notranslate"><span class="pre">percent_nested()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable2D8is_equalERK16RecursiveTable2D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable3DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable3D</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable3D16RecursiveTable3DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable3D()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable3D14percent_nestedEv"><code class="docutils literal notranslate"><span class="pre">percent_nested()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable3D20linear_interpolationEKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable3DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable3D</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable3D16RecursiveTable3DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable3D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable3D6insertERKNSt6vectorIiEERK6RTable"><code class="docutils literal notranslate"><span class="pre">insert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable3D14percent_nestedEv"><code class="docutils literal notranslate"><span class="pre">percent_nested()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable3D20linear_interpolationEKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable3D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable3D7combineERKNSt6vectorIPK16RecursiveTable3DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable3D8is_equalERK16RecursiveTable3D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable5DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable5D</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable5D16RecursiveTable5DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable5D()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable5D14percent_nestedEv"><code class="docutils literal notranslate"><span class="pre">percent_nested()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable5D20linear_interpolationEKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable5DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable5D</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable5D16RecursiveTable5DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable5D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable5D6insertERKNSt6vectorIiEERK6RTable"><code class="docutils literal notranslate"><span class="pre">insert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable5D14percent_nestedEv"><code class="docutils literal notranslate"><span class="pre">percent_nested()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable5D20linear_interpolationEKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable5D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable5D7combineERKNSt6vectorIPK16RecursiveTable5DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable5D6nestedERKNSt6vectorIiEE"><code class="docutils literal notranslate"><span class="pre">nested()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable5D8is_equalERK16RecursiveTable5D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable6DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable6D</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4N6feasst16RecursiveTable6D16RecursiveTable6DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable6D()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable6D14percent_nestedEv"><code class="docutils literal notranslate"><span class="pre">percent_nested()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="math/doc/RecursiveTable1D.html#_CPPv4NK6feasst16RecursiveTable6D20linear_interpolationEKdKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable6DE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable6D</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable6D16RecursiveTable6DE7argtype"><code class="docutils literal notranslate"><span class="pre">RecursiveTable6D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable6D6insertERKNSt6vectorIiEERK6RTable"><code class="docutils literal notranslate"><span class="pre">insert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable6D14percent_nestedEv"><code class="docutils literal notranslate"><span class="pre">percent_nested()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable6D20linear_interpolationEKdKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable6D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable6D7combineERKNSt6vectorIPK16RecursiveTable6DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable6D8is_equalERK16RecursiveTable6D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1473,6 +1549,7 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l4"><a class="reference internal" href="configuration/doc/Select.html#_CPPv4NK6feasst6Select12site_indicesEv"><code class="docutils literal notranslate"><span class="pre">site_indices()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration/doc/Select.html#_CPPv4NK6feasst6Select12site_indicesEKi"><code class="docutils literal notranslate"><span class="pre">site_indices()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration/doc/Select.html#_CPPv4N6feasst6Select15replace_indicesEKiRKNSt6vectorIiEE"><code class="docutils literal notranslate"><span class="pre">replace_indices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="configuration/doc/Select.html#_CPPv4N6feasst6Select15replace_indicesERKNSt6vectorIiEERKNSt6vectorINSt6vectorIiEEEE"><code class="docutils literal notranslate"><span class="pre">replace_indices()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration/doc/Select.html#_CPPv4NK6feasst6Select10is_overlapERK6Select"><code class="docutils literal notranslate"><span class="pre">is_overlap()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration/doc/Select.html#_CPPv4NK6feasst6Select14is_group_emptyEv"><code class="docutils literal notranslate"><span class="pre">is_group_empty()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration/doc/Select.html#_CPPv4N6feasst6Select9set_groupENSt10shared_ptrI5GroupEE"><code class="docutils literal notranslate"><span class="pre">set_group()</span></code></a></li>
@@ -1841,6 +1918,7 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l5"><a class="reference internal" href="system/doc/Potential.html#_CPPv4N6feasst9Potential15set_model_paramERKNSt6stringEKiKiKd"><code class="docutils literal notranslate"><span class="pre">set_model_param()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/Potential.html#_CPPv4NK6feasst9Potential12model_paramsEv"><code class="docutils literal notranslate"><span class="pre">model_params()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/Potential.html#_CPPv4NK6feasst9Potential12model_paramsERK13Configuration"><code class="docutils literal notranslate"><span class="pre">model_params()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="system/doc/Potential.html#_CPPv4N6feasst9Potential16get_model_paramsEP13Configuration"><code class="docutils literal notranslate"><span class="pre">get_model_params()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/Potential.html#_CPPv4NK6feasst9Potential22does_cutoff_fit_domainERK13ConfigurationKb"><code class="docutils literal notranslate"><span class="pre">does_cutoff_fit_domain()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/Potential.html#_CPPv4N6feasst9Potential10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/Potential.html#_CPPv4N6feasst9Potential6energyEP13Configuration"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
@@ -1950,7 +2028,7 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l5"><a class="reference internal" href="system/doc/EnergyMap.html#_CPPv4N6feasst9EnergyMap6updateEKdKiKiKiKiKiKiKdPK8PositionRK13Configuration"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/EnergyMap.html#_CPPv4NK6feasst9EnergyMap12is_queryableEv"><code class="docutils literal notranslate"><span class="pre">is_queryable()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/EnergyMap.html#_CPPv4NK6feasst9EnergyMap6energyEKiKi"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="system/doc/EnergyMap.html#_CPPv4N6feasst9EnergyMap10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="system/doc/EnergyMap.html#_CPPv4N6feasst9EnergyMap10precomputeEP13ConfigurationP11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/EnergyMap.html#_CPPv4N6feasst9EnergyMap6revertERK6Select"><code class="docutils literal notranslate"><span class="pre">revert()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/EnergyMap.html#_CPPv4N6feasst9EnergyMap8finalizeERK6Select"><code class="docutils literal notranslate"><span class="pre">finalize()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/EnergyMap.html#_CPPv4NK6feasst9EnergyMap12total_energyEv"><code class="docutils literal notranslate"><span class="pre">total_energy()</span></code></a></li>
@@ -1993,7 +2071,6 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l5"><a class="reference internal" href="system/doc/ModelTwoBodyFactory.html#_CPPv4N6feasst19ModelTwoBodyFactory3addENSt10shared_ptrI12ModelTwoBodyEE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/ModelTwoBodyFactory.html#_CPPv4NK6feasst19ModelTwoBodyFactory3numEv"><code class="docutils literal notranslate"><span class="pre">num()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/ModelTwoBodyFactory.html#_CPPv4NK6feasst19ModelTwoBodyFactory5modelEKi"><code class="docutils literal notranslate"><span class="pre">model()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="system/doc/ModelTwoBodyFactory.html#_CPPv4N6feasst19ModelTwoBodyFactory10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/ModelTwoBodyFactory.html#_CPPv4NK6feasst19ModelTwoBodyFactory9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
@@ -2009,7 +2086,6 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/ModelTwoBodyTable.html">ModelTwoBodyTable</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTableE"><code class="docutils literal notranslate"><span class="pre">ModelTwoBodyTable</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable6resizeEKi"><code class="docutils literal notranslate"><span class="pre">resize()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable3setENSt10shared_ptrI7Table1DEEKiKi"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/ModelTwoBodyTable.html#_CPPv4N6feasst17ModelTwoBodyTable3setERK11ModelParamsKiP5Model"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
@@ -2030,6 +2106,7 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModel.html#_CPPv4N6feasst10VisitModel10set_energyEKd"><code class="docutils literal notranslate"><span class="pre">set_energy()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModel.html#_CPPv4N6feasst10VisitModel16increment_energyEKd"><code class="docutils literal notranslate"><span class="pre">increment_energy()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModel.html#_CPPv4N6feasst10VisitModel12check_energyEP5ModelP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">check_energy()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModel.html#_CPPv4N6feasst10VisitModel10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModel.html#_CPPv4N6feasst10VisitModel13change_volumeEKdKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModel.html#_CPPv4NK6feasst10VisitModel13epsilon_indexEv"><code class="docutils literal notranslate"><span class="pre">epsilon_index()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModel.html#_CPPv4NK6feasst10VisitModel11sigma_indexEv"><code class="docutils literal notranslate"><span class="pre">sigma_index()</span></code></a></li>
@@ -2053,7 +2130,7 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/LongRangeCorrections.html">LongRangeCorrections</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="system/doc/LongRangeCorrections.html#_CPPv4N6feasst20LongRangeCorrectionsE"><code class="docutils literal notranslate"><span class="pre">LongRangeCorrections</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="system/doc/LongRangeCorrections.html#_CPPv4N6feasst20LongRangeCorrections10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="system/doc/LongRangeCorrections.html#_CPPv4N6feasst20LongRangeCorrections10precomputeEP13ConfigurationP11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -2064,7 +2141,7 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModelCell.html#_CPPv4NK6feasst14VisitModelCell5cellsEv"><code class="docutils literal notranslate"><span class="pre">cells()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModelCell.html#_CPPv4NK6feasst14VisitModelCell7cell_idERK6DomainRK8Position"><code class="docutils literal notranslate"><span class="pre">cell_id()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell12cell_id_opt_ERK6DomainRK8Position"><code class="docutils literal notranslate"><span class="pre">cell_id_opt_()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell10precomputeEP13ConfigurationP11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModelCell.html#_CPPv4N6feasst14VisitModelCell13change_volumeEKdKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
 </ul>
 </li>
@@ -2076,7 +2153,7 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelIntraMap.html">VisitModelIntraMap</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="system/doc/VisitModelIntraMap.html#_CPPv4N6feasst18VisitModelIntraMapE"><code class="docutils literal notranslate"><span class="pre">VisitModelIntraMap</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModelIntraMap.html#_CPPv4N6feasst18VisitModelIntraMap10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModelIntraMap.html#_CPPv4N6feasst18VisitModelIntraMap10precomputeEP13ConfigurationP11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="system/doc/VisitModelIntraMap.html#_CPPv4N6feasst18VisitModelIntraMap11include_mapEKiKiKi"><code class="docutils literal notranslate"><span class="pre">include_map()</span></code></a></li>
 </ul>
 </li>
@@ -2301,6 +2378,7 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo14modify_factoryEv"><code class="docutils literal notranslate"><span class="pre">modify_factory()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo3setENSt10shared_ptrI8CriteriaEE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo8criteriaEv"><code class="docutils literal notranslate"><span class="pre">criteria()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4NK6feasst10MonteCarlo15is_criteria_setEv"><code class="docutils literal notranslate"><span class="pre">is_criteria_set()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo19initialize_criteriaEv"><code class="docutils literal notranslate"><span class="pre">initialize_criteria()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo3addENSt10shared_ptrI5TrialEE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo3addENSt10shared_ptrI17TrialFactoryNamedEE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
@@ -2329,6 +2407,7 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo13run_for_hoursEKd"><code class="docutils literal notranslate"><span class="pre">run_for_hours()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo18run_until_completeEv"><code class="docutils literal notranslate"><span class="pre">run_until_complete()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo21run_until_file_existsERKNSt6stringEKi"><code class="docutils literal notranslate"><span class="pre">run_until_file_exists()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo16run_until_volumeEKdKi"><code class="docutils literal notranslate"><span class="pre">run_until_volume()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo22set_cycles_to_completeEKi"><code class="docutils literal notranslate"><span class="pre">set_cycles_to_complete()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo13attempt_trialEKi"><code class="docutils literal notranslate"><span class="pre">attempt_trial()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html#_CPPv4N6feasst10MonteCarlo13write_to_fileEv"><code class="docutils literal notranslate"><span class="pre">write_to_file()</span></code></a></li>
@@ -2877,7 +2956,6 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l2"><a class="reference internal" href="models/doc/Jagla.html">Jagla</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="models/doc/Jagla.html#_CPPv4N6feasst5JaglaE"><code class="docutils literal notranslate"><span class="pre">Jagla</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="models/doc/Jagla.html#_CPPv4NK6feasst5Jagla21num_discretized_stepsEv"><code class="docutils literal notranslate"><span class="pre">num_discretized_steps()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models/doc/Jagla.html#_CPPv4N6feasst5Jagla10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="models/doc/Jagla.html#_CPPv4NK6feasst5Jagla9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
@@ -2891,7 +2969,6 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l3"><a class="reference internal" href="models/doc/LennardJonesAlpha.html#_CPPv4N6feasst17LennardJonesAlphaE"><code class="docutils literal notranslate"><span class="pre">LennardJonesAlpha</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="models/doc/LennardJonesAlpha.html#_CPPv4NK6feasst17LennardJonesAlpha5alphaEv"><code class="docutils literal notranslate"><span class="pre">alpha()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="models/doc/LennardJonesAlpha.html#_CPPv4NK6feasst17LennardJonesAlpha7set_wcaEKiKiP11ModelParams"><code class="docutils literal notranslate"><span class="pre">set_wca()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models/doc/LennardJonesAlpha.html#_CPPv4N6feasst17LennardJonesAlpha10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="models/doc/LennardJonesAlpha.html#_CPPv4NK6feasst17LennardJonesAlpha5du_drEKdKiKiRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">du_dr()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="models/doc/LennardJonesAlpha.html#_CPPv4NK6feasst17LennardJonesAlpha9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
@@ -2904,7 +2981,7 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l2"><a class="reference internal" href="models/doc/LennardJonesCutShift.html">LennardJonesCutShift</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="models/doc/LennardJonesCutShift.html#_CPPv4N6feasst20LennardJonesCutShiftE"><code class="docutils literal notranslate"><span class="pre">LennardJonesCutShift</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="models/doc/LennardJonesCutShift.html#_CPPv4N6feasst20LennardJonesCutShift10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="models/doc/LennardJonesCutShift.html#_CPPv4N6feasst20LennardJonesCutShift10precomputeEP13ConfigurationP11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="models/doc/LennardJonesCutShift.html#_CPPv4NK6feasst20LennardJonesCutShift9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
@@ -2918,7 +2995,6 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l2"><a class="reference internal" href="models/doc/Mie.html">Mie</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="models/doc/Mie.html#_CPPv4N6feasst3MieE"><code class="docutils literal notranslate"><span class="pre">Mie</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="models/doc/Mie.html#_CPPv4N6feasst3Mie10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="models/doc/Mie.html#_CPPv4NK6feasst3Mie9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
@@ -2933,7 +3009,7 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l2"><a class="reference internal" href="models/doc/LennardJonesForceShift.html">LennardJonesForceShift</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="models/doc/LennardJonesForceShift.html#_CPPv4N6feasst22LennardJonesForceShiftE"><code class="docutils literal notranslate"><span class="pre">LennardJonesForceShift</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="models/doc/LennardJonesForceShift.html#_CPPv4N6feasst22LennardJonesForceShift10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="models/doc/LennardJonesForceShift.html#_CPPv4N6feasst22LennardJonesForceShift10precomputeEP13ConfigurationP11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="models/doc/LennardJonesForceShift.html#_CPPv4NK6feasst22LennardJonesForceShift9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
@@ -2953,7 +3029,6 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l2"><a class="reference internal" href="models/doc/F3C.html">F3C</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="models/doc/F3C.html#_CPPv4N6feasst3F3CE"><code class="docutils literal notranslate"><span class="pre">F3C</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="models/doc/F3C.html#_CPPv4N6feasst3F3C10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="models/doc/F3C.html#_CPPv4NK6feasst3F3C9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
@@ -2976,7 +3051,6 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l2"><a class="reference internal" href="models/doc/TablePotential.html">TablePotential</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="models/doc/TablePotential.html#_CPPv4N6feasst14TablePotentialE"><code class="docutils literal notranslate"><span class="pre">TablePotential</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="models/doc/TablePotential.html#_CPPv4N6feasst14TablePotential10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="models/doc/TablePotential.html#_CPPv4NK6feasst14TablePotential9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
@@ -3301,6 +3375,10 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l2"><a class="reference internal" href="actions/README.html#api">API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="actions/doc/Record.html">Record</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="actions/doc/Record.html#_CPPv4N6feasst6RecordE"><code class="docutils literal notranslate"><span class="pre">Record</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="actions/doc/Wait.html">Wait</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="actions/doc/Wait.html#_CPPv4N6feasst4WaitE"><code class="docutils literal notranslate"><span class="pre">Wait</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="actions/doc/WriteModelParams.html">WriteModelParams</a><ul>
@@ -4212,7 +4290,6 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l2"><a class="reference internal" href="confinement/README.html#api">API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="confinement/doc/ModelTableCylinder1D.html">ModelTableCylinder1D</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="confinement/doc/ModelTableCylinder1D.html#_CPPv4N6feasst20ModelTableCylinder1DE"><code class="docutils literal notranslate"><span class="pre">ModelTableCylinder1D</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelTableCylinder1D.html#_CPPv4N6feasst20ModelTableCylinder1D10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelTableCylinder1D.html#_CPPv4N6feasst20ModelTableCylinder1D6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelTableCylinder1D.html#_CPPv4NK6feasst20ModelTableCylinder1D9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
@@ -4221,7 +4298,6 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l3"><a class="reference internal" href="confinement/doc/ModelTableSphere1D.html">ModelTableSphere1D</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="confinement/doc/ModelTableSphere1D.html#_CPPv4N6feasst18ModelTableSphere1DE"><code class="docutils literal notranslate"><span class="pre">ModelTableSphere1D</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelTableSphere1D.html#_CPPv4N6feasst18ModelTableSphere1D10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelTableSphere1D.html#_CPPv4N6feasst18ModelTableSphere1D6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelTableSphere1D.html#_CPPv4NK6feasst18ModelTableSphere1D9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
@@ -4265,7 +4341,6 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l3"><a class="reference internal" href="confinement/doc/ModelTableCart1D.html">ModelTableCart1D</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst16ModelTableCart1DE"><code class="docutils literal notranslate"><span class="pre">ModelTableCart1D</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst16ModelTableCart1D10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelTableCart1D.html#_CPPv4N6feasst16ModelTableCart1D6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelTableCart1D.html#_CPPv4NK6feasst16ModelTableCart1D9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
@@ -4284,7 +4359,7 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l3"><a class="reference internal" href="confinement/doc/ModelLJShape.html">ModelLJShape</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="confinement/doc/ModelLJShape.html#_CPPv4N6feasst12ModelLJShapeE"><code class="docutils literal notranslate"><span class="pre">ModelLJShape</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelLJShape.html#_CPPv4N6feasst12ModelLJShape10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelLJShape.html#_CPPv4N6feasst12ModelLJShape10precomputeEP13ConfigurationP11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelLJShape.html#_CPPv4N6feasst12ModelLJShape6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelLJShape.html#_CPPv4N6feasst12ModelLJShape5sigmaEKiRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">sigma()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="confinement/doc/ModelLJShape.html#_CPPv4N6feasst12ModelLJShape7epsilonEKiRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">epsilon()</span></code></a></li>
@@ -4340,7 +4415,6 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l2"><a class="reference internal" href="charge/README.html#api">API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/DebyeHuckel.html">DebyeHuckel</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="charge/doc/DebyeHuckel.html#_CPPv4N6feasst11DebyeHuckelE"><code class="docutils literal notranslate"><span class="pre">DebyeHuckel</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="charge/doc/DebyeHuckel.html#_CPPv4N6feasst11DebyeHuckel10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/DebyeHuckel.html#_CPPv4NK6feasst11DebyeHuckel9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
@@ -4348,7 +4422,6 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/ChargeScreenedIntra.html">ChargeScreenedIntra</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="charge/doc/ChargeScreenedIntra.html#_CPPv4N6feasst19ChargeScreenedIntraE"><code class="docutils literal notranslate"><span class="pre">ChargeScreenedIntra</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="charge/doc/ChargeScreenedIntra.html#_CPPv4N6feasst19ChargeScreenedIntra10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/ChargeScreenedIntra.html#_CPPv4NK6feasst19ChargeScreenedIntra9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
@@ -4356,7 +4429,6 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/ElectricField.html">ElectricField</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="charge/doc/ElectricField.html#_CPPv4N6feasst13ElectricFieldE"><code class="docutils literal notranslate"><span class="pre">ElectricField</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="charge/doc/ElectricField.html#_CPPv4N6feasst13ElectricField10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/ElectricField.html#_CPPv4N6feasst13ElectricField6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/ElectricField.html#_CPPv4NK6feasst13ElectricField9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
@@ -4366,7 +4438,6 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/ChargeSelf.html">ChargeSelf</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="charge/doc/ChargeSelf.html#_CPPv4N6feasst10ChargeSelfE"><code class="docutils literal notranslate"><span class="pre">ChargeSelf</span></code></a><ul>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/ChargeSelf.html#_CPPv4N6feasst10ChargeSelf6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="charge/doc/ChargeSelf.html#_CPPv4N6feasst10ChargeSelf10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/ChargeSelf.html#_CPPv4NK6feasst10ChargeSelf9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
@@ -4374,7 +4445,6 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/ChargeScreened.html">ChargeScreened</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="charge/doc/ChargeScreened.html#_CPPv4N6feasst14ChargeScreenedE"><code class="docutils literal notranslate"><span class="pre">ChargeScreened</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="charge/doc/ChargeScreened.html#_CPPv4N6feasst14ChargeScreened10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/ChargeScreened.html#_CPPv4NK6feasst14ChargeScreened4erfcEKd"><code class="docutils literal notranslate"><span class="pre">erfc()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/ChargeScreened.html#_CPPv4NK6feasst14ChargeScreened9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
@@ -4383,7 +4453,6 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l3"><a class="reference internal" href="charge/doc/Coulomb.html">Coulomb</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="charge/doc/Coulomb.html#_CPPv4N6feasst7CoulombE"><code class="docutils literal notranslate"><span class="pre">Coulomb</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="charge/doc/Coulomb.html#_CPPv4N6feasst7Coulomb10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/Coulomb.html#_CPPv4NK6feasst7Coulomb9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
@@ -4430,7 +4499,7 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/Ewald.html#_CPPv4N6feasst5Ewald21tolerance_to_alpha_ksEKdRK13ConfigurationPdPiPiPi"><code class="docutils literal notranslate"><span class="pre">tolerance_to_alpha_ks()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald19update_wave_vectorsERK13ConfigurationKdPNSt6vectorIdEEPNSt6vectorIiEEPdPdPdPdPdPd"><code class="docutils literal notranslate"><span class="pre">update_wave_vectors()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/Ewald.html#_CPPv4NK6feasst5Ewald22update_struct_fact_eikERK6SelectRK13ConfigurationRKNSt6vectorIdEERKNSt6vectorIiEEKdKdKdKdKdKdPNSt6vectorIdEEPNSt6vectorIdEEPNSt6vectorINSt6vectorINSt6vectorIdEEEEEE"><code class="docutils literal notranslate"><span class="pre">update_struct_fact_eik()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="charge/doc/Ewald.html#_CPPv4N6feasst5Ewald10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="charge/doc/Ewald.html#_CPPv4N6feasst5Ewald10precomputeEP13ConfigurationP11ModelParams"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/Ewald.html#_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/Ewald.html#_CPPv4N6feasst5Ewald7computeEP12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi"><code class="docutils literal notranslate"><span class="pre">compute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="charge/doc/Ewald.html#_CPPv4N6feasst5Ewald13change_volumeEKdKiP13Configuration"><code class="docutils literal notranslate"><span class="pre">change_volume()</span></code></a></li>
@@ -4853,6 +4922,7 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l4"><a class="reference internal" href="prefetch/doc/Prefetch.html#_CPPv4N6feasst8Prefetch14run_num_trialsE7int64_t"><code class="docutils literal notranslate"><span class="pre">run_num_trials()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="prefetch/doc/Prefetch.html#_CPPv4N6feasst8Prefetch23run_until_num_particlesEKiRKNSt6stringEKi"><code class="docutils literal notranslate"><span class="pre">run_until_num_particles()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="prefetch/doc/Prefetch.html#_CPPv4N6feasst8Prefetch21run_until_file_existsERKNSt6stringEKi"><code class="docutils literal notranslate"><span class="pre">run_until_file_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="prefetch/doc/Prefetch.html#_CPPv4N6feasst8Prefetch16run_until_volumeEKdKi"><code class="docutils literal notranslate"><span class="pre">run_until_volume()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="prefetch/doc/Prefetch.html#_CPPv4N6feasst8Prefetch18run_until_completeEv"><code class="docutils literal notranslate"><span class="pre">run_until_complete()</span></code></a></li>
 </ul>
 </li>
@@ -4875,7 +4945,6 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 <li class="toctree-l2"><a class="reference internal" href="aniso/doc/ModelRecursiveTable.html">ModelRecursiveTable</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="aniso/doc/ModelRecursiveTable.html#_CPPv4N6feasst19ModelRecursiveTableE"><code class="docutils literal notranslate"><span class="pre">ModelRecursiveTable</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="aniso/doc/ModelRecursiveTable.html#_CPPv4N6feasst19ModelRecursiveTable10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="aniso/doc/ModelRecursiveTable.html#_CPPv4NK6feasst19ModelRecursiveTable9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 </ul>
 </li>
@@ -4889,6 +4958,10 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="aniso/doc/CombineParallelFiles.html">CombineParallelFiles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aniso/doc/CombineParallelFiles.html#_CPPv4N6feasst20CombineParallelFilesE"><code class="docutils literal notranslate"><span class="pre">CombineParallelFiles</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="aniso/doc/VisitModelInnerTable.html">VisitModelInnerTable</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="aniso/doc/VisitModelInnerTable.html#_CPPv4N6feasst20VisitModelInnerTableE"><code class="docutils literal notranslate"><span class="pre">VisitModelInnerTable</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="aniso/doc/VisitModelInnerTable.html#_CPPv4NK6feasst20VisitModelInnerTable15is_energy_tableERKNSt6vectorINSt6vectorINSt10shared_ptrI7Table6DEEEEEE"><code class="docutils literal notranslate"><span class="pre">is_energy_table()</span></code></a></li>
@@ -4898,15 +4971,16 @@ If you would like more information on <a class="reference external" href="plugin
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="aniso/doc/RecursiveTable.html">RecursiveTable</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="aniso/doc/RecursiveTable.html#_CPPv4N6feasst14RecursiveTableE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aniso/doc/RecursiveTable.html#_CPPv4N6feasst14RecursiveTableE"><code class="docutils literal notranslate"><span class="pre">RecursiveTable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aniso/doc/RecursiveTable.html#_CPPv4N6feasst14RecursiveTable9from_fileERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">from_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aniso/doc/RecursiveTable.html#_CPPv4N6feasst14RecursiveTable19from_parallel_buildERKNSt6vectorI14RecursiveTableEE"><code class="docutils literal notranslate"><span class="pre">from_parallel_build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aniso/doc/RecursiveTable.html#_CPPv4NK6feasst14RecursiveTable8is_equalERK14RecursiveTable"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="aniso/doc/VisitModelInnerNN.html">VisitModelInnerNN</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="aniso/doc/VisitModelInnerNN.html#_CPPv4N6feasst17VisitModelInnerNNE"><code class="docutils literal notranslate"><span class="pre">VisitModelInnerNN</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="aniso/doc/BuildRecursiveTable.html">BuildRecursiveTable</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="aniso/doc/BuildRecursiveTable.html#_CPPv4N6feasst19BuildRecursiveTableE"><code class="docutils literal notranslate"><span class="pre">BuildRecursiveTable</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="aniso/doc/Rotator.html">Rotator</a><ul>
@@ -4927,6 +5001,10 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="aniso/doc/BuildRecursiveTable.html">BuildRecursiveTable</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aniso/doc/BuildRecursiveTable.html#_CPPv4N6feasst19BuildRecursiveTableE"><code class="docutils literal notranslate"><span class="pre">BuildRecursiveTable</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="aniso/README.html#tutorial">Tutorial</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="aniso/tutorial/tutorial_1_cg_protein.html">CG simulation of a protein using anisotropic precomputed potentials</a></li>
 </ul>
@@ -4943,7 +5021,6 @@ If you would like more information on <a class="reference external" href="plugin
 <li class="toctree-l3"><a class="reference internal" href="example/doc/ModelExample.html">ModelExample</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="example/doc/ModelExample.html#_CPPv4N6feasst12ModelExampleE"><code class="docutils literal notranslate"><span class="pre">ModelExample</span></code></a><ul>
 <li class="toctree-l5"><a class="reference internal" href="example/doc/ModelExample.html#_CPPv4NK6feasst12ModelExample21num_discretized_stepsEv"><code class="docutils literal notranslate"><span class="pre">num_discretized_steps()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="example/doc/ModelExample.html#_CPPv4N6feasst12ModelExample10precomputeEP13Configuration"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="example/doc/ModelExample.html#_CPPv4N6feasst12ModelExample6energyEKdKiKiRK11ModelParams"><code class="docutils literal notranslate"><span class="pre">energy()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="example/doc/ModelExample.html#_CPPv4NK6feasst12ModelExample9serializeERNSt7ostreamE"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="example/doc/ModelExample.html#_CPPv4NK6feasst12ModelExample6createERNSt7istreamE"><code class="docutils literal notranslate"><span class="pre">create()</span></code></a></li>
@@ -5181,6 +5258,61 @@ If you would like more information on <a class="reference external" href="plugin
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="rxvb/README.html">Reaction Volume Bias</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rxvb/README.html#tutorial">Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rxvb/tutorial/tutorial_1_slit_pore_rxn.html">Single reactive site on the surface of a slit pore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rxvb/tutorial/tutorial_2_acidic_zeolite.html">Single reactive hydroxyl in MFI zeolite</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rxvb/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rxvb/README.html#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rxvb/doc/TrialSwapPosition.html">TrialSwapPosition</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rxvb/doc/TrialSwapPosition.html#_CPPv4N6feasst17TrialSwapPositionE"><code class="docutils literal notranslate"><span class="pre">TrialSwapPosition</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rxvb/doc/SelectAnchor.html">SelectAnchor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rxvb/doc/SelectAnchor.html#_CPPv4N6feasst12SelectAnchorE"><code class="docutils literal notranslate"><span class="pre">SelectAnchor</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="rxvb/doc/SelectAnchor.html#_CPPv4N6feasst12SelectAnchor6selectERK6SelectP6SystemP6RandomP11TrialSelect"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rxvb/doc/TrialRxVB.html">TrialRxVB</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rxvb/doc/TrialRxVB.html#_CPPv4N6feasst9TrialRxVBE"><code class="docutils literal notranslate"><span class="pre">TrialRxVB</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rxvb/doc/TrialRxVB.html#_CPPv4N6feasst13TrialRxVBHalfE"><code class="docutils literal notranslate"><span class="pre">TrialRxVBHalf</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="rxvb/doc/TrialRxVB.html#_CPPv4N6feasst13TrialRxVBHalf13TrialRxVBHalfE7argtype"><code class="docutils literal notranslate"><span class="pre">TrialRxVBHalf()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rxvb/doc/SelectTwoParticles.html">SelectTwoParticles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rxvb/doc/SelectTwoParticles.html#_CPPv4N6feasst18SelectTwoParticlesE"><code class="docutils literal notranslate"><span class="pre">SelectTwoParticles</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="rxvb/doc/SelectTwoParticles.html#_CPPv4N6feasst18SelectTwoParticles10precomputeEP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="rxvb/doc/SelectTwoParticles.html#_CPPv4N6feasst18SelectTwoParticles6selectERK6SelectP6SystemP6RandomP11TrialSelect"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rxvb/doc/ComputeRXVB.html">ComputeRXVB</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rxvb/doc/ComputeRXVB.html#_CPPv4N6feasst11ComputeRXVBE"><code class="docutils literal notranslate"><span class="pre">ComputeRXVB</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="rxvb/doc/ComputeRXVB.html#_CPPv4N6feasst11ComputeRXVB11ComputeRXVBE7argtype"><code class="docutils literal notranslate"><span class="pre">ComputeRXVB()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="rxvb/doc/ComputeRXVB.html#_CPPv4NK6feasst11ComputeRXVB15probability_avbEv"><code class="docutils literal notranslate"><span class="pre">probability_avb()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="rxvb/doc/ComputeRXVB.html#_CPPv4N6feasst11ComputeRXVB22perturb_and_acceptanceEP8CriteriaP6SystemP10AcceptancePNSt6vectorIP10TrialStageEEP6Random"><code class="docutils literal notranslate"><span class="pre">perturb_and_acceptance()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rxvb/doc/PerturbSwapPosition.html">PerturbSwapPosition</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rxvb/doc/PerturbSwapPosition.html#_CPPv4N6feasst19PerturbSwapPositionE"><code class="docutils literal notranslate"><span class="pre">PerturbSwapPosition</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="rxvb/doc/PerturbSwapPosition.html#_CPPv4N6feasst19PerturbSwapPosition4moveEKbP6SystemP11TrialSelectP6RandomP10Acceptance"><code class="docutils literal notranslate"><span class="pre">move()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -5189,7 +5321,7 @@ If you would like more information on <a class="reference external" href="plugin
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../particle/README.html" class="btn btn-neutral float-left" title="Particle files and units" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../docs/source/physical_constants.html" class="btn btn-neutral float-left" title="physical_constants" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="threads/README.html" class="btn btn-neutral float-right" title="Threads" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
