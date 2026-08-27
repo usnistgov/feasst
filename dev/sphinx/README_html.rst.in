@@ -49,7 +49,7 @@ Quickstart
 
 .. code-block:: bash
 
-    sudo apt install g++ cmake python3-venv               # C++, CMake and Python3
+    sudo apt install g++ cmake python3-dev python3-venv   # C++, CMake and Python3
     python3 -m venv feasst; source ~/feasst/bin/activate  # or use existing env/conda
     CMAKE_BUILD_PARALLEL_LEVEL=8 pip3 install feasst      # install
     feasst-menu                                           # interactive tutorial
