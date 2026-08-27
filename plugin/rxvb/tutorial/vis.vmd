@@ -1,0 +1,33 @@
+display projection Orthographic
+color Display Background white
+axes location Off
+#topo readvarxyz acid_zeon0s0_eq.xyz
+topo readvarxyz acid_zeon0s0.xyz
+mol modstyle 0 0 VDW 1.0000000 120.000000
+mol new {/home/hwh/rxnads/chemisorption/feasst/plugin/rxnavb/tutorial/acid_zeon0s0_framework.xyz} type {xyz} first 0 last -1 step 1 waitfor 1
+mol modstyle 0 1 VDW 1.000000 120.000000
+mol top 0
+set sel [atomselect top "name 0"]
+$sel set radius 1.65
+set sel [atomselect top "name 1"]
+$sel set radius 1.05
+set sel [atomselect top "name 2"]
+$sel set radius 1.58278
+set sel [atomselect top "name 3"]
+$sel set radius 1.05
+set sel [atomselect top "name 4"]
+$sel set radius 1.05
+set sel [atomselect top "name 5"]
+$sel set radius 1.65
+set sel [atomselect top "name 6"]
+$sel set radius 1.05
+set sel [atomselect top "name 7"]
+$sel set radius 1.55
+set sel [atomselect top "name 8"]
+$sel set radius 1.05
+set sel [atomselect top "name 9"]
+$sel set radius 1.15
+set sel [atomselect top "name 10"]
+$sel set radius 1.65
+set sel [atomselect top "name 11"]
+$sel set radius 1.15

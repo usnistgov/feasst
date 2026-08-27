@@ -17,6 +17,10 @@ For `contributing <https://github.com/usnistgov/feasst/graphs/contributors>`_, t
   * TablePotential fix https://github.com/usnistgov/feasst/pull/25
   * Run::num_trials int64 https://github.com/usnistgov/feasst/pull/31
 
+* Dr. Samiha Sharlin
+
+  * rxvb tutorial 2
+
 For testing and discussion:
 
 * Dr. Marco A. Blanco
@@ -29,7 +33,6 @@ For testing and discussion:
 * Dr. Tiara Ann Maula
 * Gordon W. McCann
 * Dr. Christopher Rzepa
-* Samiha Sharlin
 * Dr. Yingnan Wang
 * Jilong Xu
 * Chieh-Chih (George) Yeh

@@ -37,7 +37,7 @@ def parse(temperature=350):
     params['cutoff'] = 12
     params['dccb_cut'] = 4.
     params['dccb_cut'] = params['cubic_side_length']/int(params['cubic_side_length']/params['dccb_cut']) # maximize inside box
-    params['num_sites'] = fstio.num_sites_in_fstprt(params['fstprt'], params['feasst_install'])
+    params['num_sites'] = fstio.num_sites_in_fstprt(params['fstprt'], '../../../build/')
     if 'n-butane' in params['fstprt']:
         params['molecular_weight'] = 58.12
     elif 'n-octane' in params['fstprt']:

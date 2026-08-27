@@ -40,7 +40,6 @@ class RefPotential : public Action {
  private:
   int reference_index_;
   std::string ref_;
-  std::string config_;
   argtype args_;
 };
 

@@ -151,6 +151,7 @@ def write_cpp(plugin_dir, deps, include_plugin):
             ['fftw', "ScatteringFFTW"],
             ['netcdf', "FileNETCDF"],
             ['many_body', "StillingerWeber"],
+            ['rxvb', "ComputeRXVB"],
         ]
         for plugin_class in plugin_classes:
             if plugin_class[0] in include_plugin:

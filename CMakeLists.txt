@@ -42,7 +42,7 @@ if (NOT FEASST_PLUGINS)
   #set(FEASST_PLUGINS "threads;utils;math;configuration")
   #set(FEASST_PLUGINS "threads;utils;math;configuration;system")
   #set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;models;monte_carlo;actions")
-  set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;actions;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;gibbs;model_expanded;server")
+  set(FEASST_PLUGINS "threads;utils;math;configuration;system;opt_lj;steppers;monte_carlo;actions;models;mayer;patch;example;shape;confinement;chain;flat_histogram;charge;morph;cluster;prefetch;egce;beta_expanded;aniso;gibbs;model_expanded;server;rxvb")
 else()
   # Note: "cmake -DEV=ON" must be enabled if FEASST_PLUGINS are changed in order to update feasst.h
   set(EV ON)
@@ -376,6 +376,12 @@ endif()
 list (FIND FEASST_PLUGINS "server" _index)
 if (${_index} GREATER -1)
   target_link_libraries(feasstserver feasstmonte_carlo)
+endif()
+
+# rxvb
+list (FIND FEASST_PLUGINS "rxvb" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstrxvb feasstcluster feasstmorph)
 endif()
 
 # mpi

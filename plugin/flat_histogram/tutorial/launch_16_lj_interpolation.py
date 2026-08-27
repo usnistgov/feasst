@@ -107,7 +107,7 @@ def post_process(params):
         #print(lnpis[tsim])
     equil = pd.DataFrame(data={"T":temps, "rho_vap":rhov, "rho_liq":rhol})
     equil = equil.iloc[::-1] # reverse
-    srsw=pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/lj_srsw_equil.csv', comment='#')
+    srsw=pd.read_csv('../../../plugin/flat_histogram/test/data/lj_srsw_equil.csv', comment='#')
     srsw=srsw[300:] # cut data down to the same temps
     #print(srsw)
     equil['rho_vap_srsw'] = srsw['rho_vap'].to_numpy()

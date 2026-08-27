@@ -15,8 +15,6 @@ from feasst import macrostate_distribution
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--dictionary_input', type=json.loads, help='dictionary with the following parameters for each particle: temperature(Kelvin), initial density(kg/m^3), pressure(Pa), total number of particles, and an optional xyz file name to initialize the configuration',
 #        default='{"/feasst/particle/ethane.txt":{"temp":[236],"initial_density":[20.19],"pressure":[1.1E+06],"num_particles":[512],"xyz":[""]}}')
 #        default='{"/feasst/particle/n-butane.txt":{"temp":[354],"initial_density":[32.35],"pressure":[1.1976E+06],"num_particles":[512],"xyz":[""]}}')
@@ -65,7 +63,7 @@ def parse():
         for index, temp in enumerate(params['dictionary_input'][part]['temp']):
             params['particles'].append(part)
             params['temperatures'].append(temp)
-            params['num_sitess'].append(fstio.num_sites_in_fstprt(part, params['feasst_install']))
+            params['num_sitess'].append(fstio.num_sites_in_fstprt(part, '../../../build/'))
             if "ethane" in part:
                 params['molecular_weight'].append(30.07)
             elif "n-butane" in part:

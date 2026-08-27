@@ -158,7 +158,7 @@ def post_process(params):
     # check lnpi
     z_factor = 15
     lnpi = macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv', shift=False)
-    srsw = pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/colMatb0.400908lnz-15.24', skiprows=18, header=None, sep=r'\s+')
+    srsw = pd.read_csv('../../../plugin/flat_histogram/test/data/colMatb0.400908lnz-15.24', skiprows=18, header=None, sep=r'\s+')
     srsw = pd.concat([lnpi.dataframe(), srsw], axis=1)
     srsw['deltalnPI'] = srsw[1]-srsw[1].shift(1)
     srsw.to_csv(params['prefix']+'_lnpi.csv')

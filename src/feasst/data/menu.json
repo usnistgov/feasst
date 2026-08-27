@@ -1651,6 +1651,14 @@
       "Selecting this option will finish adding parameters for the class listed above."
     ]
   ],
+  "ComputeRXVB": [],
+  "ComputeRXVB__optional__": [
+    [
+      "[Finish \"ComputeRXVB\"]",
+      "ComputeRXVB__optional__",
+      "Selecting this option will finish adding parameters for the class listed above."
+    ]
+  ],
   "ComputeRemoveAVB": [],
   "ComputeRemoveAVBDivalent": [],
   "ComputeRemoveAVBDivalent__optional__": [
@@ -5746,7 +5754,7 @@
     [
       "site_type0",
       "NeighborCriteria__optional__",
-      "consider only interactions between a specific site type. If -1, consider all sites (default: -1). Otherwise, site_type1 must also be included. May use comma-separated values for multiple types. ",
+      "consider only interactions between a specific site type. If -1, consider all sites (default: -1). Otherwise, site_type1 must also be included. May use comma-separated values (csv) for multiple types. But, if csv is required here, csv must be used for everything, including energy_maximum. ",
       ""
     ],
     [
@@ -6228,6 +6236,14 @@
     [
       "[Finish \"PerturbSiteType\"]",
       "PerturbSiteType__optional__",
+      "Selecting this option will finish adding parameters for the class listed above."
+    ]
+  ],
+  "PerturbSwapPosition": [],
+  "PerturbSwapPosition__optional__": [
+    [
+      "[Finish \"PerturbSwapPosition\"]",
+      "PerturbSwapPosition__optional__",
       "Selecting this option will finish adding parameters for the class listed above."
     ]
   ],
@@ -7341,6 +7357,14 @@
     ]
   ],
   "Select": [],
+  "SelectAnchor": [],
+  "SelectAnchor__optional__": [
+    [
+      "[Finish \"SelectAnchor\"]",
+      "SelectAnchor__optional__",
+      "Selecting this option will finish adding parameters for the class listed above."
+    ]
+  ],
   "SelectBranch": [
     [
       "mobile_site2 ",
@@ -7732,6 +7756,21 @@
     [
       "[Finish \"SelectSiteOfType\"]",
       "SelectSiteOfType__optional__",
+      "Selecting this option will finish adding parameters for the class listed above."
+    ]
+  ],
+  "SelectTwoParticles": [
+    [
+      "particle_types",
+      "SelectTwoParticles",
+      "two comma-separated names of particles types that must be different. ",
+      ""
+    ]
+  ],
+  "SelectTwoParticles__optional__": [
+    [
+      "[Finish \"SelectTwoParticles\"]",
+      "SelectTwoParticles__optional__",
       "Selecting this option will finish adding parameters for the class listed above."
     ]
   ],
@@ -8960,6 +8999,11 @@
       "TrialRotateCluster",
       "TrialRotateCluster",
       "Rigid rotation of a cluster of particles. "
+    ],
+    [
+      "TrialSwapPosition",
+      "TrialSwapPosition",
+      "* "
     ],
     [
       "TrialSwapSites",
@@ -10886,6 +10930,81 @@
       ""
     ]
   ],
+  "TrialRxVB": [
+    [
+      "SelectParticleAVB",
+      "TrialRxVB",
+      " - target_particle_type and target_site defines the AV - particle_type and site (from TrialSelectParticle) defines particle in AV. ",
+      ""
+    ],
+    [
+      "target_particle_type_morph",
+      "TrialRxVB",
+      "type of particle to change target ",
+      ""
+    ],
+    [
+      "particle_type_morph",
+      "TrialRxVB",
+      "type of particle to change particle in AV ",
+      ""
+    ]
+  ],
+  "TrialRxVB__optional__": [
+    [
+      "[Finish \"TrialRxVB\"]",
+      "TrialRxVB__optional__",
+      "Selecting this option will finish adding parameters for the class listed above."
+    ],
+    [
+      "neighbor_index",
+      "TrialRxVB__optional__",
+      "NeighborCriteria index contained in System (default: 0). ",
+      ""
+    ],
+    [
+      "weight",
+      "Trial__optional__",
+      "unnormalized relative probability of selection of this trial with respect to all trials (default: 1). ",
+      ""
+    ],
+    [
+      "weight_per_number_fraction",
+      "Trial__optional__",
+      "if > 0, the weight is continuously updated to (weight_per_number_fraction * number of TrialSelect::particle_type in first TrialStage / total number of particles). If <= 0, the given weight above is fixed to that value (default: -1). For a multicomponent simulation, weight_per_number_fraction with a separate trial for each mobile particle_type ensures equal probability of selecting any particles of those types regardless of the number of particles of each type, while still allowing for different tunable parameters for each particle_type. ",
+      ""
+    ],
+    [
+      "number_fraction_exclude_type[i]",
+      "Trial__optional__",
+      "if >= 0 (default: -1), exclude this particle type from the total number in fractions of weight_per_number_fraction. If there is a fixed particle type in a multicomponent grand canonical ensemble, avoid changing the relative weight of translation vs insert/delete and breaking detailed balance. The \"[i]\" is to be substituted for an integer 0, 1, 2,... If only one excluded type, then the \"[i]\" is optional. ",
+      ""
+    ],
+    [
+      "print_num_accepted",
+      "Trial__optional__",
+      "if true (default: false), print the number of accepted trials. ",
+      ""
+    ],
+    [
+      "num_steps",
+      "TrialStage__optional__",
+      "number of Rosenbluth steps (default: 1). ",
+      ""
+    ],
+    [
+      "ref",
+      "TrialStage__optional__",
+      "name of RefPotential. If empty, use Potential (default: empty). ",
+      ""
+    ],
+    [
+      "new_only",
+      "TrialStage__optional__",
+      "do not compute the Rosenbluth of the old configuration (default: false). ",
+      ""
+    ]
+  ],
   "TrialSelect": [],
   "TrialSelectAll": [],
   "TrialSelectAll__optional__": [
@@ -11105,6 +11224,92 @@
       "[Finish \"TrialStage\"]",
       "TrialStage__optional__",
       "Selecting this option will finish adding parameters for the class listed above."
+    ],
+    [
+      "num_steps",
+      "TrialStage__optional__",
+      "number of Rosenbluth steps (default: 1). ",
+      ""
+    ],
+    [
+      "ref",
+      "TrialStage__optional__",
+      "name of RefPotential. If empty, use Potential (default: empty). ",
+      ""
+    ],
+    [
+      "new_only",
+      "TrialStage__optional__",
+      "do not compute the Rosenbluth of the old configuration (default: false). ",
+      ""
+    ]
+  ],
+  "TrialSwapPosition": [],
+  "TrialSwapPosition__optional__": [
+    [
+      "[Finish \"TrialSwapPosition\"]",
+      "TrialSwapPosition__optional__",
+      "Selecting this option will finish adding parameters for the class listed above."
+    ],
+    [
+      "site",
+      "TrialSelectParticle__optional__",
+      "site name to select. If all sites, set to -1 (default). ",
+      ""
+    ],
+    [
+      "min_particles",
+      "TrialSelectParticle__optional__",
+      "do not select if less than min number of particles. If -1, no constraint (default: -1). Note that this is the number of particles before the Trial. ",
+      ""
+    ],
+    [
+      "max_particles",
+      "TrialSelectParticle__optional__",
+      "do not select if more than max number of particles. If -1, no constraint (default: -1). Note that this is the number of particles before the Trial. ",
+      ""
+    ],
+    [
+      "group_index",
+      "TrialSelect__optional__",
+      "index of group defined within system (default: 0). ",
+      ""
+    ],
+    [
+      "group",
+      "TrialSelect__optional__",
+      "name of group defined within system (default: \"\"). ",
+      "group_chooser"
+    ],
+    [
+      "particle_type",
+      "TrialSelect__optional__",
+      "particle type name in Configuration (default: not set) ",
+      "particle_type_chooser"
+    ],
+    [
+      "config",
+      "TrialSelect__optional__",
+      "name of Configuration (default: 0) ",
+      "configuration_chooser"
+    ],
+    [
+      "tunable_param",
+      "Tunable__optional__",
+      "initial value of the tunable parameter (default: 0.1). ",
+      ""
+    ],
+    [
+      "tunable_target_acceptance",
+      "Tunable__optional__",
+      "optionally set target acceptance (default: 0.25). ",
+      ""
+    ],
+    [
+      "tunable_percent_change",
+      "Tunable__optional__",
+      "optionally set the percent change (default: 1). ",
+      ""
     ],
     [
       "num_steps",
@@ -13312,6 +13517,8 @@
       "TrialReptateUnoptHalf",
       "TrialRotate",
       "TrialRotateCluster",
+      "TrialRxVBHalf",
+      "TrialSwapPosition",
       "TrialSwapSites",
       "TrialTranslate",
       "TrialTranslateCluster",
@@ -13833,8 +14040,8 @@
       "particle/co2_epm2_rigid.txt"
     ],
     "dimer.txt": [
-      "# FEASST particle file (https://doi.org/10.18434/M3S095)\n#\n# D1 - D2\n\nSite Types\n\nD sigma=1.0 epsilon=1.0 cutoff=3.0\n\nSites\n\nD1 D 0.0 0.0 0.0\nD2 D 1.0 0.0 0.0\n\nBond Types\n\nDD RigidBond length=1.0 delta=0.0001\n\nBonds\n\nDD1 DD D1 D2\n",
-      "particle/dimer.txt"
+      "# FEASST particle file (https://doi.org/10.18434/M3S095)\n\nSite Properties\n\n0 sigma 1.0 epsilon 1.0 cutoff 3.0\n1 sigma 1.0 epsilon 1.0 cutoff 3.0\n\nSites\n\n0 0 -0.5 0.0 0.0\n1 1 0.5 0.0 0.0\n\nBond Properties\n\n0 RigidBond length 1.0 delta 0.0001\n\nBonds\n\n0 0 0 1\n",
+      "plugin/rxvb/particle/dimer.txt"
     ],
     "dimer_to_monomer.txt": [
       "# FEASST particle file (https://doi.org/10.18434/M3S095)\n\nSite Types\n\n0 sigma 1.0 epsilon 1.0 cutoff 3.0\n\nSites\n\n0 0  0.5 0 0\n1 0 -0.5 0 0\n",
@@ -14257,8 +14464,8 @@
     [
       "dimer.txt",
       "particles_select1",
-      "# This file is located in /feasst/particle/dimer.txt\n# FEASST particle file (https://doi.org/10.18434/M3S095)\n#\n# D1 - D2\n\nSite Types\n\nD sigma=1.0 epsilon=1.0 cutoff=3.0\n\nSites\n\nD1 D 0.0 0.0 0.0\nD2 D 1.0 0.0 0.0\n\nBond Types\n\nDD RigidBond length=1.0 delta=0.0001\n\nBonds\n\nDD1 DD D1 D2\n",
-      "particle/dimer.txt"
+      "# This file is located in /feasst/plugin/rxvb/particle/dimer.txt\n# FEASST particle file (https://doi.org/10.18434/M3S095)\n\nSite Properties\n\n0 sigma 1.0 epsilon 1.0 cutoff 3.0\n1 sigma 1.0 epsilon 1.0 cutoff 3.0\n\nSites\n\n0 0 -0.5 0.0 0.0\n1 1 0.5 0.0 0.0\n\nBond Properties\n\n0 RigidBond length 1.0 delta 0.0001\n\nBonds\n\n0 0 0 1\n",
+      "plugin/rxvb/particle/dimer.txt"
     ],
     [
       "dimer_to_monomer.txt",
@@ -14762,8 +14969,8 @@
     [
       "dimer.txt",
       "particles_select1",
-      "# This file is located in /feasst/particle/dimer.txt\n# FEASST particle file (https://doi.org/10.18434/M3S095)\n#\n# D1 - D2\n\nSite Types\n\nD sigma=1.0 epsilon=1.0 cutoff=3.0\n\nSites\n\nD1 D 0.0 0.0 0.0\nD2 D 1.0 0.0 0.0\n\nBond Types\n\nDD RigidBond length=1.0 delta=0.0001\n\nBonds\n\nDD1 DD D1 D2\n",
-      "particle/dimer.txt"
+      "# This file is located in /feasst/plugin/rxvb/particle/dimer.txt\n# FEASST particle file (https://doi.org/10.18434/M3S095)\n\nSite Properties\n\n0 sigma 1.0 epsilon 1.0 cutoff 3.0\n1 sigma 1.0 epsilon 1.0 cutoff 3.0\n\nSites\n\n0 0 -0.5 0.0 0.0\n1 1 0.5 0.0 0.0\n\nBond Properties\n\n0 RigidBond length 1.0 delta 0.0001\n\nBonds\n\n0 0 0 1\n",
+      "plugin/rxvb/particle/dimer.txt"
     ],
     [
       "dimer_to_monomer.txt",

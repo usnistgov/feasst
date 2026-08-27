@@ -11,11 +11,15 @@ namespace feasst {
 
 ZeroBackground::ZeroBackground(argtype * args) {
   class_name_ = "ZeroBackground";
+  config_ = str("config", args, "");
   if (used("configuration_index", *args)) {
     WARN("Deprecated ZeroBackground::configuration_index->config (see Configuration::name)");
+    configuration_index_ = integer("configuration_index", args, 0);
+  } else {
+    if (config_.empty()) {
+      config_ = "0";
+    }
   }
-  configuration_index_ = integer("configuration_index", args, 0);
-  config_ = str("config", args, "");
 }
 ZeroBackground::ZeroBackground(argtype args) : ZeroBackground(&args) {
   feasst_check_all_used(args);
@@ -41,14 +45,17 @@ void ZeroBackground::serialize(std::ostream& ostr) const {
 }
 
 void ZeroBackground::run(MonteCarlo * mc) {
+  argtype args;
   if (!config_.empty()) {
     configuration_index_ = mc->system().configuration_index(config_);
+    args.insert({"config", config_});
+  } else {
+    args.insert({"configuration_index", str(configuration_index_)});
   }
+  DEBUG("args " << str(args));
   const double current_energy = mc->get_system()->energy();
   auto bg = MakeBackground({{"constant", str(-current_energy)}});
-  mc->add(std::make_shared<Potential>(bg,
-    argtype({{"configuration_index", str(configuration_index_)},
-             {"config", config_}})));
+  mc->add(std::make_shared<Potential>(bg, args));
 }
 
 }  // namespace feasst

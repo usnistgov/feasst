@@ -47,7 +47,9 @@ class NeighborCriteria {
     - site_type0: consider only interactions between a specific site type.
       If -1, consider all sites (default: -1).
       Otherwise, site_type1 must also be included.
-      May use comma-separated values for multiple types.
+      May use comma-separated values (csv) for multiple types.
+      But, if csv is required here, csv must be used for everything,
+      including energy_maximum.
     - site_type1: consider only interactions between a specific site type.
       If -1, consider all sites (default: -1).
    */

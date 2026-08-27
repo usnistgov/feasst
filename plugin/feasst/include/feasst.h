@@ -411,6 +411,12 @@
 #include "beta_expanded/include/select_nothing.h"
 #include "beta_expanded/include/compute_beta.h"
 #include "mayer/include/mayer_sampling.h"
+#include "rxvb/include/trial_swap_position.h"
+#include "rxvb/include/select_anchor.h"
+#include "rxvb/include/trial_rxvb.h"
+#include "rxvb/include/select_two_particles.h"
+#include "rxvb/include/compute_rxvb.h"
+#include "rxvb/include/perturb_swap_position.h"
 std::shared_ptr<feasst::ComputeBeta> __feasst__ComputeBeta = std::make_shared<feasst::ComputeBeta>();
 std::shared_ptr<feasst::TrialGrow> __feasst__TrialGrow = std::make_shared<feasst::TrialGrow>();
 std::shared_ptr<feasst::TrialParticlePivot> __feasst__TrialParticlePivot = std::make_shared<feasst::TrialParticlePivot>();
@@ -428,3 +434,4 @@ std::shared_ptr<feasst::ComputeGibbsParticleTransfer> __feasst__ComputeGibbsPart
 std::shared_ptr<feasst::MacrostateModel> __feasst__MacrostateModel = std::make_shared<feasst::MacrostateModel>();
 std::shared_ptr<feasst::Listen> __feasst__Listen = std::make_shared<feasst::Listen>();
 std::shared_ptr<feasst::Tune> __feasst__Tune = std::make_shared<feasst::Tune>();
+std::shared_ptr<feasst::ComputeRXVB> __feasst__ComputeRXVB = std::make_shared<feasst::ComputeRXVB>();

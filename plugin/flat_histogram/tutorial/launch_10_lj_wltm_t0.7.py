@@ -142,7 +142,7 @@ def post_process(params):
     # check lnpi
     z_factor = 25
     lnpi = macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv', shift=False)
-    srsw = pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat070.csv')
+    srsw = pd.read_csv('../../../plugin/flat_histogram/test/data/stat070.csv')
     srsw = pd.concat([lnpi.dataframe(), srsw], axis=1)
     srsw['deltalnPI'] = srsw.lnPI-srsw.lnPI.shift(1)
     srsw.to_csv(params['prefix']+'_lnpi.csv')

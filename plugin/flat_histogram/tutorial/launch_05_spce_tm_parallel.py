@@ -47,7 +47,7 @@ def post_process(params):
     #lnpi = pd.read_csv(params['prefix']+'n0_lnpi.txt')
     lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv', shift=False)
     lnpi=lnpi.dataframe()
-    lnpi = pd.concat([lnpi, pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat_spce_525.csv')], axis=1)
+    lnpi = pd.concat([lnpi, pd.read_csv('../../../plugin/flat_histogram/test/data/stat_spce_525.csv')], axis=1)
     lnpi['deltalnPI'] = lnpi.lnPI - lnpi.lnPI.shift(1)
     diverged = lnpi[np.abs(lnpi.deltalnPI-lnpi.delta_ln_prob) > 6*lnpi.delta_ln_prob_stdev]
     print(diverged)

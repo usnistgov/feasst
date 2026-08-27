@@ -237,6 +237,7 @@ These classes add :cpp:class:`Trials <feasst::Trial>`.
    cluster/doc/TrialAddAVBDivalent_arguments
    cluster/doc/TrialRemoveAVBDivalent_arguments
    morph/doc/TrialMorph_arguments
+   rxvb/doc/TrialRxVB_arguments
 
 Analyze
 ==========================

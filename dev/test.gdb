@@ -1,8 +1,6 @@
-## Usage: gdb -batch -x filename executable
+## Usage: export DEBUGINFOD_URLS=""; gdb -batch -x filename executable
 catch throw
-#r < run.txt
-#r < trappe000_fstin.txt
-#r < ljr001_fstin.txt
-#r < patch001_fstin.txt
-r --gtest_filter=BuildRecursiveTable*
+#r < chemi000_fstin.txt
+r < runs/temp373/1w/mu_1000/acid_zeo000_fstin.txt
+#--gtest_filter=BuildRecursiveTable*
 bt

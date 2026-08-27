@@ -140,6 +140,10 @@ class Select {
   bool replace_indices(const int particle_index,
     const std::vector<int>& site_indices);
 
+  /// Same as above, except for multiple particles.
+  bool replace_indices(const std::vector<int>& particle_indices,
+    const std::vector<std::vector<int> >& site_indices);
+
   /// Return true if the selection contains a particle in self.
   bool is_overlap(const Select& select) const;
 

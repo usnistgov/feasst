@@ -36,7 +36,7 @@ def post_process(params):
     lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv', shift=False)
     #lnpi = macrostate_distribution.MacrostateDistribution(file_name=params['prefix']+'n0_lnpi.txt')
     volume = 8**3
-    srsw = pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat_hs.csv')
+    srsw = pd.read_csv('../../../plugin/flat_histogram/test/data/stat_hs.csv')
     srsw = srsw[:6]
     pressure = list()
     lnpi_rw = copy.deepcopy(lnpi)

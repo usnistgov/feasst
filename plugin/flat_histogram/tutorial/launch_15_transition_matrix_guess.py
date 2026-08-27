@@ -27,8 +27,6 @@ def parse(fstprt='/feasst/particle/lj_new.txt',
           min_flatness=25):
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt', type=str, default=fstprt, help='FEASST particle definition')
     parser.add_argument('--ln_prob_file', type=str, default='../test/data/ln_prob_guess.csv', help='the file name of the initial guess of the macrostate distribution')
     parser.add_argument('--beta', type=float, default=beta, help='1/(K_Boltzmann*Temperature)')
@@ -150,7 +148,7 @@ def post_process(params):
     if np.abs(gce_av_num_particles - 310.4179421879679) > 2.5:
         print('gce_av_num_particles', gce_av_num_particles, 'is not within 2.5 of 310.4179421879679')
         assert False
-    srsw = pd.read_csv(params['feasst_install']+'../plugin/flat_histogram/test/data/stat150.csv')
+    srsw = pd.read_csv('../../../plugin/flat_histogram/test/data/stat150.csv')
     plt.plot(lnpi.dataframe()['state'], lnpi.dataframe()['ln_prob'], label='FEASST')
     plt.plot(srsw['N'], srsw['lnPI'], linestyle='dashed', label='SRSW')
     plt.xlabel('number of particles', fontsize=16)

@@ -330,7 +330,7 @@ TEST(MonteCarlo, lj_npt) {
 TEST(MonteCarlo, arglist_unrecognized) {
   TRY(
     MakeMonteCarlo({{{"Banana", {{}}}}}, true);
-    CATCH_PHRASE("Unrecognized argument: Banana");
+    CATCH_PHRASE("Unrecognized class: Banana");
   );
   TRY(
     MakeMonteCarlo({{{"Metropolis", {{}}}}}, true);

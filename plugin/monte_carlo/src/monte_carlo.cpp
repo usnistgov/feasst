@@ -325,7 +325,7 @@ void MonteCarlo::resume(const bool silent) {
     parse_args(&args_, silent);
     size = static_cast<int>(args_.size());
     ASSERT(previous_size - 1 == size,
-      "Unrecognized argument: " << args_.begin()->first);
+      "Unrecognized class: " << args_.begin()->first);
   }
 }
 

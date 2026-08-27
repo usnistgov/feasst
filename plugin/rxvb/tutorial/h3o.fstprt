@@ -1,0 +1,46 @@
+# LAMMPS-inspired data file
+# Thanks to Samiha Sharlin for development and testing
+#
+#Units
+#
+#length Angstrom
+#energy kJ/mol
+#charge elementary
+#
+#Site Labels
+#
+#0 O
+#1 H
+
+Site Types
+
+0 sigma=3.1  epsilon=0.8 cutoff=6.5 charge=-1.4 cutoff_outer=1
+1 sigma=0    epsilon=0   cutoff=6.5 charge=0.8  cutoff_outer=1
+
+Sites
+
+0 0 0 0 0
+1 1 -0.043488 -0.1092343 0.972921699999999
+2 1 0.858417000000001 -0.3103499 -0.356655300000001
+3 1 -0.752903 -0.4435405 -0.443632500000001
+
+Bond Types
+
+0 RigidBond length=0.98 delta=0.01
+
+Bonds
+
+0 0 0 1
+1 0 0 2
+2 0 0 3
+
+Angle Types
+
+0 RigidAngle degrees=111.4 delta=0.5
+
+Angles
+
+0 0 1 0 2
+1 0 1 0 3
+2 0 2 0 3
+

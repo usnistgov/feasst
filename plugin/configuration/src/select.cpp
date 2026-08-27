@@ -253,6 +253,31 @@ bool Select::replace_indices(const int particle_index,
   return false;
 }
 
+bool Select::replace_indices(const std::vector<int>& particle_indices,
+    const std::vector<std::vector<int> >& site_indices) {
+  ASSERT(site_indices.size() == particle_indices.size(), "error");
+  if (particle_indices_.size() == particle_indices.size()) {
+    bool fast = true;
+    for (int sind = 0; sind < static_cast<int>(site_indices.size()); ++sind) {
+      if (site_indices[sind].size() != site_indices_[sind].size()) {
+        fast = false;
+      }
+    }
+    if (fast) {
+      for (int sind = 0; sind < static_cast<int>(site_indices.size()); ++sind) {
+        particle_indices_[sind] = particle_indices[sind];
+        site_indices_[sind] = site_indices[sind];
+      }
+      return true;
+    }
+  }
+  clear();
+  for (int sind = 0; sind < static_cast<int>(site_indices.size()); ++sind) {
+    add_particle(particle_indices[sind], site_indices[sind]);
+  }
+  return false;
+}
+
 void Select::remove_particle_(const int select_index) {
   particle_indices_.erase(particle_indices_.begin() + select_index);
   site_indices_.erase(site_indices_.begin() + select_index);

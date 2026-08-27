@@ -14,8 +14,6 @@ import launch_3_npt_binary
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--feasst_install', type=str, default='../../../build/',
-                        help='FEASST install directory (e.g., the path to build)')
     parser.add_argument('--fstprt1', type=str, default='/feasst/particle/dimer_mie_CO2.txt', help='FEASST particle definition')
     parser.add_argument('--fstprt2', type=str, default='/feasst/particle/dimer_mie_N2.txt', help='FEASST particle definition')
     parser.add_argument('--beta', type=float, default=1./258.15, help='inverse temperature (K)')
@@ -63,11 +61,11 @@ def sim_job_dependent_params(params):
     for ptype, fstprt in enumerate([params['fstprt1'], params['fstprt2']]):
         ptype_name = 'pt'+str(ptype+1)
         prepend = "{}{:03d}_p{}".format(params['prefix'], params['sim'], ptype+1)
-        fstio.write_linear_grow_file(prepend+"_vapor_grow_canonical.txt", particle_type=ptype_name, gce=0, conf="vapor", ref="noixn", num_steps=1, particle_file=fstprt, feasst_install=params['feasst_install'])
-        fstio.write_linear_grow_file(prepend+"_vapor_grow_add.txt", particle_type=ptype_name, gce=2, conf="vapor", ref="noixn", num_steps=1, particle_file=fstprt, feasst_install=params['feasst_install'])
-        fstio.write_linear_grow_file(prepend+"_liquid_grow_canonical.txt", particle_type=ptype_name, gce=0, conf="liquid", ref="dccb", num_steps=params['num_dccb'], particle_file=fstprt, feasst_install=params['feasst_install'])
-        fstio.write_linear_grow_file(prepend+"_liquid_grow_add.txt", particle_type=ptype_name, gce=2, conf="liquid", ref="dccb", num_steps=params['num_dccb'], particle_file=fstprt, feasst_install=params['feasst_install'])
-        fstio.write_linear_grow_file(prepend+"_grow_gibbs.txt", particle_type=ptype_name, gce=3, conf="vapor", conf2="liquid", ref="dccb", num_steps=params['num_dccb'], particle_file=fstprt, feasst_install=params['feasst_install'])
+        fstio.write_linear_grow_file(prepend+"_vapor_grow_canonical.txt", particle_type=ptype_name, gce=0, conf="vapor", ref="noixn", num_steps=1, particle_file=fstprt, feasst_install='../../../build/')
+        fstio.write_linear_grow_file(prepend+"_vapor_grow_add.txt", particle_type=ptype_name, gce=2, conf="vapor", ref="noixn", num_steps=1, particle_file=fstprt, feasst_install='../../../build/')
+        fstio.write_linear_grow_file(prepend+"_liquid_grow_canonical.txt", particle_type=ptype_name, gce=0, conf="liquid", ref="dccb", num_steps=params['num_dccb'], particle_file=fstprt, feasst_install='../../../build/')
+        fstio.write_linear_grow_file(prepend+"_liquid_grow_add.txt", particle_type=ptype_name, gce=2, conf="liquid", ref="dccb", num_steps=params['num_dccb'], particle_file=fstprt, feasst_install='../../../build/')
+        fstio.write_linear_grow_file(prepend+"_grow_gibbs.txt", particle_type=ptype_name, gce=3, conf="vapor", conf2="liquid", ref="dccb", num_steps=params['num_dccb'], particle_file=fstprt, feasst_install='../../../build/')
 
 def write_feasst_script(params, script_file):
     """ Write fst script for a single simulation with keys of params {} enclosed. """

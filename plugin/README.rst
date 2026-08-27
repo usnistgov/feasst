@@ -80,4 +80,5 @@ The plugins and classes listed below represent all the publicly available capabi
    fftw/README
    netcdf/README
    mpi/README
+   rxvb/README
 
