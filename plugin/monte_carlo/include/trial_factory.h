@@ -100,6 +100,9 @@ class TrialFactory : public Trial {
 
   void set_tunable(const int trial_index, const double tunable);
 
+  /// Write weights and cumulative probability to screen
+  void write_weights() const;
+
   // serialize
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

@@ -434,4 +434,4 @@ std::shared_ptr<feasst::ComputeGibbsParticleTransfer> __feasst__ComputeGibbsPart
 std::shared_ptr<feasst::MacrostateModel> __feasst__MacrostateModel = std::make_shared<feasst::MacrostateModel>();
 std::shared_ptr<feasst::Listen> __feasst__Listen = std::make_shared<feasst::Listen>();
 std::shared_ptr<feasst::Tune> __feasst__Tune = std::make_shared<feasst::Tune>();
-std::shared_ptr<feasst::ComputeRXVB> __feasst__ComputeRXVB = std::make_shared<feasst::ComputeRXVB>();
+std::shared_ptr<feasst::ComputeRxVB> __feasst__ComputeRxVB = std::make_shared<feasst::ComputeRxVB>();

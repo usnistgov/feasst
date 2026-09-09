@@ -24,7 +24,13 @@ SelectParticleAVB::SelectParticleAVB(argtype * args) : TrialSelect(args) {
   grand_canonical_ = boolean("grand_canonical", args);
   inside_ = boolean("inside", args, true);
   is_second_target_ = boolean("second_target", args, false);
-  rxnavb_ = boolean("rxnavb", args, false);
+  if (used("rxnavb", *args)) {
+    WARN("SelectParticleAVB::rxnavb was deprecated. Use rxvb.");
+    rxvb_ = boolean("rxnavb", args, false);
+    ASSERT(!used("rxvb", *args), "Cannot use rxnavb and rxvb together.");
+  } else {
+    rxvb_ = boolean("rxvb", args, false);
+  }
   site_index_name_ = str("site", args, "0");
 
   // initialize select_target_
@@ -121,7 +127,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
       }
     }
     const int pindex = random->const_element(neighbors_.particle_indices());
-    if (rxnavb_) {
+    if (rxvb_) {
       const Particle& part = config.select_particle(pindex);
       if (mobile().num_sites() != part.num_sites()) {
         std::vector<int> sites(part.num_sites());
@@ -165,12 +171,12 @@ bool SelectParticleAVB::select(const Select& perturbed,
 
   // Assign the probabilities for acceptance criteria.
   // explicitly consider all valid combinations the following booleans:
-  // is_ghost, grand_canoical, inside, second_target and rxnavb.
+  // is_ghost, grand_canoical, inside, second_target and rxvb.
   // There are six valid combinations which represent GCE add, GCE rm,
-  // AVB2 in->out, AVB2 out->in, AVB4 in->in, and rxnavb.
+  // AVB2 in->out, AVB2 out->in, AVB4 in->in, and rxvb.
 
-  if (rxnavb_) {
-    DEBUG("set_probability rxnavb");
+  if (rxvb_) {
+    DEBUG("set_probability rxvb");
     set_probability_(static_cast<double>(num_neighbors));
   } else if (is_ghost() && grand_canonical_ && inside_ && !is_second_target_) {
     DEBUG("set_probability GCE add");
@@ -281,7 +287,7 @@ SelectParticleAVB::SelectParticleAVB(std::istream& istr)
   feasst_deserialize(&inside_, istr);
   feasst_deserialize(&is_second_target_, istr);
   if (version >= 240) {
-    feasst_deserialize(&rxnavb_, istr);
+    feasst_deserialize(&rxvb_, istr);
   }
   feasst_deserialize_fstobj(&select_target_, istr);
   feasst_deserialize_fstobj(&select_mobile_, istr);
@@ -297,7 +303,7 @@ void SelectParticleAVB::serialize_select_particle_avb_(
   feasst_serialize(grand_canonical_, ostr);
   feasst_serialize(inside_, ostr);
   feasst_serialize(is_second_target_, ostr);
-  feasst_serialize(rxnavb_, ostr);
+  feasst_serialize(rxvb_, ostr);
   feasst_serialize_fstobj(select_target_, ostr);
   feasst_serialize_fstobj(select_mobile_, ostr);
 }

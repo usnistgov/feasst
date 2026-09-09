@@ -27,7 +27,7 @@ class SelectParticleAVB : public TrialSelect {
   /*
     Users typically do not set the following values:
     - grand_canonical: true if used for grand canonical, false otherwise.
-    - rxnavb: true if used for rxnavb, false otherwise (default: false).
+    - rxvb: true if used for rxvb, false otherwise (default: false).
     - inside: true if selecting in the AV, otherwise out (default: true).
       Not implemented for grand_canonical.
     - second_target: if true, set anchor to a second target particle
@@ -73,7 +73,7 @@ class SelectParticleAVB : public TrialSelect {
   bool grand_canonical_;
   bool inside_;
   bool is_second_target_;
-  bool rxnavb_;
+  bool rxvb_;
   TrialSelectParticle select_target_;
   TrialSelectParticle select_mobile_;
 

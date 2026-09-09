@@ -137,6 +137,6 @@ See https://pages.nist.gov/feasst. View documentation for your specific version 
 
 .. code-block:: bash
 
-    curl -OL https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.20.tar.gz
-    tar -xf v0.25.20.tar.gz
-    open feasst-0.25.20/html/index.html
+    curl -OL https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.21.tar.gz
+    tar -xf v0.25.21.tar.gz
+    open feasst-0.25.21/html/index.html

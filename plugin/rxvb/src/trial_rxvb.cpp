@@ -9,37 +9,25 @@
 
 namespace feasst {
 
-void gen_rxnavb_args_(const bool avb, argtype * args,
+void gen_rxvb_args_(const bool forward, argtype * args,
     argtype * perturb_args) {
-//  args->insert({"grand_canonical", "false"});
-//  if (avb) {
-//    args->insert({"inside", "false"}); // sel
-//    //perturb_args->insert({"inside", "true"});  // mv
-//    args->insert({"avb", "true"});
-//  } else {
-//    args->insert({"inside", "true"});  // sel
-//    //perturb_args->insert({"inside", "false"}); // mv
-//    args->insert({"avb", "false"});
-//  }
   if (used("neighbor_index", *args)) {
     //perturb_args->insert({"neighbor_index", str("neighbor_index", args)});
   }
 }
 
-FEASST_MAPPER(TrialRxVBHalf, argtype({{"avb", "true"}, {"target_particle_type", "0"}, {"target_particle_type_morph", "0"}, {"particle_type_morph", "0"}, {"particle_type", "0"}}));
+FEASST_MAPPER(TrialRxVBHalf, argtype({{"forward", "true"}, {"target_particle_type", "0"}, {"target_particle_type_morph", "0"}, {"particle_type_morph", "0"}, {"particle_type", "0"}}));
 
 TrialRxVBHalf::TrialRxVBHalf(argtype * args) : Trial(args) {
   class_name_ = "TrialRxVBHalf";
-  // read avb and then put it back in args
-  const bool avb = boolean("avb", args);
-  if (avb) {
-    args->insert({"avb", "true"});
+  // read forward and then put it back in args
+  const bool forward = boolean("forward", args);
+  if (forward) {
+    args->insert({"forward", "true"});
   } else {
-    args->insert({"avb", "false"});
+    args->insert({"forward", "false"});
   }
 
-//  argtype perturb_args;
-//  gen_rxnavb_args_(avb, args, &perturb_args);
   DEBUG("args " << str(*args));
   const std::string target_particle_type_morph = str("target_particle_type_morph", args);
   const std::string particle_type_morph = str("particle_type_morph", args);
@@ -53,15 +41,14 @@ TrialRxVBHalf::TrialRxVBHalf(argtype * args) : Trial(args) {
   args->insert({"particle_type", particle_type});
   args->insert({"reference_index", str(reference_index)});
   DEBUG("args " << str(*args));
-  auto compute = std::make_shared<ComputeRXVB>(args);
+  auto compute = std::make_shared<ComputeRxVB>(args);
   DEBUG("args " << str(*args));
-  DEBUG("avb " << avb);
+  DEBUG("forward " << forward);
   //ASSERT(args->size() == 0, "error");
   args->insert({"grand_canonical", "false"});
-  args->insert({"rxnavb", "true"});
-  if (avb) {
+  args->insert({"rxvb", "true"});
+  if (forward) {
     set_description("TrialRxVBforward");
-    set_weight(weight()*compute->probability_avb());
     args->insert({"target_particle_type", target_particle_type});
     args->insert({"particle_type", particle_type});
     add_stage(
@@ -75,7 +62,6 @@ TrialRxVBHalf::TrialRxVBHalf(argtype * args) : Trial(args) {
       args);
   } else {
     set_description("TrialRxVBreverse");
-    set_weight(weight()*(1. - compute->probability_avb()));
     args->insert({"target_particle_type", target_particle_type_morph});
     args->insert({"particle_type", particle_type_morph});
     add_stage(
@@ -112,9 +98,9 @@ FEASST_MAPPER(TrialRxVB, argtype({{"target_particle_type", "0"}, {"target_partic
 TrialRxVB::TrialRxVB(argtype * args) : TrialFactoryNamed() {
   class_name_ = "TrialRxVB";
   argtype out2in_args(*args);
-  out2in_args.insert({"avb", "true"});
+  out2in_args.insert({"forward", "true"});
   argtype * in2out_args = args;
-  in2out_args->insert({"avb", "false"});
+  in2out_args->insert({"forward", "false"});
   auto trial_out2in = std::make_shared<TrialRxVBHalf>(out2in_args);
   trial_out2in->set_weight(trial_out2in->weight()/2.);
   add(trial_out2in);

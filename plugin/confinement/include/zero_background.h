@@ -38,7 +38,7 @@ class ZeroBackground : public Action {
   //@}
  private:
   std::string config_;
-  int configuration_index_;
+  int configuration_index_ = -1;
 };
 
 inline std::shared_ptr<ZeroBackground> MakeZeroBackground(

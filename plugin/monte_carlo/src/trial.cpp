@@ -50,6 +50,7 @@ Trial::Trial(argtype * args) {
   number_fraction_exclude_type_ = parse_number_fraction_exclude_type_(args);
   reset_stats();
   print_num_accepted_ = boolean("print_num_accepted", args, false);
+  write_weights_ = boolean("write_weights", args, false);
 }
 Trial::Trial(argtype args) : Trial(&args) {
   feasst_check_all_used(args);
@@ -317,7 +318,7 @@ bool Trial::is_equal(const Trial& trial) const {
 }
 
 void Trial::serialize_trial_(std::ostream& ostr) const {
-  feasst_serialize_version(573, ostr);
+  feasst_serialize_version(574, ostr);
   feasst_serialize(stages_, ostr);
   // desererialize: refresh stages_ptr_
   feasst_serialize_fstdr(compute_, ostr);
@@ -329,13 +330,14 @@ void Trial::serialize_trial_(std::ostream& ostr) const {
   //feasst_serialize(num_success_, ostr);
   feasst_serialize(is_finalize_delayed_, ostr);
   feasst_serialize(print_num_accepted_, ostr);
+  feasst_serialize(write_weights_, ostr);
   feasst_serialize_fstobj(data_, ostr);
 }
 
 Trial::Trial(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version >= 570 && version <= 573, "mismatch version: " << version);
+  ASSERT(version >= 570 && version <= 574, "mismatch version: " << version);
   // HWH for unknown reasons, this function template does not work.
   // feasst_deserialize(&stages_, istr);
   { int dim1;
@@ -376,6 +378,9 @@ Trial::Trial(std::istream& istr) {
   feasst_deserialize(&is_finalize_delayed_, istr);
   if (version >= 573) {
     feasst_deserialize(&print_num_accepted_, istr);
+  }
+  if (version >= 574) {
+    feasst_deserialize(&write_weights_, istr);
   }
   feasst_deserialize_fstobj(&data_, istr);
 }

@@ -67,10 +67,10 @@ def sim_job_dependent_params(params):
     params['sim_end'] = params['num_sims'] - 1
     params['morph'] = params['sim'] % 2
     if params['morph'] == 1:
-        params['rxn']="""TrialMorph weight={weight} particle_type=A,B particle_type_morph=C,D print_num_accepted=true reference_index=0""".format(**params)
+        params['rxn']="""TrialMorph weight={weight} particle_type=A,B particle_type_morph=C,D print_num_accepted=true reference_index=0 write_weights=true""".format(**params)
         params['potential'] = """Potential Model=SquareWell VisitModel=VisitModelCell min_length=max_cutoff""".format(**params)
     else:
-        params['rxn'] = """TrialRxVB weight={weight} target_particle_type=A target_site=A1 target_particle_type_morph=C particle_type=B site=B1 particle_type_morph=D print_num_accepted=true reference_index=0""".format(**params)
+        params['rxn'] = """TrialRxVB weight={weight} target_particle_type=A target_site=A1 target_particle_type_morph=C particle_type=B site=B1 particle_type_morph=D print_num_accepted=true reference_index=0 write_weights=true""".format(**params)
         params['potential'] = """
 #NeighborCriteria energy_maximum=1e9,1e9 site_type0=A,C site_type1=B,D maximum_distance={avb_outer},{avb_outer} minimum_distance={avb_inner},{avb_inner}
 NeighborCriteria site_type0=A site_type1=B site_type0_alt=C site_type1_alt=D maximum_distance={avb_outer} minimum_distance={avb_inner}
@@ -124,8 +124,9 @@ Run until_num_particles={num_particles} particle_type=B Trial=TrialAdd
 ThermoParams beta={beta} chemical_potential=0,0,0,{delta_mu_rxn}
 {rxn}
 Metropolis trials_per_cycle={tpc} cycles_to_complete={equilibration}
+NumParticles [write]_num2_eq.csv particle_type=C
 Run until=complete Stepper=Movie [write]_eq.xyz
-Remove name=Tune,Log
+Remove name=Tune,Log,NumParticles
 
 # production
 Metropolis trials_per_cycle={tpc} cycles_to_complete={production}
@@ -155,7 +156,7 @@ def post_process(params):
         if morph == 1:
             color='red'
         if sim <= 1:
-            label='rxnavb'
+            label='rxvb'
             if morph == 1:
                 label='rxn'
         log = pd.read_csv('chemn0s'+str(sim)+'.csv')

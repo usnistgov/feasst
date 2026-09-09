@@ -508,6 +508,10 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
     trial_factory_->add(trial);
   }
 
+  if (trial->write_weights()) {
+    trial_factory_->write_weights();
+  }
+
   // HWH deprecate?
   // If later, perhaps after some initialization, more trials are added,
   // then Analyze and Modify classes may need to be re-initialized.

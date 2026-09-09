@@ -1,3 +1,4 @@
+#include <iostream>
 #include "utils/include/custom_exception.h"
 #include "utils/include/serialize_extra.h"
 #include "utils/include/arguments.h"
@@ -300,6 +301,19 @@ const Trial& TrialFactory::trial(const int index) const {
   ASSERT(index >= 0, "index: " << index << " < 0");
   ASSERT(index < num(), "trial: " << index << " >= num trials:" << num());
   return const_cast<Trial&>(*trials_[index]);
+}
+
+void TrialFactory::write_weights() const {
+  std::cout << "# trial,weight,probability" << std::endl;
+  //for (std::shared_ptr<Trial> trial : trials_) {
+  double previous_cumulative = 0;
+  for (int itrial = 0; itrial < num(); ++itrial) {
+    auto trial = trials_[itrial];
+    const double cumulative = cumulative_probability()[itrial];
+    std::cout << "# " << trial->description() << "," << trial->weight() << ","
+              << cumulative - previous_cumulative << std::endl; 
+    previous_cumulative = cumulative;
+  }
 }
 
 }  // namespace feasst

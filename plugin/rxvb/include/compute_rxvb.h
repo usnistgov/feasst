@@ -16,22 +16,18 @@ typedef std::map<std::string, std::string> argtype;
 
 /**
  */
-class ComputeRXVB : public TrialComputeMove {
+class ComputeRxVB : public TrialComputeMove {
  public:
   /**
     args:
-    - probability_avb: probability to attempt an AVB rxn (default: 0.5).
-    - avb: true if AVB rxn, otherwise reverse rxn without AVB (default: true).
+    - forward: true if forward rxn, otherwise reverse rxn.
     - target_particle_type
     - particle_type
     - target_particle_type_morph
     - particle_type_morph
    */
-  explicit ComputeRXVB(argtype args = argtype());
-  explicit ComputeRXVB(argtype * args);
-
-  /// Return the probability of an AVB rxn.
-  double probability_avb() const { return p_bias_; }
+  explicit ComputeRxVB(argtype args = argtype());
+  explicit ComputeRxVB(argtype * args);
 
   void perturb_and_acceptance(
       Criteria * criteria,
@@ -43,13 +39,12 @@ class ComputeRXVB : public TrialComputeMove {
   // serialize
   std::shared_ptr<TrialCompute> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
-  explicit ComputeRXVB(std::istream& istr);
-  virtual ~ComputeRXVB() {}
+  explicit ComputeRxVB(std::istream& istr);
+  virtual ~ComputeRxVB() {}
 
  protected:
-  void serialize_compute_rxnavb_(std::ostream& ostr) const;
-  double p_bias_;
-  bool avb_;
+  void serialize_compute_rxvb_(std::ostream& ostr) const;
+  bool forward_;
   int target_particle_type_ = -2;
   int particle_type_ = -2;
   int target_particle_type_morph_ = -2;

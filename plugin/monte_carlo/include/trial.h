@@ -58,6 +58,8 @@ class Trial {
       If only one excluded type, then the "[i]" is optional.
     - print_num_accepted: if true (default: false), print the number of
       accepted trials.
+    - write_weights: if true (default: false), write all the trial weights to
+      the script output.
    */
   explicit Trial(argtype args = argtype());
   explicit Trial(argtype * args);
@@ -200,6 +202,8 @@ class Trial {
   virtual const std::vector<std::shared_ptr<Trial> >& trials() const;
   virtual const Trial& trial(const int index) const;
 
+  bool write_weights() const { return write_weights_; }
+
   TrialStage * get_stage_(const int index);
 
   // serialize
@@ -234,7 +238,7 @@ class Trial {
   int64_t * num_success_() { return &((*data_.get_int64_1D())[1]); }
   int64_t * num_auto_reject_() { return &((*data_.get_int64_1D())[2]); }
   bool is_finalize_delayed_;
-  bool print_num_accepted_;
+  bool print_num_accepted_, write_weights_;
 
   // temporary or duplicate
   std::shared_ptr<Acceptance> acceptance_;

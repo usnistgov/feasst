@@ -1651,14 +1651,6 @@
       "Selecting this option will finish adding parameters for the class listed above."
     ]
   ],
-  "ComputeRXVB": [],
-  "ComputeRXVB__optional__": [
-    [
-      "[Finish \"ComputeRXVB\"]",
-      "ComputeRXVB__optional__",
-      "Selecting this option will finish adding parameters for the class listed above."
-    ]
-  ],
   "ComputeRemoveAVB": [],
   "ComputeRemoveAVBDivalent": [],
   "ComputeRemoveAVBDivalent__optional__": [
@@ -1680,6 +1672,14 @@
     [
       "[Finish \"ComputeRemoveMultiple\"]",
       "ComputeRemoveMultiple__optional__",
+      "Selecting this option will finish adding parameters for the class listed above."
+    ]
+  ],
+  "ComputeRxVB": [],
+  "ComputeRxVB__optional__": [
+    [
+      "[Finish \"ComputeRxVB\"]",
+      "ComputeRxVB__optional__",
       "Selecting this option will finish adding parameters for the class listed above."
     ]
   ],
@@ -7599,9 +7599,9 @@
       "Selecting this option will finish adding parameters for the class listed above."
     ],
     [
-      "rxnavb",
+      "rxvb",
       "SelectParticleAVB__optional__",
-      "true if used for rxnavb, false otherwise (default: false). ",
+      "true if used for rxvb, false otherwise (default: false). ",
       ""
     ],
     [
@@ -9071,9 +9071,15 @@
       ""
     ],
     [
-      "rxnavb",
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
+      "rxvb",
       "SelectParticleAVB__optional__",
-      "true if used for rxnavb, false otherwise (default: false). ",
+      "true if used for rxvb, false otherwise (default: false). ",
       ""
     ],
     [
@@ -9200,9 +9206,15 @@
       ""
     ],
     [
-      "rxnavb",
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
+      "rxvb",
       "SelectParticleAVB__optional__",
-      "true if used for rxnavb, false otherwise (default: false). ",
+      "true if used for rxvb, false otherwise (default: false). ",
       ""
     ],
     [
@@ -9446,6 +9458,12 @@
       ""
     ],
     [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
       "num_steps",
       "TrialStage__optional__",
       "number of Rosenbluth steps (default: 1). ",
@@ -9534,6 +9552,12 @@
       "print_num_accepted",
       "Trial__optional__",
       "if true (default: false), print the number of accepted trials. ",
+      ""
+    ],
+    [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
       ""
     ],
     [
@@ -9627,6 +9651,12 @@
       "print_num_accepted",
       "Trial__optional__",
       "if true (default: false), print the number of accepted trials. ",
+      ""
+    ],
+    [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
       ""
     ],
     [
@@ -9756,6 +9786,12 @@
       ""
     ],
     [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
       "num_steps",
       "TrialStage__optional__",
       "number of Rosenbluth steps (default: 1). ",
@@ -9820,6 +9856,12 @@
       "print_num_accepted",
       "Trial__optional__",
       "if true (default: false), print the number of accepted trials. ",
+      ""
+    ],
+    [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
       ""
     ],
     [
@@ -10121,6 +10163,12 @@
       ""
     ],
     [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
       "tunable_param",
       "Tunable__optional__",
       "initial value of the tunable parameter (default: 0.1). ",
@@ -10205,6 +10253,12 @@
       ""
     ],
     [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
       "site",
       "TrialSelectParticle__optional__",
       "site name to select. If all sites, set to -1 (default). ",
@@ -10281,6 +10335,12 @@
       ""
     ],
     [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
       "pivot_site",
       "SelectParticlePivot__optional__",
       "the site name to use as the center of the rotation. By default, the pivot site is the first site listed in the particle. ",
@@ -10352,6 +10412,12 @@
       "print_num_accepted",
       "Trial__optional__",
       "if true (default: false), print the number of accepted trials. ",
+      ""
+    ],
+    [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
       ""
     ],
     [
@@ -10601,6 +10667,12 @@
       ""
     ],
     [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
       "num_steps",
       "TrialStage__optional__",
       "number of Rosenbluth steps (default: 1). ",
@@ -10707,6 +10779,12 @@
       ""
     ],
     [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
       "num_steps",
       "TrialStage__optional__",
       "number of Rosenbluth steps (default: 1). ",
@@ -10776,6 +10854,12 @@
       ""
     ],
     [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
       "tunable_param",
       "Tunable__optional__",
       "initial value of the tunable parameter (default: 0.1). ",
@@ -10824,6 +10908,12 @@
       "print_num_accepted",
       "Trial__optional__",
       "if true (default: false), print the number of accepted trials. ",
+      ""
+    ],
+    [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
       ""
     ],
     [
@@ -10984,6 +11074,12 @@
       "print_num_accepted",
       "Trial__optional__",
       "if true (default: false), print the number of accepted trials. ",
+      ""
+    ],
+    [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
       ""
     ],
     [
@@ -11375,6 +11471,12 @@
       ""
     ],
     [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
       "group_index",
       "TrialSelect__optional__",
       "index of group defined within system (default: 0). ",
@@ -11529,6 +11631,12 @@
       "Trial__optional__",
       "if true (default: false), print the number of accepted trials. ",
       ""
+    ],
+    [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
     ]
   ],
   "TrialTransferAVB__optional__": [
@@ -11562,9 +11670,15 @@
       ""
     ],
     [
-      "rxnavb",
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
+      "rxvb",
       "SelectParticleAVB__optional__",
-      "true if used for rxnavb, false otherwise (default: false). ",
+      "true if used for rxvb, false otherwise (default: false). ",
       ""
     ],
     [
@@ -11692,6 +11806,12 @@
       ""
     ],
     [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
       "num_steps",
       "TrialStage__optional__",
       "number of Rosenbluth steps (default: 1). ",
@@ -11785,6 +11905,12 @@
       ""
     ],
     [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
       "tunable_param",
       "Tunable__optional__",
       "initial value of the tunable parameter (default: 0.1). ",
@@ -11831,6 +11957,12 @@
       "print_num_accepted",
       "Trial__optional__",
       "if true (default: false), print the number of accepted trials. ",
+      ""
+    ],
+    [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
       ""
     ],
     [
@@ -11950,6 +12082,12 @@
       ""
     ],
     [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
+      ""
+    ],
+    [
       "tunable_param",
       "Tunable__optional__",
       "initial value of the tunable parameter (default: 0.1). ",
@@ -12032,6 +12170,12 @@
       "print_num_accepted",
       "Trial__optional__",
       "if true (default: false), print the number of accepted trials. ",
+      ""
+    ],
+    [
+      "write_weights",
+      "Trial__optional__",
+      "if true (default: false), write all the trial weights to the script output. ",
       ""
     ]
   ],

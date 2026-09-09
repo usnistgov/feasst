@@ -4,7 +4,7 @@ axes location Off
 #topo readvarxyz acid_zeon0s0_eq.xyz
 topo readvarxyz acid_zeon0s0.xyz
 mol modstyle 0 0 VDW 1.0000000 120.000000
-mol new {/home/hwh/rxnads/chemisorption/feasst/plugin/rxnavb/tutorial/acid_zeon0s0_framework.xyz} type {xyz} first 0 last -1 step 1 waitfor 1
+mol new {/home/hwh/rxnads/chemisorption/feasst/plugin/rxvb/tutorial/acid_zeon0s0_framework.xyz} type {xyz} first 0 last -1 step 1 waitfor 1
 mol modstyle 0 1 VDW 1.000000 120.000000
 mol top 0
 set sel [atomselect top "name 0"]

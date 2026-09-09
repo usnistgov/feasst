@@ -12,7 +12,7 @@ typedef std::map<std::string, std::string> argtype;
 /**
 \rst
 
-.. image:: ../doc/rxnavb.png
+.. image:: ../doc/rxvb.png
 
 Attempt to react a pair of particles, A and B, with a distance bias.
 When A changes to C, B is chosen in the aggregation volume (AV) of A to change
@@ -145,7 +145,7 @@ class TrialRxVBHalf : public Trial {
 };
 
 // Process args, which can also be used in TrialGrow
-void gen_rxnavb_args_(const bool avb, argtype * args, argtype * perturb_args);
+void gen_rxvb_args_(const bool avb, argtype * args, argtype * perturb_args);
 
 }  // namespace feasst
 
