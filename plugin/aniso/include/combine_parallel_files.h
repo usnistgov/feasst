@@ -18,12 +18,22 @@ class CombineParallelFiles : public Action {
  public:
   //@{
   /** @name Arguments
-    - type: type of file, which can be recursive_table or trained.
+    - type: type of file, which can be the following:
+      - trained: input a trained file name.
+      - recursive_table: combine a base table to begin building RecursiveTable.
+      - recursive_table_contact: only combine the contact part.
+      - recursive_table_cutoff: only combine the cutoff part.
+      - recursive_table_energy: only combine the energy part.
+      - contact_and_cutoff: requires input2_suffix for the cutoff file.
+      - contact_cutoff_energy: requires input2_suffix for the energy file.
     - input_prefix: The beginning of the input file names for the multiple
       files to combine into one, before the processor index.
       The combined file is output as the input prefix and suffix without
       processor index.
     - input_suffix: The end of the input file after the processor index
+    - input2_suffix: The end of the second input file (contact_and_cutoff) after the processor index
+      (default: empty).
+    - output_file: set the name of the output file, instead of combining input names
       (default: empty).
     - num_processors: number of processors.
     - cleanup: If true (default), remove input files after combining.

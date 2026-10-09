@@ -115,7 +115,7 @@ def write_feasst_script(params, script_file):
 MonteCarlo
 RandomMT19937 seed={seed}
 Configuration cubic_side_length={cubic_side_length} particle_type=pt1:{particle_type1},pt2:{particle_type2} \
-    model_param_file=../../../particle/mixing/mie_model_parameters.txt
+    model_param_file=../../../particle/combining/mie_model_parameters.txt
 WriteModelParams output_file={prefix}{sim:03d}_model_params.txt
 Potential Model=Mie table_size=1e4
 Potential VisitModel=LongRangeCorrections
@@ -160,7 +160,7 @@ ProfileCPU [write]_profile.csv
 NumParticles [write]_num0.csv particle_type=pt1 multistate=true start_after_cycle=1
 #HeatCapacity [write]_cv.csv multistate=true start_after_cycle=1
 CriteriaWriter [write]_crit.csv
-ExtensiveMoments [write]_ext.csv
+ExtensiveMoments [write]_ext.csv multistate=true start_after_cycle=1
 CriteriaUpdater trials_per_update=1e5
 Run until=complete
 

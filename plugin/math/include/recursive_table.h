@@ -50,6 +50,10 @@ class RecursiveTable1D : public Table1D, public RTable {
   /// Combine independently-generated tables into one (from parallel build).
   RecursiveTable1D combine(const std::vector<const RecursiveTable1D *>& tables) const;
 
+  /// Add the index-th parallel table (base and recursive elements).
+  void add_rparallel(const RecursiveTable1D& table, const int proc,
+    const int num_procs);
+
   /// Return true if equal to the given table.
   bool is_equal(const RecursiveTable1D& table) const;
 
@@ -86,6 +90,10 @@ class RecursiveTable2D : public Table2D, public RTable {
 
   /// Combine independently-generated tables into one (from parallel build).
   RecursiveTable2D combine(const std::vector<const RecursiveTable2D *>& tables) const;
+
+  /// Add the index-th parallel table (base and recursive elements).
+  void add_rparallel(const RecursiveTable2D& table, const int proc,
+    const int num_procs);
 
   /// Return the total number of data points.
   int num_data() const;
@@ -133,6 +141,10 @@ class RecursiveTable3D : public Table3D, public RTable {
   /// Combine independently-generated tables into one (from parallel build).
   RecursiveTable3D combine(const std::vector<const RecursiveTable3D *>& tables) const;
 
+  /// Add the index-th parallel table (base and recursive elements).
+  void add_rparallel(const RecursiveTable3D& table, const int proc,
+    const int num_procs);
+
   /// Return true if equal to the given table.
   bool is_equal(const RecursiveTable3D& table) const;
 
@@ -173,6 +185,10 @@ class RecursiveTable5D : public Table5D, public RTable {
 
   /// Combine independently-generated tables into one (from parallel build).
   RecursiveTable5D combine(const std::vector<const RecursiveTable5D *>& tables) const;
+
+  /// Add the index-th parallel table (base and recursive elements).
+  void add_rparallel(const RecursiveTable5D& table, const int proc,
+    const int num_procs);
 
   /// Read-only access to nested tables.
   const RecursiveTable5D& nested(const std::vector<int>& bins);
@@ -217,6 +233,10 @@ class RecursiveTable6D : public Table6D, public RTable {
 
   /// Combine independently-generated tables into one (from parallel build).
   RecursiveTable6D combine(const std::vector<const RecursiveTable6D *>& tables) const;
+
+  /// Add the index-th parallel table (base and recursive elements).
+  void add_rparallel(const RecursiveTable6D& table, const int proc,
+    const int num_procs);
 
   /// Return true if equal to the given table.
   bool is_equal(const RecursiveTable6D& table) const;

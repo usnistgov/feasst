@@ -414,12 +414,15 @@ void scaled_relative_orientation(const double stheta, const double sphi, const d
   *e1 = ephi/2/PI + 0.5;
   *e2 = etheta/PI;
   *e3 = epsi/2/PI + 0.5;
-  TRACE("s1 " << *s1 << " s2 " << *s2 << " e1 " << *e1 << " e2 " << *e2 << " e3 " << *e3);
-  ASSERT(*s1 >= 0 && *s1 <= 1, "*s1: " << *s1);
-  ASSERT(*s2 >= 0 && *s2 <= 1, "*s2: " << *s2);
-  ASSERT(*e1 >= 0 && *e1 <= 1, "*e1: " << *e1);
-  ASSERT(*e2 >= 0 && *e2 <= 1, "*e2: " << *e2);
-  ASSERT(*e3 >= 0 && *e3 <= 1, "*e3: " << *e3);
+  fix_(e1);
+  fix_(e2);
+  fix_(e3);
+  TRACE("s1 " << MAX_PRECISION << *s1 << " s2 " << *s2 << " e1 " << *e1 << " e2 " << *e2 << " e3 " << *e3);
+  ASSERT(*s1 >= 0 && *s1 <= 1., "*s1: " << MAX_PRECISION << *s1);
+  ASSERT(*s2 >= 0 && *s2 <= 1., "*s2: " << MAX_PRECISION << *s2);
+  ASSERT(*e1 >= 0 && *e1 <= 1., "*e1: " << MAX_PRECISION << *e1);
+  ASSERT(*e2 >= 0 && *e2 <= 1., "*e2: " << MAX_PRECISION << *e2);
+  ASSERT(*e3 >= 0 && *e3 <= 1., "*e3: " << MAX_PRECISION << *e3);
 }
 
 }  // namespace feasst

@@ -75,7 +75,7 @@ MonteCarlo
 RandomMT19937 seed={seed}
 For [config]:[length]=vapor:55,liquid:32
     Configuration name=[config] cubic_side_length=[length] particle_type=pt1:{fstprt1},pt2:{fstprt2} \
-        model_param_file=../../../particle/mixing/mie_model_parameters.txt
+        model_param_file=../../../particle/combining/mie_model_parameters.txt
     Potential Model=Mie table_size=1e4 config=[config]
     Potential VisitModel=LongRangeCorrections config=[config]
     RefPotential ref=noixn VisitModel=DontVisitModel config=[config]

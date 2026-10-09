@@ -7,9 +7,7 @@
 
 namespace feasst {
 
-RecursiveTable1D::RecursiveTable1D(argtype * args) : Table1D(args) {
-  nested_.resize(num());
-}
+RecursiveTable1D::RecursiveTable1D(argtype * args) : Table1D(args) {}
 RecursiveTable1D::RecursiveTable1D(argtype args) : RecursiveTable1D(&args) { feasst_check_all_used(args); }
 RecursiveTable1D::~RecursiveTable1D() {}
 
@@ -41,6 +39,9 @@ void RecursiveTable1D::insert(const int bin, const RTable& nested) {
     << num());
   std::stringstream ss;
   nested.serialize(ss);
+  if (static_cast<int>(nested_.size()) == 0) {
+    nested_.resize(num());
+  }
   nested_[bin] = std::make_shared<RecursiveTable1D>(ss);
 }
 
@@ -66,11 +67,13 @@ double RecursiveTable1D::linear_interpolation(const double value0) const {
   TRACE("xd0 " << xd0);
   TRACE("i0 " << i0);
   TRACE("i02 " << i02);
-  RecursiveTable1D * nested = nested_[i0].get();
-  TRACE("nested? " << nested);
-  if (nested) {
-    TRACE("begin nested");
-    return nested->linear_interpolation(xd0);
+  if (static_cast<int>(nested_.size()) > 0) {
+    RecursiveTable1D * nested = nested_[i0].get();
+    TRACE("nested? " << nested);
+    if (nested) {
+      TRACE("begin nested");
+      return nested->linear_interpolation(xd0);
+    }
   }
   return c00_(xd0, i0, i02);
 }
@@ -113,6 +116,21 @@ RecursiveTable1D RecursiveTable1D::combine(
   return rcombined;
 }
 
+void RecursiveTable1D::add_rparallel(const RecursiveTable1D& table,
+    const int proc, const int num_procs) {
+  // add the base table
+  add_parallel(table, proc, num_procs);
+  // add the recursive table
+  if (static_cast<int>(nested_.size()) > 0) {
+    for (int i0 = 0; i0 < num(); ++i0) {
+      if (nested_[i0]) {
+        ASSERT(table.nested_[i0], "err");
+        nested_[i0]->add_parallel(*(table.nested_[i0]), proc, num_procs);
+      }
+    }
+  }
+}
+
 double RecursiveTable1D::forward_difference_interpolation(const double value0) const {
   FATAL("not implemented.");
 }
@@ -126,9 +144,7 @@ bool RecursiveTable1D::is_equal(const RecursiveTable1D& table) const {
   return false;
 }
 
-RecursiveTable2D::RecursiveTable2D(argtype * args) : Table2D(args) {
-  resize(num0(), num1(), &nested_);
-}
+RecursiveTable2D::RecursiveTable2D(argtype * args) : Table2D(args) {}
 RecursiveTable2D::RecursiveTable2D(argtype args) : RecursiveTable2D(&args) { feasst_check_all_used(args); }
 RecursiveTable2D::~RecursiveTable2D() {}
 
@@ -165,6 +181,9 @@ void RecursiveTable2D::insert(const int bin0, const int bin1, const RTable& nest
   ASSERT(bin1 >= 0 && bin1 < num1(), "bin1:" << bin1 << " must be >0 and < num1:" << num1());
   std::stringstream ss;
   nested.serialize(ss);
+  if (static_cast<int>(nested_.size()) == 0) {
+    resize(num0(), num1(), &nested_);
+  }
   nested_[bin0][bin1] = std::make_shared<RecursiveTable2D>(ss);
 }
 
@@ -183,11 +202,13 @@ double RecursiveTable2D::linear_interpolation(const double value0, const double 
   const double xd1 = table_xd_(value1, bin_spacing(1), num1(), &i1, &i12);
   TRACE("i1:" << i1 << " i12:" << i12);
   TRACE("xd0 " << xd0 << " xd1 " << xd1);
-  RecursiveTable2D * nested = nested_[i0][i1].get();
-  TRACE("nested? " << nested);
-  if (nested) {
-    TRACE("begin nested " << value0 << " " << value1);
-    return nested->linear_interpolation(xd0, xd1);
+  if (static_cast<int>(nested_.size()) > 0) {
+    RecursiveTable2D * nested = nested_[i0][i1].get();
+    TRACE("nested? " << nested);
+    if (nested) {
+      TRACE("begin nested " << value0 << " " << value1);
+      return nested->linear_interpolation(xd0, xd1);
+    }
   }
   return c00_(xd0, xd1, i0, i02, i1, i12);
 }
@@ -259,6 +280,23 @@ RecursiveTable2D RecursiveTable2D::combine(
   return rcombined;
 }
 
+void RecursiveTable2D::add_rparallel(const RecursiveTable2D& table,
+    const int proc, const int num_procs) {
+  // add the base table
+  add_parallel(table, proc, num_procs);
+  // add the recursive table
+  if (static_cast<int>(nested_.size()) > 0) {
+    for (int i0 = 0; i0 < num0(); ++i0) {
+      for (int i1 = 0; i1 < num1(); ++i1) {
+        if (nested_[i0][i1]) {
+          ASSERT(table.nested_[i0][i1], "err");
+          nested_[i0][i1]->add_parallel(*(table.nested_[i0][i1]), proc, num_procs);
+        }
+      }
+    }
+  }
+}
+
 bool RecursiveTable2D::is_equal(const RecursiveTable2D& table) const {
   if (Table2D::is_equal(table)) {
     if (feasst::is_equal_fstobj(nested_, table.nested_)) {
@@ -268,9 +306,7 @@ bool RecursiveTable2D::is_equal(const RecursiveTable2D& table) const {
   return false;
 }
 
-RecursiveTable3D::RecursiveTable3D(argtype * args) : Table3D(args) {
-  resize(num0(), num1(), num2(), &nested_);
-}
+RecursiveTable3D::RecursiveTable3D(argtype * args) : Table3D(args) {}
 RecursiveTable3D::RecursiveTable3D(argtype args) : RecursiveTable3D(&args) { feasst_check_all_used(args); }
 RecursiveTable3D::~RecursiveTable3D() {}
 
@@ -319,6 +355,9 @@ void RecursiveTable3D::insert(const int bin0, const int bin1, const int bin2,
   std::stringstream ss;
   nested.serialize(ss);
   //TRACE("ss:" << ss.str());
+  if (static_cast<int>(nested_.size()) == 0) {
+    resize(num0(), num1(), num2(), &nested_);
+  }
   nested_[bin0][bin1][bin2] = std::make_shared<RecursiveTable3D>(ss);
   //nested_[bin0][bin1][bin2] = std::make_shared<RecursiveTable3D>(nested);
 }
@@ -349,11 +388,13 @@ double RecursiveTable3D::linear_interpolation(const double value0, const double 
   const double xd0 = table_xd_(value0, bin_spacing(0), num0(), &i0, &i02);
   const double xd1 = table_xd_(value1, bin_spacing(1), num1(), &i1, &i12);
   const double xd2 = table_xd_(value2, bin_spacing(2), num2(), &i2, &i22);
-  RecursiveTable3D * nested = nested_[i0][i1][i2].get();
-  if (nested) {
-    //TRACE("begin nested " << value0 << " " << value1);
-    //TRACE("xd0 " << xd0 << " xd1 " << xd1);
-    return nested->linear_interpolation(xd0, xd1, xd2);
+  if (static_cast<int>(nested_.size()) > 0) {
+    RecursiveTable3D * nested = nested_[i0][i1][i2].get();
+    if (nested) {
+      //TRACE("begin nested " << value0 << " " << value1);
+      //TRACE("xd0 " << xd0 << " xd1 " << xd1);
+      return nested->linear_interpolation(xd0, xd1, xd2);
+    }
   }
   return c00_(xd0, xd1, xd2, i0, i02, i1, i12, i2, i22);
 }
@@ -404,6 +445,25 @@ RecursiveTable3D RecursiveTable3D::combine(
   return rcombined;
 }
 
+void RecursiveTable3D::add_rparallel(const RecursiveTable3D& table,
+    const int proc, const int num_procs) {
+  // add the base table
+  add_parallel(table, proc, num_procs);
+  // add the recursive table
+  if (static_cast<int>(nested_.size()) > 0) {
+    for (int i0 = 0; i0 < num0(); ++i0) {
+      for (int i1 = 0; i1 < num1(); ++i1) {
+        for (int i2 = 0; i2 < num2(); ++i2) {
+          if (nested_[i0][i1][i2]) {
+            ASSERT(table.nested_[i0][i1][i2], "err");
+            nested_[i0][i1][i2]->add_parallel(*(table.nested_[i0][i1][i2]), proc, num_procs);
+          }
+        }
+      }
+    }
+  }
+}
+
 bool RecursiveTable3D::is_equal(const RecursiveTable3D& table) const {
   if (Table3D::is_equal(table)) {
     if (feasst::is_equal_fstobj(nested_, table.nested_)) {
@@ -413,9 +473,7 @@ bool RecursiveTable3D::is_equal(const RecursiveTable3D& table) const {
   return false;
 }
 
-RecursiveTable5D::RecursiveTable5D(argtype * args) : Table5D(args) {
-  resize(num0(), num1(), num2(), num3(), num4(), &nested_);
-}
+RecursiveTable5D::RecursiveTable5D(argtype * args) : Table5D(args) {}
 RecursiveTable5D::RecursiveTable5D(argtype args) : RecursiveTable5D(&args) { feasst_check_all_used(args); }
 RecursiveTable5D::~RecursiveTable5D() {}
 
@@ -474,6 +532,9 @@ void RecursiveTable5D::insert(const int bin0, const int bin1, const int bin2,
   ASSERT(bin4 >= 0 && bin4 < num4(), "bin4:" << bin4 << " must be >0 and < num4:" << num4());
   std::stringstream ss;
   nested.serialize(ss);
+  if (static_cast<int>(nested_.size()) == 0) {
+    resize(num0(), num1(), num2(), num3(), num4(), &nested_);
+  }
   nested_[bin0][bin1][bin2][bin3][bin4] = std::make_shared<RecursiveTable5D>(ss);
 }
 
@@ -509,11 +570,13 @@ double RecursiveTable5D::linear_interpolation(const double value0, const double 
   const double xd2 = table_xd_(value2, bin_spacing(2), num2(), &i2, &i22);
   const double xd3 = table_xd_(value3, bin_spacing(3), num3(), &i3, &i32);
   const double xd4 = table_xd_(value4, bin_spacing(4), num4(), &i4, &i42);
-  RecursiveTable5D * nested = nested_[i0][i1][i2][i3][i4].get();
-  if (nested) {
-    //TRACE("begin nested " << value0 << " " << value1);
-    //TRACE("xd0 " << xd0 << " xd1 " << xd1);
-    return nested->linear_interpolation(xd0, xd1, xd2, xd3, xd4);
+  if (static_cast<int>(nested_.size()) > 0) {
+    RecursiveTable5D * nested = nested_[i0][i1][i2][i3][i4].get();
+    if (nested) {
+      //TRACE("begin nested " << value0 << " " << value1);
+      //TRACE("xd0 " << xd0 << " xd1 " << xd1);
+      return nested->linear_interpolation(xd0, xd1, xd2, xd3, xd4);
+    }
   }
   return c00_(xd0, xd1, xd2, xd3, xd4, i0, i02, i1, i12, i2, i22, i3, i32, i4, i42);
 }
@@ -564,6 +627,29 @@ RecursiveTable5D RecursiveTable5D::combine(
   return rcombined;
 }
 
+void RecursiveTable5D::add_rparallel(const RecursiveTable5D& table,
+    const int proc, const int num_procs) {
+  // add the base table
+  add_parallel(table, proc, num_procs);
+  // add the recursive table
+  if (static_cast<int>(nested_.size()) > 0) {
+    for (int i0 = 0; i0 < num0(); ++i0) {
+      for (int i1 = 0; i1 < num1(); ++i1) {
+        for (int i2 = 0; i2 < num2(); ++i2) {
+          for (int i3 = 0; i3 < num3(); ++i3) {
+            for (int i4 = 0; i4 < num4(); ++i4) {
+              if (nested_[i0][i1][i2][i3][i4]) {
+                ASSERT(table.nested_[i0][i1][i2][i3][i4], "err");
+                nested_[i0][i1][i2][i3][i4]->add_parallel(*(table.nested_[i0][i1][i2][i3][i4]), proc, num_procs);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 bool RecursiveTable5D::is_equal(const RecursiveTable5D& table) const {
   if (Table5D::is_equal(table)) {
     if (feasst::is_equal_fstobj(nested_, table.nested_)) {
@@ -584,9 +670,7 @@ const RecursiveTable5D& RecursiveTable5D::nested(const std::vector<int>& bins) {
   return *nested_[bins[0]][bins[1]][bins[2]][bins[3]][bins[4]];
 }
 
-RecursiveTable6D::RecursiveTable6D(argtype * args) : Table6D(args) {
-  resize(num0(), num1(), num2(), num3(), num4(), num5(), &nested_);
-}
+RecursiveTable6D::RecursiveTable6D(argtype * args) : Table6D(args) {}
 RecursiveTable6D::RecursiveTable6D(argtype args) : RecursiveTable6D(&args) { feasst_check_all_used(args); }
 RecursiveTable6D::~RecursiveTable6D() {}
 
@@ -652,6 +736,9 @@ void RecursiveTable6D::insert(const int bin0, const int bin1, const int bin2,
   ASSERT(bin5 >= 0 && bin5 < num5(), "bin5:" << bin5 << " must be >0 and < num5:" << num5());
   std::stringstream ss;
   nested.serialize(ss);
+  if (static_cast<int>(nested_.size()) == 0) {
+    resize(num0(), num1(), num2(), num3(), num4(), num5(), &nested_);
+  }
   nested_[bin0][bin1][bin2][bin3][bin4][bin5] = std::make_shared<RecursiveTable6D>(ss);
 }
 
@@ -693,10 +780,12 @@ double RecursiveTable6D::linear_interpolation(const double value0, const double 
   const double xd5 = table_xd_(value5, bin_spacing(5), num5(), &i5, &i52);
   TRACE("xd0 " << xd0 << " xd1 " << xd1 << " xd2 " << xd2 << " xd3 " << xd3 <<
        " xd4 " << xd4 << " xd5 " << xd5);
-  RecursiveTable6D * nested = nested_[i0][i1][i2][i3][i4][i5].get();
-  if (nested) {
-    TRACE("begin nested");
-    return nested->linear_interpolation(xd0, xd1, xd2, xd3, xd4, xd5);
+  if (static_cast<int>(nested_.size()) > 0) {
+    RecursiveTable6D * nested = nested_[i0][i1][i2][i3][i4][i5].get();
+    if (nested) {
+      TRACE("begin nested");
+      return nested->linear_interpolation(xd0, xd1, xd2, xd3, xd4, xd5);
+    }
   }
   return c00_(xd0, xd1, xd2, xd3, xd4, xd5, i0, i02, i1, i12, i2, i22, i3, i32, i4, i42, i5, i52);
 }
@@ -743,7 +832,6 @@ RecursiveTable6D RecursiveTable6D::combine(
   }
 
   DEBUG("added all nested tables to combined table");
-  std::stringstream ss;
   const int num = static_cast<int>(rtables.size());
   std::vector<const RecursiveTable6D *> ntabs(num);
   for (int i0 = 0; i0 < rcombined.num0(); ++i0) {
@@ -767,6 +855,31 @@ RecursiveTable6D RecursiveTable6D::combine(
   }
   DEBUG("done");
   return rcombined;
+}
+
+void RecursiveTable6D::add_rparallel(const RecursiveTable6D& table,
+    const int proc, const int num_procs) {
+  // add the base table
+  add_parallel(table, proc, num_procs);
+  // add the recursive table
+  if (static_cast<int>(nested_.size()) > 0) {
+    for (int i0 = 0; i0 < num0(); ++i0) {
+      for (int i1 = 0; i1 < num1(); ++i1) {
+        for (int i2 = 0; i2 < num2(); ++i2) {
+          for (int i3 = 0; i3 < num3(); ++i3) {
+            for (int i4 = 0; i4 < num4(); ++i4) {
+              for (int i5 = 0; i5 < num5(); ++i5) {
+                if (nested_[i0][i1][i2][i3][i4][i5]) {
+                  ASSERT(table.nested_[i0][i1][i2][i3][i4][i5], "err");
+                  nested_[i0][i1][i2][i3][i4][i5]->add_parallel(*(table.nested_[i0][i1][i2][i3][i4][i5]), proc, num_procs);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 }  // namespace feasst

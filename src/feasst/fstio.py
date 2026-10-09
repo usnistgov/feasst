@@ -2,6 +2,7 @@
 This module provides some utility input / output functions for use with the FEASST simulation program.
 """
 
+import copy
 import os
 import time
 import sys
@@ -30,7 +31,7 @@ def dict_to_argparse(dictionary):
         if dictionary[label] == "":
             rtrn += ' --'+label+' ""'
         else:
-            rtrn += ' --'+label+' '+str(dictionary[label])
+            rtrn += ' --'+label+' '+str(dictionary[label]).replace(" ","")
     return rtrn
 
 def vector3d_to_list(vec):
@@ -367,6 +368,79 @@ def run_simulations(params, queue_function, args, write_feasst_script=None, clie
                 queue_id = file1.read().splitlines()[-1]
             with open(params['prefix']+'_params'+queue_id+'.json', 'w') as file1:
                 file1.write(json.dumps(params, indent=2))
+    elif args.run_type == 2: # post process
+        post_process(params)
+    else:
+        assert False  # unrecognized run_type
+
+def slurm_multiple_jobs(params):
+    params['queue_command'] = "sbatch --array={queue_task}-{max_restarts}%1 {prefix}_slurm.txt".format(**params)
+    assert params['scratch'] == None or params['scratch'] == 'None'
+    args = copy.deepcopy(params['original_args'])
+    args['run_type'] = 0
+    args['job'] = params['job']
+    args['queue_id'] = "$SLURM_ARRAY_JOB_ID"
+    with open(params['prefix'] + '_slurm.txt', 'w', encoding='utf-8') as myfile:
+        myfile.write("""#!/bin/bash
+#SBATCH -n {procs_per_job}
+#SBATCH -N 1
+#SBATCH -t {minutes}:00
+#SBATCH -o {prefix}_slurm_%A_%a.txt
+#SBATCH -e {prefix}_slurm_%A_%a.txt
+#SBATCH {queue_flags}
+echo "Running ID ${{SLURM_ARRAY_JOB_ID}}_${{SLURM_ARRAY_TASK_ID}} on $(hostname) at $(date) in $PWD"
+cd $PWD
+export OMP_NUM_THREADS={procs_per_sim}
+python {script} """.format(**params)+dict_to_argparse(args)+"""
+echo "Time is $(date)"
+""".format(**params))
+
+def run_multiple(sim, params, args, sim_job_dependent_params, write_feasst_script, post_process):
+    params['sim'] = sim
+    syscode = seed_param_write_run(sim, params, args, sim_job_dependent_params, write_feasst_script)
+    if syscode == 0: # if simulation finishes with no errors, write to sim id file
+        with open(params['sim_id_file'], 'a', encoding='utf-8') as file1:
+            file1.write(str(sim)+'\n')
+
+def run_multiple_simulations(params, queue_function, args, write_feasst_script=None, client=None, sim_job_dependent_params=None, sim_node_dependent_params=None, post_process=None):
+    if 'feasst_exe' not in params:
+        params['feasst_exe'] = 'feasst'
+    if args.run_type == 0: # run directly
+        params['sim_id_file'] = prefix_job_to_sim_id_file(params['prefix'], params['job'])
+        if client:
+            assert False, 'not implemented'
+        with Pool(params['procs_per_job']) as pool:
+            sims = list(split(range(params['num_sims']), params['num_jobs']))[params['job']]
+            codes = pool.starmap(run_multiple, zip(sims, repeat(params), repeat(args),
+                                               repeat(sim_job_dependent_params),
+                                               repeat(write_feasst_script),
+                                               repeat(post_process)))
+            if np.count_nonzero(codes) > 0:
+                sys.exit(1)
+        # post process if not originally submitted as run_type 1
+        if params['queue_id'] <= 0:
+            post_process(params)
+    elif args.run_type == 1: # queue
+        for job in range(params['num_jobs']):
+            params['job'] = job
+            params['sim_id_file'] = """{prefix}j{job}_sim_ids.txt""".format(**params)
+            with open(params['sim_id_file'], 'w') as file1:
+                file1.close() # clear file, then append sim id when complete
+            queue_function(params)
+            subprocess.check_call(params['queue_command'], shell=True, executable='/bin/bash')
+        # wait for jobs to complete, then run post process just once
+        complete = False
+        while not complete and post_process is not None:
+            time.sleep(5)
+            all_complete = True
+            for job in range(params['num_jobs']):
+                sim_id_file = prefix_job_to_sim_id_file(params['prefix'], job)
+                if not all_sims_complete(sim_id_file, params['procs_per_job']):
+                    all_complete = False
+            if all_complete:
+                post_process(params)
+                complete = True
+
     elif args.run_type == 2: # post process
         post_process(params)
     else:

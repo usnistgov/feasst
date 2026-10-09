@@ -388,3 +388,4 @@ To Do List
 * TrialRotate::site!=0 with mixed iso/aniso sites not accepted.
 * variable in For loop cannot be used more than once in a line.
 * create a "Run Scope" for trials, analyze, modify that go away when Run is complete?
+* feasst-menu AnalyzeBond not found

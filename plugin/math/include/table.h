@@ -116,6 +116,9 @@ class Table1D : virtual public Table {
   /// Combine independently-generated tables into one (from parallel build).
   Table1D combine(const std::vector<const Table1D *>& tables) const;
 
+  /// Add the index-th parallel table.
+  void add_parallel(const Table1D& table, const int proc, const int num_procs);
+
   /// Return true if equal to given table.
   bool is_equal(const Table1D& table) const;
 
@@ -205,6 +208,9 @@ class Table2D : virtual public Table {
 
   /// Combine independently-generated tables into one (from parallel build).
   Table2D combine(const std::vector<const Table2D *>& tables) const;
+
+  /// Add the index-th parallel table.
+  void add_parallel(const Table2D& table, const int proc, const int num_procs);
 
   double minimum() const override;
   double maximum() const override;
@@ -304,6 +310,9 @@ class Table3D : virtual public Table {
 
   /// Combine independently-generated tables into one (from parallel build).
   Table3D combine(const std::vector<const Table3D *>& tables) const;
+
+  /// Add the index-th parallel table.
+  void add_parallel(const Table3D& table, const int proc, const int num_procs);
 
   double minimum() const override;
   double maximum() const override;
@@ -418,6 +427,9 @@ class Table4D : virtual public Table {
 
   /// Combine independently-generated tables into one (from parallel build).
   Table4D combine(const std::vector<const Table4D *>& tables) const;
+
+  /// Add the index-th parallel table.
+  void add_parallel(const Table4D& table, const int proc, const int num_procs);
 
   double minimum() const override;
   double maximum() const override;
@@ -544,6 +556,9 @@ class Table5D : virtual public Table {
   /// Combine independently-generated tables into one (from parallel build).
   Table5D combine(const std::vector<const Table5D *>& tables) const;
 
+  /// Add the index-th parallel table.
+  void add_parallel(const Table5D& table, const int proc, const int num_procs);
+
   /// Return true if equal to given table.
   bool is_equal(const Table5D& table) const;
 
@@ -669,6 +684,9 @@ class Table6D : virtual public Table {
 
   /// Combine independently-generated tables into one (from parallel build).
   Table6D combine(const std::vector<const Table6D *>& tables) const;
+
+  /// Add the index-th parallel table.
+  void add_parallel(const Table6D& table, const int proc, const int num_procs);
 
   /// Return true if equal to given table.
   bool is_equal(const Table6D& table) const;

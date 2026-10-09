@@ -26,8 +26,7 @@ class Movie : public AnalyzeWriteOnly {
   /** @name Arguments
     - FileXYZ arguments (e.g., group_index).
     - FileVMD arguments (e.g., min_sigma).
-    - Stepper arguments.
-    - append is always set to true via Stepper:set_append().
+    - Stepper arguments (note that append is always set to true).
    */
   explicit Movie(argtype args = argtype());
   explicit Movie(argtype * args);

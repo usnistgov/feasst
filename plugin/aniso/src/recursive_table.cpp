@@ -263,84 +263,257 @@ RecursiveTable::RecursiveTable(std::istream& istr) : VisitModelInnerTable(istr) 
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 6855, "unrecognized version: " << version);
   feasst_deserialize(&input_file_, istr);
-  feasst_deserialize_fstobj(&contact_, istr);
-  feasst_deserialize_fstobj(&contact2d_, istr);
-  feasst_deserialize_fstobj(&cutoff_, istr);
-  feasst_deserialize_fstobj(&cutoff2d_, istr);
-  feasst_deserialize_fstobj(&energy_, istr);
-  feasst_deserialize_fstobj(&energy3d_, istr);
-  feasst_deserialize_fstobj(&contact1d_, istr);
-  feasst_deserialize_fstobj(&cutoff1d_, istr);
-  feasst_deserialize_fstobj(&energy2d_, istr);
+  if (input_file_.empty()) {
+    feasst_deserialize_fstobj(&contact_, istr);
+    feasst_deserialize_fstobj(&contact2d_, istr);
+    feasst_deserialize_fstobj(&contact1d_, istr);
+    feasst_deserialize_fstobj(&cutoff_, istr);
+    feasst_deserialize_fstobj(&cutoff2d_, istr);
+    feasst_deserialize_fstobj(&cutoff1d_, istr);
+    feasst_deserialize_fstobj(&energy_, istr);
+    feasst_deserialize_fstobj(&energy3d_, istr);
+    feasst_deserialize_fstobj(&energy2d_, istr);
+  }
   feasst_deserialize(&inner_, istr);
 }
 
 void RecursiveTable::serialize(std::ostream& ostr) const {
+  serialize("all", ostr);
+//  ostr << class_name_ << " ";
+//  serialize_visit_model_inner_table_(ostr);
+//  feasst_serialize_version(6855, ostr);
+//  feasst_serialize(input_file_, ostr);
+//  if (input_file_.empty()) {
+//  //if input file is empty, serialize table, otherwise, read from input file instead
+//    feasst_serialize_fstobj(contact_, ostr);
+//    feasst_serialize_fstobj(contact2d_, ostr);
+//    feasst_serialize_fstobj(cutoff_, ostr);
+//    feasst_serialize_fstobj(cutoff2d_, ostr);
+//    feasst_serialize_fstobj(energy_, ostr);
+//    feasst_serialize_fstobj(energy3d_, ostr);
+//    feasst_serialize_fstobj(contact1d_, ostr);
+//    feasst_serialize_fstobj(cutoff1d_, ostr);
+//    feasst_serialize_fstobj(energy2d_, ostr);
+//  }
+//  feasst_serialize(inner_, ostr);
+}
+
+void RecursiveTable::serialize(const std::string& type,
+    std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_inner_table_(ostr);
   feasst_serialize_version(6855, ostr);
   feasst_serialize(input_file_, ostr);
-  feasst_serialize_fstobj(contact_, ostr);
-  feasst_serialize_fstobj(contact2d_, ostr);
-  feasst_serialize_fstobj(cutoff_, ostr);
-  feasst_serialize_fstobj(cutoff2d_, ostr);
-  feasst_serialize_fstobj(energy_, ostr);
-  feasst_serialize_fstobj(energy3d_, ostr);
-  feasst_serialize_fstobj(contact1d_, ostr);
-  feasst_serialize_fstobj(cutoff1d_, ostr);
-  feasst_serialize_fstobj(energy2d_, ostr);
+  bool is_contact = false, is_cutoff = false, is_energy = false;
+  if (type == "contact") {
+    is_contact = true;
+  } else if (type == "cutoff") {
+    is_cutoff = true;
+  } else if (type == "energy") {
+    is_energy = true;
+  } else if (type == "all") {
+    is_contact = true;
+    is_cutoff = true;
+    is_energy = true;
+  } else {
+    FATAL("unrecognized type: " << type);
+  }
+  if (input_file_.empty()) {
+    // create dummy empty objects to serialize non-contacts
+    std::vector<std::vector<RecursiveTable5D> > contact;
+    std::vector<std::vector<RecursiveTable5D> > cutoff;
+    std::vector<std::vector<RecursiveTable6D> > energy;
+    std::vector<std::vector<RecursiveTable2D> > contact2d;
+    std::vector<std::vector<RecursiveTable2D> > cutoff2d;
+    std::vector<std::vector<RecursiveTable3D> > energy3d;
+    std::vector<std::vector<RecursiveTable1D> > contact1d;
+    std::vector<std::vector<RecursiveTable1D> > cutoff1d;
+    std::vector<std::vector<RecursiveTable2D> > energy2d;
+    if (is_contact) {
+      feasst_serialize_fstobj(contact_, ostr);
+      feasst_serialize_fstobj(contact2d_, ostr);
+      feasst_serialize_fstobj(contact1d_, ostr);
+    } else {
+      feasst_serialize_fstobj(contact, ostr);
+      feasst_serialize_fstobj(contact2d, ostr);
+      feasst_serialize_fstobj(contact1d, ostr);
+    }
+    if (is_cutoff) {
+      feasst_serialize_fstobj(cutoff_, ostr);
+      feasst_serialize_fstobj(cutoff2d_, ostr);
+      feasst_serialize_fstobj(cutoff1d_, ostr);
+    } else {
+      feasst_serialize_fstobj(cutoff, ostr);
+      feasst_serialize_fstobj(cutoff2d, ostr);
+      feasst_serialize_fstobj(cutoff1d, ostr);
+    }
+    if (is_energy) {
+      feasst_serialize_fstobj(energy_, ostr);
+      feasst_serialize_fstobj(energy3d_, ostr);
+      feasst_serialize_fstobj(energy2d_, ostr);
+    } else {
+      feasst_serialize_fstobj(energy, ostr);
+      feasst_serialize_fstobj(energy3d, ostr);
+      feasst_serialize_fstobj(energy2d, ostr);
+    }
+  }
   feasst_serialize(inner_, ostr);
 }
 
 RecursiveTable RecursiveTable::from_file(const std::string& filename) {
   ASSERT(file_exists(filename), "file:" << filename << " was not found.");
   std::ifstream file(filename);
+  ASSERT(file.rdbuf()->in_avail() != 0, "file is empty");
   std::stringstream ss;
   ss << file.rdbuf();
   return RecursiveTable(ss);
 }
 
-RecursiveTable RecursiveTable::from_parallel_build(
-    const std::vector<RecursiveTable>& tables) {
-  int ntype = static_cast<int>(tables[0].contact_.size());
-  int dimension;
-  { DEBUG("initialize dimension");
-    if (ntype > 0) {
-      dimension = 5;
+void RecursiveTable::get_attributes_(
+    const RecursiveTable& table, int * ntype, int * dimension, bool * cutoff,
+    bool * energy) const {
+  *ntype = static_cast<int>(table.contact_.size());
+  if (*ntype > 0) {
+    *dimension = 5;
+  } else {
+    *ntype = static_cast<int>(table.contact1d_.size());
+    if (*ntype > 0) {
+      *dimension = 1;
     } else {
-      ntype = static_cast<int>(tables[0].contact1d_.size());
-      if (ntype > 0) {
-        dimension = 1;
+      *ntype = static_cast<int>(table.contact2d_.size());
+      if (*ntype > 0) {
+        *dimension = 2;
       } else {
-        ntype = static_cast<int>(tables[0].contact2d_.size());
-        if (ntype > 0) {
-          dimension = 2;
+        *ntype = static_cast<int>(table.cutoff_.size());
+        if (*ntype > 0) {
+          *dimension = 5;
         } else {
-          FATAL("unrecognized tables with sizes contact:" <<
-            tables[0].contact_.size() << " contact1d:" <<
-            tables[0].contact1d_.size() << " contact2d:" <<
-            tables[0].contact2d_.size());
+          *ntype = static_cast<int>(table.cutoff1d_.size());
+          if (*ntype > 0) {
+            *dimension = 1;
+          } else {
+            *ntype = static_cast<int>(table.cutoff2d_.size());
+            if (*ntype > 0) {
+              *dimension = 2;
+            } else {
+              *ntype = static_cast<int>(table.energy_.size());
+              if (*ntype > 0) {
+                *dimension = 5;
+              } else {
+                *ntype = static_cast<int>(table.energy2d_.size());
+                if (*ntype > 0) {
+                  *dimension = 1;
+                } else {
+                  *ntype = static_cast<int>(table.energy3d_.size());
+                  if (*ntype > 0) {
+                    *dimension = 2;
+                  } else {
+                    FATAL("unrecognized tables with sizes contact:" <<
+                      table.contact_.size() << " contact1d:" <<
+                      table.contact1d_.size() << " contact2d:" <<
+                      table.contact2d_.size());
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
-    DEBUG("dimension " << dimension);
+  }
+  DEBUG("dimension " << *dimension);
+
+  *cutoff = false;
+  *energy = false;
+  { DEBUG("initialize cutoff/energy");
+    if ( (table.cutoff_.size() > 0) ||
+         (table.cutoff2d_.size() > 0) ||
+         (table.cutoff1d_.size() > 0) ) {
+      *cutoff = true;
+    }
+    if ( (table.energy_.size() > 0) ||
+         (table.energy3d_.size() > 0) ||
+         (table.energy2d_.size() > 0) ) {
+      *energy = true;
+    }
+    DEBUG("cutoff? " << *cutoff);
+    DEBUG("energy? " << *energy);
+  }
+}
+
+void RecursiveTable::add(const RecursiveTable& table, const int proc,
+    const int num_procs, const std::string& type) {
+  int ntype, dimension;
+  bool cutoff, energy;
+  DEBUG("attributes of self");
+  get_attributes_(*this, &ntype, &dimension, &cutoff, &energy);
+
+  { DEBUG("assert same table attributes.");
+    int ntype2, dimension2;
+    bool cutoff2, energy2;
+    get_attributes_(table, &ntype2, &dimension2, &cutoff2, &energy2);
+    ASSERT(ntype==ntype2, "ntype:" << ntype << " ntype2:" << ntype2);
+    ASSERT(dimension==dimension2, "dimension:" << dimension << " dimension2:" << dimension2);
+    ASSERT(cutoff==cutoff2, "cutoff:" << cutoff << " cutoff2:" << cutoff2);
+    ASSERT(energy==energy2, "energy:" << energy << " energy2:" << energy2);
   }
 
-  bool cutoff = false, energy = false;
-  { DEBUG("initialize cutoff/energy");
-    if ( (tables[0].cutoff_.size() > 0) ||
-         (tables[0].cutoff2d_.size() > 0) ||
-         (tables[0].cutoff1d_.size() > 0) ) {
-      cutoff = true;
-    }
-    if ( (tables[0].energy_.size() > 0) ||
-         (tables[0].energy3d_.size() > 0) ||
-         (tables[0].energy2d_.size() > 0) ) {
-      energy = true;
-    }
-    DEBUG("cutoff? " << cutoff);
-    DEBUG("energy? " << energy);
+  bool combine_contact = true,
+       combine_cutoff = true,
+       combine_energy = true;
+  if (type == "recursive_table_cutoff") {
+    combine_contact = false;
+    combine_energy = false;
+  } else if (type == "recursive_table_contact") {
+    combine_cutoff = false;
+    combine_energy = false;
+  } else if (type == "recursive_table_energy") {
+    combine_contact = false;
+    combine_cutoff = false;
   }
+  DEBUG("combine_contact " << combine_contact);
+  DEBUG("combine_cutoff " << combine_cutoff);
+  DEBUG("combine_energy " << combine_energy);
+
+  for (int it = 0; it < ntype; ++it) {
+    for (int jt = it; jt < ntype; ++jt) {
+      if (dimension == 5) {
+        if (combine_contact) contact_[it][jt].add_rparallel(table.contact_[it][jt], proc, num_procs);
+        if (cutoff) {
+          if (combine_cutoff) cutoff_[it][jt].add_rparallel(table.cutoff_[it][jt], proc, num_procs);
+          if (energy) {
+            if (combine_energy) energy_[it][jt].add_rparallel(table.energy_[it][jt], proc, num_procs);
+          }
+        }
+      } else if (dimension == 2) {
+        if (combine_contact) contact2d_[it][jt].add_rparallel(table.contact2d_[it][jt], proc, num_procs);
+        if (cutoff) {
+          if (combine_cutoff) cutoff2d_[it][jt].add_rparallel(table.cutoff2d_[it][jt], proc, num_procs);
+          if (energy) {
+            if (combine_energy) energy3d_[it][jt].add_rparallel(table.energy3d_[it][jt], proc, num_procs);
+          }
+        }
+      } else if (dimension == 1) {
+        DEBUG("proc " << proc << " num_procs " << num_procs);
+        if (combine_contact) contact1d_[it][jt].add_rparallel(table.contact1d_[it][jt], proc, num_procs);
+        if (cutoff) {
+          if (combine_cutoff) cutoff1d_[it][jt].add_rparallel(table.cutoff1d_[it][jt], proc, num_procs);
+          if (energy) {
+            if (combine_energy) energy2d_[it][jt].add_rparallel(table.energy2d_[it][jt], proc, num_procs);
+          }
+        }
+      } else {
+        FATAL("not implemented");
+      }
+    }
+  }
+}
+
+RecursiveTable RecursiveTable::from_parallel_build(
+    const std::vector<RecursiveTable>& tables) {
+  int ntype, dimension;
+  bool cutoff, energy;
+  get_attributes_(tables[0], &ntype, &dimension, &cutoff, &energy);
 
   RecursiveTable combined;
   if (dimension == 5) {
@@ -399,7 +572,7 @@ RecursiveTable RecursiveTable::from_parallel_build(
     } else {
       FATAL("not implemented");
     }
-    for (int jt = 0; jt < ntype; ++jt) {
+    for (int jt = it; jt < ntype; ++jt) {
       if (dimension == 5) {
         std::vector<const RecursiveTable5D*> contacts;
         for (auto& table : tables) {
@@ -500,6 +673,12 @@ bool RecursiveTable::is_equal(const RecursiveTable& table) const {
   }}}}}}}}}
   INFO("not equal");
   return false;
+}
+
+void RecursiveTable::print_sizes() const {
+  INFO("sizes of contact:" << contact_.size() << " contact2d:" << contact2d_.size() << " contact1d:" << contact1d_.size() << " "
+       "cutoff:" << cutoff_.size() << " cutoff2d:" << cutoff2d_.size() << " cutoff1d:" << cutoff1d_.size() << " "
+       "energy:" << energy_.size() << " energy3d:" << energy3d_.size() << " energy2d:" << energy2d_.size());
 }
 
 }  // namespace feasst

@@ -21,6 +21,8 @@ class RecursiveTable : public VisitModelInnerTable {
  public:
   //@{
   /** @name Arguments
+    - input_file: comma-separted format with values of site1-site2:filename,
+      where site1 and site2 are the site names for the pair interaction.
     - VisitModelInnerTable arguments.
    */
   explicit RecursiveTable(argtype args = argtype());
@@ -57,6 +59,13 @@ class RecursiveTable : public VisitModelInnerTable {
   /// Return true if equal
   bool is_equal(const RecursiveTable& table) const;
 
+  /// Add the index-th parallel table (base and recursive elements).
+  void add(const RecursiveTable& table, const int proc, const int num_procs,
+    const std::string& type);
+
+  /// Print the size of the table vectors to the std screen.
+  void print_sizes() const;
+
   std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
     return std::make_shared<RecursiveTable>(istr); }
   std::shared_ptr<VisitModelInner> create(argtype * args) const override {
@@ -64,6 +73,8 @@ class RecursiveTable : public VisitModelInnerTable {
   void serialize(std::ostream& ostr) const override;
   explicit RecursiveTable(std::istream& istr);
   virtual ~RecursiveTable() {}
+
+  void serialize(const std::string& type, std::ostream& ostr) const;
 
   std::vector<std::vector<RecursiveTable5D> > contact_;
   std::vector<std::vector<RecursiveTable5D> > cutoff_;
@@ -78,6 +89,8 @@ class RecursiveTable : public VisitModelInnerTable {
   //@}
  private:
   std::string input_file_;
+
+  void get_attributes_(const RecursiveTable& table, int * ntype, int * dimension, bool * cutoff, bool * energy) const;
 };
 
 }  // namespace feasst

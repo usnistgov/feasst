@@ -196,6 +196,21 @@ Table1D Table1D::combine(const std::vector<const Table1D *>& tables) const {
   return combined;
 }
 
+void Table1D::add_parallel(const Table1D& table, const int proc,
+    const int num_procs) {
+  ASSERT(num_procs > 0, "Err");
+  int tab = 0;
+  for (int i0 = 0; i0 < num(); ++i0) {
+    if (tab == proc) {
+      set_data(i0, table.data()[i0]);
+    }
+    ++tab;
+    if (tab >= num_procs) {
+      tab = 0;
+    }
+  }
+}
+
 bool Table1D::is_equal(const Table1D& table) const {
   if (feasst::is_equal_fixed_tolerance(data_, table.data_)) {
     if (feasst::is_equal_fixed_tolerance(bin_spacing_, table.bin_spacing_)) {
@@ -302,6 +317,23 @@ Table2D Table2D::combine(const std::vector<const Table2D *>& tables) const {
     }
   }
   return combined;
+}
+
+void Table2D::add_parallel(const Table2D& table, const int proc,
+    const int num_procs) {
+  ASSERT(num_procs > 0, "Err");
+  int tab = 0;
+  for (int i0 = 0; i0 < num0(); ++i0) {
+    for (int i1 = 0; i1 < num1(); ++i1) {
+      if (tab == proc) {
+        set_data(i0, i1, table.data()[i0][i1]);
+      }
+      ++tab;
+      if (tab >= num_procs) {
+        tab = 0;
+      }
+    }
+  }
 }
 
 bool Table2D::is_equal(const Table2D& table) const {
@@ -437,6 +469,25 @@ Table3D Table3D::combine(const std::vector<const Table3D *>& tables) const {
     }
   }
   return combined;
+}
+
+void Table3D::add_parallel(const Table3D& table, const int proc,
+    const int num_procs) {
+  ASSERT(num_procs > 0, "Err");
+  int tab = 0;
+  for (int i0 = 0; i0 < num0(); ++i0) {
+    for (int i1 = 0; i1 < num1(); ++i1) {
+      for (int i2 = 0; i2 < num2(); ++i2) {
+        if (tab == proc) {
+          set_data(i0, i1, i2, table.data()[i0][i1][i2]);
+        }
+        ++tab;
+        if (tab >= num_procs) {
+          tab = 0;
+        }
+      }
+    }
+  }
 }
 
 bool Table3D::is_equal(const Table3D& table) const {
@@ -580,6 +631,27 @@ Table4D Table4D::combine(const std::vector<const Table4D *>& tables) const {
     }
   }
   return combined;
+}
+
+void Table4D::add_parallel(const Table4D& table, const int proc,
+    const int num_procs) {
+  ASSERT(num_procs > 0, "Err");
+  int tab = 0;
+  for (int i0 = 0; i0 < num0(); ++i0) {
+    for (int i1 = 0; i1 < num1(); ++i1) {
+      for (int i2 = 0; i2 < num2(); ++i2) {
+        for (int i3 = 0; i3 < num3(); ++i3) {
+          if (tab == proc) {
+            set_data(i0, i1, i2, i3, table.data()[i0][i1][i2][i3]);
+          }
+          ++tab;
+          if (tab >= num_procs) {
+            tab = 0;
+          }
+        }
+      }
+    }
+  }
 }
 
 bool Table4D::is_equal(const Table4D& table) const {
@@ -775,6 +847,29 @@ Table5D Table5D::combine(const std::vector<const Table5D *>& tables) const {
     }
   }
   return combined;
+}
+
+void Table5D::add_parallel(const Table5D& table, const int proc,
+    const int num_procs) {
+  ASSERT(num_procs > 0, "Err");
+  int tab = 0;
+  for (int i0 = 0; i0 < num0(); ++i0) {
+    for (int i1 = 0; i1 < num1(); ++i1) {
+      for (int i2 = 0; i2 < num2(); ++i2) {
+        for (int i3 = 0; i3 < num3(); ++i3) {
+          for (int i4 = 0; i4 < num4(); ++i4) {
+            if (tab == proc) {
+              set_data(i0, i1, i2, i3, i4, table.data()[i0][i1][i2][i3][i4]);
+            }
+            ++tab;
+            if (tab >= num_procs) {
+              tab = 0;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 bool Table5D::is_equal(const Table5D& table) const {
@@ -1041,6 +1136,36 @@ Table6D Table6D::combine(const std::vector<const Table6D *>& tables) const {
     }
   }
   return combined;
+}
+
+void Table6D::add_parallel(const Table6D& table, const int proc,
+    const int num_procs) {
+  ASSERT(num_procs > 0, "Err");
+  int tab = 0;
+  for (int i0 = 0; i0 < num0(); ++i0) {
+    const fvec5& dat5 = table.data()[i0];
+    for (int i1 = 0; i1 < num1(); ++i1) {
+      const fvec4& dat4 = dat5[i1];
+      for (int i2 = 0; i2 < num2(); ++i2) {
+        const fvec3& dat3 = dat4[i2];
+        for (int i3 = 0; i3 < num3(); ++i3) {
+          const fvec2& dat2 = dat3[i3];
+          for (int i4 = 0; i4 < num4(); ++i4) {
+            const std::vector<float>& dat = dat2[i4];
+            for (int i5 = 0; i5 < num5(); ++i5) {
+              if (tab == proc) {
+                set_data(i0, i1, i2, i3, i4, i5, dat[i5]);
+              }
+              ++tab;
+              if (tab >= num_procs) {
+                tab = 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 bool Table6D::is_equal(const Table6D& table) const {

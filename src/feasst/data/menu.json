@@ -1512,7 +1512,7 @@
     [
       "type",
       "CombineParallelFiles",
-      "type of file, which can be recursive_table or trained. ",
+      "type of file, which can be the following: - trained: input a trained file name. - recursive_table: combine a base table to begin building RecursiveTable. - recursive_table_contact: only combine the contact part. - recursive_table_cutoff: only combine the cutoff part. - recursive_table_energy: only combine the energy part. - contact_and_cutoff: requires input2_suffix for the cutoff file. ",
       ""
     ],
     [
@@ -1736,7 +1736,7 @@
     [
       "model_param_file",
       "Configuration__optional__",
-      "optionally input ModelParam with this file with either a three- or four-column space-separated format on each line as follows: \"[parameter] [site type name] [value]\" \"[parameter] [site type name 1] [site type name 2] [value]\" This file can be used to override the otherwise default Lorentz-Berthelot combining rules. Mixing is always symmetric (e.g., params[i][j] == param[j][i]). Comment lines beginning with the '#' character are ignored. ",
+      "optionally input ModelParam with this file with either a three- or four-column space-separated format on each line as follows: \"[parameter] [site type name] [value]\" \"[parameter] [site type name 1] [site type name 2] [value]\" This file can be used to override the otherwise default Lorentz-Berthelot combining rules. Combining is always symmetric (e.g., params[i][j] == param[j][i]). Comment lines beginning with the '#' character are ignored. ",
       ""
     ],
     [
@@ -5309,14 +5309,7 @@
       "Selecting this option will finish adding parameters for the class listed above."
     ]
   ],
-  "Movie": [
-    [
-      "append is always set to true via Stepper",
-      "Movie",
-      "et_append(). ",
-      ""
-    ]
-  ],
+  "Movie": [],
   "MoviePatch": [
     [
       "append is always set to true via Stepper",
@@ -6967,6 +6960,12 @@
     ]
   ],
   "RecursiveTable": [
+    [
+      "input_file",
+      "RecursiveTable",
+      "comma-separted format with values of site1-site2:filename, where site1 and site2 are the site names for the pair interaction. ",
+      ""
+    ],
     [
       "table_file",
       "VisitModelInnerTable",

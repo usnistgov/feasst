@@ -14,28 +14,42 @@ CombineParallelFiles::CombineParallelFiles(argtype * args) : Action(args) {
   class_name_ = "CombineParallelFiles";
   const std::string input_prefix = str("input_prefix", args);
   const std::string input_suffix = str("input_suffix", args, "");
-  const int num_processors = integer("num_processors", args);
+  const std::string input2_suffix = str("input2_suffix", args, "");
+  const std::string output_file = str("output_file", args, "");
+  const int num_processors = integer("num_processors", args, -1);
   const std::string type = str("type", args);
-  if (type == "recursive_table") {
-    RecursiveTable reader;
-    std::vector<RecursiveTable> tables;
-    //const std::vector<int> bins = {0,0,0,0,0};  // temporary for testing
+  const bool recur_table = type.compare(0, 15, "recursive_table", 0, 15) == 0;
+  RecursiveTable combined;
+  if (recur_table) {
     for (int proc = 0; proc < num_processors; ++proc) {
       const std::string filename = input_prefix + str(proc) + input_suffix;
       DEBUG("filename " << filename);
-      tables.push_back(reader.from_file(filename));
-      DEBUG(proc << " " << tables[proc].cutoff2d_.size());
+      if (proc == 0) {
+        DEBUG("proc0");
+        combined = combined.from_file(filename);
+        //combined.print_sizes();
+      } else {
+        RecursiveTable one;
+        one = one.from_file(filename);
+        //one.print_sizes();
+        combined.add(one, proc, num_processors, type);
+      }
     }
-    RecursiveTable combined = reader.from_parallel_build(tables);
     DEBUG(combined.cutoff2d_.size());
-//    INFO(tables[0].contact_[0][0].nested(bins).data()[0][0][0][0][0]);
-    //INFO( combined.contact_[0][0].nested(bins).data()[0][0][0][0][1]);
-    std::stringstream ss;
-    combined.serialize(ss);
-    const std::string filename = input_prefix+input_suffix;
-    std::ofstream file(filename);
-    ASSERT(file.good(), "Error handing filename: " << filename);
-    file << ss.str();
+  } else if (type == "contact_and_cutoff") {
+    combined = combined.from_file(input_prefix + input_suffix);
+    RecursiveTable cutoff;
+    cutoff = cutoff.from_file(input_prefix + input2_suffix);
+    combined.cutoff_ = cutoff.cutoff_;
+    combined.cutoff2d_ = cutoff.cutoff2d_;
+    combined.cutoff1d_ = cutoff.cutoff1d_;
+  } else if (type == "contact_cutoff_energy") {
+    combined = combined.from_file(input_prefix + input_suffix);
+    RecursiveTable energy;
+    energy = energy.from_file(input_prefix + input2_suffix);
+    combined.energy_ = energy.energy_;
+    combined.energy3d_ = energy.energy3d_;
+    combined.energy2d_ = energy.energy2d_;
   } else if (type == "trained") {
     std::vector<std::vector<rbin> > rbins_in_proc(num_processors);
     rbin max_bins;
@@ -63,12 +77,35 @@ CombineParallelFiles::CombineParallelFiles(argtype * args) : Action(args) {
     FATAL("unrecognized file type: " << type);
   }
 
+  if (recur_table || type == "contact_and_cutoff" || type == "contact_cutoff_energy") {
+    std::stringstream ss;
+    combined.serialize(ss);
+    std::string filename;
+    if (!output_file.empty()) {
+      filename = output_file;
+    } else {
+      if (recur_table) {
+        filename = input_prefix+input_suffix;
+      } else {
+        filename = input_prefix+input_suffix+input2_suffix;
+      }
+    }
+    std::ofstream file(filename);
+    ASSERT(file.good(), "Error handing filename: " << filename);
+    file << ss.str();
+  }
+
   // If successful, remove input files
   if (boolean("cleanup", args, true)) {
-    DEBUG("cleaning");
-    for (int proc = 0; proc < num_processors; ++proc) {
-      const std::string filename = input_prefix + str(proc) + input_suffix;
-      remove_file(filename);
+    if (recur_table || type == "trained") {
+      DEBUG("cleaning");
+      for (int proc = 0; proc < num_processors; ++proc) {
+        const std::string filename = input_prefix + str(proc) + input_suffix;
+        remove_file(filename);
+      }
+    } else if (type == "contact_and_cutoff" || type == "contact_cutoff_energy") {
+      remove_file(input_prefix + input_suffix);
+      remove_file(input_prefix + input2_suffix);
     }
   }
 }

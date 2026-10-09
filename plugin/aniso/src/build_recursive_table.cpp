@@ -32,6 +32,7 @@ BuildRecursiveTable::BuildRecursiveTable(argtype * args) {
   extra_verbose_ = boolean("extra_verbose", args, false);
   hard_limit_u_ = dble("hard_limit_u", args, 100);
   num_z_ = dble("num_z", args, 5);
+  ASSERT(num_z_ > 1, "BuildRecursiveTable::num_z must be greater than one.");
   num_orientations_per_pi_ = dble("num_orientations_per_pi", args, 5);
   beta_ = dble("beta", args, 1.);
   min_criteria_ = dble("min_criteria", args, 0.03);
@@ -268,7 +269,7 @@ RecursiveTable2D BuildRecursiveTable::build_2dcontact_(const std::vector<std::ve
 // HWH copied from below
 RecursiveTable6D BuildRecursiveTable::build_energy_(const std::vector<std::vector<double> >& bounds, const std::vector<double>& zbnds, const std::string& verbf, const RecursiveTable5D& contact, const RecursiveTable5D& cutoff, System * system, std::vector<System> * systems) {
   Rotator rotator = gen_rotator_(bounds, system);
-  INFO("num orientations:" << rotator.num_orientations());
+  DEBUG("num orientations:" << rotator.num_orientations());
   int num_threads;
   std::vector<Rotator> rotators;
   gen_rotators_(bounds, systems, &num_threads, &rotators);
@@ -297,7 +298,7 @@ RecursiveTable6D BuildRecursiveTable::build_energy_(const std::vector<std::vecto
       --subsize;
       idis_start = 1;
     }
-    INFO("full range " << full_range << " subsize " << subsize << " dzpn " << dzpn);
+    DEBUG("full range " << full_range << " subsize " << subsize << " dzpn " << dzpn);
     const int ithread = ThreadOMP().thread();
     if (ithread < num_threads) {
       Rotator * irotator = get_rotator_(ithread, &rotator, &rotators);
@@ -745,7 +746,7 @@ void BuildRecursiveTable::base_iso_iso_(std::ostream& ostr, MonteCarlo * mc) {
 
 void BuildRecursiveTable::base(const bool is_energy, MonteCarlo * mc) {
   const Configuration& config = mc->system().configuration();
-  std::stringstream ss;
+  std::stringstream ss, ss2;
   if (config.particle(0).num_sites() == 1) {
     base_iso_iso_(ss, mc);
   } else {
@@ -771,18 +772,23 @@ void BuildRecursiveTable::base(const bool is_energy, MonteCarlo * mc) {
       systems[thread] = deep_copy(mc->system());
     }
 
-    std::string verbf = verbose_name_(0);
-    if (is_energy) {
-      verbf += "en";
+    std::string verbfcut, verbf = verbose_name_(0);
+    if (!verbf.empty()) {
+      if (is_energy) {
+        verbf += "en";
+      }
+      verbfcut = verbf + "cut";
     }
     const std::vector<std::vector<double> >& abnd = Rotator().gen_global_bounds(config);
     if (second_particle_iso && is_2d) {
       if (!is_energy) {
         const auto contact = build_1dcontact_(abnd, verbf, mc->get_system(), &systems);
         base_rt_->contact1d_ = {{contact}};
+        //if (stage_ != "all") contact.serialize(ss);
         if (!contact_only_) {
-          const auto cutoff = build_1dcontact_(abnd, verbf+"cut", mc->get_system(), &systems, true);
+          const auto cutoff = build_1dcontact_(abnd, verbfcut, mc->get_system(), &systems, true);
           base_rt_->cutoff1d_ = {{cutoff}};
+          //if (stage_ != "all") cutoff.serialize(ss2);
         }
       } else {
         ASSERT(!contact_only_, "err");
@@ -790,15 +796,18 @@ void BuildRecursiveTable::base(const bool is_energy, MonteCarlo * mc) {
         const auto& cutoff  = base_rt_->cutoff1d_[0][0];
         const auto energy = build_2denergy_(abnd, {0., 1.}, verbf, contact, cutoff, mc->get_system(), &systems);
         base_rt_->energy2d_ = {{energy}};
+        //if (stage_ != "all") energy.serialize(ss);
       }
     } else if (( second_particle_iso && !is_2d) ||
                (!second_particle_iso &&  is_2d)) {
       if (!is_energy) {
         const auto contact = build_2dcontact_(abnd, verbf, mc->get_system(), &systems);
         base_rt_->contact2d_ = {{contact}};
+        //if (stage_ != "all") contact.serialize(ss);
         if (!contact_only_) {
-          const auto cutoff = build_2dcontact_(abnd, verbf+"cut", mc->get_system(), &systems, true);
+          const auto cutoff = build_2dcontact_(abnd, verbfcut, mc->get_system(), &systems, true);
           base_rt_->cutoff2d_ = {{cutoff}};
+          //if (stage_ != "all") cutoff.serialize(ss2);
         }
       } else {
         ASSERT(!contact_only_, "err");
@@ -809,15 +818,18 @@ void BuildRecursiveTable::base(const bool is_energy, MonteCarlo * mc) {
         const auto& cutoff  = base_rt_->cutoff2d_[0][0];
         const auto energy = build_3denergy_(abnd, {0., 1.}, verbf, contact, cutoff, mc->get_system(), &systems);
         base_rt_->energy3d_ = {{energy}};
+        //if (stage_ != "all") energy.serialize(ss);
       }
     } else {
       if (!is_energy) {
         const auto contact = build_contact_(abnd, verbf, mc->get_system(), &systems);
         base_rt_->contact_ = {{contact}};
+        //if (stage_ != "all") contact.serialize(ss);
         if (!contact_only_) {
           INFO("building cutoff");
-          const auto cutoff = build_contact_(abnd, verbf+"cut", mc->get_system(), &systems, true);
+          const auto cutoff = build_contact_(abnd, verbfcut, mc->get_system(), &systems, true);
           base_rt_->cutoff_ = {{cutoff}};
+          //if (stage_ != "all") cutoff.serialize(ss2);
         }
       } else {
         ASSERT(!contact_only_, "err");
@@ -827,9 +839,22 @@ void BuildRecursiveTable::base(const bool is_energy, MonteCarlo * mc) {
         const auto& cutoff  = base_rt_->cutoff_[0][0];
         const auto energy = build_energy_(abnd, {0., 1.}, verbf, contact, cutoff, mc->get_system(), &systems);
         base_rt_->energy_ = {{energy}};
+        //if (stage_ != "all") energy.serialize(ss);
       }
     }
-    base_rt_->serialize(ss);
+    //if (stage_ == "all") base_rt_->serialize(ss);
+    if (stage_ == "all") {
+      base_rt_->serialize(ss);
+    } else {
+      if (is_energy) {
+        base_rt_->serialize("energy", ss);
+      } else {
+        base_rt_->serialize("contact", ss);
+        if (!contact_only_) {
+          base_rt_->serialize("cutoff", ss2);
+        }
+      }
+    }
   }
 
   // write serialization to file
@@ -841,6 +866,13 @@ void BuildRecursiveTable::base(const bool is_energy, MonteCarlo * mc) {
   std::ofstream outfile(outfilename);
   ASSERT(outfile.good(), "Error");
   outfile << ss.str();
+
+  if (!ss2.str().empty()) {
+    outfilename += "_cut";
+    std::ofstream outfile(outfilename);
+    ASSERT(outfile.good(), "Error");
+    outfile << ss2.str();
+  }
 }
 
 void BuildRecursiveTable::train(const bool is_cutoff, const bool is_energy, MonteCarlo * mc) {
@@ -866,10 +898,12 @@ void BuildRecursiveTable::train(const bool is_cutoff, const bool is_energy, Mont
   bool is_2d = false, is_iso = false;
   std::ofstream file, file2;
   std::string verbf = verbose_name_(1);
-  if (is_energy) {
-    verbf += "en";
-  } else if (is_cutoff) {
-    verbf += "cut";
+  if (!verbf.empty()) {
+    if (is_energy) {
+      verbf += "en";
+    } else if (is_cutoff) {
+      verbf += "cut";
+    }
   }
   if (base_mrt_) {
     if (!verbf.empty()) {
@@ -881,16 +915,18 @@ void BuildRecursiveTable::train(const bool is_cutoff, const bool is_energy, Mont
     is_iso = config.particle(1).num_sites() == 1;
     INFO("is_iso? " << is_iso);
     if (extra_verbose_) {
-      file.open(verbf+"an");
-      file2.open(verbf+"vis");
-      if (is_2d) {
-        if (is_iso) {
-          file << "x,y" << std::endl;
+      if (!verbf.empty()) {
+        file.open(verbf+"an");
+        file2.open(verbf+"vis");
+        if (is_2d) {
+          if (is_iso) {
+            file << "x,y" << std::endl;
+          } else {
+            file << "x,y,phi" << std::endl;
+          }
         } else {
-          file << "x,y,phi" << std::endl;
+          file << "x,y,z" << std::endl;
         }
-      } else {
-        file << "x,y,z" << std::endl;
       }
     }
   }
@@ -1121,10 +1157,19 @@ void BuildRecursiveTable::build(const bool is_cutoff, const bool is_energy, Mont
     ASSERT(!trained_file_.empty(), "BuildRecursiveTable::trained_file is required.");
     *rbins_ = read_rbins(trained_file_, processor_, num_processors_);
   }
+
+  // tables
+  RecursiveTable * rt = NULL;
+  if (!base_mrt_ && !base_rt_) {
+    base_rt_ = std::make_shared<RecursiveTable>(RecursiveTable().from_file(base_table_file_));
+    rt = base_rt_.get();
+  } else if (base_rt_) {
+    rt = base_rt_.get();
+  }
+
   if (rbins_->size() == 0) {
     INFO("Nothing found without criteria, so no recursions.");
   } else {
-
     // global rotation bounds
     const Configuration& config = mc->system().configuration();
     std::vector<std::vector<double> > abnd;
@@ -1135,15 +1180,6 @@ void BuildRecursiveTable::build(const bool is_cutoff, const bool is_energy, Mont
     }
     DEBUG("abnd: " << feasst_str(abnd));
     std::vector<double> zbnds(2);
-
-    // tables
-    RecursiveTable * rt = NULL;
-    if (!base_mrt_ && !base_rt_) {
-      base_rt_ = std::make_shared<RecursiveTable>(RecursiveTable().from_file(base_table_file_));
-      rt = base_rt_.get();
-    } else if (base_rt_) {
-      rt = base_rt_.get();
-    }
 
     RTable * contact, * table;
     RTable * cutoff = NULL;
@@ -1200,10 +1236,12 @@ void BuildRecursiveTable::build(const bool is_cutoff, const bool is_energy, Mont
       const std::vector<int>& bins = (*rbins_)[ibin].first;
       DEBUG("bins: " << feasst_str(bins));
       verbf = verbose_name_(1 + ibin*num_processors_ + processor_);
-      if (is_energy) {
-        verbf += "en";
-      } else if (is_cutoff) {
-        verbf += "cut";
+      if (!verbf.empty()) {
+        if (is_energy) {
+          verbf += "en";
+        } else if (is_cutoff) {
+          verbf += "cut";
+        }
       }
       int num_rdim = static_cast<int>(bins.size());
       if (is_energy) {
@@ -1252,14 +1290,27 @@ void BuildRecursiveTable::build(const bool is_cutoff, const bool is_energy, Mont
       ASSERT(nested->num() > 1, "empty nested");
       ASSERT(static_cast<int>(bins.size()) > 0, "bin size: " << bins.size());
       ASSERT(static_cast<int>(bins.size()) == table->dimension(), "bin size: " << bins.size());
+      DEBUG("Some optimizations could be made here, insertion copies, as well as the return of build_contact, etc. Work on the same data structure from the beginning and avoid copying the tables multiple times. But this optimization may be negligible when moving to more expensive models.");
       table->insert(bins, *nested);
     }
   }
   std::stringstream ss;
   if (base_rt_) {
-    base_rt_->serialize(ss);
+    if (stage_ == "all") {
+      base_rt_->serialize(ss);
+    } else {
+      if (is_energy) {
+        base_rt_->serialize("energy", ss);
+      } else if (is_cutoff) {
+        base_rt_->serialize("cutoff", ss);
+      } else {
+        base_rt_->serialize("contact", ss);
+      }
+    }
   } else if (base_mrt_) {
     base_mrt_->serialize(ss);
+  } else {
+    FATAL("no table to serialize");
   }
   ASSERT(!output_file_.empty(), "Error");
   std::ofstream outfile(output_file_);
@@ -1272,14 +1323,15 @@ void BuildRecursiveTable::run(MonteCarlo * mc) {
   if (stage_ == "base") {
     base(energy_only_, mc);
   } else if (stage_ == "train") {
-    if (energy_only_) {
-      train(false, true, mc);
-    } else {
-      train(false, false, mc);
-      if (!contact_only_) {
-        train(true, false, mc);
-      }
-    }
+    train(!contact_only_, energy_only_, mc);
+//    if (energy_only_) {
+//      train(false, true, mc);
+//    } else {
+//      train(false, false, mc);
+//      if (!contact_only_) {
+//        train(true, false, mc);
+//      }
+//    }
   } else if (stage_ == "build_contact") {
       build(false, false, mc);
   } else if (stage_ == "build_cutoff") {
