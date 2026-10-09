@@ -202,6 +202,7 @@ void ModelParams::set(const std::string& filename,
     if (line.front() != '#' && !line.empty()) {
       DEBUG("parsing");
       std::vector<std::string> vals = split(line, ' ');
+      ASSERT(static_cast<int>(vals.size()) > 0, "err parsing line:" << line);
       param = select_(vals[0]);
       const int size = param->size();
       bool found1 = false, found2 = false;

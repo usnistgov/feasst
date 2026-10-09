@@ -77,6 +77,9 @@ class MacrostateMorph : public Macrostate {
   std::vector<ConstrainNumParticles> num_first_;
   bool is_row_all_populated_(const int row, const Matrix& matrix) const;
   void init_(const std::vector<std::vector<int> > grow_seq);
+
+  // serialization not required
+  bool grow_seq_validated_ = false;
 };
 
 inline std::shared_ptr<MacrostateMorph> MakeMacrostateMorph(

@@ -52,6 +52,7 @@ void precompute_table1D(const Configuration& config, std::string table_file,
   std::string line;
   std::getline(file, line);
   const std::vector<std::string> types = split(line, '=');
+  ASSERT(static_cast<int>(types.size()) > 0, "error reading line:" << line);
   ASSERT(types[0] == "site_types", "format error: " << types[0]);
   ASSERT(static_cast<int>(types.size()) == 2, "Error in formating of file:" <<
     table_file);

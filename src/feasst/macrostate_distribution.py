@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.optimize import minimize_scalar
 from scipy.optimize import minimize
+from feasst import file_reader
 
 class MacrostateDistribution:
     """
@@ -501,7 +502,7 @@ def read_appended(file_name, num_states):
     num = int(len(lines)/(num_states+2))
     dists = list()
     for i in range(num):
-        exec('iprm={' + lines[i*(num_states+2)][1:] + '}', globals())
+        iprm = file_reader.commented_json_line_to_dict(lines[i*(num_states+2)])
         dist = MacrostateDistribution(file_name=None)
         dist.set_dataframe(pd.read_csv(file_name, comment='#', skiprows=i*(num_states+2), nrows=num_states))
         dists.append([dist,iprm])
@@ -526,7 +527,7 @@ def splice_collection_matrix(prefix, suffix, use_soft=False):
         if use_soft:
             with open(filename, 'r') as file1:
                 lines = file1.readlines()
-                exec('iprm={' + lines[0][1:] + '}', globals())
+                iprm = file_reader.commented_json_line_to_dict(lines[0][1:])
                 frame = frame[iprm['soft_min']:iprm['soft_max']+1]
         lnpis.append(frame)
     lnp = MacrostateDistribution(file_name=None)

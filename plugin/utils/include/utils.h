@@ -273,6 +273,15 @@ bool is_equal_fstobj(const std::vector<T>& vec1,
   return true;
 }
 
+
+template<typename T>
+bool is_in_bounds(const int index, const std::vector<T>& vec) {
+  if (index < 0 || index >= static_cast<int>(vec.size())) {
+    return false;
+  }
+  return true;
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_UTILS_UTILS_H_

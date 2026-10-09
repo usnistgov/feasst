@@ -4,6 +4,7 @@
 
 #include <string>
 #include <sstream>
+#include "utils/include/utils.h"  // is_in_bounds
 #include "utils/include/definitions.h"
 #include "utils/include/custom_exception.h"
 
@@ -117,6 +118,15 @@ void feasst_macro_output(const std::string& name, std::string message);
 # define INFO(message) FEASST_MACRO_OUTPUT(message, "Info ", 3)
 # define DEBUG(message) FEASST_MACRO_OUTPUT(message, "Debug", 4)
 # define TRACE(message) FEASST_MACRO_OUTPUT(message, "Trace", 5)
+
+template<typename T>
+void assert_in_bounds(const int index, const std::vector<T>& vec) {
+  ASSERT(is_in_bounds(index, vec), "Bounds check failure. index: " << index <<
+    " vec size: " << vec.size());
+}
+
+void assert_in_bounds(const int index, const int size);
+
 }  // namespace feasst
 
 #endif  // FEASST_UTILS_DEBUG_H_

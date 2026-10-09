@@ -71,6 +71,8 @@ std::vector<std::vector<double> > Rotator::gen_global_bounds(const Configuration
 }
 
 void Rotator::gen_orientations(const int num_orientations_per_pi, const Configuration& config, std::vector<std::vector<double> > bounds) {
+  ASSERT(num_orientations_per_pi > 0, "num_orientations_per_pi: " <<
+    num_orientations_per_pi);
   eulers_.clear();
   stheta_.clear();
   sphi_.clear();

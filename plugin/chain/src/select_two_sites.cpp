@@ -20,6 +20,7 @@ SelectTwoSites::SelectTwoSites(argtype * args) : TrialSelect(args) {
     ASSERT(mobile_site_name_ != mobile_site2_name_, "the mobile site: " << mobile_site_name_ <<
       " cannot be the same as mobile_site2_: " << mobile_site2_name_);
   }
+  ASSERT(particle_type2_ >= -1, "particle_type2: " << particle_type2_);
 }
 
 FEASST_MAPPER(SelectTwoSites, argtype({{"mobile_site", "1"}, {"mobile_site2", "0"}}));

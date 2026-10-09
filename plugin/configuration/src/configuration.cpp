@@ -617,6 +617,7 @@ int Configuration::num_particles(const int group) const {
     ASSERT(num >= 0, "error");
     return num;
   }
+  assert_in_bounds(group, group_selects_);
   TRACE("here " << group_selects_[group]->num_particles());
   const int num = group_selects_[group]->num_particles();
   ASSERT(num >= 0, "error");
@@ -682,8 +683,7 @@ void Configuration::add(std::shared_ptr<ModelParam> param) {
 }
 
 int Configuration::num_particles_of_type(const int type) const {
-  ASSERT(type < num_particle_types(), "type: " << type << " >= num types: "
-    << num_particle_types());
+  assert_in_bounds(type, num_particle_types());
   if (type == -1) {
     return num_particles();
   }
@@ -1121,6 +1121,7 @@ void Configuration::add(std::shared_ptr<NeighborCriteria> neighbor_criteria) {
 
 const NeighborCriteria& Configuration::neighbor_criteria(
     const int index) const {
+  assert_in_bounds(index, neighbor_criteria_);
   return *neighbor_criteria_[index];
 }
 
@@ -1271,8 +1272,7 @@ const std::vector<std::shared_ptr<Select> >& Configuration::group_selects()
 }
 
 const Select& Configuration::group_select(const int index) const {
-  ASSERT(index < static_cast<int>(group_selects_.size()), "index:" << index
-    << " >= number of groups:" << group_selects_.size());
+  assert_in_bounds(index, group_selects_);
   return *group_selects_[index];
 }
 

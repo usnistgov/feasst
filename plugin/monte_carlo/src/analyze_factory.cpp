@@ -44,6 +44,7 @@ void AnalyzeFactory::trial_(const MonteCarlo& mc, const int index) {
 int AnalyzeFactory::min_block_(const Criteria& criteria) const {
   int min = 1e9;
   for (int state = criteria.soft_min(); state <= criteria.soft_max(); ++state) {
+    assert_in_bounds(state, analyzers_);
     const int num = static_cast<int>(
       analyzers_[state]->accumulator().blocks()[0].size());
     if (num < min) {

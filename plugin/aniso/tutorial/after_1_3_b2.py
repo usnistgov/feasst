@@ -8,6 +8,7 @@ import pandas as pd
 from feasst import accumulator
 from feasst import fstio
 from feasst import physical_constants
+from feasst import file_reader
 from launch_1_cg_protein import parse
 from launch_1_cg_protein import generate_domain_pairs
 
@@ -61,7 +62,8 @@ def post_process(params):
             lines = file1.readlines()
         if len(lines) != 0:
             #print('p', p, 'lines[0]', lines[0])
-            exec('iprm=' + lines[0], globals())
+            print(lines[0], lines[0][-3], lines[0][:-3]+lines[0][-2])
+            iprm = file_reader.commented_json_line_to_dict(lines[0])
             #print(iprm)
             #print('ref(A^3)', ref)
             b2_molmlg2=iprm['second_virial_ratio']*ref

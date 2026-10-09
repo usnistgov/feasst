@@ -147,6 +147,7 @@ bool MayerSampling::is_accepted(
   DEBUG("*** MayerSampling ***");
   if (intra_pot_ != -1) {
     DEBUG("intra_pot " << intra_pot_);
+    assert_in_bounds(intra_pot_, acceptance->energy_profile_new());
     const double energy_intra = acceptance->energy_profile_new()[intra_pot_];
     DEBUG("energy_intra " << energy_intra);
     DEBUG("trial class " << acceptance->trial_class());

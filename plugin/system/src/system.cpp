@@ -38,10 +38,12 @@ void System::add(std::shared_ptr<Configuration> configuration) {
 }
 
 const Configuration& System::configuration(const int config) const {
+  assert_in_bounds(config, num_configurations());
   return *configurations_[config];
 }
 
 Configuration* System::get_configuration(const int config) {
+  assert_in_bounds(config, num_configurations());
   return configurations_[config].get();
 }
 
@@ -467,16 +469,19 @@ void System::remove_opt_overlap() {
 
 const NeighborCriteria& System::neighbor_criteria(const int index,
     const int config) const {
+  assert_in_bounds(config, configurations_);
   return configurations_[config]->neighbor_criteria(index);
 }
 
 const std::vector<std::shared_ptr<NeighborCriteria> >& System::neighbor_criteria(
     const int config) const {
+  assert_in_bounds(config, configurations_);
   return configurations_[config]->neighbor_criteria();
 }
 
 NeighborCriteria * System::get_neighbor_criteria(const int index,
                                                  const int config) {
+  assert_in_bounds(config, configurations_);
   return configurations_[config]->get_neighbor_criteria(index);
 }
 
@@ -530,9 +535,17 @@ int System::configuration_index(const std::string& name) const {
 void System::add(std::shared_ptr<Potential> potential) {
   if (!potential->config().empty()) {
     // assign Configuration index based on name
-    potential->set_configuration_index(configuration_index(potential->config()));
+    const int config_index = configuration_index(potential->config());
+    ASSERT(config_index >= 0 && config_index < num_configurations(),
+      "config_index:" << config_index <<
+      " num_configurations:" << num_configurations());
+    potential->set_configuration_index(config_index);
   }
-  add_to_unoptimized(potential, potential->configuration_index());
+  const int config_index = potential->configuration_index();
+  ASSERT(config_index >= 0 && config_index < num_configurations(),
+      "config_index:" << config_index <<
+      " num_configurations:" << num_configurations());
+  add_to_unoptimized(potential, config_index);
 }
 
 const Configuration& System::configuration(const std::string& name) const {
@@ -541,6 +554,26 @@ const Configuration& System::configuration(const std::string& name) const {
 
 Configuration * System::get_configuration(const std::string& name) {
   return configurations_[configuration_index(name)].get();
+}
+
+const PotentialFactory& System::unoptimized(const int config) const {
+  assert_in_bounds(config, unoptimized_);
+  return unoptimized_[config];
+}
+
+const Potential& System::potential(const int index, const int config) const {
+  assert_in_bounds(config, unoptimized_);
+  return unoptimized_[config].potential(index);
+}
+
+Potential * System::get_potential(const int index, const int config) {
+  assert_in_bounds(config, unoptimized_);
+  return unoptimized_[config].get_potential(index);
+}
+
+const PotentialFactory& System::optimized(const int config) const {
+  assert_in_bounds(config, optimized_);
+  return optimized_[config];
 }
 
 }  // namespace feasst

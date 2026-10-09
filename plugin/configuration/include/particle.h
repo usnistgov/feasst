@@ -148,7 +148,7 @@ class Particle : public PropertiedEntity {
   int num_bonds() const { return static_cast<int>(bonds_.size()); }
 
   /// Return the bond by index.
-  const Bond& bond(const int index) const { return bonds_[index]; }
+  const Bond& bond(const int index) const;
 
   /// Return the bonds.
   const std::vector<Bond> bonds() const { return bonds_; }
@@ -183,7 +183,7 @@ class Particle : public PropertiedEntity {
   int num_angles() const { return static_cast<int>(angles_.size()); }
 
   /// Return the angle by index.
-  const Angle& angle(const int index) const { return angles_[index]; }
+  const Angle& angle(const int index) const;
 
   /// Return the angles.
   const std::vector<Angle> angles() const { return angles_; }
@@ -216,7 +216,7 @@ class Particle : public PropertiedEntity {
   int num_dihedrals() const { return static_cast<int>(dihedrals_.size()); }
 
   /// Return the dihedral by index.
-  const Dihedral& dihedral(const int index) const { return dihedrals_[index]; }
+  const Dihedral& dihedral(const int index) const;
 
   /// Return the dihedrals.
   const std::vector<Dihedral> dihedrals() const { return dihedrals_; }
@@ -278,10 +278,10 @@ class Particle : public PropertiedEntity {
   /// Rename names from sites, bonds, angles, dihedrals.
   void clear_names();
 
-  Site * get_site(const int index) { return &sites_[index]; }
-  Bond * get_bond(const int index) { return &bonds_[index]; }
-  Angle * get_angle(const int index) { return &angles_[index]; }
-  Dihedral * get_dihedral(const int index) { return &dihedrals_[index]; }
+  Site * get_site(const int index);
+  Bond * get_bond(const int index);
+  Angle * get_angle(const int index);
+  Dihedral * get_dihedral(const int index);
 
   void serialize(std::ostream& ostr) const;
   explicit Particle(std::istream& istr);

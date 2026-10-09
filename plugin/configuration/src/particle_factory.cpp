@@ -478,6 +478,7 @@ int ParticleFactory::site_type_to_particle_type(const int site_type) const {
       ++particle_type;
     }
   }
+  ASSERT(particle_type < num(), "particle_type: " << particle_type);
   return particle_type;
 }
 
@@ -527,6 +528,11 @@ const std::string& ParticleFactory::index_to_name(const int index) const {
   ASSERT(unique_types_, "only implemented for unique_types");
   ASSERT(index < static_cast<int>(names_.size()), "error");
   return names_[index];
+}
+
+const Particle& ParticleFactory::particle(const int particle_index) const {
+  assert_in_bounds(particle_index, particles_);
+  return particles_[particle_index];
 }
 
 }  // namespace feasst

@@ -213,4 +213,9 @@ void PotentialFactory::remove_opt_overlap() {
   opt_overlap_ = 0;
 }
 
+Potential * PotentialFactory::get_potential(const int index) {
+  assert_in_bounds(index, potentials_);
+  return potentials_[index].get();
+}
+
 }  // namespace feasst

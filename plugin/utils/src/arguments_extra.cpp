@@ -22,7 +22,9 @@ std::pair<std::string, argtype> parse_line(const std::string line,
   std::string new_line = line;
   // remove anything after the # comment character
   new_line = feasst::trim("#", line.c_str(), 0);
-  if (new_line.back() == '#') new_line.pop_back();
+  if (!new_line.empty()) {
+    if (new_line.back() == '#') new_line.pop_back();
+  }
   if (variables) {
     for (const auto& pair : *variables) {
       std::stringstream ss3(line);

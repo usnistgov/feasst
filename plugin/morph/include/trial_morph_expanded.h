@@ -9,6 +9,7 @@
 
 namespace feasst {
 
+class Configuration;
 class Random;
 
 /**
@@ -80,6 +81,10 @@ class TrialMorphExpanded : public Trial {
   int current_state_;
   void init_(std::vector<std::vector<int> > grow_seq,
              argtype args);
+
+  // serialization not required
+  bool grow_seq_validated_ = false;
+  std::vector<std::vector<int> > grow_seq_;
 };
 
 inline std::shared_ptr<TrialMorphExpanded> MakeTrialMorphExpanded(
@@ -90,6 +95,9 @@ inline std::shared_ptr<TrialMorphExpanded> MakeTrialMorphExpanded(
 }
 
 std::vector<std::vector<int> > parse_morph_seq(argtype * args);
+
+void validate_grow_seq(const std::vector<std::vector<int> >& grow_seq,
+  const Configuration& config);
 
 }  // namespace feasst
 

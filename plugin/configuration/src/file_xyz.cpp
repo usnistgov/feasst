@@ -44,6 +44,7 @@ bool FileXYZ::load_frame(std::ifstream& xyz_file,
   std::getline(xyz_file, line);
   { std::stringstream iss(line);
     iss >> num_sites; }
+  ASSERT(num_sites > 0, "num_sites: " << num_sites);
   std::getline(xyz_file, line);
   std::vector<double> coord(3);
   { std::stringstream iss(line);

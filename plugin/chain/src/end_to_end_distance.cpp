@@ -14,6 +14,7 @@ FEASST_MAPPER(EndToEndDistance,);
 
 EndToEndDistance::EndToEndDistance(argtype * args) : Analyze(args) {
   group_index_ = integer("group_index", args, 0);
+  ASSERT(group_index_ >= 0, "group_index: " << group_index_);
 }
 EndToEndDistance::EndToEndDistance(argtype args) : EndToEndDistance(&args) {
   feasst_check_all_used(args);

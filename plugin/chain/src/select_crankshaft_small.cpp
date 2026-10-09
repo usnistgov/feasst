@@ -56,8 +56,12 @@ SelectCrankshaftSmall::SelectCrankshaftSmall(argtype * args) : TrialSelectPartic
     key << start << num;
   }
   get_anchor()->clear();
-  get_anchor()->add_site(0, integer("anchor_site0", args));
-  get_anchor()->add_site(0, integer("anchor_site1", args));
+  const int as0 = integer("anchor_site0", args);
+  ASSERT(as0 >= 0, "as0:" << as0);
+  get_anchor()->add_site(0, as0);
+  const int as1 = integer("anchor_site1", args);
+  ASSERT(as1 >= 0, "as1:" << as1);
+  get_anchor()->add_site(0, as1);
   DEBUG("site names " << feasst_str(site_names_));
   DEBUG("args " << str(*args));
 }

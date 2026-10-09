@@ -1,4 +1,5 @@
 #include "utils/include/io.h"
+#include "utils/include/cache.h"
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/random_mt19937.h"
@@ -44,6 +45,11 @@ void RandomMT19937::reseed_(const int seed) {
   TRACE("seed " << seed << " address " << this);
   generator_ = std::mt19937(seed);
   dis_double_ = std::uniform_real_distribution<double>(0.0, 1.0);
+}
+
+double RandomMT19937::standard_normal() {
+  ASSERT(!cache_->is_loading(), "not implemented. Cache depends on using only normal distribution.");
+  return std_normal_(generator_);
 }
 
 }  // namespace feasst

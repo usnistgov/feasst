@@ -46,11 +46,13 @@ void Listen::run(MonteCarlo * mc) {
   bool finished = false;
   while (!finished) {
     const int size = server_->receive();
-    if (strcmp(server_->buffer(), "EndListen") == 0) {
-      DEBUG(server_->buffer());
+    if (size == 0) {
       finished = true;
     } else {
-      if (size > 0) {
+      if (strcmp(server_->buffer(), "EndListen") == 0) {
+        DEBUG(server_->buffer());
+        finished = true;
+      } else {
         std::string line(server_->buffer());
         std::pair<std::string, argtype> marg = parse_line(line, NULL, NULL);
         DEBUG(marg.first);

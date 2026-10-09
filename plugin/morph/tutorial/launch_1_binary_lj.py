@@ -114,7 +114,7 @@ Run until_file_exists={prefix}j{job:03d}_terminate.txt trials_per_file_check={tp
 def post_process(params):
     lnpi=macrostate_distribution.splice_files(prefix=params['prefix']+'j', suffix='_crit.csv', shift=False)
     #lnpi.plot(show=True)
-    if np.abs(9.327631384282558 - lnpi.average_macrostate()) > 2.5
+    if np.abs(9.327631384282558 - lnpi.average_macrostate()) > 2.5:
         assert False, lnpi.average_macrostate()
 
 if __name__ == '__main__':

@@ -8,6 +8,7 @@ import subprocess
 from feasst import fstio
 from feasst import physical_constants
 from feasst import coarse_grain_pdb
+from launch_4_cgmab import b2
 
 def parse():
     """ Parse arguments from command line or change their default values. """
@@ -116,15 +117,12 @@ def post_process(params):
     from feasst import accumulator
     b2acc = accumulator.Accumulator()
     for p in range(params['num_sims']):
+        print('p', p)
         params['sim'] = p
-        filename="""{prefix}_{domain1}-{domain2}_{sim:03d}_b2_eq.csv""".format(**params)
-        with open(filename, 'r') as file1: lines = file1.readlines()
-        print('p', p, 'lines[0]', lines[0])
-        exec('iprm=' + lines[0], globals())
-        #print(iprm)
+        b22=b2("""{prefix}_{domain1}-{domain2}_{sim:03d}_b2_eq.csv""".format(**params))
         ref = (2*np.pi/3)*params['reference_sigma']**3
         #print('ref(A^3)', ref)
-        b2=iprm['second_virial_ratio']*ref
+        b2=b22['second_virial_ratio']*ref
         #print('b2(A^3)', b2)
         mw = params['molecular_weight']/1e3 # kDa
         b2_molmlg2 = b2*1e-26*physical_constants.AvogadroConstant().value()/mw/mw

@@ -36,4 +36,9 @@ std::string feasst_omp_thread() {
 # endif  // _OPENMP
 }
 
+void assert_in_bounds(const int index, const int size) {
+  ASSERT(index >= 0 && index < size, "Bounds check failure. index: " << index <<
+    " size: " << size);
+}
+
 }  // namespace feasst

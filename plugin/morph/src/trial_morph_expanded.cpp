@@ -3,6 +3,8 @@
 #include "utils/include/serialize.h"
 #include "utils/include/io.h"
 #include "math/include/random.h"
+#include "configuration/include/configuration.h"
+#include "system/include/system.h"
 #include "charge/include/trial_add_multiple.h"
 #include "charge/include/trial_remove_multiple.h"
 #include "morph/include/trial_morph.h"
@@ -36,10 +38,19 @@ std::vector<std::vector<int> > parse_morph_seq(argtype * args) {
   return grow_seq;
 }
 
+void validate_grow_seq(const std::vector<std::vector<int> >& grow_seq,
+    const Configuration& config) {
+  for (const std::vector<int>& seq : grow_seq) {
+    for (int type : seq) {
+      assert_in_bounds(type, config.num_particle_types());
+    }
+  }
+}
+
 TrialMorphExpanded::TrialMorphExpanded(argtype * args) : Trial(args) {
   class_name_ = "TrialMorphExpanded";
-  std::vector<std::vector<int> > grow_seq = parse_morph_seq(args);
-  init_(grow_seq, *args);
+  grow_seq_ = parse_morph_seq(args);
+  init_(grow_seq_, *args);
 }
 TrialMorphExpanded::TrialMorphExpanded(argtype args) : TrialMorphExpanded(&args) {
   //feasst_check_all_used(args);
@@ -159,6 +170,11 @@ void TrialMorphExpanded::init_(const std::vector<std::vector<int> > grow_seq, ar
 void TrialMorphExpanded::precompute(Criteria * criteria,
     System * system) {
   Trial::precompute(criteria, system);
+  if (!grow_seq_validated_) {
+    ASSERT(system->num_configurations() == 1, "not implemented");
+    validate_grow_seq(grow_seq_, system->configuration());
+    grow_seq_validated_ = true;
+  }
   for (std::shared_ptr<Trial> gr : grow_) gr->precompute(criteria, system);
   for (std::shared_ptr<Trial> s : shrink_) s->precompute(criteria, system);
 }

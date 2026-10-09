@@ -10,6 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from feasst import fstio
 from feasst import coarse_grain_pdb
+from feasst import file_reader
 
 def parse():
     """ Parse arguments from command line or change their default values. """
@@ -183,13 +184,12 @@ MayerSampling trials_per_cycle={tpc} cycles_to_complete={production_cycles}
 Run until=complete
 """.format(**params))
 
+def b2(file_name):
+    with open(file_name, 'r') as file1:
+        return file_reader.commented_json_line_to_dict(file1.readlines()[0])
+    return iprm
+
 def post_process(params):
-    def b2(file_name):
-        file1 = open(file_name, 'r')
-        lines = file1.readlines()
-        file1.close()
-        exec('iprm=' + lines[0], globals())
-        return iprm
     b2hs_ref = 2*np.pi*3**3/3 # sigma=3 nanometer reference HS
     fc = b2(params['prefix']+'_fc_b2.csv')
     print('fc', fc['second_virial_ratio']*b2hs_ref, '+/-', fc['second_virial_ratio_block_stdev']*b2hs_ref, 'nm^3 vs 527.87 ± 1.91')

@@ -13,6 +13,7 @@ from feasst import fstio
 from feasst import accumulator
 sys.path.insert(0, '../../patch/tutorial/')
 from make_spherocylinder import hard_spherocylinder
+from launch_4_cgmab import b2
 
 def parse():
     """ Parse arguments from command line or change their default values. """
@@ -92,21 +93,15 @@ Run until=complete
 """.format(**params))
 
 def post_process(params):
-    def b2(file_name):
-        file1 = open(file_name, 'r')
-        lines = file1.readlines()
-        file1.close()
-        exec('iprm=' + lines[0], globals())
-        return iprm
     b2hs_ref = 2*np.pi/3 # reference HS
     b2_overall = accumulator.Accumulator()
     for i in range(params['num_sims']):
         print('i', i)
         b2t = b2("{}{:03d}_b2.csv".format(params['prefix'], i))
-        b2 = b2t['second_virial_ratio']*b2hs_ref
-        b2_overall.add(b2)
-        print('b2', b2, '+/-', b2t['second_virial_ratio_block_stdev']*b2hs_ref)
-        assert np.abs(b2 - 6.02138591938044) < 0.12
+        b2r = b2t['second_virial_ratio']*b2hs_ref
+        b2_overall.add(b2r)
+        print('b2', b2r, '+/-', b2t['second_virial_ratio_block_stdev']*b2hs_ref)
+        assert np.abs(b2r - 6.02138591938044) < 0.12
     print('b2 overall', b2_overall.mean(), b2_overall.stdev()/np.sqrt(b2_overall.num_values()))
 
 if __name__ == '__main__':

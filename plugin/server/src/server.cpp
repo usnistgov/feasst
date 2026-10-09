@@ -1,4 +1,5 @@
 #include <fstream>
+#include <csignal>  // SIGPIPE, SIG_IGN
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -20,6 +21,8 @@ Server::Server(argtype * args) {
   port_ = integer("port", args, 54321);
   buffer_size_ = integer("buffer_size", args, 1000);
   ASSERT(buffer_size_ % 2 == 0, "buffer_size must be even.");
+  ASSERT(buffer_size_ > 28, "buffer_size:" << buffer_size_);
+  std::signal(SIGPIPE, SIG_IGN);
 }
 Server::Server(argtype args) : Server(&args) {
   feasst_check_all_used(args);
@@ -49,13 +52,18 @@ void Server::bind_listen_accept() {
   if (bound_) {
     disconnect_();
   }
-  std::cout << "# initializing server on localhost:" << port() << std::endl;
   buffer_ = new char[buffer_size() + 1];
   server_socket_= socket(AF_INET, SOCK_STREAM, 0);
   sockaddr_in server_addr;
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = htons(port());
-  server_addr.sin_addr.s_addr = INADDR_ANY;
+  server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+  std::cout << "# initializing server on localhost";
+  char ip_str[INET_ADDRSTRLEN];
+  if (inet_ntop(AF_INET, &(server_addr.sin_addr), ip_str, INET_ADDRSTRLEN) != nullptr) {
+    std::cout << " " << ip_str;
+  }
+  std::cout << ":" << port() << std::endl;
   bind(server_socket_, (struct sockaddr*)&server_addr, sizeof(struct sockaddr));
   listen(server_socket_, 1);
   sockaddr_in clientAddr;

@@ -131,6 +131,7 @@ void VisitModelInnerTable::read_table(const std::string file_name,
         if (std::abs(double_val + 1) < NEAR_ZERO) {
           int unique_ior;
           file >> unique_ior;
+          assert_in_bounds(unique_ior, num_orientations);
           in->set_data(s1, s2, e1, e2, e3, tmp_store[unique_ior][0]);
           if (num_z > 0) {
             for (int z = 0; z < num_z; ++z) {
@@ -197,8 +198,8 @@ void VisitModelInnerTable::precompute(Configuration * config, ModelParams * para
   t2index_.resize(config->num_site_types(), -1);
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
-    ASSERT(type1 < config->num_site_types(),"site type: " << type1 <<
-      " in table > number of site types:" << config->num_site_types());
+    ASSERT(type1 >= 0 && type1 < config->num_site_types(), "site type: " <<
+      type1 << " in table > number of site types:" << config->num_site_types());
     t2index_[type1] = t1;
   }
   precompute_cutoffs(config, params);
@@ -248,7 +249,7 @@ double VisitModelInnerTable::compute_aniso(const int tabtype1, const int tabtype
   TRACE("size1 " << innert.size());
   TRACE("size2 " << innert[0].size());
   const double sigma = model_params.select(sigma_index()).mixed_values()[stype1][stype2];
-  const float inner = sigma*innert[tabtype1][tabtype2]->linear_interpolation(s1, s2, e1, e2, e3);
+  const double inner = sigma*static_cast<double>(innert[tabtype1][tabtype2]->linear_interpolation(s1, s2, e1, e2, e3));
   TRACE("inner " << inner);
   double en = 0.;
   if (squared_distance < inner*inner) {
@@ -575,18 +576,19 @@ double VisitModelInnerTable::second_virial_coefficient(const Configuration& conf
   for (int ie1 = 0; ie1 <= 1; ++ie1) {
   for (int ie3 = 0; ie3 <= 1; ++ie3) {
     // hard particle contribution
-    float rh = 0.;
+    float rhf = 0.;
     if (expand_t == 1) {
-      rh = inner.data()[s1 + is1][s2 + is2][e1 + ie1][e2 + ie2][e3 + ie3];
+      rhf = inner.data()[s1 + is1][s2 + is2][e1 + ie1][e2 + ie2][e3 + ie3];
     } else {
-      rh = inner.linear_interpolation((s1+is1)*ds1, (s2+is2)*ds2, (e1+ie1)*de1,
+      rhf = inner.linear_interpolation((s1+is1)*ds1, (s2+is2)*ds2, (e1+ie1)*de1,
                                       (e2+ie2)*de2, (e3+ie3)*de3);
     }
-    b2_h += rh*rh*rh*sin_s2*sin_e2;
+    const double rhd = static_cast<double>(rhf);
+    b2_h += rhd*rhd*rhd*sin_s2*sin_e2;
 
     // attractive contribution
     if (num_z > 0) {
-      const double rc = rh + delta_[type1][type2];
+      const double rc = rhd + delta_[type1][type2];
 //      float rc = 0.;
 //      if (expand_t == 1) {
 //        rc = outer.data()[s1 + is1][s2 + is2][e1 + ie1][e2 + ie2][e3 + ie3];
@@ -606,10 +608,10 @@ double VisitModelInnerTable::second_virial_coefficient(const Configuration& conf
         }
         //ASSERT(std::abs(u+1) < 5e-3, "err");
         const double zval = (z + iz)*dz;
-        const double r = (rc - rh)*zval + rh;
-        b2_a += (1. - std::exp(-beta*u))*(rc - rh)*r*r*sin_s2*sin_e2;
+        const double r = (rc - rhd)*zval + rhd;
+        b2_a += (1. - std::exp(-beta*u))*(rc - rhd)*r*r*sin_s2*sin_e2;
         if (std::isnan(b2_a)) {
-          FATAL("u " << u << " beta " << beta << " rc " << rc << " rh " << rh
+          FATAL("u " << u << " beta " << beta << " rc " << rc << " rhd " << rhd
                 << " s1 " << s1  << " s2 " << s2 << " e1 " << e1 << " e2 " << e2
                 << " e3 " << e3 << " z " << z
                 << " ns1 " << ns1  << " ns2 " << ns2 << " ne1 " << ne1 << " ne2 " << ne2

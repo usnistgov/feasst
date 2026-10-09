@@ -11,7 +11,9 @@ void Cells::create(const double min_length,
   ASSERT(min_length > 1e-15, "min_length(" << min_length << ") too small");
   clear();
   for (double side_length : side_lengths) {
-    num_.push_back(static_cast<int>(side_length/min_length));
+    const int num = static_cast<int>(side_length/min_length);
+    ASSERT(num >= 0, "num: "  << num);
+    num_.push_back(num);
   }
   if (num_total() <= std::pow(3, side_lengths.size())) {
     clear();
@@ -35,6 +37,7 @@ void Cells::build_neighbors_3D_() {
   for (int ycell1 = 0; ycell1 < num(1); ++ycell1) {
   for (int zcell1 = 0; zcell1 < num(2); ++zcell1) {
     const int cell = id_({xcell1, ycell1, zcell1});
+    assert_in_bounds(cell, neighbor_);
     for (int xcell2 = xcell1 - 1; xcell2 <= xcell1 + 1; ++xcell2) {
     for (int ycell2 = ycell1 - 1; ycell2 <= ycell1 + 1; ++ycell2) {
     for (int zcell2 = zcell1 - 1; zcell2 <= zcell1 + 1; ++zcell2) {

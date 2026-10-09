@@ -78,7 +78,9 @@ int Histogram::bin(const double value) const {
     TRACE("kWidth " << kWidth);
     TRACE("value " << value);
     TRACE("center " << center_of_bin(0));
-    return round((value - center_of_bin(0))/kWidth);
+    const int bin = round((value - center_of_bin(0))/kWidth);
+    //ASSERT(bin >= 0 && bin <= size(), "bin: " << bin << " size:" << size());
+    return bin;
   } else {
     ASSERT(value <= max() && value >= min(),
       "histogram value(" << value << ") is out of range. max(" << max() <<

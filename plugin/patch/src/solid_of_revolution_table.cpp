@@ -2,6 +2,7 @@
 #include <cmath>  // isnan, pow
 #include <string>
 #include <fstream>
+#include "utils/include/debug.h"
 #include "utils/include/io.h"
 #include "utils/include/arguments.h"
 #include "utils/include/utils.h"
@@ -121,6 +122,7 @@ void SolidOfRevolutionTable::read_table_(const std::string file_name,
         if (std::abs(double_val + 1) < NEAR_ZERO) {
           int unique_ior;
           file >> unique_ior;
+          assert_in_bounds(unique_ior, num_orientations);
           in->set_data(t1, t2, p, tmp_store[unique_ior][0]);
           if (num_z > 0) {
             for (int z = 0; z < num_z; ++z) {
@@ -177,8 +179,8 @@ void SolidOfRevolutionTable::precompute(Configuration * config, ModelParams * pa
   const std::vector<std::vector<std::shared_ptr<Table3D> > >& inner = config->table3d();
   for (int t1 = 0; t1 < static_cast<int>(site_types_.size()); ++t1) {
     const int type1 = site_types_[t1];
-    ASSERT(type1 < config->num_site_types(),"site type: " << type1 <<
-      " in table > number of site types:" << config->num_site_types());
+    ASSERT(type1 >= 0 && type1 < config->num_site_types(), "site type: " << type1
+      << " in table > number of site types:" << config->num_site_types());
     t2index_[type1] = t1;
     for (int t2 = t1; t2 < static_cast<int>(site_types_.size()); ++t2) {
       const int type2 = site_types_[t2];
@@ -381,7 +383,7 @@ void SolidOfRevolutionTable::compute(
                   en = NEAR_INFINITY;
                   TRACE("hard overlap");
                 } else {
-                  const float inner = innert[tabtype1][tabtype2]->linear_interpolation(cosi, cosj, half_cospsi_p_one);
+                  const double inner = static_cast<double>(innert[tabtype1][tabtype2]->linear_interpolation(cosi, cosj, half_cospsi_p_one));
                   TRACE("inner " << inner);
                   if (squared_distance < inner*inner) {
                     en = NEAR_INFINITY;

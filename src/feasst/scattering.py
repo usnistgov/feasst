@@ -5,6 +5,7 @@ This module computes quantities to compare with scattering experiments.
 import math
 import numpy as np
 import pandas as pd
+from feasst import file_reader
 
 def structure_factor(distances, radial_distribution, frequency, number_density):
     """
@@ -94,7 +95,7 @@ def intensity(gr_file, num_density, iq_file=None, pqs=None, skip=1, rdf_shift=0.
     file1 = open(gr_file, 'r')
     lines = file1.readlines()
     file1.close()
-    exec('iprm={' + lines[0][1:] + '}', globals())
+    iprm = file_reader.commented_json_line_to_dict(lines[0])
     num_site_types = iprm['num_site_types']
 
     # shift

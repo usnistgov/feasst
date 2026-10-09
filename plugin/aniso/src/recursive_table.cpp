@@ -156,18 +156,18 @@ double RecursiveTable::compute_aniso(const int tabtype1, const int tabtype2,
     TRACE("hard overlap");
   } else {
     TRACE("s1 " << s1);
-    const float inner = sigma*contact1d_[tabtype1][tabtype2].linear_interpolation(s1);
+    const double inner = sigma*contact1d_[tabtype1][tabtype2].linear_interpolation(s1);
     TRACE("inner " << inner << " " << inner*inner);
     TRACE("squared_distance " << squared_distance);
     if (squared_distance < inner*inner) {
       en = NEAR_INFINITY;
       TRACE("hard overlap");
     } else if (!ignore_energy_) {
-      const float cutoff = sigma*cutoff1d_[tabtype1][tabtype2].linear_interpolation(s1);
+      const double cutoff = sigma*cutoff1d_[tabtype1][tabtype2].linear_interpolation(s1);
       TRACE("cutoff " << cutoff);
       if (squared_distance < cutoff*cutoff) {
         const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
-        float z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
+        double z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
         if (z < 0. && z > -1e-6) {
           z = 0.;
         }
@@ -195,17 +195,17 @@ double RecursiveTable::compute_aniso(const int tabtype1, const int tabtype2,
     en = NEAR_INFINITY;
     TRACE("hard overlap");
   } else {
-    const float inner = sigma*contact2d_[tabtype1][tabtype2].linear_interpolation(s1, s2);
+    const double inner = sigma*static_cast<double>(contact2d_[tabtype1][tabtype2].linear_interpolation(s1, s2));
     TRACE("inner " << inner << " " << inner*inner);
     TRACE("squared_distance " << squared_distance);
     if (squared_distance < inner*inner) {
       en = NEAR_INFINITY;
       TRACE("hard overlap");
     } else if (!ignore_energy_) {
-      const float cutoff = sigma*cutoff2d_[tabtype1][tabtype2].linear_interpolation(s1, s2);
+      const double cutoff = sigma*static_cast<double>(cutoff2d_[tabtype1][tabtype2].linear_interpolation(s1, s2));
       if (squared_distance < cutoff*cutoff) {
         const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
-        float z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
+        double z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
         if (z < 0. && z > -1e-6) {
           z = 0.;
         }
@@ -233,17 +233,17 @@ double RecursiveTable::compute_aniso(const int tabtype1, const int tabtype2,
     en = NEAR_INFINITY;
     TRACE("hard overlap");
   } else {
-    const float inner = sigma*contact_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3);
+    const double inner = sigma*static_cast<double>(contact_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3));
     TRACE("inner " << inner << " " << inner*inner);
     TRACE("squared_distance " << squared_distance);
     if (squared_distance < inner*inner) {
       en = NEAR_INFINITY;
       TRACE("hard overlap");
     } else if (!ignore_energy_) {
-      const float cutoff = sigma*cutoff_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3);
+      const double cutoff = sigma*static_cast<double>(cutoff_[tabtype1][tabtype2].linear_interpolation(s1, s2, e1, e2, e3));
       if (squared_distance < cutoff*cutoff) {
         const double epsilon = model_params.select(epsilon_index()).mixed_values()[stype1][stype2];
-        float z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
+        double z = (std::sqrt(squared_distance)-inner)/(cutoff - inner);
         if (z < 0. && z > -1e-6) {
           z = 0.;
         }

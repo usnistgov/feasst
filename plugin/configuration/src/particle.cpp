@@ -372,4 +372,39 @@ void Particle::clear_names() {
   }
 }
 
+Site * Particle::get_site(const int index) {
+  assert_in_bounds(index, sites_);
+  return &sites_[index];
+}
+
+Bond * Particle::get_bond(const int index) {
+  assert_in_bounds(index, bonds_);
+  return &bonds_[index];
+}
+
+Angle * Particle::get_angle(const int index) {
+  assert_in_bounds(index, angles_);
+  return &angles_[index];
+}
+
+Dihedral * Particle::get_dihedral(const int index) {
+  assert_in_bounds(index, dihedrals_);
+  return &dihedrals_[index];
+}
+
+const Bond& Particle::bond(const int index) const {
+  assert_in_bounds(index, bonds_);
+  return bonds_[index];
+}
+
+const Angle& Particle::angle(const int index) const {
+  assert_in_bounds(index, angles_);
+  return angles_[index];
+}
+
+const Dihedral& Particle::dihedral(const int index) const {
+  assert_in_bounds(index, dihedrals_);
+  return dihedrals_[index];
+}
+
 }  // namespace feasst

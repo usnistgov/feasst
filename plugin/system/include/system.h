@@ -92,24 +92,20 @@ class System {
     const int config = 0);
 
   /// Return the unoptimized potentials.
-  const PotentialFactory& unoptimized(const int config = 0) const {
-    return unoptimized_[config]; }
+  const PotentialFactory& unoptimized(const int config = 0) const;
 
   /// Return an unoptimized potential.
-  const Potential& potential(const int index, const int config = 0) const {
-    return unoptimized_[config].potential(index); }
+  const Potential& potential(const int index, const int config = 0) const;
 
   // Return an unoptimized potential.
-  Potential * get_potential(const int index, const int config = 0) {
-    return unoptimized_[config].get_potential(index); }
+  Potential * get_potential(const int index, const int config = 0);
 
   /// Add an optimized potential.
   void add_to_optimized(std::shared_ptr<Potential> potential,
     const int config = 0);
 
   /// Return the optimized potentials.
-  const PotentialFactory& optimized(const int config = 0) const {
-    return optimized_[config]; }
+  const PotentialFactory& optimized(const int config = 0) const;
 
   /// Add a reference potential.
   void add_to_reference(std::shared_ptr<Potential> ref,

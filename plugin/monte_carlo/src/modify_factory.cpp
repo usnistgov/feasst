@@ -99,6 +99,7 @@ void ModifyFactory::write_to_file(MonteCarlo * mc) {
     if (is_multistate_aggregate()) {
       std::stringstream ss;
       for (int state = 0; state < num(); ++state) {
+        assert_in_bounds(state, modifiers_);
         if (state == 0) {
           ss << "state,";
           ss << modifiers_[state]->header(*mc);

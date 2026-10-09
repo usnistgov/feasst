@@ -49,8 +49,7 @@ class PotentialFactory {
     return const_cast<Potential&>(*potentials_[index]); }
 
   // Return a potential by index of order added.
-  Potential * get_potential(const int index) {
-    return potentials_[index].get(); }
+  Potential * get_potential(const int index);
 
   /// Return the number of potentials.
   int num() const { return static_cast<int>(potentials_.size()); }

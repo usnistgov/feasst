@@ -50,6 +50,11 @@ bool MacrostateMorph::is_row_all_populated_(const int row,
 double MacrostateMorph::value(const System& system,
     const Criteria& criteria,
     const Acceptance& acceptance) {
+  ASSERT(system.num_configurations() == 1, "not implemented");
+  if (!grow_seq_validated_) {
+    validate_grow_seq(grow_seq_, system.configuration());
+    grow_seq_validated_ = true;
+  }
   // begin by initializing the number matrix
   // number of particles of type, where row follows macrostate (steps),
   // and column is for each morphing particle.

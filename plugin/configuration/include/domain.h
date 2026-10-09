@@ -133,9 +133,7 @@ class Domain {
   const Position& side_lengths() const { return side_lengths_; }
 
   /// Get the side length.
-  double side_length(const int dimension) const {
-    return side_lengths_.coord(dimension);
-  }
+  double side_length(const int dimension) const;
 
   /// Set the side lengths.
   void set_side_lengths(const Position& side_lengths);

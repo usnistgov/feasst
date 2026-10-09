@@ -48,7 +48,7 @@ def splice_by_max_column(prefix, suffix, column='moment0', crit_prefix=None, cri
             #print('filename', filename)
             with open(filename, 'r') as file1:
                 lines = file1.readlines()
-            exec('iprm={' + lines[0][1:] + '}', globals())
+            iprm = file_reader.commented_json_line_to_dict(lines[0])
             rows.append([iprm['soft_min'], iprm['soft_max']])
         #print('rows', rows)
         ifile = 0

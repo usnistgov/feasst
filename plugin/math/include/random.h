@@ -205,8 +205,10 @@ class Random {
   void serialize_random_(std::ostream& ostr) const;
   explicit Random(std::istream& istr);
 
- private:
+ protected:
   std::shared_ptr<Cache> cache_;
+
+ private:
   bool is_seeded_ = false;
 
   virtual void reseed_(const int seed) = 0;

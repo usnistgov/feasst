@@ -10,12 +10,12 @@
 namespace feasst {
 
 double Position::coord(const int dimension) const {
+  assert_in_bounds(dimension, size());
   return coord_[dimension];
 }
 
 void Position::set_coord(const int dimension, const double coord) {
-  ASSERT(dimension < size(), "dimension(" << dimension << ") < size(" << size()
-    << ")");
+  assert_in_bounds(dimension, coord_);
   coord_[dimension] = coord;
 }
 

@@ -57,6 +57,7 @@ void TablePotential::read_table_(const std::string file_name) {
   if (args.size() == 1) {
     WARN("Deprecated table_file format with space-separated values.");
     args = split(line, ' ');
+    ASSERT(static_cast<int>(args.size()) > 1, "size: " << args.size());
     std::string str_val;
     descript = args[0];
     //file >> descript >> int_val;

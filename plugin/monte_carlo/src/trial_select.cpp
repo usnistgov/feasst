@@ -64,6 +64,7 @@ void TrialSelect::precompute(System * system) {
   if (!config_.empty()) {
     configuration_index_ = system->configuration_index(config_);
   }
+  assert_in_bounds(configuration_index_, system->num_configurations());
   aniso_index_ = system->configuration().model_params().index("anisotropic");
   DEBUG("is_particle_type_set_ " << is_particle_type_set_);
   if (!particle_type_name_.empty()) {
@@ -79,6 +80,7 @@ void TrialSelect::precompute(System * system) {
   } else if (!group_.empty()) {
     group_index_ = configuration(*system).group_index(group_);
   }
+  assert_in_bounds(group_index_, configuration(*system).num_groups());
 }
 
 const Position& TrialSelect::anchor_position(const int particle_index,

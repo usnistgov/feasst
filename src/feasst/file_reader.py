@@ -3,6 +3,8 @@ Obtain information from FEASST scripts, particle files, etc
 """
 
 import copy
+import json
+import re
 from importlib.resources import files
 #import logging as log
 
@@ -303,6 +305,39 @@ def get_sites(script: str):
             if parm != 'params':
                 site_des[parm] += len(tsites[parm])*[pfile]
     return (sites, site_des)
+
+def commented_json_line_to_dict(line):
+    """
+    Convert a string line read from a file into a dictionary.
+    If the first character is the comment character '#', remove it.
+    If the first character is not a curly bracket, add it.
+    If the last character is a newline or comma, remove it.
+    If the last characteris not an end curly bracket, add it.
+    Regular expression removes trailing commas.
+
+    >>> from feasst import file_reader
+    >>> file_reader.commented_json_line_to_dict('#"hi":12\\n')['hi']
+    12
+    >>> file_reader.commented_json_line_to_dict('"hi":1.2,')['hi']
+    1.2
+    >>> file_reader.commented_json_line_to_dict('{"hi":"banana","list":[1,2,],}')['hi']
+    'banana'
+    """
+
+    if line[0] == '#':
+        line = line[1:]
+    if line[0] != '{':
+        line = '{' + line
+    if line[-1] == '\n':
+        line = line[:-1]
+    if line[-1] != '}':
+        line += '}'
+    if line[-2] == ',':
+        line = line[:-2] + line[-1]
+    # remove trailing commas
+    clean_string = re.sub(r',\s*([\]}])', r'\1', line)
+    #print('line:', line)
+    return json.loads(clean_string)
 
 if __name__ == "__main__":
     import doctest

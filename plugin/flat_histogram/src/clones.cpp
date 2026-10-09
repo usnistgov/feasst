@@ -169,8 +169,10 @@ void Clones::run_until_complete_omp_(argtype run_args,
           DEBUG("thread " << thread << " is initialized");
 
           // initialize next thread, if applicable
-          if (thread < num() - 1) initialize(thread + 1, init_args);
-          is_initialized[thread + 1] = true;
+          if (thread < num() - 1) {
+            initialize(thread + 1, init_args);
+            is_initialized[thread + 1] = true;
+          }
         }
 
         // continue running while waiting for all threads to complete

@@ -168,12 +168,14 @@ double ModelTableCart3DIntegr::energy(
   TRACE(val0 << " " << val1 << " " << val2);
   TRACE(tables_.size());
   TRACE(site.type());
+  assert_in_bounds(site.type(), tables_);
   const double en = scale_*tables_[site.type()]->linear_interpolation(val0, val1, val2);
   TRACE("en " << en);
   return en;
 }
 
 const Table3D& ModelTableCart3DIntegr::table(const int site_type) const {
+  assert_in_bounds(site_type, tables_);
   return const_cast<Table3D&>(*tables_[site_type]);
 }
 
@@ -186,6 +188,7 @@ void ModelTableCart3DIntegr::compute_table(
   argtype integration_args_copy = *integration_args;
   // allow shape internals to cache and parse arguments
   shape->integrate(*MakePosition({{0., 0., 0.}}), random, integration_args);
+  assert_in_bounds(site_type, tables_);
   Table3D * table = tables_[site_type].get();
   auto report = MakeProgressReport(
     {{"num", str(table->num0()*table->num1()*table->num2())}});
@@ -230,6 +233,7 @@ void ModelTableCart3DIntegr::compute_table_omp(
   // allow shape internals to cache before parallel.
   shape->integrate(*MakePosition({{0., 0., 0.}}), random, integration_args);
   #ifdef _OPENMP
+  assert_in_bounds(site_type, tables_);
   Table3D * table = tables_[site_type].get();
   #pragma omp parallel
   {
@@ -285,6 +289,7 @@ void ModelTableCart3DIntegr::compute_table(
 
   // for each unique site_type in select, ... (or, use particle_type as input instead of select+site_type.. add/del part physical part from system during making of table...
 
+  assert_in_bounds(site_type, tables_);
   Table3D * table = tables_[site_type].get();
   auto report = MakeProgressReport(
     {{"num", str(table->num0()*table->num1()*table->num2())}});
@@ -330,6 +335,7 @@ void ModelTableCart3DIntegr::compute_table_omp(
     const int node,
     const int num_nodes) {
   #ifdef _OPENMP
+  assert_in_bounds(site_type, tables_);
   Table3D * table = tables_[site_type].get();
   #pragma omp parallel
   {

@@ -14,6 +14,7 @@ from feasst import fstio
 def parse():
     """ Parse arguments from command line or change their default values. """
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('--feasst_exe', type=str, default='feasst')
     parser.add_argument('--beta', type=float, default=1/1.5, help='1 / kB / T')
     parser.add_argument('--port', type=int, default=54321, help='server client interface port')
     parser.add_argument('--buffer_size', type=int, default=1000, help='server client interface port')

@@ -10,6 +10,7 @@ from feasst import fstio
 from feasst import physical_constants
 from feasst import coarse_grain_pdb
 from feasst import accumulator
+from launch_4_cgmab import b2
 
 def parse():
     """ Parse arguments from command line or change their default values. """
@@ -87,12 +88,6 @@ Run until=complete
 """.format(**params))
 
 def post_process(params):
-    def b2(file_name):
-        file1 = open(file_name, 'r')
-        lines = file1.readlines()
-        file1.close()
-        exec('iprm=' + lines[0], globals())
-        return iprm
     b2hs_ref = 2*np.pi*params['reference_sigma']**3/3 # reference HS in nm^3
     lpm_fac = 1e-24*physical_constants.AvogadroConstant().value()
     mlmg_fac = 1e-24*physical_constants.AvogadroConstant().value()/150000

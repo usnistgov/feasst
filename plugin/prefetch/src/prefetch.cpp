@@ -449,11 +449,10 @@ void Prefetch::attempt_(
       // simultaneously
       #ifdef DEBUG_SERIAL_MODE_5324634
       }
+      #endif
+
       #pragma omp critical
       {
-      #else
-      {
-      #endif
       for (int im = 0;
            im < std::min(num_threads_, first_thread_accepted + 1);
            ++im) {

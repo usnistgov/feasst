@@ -142,4 +142,18 @@ void LnProbability::read(const std::string& file_name) {
   normalize();
 }
 
+double LnProbability::value(const int bin) const {
+  assert_in_bounds(bin, values_);
+  return values_[bin];
+}
+
+void LnProbability::set_value(const int bin, const double value) {
+  assert_in_bounds(bin, values_);
+  values_[bin] = value;
+}
+
+void LnProbability::add(const int bin, const double value_to_add) {
+  assert_in_bounds(bin, values_);
+  values_[bin] += value_to_add;
+}
 }  // namespace feasst

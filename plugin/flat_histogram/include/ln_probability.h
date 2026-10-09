@@ -19,18 +19,17 @@ class LnProbability {
     values_ = values; }
 
   /// Return the value of the bin.
-  double value(const int bin) const { return values_[bin]; }
+  double value(const int bin) const;
 
   /// Return the difference of the logarithm of the probability distribution
   /// from its lower next value. Return 'NaN' if bin is zero.
   double delta(const int bin) const;
 
   /// Set the value of the bin.
-  void set_value(const int bin, const double value) { values_[bin] = value; }
+  void set_value(const int bin, const double value);
 
   /// Add to the value of the bin.
-  void add(const int bin, const double value_to_add) {
-    values_[bin] += value_to_add; }
+  void add(const int bin, const double value_to_add);
 
   /// Set the number of macrostates.
   void resize(const int size) { values_.resize(size); }

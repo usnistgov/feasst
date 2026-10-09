@@ -38,7 +38,7 @@ class RecursiveTable1D : public Table1D, public RTable {
   void insert(const int bin, const RTable& nested);
 
   /// Insert a nested table.
-  void insert(const std::vector<int>& bins, const RTable& nested);
+  void insert(const std::vector<int>& bins, const RTable& nested) override;
 
   /// Return the percentage of table that is nested.
   double percent_nested() const;
@@ -78,7 +78,7 @@ class RecursiveTable2D : public Table2D, public RTable {
   void insert(const int bin0, const int bin1, const RTable& nested);
 
   /// Insert a nested table.
-  void insert(const std::vector<int>& bins, const RTable& nested);
+  void insert(const std::vector<int>& bins, const RTable& nested) override;
 
   double linear_interpolation(const double value0,
                               const double value1) const override;
@@ -121,7 +121,7 @@ class RecursiveTable3D : public Table3D, public RTable {
     const RTable& nested);
 
   /// Insert a nested table.
-  void insert(const std::vector<int>& bins, const RTable& nested);
+  void insert(const std::vector<int>& bins, const RTable& nested) override;
 
   /// Return the percentage of table that is nested.
   double percent_nested() const;
@@ -161,7 +161,7 @@ class RecursiveTable5D : public Table5D, public RTable {
     const int bin4, const RTable& nested);
 
   /// Insert a nested table.
-  void insert(const std::vector<int>& bins, const RTable& nested);
+  void insert(const std::vector<int>& bins, const RTable& nested) override;
 
   /// Return the percentage of table that is nested.
   double percent_nested() const;
@@ -205,7 +205,7 @@ class RecursiveTable6D : public Table6D, public RTable {
     const int bin4, const int bin5, const RTable& nested);
 
   /// Insert a nested table.
-  void insert(const std::vector<int>& bins, const RTable& nested);
+  void insert(const std::vector<int>& bins, const RTable& nested) override;
 
   /// Return the percentage of table that is nested.
   double percent_nested() const;

@@ -9,6 +9,7 @@
 namespace feasst {
 
 void Rosenbluth::resize(const int num) {
+  ASSERT(num > 0, "num: " << num);
   energy_.resize(num);
   energy_profile_.resize(num);
   excluded_.resize(num);

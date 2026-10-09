@@ -1,5 +1,6 @@
 #include <cmath>
 #include <vector>
+#include "utils/include/debug.h"
 #include "utils/include/arguments.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
@@ -482,6 +483,10 @@ void Domain::wrap_opt(const Position& unwrapped, Position * wrapped, Position * 
   }
   cartesian2scaled_wrap(unwrapped, scaled);
   h_.multiply(*scaled, wrapped);
+}
+
+double Domain::side_length(const int dimension) const {
+  return side_lengths_.coord(dimension);
 }
 
 }  // namespace feasst

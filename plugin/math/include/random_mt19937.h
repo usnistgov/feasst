@@ -29,7 +29,7 @@ class RandomMT19937 : public Random {
   //@{
 
   /// Use http://www.cplusplus.com/reference/random/normal_distribution/
-  double standard_normal() override { return std_normal_(generator_); }
+  double standard_normal() override;
 
   // serialize
   std::shared_ptr<Random> create(std::istream& istr) const override {

@@ -48,7 +48,9 @@ void ProfileTrials::update(const MonteCarlo& mc) {
     const clock_t elapsed = clock() - previous_clock_;
     //const double elapsed = static_cast<double>(clock() - previous_clock_);
     DEBUG("elapsed " << elapsed);
-    profile_[mc.trial_factory().last_index()].accumulate(elapsed);
+    const int trial_index = mc.trial_factory().last_index();
+    assert_in_bounds(trial_index, profile_);
+    profile_[trial_index].accumulate(elapsed);
   } else {
     is_previous_ = true;
     previous_clock_ = clock();
