@@ -152,6 +152,7 @@ if (false) {
     {"BuildRecursiveTable", {{"stage","base"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2base_serial"}}},
   }}, true);
   RecursiveTable base_serial = RecursiveTable().from_file("tmp/2base_serial");
+  RecursiveTable base_serial_cut = RecursiveTable().from_file("tmp/2base_serial_cut");
   for (int proc = 0; proc < num_proc; ++proc) {
     MakeMonteCarlo({{
       {"Configuration", config_args},
@@ -161,46 +162,52 @@ if (false) {
   }
   { // temporary testing
     RecursiveTable base_parallel0 = RecursiveTable().from_file("tmp/2base0");
-    ASSERT(base_parallel0.cutoff2d_.size() > 0, "error");
-    INFO(base_parallel0.cutoff2d_.size());
+    ASSERT(base_parallel0.contact2d_.size() > 0, "error");
+    //INFO(base_parallel0.cutoff2d_.size());
+    RecursiveTable base_parallel0_cut = RecursiveTable().from_file("tmp/2base0_cut");
+    ASSERT(base_parallel0_cut.cutoff2d_.size() > 0, "error");
   }
-  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "recursive_table"}, {"input_prefix", "tmp/2base"}, {"num_processors", str(num_proc)}, {"cleanup", "false"}}}}}, true);
+  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "recursive_table_contact"}, {"input_prefix", "tmp/2base"}, {"num_processors", str(num_proc)}, {"cleanup", "false"}}}}}, true);
+  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "recursive_table_cutoff"}, {"input_prefix", "tmp/2base"}, {"num_processors", str(num_proc)}, {"cleanup", "false"}, {"input_suffix", "_cut"}}}}}, true);
   RecursiveTable base_parallel = RecursiveTable().from_file("tmp/2base");
+  RecursiveTable base_parallel_cut = RecursiveTable().from_file("tmp/2base_cut");
   EXPECT_TRUE(base_serial.is_equal(base_parallel));
   if (dimension == 2) {
-    ASSERT(base_serial.cutoff2d_.size() > 0, "error");
-    ASSERT(base_parallel.cutoff2d_.size() > 0, "error");
-    EXPECT_NE(base_serial.contact2d_[0][0].data()[0][0],
-              base_serial. cutoff2d_[0][0].data()[0][0]);
-    EXPECT_NE(base_parallel.contact2d_[0][0].data()[0][0],
-              base_parallel. cutoff2d_[0][0].data()[0][0]);
+    ASSERT(base_serial_cut.cutoff2d_.size() > 0, "error");
+    ASSERT(base_parallel_cut.cutoff2d_.size() > 0, "error");
+    EXPECT_NE(base_serial.   contact2d_[0][0].data()[0][0],
+              base_serial_cut.cutoff2d_[0][0].data()[0][0]);
+    EXPECT_NE(base_parallel.   contact2d_[0][0].data()[0][0],
+              base_parallel_cut.cutoff2d_[0][0].data()[0][0]);
   } else if (dimension == 5) {
-    ASSERT(base_serial.cutoff_.size() > 0, "error");
-    ASSERT(base_parallel.cutoff_.size() > 0, "error");
-    EXPECT_NE(base_serial.contact_[0][0].data()[0][0][0][0][0],
-              base_serial. cutoff_[0][0].data()[0][0][0][0][0]);
-    EXPECT_NE(base_parallel.contact_[0][0].data()[0][0][0][0][0],
-              base_parallel. cutoff_[0][0].data()[0][0][0][0][0]);
+    ASSERT(base_serial_cut.cutoff_.size() > 0, "error");
+    ASSERT(base_parallel_cut.cutoff_.size() > 0, "error");
+    EXPECT_NE(base_serial.   contact_[0][0].data()[0][0][0][0][0],
+              base_serial_cut.cutoff_[0][0].data()[0][0][0][0][0]);
+    EXPECT_NE(base_parallel.   contact_[0][0].data()[0][0][0][0][0],
+              base_parallel_cut.cutoff_[0][0].data()[0][0][0][0][0]);
   }
 
   // train contact and cutoff
   MakeMonteCarlo({{
     {"Configuration", config_args},
     {"Potential", {{"Model", "LennardJonesCutShift"}}},
-    {"BuildRecursiveTable", {{"stage", "train"}, {"mayer_training_file", "tmp/2recur_training.csv"}, {"base_table_file", "tmp/2base"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2train_serial"}, {"min_criteria", min_criteria}}},
+    {"BuildRecursiveTable", {{"stage", "train"}, {"mayer_training_file", "tmp/2recur_training.csv"}, {"base_table_file", "tmp/2base"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2train_serial"}, {"min_criteria", min_criteria}, {"contact_only", "true"}}},
+    {"BuildRecursiveTable", {{"stage", "train"}, {"mayer_training_file", "tmp/2recur_training.csv"}, {"base_table_file", "tmp/2base_cut"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2train_serial_cut"}, {"min_criteria", min_criteria}}},
   }}, true);
   for (int proc = 0; proc < num_proc; ++proc) {
     MakeMonteCarlo({{
       {"Configuration", config_args},
       {"Potential", {{"Model", "LennardJonesCutShift"}}},
-      {"BuildRecursiveTable", {{"stage", "train"}, {"mayer_training_file", "tmp/2recur_training.csv"}, {"base_table_file", "tmp/2base"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2train"+str(proc)}, {"min_criteria", min_criteria}, {"processor", str(proc)}, {"num_processors", str(num_proc)}}},
+      {"BuildRecursiveTable", {{"stage", "train"}, {"mayer_training_file", "tmp/2recur_training.csv"}, {"base_table_file", "tmp/2base"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2train"+str(proc)}, {"min_criteria", min_criteria}, {"processor", str(proc)}, {"num_processors", str(num_proc)}, {"contact_only", "true"}}},
+      {"BuildRecursiveTable", {{"stage", "train"}, {"mayer_training_file", "tmp/2recur_training.csv"}, {"base_table_file", "tmp/2base_cut"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2train"+str(proc)+"_cut"}, {"min_criteria", min_criteria}, {"processor", str(proc)}, {"num_processors", str(num_proc)}}},
     }}, true);
   }
   MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "trained"}, {"input_prefix", "tmp/2train"}, {"num_processors", str(num_proc)}, {"cleanup", "false"}}}}}, true);
-  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "trained"}, {"input_prefix", "tmp/2train"}, {"num_processors", str(num_proc)}, {"cleanup", "false"}, {"input_suffix", "_cut"}}}}}, true);
+  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "trained"}, {"input_prefix", "tmp/2train"}, {"num_processors", str(num_proc)}, {"cleanup", "false"}, {"input_suffix", "_cut_cut"}}}}}, true);
   EXPECT_TRUE(compare_files("tmp/2train", "tmp/2train_serial"));
-  EXPECT_TRUE(compare_files("tmp/2train_cut", "tmp/2train_serial_cut"));
-  EXPECT_FALSE(compare_files("tmp/2train_cut", "tmp/2train"));
+  EXPECT_TRUE(compare_files("tmp/2train_cut_cut", "tmp/2train_serial_cut_cut"));
+  EXPECT_FALSE(compare_files("tmp/2train_cut_cut", "tmp/2train"));
 
   // build nested contact table
   WARN("must somehow separate the trained file for contact with the trained file for cutoff");
@@ -234,18 +241,20 @@ if (false) {
   MakeMonteCarlo({{
     {"Configuration", config_args},
     {"Potential", {{"Model", "LennardJonesCutShift"}}},
-    {"BuildRecursiveTable", {{"stage", "build_cutoff"}, {"base_table_file", "tmp/2recur_serial"}, {"trained_file", "tmp/2train_serial_cut"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2recur_serial_cut"}}},
+    {"BuildRecursiveTable", {{"stage", "build_cutoff"}, {"base_table_file", "tmp/2base_cut"}, {"trained_file", "tmp/2train_cut_cut"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2recur_serial_cut"}}},
   }}, true);
+  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "contact_and_cutoff"}, {"input_prefix", "tmp/2recur_serial"}, {"input_suffix", ""}, {"input2_suffix", "_cut"}, {"cleanup", "false"}}}}}, true);
   for (int proc = 0; proc < num_proc; ++proc) {
     INFO("proc " << proc);
     MakeMonteCarlo({{
       {"Configuration", config_args},
       {"Potential", {{"Model", "LennardJonesCutShift"}}},
-      {"BuildRecursiveTable", {{"stage", "build_cutoff"}, {"base_table_file", "tmp/2recur"}, {"trained_file", "tmp/2train_cut"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2recur_cut"+str(proc)}, {"processor", str(proc)}, {"num_processors", str(num_proc)}}},
+      {"BuildRecursiveTable", {{"stage", "build_cutoff"}, {"base_table_file", "tmp/2base_cut"}, {"trained_file", "tmp/2train_cut_cut"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2recur"+str(proc)+"_cut"}, {"processor", str(proc)}, {"num_processors", str(num_proc)}}},
     }}, true);
     INFO("combining");
   }
-  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "recursive_table"}, {"input_prefix", "tmp/2recur_cut"}, {"num_processors", str(num_proc)}, {"cleanup", "false"}}}}}, true);
+  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "recursive_table_cutoff"}, {"input_prefix", "tmp/2recur"}, {"input_suffix", "_cut"}, {"num_processors", str(num_proc)}, {"cleanup", "false"}}}}}, true);
+  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "contact_and_cutoff"}, {"input_prefix", "tmp/2recur"}, {"input_suffix", ""}, {"input2_suffix", "_cut"}, {"cleanup", "false"}}}}}, true);
 
   RecursiveTable recur_serial_cut = RecursiveTable().from_file("tmp/2recur_serial_cut");
   RecursiveTable recur_parallel_cut = RecursiveTable().from_file("tmp/2recur_cut");
@@ -265,7 +274,8 @@ if (false) {
     {"Potential", {{"Model", "LennardJonesCutShift"}}},
     {"BuildRecursiveTable", {{"stage","base"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2en_base_serial"}, {"energy_only", "true"}, {"num_z", num_z}, {"input_recursive_table", "tmp/2recur_serial_cut"}}},
   }}, true);
-  RecursiveTable en_base_serial = RecursiveTable().from_file("tmp/2en_base_serial");
+  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "contact_cutoff_energy"}, {"input_prefix", "tmp/2"}, {"input2_suffix", "en_base_serial"}, {"input_suffix", "recur_serial_cut"}, {"cleanup", "false"}}}}}, true);
+  RecursiveTable en_base_serial = RecursiveTable().from_file("tmp/2recur_serial_cuten_base_serial");
   for (int proc = 0; proc < num_proc; ++proc) {
     MakeMonteCarlo({{
       {"Configuration", config_args},
@@ -273,8 +283,9 @@ if (false) {
       {"BuildRecursiveTable", {{"stage", "base"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2en_base"+str(proc)}, {"energy_only", "true"}, {"num_z", num_z}, {"input_recursive_table", "tmp/2recur_cut"}, {"processor", str(proc)}, {"num_processors", str(num_proc)}}},
     }}, true);
   }
-  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "recursive_table"}, {"input_prefix", "tmp/2en_base"}, {"num_processors", str(num_proc)}, {"cleanup", "false"}}}}}, true);
-  RecursiveTable en_base_parallel = RecursiveTable().from_file("tmp/2en_base");
+  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "recursive_table_energy"}, {"input_prefix", "tmp/2en_base"}, {"num_processors", str(num_proc)}, {"cleanup", "false"}}}}}, true);
+  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "contact_cutoff_energy"}, {"input_prefix", "tmp/2"}, {"input2_suffix", "en_base"}, {"input_suffix", "recur_cut"}, {"cleanup", "false"}}}}}, true);
+  RecursiveTable en_base_parallel = RecursiveTable().from_file("tmp/2recur_cuten_base");
   if (dimension == 5) {
     INFO("serial " << feasst_str(en_base_serial.energy_[0][0].data()[0][0][0][0][0]));
     INFO("parallel " << feasst_str(en_base_parallel.energy_[0][0].data()[0][0][0][0][0]));
@@ -294,13 +305,13 @@ if (false) {
   MakeMonteCarlo({{
     {"Configuration", config_args},
     {"Potential", {{"Model", "LennardJonesCutShift"}}},
-    {"BuildRecursiveTable", {{"stage", "train"}, {"mayer_training_file", "tmp/2recur_training.csv"}, {"base_table_file", "tmp/2en_base"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2en_train_serial"}, {"num_z", num_z}, {"min_criteria", min_criteria}, {"min_criteria_energy", min_criteria_energy}, {"energy_only", "true"}}},
+    {"BuildRecursiveTable", {{"stage", "train"}, {"mayer_training_file", "tmp/2recur_training.csv"}, {"base_table_file", "tmp/2recur_serial_cuten_base_serial"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2en_train_serial"}, {"num_z", num_z}, {"min_criteria", min_criteria}, {"min_criteria_energy", min_criteria_energy}, {"energy_only", "true"}}},
   }}, true);
   for (int proc = 0; proc < num_proc; ++proc) {
     MakeMonteCarlo({{
       {"Configuration", config_args},
       {"Potential", {{"Model", "LennardJonesCutShift"}}},
-      {"BuildRecursiveTable", {{"stage", "train"}, {"mayer_training_file", "tmp/2recur_training.csv"}, {"base_table_file", "tmp/2en_base"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2en_train"+str(proc)}, {"num_z", num_z}, {"min_criteria", min_criteria}, {"min_criteria_energy", min_criteria_energy}, {"energy_only", "true"}, {"processor", str(proc)}, {"num_processors", str(num_proc)}}},
+      {"BuildRecursiveTable", {{"stage", "train"}, {"mayer_training_file", "tmp/2recur_training.csv"}, {"base_table_file", "tmp/2recur_cuten_base"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2en_train"+str(proc)}, {"num_z", num_z}, {"min_criteria", min_criteria}, {"min_criteria_energy", min_criteria_energy}, {"energy_only", "true"}, {"processor", str(proc)}, {"num_processors", str(num_proc)}}},
     }}, true);
   }
   MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "trained"}, {"input_prefix", "tmp/2en_train"}, {"input_suffix", "_en"}, {"num_processors", str(num_proc)}, {"cleanup", "false"}}}}}, true);
@@ -310,21 +321,23 @@ if (false) {
   MakeMonteCarlo({{
     {"Configuration", config_args},
     {"Potential", {{"Model", "LennardJonesCutShift"}}},
-    {"BuildRecursiveTable", {{"stage", "build_energy"}, {"base_table_file", "tmp/2en_base_serial"}, {"trained_file", "tmp/2en_train_serial_en"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2en_recur_serial"}, {"num_z", num_z}, {"energy_only", "true"}}},
+    {"BuildRecursiveTable", {{"stage", "build_energy"}, {"base_table_file", "tmp/2recur_serial_cuten_base_serial"}, {"trained_file", "tmp/2en_train_serial_en"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2en_recur_serial"}, {"num_z", num_z}, {"energy_only", "true"}}},
   }}, true);
+  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "contact_cutoff_energy"}, {"input_prefix", "tmp/2"}, {"input_suffix", "recur_serial_cuten_base_serial"}, {"input2_suffix", "en_recur_serial"}, {"output_file", "tmp/2table_serial"}, {"cleanup", "false"}}}}}, true);
   for (int proc = 0; proc < num_proc; ++proc) {
     INFO("proc " << proc);
     MakeMonteCarlo({{
       {"Configuration", config_args},
       {"Potential", {{"Model", "LennardJonesCutShift"}}},
-      {"BuildRecursiveTable", {{"stage", "build_energy"}, {"base_table_file", "tmp/2en_base"}, {"trained_file", "tmp/2en_train_en"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2en_recur"+str(proc)}, {"num_z", num_z}, {"energy_only", "true"}, {"processor", str(proc)}, {"num_processors", str(num_proc)}}},
+      {"BuildRecursiveTable", {{"stage", "build_energy"}, {"base_table_file", "tmp/2recur_cuten_base"}, {"trained_file", "tmp/2en_train_en"}, {"num_orientations_per_pi", "2"}, {"output_file", "tmp/2en_recur"+str(proc)}, {"num_z", num_z}, {"energy_only", "true"}, {"processor", str(proc)}, {"num_processors", str(num_proc)}}},
     }}, true);
     INFO("combining");
   }
-  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "recursive_table"}, {"input_prefix", "tmp/2en_recur"}, {"num_processors", str(num_proc)}, {"cleanup", "false"}}}}}, true);
+  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "recursive_table_energy"}, {"input_prefix", "tmp/2en_recur"}, {"num_processors", str(num_proc)}, {"cleanup", "false"}}}}}, true);
+  MakeMonteCarlo({{{"CombineParallelFiles", {{"type", "contact_cutoff_energy"}, {"input_prefix", "tmp/2"}, {"input_suffix", "recur_cuten_base"}, {"input2_suffix", "en_recur"}, {"output_file", "tmp/2table"}, {"cleanup", "false"}}}}}, true);
   //EXPECT_TRUE(compare_files("tmp/2recur", "tmp/2recur_serial"));
-  RecursiveTable en_recur_serial = RecursiveTable().from_file("tmp/2en_recur_serial");
-  RecursiveTable en_recur_parallel = RecursiveTable().from_file("tmp/2en_recur");
+  RecursiveTable en_recur_serial = RecursiveTable().from_file("tmp/2table_serial");
+  RecursiveTable en_recur_parallel = RecursiveTable().from_file("tmp/2table");
   EXPECT_TRUE(en_recur_serial.is_equal(en_recur_parallel));
 
   if (dimension == 2) {

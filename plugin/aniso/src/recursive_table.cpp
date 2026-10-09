@@ -457,6 +457,7 @@ void RecursiveTable::add(const RecursiveTable& table, const int proc,
     ASSERT(cutoff==cutoff2, "cutoff:" << cutoff << " cutoff2:" << cutoff2);
     ASSERT(energy==energy2, "energy:" << energy << " energy2:" << energy2);
   }
+  DEBUG("dimension " << dimension << " cutoff " << cutoff);
 
   bool combine_contact = true,
        combine_cutoff = true,
@@ -479,29 +480,17 @@ void RecursiveTable::add(const RecursiveTable& table, const int proc,
     for (int jt = it; jt < ntype; ++jt) {
       if (dimension == 5) {
         if (combine_contact) contact_[it][jt].add_rparallel(table.contact_[it][jt], proc, num_procs);
-        if (cutoff) {
-          if (combine_cutoff) cutoff_[it][jt].add_rparallel(table.cutoff_[it][jt], proc, num_procs);
-          if (energy) {
-            if (combine_energy) energy_[it][jt].add_rparallel(table.energy_[it][jt], proc, num_procs);
-          }
-        }
+        if (cutoff && combine_cutoff) cutoff_[it][jt].add_rparallel(table.cutoff_[it][jt], proc, num_procs);
+        if (energy && combine_energy) energy_[it][jt].add_rparallel(table.energy_[it][jt], proc, num_procs);
       } else if (dimension == 2) {
         if (combine_contact) contact2d_[it][jt].add_rparallel(table.contact2d_[it][jt], proc, num_procs);
-        if (cutoff) {
-          if (combine_cutoff) cutoff2d_[it][jt].add_rparallel(table.cutoff2d_[it][jt], proc, num_procs);
-          if (energy) {
-            if (combine_energy) energy3d_[it][jt].add_rparallel(table.energy3d_[it][jt], proc, num_procs);
-          }
-        }
+        if (cutoff && combine_cutoff) cutoff2d_[it][jt].add_rparallel(table.cutoff2d_[it][jt], proc, num_procs);
+        if (energy && combine_energy) energy3d_[it][jt].add_rparallel(table.energy3d_[it][jt], proc, num_procs);
       } else if (dimension == 1) {
         DEBUG("proc " << proc << " num_procs " << num_procs);
         if (combine_contact) contact1d_[it][jt].add_rparallel(table.contact1d_[it][jt], proc, num_procs);
-        if (cutoff) {
-          if (combine_cutoff) cutoff1d_[it][jt].add_rparallel(table.cutoff1d_[it][jt], proc, num_procs);
-          if (energy) {
-            if (combine_energy) energy2d_[it][jt].add_rparallel(table.energy2d_[it][jt], proc, num_procs);
-          }
-        }
+        if (cutoff && combine_cutoff) cutoff1d_[it][jt].add_rparallel(table.cutoff1d_[it][jt], proc, num_procs);
+        if (energy && combine_energy) energy2d_[it][jt].add_rparallel(table.energy2d_[it][jt], proc, num_procs);
       } else {
         FATAL("not implemented");
       }

@@ -25,7 +25,6 @@ CombineParallelFiles::CombineParallelFiles(argtype * args) : Action(args) {
       const std::string filename = input_prefix + str(proc) + input_suffix;
       DEBUG("filename " << filename);
       if (proc == 0) {
-        DEBUG("proc0");
         combined = combined.from_file(filename);
         //combined.print_sizes();
       } else {
@@ -90,6 +89,7 @@ CombineParallelFiles::CombineParallelFiles(argtype * args) : Action(args) {
         filename = input_prefix+input_suffix+input2_suffix;
       }
     }
+    DEBUG("output file: " << filename);
     std::ofstream file(filename);
     ASSERT(file.good(), "Error handing filename: " << filename);
     file << ss.str();

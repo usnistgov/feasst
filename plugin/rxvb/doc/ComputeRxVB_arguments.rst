@@ -1,7 +1,7 @@
-ComputeRXVB
+ComputeRxVB
 =====================================================
 
-.. doxygenclass:: feasst::ComputeRXVB
+.. doxygenclass:: feasst::ComputeRxVB
    :project: FEASST
    :members:
    :membergroups: Arguments

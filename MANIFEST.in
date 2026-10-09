@@ -1,5 +1,4 @@
 include CMakeLists.txt
-include *rst
 recursive-include plugin *cpp *h particle/*.txt
 recursive-include src/feasst *
 prune src/feasst/tests

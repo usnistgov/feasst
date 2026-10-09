@@ -5,5 +5,5 @@
    SelectAnchor
    TrialRxVB
    SelectTwoParticles
-   ComputeRXVB
+   ComputeRxVB
    PerturbSwapPosition
