@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Virial coefficients of all-atom mAb domains. &mdash; FEASST 0.25.20 0.25.20 documentation</title>
+  <title>Virial coefficients of all-atom mAb domains. &mdash; FEASST 0.25.21 0.25.21 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=d8c91523"></script>
+      <script src="../../../_static/documentation_options.js?v=7cb1913a"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.20
+            FEASST 0.25.21
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -106,6 +106,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/tutorial/tutorial_02_post_process.html">Post process scattering calculations from file.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../beta_expanded/tutorial/tutorial.html">Beta expanded ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../egce/tutorial/tutorial_1_rpm_tm_egce_parallel.html">Expanded Ensemble Grand Canonical Flat Histogram Simulation of RPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_0_square_well.html">Second Virial Coefficient of Square Well.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_2_ethane.html">Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_3_kf_b2.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
@@ -147,7 +148,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.20</a>
+          <a href="../../../index.html">FEASST 0.25.21</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -228,6 +229,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">feasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">fstio</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">feasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">coarse_grain_pdb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">feasst</span><span class="w"> </span><span class="kn">import</span> <span class="n">file_reader</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Parse arguments from command line or change their default values. &quot;&quot;&quot;</span>
@@ -401,13 +403,12 @@
 <span class="s2">Run until=complete</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
 
+<span class="k">def</span><span class="w"> </span><span class="nf">b2</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">file_reader</span><span class="o">.</span><span class="n">commented_json_line_to_dict</span><span class="p">(</span><span class="n">file1</span><span class="o">.</span><span class="n">readlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">iprm</span>
+
 <span class="k">def</span><span class="w"> </span><span class="nf">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">b2</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
-        <span class="n">file1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-        <span class="n">file1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="n">exec</span><span class="p">(</span><span class="s1">&#39;iprm=&#39;</span> <span class="o">+</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">globals</span><span class="p">())</span>
-        <span class="k">return</span> <span class="n">iprm</span>
     <span class="n">b2hs_ref</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mi">3</span><span class="o">**</span><span class="mi">3</span><span class="o">/</span><span class="mi">3</span> <span class="c1"># sigma=3 nanometer reference HS</span>
     <span class="n">fc</span> <span class="o">=</span> <span class="n">b2</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;_fc_b2.csv&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;fc&#39;</span><span class="p">,</span> <span class="n">fc</span><span class="p">[</span><span class="s1">&#39;second_virial_ratio&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">b2hs_ref</span><span class="p">,</span> <span class="s1">&#39;+/-&#39;</span><span class="p">,</span> <span class="n">fc</span><span class="p">[</span><span class="s1">&#39;second_virial_ratio_block_stdev&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">b2hs_ref</span><span class="p">,</span> <span class="s1">&#39;nm^3 vs 527.87 ± 1.91&#39;</span><span class="p">)</span>
