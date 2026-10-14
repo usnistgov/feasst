@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Single reactive site on the surface of a slit pore &mdash; FEASST 0.25.20 0.25.20 documentation</title>
+  <title>Single reactive site on the surface of a slit pore &mdash; FEASST 0.25.21 0.25.21 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=d8c91523"></script>
+      <script src="../../../_static/documentation_options.js?v=7cb1913a"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -51,7 +51,7 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            FEASST 0.25.20
+            FEASST 0.25.21
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
@@ -117,7 +117,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FEASST 0.25.20</a>
+          <a href="../../../index.html">FEASST 0.25.21</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -257,10 +257,10 @@
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sims&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;morph&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">%</span> <span class="mi">2</span>
     <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;morph&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;rxn&#39;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;TrialMorph weight=</span><span class="si">{weight}</span><span class="s2"> particle_type=A,B particle_type_morph=C,D print_num_accepted=true reference_index=0&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;rxn&#39;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;TrialMorph weight=</span><span class="si">{weight}</span><span class="s2"> particle_type=A,B particle_type_morph=C,D print_num_accepted=true reference_index=0 write_weights=true&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;potential&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Potential Model=SquareWell VisitModel=VisitModelCell min_length=max_cutoff&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;rxn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;TrialRxVB weight=</span><span class="si">{weight}</span><span class="s2"> target_particle_type=A target_site=A1 target_particle_type_morph=C particle_type=B site=B1 particle_type_morph=D print_num_accepted=true reference_index=0&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;rxn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;TrialRxVB weight=</span><span class="si">{weight}</span><span class="s2"> target_particle_type=A target_site=A1 target_particle_type_morph=C particle_type=B site=B1 particle_type_morph=D print_num_accepted=true reference_index=0 write_weights=true&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
         <span class="n">params</span><span class="p">[</span><span class="s1">&#39;potential&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">#NeighborCriteria energy_maximum=1e9,1e9 site_type0=A,C site_type1=B,D maximum_distance=</span><span class="si">{avb_outer}</span><span class="s2">,</span><span class="si">{avb_outer}</span><span class="s2"> minimum_distance=</span><span class="si">{avb_inner}</span><span class="s2">,</span><span class="si">{avb_inner}</span>
 <span class="s2">NeighborCriteria site_type0=A site_type1=B site_type0_alt=C site_type1_alt=D maximum_distance=</span><span class="si">{avb_outer}</span><span class="s2"> minimum_distance=</span><span class="si">{avb_inner}</span>
@@ -314,8 +314,9 @@
 <span class="s2">ThermoParams beta=</span><span class="si">{beta}</span><span class="s2"> chemical_potential=0,0,0,</span><span class="si">{delta_mu_rxn}</span>
 <span class="si">{rxn}</span>
 <span class="s2">Metropolis trials_per_cycle=</span><span class="si">{tpc}</span><span class="s2"> cycles_to_complete=</span><span class="si">{equilibration}</span>
+<span class="s2">NumParticles [write]_num2_eq.csv particle_type=C</span>
 <span class="s2">Run until=complete Stepper=Movie [write]_eq.xyz</span>
-<span class="s2">Remove name=Tune,Log</span>
+<span class="s2">Remove name=Tune,Log,NumParticles</span>
 
 <span class="s2"># production</span>
 <span class="s2">Metropolis trials_per_cycle=</span><span class="si">{tpc}</span><span class="s2"> cycles_to_complete=</span><span class="si">{production}</span>
@@ -345,7 +346,7 @@
         <span class="k">if</span> <span class="n">morph</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span>
         <span class="k">if</span> <span class="n">sim</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">label</span><span class="o">=</span><span class="s1">&#39;rxnavb&#39;</span>
+            <span class="n">label</span><span class="o">=</span><span class="s1">&#39;rxvb&#39;</span>
             <span class="k">if</span> <span class="n">morph</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">label</span><span class="o">=</span><span class="s1">&#39;rxn&#39;</span>
         <span class="n">log</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;chemn0s&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">)</span>

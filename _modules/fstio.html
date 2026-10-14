@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fstio &mdash; FEASST 0.25.20 0.25.20 documentation</title>
+  <title>fstio &mdash; FEASST 0.25.21 0.25.21 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -14,7 +14,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=d8c91523"></script>
+      <script src="../_static/documentation_options.js?v=7cb1913a"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -48,7 +48,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            FEASST 0.25.20
+            FEASST 0.25.21
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -71,7 +71,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">FEASST 0.25.20</a>
+          <a href="../index.html">FEASST 0.25.21</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -141,6 +141,7 @@
 <span class="sd">This module provides some utility input / output functions for use with the FEASST simulation program.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
@@ -171,7 +172,7 @@
         <span class="k">if</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="n">rtrn</span> <span class="o">+=</span> <span class="s1">&#39; --&#39;</span><span class="o">+</span><span class="n">label</span><span class="o">+</span><span class="s1">&#39; &quot;&quot;&#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">rtrn</span> <span class="o">+=</span> <span class="s1">&#39; --&#39;</span><span class="o">+</span><span class="n">label</span><span class="o">+</span><span class="s1">&#39; &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
+            <span class="n">rtrn</span> <span class="o">+=</span> <span class="s1">&#39; --&#39;</span><span class="o">+</span><span class="n">label</span><span class="o">+</span><span class="s1">&#39; &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="n">label</span><span class="p">])</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">rtrn</span></div>
 
 
@@ -534,6 +535,79 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">assert</span> <span class="kc">False</span>  <span class="c1"># unrecognized run_type</span></div>
 
+
+<span class="k">def</span><span class="w"> </span><span class="nf">slurm_multiple_jobs</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;queue_command&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sbatch --array=</span><span class="si">{queue_task}</span><span class="s2">-</span><span class="si">{max_restarts}</span><span class="s2">%1 </span><span class="si">{prefix}</span><span class="s2">_slurm.txt&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;scratch&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;scratch&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;None&#39;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;original_args&#39;</span><span class="p">])</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;run_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;job&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;job&#39;</span><span class="p">]</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;queue_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;$SLURM_ARRAY_JOB_ID&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_slurm.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
+        <span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;#!/bin/bash</span>
+<span class="s2">#SBATCH -n </span><span class="si">{procs_per_job}</span>
+<span class="s2">#SBATCH -N 1</span>
+<span class="s2">#SBATCH -t </span><span class="si">{minutes}</span><span class="s2">:00</span>
+<span class="s2">#SBATCH -o </span><span class="si">{prefix}</span><span class="s2">_slurm_%A_</span><span class="si">%a</span><span class="s2">.txt</span>
+<span class="s2">#SBATCH -e </span><span class="si">{prefix}</span><span class="s2">_slurm_%A_</span><span class="si">%a</span><span class="s2">.txt</span>
+<span class="s2">#SBATCH </span><span class="si">{queue_flags}</span>
+<span class="s2">echo &quot;Running ID ${{SLURM_ARRAY_JOB_ID}}_${{SLURM_ARRAY_TASK_ID}} on $(hostname) at $(date) in $PWD&quot;</span>
+<span class="s2">cd $PWD</span>
+<span class="s2">export OMP_NUM_THREADS=</span><span class="si">{procs_per_sim}</span>
+<span class="s2">python </span><span class="si">{script}</span><span class="s2"> &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span><span class="o">+</span><span class="n">dict_to_argparse</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">echo &quot;Time is $(date)&quot;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_multiple</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_job_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">,</span> <span class="n">post_process</span><span class="p">):</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span>
+    <span class="n">syscode</span> <span class="o">=</span> <span class="n">seed_param_write_run</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">sim_job_dependent_params</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">syscode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># if simulation finishes with no errors, write to sim id file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_id_file&#39;</span><span class="p">],</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+            <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_multiple_simulations</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">queue_function</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">write_feasst_script</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sim_job_dependent_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sim_node_dependent_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">post_process</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">&#39;feasst_exe&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;feasst_exe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;feasst&#39;</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">run_type</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># run directly</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_id_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prefix_job_to_sim_id_file</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;job&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">client</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;not implemented&#39;</span>
+        <span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_job&#39;</span><span class="p">])</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+            <span class="n">sims</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">split</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_sims&#39;</span><span class="p">]),</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_jobs&#39;</span><span class="p">]))[</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;job&#39;</span><span class="p">]]</span>
+            <span class="n">codes</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">run_multiple</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sims</span><span class="p">,</span> <span class="n">repeat</span><span class="p">(</span><span class="n">params</span><span class="p">),</span> <span class="n">repeat</span><span class="p">(</span><span class="n">args</span><span class="p">),</span>
+                                               <span class="n">repeat</span><span class="p">(</span><span class="n">sim_job_dependent_params</span><span class="p">),</span>
+                                               <span class="n">repeat</span><span class="p">(</span><span class="n">write_feasst_script</span><span class="p">),</span>
+                                               <span class="n">repeat</span><span class="p">(</span><span class="n">post_process</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># post process if not originally submitted as run_type 1</span>
+        <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;queue_id&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">run_type</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="c1"># queue</span>
+        <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_jobs&#39;</span><span class="p">]):</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;job&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">job</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_id_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="si">{prefix}</span><span class="s2">j</span><span class="si">{job}</span><span class="s2">_sim_ids.txt&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;sim_id_file&#39;</span><span class="p">],</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+                <span class="n">file1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c1"># clear file, then append sim id when complete</span>
+            <span class="n">queue_function</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;queue_command&#39;</span><span class="p">],</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+        <span class="c1"># wait for jobs to complete, then run post process just once</span>
+        <span class="n">complete</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">complete</span> <span class="ow">and</span> <span class="n">post_process</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+            <span class="n">all_complete</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;num_jobs&#39;</span><span class="p">]):</span>
+                <span class="n">sim_id_file</span> <span class="o">=</span> <span class="n">prefix_job_to_sim_id_file</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">],</span> <span class="n">job</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">all_sims_complete</span><span class="p">(</span><span class="n">sim_id_file</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;procs_per_job&#39;</span><span class="p">]):</span>
+                    <span class="n">all_complete</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">all_complete</span><span class="p">:</span>
+                <span class="n">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+                <span class="n">complete</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">run_type</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span> <span class="c1"># post process</span>
+        <span class="n">post_process</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="kc">False</span>  <span class="c1"># unrecognized run_type</span>
 
 <div class="viewcode-block" id="combine_tables_two_rigid_body">
 <a class="viewcode-back" href="../docs/source/fstio.html#fstio.combine_tables_two_rigid_body">[docs]</a>

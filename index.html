@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST 0.25.20 0.25.20 documentation</title>
+  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST 0.25.21 0.25.21 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="_static/favicon.ico"/>
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=d8c91523"></script>
+      <script src="_static/documentation_options.js?v=7cb1913a"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
@@ -52,7 +52,7 @@
           
           
           <a href="#" class="icon icon-home">
-            FEASST 0.25.20
+            FEASST 0.25.21
           </a>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
@@ -75,7 +75,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">FEASST 0.25.20</a>
+          <a href="#">FEASST 0.25.21</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -147,8 +147,8 @@
 <p>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free and open-source software to conduct molecular- and particle-based simulations with Monte Carlo methods.
 New users can start with the <a class="reference external" href="https://pages.nist.gov/feasst/">website</a> (<a class="reference external" href="https://doi.org/10.18434/M3S095">DOI</a>), <a class="reference external" href="https://doi.org/10.1063/5.0224283">manuscript</a>, <a class="reference external" href="https://github.com/usnistgov/feasst/discussions">GitHub discussion</a> and a <a class="reference external" href="https://www.nist.gov/video/how-use-feasst-0255-monte-carlo-molecular-simulation-software">five minute video</a>.
 Support FEASST with a <a class="reference external" href="https://github.com/usnistgov/feasst">GitHub</a> star or <a class="reference external" href="https://doi.org/10.1063/5.0224283">manuscript</a> citation!</p>
-<section id="features-in-version-0-25-20">
-<h3>Features in version 0.25.20<a class="headerlink" href="#features-in-version-0-25-20" title="Link to this heading"></a></h3>
+<section id="features-in-version-0-25-21">
+<h3>Features in version 0.25.21<a class="headerlink" href="#features-in-version-0-25-21" title="Link to this heading"></a></h3>
 <a class="reference external image-reference" href="https://pages.nist.gov/feasst"><img alt="_images/feasst.png" class="align-right" src="_images/feasst.png" />
 </a>
 <p>The <a class="reference internal" href="plugin/text_interface.html"><span class="doc">Text Interface</span></a> includes:</p>
@@ -299,9 +299,9 @@ feasst<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
 <p>FEASST requires C++14 and <a class="reference external" href="https://cmake.org/">CMake</a>, and is compiled with the following Bash commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># [apt/yum/dnf/brew] install g++ cmake curl tar. On HPC, try &quot;module avail/load&quot;</span>
 <span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span><span class="w"> </span><span class="c1"># replace this with your preference throughout</span>
-curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.20.tar.gz<span class="w"> </span><span class="c1"># download</span>
-tar<span class="w"> </span>-xf<span class="w"> </span>v0.25.20.tar.gz<span class="w">           </span><span class="c1"># uncompress</span>
-mkdir<span class="w"> </span>feasst-0.25.20/build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span><span class="w"> </span><span class="c1"># out-of-source build</span>
+curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/usnistgov/feasst/archive/refs/tags/v0.25.21.tar.gz<span class="w"> </span><span class="c1"># download</span>
+tar<span class="w"> </span>-xf<span class="w"> </span>v0.25.21.tar.gz<span class="w">           </span><span class="c1"># uncompress</span>
+mkdir<span class="w"> </span>feasst-0.25.21/build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span><span class="w"> </span><span class="c1"># out-of-source build</span>
 cmake<span class="w"> </span>-DUSE_PIP<span class="o">=</span>OFF<span class="w"> </span>..<span class="w">            </span><span class="c1"># find prerequisites</span>
 make<span class="w"> </span>install<span class="w"> </span>-j<span class="w"> </span><span class="m">4</span><span class="w">                 </span><span class="c1"># compile on 4 threads</span>
 <span class="c1"># Optional Python packages used in tutorials. Virtual environment recommended:</span>
@@ -312,7 +312,7 @@ open<span class="w"> </span>../html/index.html
 </pre></div>
 </div>
 <p>Input a text file to the compiled executable.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst-0.25.20/build/bin/fst<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$HOME</span>/feasst-0.25.20/tutorial/example.txt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst-0.25.21/build/bin/fst<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$HOME</span>/feasst-0.25.21/tutorial/example.txt
 </pre></div>
 </div>
 </section>
@@ -411,7 +411,7 @@ Try the command cmake3 instead of cmake.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="README_html.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="README_html.html#features-in-version-0-25-20">Features in version 0.25.20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README_html.html#features-in-version-0-25-21">Features in version 0.25.21</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README_html.html#quickstart">Quickstart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README_html.html#c-executable">C++ Executable</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README_html.html#id2">Python Module</a></li>
@@ -491,6 +491,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l2"><a class="reference internal" href="plugin/steppers/tutorial/tutorial_02_post_process.html">Post process scattering calculations from file.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/beta_expanded/tutorial/tutorial.html">Beta expanded ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/egce/tutorial/tutorial_1_rpm_tm_egce_parallel.html">Expanded Ensemble Grand Canonical Flat Histogram Simulation of RPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_0_square_well.html">Second Virial Coefficient of Square Well.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_2_ethane.html">Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_3_kf_b2.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
@@ -1599,6 +1600,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/utils.html#_CPPv4I0EN6feasst6feasst15is_equal_fstobjEbNSt10shared_ptrI1TEENSt10shared_ptrI1TEE"><code class="docutils literal notranslate"><span class="pre">feasst::is_equal_fstobj()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/utils.html#_CPPv4I0EN6feasst6feasst15is_equal_fstobjEbRK1TRK1T"><code class="docutils literal notranslate"><span class="pre">feasst::is_equal_fstobj()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/utils.html#_CPPv4I0EN6feasst6feasst15is_equal_fstobjEbRKNSt6vectorI1TEERKNSt6vectorI1TEE"><code class="docutils literal notranslate"><span class="pre">feasst::is_equal_fstobj()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/utils.html#_CPPv4I0EN6feasst6feasst12is_in_boundsEbKiRKNSt6vectorI1TEE"><code class="docutils literal notranslate"><span class="pre">feasst::is_in_bounds()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1710,6 +1712,8 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/debug.html#_CPPv4N6feasst6feasst16feasst_dir_trim_EPKc"><code class="docutils literal notranslate"><span class="pre">feasst::feasst_dir_trim_()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/debug.html#_CPPv4N6feasst6feasst17feasst_omp_threadEv"><code class="docutils literal notranslate"><span class="pre">feasst::feasst_omp_thread()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/debug.html#_CPPv4N6feasst6feasst19feasst_macro_outputERKNSt6stringENSt6stringE"><code class="docutils literal notranslate"><span class="pre">feasst::feasst_macro_output()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/debug.html#_CPPv4I0EN6feasst6feasst16assert_in_boundsEvKiRKNSt6vectorI1TEE"><code class="docutils literal notranslate"><span class="pre">feasst::assert_in_bounds()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/utils/doc/debug.html#_CPPv4N6feasst6feasst16assert_in_boundsEKiKi"><code class="docutils literal notranslate"><span class="pre">feasst::assert_in_bounds()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1997,6 +2001,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table1D7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table1D7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table1D7combineERKNSt6vectorIPK7Table1DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4N6feasst7Table1D12add_parallelERK7Table1DKiKi"><code class="docutils literal notranslate"><span class="pre">add_parallel()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table1D8is_equalERK7Table1D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
@@ -2018,6 +2023,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table2D20linear_interpolationEKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table2D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table2D7combineERKNSt6vectorIPK7Table2DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4N6feasst7Table2D12add_parallelERK7Table2DKiKi"><code class="docutils literal notranslate"><span class="pre">add_parallel()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table2D7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table2D7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table2D8is_equalERK7Table2D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
@@ -2042,6 +2048,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table3D20linear_interpolationEKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table3D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table3D7combineERKNSt6vectorIPK7Table3DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4N6feasst7Table3D12add_parallelERK7Table3DKiKi"><code class="docutils literal notranslate"><span class="pre">add_parallel()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table3D7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table3D7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table3D5writeEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
@@ -2068,6 +2075,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table4D20linear_interpolationEKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table4D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table4D7combineERKNSt6vectorIPK7Table4DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4N6feasst7Table4D12add_parallelERK7Table4DKiKi"><code class="docutils literal notranslate"><span class="pre">add_parallel()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table4D7minimumEv"><code class="docutils literal notranslate"><span class="pre">minimum()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table4D7maximumEv"><code class="docutils literal notranslate"><span class="pre">maximum()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table4D5writeEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
@@ -2100,6 +2108,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table5D5writeEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4N6feasst7Table5D7Table5DEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Table5D()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table5D7combineERKNSt6vectorIPK7Table5DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4N6feasst7Table5D12add_parallelERK7Table5DKiKi"><code class="docutils literal notranslate"><span class="pre">add_parallel()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table5D8is_equalERK7Table5D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
@@ -2129,6 +2138,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table6D5writeEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4N6feasst7Table6D7Table6DEKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Table6D()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table6D7combineERKNSt6vectorIPK7Table6DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4N6feasst7Table6D12add_parallelERK7Table6DKiKi"><code class="docutils literal notranslate"><span class="pre">add_parallel()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/Table.html#_CPPv4NK6feasst7Table6D8is_equalERK7Table6D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
@@ -2191,6 +2201,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable1D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable1D32forward_difference_interpolationEKd"><code class="docutils literal notranslate"><span class="pre">forward_difference_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable1D7combineERKNSt6vectorIPK16RecursiveTable1DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable1D13add_rparallelERK16RecursiveTable1DKiKi"><code class="docutils literal notranslate"><span class="pre">add_rparallel()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable1D8is_equalERK16RecursiveTable1D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
@@ -2200,6 +2211,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable2D20linear_interpolationEKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable2D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable2D7combineERKNSt6vectorIPK16RecursiveTable2DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable2D13add_rparallelERK16RecursiveTable2DKiKi"><code class="docutils literal notranslate"><span class="pre">add_rparallel()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable2D8num_dataEv"><code class="docutils literal notranslate"><span class="pre">num_data()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable2D14percent_nestedEv"><code class="docutils literal notranslate"><span class="pre">percent_nested()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable2D8is_equalERK16RecursiveTable2D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
@@ -2212,6 +2224,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable3D20linear_interpolationEKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable3D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable3D7combineERKNSt6vectorIPK16RecursiveTable3DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable3D13add_rparallelERK16RecursiveTable3DKiKi"><code class="docutils literal notranslate"><span class="pre">add_rparallel()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable3D8is_equalERK16RecursiveTable3D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
@@ -2222,6 +2235,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable5D20linear_interpolationEKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable5D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable5D7combineERKNSt6vectorIPK16RecursiveTable5DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable5D13add_rparallelERK16RecursiveTable5DKiKi"><code class="docutils literal notranslate"><span class="pre">add_rparallel()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable5D6nestedERKNSt6vectorIiEE"><code class="docutils literal notranslate"><span class="pre">nested()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable5D8is_equalERK16RecursiveTable5D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
@@ -2233,6 +2247,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable6D20linear_interpolationEKdKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable6D20linear_interpolationERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">linear_interpolation()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable6D7combineERKNSt6vectorIPK16RecursiveTable6DEE"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4N6feasst16RecursiveTable6D13add_rparallelERK16RecursiveTable6DKiKi"><code class="docutils literal notranslate"><span class="pre">add_rparallel()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/math/doc/RTable.html#_CPPv4NK6feasst16RecursiveTable6D8is_equalERK16RecursiveTable6D"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
 </ul>
 </li>
@@ -3700,6 +3715,7 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactory10precomputeEP8CriteriaP6System"><code class="docutils literal notranslate"><span class="pre">precompute()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactory9set_timerEv"><code class="docutils literal notranslate"><span class="pre">set_timer()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/TrialFactory.html#_CPPv4NK6feasst12TrialFactory5timerEv"><code class="docutils literal notranslate"><span class="pre">timer()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/monte_carlo/doc/TrialFactory.html#_CPPv4NK6feasst12TrialFactory13write_weightsEv"><code class="docutils literal notranslate"><span class="pre">write_weights()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst17TrialFactoryNamedE"><code class="docutils literal notranslate"><span class="pre">TrialFactoryNamed</span></code></a></li>
@@ -5089,6 +5105,7 @@ Try the command cmake3 instead of cmake.</p>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/mayer/README.html#tutorial">Tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_0_square_well.html">Second Virial Coefficient of Square Well.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_1_trimer.html">Second virial coefficient calculation of a Trimer using Mayer-Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_2_ethane.html">Second virial coefficient calculation of TraPPE ethane using Mayer-Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/mayer/tutorial/tutorial_3_kf_b2.html">Second virial coefficient calculation of a Kern-Frenkel patch using Mayer-Sampling</a></li>
@@ -6234,6 +6251,8 @@ Try the command cmake3 instead of cmake.</p>
 <li class="toctree-l5"><a class="reference internal" href="plugin/aniso/doc/RecursiveTable.html#_CPPv4N6feasst14RecursiveTable9from_fileERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">from_file()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/aniso/doc/RecursiveTable.html#_CPPv4N6feasst14RecursiveTable19from_parallel_buildERKNSt6vectorI14RecursiveTableEE"><code class="docutils literal notranslate"><span class="pre">from_parallel_build()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/aniso/doc/RecursiveTable.html#_CPPv4NK6feasst14RecursiveTable8is_equalERK14RecursiveTable"><code class="docutils literal notranslate"><span class="pre">is_equal()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/aniso/doc/RecursiveTable.html#_CPPv4N6feasst14RecursiveTable3addERK14RecursiveTableKiKiRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/aniso/doc/RecursiveTable.html#_CPPv4NK6feasst14RecursiveTable11print_sizesEv"><code class="docutils literal notranslate"><span class="pre">print_sizes()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -6552,11 +6571,10 @@ Try the command cmake3 instead of cmake.</p>
 </li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/rxvb/doc/ComputeRXVB.html">ComputeRXVB</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/rxvb/doc/ComputeRXVB.html#_CPPv4N6feasst11ComputeRXVBE"><code class="docutils literal notranslate"><span class="pre">ComputeRXVB</span></code></a><ul>
-<li class="toctree-l6"><a class="reference internal" href="plugin/rxvb/doc/ComputeRXVB.html#_CPPv4N6feasst11ComputeRXVB11ComputeRXVBE7argtype"><code class="docutils literal notranslate"><span class="pre">ComputeRXVB()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/rxvb/doc/ComputeRXVB.html#_CPPv4NK6feasst11ComputeRXVB15probability_avbEv"><code class="docutils literal notranslate"><span class="pre">probability_avb()</span></code></a></li>
-<li class="toctree-l6"><a class="reference internal" href="plugin/rxvb/doc/ComputeRXVB.html#_CPPv4N6feasst11ComputeRXVB22perturb_and_acceptanceEP8CriteriaP6SystemP10AcceptancePNSt6vectorIP10TrialStageEEP6Random"><code class="docutils literal notranslate"><span class="pre">perturb_and_acceptance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/rxvb/doc/ComputeRxVB.html">ComputeRxVB</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/rxvb/doc/ComputeRxVB.html#_CPPv4N6feasst11ComputeRxVBE"><code class="docutils literal notranslate"><span class="pre">ComputeRxVB</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="plugin/rxvb/doc/ComputeRxVB.html#_CPPv4N6feasst11ComputeRxVB11ComputeRxVBE7argtype"><code class="docutils literal notranslate"><span class="pre">ComputeRxVB()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="plugin/rxvb/doc/ComputeRxVB.html#_CPPv4N6feasst11ComputeRxVB22perturb_and_acceptanceEP8CriteriaP6SystemP10AcceptancePNSt6vectorIP10TrialStageEEP6Random"><code class="docutils literal notranslate"><span class="pre">perturb_and_acceptance()</span></code></a></li>
 </ul>
 </li>
 </ul>
